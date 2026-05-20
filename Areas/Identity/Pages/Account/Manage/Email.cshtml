@@ -1,0 +1,80 @@
+﻿@page
+@model EmailModel
+@inject ForestChurches.Components.Security.Encoder Encoder;
+@inject ForestChurches.Components.Storage.IBlobUrlService BlobUrlService;
+@{
+    ViewData["Title"] = "Manage Email";
+    ViewData["ActivePage"] = ManageNavPages.Email;
+
+    // IMGUR-1
+    string src = "";
+
+    @if (Model.Currentuser != null && Model.Currentuser.ImageArray != null && Model.Currentuser.ImageArray.Length > 1)
+    {
+        src = "data:image;base64," + System.Convert.ToBase64String(Model.Currentuser.ImageArray);
+    }
+
+    else 
+    {
+        src = BlobUrlService.GetReadSasUrl("IMGUR-1.png", TimeSpan.FromDays(7));
+    }
+}
+<head>
+    <link href="~/css2/profile.css" integrity="sha256-iDu24JsQ/F3K/zr6Jz5Fiik0mDVpeDrlhRYmnGPVaKU=" rel="stylesheet" />
+</head>
+
+<!-- Beginning of Page header -->
+<div class="container-fluid page-hero">
+    <div class="hero-text">
+        <div>
+            <img src="@src" alt="profile picture" />
+        </div>
+        <div class="heading-text">
+            <h1>Welcome back, User!</h1>
+            <p>@Encoder.HtmlEncode(Model.CurrentChurch.Name) (@Encoder.HtmlEncode(Model.CurrentChurch.Status))</p>
+        </div>
+    </div>
+</div>
+
+<!-- Tab Nav -->
+<partial name="_ManageNav" />
+<partial name="_StatusMessage" for="@Model.StatusMessage" />
+
+<section>
+    <h1>Update your email</h1><br>
+    <form id="email-form indexForm" method="post">
+        <div asp-validation-summary="All" class="text-danger" role="alert"></div>
+        @if (Model.IsEmailConfirmed)
+        {
+            <div class="form-floating mb-3 input-group">
+                <input asp-for="Email" class="form-control" placeholder="Please enter your email..." disabled />
+                <div class="input-group-append">
+                    <span class="h-100 input-group-text text-success font-weight-bold">✓</span>
+                </div>
+                <label asp-for="Email" class="form-label"></label>
+            </div>
+        }
+        else
+        {
+            <div class="form-floating mb-3">
+                <input asp-for="Email" class="form-control" placeholder="Please enter your email." disabled />
+                <label asp-for="Email" class="form-label"></label>
+                <button id="email-verification" type="submit" asp-page-handler="SendVerificationEmail" class="btn btn-link">Send verification email</button>
+            </div>
+        }
+        <div class="form-floating mb-3">
+            <input asp-for="Input.NewEmail" class="form-control" autocomplete="email" aria-required="true" placeholder="Please enter a new email..." />
+            <label asp-for="Input.NewEmail" class="form-label"></label>
+            <span asp-validation-for="Input.NewEmail" class="text-danger"></span>
+        </div>
+
+        <!-- AntiforgeryToken -->
+        @Html.AntiForgeryToken()
+
+        <button id="change-email-button" type="submit" asp-page-handler="ChangeEmail" class="w-100 btn btn-lg btn-success">Save Changes</button>
+    </form>
+</section>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

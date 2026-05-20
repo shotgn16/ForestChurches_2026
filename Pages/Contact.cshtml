@@ -1,0 +1,52 @@
+﻿@page
+@model ForestChurches.Pages.ContactModel
+@inject ForestChurches.Data.ForestChurchesContext context;
+@inject ForestChurches.Components.Security.Encoder Encoder;
+@{
+    string recipient = "Info@forestchurches.co.uk";
+    if (Model.Input.Cid != null)
+    {
+        recipient = context.ChurchInformation.Where(a => a.ID == Encoder.Unprotect<string>(Model.Input.Cid, "fc.data.contact")).Select(a => a.Name).FirstOrDefault();
+    }
+}
+<head><link href="~/css2/contact-page.css" rel="stylesheet" asp-integrity="true" /></head>
+
+<style nonce="@HttpContextAccessor.HttpContext?.Items["CSP-Style-Nonce"]">
+    main {
+        background-color: #00AD6A;
+    }
+</style>
+
+<div class="container">
+    <div class="contact-us form">
+        <header>
+            <img class="mb-4" src="~/img/logo.png" alt="" width="300" height="200">
+        </header>
+
+        <partial name="_StatusMessage" model="Model.StatusMessage" />
+
+        <p><strong>Recipient:</strong> @Encoder.HtmlEncode(recipient)</p>
+        <form method="post">
+            @Html.AntiForgeryToken()
+            <span asp-validation-for="Input.Name" class="text-danger"></span>
+            <input type="text" asp-for="Input.Name" placeholder="Enter your name" required>
+
+            <span asp-validation-for="Input.Subject" class="text-danger"></span>
+            <input type="text" asp-for="Input.Subject" placeholder="What's your enquiry? (Subject)" required>
+
+            <span asp-validation-for="Input.ClientEmail" class="text-danger"></span>
+            <input type="email" asp-for="Input.ClientEmail" placeholder="How can we get in touch with you? ('John@yourchurch.com...)'" required>
+
+            <span asp-validation-for="Input.Message" class="text-danger"></span>
+            <textarea class="form-control" type="text" asp-for="Input.Message" placeholder="What's up? (Message)" rows="3" required></textarea>
+
+            <input type="hidden" name="cid" value="@Model.Input.Cid" />
+
+            <button id="contact-usSubmit" type="submit" class="half-width w-100 btn btn-lg btn-success">Send message</button>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

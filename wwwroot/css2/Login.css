@@ -1,0 +1,114 @@
+﻿@import url("Variables.css");
+@import url("Media.css");
+
+html,
+body {
+    height: 100%;
+}
+
+body {
+    display: -ms-flexbox;
+    display: -webkit-box;
+    display: flex;
+    -ms-flex-align: center;
+    -ms-flex-pack: center;
+    -webkit-box-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    justify-content: center;
+    padding-top: 40px;
+    padding-bottom: 40px;
+}
+
+.form-signin {
+    width: 100%;
+    max-width: 660px;
+    padding: 15px;
+    margin-inline: 0 auto;
+    margin-top: 5rem;
+    justify-content: center;
+    align-items: center;
+}
+
+    .form-signin .checkbox {
+        font-weight: 400;
+    }
+
+    .form-signin .form-control {
+        position: relative;
+        box-sizing: border-box;
+        height: auto;
+        padding: 10px;
+        font-size: var(--paragraph-size);
+    }
+
+        .form-signin .form-control:focus {
+            z-index: 2;
+        }
+
+    .form-signin input[type="email"] {
+        margin-bottom: -1px;
+        border-bottom-right-radius: 0;
+        border-bottom-left-radius: 0;
+    }
+
+    .form-signin input[type="password"] {
+        margin-bottom: 10px;
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
+    }
+
+    a {
+        color: white;
+    }
+
+/* Start of Form styling (half-width & full-width) */
+
+.half-width {
+    flex: 1; /* Allow to grow */
+    min-width: 300px; /* Minimum width before stacking */
+}
+
+/* Full-width elements should take the full width */
+.full-width {
+    flex: 0 0 100%; /* Full width */
+}
+
+/* Container for the form sections */
+.form-container {
+    display: flex; /* Use flexbox */
+    flex-wrap: wrap; /* Allow wrapping */
+    gap: 15px; /* Space between items */
+}
+
+/* End of form styling...*/
+
+.container-fluid {
+    height: max-content;
+}
+
+
+/* Customs for register page */
+.mb-4, h1, label {
+    text-align: center;
+    color: white;
+}
+
+.form-container {
+    justify-content: center;
+}
+
+
+#fancy-upload-button {
+    border: 2px dashed white;
+    padding: 1%;
+}
+
+
+.footer {
+    visibility: hidden;
+}
+
+.navbar {
+    left: 0;
+}

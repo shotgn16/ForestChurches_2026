@@ -1,0 +1,22 @@
+﻿@using ForestChurches.Components.Users
+@inject SignInManager<ChurchAccount> SignInManager
+@{
+    var hasExternalLogins = (await SignInManager.GetExternalAuthenticationSchemesAsync()).Any();
+}
+
+<head>
+    <link rel="stylesheet" href="~/css2/Nav.css" integrity="sha256-vb1B4OCia/PLNCcR1sf3s0PwkjUtFri603v49QZBsLo=" asp-append-version="true" />
+</head>
+
+<nav class="nav nav-pills nav-fill">
+    <a class="nav-item nav-link @ManageNavPages.IndexNavClass(ViewContext) id="profile" asp-page="./Index">Profile</a>
+    <a class="nav-item nav-link @ManageNavPages.ChurchProfileNavClass(ViewContext)" id="churchProfile" asp-page="./ChurchProfile">Church Profile</a>
+    @* <a class="nav-item nav-link @ManageNavPages.EmailNavClass(ViewContext)" id="email" asp-page="./Email">Email</a> *@
+    <a class="nav-item nav-link @ManageNavPages.ChangePasswordNavClass(ViewContext)" id="change-password" asp-page="./ChangePassword">Password</a>
+    @if (hasExternalLogins)
+    {
+        <a class="nav-item nav-link @ManageNavPages.ExternalLoginsNavClass(ViewContext)" id="external-login" asp-page="./ExternalLogins">External logins</a>
+    }
+    <a class="nav-item nav-link @ManageNavPages.TwoFactorAuthenticationNavClass(ViewContext)" id="two-factor" asp-page="./TwoFactorAuthentication">Two-factor authentication</a>
+    <a class="nav-item nav-link @ManageNavPages.PersonalDataNavClass(ViewContext)" id="personal-data" asp-page="./PersonalData">Personal data</a>
+</nav>

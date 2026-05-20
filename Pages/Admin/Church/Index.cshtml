@@ -1,0 +1,144 @@
+﻿@page
+@using Newtonsoft.Json
+@model ForestChurches.Pages.Admin.Church.IndexModel
+@inject ForestChurches.Components.Security.Encoder Encoder;
+@{
+    Layout = "_Admin";
+    ViewData["Title"] = "Churches | Administration";
+}
+<style nonce="@HttpContextAccessor.HttpContext?.Items["CSP-Style-Nonce"]">
+    #openChurch {
+        color: green;
+        font-weight: bold;
+    }
+
+    #closedChurch {
+        color: red;
+        font-weight: bold;
+    }
+
+    #notCreated {
+        color: orangered;
+        font-weight: bold;
+    }
+</style>
+
+<partial name="_StatusMessage" model="Model.StatusMessage" />
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title">Registered Churches</h3>
+    </div>
+    <!-- /.card-header -->
+    <div class="card-body">
+        <div class="table-responsive">
+            <table id="example1" class="table table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th>Status</th>
+                        <th>User</th>
+                        <th>Name</th>
+                        <th>Denomination</th>
+                        <th>Congregation</th>
+                        <th>Address</th>
+                        <th>Phone</th>
+                        <th>Churchsuite</th>
+                        <th>Website</th>
+                        <th>Parking</th>
+                        <th>Refreshments</th>
+                        <th>Restrooms</th>
+                        <th>Wheelchair Access</th>
+                        <th>WiFi</th>
+                        <th>Childrens Provision</th>
+                        <th>Hearing Aid Support</th>
+                        <th>Kitchen</th>
+                        <th>Community Space</th>
+                        <th>Outdoor Spaces</th>
+                        <th>Worship Hall</th>
+                        <th>Edit</th>
+                        <th>Delete</th>
+                        <th>Download</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.Churches.Count >= 1)
+                    {
+                        @foreach (var church in Model.Churches)
+                        {
+                            <tr data-widget="expandable-table" aria-expanded="false">
+                                <td>
+                                    @if (Encoder.HtmlEncode(church.Status) == "Open")
+                                    {
+                                        <span id="openChurch">Open</span>
+                                    }
+                                    else if (Encoder.HtmlEncode(church.Status) == "Closed")
+                                    {
+                                        <span id="closedChurch">Closed</span>
+                                    }
+
+                                    else if (Encoder.HtmlEncode(church.Status) == "NotCreated")
+                                    {
+                                        <span id="notCreated">Not Created</span>
+                                    }
+                                </td>
+                                <td>@Model.ChurchUsers.Where(b => b.Id == church.ChurchAccountId).FirstOrDefault()</td>
+                                <td>@church.Name</td>
+                                <td>@church.Denomination</td>
+                                <td>@Encoder.HtmlEncode(church.Congregation)</td>
+                                <td>@church.Address</td>
+                                <td>@church.Phone</td>
+                                <td><a href="@church.Churchsuite">@church.Churchsuite</a></td>
+                                <td><a href="@church.Website">@church.Website</a></td>
+                                <td>@Encoder.HtmlEncode(church.Parking)</td>
+                                <td>@Encoder.HtmlEncode(church.Refreshments)</td>
+                                <td>@Encoder.HtmlEncode(church.Restrooms)</td>
+                                <td>@Encoder.HtmlEncode(church.WheelchairAccess)</td>
+                                <td>@Encoder.HtmlEncode(church.Wifi)</td>
+                                <td>@Encoder.HtmlEncode(church.Childcare)</td>
+                                <td>@Encoder.HtmlEncode(church.HearingAidSupport)</td>
+                                <td>@Encoder.HtmlEncode(church.Kitchen)</td>
+                                <td>@Encoder.HtmlEncode(church.MeetingHall)</td>
+                                <td>@Encoder.HtmlEncode(church.OutdoorSpaces)</td>
+                                <td>@Encoder.HtmlEncode(church.WorshipHall)</td>
+                                <td>
+                                    <form method="post" asp-page-handler="EditUser">
+                                        <!-- AntiforgeryToken -->
+                                        @Html.AntiForgeryToken()
+                                        <a asp-page="Edit" asp-route-id="@Encoder.Protect(@church.ID, "fc.data.admin.church")" class="btn btn-primary">Edit</a>
+                                    </form>
+                                </td>
+                                <td>
+                                    <form method="post" asp-page-handler="DeleteChurch">
+                                        <!-- AntiforgeryToken -->
+                                        @Html.AntiForgeryToken()
+                                        <input type="hidden" name="value" value="@Encoder.Protect(@church.ID, "fc.data.admin.church")" />
+                                        <button class="btn btn-danger" type="submit" onclick="return confirmAction('Are you sure you want to delete the church', '@Encoder.HtmlEncode(church.Name)')">Delete</button>
+                                    </form>
+                                </td>
+                                <td>
+                                    <form method="post" asp-page-handler="DownloadChurch">
+                                        <!-- AntiforgeryToken -->
+                                        @Html.AntiForgeryToken()
+                                        <input type="hidden" name="value" value="@Encoder.Protect(@church.ID, "fc.data.admin.church")" />
+                                        <button class="btn btn-success" type="submit">Download</button>
+                                    </form>
+                                </td>
+                            </tr>
+                            <tr class="expandable-body">
+                                <td colspan="17">
+                                    <p><strong>Description:</strong> @church.Description</p>
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        <br />
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/js/confirmAction.js" integrity="sha256-13abFd38m2wExaGaZ4Rbp/RfbBi3xlkvuyUIkSavT/4="></script>
+}
+

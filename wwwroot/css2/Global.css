@@ -1,0 +1,15 @@
+﻿@import url('Variables.css');
+
+/* Globals */
+html, body {
+    background-color: var(--primary-color);
+    position: relative;
+    min-height: 100%;
+}
+
+.container {
+    margin: auto;
+    width: 85%;
+    padding: clamp(0.75rem, 2rem, 3rem);
+    padding-bottom: 5rem;
+}

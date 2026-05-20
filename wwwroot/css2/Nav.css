@@ -1,0 +1,79 @@
+﻿@import url("Variables.css");
+@import url("Media.css");
+
+/* Navbar Styling */
+
+.navbar-link:hover {
+    color: var(--font-color);
+}
+
+    #nav-admin {
+        font-weight: bold;
+    }
+
+.navbar-brand {
+    color: var(--font-color);
+}
+
+.navbar-brand:hover {
+    font-weight: bold;
+    color: white;
+}
+
+.navbar {
+    background-color: rgba(0, 0, 0, 0.5); /* Default transparency */
+    transition: background-color 0.3s; /* Smooth transition */
+    position: absolute;
+    padding-left: 1%;
+    padding-right: 1%;
+}
+.navbar.scrolled {
+    background-color: rgba(0, 172, 100, 0.9); /* Change to green when scrolled */
+}
+
+/* Font sizes*/
+.navbar .nav-link {
+    color: var(--font-color);
+    font-size: calc(0.8rem + 0.15vw)
+}
+
+.navbar .navbar-brand {
+    color: var(--font-color);
+    font-size: calc(0.875rem + 0.15vw);
+}
+/* End of Fonts */
+
+.navbar .nav-link:hover {
+    font-weight: bold;
+}
+
+.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+    background-color: var(--active-color);
+    justify-content: left;
+}
+
+.nav-link {
+    color: white;
+}
+
+.nav-link:hover {
+    background-color: var(--active-color);
+    color: white;
+}
+
+.navbar-collapse {
+    align-items: flex-start;
+}
+
+
+.navbar-nav {
+    align-items: flex-start;
+}
+
+.navbar-nav .nav-link:hover {
+    font-weight: bold;
+}
+
+.navbar-brand:hover {
+    background-color: var(--active-color);
+}

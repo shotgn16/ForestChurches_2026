@@ -1,0 +1,79 @@
+﻿@import url("Variables.css");
+@import url("Global.css");
+
+@media (max-width: 768px) {
+    [class*="col-"] {
+        width: 100%;
+    }
+}
+
+
+/* Small Mobile */
+@media all (max-width: 320px) {
+/*    :root {
+        --lead-h1: 10.0rem;
+        --head-h2: 9.0vw;
+        --head-h3: 8.0vw;
+        --paragraph-size: 5.0vw;
+    }*/
+}
+
+/* Medium Mobile */
+@media all (max-width: 375px) {
+/*    :root {
+        --lead-h1: 11.0rem;
+        --head-h2: 10.0rem;
+        --head-h3: 9.0rem;
+        --paragraph-size: 6.0rem;
+    }*/
+}
+
+/* Large Mobile */
+@media all (max-width: 425px) {
+/*    :root {
+        --lead-h1: 12.0rem;
+        --head-h2: 11.0rem;
+        --head-h3: 10.0rem;
+        --paragraph-size: 7.0rem;
+    }*/
+}
+
+/* Tablet */
+@media all (max-width: 768px) {
+/*    :root {
+        --lead-h1: 13.0rem;
+        --head-h2: 12.0rem;
+        --head-h3: 11.0rem;
+        --paragraph-size: 8.0rem;
+    }*/
+}
+
+/* Laptop */
+@media all (max-width: 1024px) {
+/*    :root {
+        --lead-h1: 14.0rem;
+        --head-h2: 13.0rem;
+        --head-h3: 12.0rem;
+        --paragraph-size: 9.0rem;
+    }*/
+}
+
+/* Large Laptop */
+@media all (max-width: 1440px) {
+/*    :root {
+        --lead-h1: 15.0rem;
+        --head-h2: 14.0rem;
+        --head-h3: 13.0rem;
+        --paragraph-size: 10.0rem;
+    }*/
+}
+
+/* 4K  */
+@media all (max-width: 2560px) {
+/*    :root {
+        --lead-h1: 16.0rem;
+        --head-h2: 15.0rem;
+        --head-h3: 14.0rem;
+        --paragraph-size: 11.0rem;
+    }*/
+}

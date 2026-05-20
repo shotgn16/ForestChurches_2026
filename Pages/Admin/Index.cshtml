@@ -1,0 +1,187 @@
+﻿@page
+@inject IHttpContextAccessor httpContext;
+@inject ForestChurches.Components.Security.Encoder Encoder;
+@model ForestChurches.Pages.Admin.IndexModel
+@{
+    Layout = "_Admin";
+    var baseUrl = $"https://{httpContext.HttpContext.Request.Host.Value}";
+}
+<head>
+    <link rel="stylesheet" integrity="sha256-teON4y0UnyJj2Gol8NtuY0GOKW9cQvAE8a0Ve1Bi25Y=" href="~/plugins/fontawesome-free/css/all.min.css">
+</head>
+
+<div class="row">
+    <div class="col-md-6">
+        <!-- Info Box -->
+        <div class="small-box bg-gradient-success">
+            <div class="inner">
+                <h3>@Encoder.HtmlEncode(Model.registeredChurches.Count().ToString())</h3>
+                <p>Registered Churches</p>
+            </div>
+            <div class="icon">
+                <i class="fas fa-user-plus"></i>
+            </div>
+        </div>
+    </div>
+    <!-- /.col -->
+    <div class="col-md-6">
+        <!-- Info Box -->
+        <div class="small-box bg-gradient-info">
+            <div class="inner">
+                <h3>@Encoder.HtmlEncode(Model.registeredEvents.Count().ToString())</h3>
+                <p>Listed Events</p>
+            </div>
+            <div class="icon">
+                <i class="fas fa-calendar-alt"></i>
+            </div>
+        </div>
+    </div>
+
+    <!-- Whitelist Count -->
+    <div class="col-md-6">
+        <!-- Info Box -->
+        <div class="small-box bg-gradient-danger">
+            <div class="inner">
+                <h3>@Encoder.HtmlEncode(Model.WhitelistCount.ToString())</h3>
+                <p>Pending Invites</p>
+            </div>
+            <div class="icon">
+                <i class="fa-solid fa-clipboard"></i>
+            </div>
+        </div>
+    </div>
+
+    <!-- Newest Registration -->
+    <div class="col-md-6">
+        <!-- Info Box -->
+        <div class="small-box bg-gradient-danger">
+            <div class="inner">
+                <h3>@Encoder.HtmlEncode(Model.WhitelistCount.ToString())</h3>
+                <p>Newest Member</p>
+            </div>
+            <div class="icon">
+                <i class="fa-solid fa-clipboard"></i>
+            </div>
+        </div>
+    </div>
+
+    <!-- Database Size [Col-3] -->
+    <div class="col-lg-3 col-6">
+        <!-- small box -->
+        <div class="small-box bg-secondary">
+            <div class="inner">
+                <h3>@Encoder.HtmlEncode(Model.DatabaseSize.ToString()) MB</h3>
+
+                <p>Database Size</p>
+            </div>
+            <div class="icon">
+                <i class="fa-solid fa-database"></i>
+            </div>
+        </div>
+    </div>
+
+    <!-- Log Database Size [Col-3] -->
+    <div class="col-lg-3 col-6">
+        <div class="small-box bg-secondary">
+            <div class="inner">
+                <h3>@Encoder.HtmlEncode(Model.LogDatabaseSize.ToString()) MB</h3>
+
+                <p>Log Size</p>
+            </div>
+            <div class="icon">
+                <i class="fa-solid fa-gears"></i>
+            </div>
+        </div>
+    </div>
+
+    <!-- CPU Usage [Col-3] -->
+    <div class="col-lg-3 col-6">
+        <!-- small box -->
+        <div class="small-box bg-secondary">
+            <div class="inner">
+                <h3 id="cpuUsage">Loading...</h3>
+
+                <p>CPU Usage</p>
+            </div>
+            <div class="icon">
+                <i class="fa-solid fa-microchip"></i>
+            </div>
+        </div>
+    </div>
+
+    <!-- Memory Usage [Col-3] -->
+    <div class="col-lg-3 col-6">
+        <!-- small box -->
+        <div class="small-box bg-secondary">
+            <div class="inner">
+                <h3 id="memoryUsage">Loading...</h3>
+
+                <p>Memory Usage</p>
+            </div>
+            <div class="icon">
+                <i class="fa-solid fa-memory"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+@Html.AntiForgeryToken()
+@section Scripts {
+    <script nonce="@HttpContextAccessor.HttpContext?.Items["CSP-Script-Nonce"]">
+        const baseUrl = '@baseUrl';
+        const token = document.querySelector('input[name="__RequestVerificationToken"]').value;
+
+        async function fetchSystemStats() {
+            try {
+                const response = await fetch(`${baseUrl}/api/SystemStats`, {
+                    method: 'GET',
+                    headers: {
+                        'RequestVerificationToken': token
+                    }
+                });
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                const data = await response.json();
+                console.log('System Stats:', data); // Log the data for debugging
+
+                const validatedData = validateAndFormatData(data);
+                if (validatedData) {
+                    document.getElementById('cpuUsage').innerText = sanitize(validatedData.cpuUsage.toFixed(2)) + "%";
+                    document.getElementById('memoryUsage').innerText = sanitize(validatedData.memoryUsage.toFixed(2)) + " MB";
+                } else {
+                    console.error('Invalid data format:', data);
+                }
+            } catch (error) {
+                console.error('Error fetching system stats:', error);
+            }
+        }
+
+        function validateAndFormatData(data) {
+            if (typeof data.cpuUsage !== 'number' || typeof data.memoryUsage !== 'number' ||
+                typeof data.databaseSize !== 'number' || typeof data.logDatabaseSize !== 'number' ||
+                typeof data.whitelistCount !== 'number') {
+                return null;
+            }
+
+            // Format data if necessary
+            data.cpuUsage = parseFloat(data.cpuUsage.toFixed(2));
+            data.memoryUsage = parseFloat(data.memoryUsage.toFixed(2));
+            data.whitelistCount = parseInt(data.whitelistCount, 10);
+
+            return data;
+        }
+
+        function sanitize(input) {
+            const element = document.createElement('div');
+            element.innerText = input;
+            return element.innerHTML;
+        }
+
+        // Fetch system stats every 5 seconds
+        setInterval(fetchSystemStats, 3000);
+
+        // Initial fetch
+        fetchSystemStats();
+    </script>
+}

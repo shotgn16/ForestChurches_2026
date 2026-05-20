@@ -1,0 +1,113 @@
+﻿@page
+@model ForestChurches.Pages.Events.Edit.IndexModel
+@inject ForestChurches.Components.Storage.IBlobUrlService BlobUrlService;
+@{
+    var defaultSrc = BlobUrlService.GetReadSasUrl("IMGUR-1.png", TimeSpan.FromDays(7));
+}
+<head>
+    <link rel="stylesheet" integrity="sha256-iDu24JsQ/F3K/zr6Jz5Fiik0mDVpeDrlhRYmnGPVaKU=" href="~/css2/profile.css" asp-append-version="true" />
+</head>
+
+<!-- Beginning of Page header -->
+<div class="container-fluid page-hero">
+    <div class="hero-text">
+        <partial name="_StatusMessage" model="Model.StatusMessage" />
+        <div>
+            <img image-sas="@(Model.currentEvent?.ImageBlobName ?? string.Empty)" src="@defaultSrc" expires-minutes="60" alt="profile picture" />
+        </div>
+        <div class="heading-text">
+            <h1>Welcome back, User!</h1>
+            <p>Edit your church event below...</p>
+        </div>
+    </div>
+</div>
+
+<!-- Begining of site content - Form Section -->
+<h1>Edit your Church Event</h1>
+
+<section>
+    <form asp-page-handler="UpdateEvent" id="eventForm" enctype="multipart/form-data" asp-route-returnUrl="@Model.RedirectPermanent("/Index")" method="post">
+        <!-- AntiforgeryToken -->
+        @Html.AntiForgeryToken()
+        <div class="form-container">
+            <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+
+            <!-- Event Name -->
+            <div class="form-floating full-width">
+                <input type="text" asp-for="Input.Name" class="form-control" autocomplete="on" aria-required="true" />
+                    <label asp-for="Input.Name">Event Name</label>
+                <span asp-validation-for="Input.Name" class="text-danger"></span>
+            </div>
+
+            <!-- Event Description -->
+            <div class="form-floating half-width">
+                <input type="text" asp-for="Input.Description" class="form-control" autocomplete="on" aria-required="true" />
+                    <label asp-for="Input.Name">Event Description</label>
+                <span asp-validation-for="Input.Description" class="text-danger"></span>
+            </div>
+
+            <!-- Event Location -->
+            <div class="form-floating half-width">
+                <input type="text" asp-for="Input.Address" class="form-control" autocomplete="on" aria-required="true" />
+                    <label asp-for="Input.Address">Where will the event be?</label>
+                <span asp-validation-for="Input.Address" class="text-danger"></span>
+            </div>
+
+            <!-- Event Date -->
+            <div class="form-floating half-width">
+                <input type="date" asp-for="Input.Date" class="form-control" autocomplete="on" aria-required="true" />
+                    <label asp-for="Input.Date">When will the event be?</label>
+                <span asp-validation-for="Input.Date" class="text-danger"></span>
+            </div>
+
+            <!-- Event Start Time -->
+            <div class="form-floating half-width">
+                <input type="time" asp-for="Input.StartTime" class="form-control" autocomplete="on" aria-required="true" />
+                    <label asp-for="Input.StartTime">When will it start?</label>
+                <span asp-validation-for="Input.StartTime" class="text-danger"></span>
+            </div>
+
+            <!-- Event End Time -->
+            <div class="form-floating half-width">
+                <input type="time" asp-for="Input.EndTime" class="form-control" autocomplete="on" aria-required="true" />
+                    <label asp-for="Input.EndTime">When will it finish?</label>
+                <span asp-validation-for="Input.EndTime" class="text-danger"></span>
+            </div>
+
+            <!-- Event Link -->
+            <div class="form-floating half-width">
+                <input type="text" asp-for="Input.Link" class="form-control" autocomplete="on" aria-required="true" value="None" />
+                    <label asp-for="Input.Link">Any relavant links?</label>
+                <span asp-validation-for="Input.Link" class="text-danger"></span>
+            </div>
+
+            <!-- Event Repeats -->
+            <div class="form-group half-width">
+                <label asp-for="Input.Repeats">How often does your event repeat?</label>
+                <select asp-for="Input.Repeats" class="form-control" id="repeatEvent">
+                    <option value="None">Never (One time event)</option>
+                    <option value="Daily">Daily</option>
+                    <option value="Weekly">Weekly</option>
+                    <option value="Every 2 weeks">Every 2 weeks</option>
+                    <option value="Every 3 weeks">Every 3 weeks</option>
+                    <option value="Monthly">Monthly</option>
+                    <option value="Every 2 months">Every 2 months</option>
+                </select>
+                <span asp-validation-for="Input.Repeats" class="text-danger"></span>
+            </div>
+
+            <!-- Event Image -->
+            <div class="custom-file full-width">
+                <label id="fancy-upload-button" for="upload-btn">Choose Image (Click Me)</label>
+                <input asp-for="Input.Image" id="upload-btn" type="file" accept="image/png image/jpeg" hidden itemid="customFile" />
+            </div>
+
+            <!-- Submit button -->
+            <button id="submitEvent" type="submit" class="w-100 btn btn-success">Submit Changes</button>
+
+        </div>
+    </form>
+</section>
+
+<script src="~/plugins/dropzone/min/dropzone.min.js" integrity="sha256-uCdT6FLkY6+68Xzm4f9O0usHnJPdKv0Q0rsoXvLchP4=" crossorigin="anonymous"></script>
+<script src="~/js/repeatEvent.js" integrity="sha256-wM7NS+1ddeqqWdjgigHBxBptuZFHFQW2wYaf7kVshsE=" crossorigin="anonymous"></script>

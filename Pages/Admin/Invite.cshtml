@@ -1,0 +1,92 @@
+﻿@page
+@model ForestChurches.Pages.Admin.InviteModel
+@inject ForestChurches.Components.Security.Encoder Encoder;
+@{
+    Layout = "_Admin";
+}
+<head>
+    <link rel="stylesheet" href="~/js/toastr.min.css" integrity="sha256-ENFZrbVzylNbgnXx0n3I1g//2WeO47XxoPe0vkp3NC8=" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" integrity="sha256-teON4y0UnyJj2Gol8NtuY0GOKW9cQvAE8a0Ve1Bi25Y=" href="~/plugins/fontawesome-free/css/all.min.css">
+</head>
+
+<div class="card">
+    <div class="card-header">
+        <h3>Whitelist Email Addresses</h3>
+    </div>
+
+    <div class="card-body">
+        <partial name="_StatusMessage" model="Model.StatusMessage" />
+        <form id="registrationInvite" method="post" asp-page-handler="AddWhitelistedUser">
+            <!-- AntiforgeryToken -->
+            @Html.AntiForgeryToken()
+
+            <div class="input-group mb-3">
+                <input id="emailInput" type="text" class="form-control" placeholder="Email" name="email" required>
+                 <div class="input-group-append">
+                    <button class="btn btn-primary" type="submit">Whitelist User</button>
+                 </div>
+            </div>
+        </form>
+
+        <div class="table-responsive">
+            <table id="InviteTable" class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Status</th>
+                        <th>Email</th>
+                        <th>Invite Expiry</th>
+                        <th>RegistrationDate</th>
+                        <th>Delete</th>
+                        <th>Resend</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.invites.Count >= 1)
+                    {
+                        @foreach (var invite in Model.invites)
+                        {
+                            <tr>
+                                <td>@Encoder.HtmlEncode(invite.ID)</td>
+                                <td>@Encoder.HtmlEncode(invite.Status)</td>
+                                <td>@Encoder.HtmlEncode(invite.Email)</td>
+                                <td>@Encoder.HtmlEncode(invite.ExpiryDate)</td>
+                                <td>@Encoder.HtmlEncode(invite.DateOfRegistration)</td>
+                                <td>
+                                    <form method="post" asp-page-handler="RemoveWhitelistedUser">
+                                        <!-- AntiforgeryToken -->
+                                        @Html.AntiForgeryToken()
+
+                                        <input type="hidden" name="email" value="@Encoder.Protect(invite.Email, "fc.data.admin.invite")" />
+                                        <button class="btn btn-danger" type="submit">Delete</button>
+                                    </form>
+                                </td>
+                                <td>
+                                    @if (invite.Status == "Pending") {
+                                        <form method="post" asp-page-handler="ResendInvite">
+                                            <!-- AntiforgeryToken -->
+                                            @Html.AntiForgeryToken()
+
+                                            <input type="hidden" name="email" value="@Encoder.Protect(invite.Email, "fc.data.admin.invite")" />
+                                            <button class="btn btn-primary" type="submit">Resend Register Invite</button>
+                                        </form>
+                                    }
+
+                                    else if (invite.Status == "Completed") {
+                                        <p>Registration Complete</p>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>
+
+@section scripts {
+    <script src="~/js/32ff283d61.js" integrity="sha256-evmo5cYqZcNqcrajWANz/dV3fnm432TOBqs/UDh7+UE="></script>
+    <script src="~/js/toastr.min.js" integrity="sha256-3blsJd4Hli/7wCQ+bmgXfOdK7p/ZUMtPXY08jmxSSgk=" referrerpolicy="no-referrer"></script>
+}

@@ -1,0 +1,297 @@
+﻿@page
+@model ForestChurches.Areas.Identity.Pages.Account.Manage.ChurchProfileModel
+@inject ForestChurches.Components.Security.Encoder Encoder;
+@inject ForestChurches.Components.Storage.IBlobUrlService BlobUrlService;
+@{
+    ViewData["ActivePage"] = ManageNavPages.ChurchProfile;
+    var defaultSrc = BlobUrlService.GetReadSasUrl("IMGUR-1.png", TimeSpan.FromDays(7));
+    var imgSrc = string.IsNullOrEmpty(Model?.CurrentUser?.ImageBlobName)
+        ? defaultSrc
+        : BlobUrlService.GetReadSasUrl(Model.CurrentUser.ImageBlobName, TimeSpan.FromDays(7));
+}
+
+<head>
+    <link href="~/css2/profile.css" integrity="sha256-iDu24JsQ/F3K/zr6Jz5Fiik0mDVpeDrlhRYmnGPVaKU=" rel="stylesheet" asp-append-version="true" />
+    <link href="~/css2/Table.css" integrity="sha-256-S0g2eBWq07WgkMHq5GfmlzYDmolfhWBuDbEPWU/6kIc=" rel="stylesheet" asp-append-version="true" />
+    <link href="~/css2/Modal.css" integrity="sha256-Eul3YCoHYyzIGOq/6Nr8Nr1CfkkAZZI20VH2gKKhXP4=" rel="stylesheet" asp-append-version="true" />
+</head>
+<style nonce="@HttpContextAccessor.HttpContext?.Items["CSP-Style-Nonce"]">
+    .endSection {
+        padding-bottom: calc(3.5rem + 1.0vw);
+        align-items: center;
+    }
+
+    .checkbox-list-two-column {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+    }
+
+        .checkbox-list-two-column label {
+            margin-bottom: 0;
+        }
+
+    .listLabel {
+        font-size: x-large;
+    }
+
+    .form-group-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        width: 100%;
+    }
+
+        .form-group-container .form-group {
+            flex: 1;
+        }
+
+</style>
+
+<div class="container-fluid page-hero">
+    <div class="hero-text">
+        <div>
+            <img image-sas="@(Model.CurrentUser?.ImageBlobName ?? string.Empty)" src="@imgSrc" expires-minutes="60" alt="profile picture" />
+        </div>
+        <div class="heading-text">
+            <h1>Welcome back, User!</h1>
+            <p>@Encoder.HtmlEncode(Model?.CurrentChurch?.Name) (@Encoder.HtmlEncode(Model?.CurrentChurch?.Status))</p>
+        </div>
+    </div>
+</div>
+
+<partial name="_ManageNav" />
+<partial name="_StatusMessage" for="StatusMessage" />
+<h1>Update your church information</h1>
+
+<section>
+    <form method="post" asp-page-handler="UpdateChurchProfile">
+        <!-- AntiforgeryToken -->
+        @Html.AntiForgeryToken()
+
+        <div class="form-container">
+            <div class="form-floating full-width">
+                <input asp-for="SaveChangesModel.Name" aria-required="true" class="form-control" id="churchName" type="text" placeholder="Church Name" />
+                <label asp-for="SaveChangesModel.Name"></label>
+                <span asp-validation-for="SaveChangesModel.Name" class="text-danger"></span>
+            </div>
+
+            <div class="form-floating full-width">
+                <textarea asp-for="SaveChangesModel.Description" class="form-control" id="churchDescription" maxlength="1000" placeholder="Church Description" rows="5"></textarea>
+                <label asp-for="SaveChangesModel.Description"></label>
+                <span asp-validation-for="SaveChangesModel.Description" class="text-danger"></span>
+            </div>
+
+            <div class="form-floating half-width">
+                <input asp-for="SaveChangesModel.Denomination" class="form-control" id="denomination" type="text" placeholder="Denomination" />
+                <label asp-for="SaveChangesModel.Denomination"></label>
+                <span asp-validation-for="SaveChangesModel.Denomination" class="text-danger"></span>
+            </div>
+
+            <div class="form-floating half-width">
+                <input asp-for="SaveChangesModel.Congregation" class="form-control" id="congregationSize" type="text" placeholder="Number of Congregants" />
+                <label asp-for="SaveChangesModel.Congregation">Congregation Size</label>
+                <span asp-validation-for="SaveChangesModel.Congregation" class="text-danger"></span>
+            </div>
+
+            <div class="form-floating half-width">
+                <input id="addressInput" asp-for="SaveChangesModel.Address" class="form-control" type="text" placeholder="Church Address" />
+                <label asp-for="SaveChangesModel.Address"></label>
+                <span asp-validation-for="SaveChangesModel.Address" class="text-danger"></span>
+                <button type="button" class="btn btn-success w-100" id="useMyLocationButton">Use My Location</button>
+            </div>
+
+            <div class="form-floating half-width">
+                <input asp-for="SaveChangesModel.Phone" class="form-control" id="phone" type="tel" placeholder="Church Phone" />
+                <label asp-for="SaveChangesModel.Phone">Phone</label>
+                <span asp-validation-for="SaveChangesModel.Phone" class="text-danger"></span>
+            </div>
+
+            <div class="form-floating full-width">
+                <input asp-for="SaveChangesModel.Churchsuite" class="form-control" id="churchsuite" type="text" placeholder="Churchsuite link" />
+                <label asp-for="SaveChangesModel.Churchsuite">ChurchSuite (Optional)</label>
+                <span asp-validation-for="SaveChangesModel.Churchsuite" class="text-danger"></span>
+            </div>
+
+            <div class="form-floating half-width">
+                <input asp-for="SaveChangesModel.Website" class="form-control" id="website" type="text" placeholder="Church Website" />
+                <label asp-for="SaveChangesModel.Website">Website</label>
+                <span asp-validation-for="SaveChangesModel.Website" class="text-danger"></span>
+            </div>
+
+            <div class="form-floating half-width">
+                <select class="form-control" asp-for="SaveChangesModel.Parking" id="parking">
+                    <option value="true">Yes</option>
+                    <option value="false">No</option>
+                </select>
+                <label asp-for="SaveChangesModel.Parking"></label>
+            </div>
+
+            <div class="form-group-container">
+                <div class="form-group half-width">
+                    <label class="form-check-label listLabel">Facilities</label>
+                    <div class="checkbox-list-two-column">
+                        <label><input class="form-check-input" type="checkbox" asp-for="SaveChangesModel.Restrooms" /> Restrooms</label>
+                        <label><input class="form-check-input" type="checkbox" asp-for="SaveChangesModel.WheelchairAccess" /> Wheelchair Access</label>
+                        <label><input class="form-check-input" type="checkbox" asp-for="SaveChangesModel.Wifi" /> Free WiFi</label>
+                        <label><input class="form-check-input" type="checkbox" asp-for="SaveChangesModel.Refreshments" /> Refreshments</label>
+                        <label><input class="form-check-input" type="checkbox" asp-for="SaveChangesModel.Parking" /> Parking</label>
+                        <label><input class="form-check-input" type="checkbox" asp-for="SaveChangesModel.Childcare" /> Childrens Provision</label>
+                        <label><input class="form-check-input" type="checkbox" asp-for="SaveChangesModel.HearingAidSupport" /> Hearing Aid Support</label>
+                        <label><input class="form-check-input" type="checkbox" asp-for="SaveChangesModel.Kitchen" /> Kitchen</label>
+                        <label><input class="form-check-input" type="checkbox" asp-for="SaveChangesModel.MeetingHall" /> Community Space</label>
+                        <label><input class="form-check-input" type="checkbox" asp-for="SaveChangesModel.OutdoorSpaces" /> Outdoor Spaces</label>
+                        <label><input class="form-check-input" type="checkbox" asp-for="SaveChangesModel.WorshipHall" /> Worship Hall</label>
+                    </div>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-success w-100">Update Information</button>
+        </div>
+    </form>
+</section>
+
+<section class="endSection">
+    <form id="update-logo" enctype="multipart/form-data" asp-page-handler="UpdateUserLogo">
+        <!-- AntiforgeryToken -->
+        @Html.AntiForgeryToken()
+        <label id="fancy-upload-button" for="upload-btn">Choose File (Click Me)</label>
+        <input asp-for="UnprocessedImage" id="upload-btn" type="file" accept="image/png, image/jpeg" hidden />
+        <button type="submit" class="btn btn-success full-width W-100">Upload Logo</button>
+    </form>
+
+    <div class="form-container">
+        <div class="btn btn_markShutdown half-width @(Model?.CurrentChurch?.Status == "Open" ? "btn-danger" : "btn-success")" id="markChurchStatusButton">Mark Church as @(Model?.CurrentChurch?.Status == "Open" ? "Closed" : "Open")</div>
+        <button type="button" class="btn btn-success half-width" data-bs-toggle="modal" data-bs-target="#serviceTimes">Manage Church Service Times</button>
+    </div>
+
+    <p>Please only use this button <strong>Mark Church as Closed</strong> if your church is closed for long-term maintenance or your church has shutdown and is no longer open to visitors or holding any regular service. Please note that your church WILL NOT appear in a nearby search when your status is set to closed.</p>
+</section>
+
+<div class="modal fade" id="serviceTimes" tabindex="-1" aria-labelledby="serviceTimeslabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="serviceTimeslabel">Manage Church Service Times</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-6 col-sm-12">
+                        <h3>Current Service Times</h3>
+
+                        <table class="table transparent-table">
+                            <thead>
+                                <tr>
+                                    <th>Time</th>
+                                    <th>Note</th>
+                                    <th>Delete Entry</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (Model?.ServiceTimes != null)
+                                {
+                                    @foreach (var service in Model.ServiceTimes)
+                                    {
+                                        <tr>
+                                            <td>@Encoder.HtmlEncode(service.Time.ToString())</td>
+                                            <td>@Encoder.HtmlEncode(service.Note)</td>
+                                            <td>
+                                                <form method="post" asp-page-handler="RemoveService">
+                                                    <!-- AntiforgeryToken -->
+                                                    @Html.AntiForgeryToken()
+                                                    <input type="hidden" name="id" value="@Encoder.Protect(service.Id, "fc.data.manage.church")" />
+                                                    <button type="submit" class="btn btn-danger">Remove</button>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="col-12 col-sm-12">
+                        <form method="post" asp-page-handler="AddServiceTime">
+                            <div class="form-container">
+                                <input asp-for="ChurchService.Time" class="form-control" id="serviceTime" type="time" placeholder="9:45..." />
+                                <input asp-for="ChurchService.Note" class="form-control" id="serviceNote" type="text" placeholder="Morning Communion Service" />
+                                <button type="submit" class="w-100 btn btn-success">Add Service</button>
+                            </div>
+                            <!-- AntiforgeryToken -->
+                            @Html.AntiForgeryToken()
+                        </form>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script src="~/lib/jquery/dist/jquery.min.js" asp-append-version="true" integrity="sha256-zp0HUArZHsK1JMJwdk7EyaM+eDINjTdOxADt5Ij2JRs="></script>
+    <script nonce="@HttpContextAccessor.HttpContext?.Items["CSP-Script-Nonce"]">
+        const addressInput = document.getElementById("addressInput");
+        const useMyLocationButton = document.getElementById("useMyLocationButton");
+        const markChurchStatusButton = document.getElementById("markChurchStatusButton");
+
+        useMyLocationButton.addEventListener("click", getLocation);
+        markChurchStatusButton.addEventListener("click", () => markChurchStatus('@Encoder.HtmlEncode(Model.CurrentChurch.Status)'));
+
+        function getLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(showPosition);
+            } else {
+                addressInput.value = "Geolocation is not supported by this browser.";
+            }
+        }
+
+        function showPosition(position) {
+            const latitude = position.coords.latitude;
+            const longitude = position.coords.longitude;
+
+            $.ajax({
+                url: `/Identity/Account/Manage/ChurchProfile?handler=GetAddress&latitude=${latitude}&longitude=${longitude}`,
+                method: 'GET',
+                headers: {
+                    'X-CSRF-TOKEN-HEADER': $('input[name="__RequestVerificationToken"]').val()
+                },
+                success: function (address) {
+                    addressInput.value = address;
+                },
+                error: function (xhr, status, error) {
+                    addressInput.value = "Error retrieving address: " + error;
+                    console.error('Error:', error);
+                }
+            });
+        }
+
+        function markChurchStatus(currentStatus) {
+            const newStatus = currentStatus === "Open" ? "Closed" : "Open";
+
+            $.ajax({
+                url: `/Identity/Account/Manage/ChurchProfile?handler=MarkChurchStatus&status=${newStatus}`,
+                method: "GET",
+                headers: {
+                    'X-CSRF-TOKEN-HEADER': $('input[name="__RequestVerificationToken"]').val()
+                },
+                contentType: "application/json; charset=utf-8",
+                success: function (response) {
+                    const button = document.querySelector('.btn_markShutdown');
+                    button.textContent = `Mark Church as ${currentStatus === "Open" ? "Open" : "Closed"}`;
+                    button.classList.toggle('btn-danger');
+                    button.classList.toggle('btn-success');
+                },
+                error: function (xhr, status, error) {
+                    alert("Error: " + xhr.responseText);
+                    console.error('Error:', error);
+                }
+            });
+        }
+    </script>
+}

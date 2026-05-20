@@ -1,0 +1,70 @@
+﻿@page
+@model IndexModel
+@inject ForestChurches.Components.Storage.IBlobUrlService BlobUrlService;
+@{
+    ViewData["ActivePage"] = ManageNavPages.Index;
+    var defaultSrc = BlobUrlService.GetReadSasUrl("IMGUR-1.png", TimeSpan.FromDays(7));
+    var imgSrc = defaultSrc;
+
+    if (Model?.Currentuser != null)
+    {
+        if (!string.IsNullOrEmpty(Model.Currentuser.ImageBlobName))
+        {
+            imgSrc = BlobUrlService.GetReadSasUrl(Model.Currentuser.ImageBlobName, TimeSpan.FromDays(7));
+        }
+        else if (Model.Currentuser.ImageArray != null && Model.Currentuser.ImageArray.Length > 1)
+        {
+            imgSrc = "data:image;base64," + System.Convert.ToBase64String(Model.Currentuser.ImageArray);
+        }
+    }
+}
+<head>
+    <link rel="stylesheet" integrity="sha256-iDu24JsQ/F3K/zr6Jz5Fiik0mDVpeDrlhRYmnGPVaKU=" href="~/css2/profile.css" asp-append-version="true" />
+</head>
+
+<!-- Beginning of Page header -->
+<div class="container-fluid page-hero">
+    <div class="hero-text">
+        <div>
+            <img image-sas="@(Model.Currentuser?.ImageBlobName ?? string.Empty)" src="@imgSrc" expires-minutes="60" alt="profile picture" />
+        </div>
+        <div class="heading-text">
+            <h1>Welcome back, User!</h1>
+            <p>@Model.CurrentChurch.Name (@Model.CurrentChurch.Status)</p>
+        </div>
+    </div>
+</div>
+
+<!-- Tab Nav -->
+<partial name="_ManageNav" />
+<partial name="_StatusMessage" for="statusMessage" />
+
+<!-- Beginning of page content -->
+<section>
+    <h1>Update Your Information</h1><br>
+    <form id="profile-form" class="column-item" method="post">
+        <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+
+        <!-- Username [Email] -->
+        <div class="form-floating mb-3">
+            <input asp-for="Username" class="form-control" aria-required="true" readonly />
+            <label asp-for="Username" class="form-label">Username</label>
+            <span asp-validation-for="Username" class="text-danger"></span>
+        </div>
+
+        <!-- Phone number -->
+        <div class="form-floating mb-">
+            <input asp-for="Input.PhoneNumber" class="form-control" aria-required="true" />
+            <label asp-for="Input.PhoneNumber" class="form-label">Phone Number</label>
+            <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
+        </div>
+        <!-- AntiforgeryToken -->
+        @Html.AntiForgeryToken()
+        <button id="update-profile-button" type="submit" class="w-100 btn btn-lg btn-success">Save</button>
+    </form>
+</section>
+
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

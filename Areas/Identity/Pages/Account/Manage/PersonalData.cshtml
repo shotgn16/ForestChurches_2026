@@ -1,0 +1,58 @@
+﻿@page
+@model PersonalDataModel
+@inject ForestChurches.Components.Storage.IBlobUrlService BlobUrlService;
+@{
+    ViewData["Title"] = "Personal Data";
+    ViewData["ActivePage"] = ManageNavPages.PersonalData;
+    // IMGUR-1
+    var defaultSrc = BlobUrlService.GetReadSasUrl("IMGUR-1.png", TimeSpan.FromDays(7));
+    string src = defaultSrc;
+
+    if (Model?.CurrentUser != null)
+    {
+        if (!string.IsNullOrEmpty(Model.CurrentUser.ImageBlobName))
+        {
+            src = BlobUrlService.GetReadSasUrl(Model.CurrentUser.ImageBlobName, TimeSpan.FromDays(7));
+        }
+        else if (Model.CurrentUser.ImageArray != null && Model.CurrentUser.ImageArray.Length > 1)
+        {
+            src = "data:image;base64," + System.Convert.ToBase64String(Model.CurrentUser.ImageArray);
+        }
+    }
+}
+<head>
+    <link rel="stylesheet" integrity="sha256-iDu24JsQ/F3K/zr6Jz5Fiik0mDVpeDrlhRYmnGPVaKU=" href="~/css2/profile.css" asp-append-version="true" />
+</head>
+
+<!-- Beginning of Page header -->
+<div class="container-fluid page-hero">
+    <div class="hero-text">
+        <div>
+            <img src="@src" alt="profile picture" />
+        </div>
+        <div class="heading-text">
+            <h1>Welcome back, User!</h1>
+            <p>@Model.CurrentChurch.Name (@Model.CurrentChurch.Status)</p>
+        </div>
+    </div>
+</div>
+
+<!-- Tab Nav -->
+<partial name="_ManageNav" />
+
+<!-- Beginning of page content -->
+<section class="data-section">
+    <h1>Manage Your Data</h1>
+    <p>Your account contains personal data that you have given us. This page allows you to download or delete that data.</p>
+    <p>
+        Deleting your personal data will permanently remove your account (Including your church and any events you have listed). This cannot be reversed and your data will be permently removed from our system.
+    </p>
+
+    <p>
+        <strong>If you wish to download your information, including any and all information we hold on your church. Please get in contact with us via the <a asp-page="/Contact">Contact Us Page</a></strong>
+    </p>
+</section>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

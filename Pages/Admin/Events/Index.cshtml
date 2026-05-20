@@ -1,0 +1,109 @@
+﻿@page
+@model ForestChurches.Pages.Admin.Events.IndexModel
+@inject ForestChurches.Components.Security.Encoder _Encoder;
+@{
+    Layout = "_Admin";
+}
+<partial name="_StatusMessage" model="Model.StatusMessage" />
+<style nonce="@HttpContextAccessor.HttpContext?.Items["CSP-Style-Nonce"]">
+    img {
+        width: 100%;
+    }
+
+    #eventLink {
+        word-wrap: anywhere;
+    }
+</style>
+
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title">Registered Events</h3>
+    </div>
+    <!-- /.card-header -->
+    <div class="card-body">
+        <form id="createUserForm" method="get" asp-page="/Admin/Events/Create">
+            <!-- AntiforgeryToken -->
+            @Html.AntiForgeryToken()
+
+            <div class="input-group mb-3">
+                <input id="nameInput" type="text" class="form-control" placeholder="Event Name" name="eventName" required>
+                <div class="input-group-append">
+                    <button class="btn btn-primary" type="submit">Create Event</button>
+                </div>
+            </div>
+        </form>
+        <div class="table-responsive">
+            <table id="example1" class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>Profile</th>
+                        <th>Name</th>
+                        <th>Description</th>
+                        <th>Address</th>
+                        <th>Date</th>
+                        <th>Time</th>
+                        <th>Repeats</th>
+                        <th>Church</th>
+                        <th>User</th>
+                        <th>Link</th>
+                        <th>Edit</th>
+                        <th>Delete</th>
+                        <th>Download</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.Events.GetType() != null && Model.Events.Count >= 1)
+                    {
+                        @foreach (var ChurchEvent in Model.Events)
+                        {
+                            <tr>
+                                <td><img width="100px" src="data:image;base64,@System.Convert.ToBase64String(ChurchEvent.ImageArray)" /></td>
+                                <td>@ChurchEvent.Name</td>
+                                <td>@ChurchEvent.Description</td>
+                                <td>@ChurchEvent.Address</td>
+                                <td>@_Encoder.HtmlEncode(ChurchEvent.Date)</td>
+                                <td>@_Encoder.HtmlEncode(ChurchEvent.StartTime) - @_Encoder.HtmlEncode(ChurchEvent.EndTime)</td>
+                                <td>@_Encoder.HtmlEncode(ChurchEvent.Repeats)</td>
+                                <td>@_Encoder.HtmlEncode(ChurchEvent.Church)</td>
+                                <td>@_Encoder.HtmlEncode(ChurchEvent.User)</td>
+                                <td id="eventLink" class="textarea"><a href="@ChurchEvent.Link ?? string.empty">@ChurchEvent.Link</a></td>
+                                <td>
+                                    <form method="post">
+                                        <!-- AntiforgeryToken -->
+                                        @Html.AntiForgeryToken()
+                                        <input type="hidden" name="userName" value="@_Encoder.Protect(@ChurchEvent.ID, "fc.data.admin.events")" />
+                                        <a asp-page="Edit" asp-route-id="@_Encoder.Protect(@ChurchEvent.ID, "fc.data.admin.events")" class="btn btn-primary">Edit</a>
+                                    </form>
+                                </td>
+                                <td>
+                                    <form method="post" asp-page-handler="DeleteEvent">
+                                        <!-- AntiforgeryToken -->
+                                        @Html.AntiForgeryToken()
+                                        <input type="hidden" name="value" value="@_Encoder.Protect(@ChurchEvent.ID, "fc.data.admin.events")" />
+                                        <button class="btn btn-danger" type="submit" onclick="return confirmAction('Are you sure you want to delete the following event', '@_Encoder.HtmlEncode(ChurchEvent.Name)')">Delete</button>
+                                    </form>
+                                </td>
+                                <td>
+                                    <form method="post" asp-page-handler="DownloadEvent">
+                                        <!-- AntiforgeryToken -->
+                                        @Html.AntiForgeryToken()
+                                        <input type="hidden" name="value" value="@_Encoder.Protect(@ChurchEvent.ID, "fc.data.admin.events")" />
+                                        <button class="btn btn-success" type="submit">Download</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        <br />
+        <!-- TODO: Create User Botton Here -->
+    </div>
+    <!-- /.card-body -->
+</div>
+
+@section Scripts {
+    <script src="~/js/confirmAction.js" integrity="sha256-13abFd38m2wExaGaZ4Rbp/RfbBi3xlkvuyUIkSavT/4="></script>
+}

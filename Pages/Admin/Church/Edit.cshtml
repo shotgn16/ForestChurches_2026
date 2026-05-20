@@ -1,0 +1,115 @@
+﻿@page
+@model ForestChurches.Pages.Admin.Church.EditModel
+@inject ForestChurches.Components.Security.Encoder Encoder;
+@{
+    Layout = "_Admin";
+    ViewData["Title"] = "Edit Church | Administration";
+}
+<style nonce="@HttpContextAccessor.HttpContext?.Items["CSP-Style-Nonce"]">
+    .checkbox-list {
+        padding-left: calc(0.8rem + 0.5vw);
+    }
+
+    #imgLogo {
+        max-width: 100px;
+    }
+</style>
+<partial name="_StatusMessage" model="Model.StatusMessage" />
+
+<!-- Profile Image -->
+<div class="card card-primary card-outline">
+    <div class="card-body box-profile">
+        <div class="text-center">
+            <img id="imgLogo" src="@Encoder.HtmlEncode("https://imgur.com/oLC9RcU")" />
+        </div>
+
+        <h3 class="profile-username text-center">@Encoder.HtmlEncode(Model.Church?.Name)</h3>
+
+        <div class="tab-pane active" id="settings">
+            <form class="form-horizontal" asp-page-handler="UpdateChurch" method="post" id="editForm">
+                <!-- AntiforgeryToken -->
+                @Html.AntiForgeryToken()
+
+                <div class="form-floating full-width">
+                    <label asp-for="SaveChangesModel.Name"></label>
+                    <input asp-for="SaveChangesModel.Name" aria-required="true" class="form-control" id="churchName" type="text" placeholder="Church Name" />
+                    <span asp-validation-for="SaveChangesModel.Name" class="text-danger"></span>
+                </div>
+
+                <div class="form-floating full-width">
+                    <label asp-for="SaveChangesModel.Description"></label>
+                    <textarea asp-for="SaveChangesModel.Description" class="form-control" id="churchDescription" placeholder="Church Description" rows="5"></textarea>
+                    <span asp-validation-for="SaveChangesModel.Description" class="text-danger"></span>
+                </div>
+
+                <div class="form-floating half-width">
+                    <label asp-for="SaveChangesModel.Denomination"></label>
+                    <input asp-for="SaveChangesModel.Denomination" class="form-control" id="denomination" type="text" placeholder="Denomination" />
+                    <span asp-validation-for="SaveChangesModel.Denomination" class="text-danger"></span>
+                </div>
+
+                <div class="form-floating half-width">
+                    <label asp-for="SaveChangesModel.Congregation">Congregation Size</label>
+                    <input asp-for="SaveChangesModel.Congregation" class="form-control" id="congregationSize" type="text" placeholder="Number of Congregants" />
+                    <span asp-validation-for="SaveChangesModel.Congregation" class="text-danger"></span>
+                </div>
+
+                <div class="form-floating half-width">
+                    <label asp-for="SaveChangesModel.Address"></label>
+                    <input id="addressInput" asp-for="SaveChangesModel.Address" class="form-control" type="text" placeholder="Church Address" />
+                    <span asp-validation-for="SaveChangesModel.Address" class="text-danger"></span>
+                </div>
+
+                <div class="form-floating half-width">
+                    <label asp-for="SaveChangesModel.Phone">Phone</label>
+                    <input asp-for="SaveChangesModel.Phone" class="form-control" id="phone" type="tel" placeholder="Church Phone" />
+                    <span asp-validation-for="SaveChangesModel.Phone" class="text-danger"></span>
+                </div>
+
+                <div class="form-floating full-width">
+                    <label asp-for="SaveChangesModel.Churchsuite">ChurchSuite (Optional)</label>
+                    <input asp-for="SaveChangesModel.Churchsuite" class="form-control" id="churchsuite" type="text" placeholder="Churchsuite link" />
+                    <span asp-validation-for="SaveChangesModel.Churchsuite" class="text-danger"></span>
+                </div>
+
+                <div class="form-floating half-width">
+                    <label asp-for="SaveChangesModel.Website">Website</label>
+                    <input asp-for="SaveChangesModel.Website" class="form-control" id="website" type="text" placeholder="Church Website" />
+                    <span asp-validation-for="SaveChangesModel.Website" class="text-danger"></span>
+                </div>
+
+                <div class="form-floating half-width">
+                    <label asp-for="SaveChangesModel.Parking"></label>
+                    <select class="form-control" asp-for="SaveChangesModel.Parking" id="parking">
+                        <option value="true">Yes</option>
+                        <option value="false">No</option>
+                    </select>
+                </div>
+
+                <div class="form-group half-width">
+                    <label class="form-check-label listLabel">Facilities</label>
+                    <div class="checkbox-list">
+                        <label><input class="form-check-input" type="checkbox" asp-for="SaveChangesModel.Restrooms" /> Restrooms</label><br />
+                        <label><input class="form-check-input" type="checkbox" asp-for="SaveChangesModel.WheelchairAccess" /> Wheelchair Access</label><br />
+                        <label><input class="form-check-input" type="checkbox" asp-for="SaveChangesModel.Wifi" /> Free WiFi</label><br />
+                        <label><input class="form-check-input" type="checkbox" asp-for="SaveChangesModel.Refreshments" /> Refreshments</label><br />
+                        <label><input class="form-check-input" type="checkbox" asp-for="SaveChangesModel.Parking" /> Parking</label><br />
+                        <label><input class="form-check-input" type="checkbox" asp-for="SaveChangesModel.Childcare" /> Childrens Provision</label><br />
+                        <label><input class="form-check-input" type="checkbox" asp-for="SaveChangesModel.HearingAidSupport" /> Hearing Aid Support</label><br />
+                        <label><input class="form-check-input" type="checkbox" asp-for="SaveChangesModel.Kitchen" /> Kitchen</label><br />
+                        <label><input class="form-check-input" type="checkbox" asp-for="SaveChangesModel.MeetingHall" /> Community Space</label><br />
+                        <label><input class="form-check-input" type="checkbox" asp-for="SaveChangesModel.OutdoorSpaces" /> Outdoor Spaces</label><br />
+                        <label><input class="form-check-input" type="checkbox" asp-for="SaveChangesModel.WorshipHall" /> Worship Hall</label><br />
+                    </div>
+                </div>
+
+                <input type="hidden" asp-for="SaveChangesModel.ID" />
+                <button type="submit" class="btn btn-primary w-100">Update Information</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

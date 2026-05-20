@@ -1,0 +1,74 @@
+﻿@page
+@model ForestChurches.Pages.Events.IndexModel
+@inject ForestChurches.Components.Security.Encoder Encoder;
+@inject ForestChurches.Components.Storage.IBlobUrlService BlobUrlService;
+@{
+    var defaultImage = BlobUrlService.GetReadSasUrl("IMGUR-1.png", TimeSpan.FromDays(7));
+}
+<head>
+    <link href="~/css2/Page-header.css" integrity="sha256-Rtz0HIcRj9MQNF8G3xzx3+XNkldfHcYBgrvQhm9r6qY=" rel="stylesheet" />
+    <link rel="stylesheet" integrity="sha256-TCiepLIKrpXEnfmIoCPmhTD6lKP9ONdWUvCQO0rCL7s=" href="~/css2/Events.css" asp-append-version="true" />
+</head>
+
+<!-- Beginning of Page header -->
+<div class="container-fluid page-hero">
+    <div class="hero-text">
+        <h1>Your Events</h1>
+        <p>View, edit and add events that you have going on in your church here</p>
+        <button class="btn btn-success">Learn more</button>
+    </div>
+</div>
+
+<!-- Content goes here -->
+<div class="container events-container">
+
+    <!-- Conditional statement starts here -->
+    @if (Model.Events == null || Model.Events.Count < 1)
+    {
+        <p class="no-event-found">
+            Unfortunately you have no events listed for your church?
+            <br>Think this is a mistake? (Contact Us <a asp-page="/contact">here</a>)
+        </p>
+
+    <a asp-page="./Add/Index" class="btn btn-success add-event-btn">Add Event</a>
+    }
+
+    else
+    {
+        <div class="row">
+            @foreach (var item in Model.Events)
+            {
+                <div class="card">
+                    <img image-sas="@(!string.IsNullOrEmpty(item.ImageBlobName) ? item.ImageBlobName : string.Empty)" src="@defaultImage" expires-minutes="60" class="card-img-top card-image" alt="@item.Name picture">
+                    <div class="card-body">
+                        <h5 class="card-title">@Encoder.HtmlEncode(item.Name)</h5>
+                        <p class="card-text">@Encoder.HtmlEncode(item.Description)</p>
+                        <ul class="card-list">
+                            <li><p><strong>Location:</strong> @Encoder.HtmlEncode(item.Address)</p></li>
+                            <li><p><strong>Date:</strong> @Encoder.HtmlEncode(item.Date)</p></li>
+                            <li><p><strong>Time:</strong> @Encoder.HtmlEncode(item.StartTime) - @Encoder.HtmlEncode(item.EndTime)</p></li>
+                            <li><p><strong>Will it be on again?</strong> @Encoder.HtmlEncode(item.Repeats)</p></li>
+                        </ul>
+                        <!-- Buttons go here -->
+                        <a asp-page="/Events/Edit/Index" asp-route-id="@Encoder.Protect(item.ID, "fc.data.user.events")" class="w-100 btn btn-primary">Edit</a>
+
+                        <form method="post" class="contentButtons" asp-page-handler="DeleteEvent">
+                            <!-- AntiforgeryToken -->
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="eventId" value="@Encoder.Protect(item.ID, "fc.data.user.events")" />
+                            <button class="w-100 btn btn-danger" type="submit" onclick="return confirmAction('Are you sure you want to delete this event', '@Encoder.HtmlEncode(item.Name)')">Delete</button>
+                        </form>
+                    </div>
+                </div>
+            }
+        </div>
+
+        <a asp-page="./Add/Index" class="btn btn-success add-event-btn">Add Event</a>
+    }
+    <!-- Conditional statement ends here -->
+    <p class="footer-note"><strong>Note:</strong> Once an event (that is not / is no longer reoccuring) finishes, the event will be deleted roughly 24 hours after the completion time. This is to help ensure we keep the database clean and running costs down. Thank you.</p>
+</div>
+
+@section scripts {
+    <script src="~/js/confirmAction.js" asp-integrity="true"></script>
+}

@@ -1,0 +1,12 @@
+﻿@import url("Variables.css");
+@import url("Media.css");
+
+.modal-content {
+    background-color: var(--primary-color);
+    color: var(--font-color);
+}
+
+#churchWebsite {
+    color: var(--font-color);
+    word-wrap: break-word;
+}

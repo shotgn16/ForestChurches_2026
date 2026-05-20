@@ -1,0 +1,54 @@
+﻿@page
+@model ForestChurches.Pages.ValidateTokenModel
+@{
+    ViewData["Title"] = "Validating...";
+}
+<head>
+    <link rel="stylesheet" integrity="sha256-iDu24JsQ/F3K/zr6Jz5Fiik0mDVpeDrlhRYmnGPVaKU=" href="~/css2/profile.css" asp-append-version="true" />
+</head>
+<style nonce="@HttpContextAccessor.HttpContext?.Items["CSP-Style-Nonce"]">
+    h1 {
+        text-align: center;
+        padding-top: calc(1.0rem + 1.0vw);
+    }
+
+    section {
+        padding-top: calc(10.0rem + 1.0vw);
+        text-align: center;
+        top: 50%;
+        bottom: 50%;
+        inline-size: fit-content;
+        vertical-align: central;
+        color: white;
+    }
+
+    img {
+        max-width: calc(4.0rem + 1.0vw);
+    }
+
+    #subtitle {
+        color: lightgrey;
+    }
+</style>
+
+
+<section>
+    <img alt="Invalid Token" src="~/img/cross.png" />
+    <h1>Validation...</h1>
+
+    @if (Model.IsValidating)
+    {
+        <p>Validating token...</p>
+    }
+    else if (Model.IsTokenValid)
+    {
+        <p>Token is valid. Redirecting...</p>
+    }
+    else
+    {
+        <p>The link you provided is invalid or has expired.</p>
+        <p id="subtitle">You can still access your account and content by accessing it from the website home page <a href="@Request.Scheme://@Request.Host">here</a></p>
+    }
+
+</section>
+

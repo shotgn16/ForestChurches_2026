@@ -1,0 +1,25 @@
+﻿@{
+    if (ViewData.TryGetValue("ParentLayout", out var parentLayout) && parentLayout !=  null)
+    {
+        Layout = parentLayout.ToString();
+    }
+    else
+    {
+        Layout = "/Areas/Identity/Pages/_Layout.cshtml";
+    }
+}
+
+<head>
+    <link rel="stylesheet" href="~/css2/Nav.css" integrity="sha256-vb1B4OCia/PLNCcR1sf3s0PwkjUtFri603v49QZBsLo=" asp-append-version="true" />
+</head>
+
+<div class="container-fluid">
+    <main role="main" class="p-0">
+        @RenderBody()
+    </main>
+</div>
+
+
+@section Scripts {
+    @RenderSection("Scripts", required: false)
+}

@@ -1,0 +1,110 @@
+﻿@import url("Variables.css");
+
+img {
+    max-width: clamp(8rem, 8vw, 35rem);
+    border-radius: 10%;
+    max-height: 50%;
+    margin-top: 5vw;
+}
+
+.page-hero {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("../img/page-header.jpeg");
+    height: 50%; /* Default height for larger screens */
+    background-position: center;
+    background-repeat: repeat-x;
+    background-size: cover;
+    position: relative;
+    object-fit: cover;
+    padding-top: 5vw;
+}
+
+.hero-text {
+    position: absolute;
+    text-align: center;
+    top: 50%;
+    left: 50%;
+    width: 80%;
+    transform: translate(-50%, -50%);
+    color: var(--font-color);
+    margin-bottom: 5vw;
+}
+
+@media (max-width: 1024px) { /* Adjust the breakpoint as needed */
+    .page-hero {
+        height: 100vh; /* Full viewport height */
+    }
+}
+
+label {
+    color: white;
+}
+
+h1, .h1 {
+    margin-top: 1rem;
+    text-align: center;
+}
+
+section {
+    border: 1px solid var(--primary-color);
+    padding-left: 3%;
+    padding-right: 3%;
+    padding-top: 1.5rem;
+    max-width: 85%;
+    margin: auto;
+}
+
+.data-section {
+    text-align: center;
+    color: white;
+}
+
+/* Form Control - Responsiveness */
+
+.form-control {
+    font-size: calc(0.875rem + 0.3vw);
+}
+
+/* End of Form Control - Responsiveness */
+
+.checkbox-list {
+    max-height: 300px;
+    overflow-y: auto;
+    border: 1px solid var(--primary-color) !important;
+}
+
+/* Start of Form styling (half-width & full-width) */
+
+.half-width {
+    flex: 1; /* Allow to grow */
+    min-width: calc(15.0rem + 1.0vw); /* Minimum width before stacking */
+}
+
+/* Full-width elements should take the full width */
+.full-width {
+    flex: 0 0 100%; /* Full width */
+}
+
+/* Container for the form sections */
+.form-container {
+    display: flex; /* Use flexbox */
+    flex-wrap: wrap; /* Allow wrapping */
+    gap: 15px; /* Space between items */
+}
+
+/* End of form styling...*/
+
+.custom-file-upload:hover {
+    border: 3px solid white;
+}
+
+#fancy-upload-button {
+    border: 2px dashed white;
+    padding: 1%;
+    width: 100%;
+    text-align: center;
+}
+
+section {
+    height: fit-content;
+    padding-bottom: calc(3.5rem + 1.0vw);
+}

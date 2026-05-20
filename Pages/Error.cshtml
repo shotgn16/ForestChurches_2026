@@ -1,0 +1,171 @@
+﻿@page
+@model ErrorModel
+@{
+    ViewData["Title"] = "Error";
+}
+<head><link href="~/css2/error.css" integrity="sha256-yiZYepIwU9N56cqrhArTEqBqq7ce2LNk3MZn8MahOpQ=" rel="stylesheet" /></head>
+<style nonce="@HttpContextAccessor.HttpContext?.Items["CSP-Style-Nonce"]">
+    #perspec1 {
+        --spreaddist: 125px;
+        --scaledist: .75;
+        --vertdist: -25px;
+    }
+
+    #perspec2 {
+        --spreaddist: 100px;
+        --scaledist: .8;
+        --vertdist: -20px;
+    }
+
+    #perspec3 {
+        --spreaddist: 75px;
+        --scaledist: .85;
+        --vertdist: -15px;
+    }
+
+    #perspec4 {
+        --spreaddist: 50px;
+        --scaledist: .9;
+        --vertdist: -10px;
+    }
+
+    #perspec5 {
+        --spreaddist: 25px;
+        --scaledist: .95;
+        --vertdist: -5px;
+    }
+
+    #perspec6 {
+        --spreaddist: 0px;
+        --scaledist: 1;
+        --vertdist: 0px;
+    }
+    main {
+        background-color: #00AD6A;
+    }
+</style>
+
+<div class="container">
+    <div class="error">
+        @if (@ViewData["error_title"] == null)
+        {
+            <h1 style="font-size: calc(1.075rem + 0.5vw);">500</h1>
+            <h2>error</h2>
+        }
+        else if (@ViewData["error_title"] != null) 
+        {
+            <h1>@Html.Encode(ViewData["error_title"].ToString())</h1>
+        }
+        <p>
+            <strong>Message:</strong> @Model.ExceptionMessage
+            <br>
+            <strong>ID:</strong> @Model.RequestId
+        </p>
+    </div>
+    <div class="stack-container">
+        <div class="card-container">
+            <div class="perspec" id="perspec1">
+                <div class="card">
+                    <div class="writing">
+                        <div class="topbar">
+                            <div class="red"></div>
+                            <div class="yellow"></div>
+                            <div class="green"></div>
+                        </div>
+                        <div class="code">
+                            <ul>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-container">
+            <div class="perspec" id="perspec2">
+                <div class="card">
+                    <div class="writing">
+                        <div class="topbar">
+                            <div class="red"></div>
+                            <div class="yellow"></div>
+                            <div class="green"></div>
+                        </div>
+                        <div class="code">
+                            <ul>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-container">
+            <div class="perspec" id="perspec3">
+                <div class="card">
+                    <div class="writing">
+                        <div class="topbar">
+                            <div class="red"></div>
+                            <div class="yellow"></div>
+                            <div class="green"></div>
+                        </div>
+                        <div class="code">
+                            <ul>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-container">
+            <div class="perspec" id="perspec4">
+                <div class="card">
+                    <div class="writing">
+                        <div class="topbar">
+                            <div class="red"></div>
+                            <div class="yellow"></div>
+                            <div class="green"></div>
+                        </div>
+                        <div class="code">
+                            <ul>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-container">
+            <div class="perspec" id="perspec5">
+                <div class="card">
+                    <div class="writing">
+                        <div class="topbar">
+                            <div class="red"></div>
+                            <div class="yellow"></div>
+                            <div class="green"></div>
+                        </div>
+                        <div class="code">
+                            <ul>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-container">
+            <div class="perspec" id="perspec6">
+                <div class="card">
+                    <div class="writing">
+                        <div class="topbar">
+                            <div class="red"></div>
+                            <div class="yellow"></div>
+                            <div class="green"></div>
+                        </div>
+                        <div class="code">
+                            <ul>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/js/errorPage.js" integrity="sha256-Srf/MiIydchEpcpsQZkKo3jFQbUbkKRmgnlVtB1jUSQ=" crossorigin="anonymous"></script>

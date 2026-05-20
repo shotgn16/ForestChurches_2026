@@ -1,0 +1,145 @@
+﻿@page
+@model ForestChurches.Pages.Admin.Users.IndexModel
+@inject ForestChurches.Components.Security.Encoder Encoder;
+@inject ForestChurches.Components.Storage.IBlobUrlService BlobUrlService;
+@{
+    Layout = "_Admin";
+    ViewData["Title"] = "Users | Administration";
+}
+<partial name="_StatusMessage" model="Model.StatusMessage" />
+
+<style nonce="@HttpContextAccessor.HttpContext?.Items["CSP-Style-Nonce"]">
+    #userPending {
+        color: darkorange;
+        font-weight: bold;
+    }
+
+    #userApproved {
+        color: forestgreen;
+        font-weight: bold;
+    }
+
+    #userAdmin {
+        color: purple;
+        font-weight: bold;
+    }
+
+    #userSuperAdmin {
+        color: dodgerblue;
+        font-weight: bold;
+    }
+</style>
+
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title">Registered Users</h3>
+    </div>
+    <!-- /.card-header -->
+    <div class="card-body">
+        <form id="createUserForm" method="get" asp-page="/Admin/Users/Register">
+            <!-- AntiforgeryToken -->
+            @Html.AntiForgeryToken()
+
+            <div class="input-group mb-3">
+                <input id="usernameInput" type="text" class="form-control" placeholder="Username" name="username" required>
+                <div class="input-group-append">
+                    <button class="btn btn-primary" type="submit">Create User</button>
+                </div>
+            </div>
+        </form>
+        <div class="table-responsive">
+            <table id="example1" class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>Status</th>
+                        <th>Profile</th>
+                        <th>Username/Email</th>
+                        <th>Phone</th>
+                        <th>Role</th>
+                        <th>Confirmed Account</th>
+                        <th>Edit</th>
+                        <th>Delete</th>
+                        <th>Download</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.Users.Count >= 1)
+                    {
+                        @foreach (var user in Model.Users)
+                        {
+                            <tr>
+                                <td>
+                                    @if (!Model.UserRoles[user.Id].Any())
+                                    {
+                                        <span id="userPending">Pending Confirmation</span>
+                                    }
+                                    else if (Model.UserRoles[user.Id].Contains(Components.Roles.Roles.AuthorizedChurch.ToString()))
+                                    {
+                                        <span id="userApproved">Approved</span>
+                                    }
+                                    else if (Model.UserRoles[user.Id].Contains(Components.Roles.Roles.Admin.ToString()))
+                                    {
+                                        <span id="userAdmin">Administrator</span>
+                                    }
+                                    else if (Model.UserRoles[user.Id].Contains(Components.Roles.Roles.SuperAdmin.ToString()))
+                                    {
+                                        <span id="userSuperAdmin">Developer (MUST NEVER BE DELETED)</span>
+                                    }
+                                </td>
+                                @{ 
+                                    var defaultSrc = BlobUrlService.GetReadSasUrl("IMGUR-1.png", TimeSpan.FromDays(7));
+                                    var userImgSrc = defaultSrc;
+                                    if (!string.IsNullOrEmpty(user.ImageBlobName))
+                                    {
+                                        userImgSrc = BlobUrlService.GetReadSasUrl(user.ImageBlobName, TimeSpan.FromDays(7));
+                                    }
+                                    else if (user.ImageArray != null && user.ImageArray.Length > 1)
+                                    {
+                                        userImgSrc = "data:image;base64," + System.Convert.ToBase64String(user.ImageArray);
+                                    }
+                                }
+                                <td><img width="25%" src="@userImgSrc" /></td>
+                                <td>@Encoder.HtmlEncode(user.UserName ?? string.Empty)</td>
+                                <td>@(user.PhoneNumber ?? string.Empty)</td>
+                                <td>@Encoder.HtmlEncode((string.Join(", ", Model.UserRoles[user.Id])) ?? string.Empty)</td>
+                                <td>@Encoder.HtmlEncode((user.EmailConfirmed ? "true" : "false"))</td>
+                                <td>
+                                    <form method="post" asp-page-handler="EditUser">
+                                        <!-- AntiforgeryToken -->
+                                        @Html.AntiForgeryToken()
+                                        <a asp-page="Edit" asp-route-id="@Encoder.Protect(user.Id, "fc.data.admin.users")" class="btn btn-primary">Edit</a>
+                                    </form>
+                                </td>
+                                <td>
+                                    <form method="post" asp-page-handler="DeleteUser">
+                                        <!-- AntiforgeryToken -->
+                                        @Html.AntiForgeryToken()
+                                        <input type="hidden" name="value" value="@Encoder.Protect(user.Id, "fc.data.admin.users")" />
+                                        <button class="btn btn-danger" type="submit" onclick="return confirmAction('Are you sure you want to delete the user', '@Encoder.HtmlEncode(user.UserName)')">Delete</button>
+                                    </form>
+                                </td>
+                                <td>
+                                    <form method="post" asp-page-handler="DownloadUser">
+                                        <!-- AntiforgeryToken -->
+                                        @Html.AntiForgeryToken()
+                                        <input type="hidden" name="value" value="@Encoder.Protect(user.Id, "fc.data.admin.users")" />
+                                        <button class="btn btn-success" type="submit">Download</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        <br />
+        <!-- TODO: Create User Botton Here -->
+    </div>
+    <!-- /.card-body -->
+</div>
+
+@section scripts {
+    <script src="~/js/confirmAction.js" integrity="sha256-13abFd38m2wExaGaZ4Rbp/RfbBi3xlkvuyUIkSavT/4="></script>
+    <script src="~/js/user.js" integrity="sha256-E0RSKKTE1pVFVTFJI09QTSvT1GoyJPyDenFwqLKVDuY="></script>
+}

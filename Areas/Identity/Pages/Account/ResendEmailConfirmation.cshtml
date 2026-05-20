@@ -1,0 +1,28 @@
+﻿@page
+@model ResendEmailConfirmationModel
+@{
+    ViewData["Title"] = "Resend email confirmation";
+}
+<head>
+    <link rel="stylesheet" integrity="sha256-F0H03/JY0AiRnWLu2uR3hqfsWg0n5LpkvZfNx8mUHWY=" href="~/css2/Login.css" asp-append-version="true" />
+</head>
+
+<body class="container-fluid text-center">
+    <form method="post" class="form-signin">
+        <!-- AntiforgeryToken -->
+        @Html.AntiForgeryToken()
+
+        <img class="mb-4" src="~/img/logo.png" alt="" width="300" height="200">
+        <h1 class="h3 mb-3 font-weight-normal text-light">Please enter your email for an email confirmation</h1>
+            <input asp-for="Input.Email" class="form-control" aria-required="true" placeholder="Email Address" required autofocus />
+            <span asp-validation-for="Input.Email" class="text-danger"></span>
+        
+         <div class="form-container">
+            <button type="submit" class="w-100 btn btn-lg btn-success">Resend</button>
+        </div>   
+    </form>
+</body>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

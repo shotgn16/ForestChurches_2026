@@ -1,0 +1,18 @@
+﻿@page
+@model ForestChurches.Pages.SuccessModel
+@inject ForestChurches.Components.Security.Encoder Encoder;
+@{
+    ViewData["Title"] = Encoder.HtmlEncode(Model.SuccessInfo.SuccessTitle); // Set the page title
+}
+
+<style nonce="@HttpContextAccessor.HttpContext?.Items["CSP-Style-Nonce"]">
+    main {
+        background-color: #00AD6A;
+    }
+</style>
+
+<div class="success-container">
+    <h1 class="success-title">@Encoder.UrlEncode(Model.SuccessInfo.SuccessTitle)</h1>
+    <p class="success-message">@Encoder.UrlEncode(Model.SuccessInfo.SuccessMessage)</p>
+    <a asp-page="./Index" class="back-to-home">Back to Home</a>
+</div>

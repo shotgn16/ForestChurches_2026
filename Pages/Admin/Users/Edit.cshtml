@@ -1,0 +1,76 @@
+﻿@page
+@model ForestChurches.Pages.Admin.Users.EditModel
+@inject ForestChurches.Components.Security.Encoder Encoder;
+@{
+    Layout = "_Admin";
+}
+
+<style nonce="@HttpContextAccessor.HttpContext?.Items["CSP-Style-Nonce"]">
+    img {
+        max-width: 100px;
+    }
+</style>
+
+<partial name="_StatusMessage" model="Model.StatusMessage" />
+
+<!-- Profile Image -->
+<div class="card card-primary card-outline">
+    <div class="card-body box-profile">
+        <div class="text-center">
+            <img src="~/img/placeholder.png" width="100" />
+        </div>
+
+        @if (Model.CurrentUser != null)
+        {
+            <h3 class="profile-username text-center">@Encoder.HtmlEncode(Model.CurrentUser.UserName ?? string.Empty)</h3>
+        }
+
+        <div class="tab-pane active" id="settings">
+            <form class="form-horizontal" asp-page-handler="UpdateUser" method="post">
+                <!-- AntiforgeryToken -->
+                @Html.AntiForgeryToken()
+
+                <div class="form-group row">
+                    <label asp-for="Input.Email" class="col-sm-2 col-form-label">Email</label>
+                    <div class="col-sm-10">
+                        <input type="email" asp-for="Input.Email" class="form-control" placeholder="Email">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label asp-for="Input.Phone" class="col-sm-2 col-form-label">Phone</label>
+                    <div class="col-sm-10">
+                        <input class="form-control" asp-for="Input.Phone" placeholder="Phone" />
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">Roles</label>
+                    <div class="col-sm-10">
+                        @foreach (var role in Model.Roles)
+                        {
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="Input.Roles" value="@Encoder.Protect(role.Name, "fc.data.admin.users")" @(Model.Input.Roles.Contains(role.Name) ? "checked" : "")>
+                                <label class="form-check-label">@Encoder.HtmlEncode(role.Name ?? string.Empty)</label>
+                            </div>
+                        }
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label asp-for="@Model.Input.Password" class="col-sm-2 col-form-label">Password</label>
+                    <div class="col-sm-10">
+                        <input class="form-control" asp-for="@Model.Input.Password" placeholder="Password" />
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="offset-sm-2 col-sm-10">
+                        <button type="submit" class="btn btn-primary">Update Information</button>
+                    </div>
+                </div>
+
+                @if (Model.CurrentUser != null)
+                {
+                    <input type="hidden" value="@Encoder.Protect(Model.CurrentUser.Id, "fc.data.admin.users")" id="currentUser_Id" name="id" />
+                }
+            </form>
+        </div>
+    </div>
+</div>

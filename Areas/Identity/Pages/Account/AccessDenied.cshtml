@@ -1,0 +1,11 @@
+﻿@page
+@model AccessDeniedModel
+@{
+    ViewData["Title"] = "Access denied";
+}
+<div class="container-fluid accessDenied">
+    <h1 class="title">@Html.Encode(ViewData["Title"])!</h1>
+    <p class="message">You do not have access to this resource.</p>
+    <p class="submessage">Please login and try again...<br />If the issue continues, please use reach out to us using our <a href="">Contact Us</a> page</p>
+    <a asp-page="../Index" class="btn btn-success back-to-home">Back to Home</a>
+</div>

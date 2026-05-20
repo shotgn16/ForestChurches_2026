@@ -1,0 +1,74 @@
+﻿@page
+@model ForestChurches.Pages.Admin.ChangelogsModel
+@{
+    Layout = "_Admin";
+}
+<head>
+    <link rel="stylesheet" integrity="sha256-teON4y0UnyJj2Gol8NtuY0GOKW9cQvAE8a0Ve1Bi25Y=" href="~/plugins/fontawesome-free/css/all.min.css">
+</head>
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+
+        <!-- Timelime example  -->
+        <div class="row">
+          <div class="col-md-12">
+            <!-- The time line -->
+            <div class="timeline">
+              <!-- timeline time label -->
+              <div class="time-label">
+                <span class="bg-green">1st Febuary 2025</span>
+              </div>
+              <!-- /.timeline-label -->
+              <!-- timeline item -->
+              <div>
+                <i class="fas fa-envelope bg-blue"></i>
+                <div class="timeline-item">
+                  <h3 class="timeline-header"><a href="#">What's New?</a> (Release 1.0.0)</h3>
+
+                  <div class="timeline-body">
+                      - Implemented account registration/ login and management.<br />
+                      - Implemented Event management (Per account)<br />
+                      - Implemented Profile management (Each user can edit their profile as they wish...)<br />
+                      - Enforced HTTPS for all actions (Hidden & Visible)<br />
+                      - Implemented Admin management<br />
+                      - Implemented Admin: User, Event + Church management.<br />
+                      - Implemeneted Whitelisting (Only whitelisted accounts are allowed to register)<br />
+                      - Implemeneted Role based access across the site<br />
+                      - Seeded default users for Developer & Admin access<br />
+                      - Implemented real-time logging to <a href="https://datalust.co/seq">Seq</a><br />
+                      - Log-to-database enabled<br />
+                      - Global Email system for sending emails to either one or all users at once.<br />
+                      - Implemented ContactUs page with pre-filled emails for ease-of-use<br />
+                  </div>
+                </div>
+              </div>
+              <div>
+                <i class="fas fa-envelope bg-green"></i>
+                    <div class="timeline-item">
+                        <h3 class="timeline-header"><a href="#">What's New?</a> (Release 1.0.1)</h3>
+                        <div class="timeline-body">
+                            - Updated StatusMessage to close after 5 seconds<br />
+                            - Removed users ability to change their email<br />
+                            - Added Frequently Asked Questions<br />
+                            - Fixed broken Icons on Admin dashboard<br />
+                            - Fixed "Checkered Effect" on Church page<b />
+                            - Removed Seeded demonstration user from system<br />
+                            (27th Febuary 2025)
+                        </div>
+                    </div>
+               </div>
+
+              <!-- END timeline item -->
+              <div>
+                <i class="fas fa-clock bg-gray"></i>
+              </div>
+            </div>
+          </div>
+          <!-- /.col -->
+        </div>
+      </div>
+      <!-- /.timeline -->
+
+    </section>

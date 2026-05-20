@@ -1,0 +1,54 @@
+﻿@page
+@model RegisterModel
+@inject ForestChurches.Components.Security.Encoder Encoder
+@{
+}
+<head>
+    <link rel="stylesheet" integrity="sha256-v/gnDYMzqHfIBds03Wr6xIhKovocestN7wL1IPh9JAQ=" href="~/css2/Register.css" />
+</head>
+
+<div class="container">
+    <div class="Register form">
+        <header>
+            <img class="mb-4" src="~/img/logo.png" alt="" width="300" height="200">
+        </header>
+        <partial name="_StatusMessage" model="Model.StatusMessage" />
+        @if (Model.isTokenValid)
+        {
+            <form id="register-form" enctype="multipart/form-data" asp-route-returnUrl="@Encoder.HtmlEncode(Model.ReturnUrl ?? "/")" method="post">
+                <!-- AntiforgeryToken -->
+                @Html.AntiForgeryToken()
+
+                <!-- Email [Pre-filled] -->
+                <span asp-validation-for="Input.Email" class="text-danger"></span>
+                <input type="text" asp-for="Input.Email" placeholder="Enter your email" required readonly>
+
+                <!-- Password -->
+                <span asp-validation-for="Input.Password" class="text-danger"></span>
+                <input type="password" asp-for="Input.Password" placeholder="Create a password" required>
+
+                <!-- Password twice -->
+                <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+                <input type="password" asp-for="Input.ConfirmPassword" placeholder="Confirm your password" required>
+
+                <div class="form-container">
+                    <div class="half-width custom-file">
+                        <label id="fancy-upload-button" for="upload-btn">Choose Profile Picture (Click Me)</label>
+                        <input asp-for="Input.Image" id="upload-btn" type="file" class="custom-file-input" accept="image/png, image/jpeg" hidden>
+                    </div>
+                    <button id="registerSubmit" type="submit" class="half-width w-100 btn btn-lg btn-success">Sign Up</button>
+                </div>
+            </form>
+        }
+        else
+        {
+            <div class="alert alert-danger">
+                <p>This link is no longer valid!</p>
+            </div>
+        }
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -1,0 +1,61 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Welcome to Forest Churches";
+}
+<head>
+    <!-- Page specific CSS -->
+    <link rel="stylesheet" integrity="sha256-wd4oTW8y4Lp8tRmY3hv0zwWaq4priIdcTuxNqkOhWVg=" href="~/css2/Variables.css" />
+    <link rel="stylesheet" integrity="sha256-cK3tC3v7ctjhKlbQCutGr7zR4G4JfHZ19hT3NGVCZRg=" href="~/css2/Video.css" />
+</head>
+<style nonce="@HttpContextAccessor.HttpContext?.Items["CSP-Style-Nonce"]">
+    .footer-container {
+        position: static;
+    }
+
+    footer {
+        position: fixed;
+    }
+/*     .navbar-collapse, .navbar-nav {
+        background-color: #00734B;
+        border-radius: 40px 40px 40px 40px;
+    }
+
+    .navbar-brand {
+        background-color: #00734B;
+        border-radius: 40px 40px 40px 40px;
+    }
+
+    .navbar-collapse {
+        flex-grow: 0;
+    }
+
+    @@media (max-width: 990px) {
+        .navbar-collapse {
+            flex-grow: 1;
+            border-radius: 10px 10px 10px 10px;
+            padding-left: calc(0.5rem + 1.0vw);
+        }
+
+        .navbar {
+            flex-wrap: 
+        }
+
+    } */
+    </style>
+<body>
+    <main>
+        <section id='title'>
+            <div id='subtitle'>
+                <h1>Welcome to Forest Churches</h1>
+                <p id="Info">Connecting Communities in the Forest of Dean.</p>
+            </div>
+
+            <section id='background-video'>
+                <video autoplay loop muted>
+                    <source src="/img/header.mp4">
+                </video>
+            </section>
+        </section>
+    </main>
+</body>

@@ -1,0 +1,43 @@
+﻿@page
+@model RegisterConfirmationModel
+@{
+    ViewData["Title"] = "Register confirmation";
+}
+<head>
+    <link rel="stylesheet" integrity="sha256-iDu24JsQ/F3K/zr6Jz5Fiik0mDVpeDrlhRYmnGPVaKU=" href="~/css2/profile.css" asp-append-version="true" />
+    <link rel="stylesheet" integrity="sha256-EpEWU9eO/22A4h2K+m4PqmuwZfX72coUGoOLZLyncBA=" href="~/css2/Footer.css" asp-append-version="true" />
+</head>
+<style nonce="@HttpContextAccessor.HttpContext?.Items["CSP-Style-Nonce"]">
+    .h1, h1 {
+        text-align: center;
+    }
+
+    section {
+        padding-top: calc(10.0rem + 1.0vw);
+        text-align: center;
+        top: 50%;
+        bottom: 50%;
+        inline-size: fit-content;
+        vertical-align: central;
+    }
+</style>
+
+<section>
+    <img alt="Task completed" src="~/img/check.png" />
+    <h1>@ViewData["Title"]</h1>
+    @{
+        if (@Model.DisplayConfirmAccountLink)
+        {
+            <p>
+                This app does not currently have a real email sender registered, see <a href="https://aka.ms/aspaccountconf">these docs</a> for how to configure a real email sender.
+                Normally this would be emailed: <a id="confirm-link" href="@Model.EmailConfirmationUrl">Click here to confirm your account</a>
+            </p>
+        }
+        else
+        {
+            <p>
+                Please check your email to confirm your account.
+            </p>
+        }
+    }
+</section>

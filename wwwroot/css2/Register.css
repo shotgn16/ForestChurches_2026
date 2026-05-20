@@ -1,0 +1,147 @@
+﻿@import url("~/css2/Variables.css");
+
+html, body {
+    height: 100%;
+    margin: 0;
+}
+
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+img {
+    left: 0 auto;
+    right: 0 auto;
+}
+
+body {
+    min-height: 100vh;
+    width: 100%;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    max-width: 85vh;
+    width: 100%;
+    background: var(--primary-color);
+    border-radius: 7px;
+    box-shadow: 0 5px 10px rgba(0,0,0,0.0);
+}
+
+.form {
+    flex: 1;
+    overflow-y: auto;
+    padding: 2rem;
+}
+
+.container .registration {
+    display: none;
+}
+
+#check:checked ~ .registration {
+    display: block;
+}
+
+.footer {
+    position: sticky;
+    bottom: 0;
+    background: var(--primary-color);
+    padding: 1rem;
+    text-align: center;
+}
+
+#check:checked ~ .register {
+    display: none;
+}
+
+#check {
+    display: none;
+}
+
+.container .form {
+    padding: 2rem;
+}
+
+.form header {
+    font-size: 2rem;
+    font-weight: 500;
+    text-align: center;
+    margin-bottom: calc(0.5rem + 1.0vw);
+}
+
+.form input {
+    height: 60px;
+    width: 100%;
+    padding: 0 15px;
+    font-size: 17px;
+    margin-bottom: 1.3rem;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    outline: none;
+}
+
+label {
+    color: white;
+    max-width: fit-content;
+    max-height: fit-content;
+}
+
+.form input:focus {
+    box-shadow: 0 1px 0 rgba(0,0,0,0.2);
+}
+
+.form a {
+    font-size: 16px;
+    color: #009579;
+    text-decoration: none;
+}
+
+    .form a:hover {
+        text-decoration: underline;
+    }
+
+.form input.button {
+    color: #fff;
+    background: var(--active-color);
+    font-size: 1.2rem;
+    font-weight: 500;
+    letter-spacing: 1px;
+    margin-top: 1.7rem;
+    cursor: pointer;
+    transition: 0.4s;
+}
+
+.signup {
+    font-size: 17px;
+    text-align: left;
+    color: white
+}
+
+    .signup label {
+        color: #009579;
+        cursor: pointer;
+        font-weight: bold;
+        color: var(--active-color);
+    }
+
+        .signup label:hover {
+            text-decoration: underline;
+        }
+
+
+.half-width {
+    flex: 1; /* Allow to grow */
+    min-width: 300px; /* Minimum width before stacking */
+}
+
+/* Container for the form sections */
+.form-container {
+    display: flex; /* Use flexbox */
+    flex-wrap: wrap; /* Allow wrapping */
+    gap: 15px; /* Space between items */
+}

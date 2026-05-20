@@ -1,0 +1,112 @@
+﻿@import url("Variables.css");
+
+.no-event-found {
+    padding: calc(0.5rem + 1.0vw);
+    border: 2px dashed white;
+    text-align: center;
+}
+
+.add-event-btn {
+    width: 100%;
+}
+
+.add-event-btn > a {
+    color: white;
+    text-decoration: none;
+    width: 100%;
+}
+
+.add-event-btn, a {
+    margin-bottom: calc(0.5rem + 1.0vw);
+}
+
+.footer-note {
+    vertical-align: bottom;
+}
+
+/* Start of '/Events/Index' Cards styling */
+
+.card {
+    background-color: var(--primary-color);
+    width: calc(10.5rem + 10.0vw);
+    margin: calc(0.1rem + 1.0vw);
+}
+
+@media (max-width: 1190px)
+{
+    .events-container {
+        width: 100%;
+    }
+
+    .card {
+        margin: calc(0.1rem + 1.0vw);
+        width: calc(10.0rem + 10.0vw);
+    }
+}
+
+@media (max-width: 990px)
+{
+    .events-container {
+        width: 100%;
+    }
+
+    .row {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .card {
+        margin: calc(0.1rem + 1.0vw);
+        width: fit-content;
+    }
+}
+
+@media (max-width: 768px) {
+    .events-container {
+        width: 100%;
+    }
+    
+    .card {
+        margin: calc(0.1rem + 1.0vw);
+    }
+}
+
+@media (max-width: 700px) {
+    .card {
+        width: fit-content;
+        justify-content: center;
+    }
+}
+
+@media (min-width: 900px) {
+    .card {
+        width: max-content;
+        max-width: calc(5.0rem + 15vw);
+    }
+}
+
+.card-title {
+    color: white;
+    font-weight: bold;
+}
+
+.card-list {
+    padding-top: calc(0.8rem + 1.0vw);
+}
+
+li::marker {
+    color: white;
+}
+
+.card-image {
+    width: 100%;
+    object-fit: fill;
+}
+
+.row {
+    justify-content: center;
+    padding-bottom: calc(2.0rem + 1.0vw);
+}
+
+
+/* End of '/Events/Add/Index' styling */

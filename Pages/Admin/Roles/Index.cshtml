@@ -1,0 +1,73 @@
+﻿@page
+@model ForestChurches.Pages.Admin.Roles.IndexModel
+@inject ForestChurches.Components.Security.Encoder Encoder;
+@{
+    Layout = "_Admin";
+}
+<partial name="_StatusMessage" model="Model.StatusMessage" />
+
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title">Manage Roles</h3>
+    </div>
+    <div class="card-body">
+        <form method="post" asp-page-handler="CreateRole">
+            @Html.AntiForgeryToken()
+
+            <div class="input-group mb-3">
+                <input type="text" class="form-control" placeholder="Role Name" name="roleName" required>
+                <div class="input-group-append">
+                    <button class="btn btn-primary" type="submit">Create Role</button>
+                </div>
+            </div>
+        </form>
+        <div class="table-responsive">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Role Name</th>
+                    <th>Role ID</th>
+                    <th>Permissions</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.Roles != null)
+                {
+                    foreach (var role in Model.Roles)
+                    {
+                        <tr>
+                            <td>@Encoder.HtmlEncode(role.Name)</td>
+                            <td>@Encoder.HtmlEncode(role.Id)</td>
+                            <td>
+                                    @if (role.RolePermissions != null && role.RolePermissions.Count > 0)
+                                    {
+                                        foreach (var permission in role.RolePermissions)
+                                        {
+                                            <span>@Encoder.HtmlEncode(permission.PermissionName)</span>
+                                            <br />
+                                        }
+                                    }
+
+                                    else if (role.RolePermissions.Count == 0)
+                                    {
+                                        <span>No permissions</span>
+                                    }
+                            </td>
+
+                            <td>
+                                <form method="post" asp-page-handler="DeleteRole">
+                                    @Html.AntiForgeryToken()
+                                        <input type="hidden" name="value" value="@Encoder.Protect(role.Id, "fc.data.admin.role")" />
+                                    <button class="btn btn-danger" onclick="return confirmDelete('@role.Name')"  type="submit">Delete</button>
+                                </form>
+                                <a asp-page="Edit" asp-route-roleId="@Encoder.Protect(role.Id, "fc.data.admin.role")" class="btn btn-primary">Edit</a>
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,8 @@
+﻿@import url("Variables.css");
+
+.table > :not(caption) > * > * {
+    background-color: var(--primary-color);
+    border-bottom-width: 0;
+    color: white;
+}
+

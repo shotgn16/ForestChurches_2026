@@ -1,0 +1,47 @@
+﻿@page
+@model ForestChurches.Pages.Admin.ContactModel
+@inject ForestChurches.Components.Security.Encoder _urlEncoder;
+@{
+    Layout = "_Admin";
+}
+<head>
+    <link rel="stylesheet" integrity="sha256-teON4y0UnyJj2Gol8NtuY0GOKW9cQvAE8a0Ve1Bi25Y=" href="~/plugins/fontawesome-free/css/all.min.css">
+</head>
+<partial name="_StatusMessage" model="Model.StatusMessage" />
+
+<div class="card">
+    <div class="card-header">
+        <h3>Send Emails (info@forestchurches.co.uk)</h3>
+    </div>
+    <div class="card-body row">
+        <div class="col-12">
+            <form method="post">
+                <!-- AntiforgeryToken -->
+                @Html.AntiForgeryToken()
+
+                <div class="form-group">
+                    <label asp-for="Input.Name">Name</label>
+                    <input type="text" asp-for="Input.Name" class="form-control" />
+                </div>
+
+                <div class="form-group">
+                    <label for="selectedUser">Recipient</label>
+                    <select asp-for="Input.ClientEmail" class="form-control" id="selectedUser" required>
+                        <option value="">Please select a recipient...</option>
+                        @foreach (var user in Model.UserList)
+                        {
+                            <option value="@_urlEncoder.Protect(user.Value, "fc.data.admin.contact")">@_urlEncoder.HtmlEncode(user.Text)</option>
+                        }
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Input.Message">Message</label>
+                    <textarea asp-for="Input.Message" placeholder="We are contacting you to inform you...." class="form-control" rows="4"></textarea>
+                </div>
+
+                <button type="submit" class="w-100 btn btn-lg btn-primary">Send Message</button>
+            </form>
+        </div>
+    </div>
+</div>

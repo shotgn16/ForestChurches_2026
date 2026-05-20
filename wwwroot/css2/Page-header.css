@@ -1,0 +1,20 @@
+﻿/* Header content */
+.page-hero {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('../img/page-header.jpeg');
+    height: 50%;
+    background-position: center;
+    background-repeat: repeat-x;
+    background-size: cover;
+    position: relative;
+    object-fit: cover;
+}
+
+.hero-text {
+    position: relative;
+    text-align: center;
+    top: 50%;
+    left: 50%;
+    width: 80%;
+    transform: translate(-50%, -50%);
+    color: white;
+}

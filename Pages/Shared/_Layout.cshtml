@@ -1,0 +1,93 @@
+﻿<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Forest Of Dean Churches | 2024</title>
+
+    <script src="~/js/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="></script> <!-- Updated | 18.01.2025 -->
+    <link rel="stylesheet" integrity="sha256-MBffSnbbXwHCuZtgPYiwMQbfE7z+GOZ7fBPCNB06Z98=" href="~/css2/Bootstrap/bootstrap2.min.css" />
+    <link rel="stylesheet" href="~/js/fontawsome.min.css" integrity="sha256-dABdfBfUoC8vJUBOwGVdm8L9qlMWaHTIfXt+7GnZCIo=" referrerpolicy="no-referrer" />
+
+    <link rel="stylesheet" href="~/ForestChurches.styles.css" asp-append-version="true" />
+
+    <link href="~/css2/Global.css" rel="stylesheet" integrity="sha256-bSK80fekgkx7bZUeNbAjAg5OrJkJoX3amuKXVNvrNdI=" />
+    <link href="~/css2/Overrides.css" rel="stylesheet" integrity="sha256-dl6TnEyR6nRFkWOVLSjHw0bb06FV8M3Awk+0UQT/l6M=" />
+    <link href="~/css2/Nav.css" rel="stylesheet" integrity="sha256-vb1B4OCia/PLNCcR1sf3s0PwkjUtFri603v49QZBsLo=" />
+    <link href="~/css2/Declarations.css" rel="stylesheet" integrity="sha256-b2v7B06n4c09zv1eqxFMGfVBCtakRqbLuoyHdAurYlI=" />
+    <link href="~/css2/Media.css" rel="stylesheet" integrity="sha256-AyN3MeB84/dF3HAXSA6Xdl+xsRlikiYbdzsoKRCX9q8=" />
+    <link href="~/css2/Footer.css" rel="stylesheet" integrity="sha256-EpEWU9eO/22A4h2K+m4PqmuwZfX72coUGoOLZLyncBA=" />
+    <link href="~/css2/Page-header.css" rel="stylesheet" integrity="sha256-LLkAohflMVN28iW4WQ/sNrs4gytxsAGk+XDrW0zsHl0=" />
+    <link href="~/css2/Modal.css" rel="stylesheet" integrity="sha256-Eul3YCoHYyzIGOq/6Nr8Nr1CfkkAZZI20VH2gKKhXP4=" />
+    <link rel="icon" href="~/favicon.ico" type="image/x-icon" asp-append-version="true" />
+</head>
+<header>
+    <nav class="navbar navbar-expand-lg navbar-light bg-transparent sticky-top w-100" id="mainNavbar">
+        <div class="container-fluid">
+            <a class="navbar-brand" asp-page="/Index">Forest Churches</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" asp-area="" asp-page="/Index">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-area="" asp-page="/aboutus">About Us</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-area="" asp-page="/NearMe">What's Nearby</a>
+                    </li>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        @if (User.IsInRole(ForestChurches.Components.Roles.Roles.AuthorizedChurch.ToString()) || User.IsInRole(ForestChurches.Components.Roles.Roles.Admin.ToString()) || User.IsInRole(ForestChurches.Components.Roles.Roles.SuperAdmin.ToString()))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="" asp-page="/Events/Index">My Events</a>
+                            </li>
+                        }
+                    }
+                    <li>
+                        <a class="nav-link" asp-area="" asp-page="/Contact">Contact Us</a>
+                    </li>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        @if (User.IsInRole(ForestChurches.Components.Roles.Roles.Admin.ToString()) || User.IsInRole(ForestChurches.Components.Roles.Roles.SuperAdmin.ToString()))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="" asp-page="/Admin/Index">Admin</a>
+                            </li>
+                        }
+                    }
+                </ul>
+                <partial name="_LoginPartial" />
+            </div>
+        </div>
+    </nav>
+</header>
+
+<body>
+    <div id="wrapper">
+        <div class="container-fluid">
+            <main role="main" class="site-main p-0">
+                @RenderBody()
+            </main>
+        </div>
+        <footer class="border-top footer">
+            <div class="container-fluid footer-container">
+                <p class="footer-content">© 2025 - Forest Churches (<a asp-area="" asp-page="/Privacy">Privacy</a>) | <a asp-area="" asp-page="/Contact">Contact</a></p>
+            </div>
+        </footer>
+
+        <script src="~/js/site.js" asp-append-version="true" integrity="sha256-4q1jwFhaPaZgr8WAUSrux6hAuh0XDg9kPS3xIVq36I0="></script>
+        <script src="~/lib/jquery/dist/jquery.min.js" asp-append-version="true" integrity="sha256-zp0HUArZHsK1JMJwdk7EyaM+eDINjTdOxADt5Ij2JRs="></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js" integrity="sha256-rAnWnVnzChxAAi8NS+Ilr1mE7Sj+do+X/DqyilNsznM="></script>
+        <script src="~/js/layout.js" integrity="sha256-lnEMj6cgL3FB53XU5luiCqv+1LHaS4OhA/eFsK7/v84="></script>
+
+        @await RenderSectionAsync("Scripts", required: false)
+
+        @* MiniProfiler integration with CSP Nonce *@
+        <mini-profiler nonce="@Context.Items["CSP-Script-Nonce"]" />
+    </div>
+</body>
+
+<script src="~/js/layout.js" integrity="sha256-lnEMj6cgL3FB53XU5luiCqv+1LHaS4OhA/eFsK7/v84="></script>

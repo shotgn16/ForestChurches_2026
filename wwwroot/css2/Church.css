@@ -1,0 +1,185 @@
+﻿@import url("Variables.css");
+
+p {
+    color: white;
+}
+
+.main-content {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.content {
+    flex: 1;
+    min-width: 300px;
+}
+
+.events {
+    margin-left: 20px;
+    height: fit-content;
+    max-height: 100vh;/* Make it expand over the y-axis */
+    overflow-y: auto; /* Enable scrolling if content overflows */
+}
+
+.events-mobile {
+    display: none; /* Hide by default */
+}
+
+@media (max-width: 768px) {
+    .events {
+        display: none; /* Hide events section on smaller screens */
+    }
+
+    .events-mobile {
+        display: block; /* Show mobile events section on smaller screens */
+    }
+}
+
+.list-group-item {
+    background-color: var(--primary-color);
+    color: white;
+    border: var(--primary-color);
+}
+
+    .list-group-item.active {
+        background-color: transparent;
+        border-color: var(--primary-color);
+    }
+
+.list-group-item-description {
+    font-size: calc(0.575rem + 0.3vw);
+}
+
+/* To enable hover effects: Change this here! */
+.list-group-item:hover {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+img {
+    max-width: clamp(8rem, 8vw, 35rem);
+    border-radius: 10%;
+    max-height: 50%;
+}
+
+.tag {
+    width: fit-content;
+    background: var(--primary-color);
+    border-radius: 5px;
+    padding: 3px 5px;
+    margin: 1px 5px 1px 0;
+}
+
+.tag-holder {
+    display: flex;
+    justify-content: center;
+}
+
+/* Table overrides */
+
+.table > :not(caption) > * > * {
+    background-color: var(--primary-color);
+    border-bottom-width: 0;
+    color: white;
+    max-width: calc(0.1rem + 1.0vw);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+h5 {
+    color: white;
+}
+
+/* Card customisation */
+
+.card {
+    background-color: var(--primary-color);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    margin: calc(1.0rem + 1.0vw);
+    padding: calc(0.5rem + 1.0vw);
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Ensure cards stack on smaller screens */
+@media (max-width: 768px) {
+    .card {
+        flex: 1 1 100%;
+    }
+}
+
+
+#churchsuite {
+    font-size: calc(0.3rem + 1.0vw);
+}
+
+a {
+    font-size: calc(0.875rem + 0.3vw);
+}
+
+li {
+    color: white;
+    font-size: calc(0.875rem + 0.3vw);
+}
+
+
+/* Container sizing */
+
+.half-width {
+    flex: 1; /* Allow to grow */
+    min-width: 300px; /* Minimum width before stacking */
+    height: fit-content;
+    max-height: 100%;
+}
+
+/* Full-width elements should take the full width */
+.full-width {
+    flex: 1 1 100%; /* Full width */
+    height: fit-content;
+    max-height: 100vh;
+}
+
+/* Container for the form sections */
+.card-container {
+    display: flex; /* Use flexbox */
+    flex-wrap: wrap; /* Allow wrapping */
+    gap: 10px; /* Space between items */
+}
+
+/* New container for main content and events */
+.content-container {
+    display: flex;
+}
+
+.full-width-map {
+    width: 100%;
+    height: 500px; /* Adjust the height as needed */
+}
+
+.map-header {
+    padding-top: calc(0.5rem + 1.0vw);
+    padding-bottom: calc(0.25rem + 1.0vw);
+}
+
+.services-card {
+    margin-bottom: calc(5.0rem + 1.0vw);
+}
+
+/* Add this new class for the buttons container */
+.button-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px; /* Space between buttons */
+}
+
+/* Ensure buttons stack on smaller screens */
+@media (max-width: 768px) {
+    .button-container {
+        flex-direction: column; /* Stack buttons vertically */
+    }
+
+        .button-container .btn {
+            width: 100%; /* Make buttons full width */
+        }
+}

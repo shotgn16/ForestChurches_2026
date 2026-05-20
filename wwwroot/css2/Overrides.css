@@ -1,0 +1,43 @@
+﻿@import url('Variables.css');
+
+.container, .container-fluid, .container-lg, .container-md, .container-sm, .container-xl, .container-xxl {
+    --bs-gutter-x: 0;
+}
+
+.form-check-input:checked {
+    background-color: var(--primary-color);
+    border-color: var(--secondary-color);
+}
+
+.form-check-input {
+    background-color: rgba(0, 0, 0, 0);
+}
+
+.form-floating > .form-control, .form-floating > .form-control-plaintext, .form-floating > .form-select {
+    height: auto;
+}
+
+.form-floating > .form-control-plaintext:focus, .form-floating > .form-control-plaintext:not(:placeholder-shown), .form-floating > .form-control:focus, .form-floating {
+        margin-bottom: 1.5vw;
+}
+
+.alert-info {
+    --bs-alert-bg: #55C99F;
+    --bs-alert-border-color: #55C99F;
+}
+
+.alert-warning {
+    --bs-alert-bg: rgb(220, 53, 69);
+    --bs-alert-border-color: rgba(220, 53, 69);
+}
+
+.navbar-toggler-icon {
+    background-image: var(--burger-icon);
+}
+
+.bg-transparent {
+    background-color: rgba(0, 173, 106, 0.6) !important;
+}
+
+ul {
+}
