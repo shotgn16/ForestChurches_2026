@@ -1,7 +1,9 @@
-﻿<head>
+<!DOCTYPE html>
+<html lang="en">
+<head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Forest Of Dean Churches | 2024</title>
+    <title>Forest Of Dean Churches | 2026</title>
 
     <script src="~/js/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="></script> <!-- Updated | 18.01.2025 -->
     <link rel="stylesheet" integrity="sha256-MBffSnbbXwHCuZtgPYiwMQbfE7z+GOZ7fBPCNB06Z98=" href="~/css2/Bootstrap/bootstrap2.min.css" />
@@ -9,8 +11,8 @@
 
     <link rel="stylesheet" href="~/ForestChurches.styles.css" asp-append-version="true" />
 
-    <link href="~/css2/Global.css" rel="stylesheet" integrity="sha256-bSK80fekgkx7bZUeNbAjAg5OrJkJoX3amuKXVNvrNdI=" />
-    <link href="~/css2/Overrides.css" rel="stylesheet" integrity="sha256-dl6TnEyR6nRFkWOVLSjHw0bb06FV8M3Awk+0UQT/l6M=" />
+    <link href="~/css2/Global.css" rel="stylesheet" integrity="sha256-vqrH/XiSlhRZRdQXTGLt/hJcOOlG2+KaleuqiGopZOc=" />
+    <link href="~/css2/Overrides.css" rel="stylesheet" integrity="sha256-2hH1HFfhSSdKzFisdHWORsiirPlr3M5g0/J8YR9+ClU=" />
     <link href="~/css2/Nav.css" rel="stylesheet" integrity="sha256-vb1B4OCia/PLNCcR1sf3s0PwkjUtFri603v49QZBsLo=" />
     <link href="~/css2/Declarations.css" rel="stylesheet" integrity="sha256-b2v7B06n4c09zv1eqxFMGfVBCtakRqbLuoyHdAurYlI=" />
     <link href="~/css2/Media.css" rel="stylesheet" integrity="sha256-AyN3MeB84/dF3HAXSA6Xdl+xsRlikiYbdzsoKRCX9q8=" />
@@ -18,54 +20,80 @@
     <link href="~/css2/Page-header.css" rel="stylesheet" integrity="sha256-LLkAohflMVN28iW4WQ/sNrs4gytxsAGk+XDrW0zsHl0=" />
     <link href="~/css2/Modal.css" rel="stylesheet" integrity="sha256-Eul3YCoHYyzIGOq/6Nr8Nr1CfkkAZZI20VH2gKKhXP4=" />
     <link rel="icon" href="~/favicon.ico" type="image/x-icon" asp-append-version="true" />
-</head>
-<header>
-    <nav class="navbar navbar-expand-lg navbar-light bg-transparent sticky-top w-100" id="mainNavbar">
-        <div class="container-fluid">
-            <a class="navbar-brand" asp-page="/Index">Forest Churches</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" asp-area="" asp-page="/Index">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" asp-area="" asp-page="/aboutus">About Us</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" asp-area="" asp-page="/NearMe">What's Nearby</a>
-                    </li>
-                    @if (User.Identity.IsAuthenticated)
-                    {
-                        @if (User.IsInRole(ForestChurches.Components.Roles.Roles.AuthorizedChurch.ToString()) || User.IsInRole(ForestChurches.Components.Roles.Roles.Admin.ToString()) || User.IsInRole(ForestChurches.Components.Roles.Roles.SuperAdmin.ToString()))
-                        {
-                            <li class="nav-item">
-                                <a class="nav-link" asp-area="" asp-page="/Events/Index">My Events</a>
-                            </li>
-                        }
-                    }
-                    <li>
-                        <a class="nav-link" asp-area="" asp-page="/Contact">Contact Us</a>
-                    </li>
-                    @if (User.Identity.IsAuthenticated)
-                    {
-                        @if (User.IsInRole(ForestChurches.Components.Roles.Roles.Admin.ToString()) || User.IsInRole(ForestChurches.Components.Roles.Roles.SuperAdmin.ToString()))
-                        {
-                            <li class="nav-item">
-                                <a class="nav-link" asp-area="" asp-page="/Admin/Index">Admin</a>
-                            </li>
-                        }
-                    }
-                </ul>
-                <partial name="_LoginPartial" />
-            </div>
-        </div>
-    </nav>
-</header>
 
+    <style nonce="@Context.Items["CSP-Style-Nonce"]">
+        /* Prevent any element from pushing the layout wider than the screen on
+           mobile, which exposed the green page background as side "borders". */
+        html, body {
+            width: 100%;
+            max-width: 100%;
+            overflow-x: hidden;
+        }
+
+        /* Give the collapsed (mobile) navigation menu a solid background that
+           matches the navigation bar instead of showing through to the page. */
+        @@media (max-width: 991.98px) {
+            #mainNavbar:has(#navbarNav.show),
+            #mainNavbar:has(#navbarNav.collapsing) {
+                background-color: rgba(0, 173, 106, 0.97) !important;
+            }
+
+            #navbarNav.show,
+            #navbarNav.collapsing {
+                background-color: rgba(0, 173, 106, 0.97);
+                padding: 0.25rem 0.75rem 0.75rem;
+                border-radius: 0 0 12px 12px;
+            }
+        }
+    </style>
+</head>
 <body>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-light bg-transparent sticky-top w-100" id="mainNavbar">
+            <div class="container-fluid">
+                <a class="navbar-brand" asp-page="/Index">Forest Churches</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-page="/Index">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-page="/aboutus">About Us</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-page="/NearMe">What's Nearby</a>
+                        </li>
+                        @if (User?.Identity?.IsAuthenticated == true)
+                        {
+                            @if (User?.IsInRole(ForestChurches.Components.Roles.Roles.AuthorizedChurch.ToString()) == true || User?.IsInRole(ForestChurches.Components.Roles.Roles.Admin.ToString()) == true || User?.IsInRole(ForestChurches.Components.Roles.Roles.SuperAdmin.ToString()) == true)
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-area="" asp-page="/Events/Index">My Events</a>
+                                </li>
+                            }
+                        }
+                        <li>
+                            <a class="nav-link" asp-area="" asp-page="/Contact">Contact Us</a>
+                        </li>
+                        @if (User?.Identity?.IsAuthenticated == true)
+                        {
+                            @if (User?.IsInRole(ForestChurches.Components.Roles.Roles.Admin.ToString()) == true || User?.IsInRole(ForestChurches.Components.Roles.Roles.SuperAdmin.ToString()) == true)
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-area="" asp-page="/Admin/Index">Admin</a>
+                                </li>
+                            }
+                        }
+                    </ul>
+                    <partial name="_LoginPartial" />
+                </div>
+            </div>
+        </nav>
+    </header>
+
     <div id="wrapper">
         <div class="container-fluid">
             <main role="main" class="site-main p-0">
@@ -74,7 +102,7 @@
         </div>
         <footer class="border-top footer">
             <div class="container-fluid footer-container">
-                <p class="footer-content">© 2025 - Forest Churches (<a asp-area="" asp-page="/Privacy">Privacy</a>) | <a asp-area="" asp-page="/Contact">Contact</a></p>
+                <p class="footer-content">© 2026 - Forest Churches (<a asp-area="" asp-page="/Privacy">Privacy</a>) | <a asp-area="" asp-page="/Contact">Contact</a></p>
             </div>
         </footer>
 
@@ -89,5 +117,4 @@
         <mini-profiler nonce="@Context.Items["CSP-Script-Nonce"]" />
     </div>
 </body>
-
-<script src="~/js/layout.js" integrity="sha256-lnEMj6cgL3FB53XU5luiCqv+1LHaS4OhA/eFsK7/v84="></script>
+</html>
