@@ -1,0 +1,69 @@
+@model ForestChurches.Models.ChurchSearchForm
+@{
+    var distances = new[] { 2.0, 5.0, 10.0, 20.0, 50.0 };
+    var selectedDistance = Model.MaxDistanceMiles ?? 5.0;
+    if (!distances.Contains(selectedDistance))
+    {
+        distances = distances.Append(selectedDistance).OrderBy(d => d).ToArray();
+    }
+    var activeFilterCount = Model.Filters.Count(f => f.Value) + (string.IsNullOrEmpty(Model.SelectedDenomination) ? 0 : 1);
+    var openFilters = Model.FiltersOpen || activeFilterCount > 0;
+}
+
+<form class="fc-search @(Model.InHero ? "" : "fc-search--flat")" method="post" asp-page="/NearMe" asp-page-handler="ChurchForm" role="search" aria-label="@Localizer["FC_SEARCH_LABEL"]">
+    <div class="fc-search__row">
+        <div class="fc-field fc-field--wide">
+            <label class="fc-label" for="fc-postcode">@Localizer["FC_SEARCH_POSTCODE"]</label>
+            <input class="fc-input" id="fc-postcode" name="Postcode" type="text" value="@Model.Postcode" autocomplete="postal-code" required placeholder="@Localizer["NEARME_POSTCODE_PLACEHOLDER"]" />
+        </div>
+        <div class="fc-field">
+            <label class="fc-label" for="fc-distance">@Localizer["FC_SEARCH_WITHIN"]</label>
+            <select class="fc-select" id="fc-distance" name="MaxDistanceMiles">
+                @foreach (var d in distances)
+                {
+                    <option value="@d.ToString(System.Globalization.CultureInfo.InvariantCulture)" selected="@(d == selectedDistance)">@d.ToString("0.#") @Localizer["FC_MILES"]</option>
+                }
+            </select>
+        </div>
+        <button type="submit" class="fc-btn fc-btn--primary">@Localizer["FC_SEARCH_BUTTON"]</button>
+    </div>
+
+    <div class="fc-row fc-row--between">
+        <button type="button" class="fc-link-btn" data-fc-geo="/NearMe?handler=GetAddress" data-fc-geo-target="fc-postcode" data-busy="@Localizer["FC_FINDING_YOU"]">
+            <svg class="fc-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"></circle><path d="M12 2v3M12 19v3M2 12h3M19 12h3"></path></svg>
+            @Localizer["NEARME_USE_MY_LOCATION_BUTTON"]
+        </button>
+    </div>
+
+    <details open="@openFilters">
+        <summary>
+            <span class="fc-when-closed">@Localizer["FC_MORE_FILTERS"]@(activeFilterCount > 0 ? $" ({activeFilterCount})" : "")</span>
+            <span class="fc-when-open">@Localizer["FC_HIDE_FILTERS"]</span>
+        </summary>
+        <div class="fc-search__more">
+            <fieldset>
+                <legend class="fc-label">@Localizer["FC_MUST_HAVE"] <span class="fc-opt">— @Localizer["FC_OPTIONAL"]</span></legend>
+                <div class="fc-chips">
+                    @foreach (var (name, labelKey) in ForestChurches.Models.ChurchSearchForm.Facilities)
+                    {
+                        var isOn = Model.Filters.TryGetValue(name, out var on) && on;
+                        <label class="fc-chip">
+                            <input type="checkbox" name="@name" value="true" checked="@isOn" />
+                            <span>@Localizer[labelKey]</span>
+                        </label>
+                    }
+                </div>
+            </fieldset>
+            <div class="fc-row">
+                <label class="fc-label" for="fc-denomination">@Localizer["NEARME_DENOMINATION_LABEL"]</label>
+                <select class="fc-select" id="fc-denomination" name="SelectedDenomination" style="width: auto; min-width: 220px">
+                    <option value="">@Localizer["NEARME_ANY_DENOMINATION_OPTION"]</option>
+                    @foreach (var d in Model.Denominations)
+                    {
+                        <option value="@d" selected="@(d == Model.SelectedDenomination)">@d</option>
+                    }
+                </select>
+            </div>
+        </div>
+    </details>
+</form>

@@ -1,6 +1,5 @@
 @using ForestChurches.Components.Bulletins
 @inject IBulletinService BulletinService
-@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
 
 @{
     // Protect the site from startup/DB schema issues: if querying bulletins fails, fail silently.
@@ -16,22 +15,18 @@
         bulletin = null;
     }
 
-    if (bulletin == null)
+    // Don't show the banner on the bulletin page itself.
+    var onBulletinPage = string.Equals(ViewContext.RouteData.Values["page"]?.ToString(), "/Bulletin/Index", StringComparison.OrdinalIgnoreCase);
+
+    if (bulletin == null || onBulletinPage)
     {
         return;
     }
-
-    // subtle notification: show a small banner under navbar for non-admin pages
-    var user = HttpContextAccessor.HttpContext.User;
 }
 
-<div class="container-fluid bulletin-notify" style="background:linear-gradient(90deg,#E8F5E9,transparent);border-bottom:1px solid #E0E5DF;padding:8px 16px;z-index:9999;position:sticky;top:56px;">
-    <div class="d-flex justify-content-between align-items-center">
-        <div style="font-size:14px;color:#1B5E20;">
-            <strong>New bulletin:</strong> @bulletin.Title — @bulletin.BulletinDate.ToString("d MMM yyyy")
-        </div>
-        <div>
-            <a class="btn btn-sm btn-outline-success" asp-page="/Bulletin/Index">View</a>
-        </div>
+<aside class="fc-banner" aria-label="@Localizer["FC_BULLETIN_BANNER_LABEL"]">
+    <div class="fc-container fc-banner__inner">
+        <span><strong>@Localizer["FC_BULLETIN_NEW"]</strong> @bulletin.Title — @bulletin.BulletinDate.ToString("d MMM yyyy")</span>
+        <a asp-area="" asp-page="/Bulletin/Index">@Localizer["FC_BULLETIN_READ"]</a>
     </div>
-</div>
+</aside>

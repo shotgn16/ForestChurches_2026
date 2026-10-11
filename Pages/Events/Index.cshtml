@@ -1,109 +1,63 @@
-﻿@page
+@page
 @model ForestChurches.Pages.Events.IndexModel
+@using ForestChurches.Components.Ui
 @inject ForestChurches.Components.Security.Encoder Encoder;
-@inject ForestChurches.Components.Storage.IBlobUrlService BlobUrlService;
 @{
-    var defaultImage = BlobUrlService.GetReadSasUrl("IMGUR-1.png", TimeSpan.FromHours(24));
+    // Church admin pages share the account shell (top bar + sidebar).
+    Layout = "/Areas/Identity/Pages/Account/Manage/_Layout.cshtml";
+    ViewData["ActivePage"] = "Events";
+    ViewData["Title"] = Localizer["EVENTS_PAGE_TITLE"];
+
+    var today = DateOnly.FromDateTime(DateTime.Today);
+    var all = Model.Events ?? new List<ForestChurches.Models.EventsModel>();
+    var upcoming = all.Where(e => e.Date >= today).OrderBy(e => e.Date).ThenBy(e => e.StartTime).ToList();
+    var past = all.Where(e => e.Date < today).OrderByDescending(e => e.Date).ToList();
+    var isError = Model.StatusMessage?.StartsWith("Error", StringComparison.OrdinalIgnoreCase) == true;
 }
-<head>
-    <link href="~/css2/Page-header.css"  rel="stylesheet" />
-    <link rel="stylesheet" integrity="sha256-TCiepLIKrpXEnfmIoCPmhTD6lKP9ONdWUvCQO0rCL7s=" href="~/css2/Events.css" asp-append-version="true" />
 
-    <style nonce="@HttpContextAccessor.HttpContext?.Items["CSP-Style-Nonce"]">
-        /* Prevent the ChurchSuite logo from inheriting any global img rules */
-        .churchsuite-img {
-            all: unset;
-            display: inline-block;
-            height: 20px;
-            width: auto;
-        }
-    </style>
-</head>
-
-<!-- Beginning of Page header -->
-<div class="container-fluid page-hero">
-    <div class="hero-text">
+<div class="fc-page-head">
+    <div>
         <h1>@Localizer["EVENTS_PAGE_TITLE"]</h1>
-        <p>@Localizer["EVENTS_PAGE_SUBTITLE"]</p>
-        <button class="btn btn-success">@Localizer["EVENTS_LEARN_MORE_BUTTON"]</button>
+        <p>@Localizer["FC_EVENTS_LEAD"]</p>
+    </div>
+    <div class="fc-btn-row">
+        <form method="post" asp-page-handler="SyncEvents">
+            <button type="submit" class="fc-btn fc-btn--quiet">@Localizer["FC_SYNC_FROM_CHURCHSUITE"]</button>
+        </form>
+        <a asp-page="./Add/Index" class="fc-btn fc-btn--primary">+ @Localizer["EVENTS_ADD_EVENT_BUTTON"]</a>
     </div>
 </div>
 
-<!-- Content goes here -->
-<div class="container events-container">
-
-    @if (!string.IsNullOrEmpty(Model.StatusMessage))
-    {
-        <partial name="_StatusMessage" model="@Model.StatusMessage" />
-    }
-
-    <!-- Conditional statement starts here -->
-    @if (Model.Events == null || Model.Events.Count < 1)
-    {
-        <p class="no-event-found">
-            @Localizer["EVENTS_NO_EVENTS_TEXT"]
-            <br>@Localizer["EVENTS_CONTACT_TEXT"] <a asp-page="/contact">@Localizer["EVENTS_CONTACT_LINK"]</a>)
-        </p>
-
-        <a asp-page="./Add/Index" class="btn btn-success add-event-btn">@Localizer["EVENTS_ADD_EVENT_BUTTON"]</a>
-
-        <form method="post" asp-page-handler="SyncEvents" class="d-inline">
-            @Html.AntiForgeryToken()
-            <button type="submit" class="w-100 btn btn-lg churchsuite-logo" style="background-color: #1F2553 !important; border: 1px solid #1F2553 !important; padding: 10px !important; display: block !important; height: auto !important;">
-                <div style="display: flex; justify-content: center; align-items: center; width: 100%; gap: 0.5rem;">
-                    <span style="color: white; font-weight: 500;">@Localizer["EVENTS_SYNC_EVENTS_TEXT"]</span>
-                    <img src="~/img/cs_white.png" alt="ChurchSuite Logo" class="churchsuite-img" width="92" height="20" />
-                </div>
-            </button>
-        </form>
-    }
-
-
-    {
-        <div class="row container-fluid">
-            @foreach (var item in Model.Events)
-            {
-                <div class="card">
-                    <img image-sas="@(!string.IsNullOrEmpty(item.ImageBlobName) ? item.ImageBlobName : string.Empty)" src="@defaultImage" expires-minutes="1440" class="card-img-top card-image" alt="@item.Name picture">
-                    <div class="card-body">
-                        <h5 class="card-title">@Encoder.HtmlEncode(Encoder.HtmlDecode(item.Name))</h5>
-                        <p class="card-text">@Html.Raw(Encoder.HtmlDecode(item.Description))</p>
-                        <ul class="card-list">
-                            <li><p><strong>@Localizer["EVENTS_CARD_LOCATION"]:</strong> @Encoder.HtmlEncode(Encoder.HtmlDecode(item.Address))</p></li>
-                            <li><p><strong>@Localizer["EVENTS_CARD_DATE"]:</strong> @Encoder.HtmlEncode(item.Date)</p></li>
-                            <li><p><strong>@Localizer["EVENTS_CARD_TIME"]:</strong> @Encoder.HtmlEncode(item.StartTime) - @Encoder.HtmlEncode(item.EndTime)</p></li>
-                            <li><p><strong>@Localizer["EVENTS_CARD_REPEATS"]:</strong> @Encoder.HtmlEncode(item.Repeats)</p></li>
-                        </ul>
-                        <!-- Buttons go here -->
-                        <a asp-page="/Events/Edit/Index" asp-route-id="@Encoder.Protect(item.ID, "fc.data.user.events")" class="w-100 btn btn-primary">@Localizer["EVENTS_EDIT_BUTTON"]</a>
-
-                        <form method="post" class="contentButtons" asp-page-handler="DeleteEvent">
-                            <!-- AntiforgeryToken -->
-                            @Html.AntiForgeryToken()
-                            <input type="hidden" name="eventId" value="@Encoder.Protect(item.ID, "fc.data.user.events")" />
-                            <button class="w-100 btn btn-danger" type="submit" onclick="return confirmAction('@Localizer["EVENTS_DELETE_CONFIRMATION"]', '@Encoder.HtmlEncode(item.Name)')">@Localizer["EVENTS_DELETE_BUTTON"]</button>
-                        </form>
-                    </div>
-                </div>
-            }
-        </div>
-
-        <a asp-page="./Add/Index" class="btn btn-success add-event-btn">@Localizer["EVENTS_ADD_EVENT_BUTTON"]</a>
-
-        <form method="post" asp-page-handler="SyncEvents" class="d-inline">
-            @Html.AntiForgeryToken()
-            <button type="submit" class="w-100 btn btn-lg churchsuite-logo" style="background-color: #1F2553 !important; border: 1px solid #1F2553 !important; padding: 10px !important; display: block !important; height: auto !important;">
-                <div style="display: flex; justify-content: center; align-items: center; width: 100%; gap: 0.5rem;">
-                    <span style="color: white; font-weight: 500;">@Localizer["EVENTS_SYNC_EVENTS_TEXT"]</span>
-                    <img src="~/img/cs_white.png" alt="ChurchSuite Logo" class="churchsuite-img" width="92" height="20" />
-                </div>
-            </button>
-        </form>
-    }
-    <!-- Conditional statement ends here -->
-    <p class="footer-note"><strong>@Localizer["EVENTS_FOOTER_NOTE_TITLE"]:</strong> @Localizer["EVENTS_FOOTER_NOTE_TEXT"]</p>
-</div>
-
-@section scripts {
-    <script src="~/js/confirmAction.js" asp-integrity="true"></script>
+@if (!string.IsNullOrEmpty(Model.StatusMessage))
+{
+    <div class="fc-alert @(isError ? "fc-alert--danger" : "fc-alert--ok")" role="status">@Model.StatusMessage</div>
 }
+
+<section class="fc-card fc-card--flush" aria-labelledby="upcoming-h">
+    <div class="fc-row fc-row--between" style="padding: 20px 22px 8px">
+        <h2 id="upcoming-h" class="fc-h3">@Localizer["FC_UPCOMING_EVENTS"]</h2>
+        <span class="fc-small fc-muted">@Localizer["FC_EVENT_COUNT", upcoming.Count]</span>
+    </div>
+
+    @if (upcoming.Count == 0)
+    {
+        <div class="fc-empty" style="padding-top: 24px">
+            <p class="fc-muted">@Localizer["EVENTS_NO_EVENTS_TEXT"]</p>
+            <p class="fc-small fc-muted" style="margin-top: 6px">@Localizer["EVENTS_CONTACT_TEXT"] <a asp-page="/Contact">@Localizer["EVENTS_CONTACT_LINK"]</a></p>
+        </div>
+    }
+    else
+    {
+        <partial name="_AdminEventRows" model="upcoming" />
+    }
+</section>
+
+@if (past.Count > 0)
+{
+    <details class="fc-card fc-card--flush">
+        <summary style="padding: 18px 22px; cursor: pointer; font-weight: 700">@Localizer["FC_PAST_EVENTS", past.Count]</summary>
+        <partial name="_AdminEventRows" model="past" />
+    </details>
+}
+
+<p class="fc-small fc-muted"><strong>@Localizer["EVENTS_FOOTER_NOTE_TITLE"]:</strong> @Localizer["EVENTS_FOOTER_NOTE_TEXT"]</p>

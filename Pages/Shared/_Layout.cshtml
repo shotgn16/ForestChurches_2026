@@ -1,160 +1,116 @@
 @using Microsoft.Extensions.Localization
+@{
+    var currentPage = ViewContext.RouteData.Values["page"]?.ToString() ?? string.Empty;
+    string Current(params string[] pages) =>
+        pages.Any(p => string.Equals(p, currentPage, StringComparison.OrdinalIgnoreCase)) ? "page" : null;
 
+    var isAdminShell = string.Equals(ViewData["FcShell"] as string, "admin", StringComparison.Ordinal);
+    var isChurchUser = User?.Identity?.IsAuthenticated == true &&
+        (User.IsInRole(ForestChurches.Components.Roles.Roles.AuthorizedChurch.ToString()) || User.IsInRole(ForestChurches.Components.Roles.Roles.Admin.ToString()) || User.IsInRole(ForestChurches.Components.Roles.Roles.SuperAdmin.ToString()));
+    var isSiteAdmin = User?.Identity?.IsAuthenticated == true &&
+        (User.IsInRole(ForestChurches.Components.Roles.Roles.Admin.ToString()) || User.IsInRole(ForestChurches.Components.Roles.Roles.SuperAdmin.ToString()));
+    var pageTitle = ViewData["Title"]?.ToString();
+    var brand = Localizer["NAV_BRAND"].Value;
+}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="@System.Globalization.CultureInfo.CurrentUICulture.TwoLetterISOLanguageName">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Forest Of Dean Churches | 2026</title>
-
-    <script src="~/js/jquery-3.7.1.min.js"></script> <!-- Updated | 18.01.2025 -->
-    <link rel="stylesheet" href="~/css2/Bootstrap/bootstrap2.min.css" />
-    <link rel="stylesheet" href="~/js/fontawsome.min.css" referrerpolicy="no-referrer" />
-
-    <link rel="stylesheet" href="~/ForestChurches.styles.css" asp-append-version="true" />
-
-    <link href="~/css2/Overrides.css" rel="stylesheet" />
-    <link href="~/css2/Nav.css" rel="stylesheet" />
-    <link href="~/css2/Declarations.css" rel="stylesheet" />
-    <link href="~/css2/Media.css" rel="stylesheet" />
-    <link href="~/css2/Footer.css" rel="stylesheet" />
-    <link href="~/css2/Page-header.css" rel="stylesheet" />
-    <link href="~/css2/Modal.css" rel="stylesheet" />
+    <title>@(string.IsNullOrWhiteSpace(pageTitle) ? brand : $"{pageTitle} – {brand}")</title>
+    <meta name="theme-color" content="#1F3D2B" />
     <link rel="icon" href="~/favicon.ico" type="image/x-icon" asp-append-version="true" />
 
-@*     <style nonce="@Context.Items["CSP-Style-Nonce"]">
-        /* Fix: Prevent horizontal overflow */
-        html, body {
-        width: 100%;
-        max-width: 100%;
-        overflow-x: hidden;
-        margin: 0;
-        padding: 0;
-        }
-
-        /* Ensure container-fluid doesn't cause overflow */
-        .container-fluid {
-        padding-left: 0;
-        padding-right: 0;
-        overflow-x: hidden;
-        }
-
-        /* Mobile navigation background fix */
-        @@media (max-width: 991.98px) {
-        #mainNavbar:has(#navbarNav.show),
-        #mainNavbar:has(#navbarNav.collapsing) {
-        background-color: rgba(0, 173, 106, 0.97) !important;
-        }
-
-        #navbarNav.show,
-        #navbarNav.collapsing {
-        background-color: rgba(0, 173, 106, 0.97);
-        padding: 0.25rem 0.75rem 0.75rem;
-        border-radius: 0 0 12px 12px;
-        width: 100%;
-        }
-        }
-
-        /* Add this to your main CSS file or inside your _Layout.cshtml <style> block */
-        html, body {
-        overflow-x: hidden;
-        width: 100%;
-        margin: 0;
-        padding: 0;
-        position: relative;
-        }
-    </style> *@
+    <script src="~/js/jquery-3.7.1.min.js"></script>
+    @* Bootstrap is kept for the modals/dropdowns still used by a few pages; forest.css restyles them. *@
+    <link rel="stylesheet" href="~/css2/Bootstrap/bootstrap2.min.css" />
+    <link rel="stylesheet" href="~/js/fontawsome.min.css" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="~/ForestChurches.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/forest.css" asp-append-version="true" />
+    @await RenderSectionAsync("Head", required: false)
+    @await RenderSectionAsync("Styles", required: false)
 </head>
-<body>
-    <header>
-        <nav class="navbar navbar-expand-lg navbar-light bg-transparent sticky-top w-100" id="mainNavbar">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-page="/Index">@Localizer["NAV_BRAND"]</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="#navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav ms-auto">
-                        <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-page="/Index">@Localizer["NAV_HOME"]</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-page="/aboutus">@Localizer["NAV_ABOUT"]</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-page="/NearMe">@Localizer["NAV_WHATS_NEARBY"]</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-page="/Bulletin/Index">Bulletin</a>
-                        </li>
-                        @if (User?.Identity?.IsAuthenticated == true)
+<body class="fc-body @(isAdminShell ? "fc-body--admin" : "")">
+    <a class="fc-skip" href="#main">@Localizer["FC_SKIP_TO_CONTENT"]</a>
+
+    @if (isAdminShell)
+    {
+        <header class="fc-adminbar">
+            <div class="fc-container fc-adminbar__inner">
+                <a class="fc-adminbar__brand" asp-area="" asp-page="/Index">
+                    <span>@brand</span>
+                    <span class="fc-adminbar__tag">@Localizer["FC_CHURCH_ADMIN"]</span>
+                </a>
+                <div class="fc-adminbar__links">
+                    @RenderSection("AdminBarLinks", required: false)
+                    <span class="fc-adminbar__user">@User?.Identity?.Name</span>
+                    <form asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/Index", new { area = "" })" method="post">
+                        @Html.AntiForgeryToken()
+                        <button type="submit">@Localizer["NAV_LOGOUT"]</button>
+                    </form>
+                </div>
+            </div>
+        </header>
+    }
+    else
+    {
+        <header class="fc-header">
+            <div class="fc-container fc-header__inner">
+                <a class="fc-brand" asp-area="" asp-page="/Index">
+                    <img src="~/img/logo.png" alt="" width="52" height="32" />
+                    <span>@brand</span>
+                </a>
+                <button class="fc-nav-toggle" type="button" data-fc-nav-toggle aria-controls="fc-nav" aria-expanded="false">@Localizer["FC_MENU"]</button>
+                <nav id="fc-nav" class="fc-nav" aria-label="@Localizer["FC_MAIN_NAV"]">
+                    <ul class="fc-nav__list">
+                        <li><a class="fc-nav__link" asp-area="" asp-page="/Index" aria-current="@Current("/Index", "/NearMe")">@Localizer["FC_NAV_FIND"]</a></li>
+                        <li><a class="fc-nav__link" asp-area="" asp-page="/Bulletin/Index" aria-current="@Current("/Bulletin/Index")">@Localizer["FC_NAV_BULLETIN"]</a></li>
+                        <li><a class="fc-nav__link" asp-area="" asp-page="/Aboutus" aria-current="@Current("/Aboutus")">@Localizer["NAV_ABOUT"]</a></li>
+                        <li><a class="fc-nav__link" asp-area="" asp-page="/Contact" aria-current="@Current("/Contact")">@Localizer["NAV_CONTACT"]</a></li>
+                        @if (isChurchUser)
                         {
-                            @if (User?.IsInRole(ForestChurches.Components.Roles.Roles.AuthorizedChurch.ToString()) == true || User?.IsInRole(ForestChurches.Components.Roles.Roles.Admin.ToString()) == true || User?.IsInRole(ForestChurches.Components.Roles.Roles.SuperAdmin.ToString()) == true)
-                            {
-                                <li class="nav-item">
-                                    <a class="nav-link" asp-area="" asp-page="/Events/Index">@Localizer["NAV_MY_EVENTS"]</a>
-                                </li>
-                            }
+                            <li><a class="fc-nav__link" asp-area="" asp-page="/Events/Index" aria-current="@Current("/Events/Index")">@Localizer["NAV_MY_EVENTS"]</a></li>
                         }
-                        <li>
-                            <a class="nav-link" asp-area="" asp-page="/Contact">@Localizer["NAV_CONTACT"]</a>
-                        </li>
-                        @if (User?.Identity?.IsAuthenticated == true)
+                        @if (isSiteAdmin)
                         {
-                            @if (User?.IsInRole(ForestChurches.Components.Roles.Roles.Admin.ToString()) == true || User?.IsInRole(ForestChurches.Components.Roles.Roles.SuperAdmin.ToString()) == true)
-                            {
-                                <li class="nav-item">
-                                    <a class="nav-link" asp-area="" asp-page="/Admin/Index">@Localizer["NAV_ADMIN"]</a>
-                                </li>
-                            }
+                            <li><a class="fc-nav__link" asp-area="" asp-page="/Admin/Index">@Localizer["NAV_ADMIN"]</a></li>
                         }
                     </ul>
-                    <div class="d-flex align-items-center gap-2">
+                    <div class="fc-nav__actions">
                         <partial name="_LanguageSwitcher" />
                         <partial name="_LoginPartial" />
                     </div>
-                </div>
+                </nav>
             </div>
-        </nav>
-    </header>
+        </header>
+        @await Html.PartialAsync("_BulletinNotify")
+    }
 
-    <div id="wrapper">
-        <div class="container-fluid">
-            <main role="main" class="site-main p-0">
-                @RenderBody()
-            </main>
-        </div>
-                <footer class="border-top footer">
-            <div class="container-fluid footer-container">
-                <a asp-area="" asp-page="/Contact">@Localizer["FOOTER_CONTACT_LINK"]</a>
+    <main id="main" role="main">
+        @RenderBody()
+    </main>
+
+    @if (!isAdminShell)
+    {
+        <footer class="fc-footer">
+            <div class="fc-container fc-footer__inner">
+                <span>© @DateTime.UtcNow.Year @brand</span>
+                <nav class="fc-footer__links" aria-label="@Localizer["FC_FOOTER_NAV"]">
+                    <a asp-area="" asp-page="/Privacy">@Localizer["FC_PRIVACY"]</a>
+                    <a asp-area="" asp-page="/faq">@Localizer["FC_FAQ"]</a>
+                    <a asp-area="" asp-page="/Contact">@Localizer["FOOTER_CONTACT_LINK"]</a>
+                </nav>
             </div>
         </footer>
+    }
 
-        <script src="~/js/site.js" asp-append-version="true"></script>
-        <script src="~/lib/jquery/dist/jquery.min.js" asp-append-version="true"></script>
-        <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-        <script src="~/js/layout.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/forest.js" asp-append-version="true"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
 
-        <script>
-            // Ensure CSS variable --navbar-height matches the actual navbar height
-            (function () {
-                function setNavbarHeight() {
-                    try {
-                        var nav = document.getElementById('mainNavbar');
-                        if (!nav) return;
-                        var h = nav.offsetHeight;
-                        document.documentElement.style.setProperty('--navbar-height', h + 'px');
-                    } catch (e) { /* ignore */ }
-                }
-                document.addEventListener('DOMContentLoaded', setNavbarHeight);
-                window.addEventListener('resize', setNavbarHeight);
-            })();
-        </script>
+    @await RenderSectionAsync("Scripts", required: false)
 
-        @await RenderSectionAsync("Scripts", required: false)
-
-        @* MiniProfiler integration with CSP Nonce *@
-        <mini-profiler nonce="@Context.Items["CSP-Script-Nonce"]" />
-    </div>
+    @* MiniProfiler integration with CSP Nonce *@
+    <mini-profiler nonce="@Context.Items["CSP-Script-Nonce"]" />
 </body>
 </html>

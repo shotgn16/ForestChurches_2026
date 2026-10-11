@@ -1,39 +1,38 @@
-﻿@page
+@page
 @model DeletePersonalDataModel
 @{
-    ViewData["Title"] = "Delete Personal Data";
+    ViewData["Title"] = Localizer["FC_DELETE_ACCOUNT"];
     ViewData["ActivePage"] = ManageNavPages.PersonalData;
 }
 
-<h3>@Html.Encode(ViewData["Title"])</h3>
-
-<div class="alert alert-warning" role="alert">
-    <p>
-        <strong>Deleting this data will permanently remove your account, and this cannot be recovered.</strong>
-    </p>
+<div class="fc-page-head">
+    <div>
+        <h1>@Localizer["FC_DELETE_ACCOUNT"]</h1>
+        <p>@Localizer["FC_DELETE_ACCOUNT_TEXT"]</p>
+    </div>
 </div>
 
-<div>
-    <form id="delete-user" method="post">
+<section class="fc-card fc-card--danger fc-stack" style="gap: 16px">
+    <div class="fc-alert fc-alert--danger" role="alert">
+        <strong>@Localizer["FC_DELETE_PERMANENT"]</strong>
+    </div>
+    <form id="delete-user" method="post" class="fc-stack" style="max-width: 520px">
         <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
         @if (Model.RequirePassword)
         {
-            <div class="form-floating mb-3">
-                <input asp-for="Input.Password" class="form-control" autocomplete="current-password" aria-required="true" placeholder="Please enter your password." />
-                <label asp-for="Input.Password" class="form-label"></label>
+            <div class="fc-field">
+                <label class="fc-label" asp-for="Input.Password">@Localizer["FC_ENTER_PASSWORD_CONFIRM"]</label>
+                <input class="fc-input" asp-for="Input.Password" autocomplete="current-password" aria-required="true" />
                 <span asp-validation-for="Input.Password" class="text-danger"></span>
             </div>
-
-            <!-- AntiforgeryToken -->
-            @Html.AntiForgeryToken()
         }
-        <button class="w-100 btn btn-lg btn-danger" type="submit">Delete data and close my account</button>
+        <div class="fc-btn-row">
+            <a asp-page="./PersonalData" class="fc-btn fc-btn--quiet">@Localizer["FC_CANCEL"]</a>
+            <button class="fc-btn fc-btn--danger" type="submit">@Localizer["FC_DELETE_PERMANENTLY"]</button>
+        </div>
     </form>
-</div>
+</section>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
-}
-
-@section Styles {
 }

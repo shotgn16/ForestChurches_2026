@@ -1,44 +1,40 @@
-﻿@page
+@page
 @model PersonalDataModel
-@inject ForestChurches.Components.Storage.IBlobUrlService BlobUrlService;
 @{
     ViewData["Title"] = Localizer["TITLE_PERSONAL_DATA"];
     ViewData["ActivePage"] = ManageNavPages.PersonalData;
-    var defaultSrc = BlobUrlService.GetReadSasUrl("IMGUR-1.png", TimeSpan.FromDays(7));
-    string src = defaultSrc;
-
-    if (Model?.CurrentUser != null)
-    {
-        if (!string.IsNullOrEmpty(Model.CurrentUser.ImageBlobName))
-        {
-            src = BlobUrlService.GetReadSasUrl(Model.CurrentUser.ImageBlobName, TimeSpan.FromDays(7));
-        }
-        else if (Model.CurrentUser.ImageArray != null && Model.CurrentUser.ImageArray.Length > 1)
-        {
-            src = "data:image;base64," + System.Convert.ToBase64String(Model.CurrentUser.ImageArray);
-        }
-    }
 }
-<head>
-    <link rel="stylesheet" href="~/css2/profile.css" asp-append-version="true" />
-</head><!-- Beginning of Page header --><div class="container-fluid page-hero">
-<div class="hero-text">
+
+<div class="fc-page-head">
     <div>
-        <img src="@src" alt="@Localizer["ALT_PROFILE_PICTURE"]" />
-    </div>
-    <div class="heading-text">
-        <h1>@Localizer["PROFILE_WELCOME_BACK"]</h1>
-        <p>@Model.CurrentChurch?.Name, <strong>@Model.CurrentChurch?.Status</strong></p>
+        <h1>@Localizer["NAV_LABEL_PERSONAL_DATA"]</h1>
+        <p>@Localizer["PersonalDataDeletionWarning"]</p>
     </div>
 </div>
-</div><!-- Tab Nav -->
-<partial name="_ManageNav" /><!-- Beginning of page content --><section class="data-section">
-<h1>@Localizer["ManageYourData"]</h1>
-<p>@Localizer["PersonalDataDeletionWarning"]</p>
 
-<p>
-    <strong>@Localizer["DOWNLOAD_INFO_PREFIX"] <a asp-page="/Contact">@Localizer["CONTACT_US_PAGE_LINK"]</a></strong>
-</p>
+<section class="fc-card fc-stack" aria-labelledby="data-h" style="gap: 16px">
+    <h2 id="data-h" class="fc-h3">@Localizer["ManageYourData"]</h2>
+
+    <div class="fc-panel fc-row fc-row--between">
+        <div class="fc-stack" style="gap: 2px; flex: 1 1 320px">
+            <span style="font-size: 17px; font-weight: 700">@Localizer["FC_DOWNLOAD_YOUR_DATA"]</span>
+            <span class="fc-small fc-muted">@Localizer["FC_DOWNLOAD_YOUR_DATA_TEXT"]</span>
+        </div>
+        <form id="download-data" asp-page="DownloadPersonalData" method="post">
+            <button class="fc-btn fc-btn--outline" type="submit">
+                <svg class="fc-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"></path></svg>
+                @Localizer["FC_DOWNLOAD"]
+            </button>
+        </form>
+    </div>
+
+    <div class="fc-stack" style="gap: 8px; padding: 16px; border: 1.5px solid #E2B8AC; border-radius: 14px">
+        <span style="font-size: 17px; font-weight: 700; color: var(--fc-danger)">@Localizer["FC_DELETE_ACCOUNT"]</span>
+        <span class="fc-small">@Localizer["FC_DELETE_ACCOUNT_TEXT"]</span>
+        <a id="delete" asp-page="DeletePersonalData" class="fc-btn fc-btn--danger-outline" style="align-self: flex-start">@Localizer["FC_DELETE_ACCOUNT"]…</a>
+    </div>
+
+    <p class="fc-small fc-muted">@Localizer["DOWNLOAD_INFO_PREFIX"] <a asp-page="/Contact" asp-area="">@Localizer["CONTACT_US_PAGE_LINK"]</a>.</p>
 </section>
 
 @section Scripts {

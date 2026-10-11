@@ -1,72 +1,40 @@
-﻿@page
+@page
 @model IndexModel
-@inject ForestChurches.Components.Storage.IBlobUrlService BlobUrlService;
 @{
     ViewData["ActivePage"] = ManageNavPages.Index;
-    var defaultSrc = BlobUrlService.GetReadSasUrl("IMGUR-1.png", TimeSpan.FromDays(7));
-    var imgSrc = defaultSrc;
-
-    if (Model?.Currentuser != null)
-    {
-        if (!string.IsNullOrEmpty(Model.Currentuser.ImageBlobName))
-        {
-            imgSrc = BlobUrlService.GetReadSasUrl(Model.Currentuser.ImageBlobName, TimeSpan.FromDays(7));
-        }
-        else if (Model.Currentuser.ImageArray != null && Model.Currentuser.ImageArray.Length > 1)
-        {
-            imgSrc = "data:image;base64," + System.Convert.ToBase64String(Model.Currentuser.ImageArray);
-        }
-    }
+    ViewData["Title"] = Localizer["NAV_LABEL_PROFILE"];
 }
-<head>
-    <link rel="stylesheet" href="~/css2/profile.css" asp-append-version="true" />
-</head>
 
-<!-- Beginning of Page header -->
-<div class="container-fluid page-hero">
-    <div class="hero-text">
-        <div>
-            <img image-sas="@(Model.Currentuser?.ImageBlobName ?? string.Empty)" src="@imgSrc" expires-minutes="60" alt="profile picture" />
-        </div>
-        <div class="heading-text">
-            <h1>@Localizer["PROFILE_WELCOME_BACK"]</h1>
-            <p>@Model.CurrentChurch?.Name, <strong>@Model.CurrentChurch?.Status</strong></p>
-        </div>
+<div class="fc-page-head">
+    <div>
+        <h1>@Localizer["NAV_LABEL_PROFILE"]</h1>
+        <p>@Localizer["FC_PROFILE_LEAD"]</p>
     </div>
 </div>
 
-<!-- Tab Nav -->
-<partial name="_ManageNav" />
 <partial name="_StatusMessage" for="statusMessage" />
 
-@* Bulletin notify for Manage Index *@
-@await Html.PartialAsync("_BulletinNotify")
-
-<!-- Beginning of page content -->
-<section>
-    <h1>Update Your Information</h1><br>
-    <form id="profile-form" class="column-item" method="post">
+<section class="fc-card" aria-labelledby="you-h">
+    <h2 id="you-h" class="fc-card__title">@Localizer["FC_YOUR_DETAILS"]</h2>
+    <form id="profile-form" method="post" class="fc-stack" style="max-width: 760px">
         <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
-
-        <!-- Username [Email] -->
-        <div class="form-floating mb-3">
-            <input asp-for="Username" class="form-control" aria-required="true" readonly />
-            <label asp-for="Username" class="form-label">@Localizer["TAG_USERNAME"]</label>
-            <span asp-validation-for="Username" class="text-danger"></span>
+        <div class="fc-grid">
+            <div class="fc-field">
+                <label class="fc-label" asp-for="Username">@Localizer["FC_EMAIL_SIGN_IN"]</label>
+                <input class="fc-input" asp-for="Username" readonly aria-describedby="username-hint" />
+                <span id="username-hint" class="fc-hint">@Localizer["FC_EMAIL_CHANGE_HINT"]</span>
+            </div>
+            <div class="fc-field">
+                <label class="fc-label" asp-for="Input.PhoneNumber">@Localizer["TAG_PHONE"] <span class="fc-opt">— @Localizer["FC_OPTIONAL"]</span></label>
+                <input class="fc-input" asp-for="Input.PhoneNumber" type="tel" autocomplete="tel" />
+                <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
+            </div>
         </div>
-
-        <!-- Phone number -->
-        <div class="form-floating mb-">
-            <input asp-for="Input.PhoneNumber" class="form-control" aria-required="true" />
-            <label asp-for="Input.PhoneNumber" class="form-label">@Localizer["TAG_PHONE"]</label>
-            <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
+        <div>
+            <button id="update-profile-button" type="submit" class="fc-btn fc-btn--primary">@Localizer["TAG_SAVE"]</button>
         </div>
-        <!-- AntiforgeryToken -->
-        @Html.AntiForgeryToken()
-        <button id="update-profile-button" type="submit" class="w-100 btn btn-lg btn-success">@Localizer["TAG_SAVE"]</button>
     </form>
 </section>
-
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />

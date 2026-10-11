@@ -1,49 +1,72 @@
-﻿@page
+@page
 @model ForestChurches.Pages.ContactModel
 @inject ForestChurches.Data.ForestChurchesContext context;
 @inject ForestChurches.Components.Security.Encoder Encoder;
 @{
-    string recipient = "Info@forestchurches.co.uk";
-    if (Model.Input.Cid != null)
+    ViewData["Title"] = Localizer["CONTACT_PAGE_TITLE"];
+    string? churchName = null;
+    if (!string.IsNullOrEmpty(Model.Input?.Cid))
     {
-        recipient = context.ChurchInformation.Where(a => a.ID == Encoder.Unprotect<string>(Model.Input.Cid, "fc.data.contact")).Select(a => a.Name).FirstOrDefault();
+        var churchId = Encoder.Unprotect<string>(Model.Input.Cid, "fc.data.contact");
+        churchName = context.ChurchInformation.Where(a => a.ID == churchId).Select(a => a.Name).FirstOrDefault();
     }
+    var toChurch = !string.IsNullOrEmpty(churchName);
 }
-<head><link href="~/css2/contact-page.css" rel="stylesheet" asp-integrity="true" /></head>
 
-<style nonce="@HttpContextAccessor.HttpContext?.Items["CSP-Style-Nonce"]">
-    main {
-        background-color: #00AD6A;
-    }
-</style>
+<div class="fc-container fc-container--mid fc-section" style="padding-top: 64px; padding-bottom: 72px">
+    <div class="fc-row" style="align-items: flex-start; gap: 40px">
+        <div class="fc-stack" style="flex: 1 1 340px">
+            <p class="fc-eyebrow">@Localizer["CONTACT_PAGE_TITLE"]</p>
+            <h1 class="fc-display">@(toChurch ? Localizer["FC_CONTACT_CHURCH_TITLE", churchName!] : Localizer["FC_CONTACT_TITLE"])</h1>
+            <p class="fc-lead">@(toChurch ? Localizer["FC_CONTACT_CHURCH_LEAD"] : Localizer["FC_CONTACT_LEAD"])</p>
 
-<div class="container">
-    <div class="contact-us form">
-        <header>
-            <img class="mb-4" src="~/img/logo.png" alt="" width="300" height="200">
-        </header>
+            @if (!toChurch)
+            {
+                <div class="fc-stack" style="gap: 12px; margin-top: 8px">
+                    <div class="fc-card fc-row" style="padding: 16px; gap: 14px; flex-wrap: nowrap">
+                        <span class="fc-facilities__tick" style="flex-basis: 42px; height: 42px"><svg class="fc-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"></rect><path d="M3 7l9 6 9-6"></path></svg></span>
+                        <div><span class="fc-tiny fc-muted" style="display: block">@Localizer["FC_EMAIL"]</span><a href="mailto:info@forestchurches.co.uk" style="font-weight: 700">info@forestchurches.co.uk</a></div>
+                    </div>
+                    <div class="fc-card fc-row" style="padding: 16px; gap: 14px; flex-wrap: nowrap">
+                        <span class="fc-facilities__tick" style="flex-basis: 42px; height: 42px"><svg class="fc-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M9.5 9a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .9-1 1.6V14M12 17h.01"></path></svg></span>
+                        <div><span class="fc-tiny fc-muted" style="display: block">@Localizer["FC_LOOKING_FOR_ANSWERS"]</span><a asp-page="/faq" style="font-weight: 700">@Localizer["FC_READ_FAQ"]</a></div>
+                    </div>
+                </div>
+                <p class="fc-small fc-muted">@Localizer["FC_CONTACT_SPECIFIC_CHURCH"]</p>
+            }
+        </div>
 
-        <partial name="_StatusMessage" model="Model.StatusMessage" />
-
-        <p><strong>@Localizer["CONTACT_RECIPIENT_LABEL"]</strong> @Encoder.HtmlEncode(recipient)</p>
-        <form method="post">
-            @Html.AntiForgeryToken()
-            <span asp-validation-for="Input.Name" class="text-danger"></span>
-            <input type="text" asp-for="Input.Name" placeholder="@Localizer["CONTACT_NAME_PLACEHOLDER"]" required>
-
-            <span asp-validation-for="Input.Subject" class="text-danger"></span>
-            <input type="text" asp-for="Input.Subject" placeholder="@Localizer["CONTACT_SUBJECT_PLACEHOLDER"]" required>
-
-            <span asp-validation-for="Input.ClientEmail" class="text-danger"></span>
-            <input type="email" asp-for="Input.ClientEmail" placeholder="@Localizer["CLIENT_EMAIL_PLACEHOLDER"]" required>
-
-            <span asp-validation-for="Input.Message" class="text-danger"></span>
-            <textarea class="form-control" type="text" asp-for="Input.Message" placeholder="@Localizer["CONTACT_EMAIL_PLACEHOLDER"]" rows="3" required></textarea>
-
-            <input type="hidden" name="cid" value="@Model.Input.Cid" />
-
-            <button id="contact-usSubmit" type="submit" class="half-width w-100 btn btn-lg btn-success">@Localizer["CONTACT_SUBMIT_BUTTON"]</button>
-        </form>
+        <section class="fc-card" style="flex: 1.3 1 440px; padding: 32px" aria-label="@Localizer["FC_MESSAGE_FORM"]">
+            <partial name="_StatusMessage" model="Model.StatusMessage" />
+            <form method="post" class="fc-stack">
+                <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+                <div class="fc-grid" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr))">
+                    <div class="fc-field">
+                        <label class="fc-label" for="Input_Name">@Localizer["FC_YOUR_NAME"]</label>
+                        <input class="fc-input" asp-for="Input.Name" autocomplete="name" required />
+                        <span asp-validation-for="Input.Name" class="text-danger"></span>
+                    </div>
+                    <div class="fc-field">
+                        <label class="fc-label" for="Input_ClientEmail">@Localizer["FC_YOUR_EMAIL"]</label>
+                        <input class="fc-input" asp-for="Input.ClientEmail" type="email" autocomplete="email" required />
+                        <span asp-validation-for="Input.ClientEmail" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="fc-field">
+                    <label class="fc-label" for="Input_Subject">@Localizer["CONTACT_SUBJECT_PLACEHOLDER"]</label>
+                    <input class="fc-input" asp-for="Input.Subject" required />
+                    <span asp-validation-for="Input.Subject" class="text-danger"></span>
+                </div>
+                <div class="fc-field">
+                    <label class="fc-label" for="Input_Message">@Localizer["CONTACT_MESSAGE_PLACEHOLDER"]</label>
+                    <textarea class="fc-textarea" asp-for="Input.Message" rows="6" required></textarea>
+                    <span asp-validation-for="Input.Message" class="text-danger"></span>
+                </div>
+                <input type="hidden" name="cid" value="@Model.Input?.Cid" />
+                <button id="contact-usSubmit" type="submit" class="fc-btn fc-btn--primary fc-btn--lg">@Localizer["CONTACT_SUBMIT_BUTTON"]</button>
+                <p class="fc-tiny fc-muted">@Localizer["FC_PRIVACY_NOTE"] <a asp-page="/Privacy">@Localizer["FC_PRIVACY"]</a>.</p>
+            </form>
+        </section>
     </div>
 </div>
 

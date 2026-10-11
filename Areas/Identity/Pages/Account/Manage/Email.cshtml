@@ -1,4 +1,4 @@
-﻿@page
+@page
 @model EmailModel
 @inject ForestChurches.Components.Security.Encoder Encoder;
 @inject ForestChurches.Components.Storage.IBlobUrlService BlobUrlService;
@@ -19,25 +19,6 @@
         src = BlobUrlService.GetReadSasUrl("IMGUR-1.png", TimeSpan.FromDays(7));
     }
 }
-<head>
-    <link href="~/css2/profile.css" rel="stylesheet" />
-</head>
-
-<!-- Beginning of Page header -->
-<div class="container-fluid page-hero">
-    <div class="hero-text">
-        <div>
-            <img src="@src" alt="profile picture" />
-        </div>
-        <div class="heading-text">
-            <h1>Welcome back, User!</h1>
-            <p>@Encoder.HtmlEncode(Model.CurrentChurch.Name) (@Encoder.HtmlEncode(Model.CurrentChurch.Status))</p>
-        </div>
-    </div>
-</div>
-
-<!-- Tab Nav -->
-<partial name="_ManageNav" />
 <partial name="_StatusMessage" for="@Model.StatusMessage" />
 
 <section>

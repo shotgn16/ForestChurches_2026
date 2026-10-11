@@ -1,105 +1,103 @@
-﻿@page
+@page
 @using Microsoft.AspNetCore.Http.Features
 @model TwoFactorAuthenticationModel
-@inject ForestChurches.Components.Storage.IBlobUrlService BlobUrlService;
 @{
     ViewData["Title"] = Localizer["TITLE_TWO_FACTOR_AUTHENTICATION"];
     ViewData["ActivePage"] = ManageNavPages.TwoFactorAuthentication;
-
-    var defaultSrc = BlobUrlService.GetReadSasUrl("IMGUR-1.png", TimeSpan.FromDays(7));
-    string src = defaultSrc;
-
-    if (Model?.Currentuser != null)
-    {
-        if (!string.IsNullOrEmpty(Model.Currentuser.ImageBlobName))
-        {
-            src = BlobUrlService.GetReadSasUrl(Model.Currentuser.ImageBlobName, TimeSpan.FromDays(7));
-        }
-        else if (Model.Currentuser.ImageArray != null && Model.Currentuser.ImageArray.Length > 1)
-        {
-            src = "data:image;base64," + System.Convert.ToBase64String(Model.Currentuser.ImageArray);
-        }
-    }
+    var consentFeature = HttpContext.Features.Get<ITrackingConsentFeature>();
+    var canTrack = consentFeature?.CanTrack ?? true;
 }
-<head>
-    <link rel="stylesheet" href="~/css2/profile.css" asp-append-version="true" />
-</head><!-- Beginning of Page header --><div class="container-fluid page-hero">
-<div class="hero-text">
+
+<div class="fc-page-head">
     <div>
-        <img src="@src" alt="@Localizer["ALT_PROFILE_PICTURE"]" />
-    </div>
-    <div class="heading-text">
-        <h1>@Localizer["PROFILE_WELCOME_BACK"]</h1>
-        <p>@Model.CurrentChurch?.Name, <strong>@Model.CurrentChurch?.Status</strong></p>
+        <h1>@Localizer["TITLE_TWO_FACTOR_AUTHENTICATION"]</h1>
+        <p>@Localizer["FC_2FA_LEAD"]</p>
     </div>
 </div>
-</div><!-- Tab Nav -->
-<partial name="_ManageNav" />
+
 <partial name="_StatusMessage" for="StatusMessage" />
-@* Bulletin notify for TwoFactorAuthentication page *@
-@await Html.PartialAsync("_BulletinNotify")
-<section class="data-section">
-    <h3>@Localizer["UpdateTitle"] @ViewData["Title"]]</h3>
-    @{
-        var consentFeature = HttpContext.Features.Get<ITrackingConsentFeature>();
-        @if (consentFeature?.CanTrack ?? true)
-        {
+
+@if (!canTrack)
+{
+    <div class="fc-alert fc-alert--danger" role="alert">
+        <strong>@Localizer["PRIVACY_POLICY_NOT_ACCEPTED_TITLE"]</strong>
+        <p>@Localizer["PRIVACY_POLICY_NOT_ACCEPTED_BODY"]</p>
+    </div>
+}
+else
+{
+    <section class="fc-card fc-stack" aria-labelledby="tfa-h" style="gap: 16px">
+        <div class="fc-row fc-row--between" style="align-items: flex-start">
+            <div class="fc-stack" style="gap: 6px; flex: 1 1 360px">
+                <h2 id="tfa-h" class="fc-h3">@Localizer["AUTHENTICATOR_APP_HEADER"]</h2>
+                <p class="fc-muted">@Localizer["FC_2FA_EXPLAIN"]</p>
+            </div>
             @if (Model.Is2faEnabled)
             {
-                if (Model.RecoveryCodesLeft == 0)
-                {
-                    <div class="alert alert-danger">
-                        <strong>@Localizer["NO_RECOVERY_CODES_LEFT_TITLE"]</strong>
-                        <p>@Localizer["MUST_GENERATE_CODES_BEFORE"] <a asp-page="./GenerateRecoveryCodes">@Localizer["GENERATE_NEW_CODES_LINK"]</a> @Localizer["MUST_GENERATE_CODES_AFTER"]</p>
-                    </div>
-                }
-                else if (Model.RecoveryCodesLeft == 1)
-                {
-                    <div class="alert alert-danger">
-                        <strong>@Localizer["ONE_RECOVERY_CODE_LEFT_TITLE"]</strong>
-                        <p>@Localizer["CAN_GENERATE_CODES_BEFORE"] <a asp-page="./GenerateRecoveryCodes">@Localizer["GENERATE_NEW_CODES_LINK"]</a>.</p>
-                    </div>
-                }
-                else if (Model.RecoveryCodesLeft <= 3)
-                {
-                    <div class="alert alert-warning">
-                        <strong>@Localizer["MULTIPLE_RECOVERY_CODES_LEFT_BEFORE"] @Model.RecoveryCodesLeft @Localizer["MULTIPLE_RECOVERY_CODES_LEFT_AFTER"]</strong>
-                        <p>@Localizer["SHOULD_GENERATE_CODES_BEFORE"] <a asp-page="./GenerateRecoveryCodes">@Localizer["GENERATE_NEW_CODES_LINK"]</a>.</p>
-                    </div>
-                }
-
-                if (Model.IsMachineRemembered)
-                {
-                    <form method="post" style="display: inline-block">
-                        <button type="submit" class="btn btn-success">@Localizer["BTN_FORGET_BROWSER"]</button>
-                        <!-- AntiforgeryToken -->
-                        @Html.AntiForgeryToken()
-                    </form>
-                }
-                <a asp-page="./Disable2fa" class="btn btn-success">@Localizer["BTN_DISABLE_2FA"]</a>
-                <a asp-page="./GenerateRecoveryCodes" class="btn btn-success">@Localizer["BTN_RESET_RECOVERY_CODES"]</a>
-            }
-
-            <h4>@Localizer["AUTHENTICATOR_APP_HEADER"]</h4>
-            @if (!Model.HasAuthenticator)
-            {
-                <a id="enable-authenticator" asp-page="./EnableAuthenticator" class="btn btn-success">@Localizer["BTN_ADD_AUTHENTICATOR_APP"]</a>
+                <span class="fc-badge fc-badge--ok">● @Localizer["FC_ON"]</span>
             }
             else
             {
-                <a id="enable-authenticator" asp-page="./EnableAuthenticator" class="btn btn-success">@Localizer["BTN_SET_UP_AUTHENTICATOR_APP"]</a>
-                <a id="reset-authenticator" asp-page="./ResetAuthenticator" class="btn btn-success">@Localizer["BTN_RESET_AUTHENTICATOR_APP"]</a>
+                <span class="fc-badge fc-badge--warn">@Localizer["FC_OFF_RECOMMENDED"]</span>
             }
-        }
-        else
-        {
-            <div class="alert alert-danger">
-                <strong>@Localizer["PRIVACY_POLICY_NOT_ACCEPTED_TITLE"]</strong>
-                <p>@Localizer["PRIVACY_POLICY_NOT_ACCEPTED_BODY"]</p>
+        </div>
+
+        <div class="fc-btn-row">
+            @if (!Model.HasAuthenticator)
+            {
+                <a id="enable-authenticator" asp-page="./EnableAuthenticator" class="fc-btn fc-btn--primary">@Localizer["BTN_ADD_AUTHENTICATOR_APP"]</a>
+            }
+            else
+            {
+                <a id="enable-authenticator" asp-page="./EnableAuthenticator" class="fc-btn fc-btn--outline">@Localizer["BTN_SET_UP_AUTHENTICATOR_APP"]</a>
+                <a id="reset-authenticator" asp-page="./ResetAuthenticator" class="fc-btn fc-btn--quiet">@Localizer["BTN_RESET_AUTHENTICATOR_APP"]</a>
+            }
+        </div>
+    </section>
+
+    @if (Model.Is2faEnabled)
+    {
+        <section class="fc-card fc-stack" aria-labelledby="rc-h" style="gap: 14px">
+            <h2 id="rc-h" class="fc-h3">@Localizer["FC_RECOVERY_CODES"]</h2>
+            @if (Model.RecoveryCodesLeft == 0)
+            {
+                <div class="fc-alert fc-alert--danger" role="alert">
+                    <strong>@Localizer["NO_RECOVERY_CODES_LEFT_TITLE"]</strong>
+                    <p>@Localizer["MUST_GENERATE_CODES_BEFORE"] <a asp-page="./GenerateRecoveryCodes">@Localizer["GENERATE_NEW_CODES_LINK"]</a> @Localizer["MUST_GENERATE_CODES_AFTER"]</p>
+                </div>
+            }
+            else if (Model.RecoveryCodesLeft == 1)
+            {
+                <div class="fc-alert fc-alert--danger" role="alert">
+                    <strong>@Localizer["ONE_RECOVERY_CODE_LEFT_TITLE"]</strong>
+                    <p>@Localizer["CAN_GENERATE_CODES_BEFORE"] <a asp-page="./GenerateRecoveryCodes">@Localizer["GENERATE_NEW_CODES_LINK"]</a>.</p>
+                </div>
+            }
+            else if (Model.RecoveryCodesLeft <= 3)
+            {
+                <div class="fc-alert fc-alert--warn" role="alert">
+                    <strong>@Localizer["MULTIPLE_RECOVERY_CODES_LEFT_BEFORE"] @Model.RecoveryCodesLeft @Localizer["MULTIPLE_RECOVERY_CODES_LEFT_AFTER"]</strong>
+                    <p>@Localizer["SHOULD_GENERATE_CODES_BEFORE"] <a asp-page="./GenerateRecoveryCodes">@Localizer["GENERATE_NEW_CODES_LINK"]</a>.</p>
+                </div>
+            }
+            else
+            {
+                <p class="fc-muted">@Localizer["FC_RECOVERY_CODES_LEFT", Model.RecoveryCodesLeft]</p>
+            }
+
+            <div class="fc-btn-row">
+                <a asp-page="./GenerateRecoveryCodes" class="fc-btn fc-btn--outline">@Localizer["BTN_RESET_RECOVERY_CODES"]</a>
+                @if (Model.IsMachineRemembered)
+                {
+                    <form method="post">
+                        <button type="submit" class="fc-btn fc-btn--quiet">@Localizer["BTN_FORGET_BROWSER"]</button>
+                    </form>
+                }
+                <a asp-page="./Disable2fa" class="fc-btn fc-btn--danger-outline">@Localizer["BTN_DISABLE_2FA"]</a>
             </div>
-        }
+        </section>
     }
-</section>
+}
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />

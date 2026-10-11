@@ -1,66 +1,56 @@
-﻿@page
+@page
 @model ForestChurches.Pages.AboutusModel
 @{
+    ViewData["Title"] = Localizer["ABOUTUS_PAGE_TITLE"];
 }
-<head>
-    <link rel="stylesheet" href="~/css2/Page-header.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/css2/Variables.css" asp-append-version="true" />
-</head>
-<style nonce="@HttpContextAccessor.HttpContext?.Items["CSP-Style-Nonce"]">
-    .rounded-circle {
-        padding-bottom: 2%;
-    }
-    #page-footer {
-        color: white;
-        font-size: smaller;
-        text-align: center;
-    }
-    .col-lg-4 {
-        text-align: center;
-    }
-    main {
-        background-color: #00AD6A;
-    }
 
-    .container.marketing {
-        padding-top: 5%;
-        padding-bottom: 10%;
-    }
-</style>
-
-<!-- Beginning of Page header -->
-<div class="container-fluid page-hero">
-    <div class="hero-text">
-        <h1>@Localizer["ABOUTUS_PAGE_TITLE"]</h1>
-        <p>@Localizer["ABOUTUS_PAGE_SUBTITLE"]</p>
-    </div>
-</div>
-
-@* Bulletin notify for this page *@
-@await Html.PartialAsync("_BulletinNotify")
-
-<!-- Content goes here -->
-<div class="container marketing">
-    <!-- Three columns of text below the carousel -->
-    <div class="row">
-        <div class="col-lg-4">
-            <img class="rounded-circle" src="~/img/aboutus_dear.jpeg" alt="@Localizer["ABOUTUS_COMMUNITY_IMAGE_ALT"]" width="140" height="140">
-            <h1>@Localizer["ABOUTUS_COMMUNITY_SECTION_TITLE"]</h1>
-            <!-- RE-WRITE (28.01.2025) -->
-            <p>@Localizer["ABOUTUS_COMMUNITY_SECTION_TEXT"]</p>
-        </div><!-- /.col-lg-4 -->
-        <div class="col-lg-4">
-            <img class="rounded-circle" src="~/img/aboutus_stream.jpeg" alt="@Localizer["ABOUTUS_SUPPORT_IMAGE_ALT"]" width="140" height="140">
-            <h1>@Localizer["ABOUTUS_BELIEF_SECTION_TITLE"]</h1>
-            <p>@Localizer["ABOUTUS_BELIEF_SECTION_TEXT"]</p>
+<section class="fc-container fc-section" style="padding-top: 72px; padding-bottom: 48px">
+    <div class="fc-row" style="gap: 40px; align-items: center">
+        <div class="fc-stack" style="flex: 1 1 460px; gap: 18px">
+            <p class="fc-eyebrow">@Localizer["ABOUTUS_PAGE_TITLE"]</p>
+            <h1 class="fc-display">@Localizer["ABOUTUS_LIGHT_SECTION_TITLE"]</h1>
+            <p class="fc-lead" style="font-size: 20px">@Localizer["ABOUTUS_LIGHT_SECTION_TEXT"]</p>
+            <div class="fc-btn-row" style="margin-top: 6px">
+                <a asp-page="/Index" class="fc-btn fc-btn--primary fc-btn--lg">@Localizer["FC_NAV_FIND"]</a>
+                <a asp-page="/Contact" class="fc-btn fc-btn--outline fc-btn--lg">@Localizer["FC_GET_IN_TOUCH"]</a>
+            </div>
         </div>
-        <div class="col-lg-4">
-            <img class="rounded-circle" src="~/img/aboutus_leaves.jpeg" alt="@Localizer["ABOUTUS_LIGHT_IMAGE_ALT"]" width="140" height="140">
-            <h1>@Localizer["ABOUTUS_LIGHT_SECTION_TITLE"]</h1>
-            <p>@Localizer["ABOUTUS_LIGHT_SECTION_TEXT"]</p>
-        </div>
-    </div><!-- /.row -->
-    <div class="col-lg-12">
-        <p id="page-footer">@Localizer["ABOUTUS_FOOTER_TEXT"]</p>
+        <img src="~/img/hero.jpg" alt="@Localizer["FC_HERO_ALT"]" style="flex: 1 1 420px; min-width: 0; width: 100%; height: 440px; object-fit: cover; border-radius: var(--fc-radius-xl)" />
     </div>
-</div>
+</section>
+
+<section class="fc-container" style="padding-bottom: 56px" aria-label="@Localizer["ABOUTUS_PAGE_SUBTITLE"]">
+    <div class="fc-grid fc-grid--3">
+        <article class="fc-photo-card">
+            <img src="~/img/forest-stream.jpg" alt="@Localizer["ABOUTUS_COMMUNITY_IMAGE_ALT"]" loading="lazy" />
+            <div class="fc-photo-card__body">
+                <h2 style="font-size: 26px">@Localizer["ABOUTUS_COMMUNITY_SECTION_TITLE"]</h2>
+                <p class="fc-muted" style="color: var(--fc-ink-2)">@Localizer["ABOUTUS_COMMUNITY_SECTION_TEXT"]</p>
+            </div>
+        </article>
+        <article class="fc-photo-card">
+            <img src="~/img/forest-leaves.jpg" alt="@Localizer["ABOUTUS_SUPPORT_IMAGE_ALT"]" loading="lazy" />
+            <div class="fc-photo-card__body">
+                <h2 style="font-size: 26px">@Localizer["ABOUTUS_BELIEF_SECTION_TITLE"]</h2>
+                <p style="color: var(--fc-ink-2)">@Localizer["ABOUTUS_BELIEF_SECTION_TEXT"]</p>
+            </div>
+        </article>
+        <article class="fc-card fc-card--dark" style="border-radius: 20px; padding: 28px; display: flex; flex-direction: column; justify-content: space-between; gap: 16px">
+            <div class="fc-stack" style="gap: 10px">
+                <h2 style="font-size: 26px">@Localizer["FC_ABOUT_SUPPORT_TITLE"]</h2>
+                <p style="font-size: 17px; line-height: 1.6">@Localizer["FC_ABOUT_SUPPORT_TEXT"]</p>
+            </div>
+            <a asp-page="/Contact" class="fc-btn fc-btn--light" style="align-self: flex-start">@Localizer["FC_LIST_YOUR_CHURCH"]</a>
+        </article>
+    </div>
+</section>
+
+<section class="fc-container" style="padding-bottom: 72px" aria-labelledby="how-title">
+    <h2 id="how-title" class="fc-h2" style="margin-bottom: 24px">@Localizer["FC_HOW_TITLE"]</h2>
+    <ol class="fc-steps">
+        <li><span class="fc-steps__title">@Localizer["FC_HOW_1_TITLE"]</span><span class="fc-muted">@Localizer["FC_HOW_1_TEXT"]</span></li>
+        <li><span class="fc-steps__title">@Localizer["FC_HOW_2_TITLE"]</span><span class="fc-muted">@Localizer["FC_HOW_2_TEXT"]</span></li>
+        <li><span class="fc-steps__title">@Localizer["FC_HOW_3_TITLE"]</span><span class="fc-muted">@Localizer["FC_HOW_3_TEXT"]</span></li>
+    </ol>
+    <p class="fc-small fc-muted" style="margin-top: 32px">@Localizer["ABOUTUS_FOOTER_TEXT"]</p>
+</section>

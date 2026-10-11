@@ -1,341 +1,234 @@
-﻿@page
+@page
 @model ForestChurches.Areas.Identity.Pages.Account.Manage.ChurchProfileModel
+@using ForestChurches.Components.Ui
 @inject ForestChurches.Components.Security.Encoder Encoder;
 @inject ForestChurches.Components.Storage.IBlobUrlService BlobUrlService;
 @{
     ViewData["ActivePage"] = ManageNavPages.ChurchProfile;
+    ViewData["Title"] = Localizer["NAV_LABEL_CHURCH_PROFILE"];
     var defaultSrc = BlobUrlService.GetReadSasUrl("IMGUR-1.png", TimeSpan.FromDays(7));
     var imgSrc = string.IsNullOrEmpty(Model?.CurrentUser?.ImageBlobName)
         ? defaultSrc
         : BlobUrlService.GetReadSasUrl(Model.CurrentUser.ImageBlobName, TimeSpan.FromDays(7));
+    var isOpen = string.Equals(Model?.CurrentChurch?.Status, "Open", StringComparison.OrdinalIgnoreCase);
+    var services = (Model?.ServiceTimes ?? new List<ForestChurches.Models.ServiceTimes>())
+        .OrderBy(s => FcText.ServiceTimeSortKey(s.Time))
+        .ToList();
+    var isError = Model?.StatusMessage?.StartsWith("Error", StringComparison.OrdinalIgnoreCase) == true;
+
+    var facilities = new (string Field, string LabelKey)[]
+    {
+        ("WheelchairAccess", "NEARME_FACILITY_WHEELCHAIR_ACCESS"),
+        ("Parking", "NEARME_FACILITY_PARKING"),
+        ("HearingAidSupport", "NEARME_FACILITY_HEARING_AID_SUPPORT"),
+        ("Restrooms", "NEARME_FACILITY_RESTROOMS"),
+        ("Refreshments", "NEARME_FACILITY_REFRESHMENTS"),
+        ("Childcare", "NEARME_FACILITY_CHILDRENS_MINISTRY"),
+        ("Wifi", "NEARME_FACILITY_WIFI"),
+        ("Kitchen", "NEARME_FACILITY_KITCHEN"),
+        ("MeetingHall", "NEARME_FACILITY_COMMUNITY_HALL"),
+        ("WorshipHall", "NEARME_FACILITY_WORSHIP_HALL"),
+        ("OutdoorSpaces", "NEARME_FACILITY_OUTDOOR_SPACE"),
+    };
+    bool FacilityOn(string field) => field switch
+    {
+        "WheelchairAccess" => Model?.SaveChangesModel?.WheelchairAccess == true,
+        "Parking" => Model?.SaveChangesModel?.Parking == true,
+        "HearingAidSupport" => Model?.SaveChangesModel?.HearingAidSupport == true,
+        "Restrooms" => Model?.SaveChangesModel?.Restrooms == true,
+        "Refreshments" => Model?.SaveChangesModel?.Refreshments == true,
+        "Childcare" => Model?.SaveChangesModel?.Childcare == true,
+        "Wifi" => Model?.SaveChangesModel?.Wifi == true,
+        "Kitchen" => Model?.SaveChangesModel?.Kitchen == true,
+        "MeetingHall" => Model?.SaveChangesModel?.MeetingHall == true,
+        "WorshipHall" => Model?.SaveChangesModel?.WorshipHall == true,
+        "OutdoorSpaces" => Model?.SaveChangesModel?.OutdoorSpaces == true,
+        _ => false
+    };
 }
 
-<head>
-    <link href="~/css2/profile.css" rel="stylesheet" asp-append-version="true" />
-    <link href="~/css2/Table.css" integrity="sha-256-S0g2eBWq07WgkMHq5GfmlzYDmolfhWBuDbEPWU/6kIc=" rel="stylesheet" asp-append-version="true" />
-    <link href="~/css2/Modal.css" integrity="sha256-Eul3YCoHYyzIGOq/6Nr8Nr1CfkkAZZI20VH2gKKhXP4=" rel="stylesheet" asp-append-version="true" />
-</head>
-<style nonce="@HttpContextAccessor.HttpContext?.Items["CSP-Style-Nonce"]">
-    .endSection {
-        padding-bottom: calc(3.5rem + 1.0vw);
-        align-items: center;
-    }
-
-    .checkbox-list-two-column {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 10px;
-    }
-
-        .checkbox-list-two-column label {
-            margin-bottom: 0;
-        }
-
-    .listLabel {
-        font-size: x-large;
-    }
-
-    .form-group-container {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 20px;
-        width: 100%;
-    }
-
-        .form-group-container .form-group {
-            flex: 1;
-        }
-
-    .churchsuite-logo {
-        margin-top: auto;
-        max-height: auto;
-        border-radius: 0;
-        max-width: auto
-    }
-
-    .churchsuite-img {
-        all: unset;
-        display: block;
-        height: 52px;
-        width: auto;
-    }
-
-    .logo-upload-btn {
-        width: 100%;
-        margin: 1%;
-        height: 50px;
-    }
-
-</style>
-
-<div class="container-fluid page-hero">
-    <div class="hero-text">
-        <div>
-            <img image-sas="@(Model.CurrentUser?.ImageBlobName ?? string.Empty)" src="@imgSrc" expires-minutes="60" alt="profile picture" />
-        </div>
-        <div class="heading-text">
-            <h1>@Localizer["PROFILE_WELCOME_BACK"]</h1>
-            <p>@Model.CurrentChurch?.Name, <strong>@Model.CurrentChurch?.Status</strong></p>
-        </div>
+<div class="fc-page-head">
+    <div>
+        <h1>@Localizer["NAV_LABEL_CHURCH_PROFILE"]</h1>
+        <p>@Localizer["FC_MY_CHURCH_LEAD"]</p>
     </div>
 </div>
 
-<partial name="_ManageNav" />
-<h1>@Localizer["UPDATE_CHURCH_INFO"]</h1>
+@if (!string.IsNullOrEmpty(Model?.StatusMessage))
+{
+    <div class="fc-alert @(isError ? "fc-alert--danger" : "fc-alert--ok")" role="status">@Model.StatusMessage</div>
+}
 
-@* Bulletin notify for ChurchProfile *@
-@await Html.PartialAsync("_BulletinNotify")
+<form method="post" asp-page-handler="UpdateChurchProfile" class="fc-stack fc-stack--lg fc-form">
+    <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
 
-<section>
-    <form method="post" asp-page-handler="UpdateChurchProfile">
-        <!-- AntiforgeryToken -->
-        @Html.AntiForgeryToken()
-        @if (!string.IsNullOrEmpty(Model.StatusMessage))
-        {
-            <div class="alert alert-info alert-dismissible fade show" role="alert">
-                @Model.StatusMessage
-                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-            </div>
-        }
-        <div class="form-container">
-            <div class="form-floating full-width">
-                <input asp-for="SaveChangesModel.Name" aria-required="true" class="form-control" id="churchName" type="text" placeholder="@Localizer["TAG_NAME"]" />
-                <label asp-for="SaveChangesModel.Name"></label>
+    <section class="fc-card" aria-labelledby="det-h">
+        <h2 id="det-h" class="fc-card__title">@Localizer["FC_DETAILS"]</h2>
+        <div class="fc-grid">
+            <div class="fc-field fc-span-all">
+                <label class="fc-label" asp-for="SaveChangesModel.Name">@Localizer["FC_CHURCH_NAME"]</label>
+                <input class="fc-input" asp-for="SaveChangesModel.Name" aria-required="true" />
                 <span asp-validation-for="SaveChangesModel.Name" class="text-danger"></span>
             </div>
-
-            <div class="form-floating full-width">
-                <textarea asp-for="SaveChangesModel.Description" class="form-control" id="churchDescription" maxlength="1000" placeholder="@Localizer["TAG_DESCRIPTION"]" rows="5"></textarea>
-                <label asp-for="SaveChangesModel.Description"></label>
+            <div class="fc-field fc-span-all">
+                <label class="fc-label" asp-for="SaveChangesModel.Description">@Localizer["FC_ABOUT_YOUR_CHURCH"] <span class="fc-opt">— @Localizer["FC_SHOWN_AT_TOP"]</span></label>
+                <textarea class="fc-textarea" asp-for="SaveChangesModel.Description" maxlength="1000" rows="5"></textarea>
                 <span asp-validation-for="SaveChangesModel.Description" class="text-danger"></span>
             </div>
-
-            <div class="form-floating half-width">
-                <input asp-for="SaveChangesModel.Denomination" class="form-control" id="denomination" type="text" placeholder="@Localizer["TAG_DENOMINATION"]" />
-                <label asp-for="SaveChangesModel.Denomination"></label>
+            <div class="fc-field">
+                <label class="fc-label" asp-for="SaveChangesModel.Denomination">@Localizer["LABEL_DENOMINATION"]</label>
+                <input class="fc-input" asp-for="SaveChangesModel.Denomination" />
                 <span asp-validation-for="SaveChangesModel.Denomination" class="text-danger"></span>
             </div>
-
-                <div class="form-floating half-width">
-                <input asp-for="SaveChangesModel.Congregation" class="form-control" id="congregationSize" type="text" placeholder="@Localizer["TAG_ATTENDENCE"]" />
-                <label asp-for="SaveChangesModel.Congregation">@Localizer["TAG_SIZE_CONGREGATION"]</label>
+            <div class="fc-field">
+                <label class="fc-label" asp-for="SaveChangesModel.Congregation">@Localizer["TAG_SIZE_CONGREGATION"]</label>
+                <input class="fc-input" asp-for="SaveChangesModel.Congregation" placeholder="20–50" />
                 <span asp-validation-for="SaveChangesModel.Congregation" class="text-danger"></span>
             </div>
-
-                <div class="form-floating half-width">
-                <input id="addressInput" asp-for="SaveChangesModel.Address" class="form-control" type="text" placeholder="@Localizer["TAG_ADDRESS"]" />
-                <label asp-for="SaveChangesModel.Address"></label>
+            <div class="fc-field">
+                <label class="fc-label" asp-for="SaveChangesModel.Address">@Localizer["TAG_ADDRESS"]</label>
+                <input class="fc-input" id="addressInput" asp-for="SaveChangesModel.Address" autocomplete="street-address" />
                 <span asp-validation-for="SaveChangesModel.Address" class="text-danger"></span>
-                <button type="button" class="btn btn-success w-100" id="useMyLocationButton">@Localizer["TAG_USE_GEOLOCATION"]</button>
+                <button type="button" class="fc-link-btn" style="align-self: flex-start" data-fc-geo="/Identity/Account/Manage/ChurchProfile?handler=GetAddress" data-fc-geo-target="addressInput" data-busy="@Localizer["FC_FINDING_YOU"]">@Localizer["TAG_USE_GEOLOCATION"]</button>
             </div>
-
-            <div class="form-floating half-width">
-                <input asp-for="SaveChangesModel.Phone" class="form-control" id="phone" type="tel" placeholder="@Localizer["TAG_PHONE"]" />
-                <label asp-for="SaveChangesModel.Phone">@Localizer["TAG_PHONE"]</label>
+            <div class="fc-field">
+                <label class="fc-label" asp-for="SaveChangesModel.Phone">@Localizer["TAG_PHONE"]</label>
+                <input class="fc-input" asp-for="SaveChangesModel.Phone" type="tel" autocomplete="tel" />
                 <span asp-validation-for="SaveChangesModel.Phone" class="text-danger"></span>
             </div>
-
-            <div class="form-floating full-width">
-                <input asp-for="SaveChangesModel.Churchsuite" class="form-control" id="churchsuite" type="text" placeholder="@Localizer["TAG_CHURCHSUITE"]" />
-                <label asp-for="SaveChangesModel.Churchsuite">@Localizer["TAG_CHURCHSUITE"]</label>
-                <span asp-validation-for="SaveChangesModel.Churchsuite" class="text-danger"></span>
-            </div>
-
-            <div class="form-floating half-width">
-                <input asp-for="SaveChangesModel.Website" class="form-control" id="website" type="text" placeholder="@Localizer["TAG_WEBSITE"]" />
-                <label asp-for="SaveChangesModel.Website">@Localizer["TAG_WEBSITE"]</label>
+            <div class="fc-field">
+                <label class="fc-label" asp-for="SaveChangesModel.Website">@Localizer["TAG_WEBSITE"]</label>
+                <input class="fc-input" asp-for="SaveChangesModel.Website" type="url" />
                 <span asp-validation-for="SaveChangesModel.Website" class="text-danger"></span>
             </div>
-
-
-            <div class="form-group-container">
-                <div class="form-group half-width">
-                    <label class="form-check-label listLabel">@Localizer["TAG_FACILITIES"]</label>
-                    <div class="checkbox-list-two-column">
-                        <label><input class="form-check-input" type="checkbox" asp-for="SaveChangesModel.Restrooms" /> @Localizer["NEARME_FACILITY_RESTROOMS"]</label>
-                        <label><input class="form-check-input" type="checkbox" asp-for="SaveChangesModel.WheelchairAccess" /> @Localizer["NEARME_FACILITY_WHEELCHAIR_ACCESS"]</label>
-                        <label><input class="form-check-input" type="checkbox" asp-for="SaveChangesModel.Wifi" /> @Localizer["NEARME_FACILITY_WIFI"]</label>
-                        <label><input class="form-check-input" type="checkbox" asp-for="SaveChangesModel.Refreshments" /> @Localizer["NEARME_FACILITY_REFRESHMENTS"]</label>
-                        <label><input class="form-check-input" type="checkbox" asp-for="SaveChangesModel.Parking" value="true" /> @Localizer["NEARME_FACILITY_PARKING"]</label>
-                        <label><input class="form-check-input" type="checkbox" asp-for="SaveChangesModel.Childcare" /> @Localizer["NEARME_FACILITY_CHILDRENS_MINISTRY"]</label>
-                        <label><input class="form-check-input" type="checkbox" asp-for="SaveChangesModel.HearingAidSupport" /> @Localizer["NEARME_FACILITY_HEARING_AID_SUPPORT"]</label>
-                        <label><input class="form-check-input" type="checkbox" asp-for="SaveChangesModel.Kitchen" /> @Localizer["NEARME_FACILITY_KITCHEN"]</label>
-                        <label><input class="form-check-input" type="checkbox" asp-for="SaveChangesModel.MeetingHall" /> @Localizer["NEARME_FACILITY_COMMUNITY_HALL"]</label>
-                        <label><input class="form-check-input" type="checkbox" asp-for="SaveChangesModel.OutdoorSpaces" /> @Localizer["NEARME_FACILITY_OUTDOOR_SPACE"]</label>
-                        <label><input class="form-check-input" type="checkbox" asp-for="SaveChangesModel.WorshipHall" /> @Localizer["NEARME_FACILITY_WORSHIP_HALL"]</label>
-                    </div>
-                </div>
+            <div class="fc-field">
+                <label class="fc-label" asp-for="SaveChangesModel.Churchsuite">@Localizer["TAG_CHURCHSUITE"]</label>
+                <input class="fc-input" asp-for="SaveChangesModel.Churchsuite" type="url" />
+                <span asp-validation-for="SaveChangesModel.Churchsuite" class="text-danger"></span>
             </div>
-
-            <button type="submit" class="btn btn-success w-100">@Localizer["TAG_UPDATE_INFORMATION"]</button>
         </div>
+    </section>
+
+    <section class="fc-card" aria-labelledby="fac-h">
+        <h2 id="fac-h" class="fc-card__title" style="margin-bottom: 4px !important">@Localizer["TAG_FACILITIES"]</h2>
+        <p class="fc-small fc-muted" style="margin-bottom: 12px">@Localizer["FC_FACILITIES_HINT"]</p>
+        <div class="fc-switches">
+            @foreach (var (field, labelKey) in facilities)
+            {
+                <label class="fc-switch">
+                    <span>@Localizer[labelKey]</span>
+                    <input type="checkbox" role="switch" name="SaveChangesModel.@field" value="true" checked="@FacilityOn(field)" />
+                </label>
+            }
+        </div>
+    </section>
+
+    <div class="fc-btn-row" style="justify-content: flex-end">
+        <a class="fc-btn fc-btn--quiet" asp-page="./ChurchProfile">@Localizer["FC_DISCARD_CHANGES"]</a>
+        <button type="submit" class="fc-btn fc-btn--primary">@Localizer["TAG_UPDATE_INFORMATION"]</button>
+    </div>
+</form>
+
+<section id="services" class="fc-card" aria-labelledby="svc-h">
+    <h2 id="svc-h" class="fc-card__title">@Localizer["SERVICE_TIMES_TITLE"]</h2>
+    @if (services.Count == 0)
+    {
+        <p class="fc-muted" style="margin-bottom: 16px">@Localizer["FC_NO_SERVICE_TIMES_ADMIN"]</p>
+    }
+    else
+    {
+        <div class="fc-table-wrap" style="margin-bottom: 18px">
+            <table class="fc-table">
+                <thead>
+                    <tr>
+                        <th scope="col">@Localizer["TIME_LABEL"]</th>
+                        <th scope="col">@Localizer["NOTE_LABEL"]</th>
+                        <th scope="col"><span class="fc-sr-only">@Localizer["DELETE_ENTRY_LABEL"]</span></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var service in services)
+                    {
+                        <tr>
+                            <td style="font-family: var(--fc-serif); font-size: 20px; font-weight: 600; width: 110px">@FcText.ServiceTime(service.Time)</td>
+                            <td style="font-size: 16px; font-weight: 600">@FcText.PlainText(service.Note)</td>
+                            <td style="text-align: right">
+                                <form method="post" asp-page-handler="RemoveService" data-fc-confirm="@Localizer["FC_CONFIRM_REMOVE_SERVICE"]">
+                                    <input type="hidden" name="id" value="@Encoder.Protect(service.Id, "fc.data.manage.church")" />
+                                    <button type="submit" class="fc-btn fc-btn--danger-outline fc-btn--sm">@Localizer["STATUS_REMOVE"]<span class="fc-sr-only"> @FcText.ServiceTime(service.Time)</span></button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+
+    <form method="post" asp-page-handler="AddServiceTime" class="fc-service-edit">
+        <div class="fc-field">
+            <label class="fc-label" for="serviceTime">@Localizer["TIME_LABEL"]</label>
+            <input class="fc-input" asp-for="ChurchService.Time" id="serviceTime" type="time" required />
+        </div>
+        <div class="fc-field">
+            <label class="fc-label" for="serviceNote">@Localizer["FC_SERVICE_NAME"]</label>
+            <input class="fc-input" asp-for="ChurchService.Note" id="serviceNote" placeholder="@Localizer["TAG_SERVICE_NOTE_PLACEHOLDER"]" required />
+        </div>
+        <button type="submit" class="fc-btn fc-btn--dashed">+ @Localizer["STATUS_ADD_SERVICE"]</button>
     </form>
 </section>
 
-<!-- Sync Profile from ChurchSuite -->
-<section class="endSection">
-    <h2>@Localizer["TAG_SYNC_FROM_CHURCHSUITE"]</h2>
-    <p>
-        @Localizer["TAG_SYNC_FROM_CHURCHSUITE_DESC"]</p>
-    @{ var returnUrlAbsolute = $"{Request.Scheme}://{Request.Host}/Identity/Account/Manage/ChurchProfile"; var csLink = Url.Page("/Account/ExternalLogin", new { area = "Identity", provider = "ChurchSuite", returnUrl = returnUrlAbsolute }); }
-    <a id="churchsuite-link" href="@csLink" class="btn w-100" style="display:block; width:100%; margin-bottom:1.5rem; text-decoration:none;">
-        <button type="button" class="w-100 btn btn-lg churchsuite-logo"
-                style="background-color: #1F2553 !important;
-            border: 1px solid #1F2553 !important;
-            padding: 10px !important;
-            display: block !important;
-            height: auto !important;">
-            <div style="display: flex; justify-content: center; align-items: center; width: 100%;">
-                <img src="~/img/cs_white.png"
-                     alt="ChurchSuite Logo"
-                     class="churchsuite-img"
-                     width="240" height="52" />
-            </div>
-        </button>
-    </a>
-</section>
-
-<section class="endSection">
-    <form id="update-logo" enctype="multipart/form-data" asp-page-handler="UpdateUserLogo">
-        <!-- AntiforgeryToken -->
-        @Html.AntiForgeryToken()
-        <label id="fancy-upload-button" for="upload-btn">@Localizer["TAG_SELECT_IMAGE"]</label>
-        <input asp-for="UnprocessedImage" id="upload-btn" type="file" accept="image/png, image/jpeg" hidden />
-        <button type="submit" class="btn btn-success logo-upload-btn full-width W-100">@Localizer["UPLOAD_LOGO_TEXT"]</button>
+<section class="fc-card" aria-labelledby="logo-h">
+    <h2 id="logo-h" class="fc-card__title">@Localizer["FC_LOGO_TITLE"]</h2>
+    <form method="post" enctype="multipart/form-data" asp-page-handler="UpdateUserLogo" class="fc-upload">
+        <img class="fc-upload__preview" src="@imgSrc" alt="@Localizer["FC_CURRENT_LOGO"]" />
+        <div class="fc-field" style="flex: 1 1 260px">
+            <label class="fc-label" for="upload-btn">@Localizer["TAG_SELECT_IMAGE"]</label>
+            <input asp-for="UnprocessedImage" id="upload-btn" type="file" accept="image/png, image/jpeg" required />
+            <span class="fc-hint">@Localizer["FC_LOGO_HINT"]</span>
+        </div>
+        <button type="submit" class="fc-btn fc-btn--outline">@Localizer["UPLOAD_LOGO_TEXT"]</button>
     </form>
-
-    <div class="form-container">
-        <div class="btn btn_markShutdown half-width @(Model?.CurrentChurch?.Status == "Open" ? "btn-danger" : "btn-success")" id="markChurchStatusButton">@Localizer["MARK_CHURCH_AS"] @(Model?.CurrentChurch?.Status == Localizer["STATUS_OPEN"] ? Localizer["STATUS_CLOSED"] : Localizer["STATUS_OPEN"])</div>
-        <button type="button" class="btn btn-success half-width" data-bs-toggle="modal" data-bs-target="#serviceTimes">@Localizer["MANAGE_CHURCH_SERVICE_TIMES"]</button>
-    </div>
-
-    <p>@Localizer["TAG_CLOSED_INFO"]</p>
 </section>
 
-<div class="modal fade" id="serviceTimes" tabindex="-1" aria-labelledby="serviceTimeslabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="serviceTimeslabel">@Localizer["TAG_CHURCH_SERVICE_TIME_BUTTON"]</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <div class="row">
-                    <div class="col-6 col-sm-12">
-                        <h3>@Localizer["SERVICE_TIMES_TITLE"]</h3>
-
-                        <table class="table transparent-table">
-                            <thead>
-                                <tr>
-                                    <th>@Localizer["TIME_LABEL"]</th>
-                                    <th>@Localizer["NOTE_LABEL"]</th>
-                                    <th>@Localizer["DELETE_ENTRY_LABEL"]</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @if (Model?.ServiceTimes != null)
-                                {
-                                    @foreach (var service in Model.ServiceTimes)
-                                    {
-                                        <tr>
-                                            <td>@Encoder.HtmlEncode(service.Time.ToString())</td>
-                                            <td>@Encoder.HtmlEncode(service.Note)</td>
-                                            <td>
-                                                <form method="post" asp-page-handler="RemoveService">
-                                                    <!-- AntiforgeryToken -->
-                                                    @Html.AntiForgeryToken()
-                                                    <input type="hidden" name="id" value="@Encoder.Protect(service.Id, "fc.data.manage.church")" />
-                                                    <button type="submit" class="btn btn-danger">Remove</button>
-                                                </form>
-                                            </td>
-                                        </tr>
-                                    }
-                                }
-                            </tbody>
-                        </table>
-                    </div>
-
-                    <div class="col-12 col-sm-12">
-                        <form method="post" asp-page-handler="AddServiceTime">
-                            <div class="form-container">
-                                <input asp-for="ChurchService.Time" class="form-control" id="serviceTime" type="time" placeholder="9:45..." />
-                                <input asp-for="ChurchService.Note" class="form-control" id="serviceNote" type="text" placeholder="@Localizer["TAG_SERVICE_NOTE_PLACEHOLDER"]" />
-                                <button type="submit" class="w-100 btn btn-success">@Localizer["STATUS_ADD_SERVICE"]</button>
-                            </div>
-                            <!-- AntiforgeryToken -->
-                            @Html.AntiForgeryToken()
-                        </form>
-                    </div>
-
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-light" data-bs-dismiss="modal">@Localizer["STATUS_CLOSE"]</button>
-                    </div>
-                </div>
-            </div>
+<section class="fc-card fc-row fc-row--between" aria-labelledby="cs-h" style="gap: 16px 24px">
+    <div class="fc-row" style="flex: 1 1 360px; flex-wrap: nowrap; gap: 16px">
+        <span class="fc-cs-mark" aria-hidden="true"><svg class="fc-icon" style="width: 28px; height: 28px" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"></circle><path d="M12 3v18M3 12h18"></path></svg></span>
+        <div class="fc-stack" style="gap: 4px">
+            <h2 id="cs-h" class="fc-h3">@Localizer["TAG_SYNC_FROM_CHURCHSUITE"]</h2>
+            <p class="fc-small fc-muted">@Localizer["TAG_SYNC_FROM_CHURCHSUITE_DESC"]</p>
         </div>
     </div>
-</div>
+    <div class="fc-btn-row">
+        <form method="post" asp-page-handler="SyncChurchSuiteOAuth">
+            <button type="submit" class="fc-btn fc-btn--primary">@Localizer["FC_SYNC_NOW"]</button>
+        </form>
+        <a class="fc-btn fc-btn--quiet" asp-page="./ExternalLogins">@Localizer["FC_MANAGE_CONNECTION"]</a>
+    </div>
+</section>
+
+<section class="fc-card fc-card--danger fc-stack" aria-labelledby="dz-h" style="gap: 10px">
+    <h2 id="dz-h" class="fc-h3" style="color: var(--fc-danger)">@Localizer["FC_DANGER_ZONE"]</h2>
+    @if (isOpen)
+    {
+        <p style="max-width: 760px">@Localizer["TAG_CLOSED_INFO"]</p>
+        <form method="get" data-fc-confirm="@Localizer["FC_CONFIRM_CLOSE", FcText.PlainText(Model?.CurrentChurch?.Name)]">
+            <input type="hidden" name="handler" value="MarkChurchStatus" />
+            <input type="hidden" name="status" value="Closed" />
+            <button type="submit" class="fc-btn fc-btn--danger-outline">@Localizer["FC_MARK_CLOSED"]</button>
+        </form>
+    }
+    else
+    {
+        <p style="max-width: 760px">@Localizer["FC_CLOSED_NOW"]</p>
+        <form method="get">
+            <input type="hidden" name="handler" value="MarkChurchStatus" />
+            <input type="hidden" name="status" value="Open" />
+            <button type="submit" class="fc-btn fc-btn--primary">@Localizer["FC_MARK_OPEN"]</button>
+        </form>
+    }
+</section>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
-    <script src="~/lib/jquery/dist/jquery.min.js" asp-append-version="true" integrity="sha256-zp0HUArZHsK1JMJwdk7EyaM+eDINjTdOxADt5Ij2JRs="></script>
-    <script nonce="@HttpContextAccessor.HttpContext?.Items["CSP-Script-Nonce"]">
-        const addressInput = document.getElementById("addressInput");
-        const useMyLocationButton = document.getElementById("useMyLocationButton");
-        const markChurchStatusButton = document.getElementById("markChurchStatusButton");
-
-        useMyLocationButton.addEventListener("click", getLocation);
-        markChurchStatusButton.addEventListener("click", () => markChurchStatus('@Encoder.HtmlEncode(Model.CurrentChurch.Status)'));
-
-        function getLocation() {
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(showPosition);
-            } else {
-                addressInput.value = "Geolocation is not supported by this browser.";
-            }
-        }
-
-        function showPosition(position) {
-            const latitude = position.coords.latitude;
-            const longitude = position.coords.longitude;
-
-            $.ajax({
-                url: `/Identity/Account/Manage/ChurchProfile?handler=GetAddress&latitude=${latitude}&longitude=${longitude}`,
-                method: 'GET',
-                headers: {
-                    'X-CSRF-TOKEN-HEADER': $('input[name="__RequestVerificationToken"]').val()
-                },
-                success: function (address) {
-                    addressInput.value = address;
-                },
-                error: function (xhr, status, error) {
-                    addressInput.value = "Error retrieving address: " + error;
-                    console.error('Error:', error);
-                }
-            });
-        }
-
-        function markChurchStatus(currentStatus) {
-            const newStatus = currentStatus === "Open" ? "Closed" : "Open";
-
-            $.ajax({
-                url: `/Identity/Account/Manage/ChurchProfile?handler=MarkChurchStatus&status=${newStatus}`,
-                method: "GET",
-                headers: {
-                    'X-CSRF-TOKEN-HEADER': $('input[name="__RequestVerificationToken"]').val()
-                },
-                contentType: "application/json; charset=utf-8",
-                success: function (response) {
-                    const button = document.querySelector('.btn_markShutdown');
-                    button.textContent = `Mark Church as ${currentStatus === "Open" ? "Open" : "Closed"}`;
-                    button.classList.toggle('btn-danger');
-                    button.classList.toggle('btn-success');
-                },
-                error: function (xhr, status, error) {
-                    alert("Error: " + xhr.responseText);
-                    console.error('Error:', error);
-                }
-            });
-        }
-    </script>
 }

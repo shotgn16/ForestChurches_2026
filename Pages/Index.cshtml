@@ -1,61 +1,70 @@
-﻿@page
+@page
 @model IndexModel
+@using ForestChurches.Components.Ui
 @{
-    ViewData["Title"] = Localizer["HOMEPAGE_PAGE_TITLE"];
+    ViewData["Title"] = Localizer["FC_HOME_TITLE"];
+    var search = new ForestChurches.Models.ChurchSearchForm
+    {
+        Denominations = Model.Denominations,
+        InHero = true
+    };
 }
-<head>
-    <!-- Page specific CSS -->
-    <link rel="stylesheet" href="~/css2/Variables.css" />
-    <link rel="stylesheet" href="~/css2/Video.css" />
-</head>
-<style nonce="@HttpContextAccessor.HttpContext?.Items["CSP-Style-Nonce"]">
-    .footer-container {
-        position: static;
-    }
 
-    footer {
-        position: fixed;
-    }
-/*     .navbar-collapse, .navbar-nav {
-        background-color: #00734B;
-        border-radius: 40px 40px 40px 40px;
-    }
+<section class="fc-hero" aria-labelledby="hero-title">
+    <img class="fc-hero__img" src="~/img/hero.jpg" alt="@Localizer["FC_HERO_ALT"]" />
+    <div class="fc-hero__shade"></div>
+    <div class="fc-container fc-hero__body">
+        <p class="fc-hero__eyebrow">@Localizer["FC_HERO_EYEBROW"]</p>
+        <h1 id="hero-title">@Localizer["FC_HERO_TITLE"]</h1>
+        <p class="fc-hero__lead">@Localizer["FC_HERO_LEAD"]</p>
+        <partial name="_ChurchSearch" model="search" />
+    </div>
+</section>
 
-    .navbar-brand {
-        background-color: #00734B;
-        border-radius: 40px 40px 40px 40px;
-    }
+@if (Model.UpcomingEvents.Count > 0)
+{
+    <section class="fc-container fc-section" aria-labelledby="whatson-title">
+        <div class="fc-row fc-row--between" style="margin-bottom: 20px">
+            <h2 id="whatson-title" class="fc-h2">@Localizer["FC_WHATS_ON"]</h2>
+            <a asp-page="/NearMe" asp-fragment="events" class="fc-small" style="font-weight: 700">@Localizer["FC_FIND_EVENTS"]</a>
+        </div>
+        <div class="fc-event-cards">
+            @foreach (var ev in Model.UpcomingEvents)
+            {
+                <article class="fc-event-card">
+                    <div class="fc-date" aria-hidden="true">
+                        <span class="fc-date__mon">@ev.Date.ToString("MMM")</span>
+                        <span class="fc-date__day">@ev.Date.Day</span>
+                    </div>
+                    <div class="fc-event__body">
+                        <h3 class="fc-event__name" style="font-family: var(--fc-sans); font-size: 18px">@FcText.PlainText(ev.Name)</h3>
+                        <span class="fc-small fc-muted"><span class="fc-sr-only">@ev.Date.ToString("D") </span>@FcText.EventWhen(ev.Date, ev.StartTime, ev.EndTime)</span>
+                        <span class="fc-tiny fc-muted">@FcText.PlainText(ev.Church)</span>
+                    </div>
+                </article>
+            }
+        </div>
+    </section>
+}
 
-    .navbar-collapse {
-        flex-grow: 0;
-    }
+<section class="fc-container fc-section" aria-labelledby="how-title" style="padding-top: @(Model.UpcomingEvents.Count > 0 ? "0" : "56px")">
+    <h2 id="how-title" class="fc-h2" style="margin-bottom: 24px">@Localizer["FC_HOW_TITLE"]</h2>
+    <ol class="fc-steps">
+        <li><span class="fc-steps__title">@Localizer["FC_HOW_1_TITLE"]</span><span class="fc-muted">@Localizer["FC_HOW_1_TEXT"]</span></li>
+        <li><span class="fc-steps__title">@Localizer["FC_HOW_2_TITLE"]</span><span class="fc-muted">@Localizer["FC_HOW_2_TEXT"]</span></li>
+        <li><span class="fc-steps__title">@Localizer["FC_HOW_3_TITLE"]</span><span class="fc-muted">@Localizer["FC_HOW_3_TEXT"]</span></li>
+    </ol>
+</section>
 
-    @@media (max-width: 990px) {
-        .navbar-collapse {
-            flex-grow: 1;
-            border-radius: 10px 10px 10px 10px;
-            padding-left: calc(0.5rem + 1.0vw);
-        }
-
-        .navbar {
-            flex-wrap: 
-        }
-
-    } */
-    </style>
-<body>
-    <main>
-        <section id='title'>
-            <div id='subtitle'>
-                <h1>@Localizer["HOMEPAGE_HERO_TITLE"]</h1>
-                <p id="Info">@Localizer["HOMEPAGE_HERO_SUBTITLE"]</p>
-            </div>
-
-            <section id='background-video'>
-                <video autoplay loop muted>
-                    <source src="/img/header.mp4">
-                </video>
-            </section>
-        </section>
-    </main>
-</body>
+<section class="fc-container" style="padding-bottom: 72px" aria-labelledby="about-title">
+    <div class="fc-card fc-card--dark" style="padding: 48px; border-radius: var(--fc-radius-xl); display: flex; flex-wrap: wrap; gap: 32px; align-items: center">
+        <div class="fc-stack" style="flex: 2 1 420px">
+            <h2 id="about-title" style="font-size: 34px">@Localizer["FC_ABOUT_STRIP_TITLE"]</h2>
+            <p style="font-size: 18px; line-height: 1.6">@Localizer["FC_ABOUT_STRIP_TEXT"]</p>
+        </div>
+        <div class="fc-stack" style="flex: 1 1 260px; gap: 12px">
+            <a asp-page="/Contact" class="fc-btn fc-btn--light fc-btn--lg">@Localizer["FC_LIST_YOUR_CHURCH"]</a>
+            <a asp-page="/Aboutus" class="fc-btn fc-btn--on-dark fc-btn--lg">@Localizer["FC_LEARN_MORE"]</a>
+        </div>
+    </div>
+</section>

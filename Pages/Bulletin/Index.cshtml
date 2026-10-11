@@ -1,127 +1,161 @@
 @page
 @model ForestChurches.Pages.PublicBulletin.IndexModel
 @{
+    Layout = "_Layout";
     // Prefer the active bulletin (admin-controlled). Fall back to the latest bulletin if none is active.
     var b = Model.ActiveBulletin ?? Model.LatestBulletin;
+    ViewData["Title"] = b?.Title ?? Localizer["FC_BULLETIN_DEFAULT_TITLE"].Value;
+
+    // Lists are stored either as a JSON array or as one item per line.
+    List<string> ParseList(string? raw)
+    {
+        if (string.IsNullOrWhiteSpace(raw)) return new List<string>();
+        try
+        {
+            var parsed = System.Text.Json.JsonSerializer.Deserialize<List<string>>(raw);
+            if (parsed != null) return parsed.Where(s => !string.IsNullOrWhiteSpace(s)).ToList();
+        }
+        catch { /* fall through to line splitting */ }
+        return raw.Split('\n').Select(s => s.Trim()).Where(s => s.Length > 0).ToList();
+    }
+
+    var isAnnouncement = string.Equals(b?.Type, "Announcement", StringComparison.OrdinalIgnoreCase)
+        || string.Equals(b?.Type, "Message", StringComparison.OrdinalIgnoreCase);
+    var notices = ParseList(b?.NoticesList);
+    var hymns = ParseList(b?.HymnsList);
+    var hasReadings = !string.IsNullOrWhiteSpace(b?.FirstReading) || !string.IsNullOrWhiteSpace(b?.GospelReading);
 }
 
-@{
-    Layout = "_Layout";
-}
-
-<link href="~/css2/Bulletin.css" rel="stylesheet" asp-append-version="true" />
-
-<div class="container-fluid page-hero">
-    <div class="hero-text">
-        <h1>@(b?.Title ?? "Weekly Pew Sheet & Benefice Bulletin")</h1>
-        <p>@((b?.ParishName) ?? "Forest of Dean Benefice") • @(b?.SundayName ?? "")</p>
-    </div>
-</div>
-
-@await Html.PartialAsync("_BulletinNotify")
-
-<div class="container marketing">
-    <div class="row">
-        <div class="col-lg-12 mb-3">
-            <div class="lead-meta">
-                <strong>📅</strong> @(b?.BulletinDate != null ? b.BulletinDate.ToString("yyyy-MM-dd") : "")
-                <div class="mt-2">
-                    @if (!string.IsNullOrWhiteSpace(b?.PdfFilename))
-                    {
-                        <a href="/uploads/bulletins/@(b.PdfFilename)" class="btn btn-light btn-sm" target="_blank">📥 Download PDF Pew Sheet</a>
-                    }
-                    <button onclick="window.print()" class="btn btn-light btn-sm">🖨️ Print Pew Sheet</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-md-8">
-            @if (string.Equals(b?.Type, "Announcement", StringComparison.OrdinalIgnoreCase) || string.Equals(b?.Type, "Message", StringComparison.OrdinalIgnoreCase))
-            {
-                <div class="b-card">
-                    <h2 class="mb-3">@Html.Raw(System.Net.WebUtility.HtmlEncode(b?.Title ?? "Announcement"))</h2>
-                    <div class="mb-3">@Html.Raw(System.Net.WebUtility.HtmlEncode(b?.PastoralNote ?? "").Replace("\n", "<br/>"))</div>
-                    @if (!string.IsNullOrWhiteSpace(b?.NoticesList))
-                    {
-                        <hr />
-                        <h4>Details</h4>
-                        <ul>
-                        @{ 
-                            var announcementNotices = new List<string>();
-                            try { announcementNotices = System.Text.Json.JsonSerializer.Deserialize<List<string>>(b.NoticesList) ?? b.NoticesList.Split('\n').Select(s => s.Trim()).Where(s => s.Length > 0).ToList(); }
-                            catch { announcementNotices = b.NoticesList.Split('\n').Select(s => s.Trim()).Where(s => s.Length > 0).ToList(); }
-                            foreach (var notice in announcementNotices) { <li>@notice</li>; }
-                        }
-                        </ul>
-                    }
-                </div>
-            }
-            else
-            {
-                <div class="b-card">
-                    <h2>The Collect of the Day</h2>
-                    <p style="font-style: italic; line-height: 1.6; color: #333;">@Html.Raw(System.Net.WebUtility.HtmlEncode(b?.CollectPrayer ?? ""))</p>
-
-                    <h3 class="mt-4">Lectionary Readings</h3>
-                    <div class="mb-2">
-                        <span class="reading-badge">First Reading</span><br />
-                        <strong>@(b?.FirstReading ?? "")</strong>
-                    </div>
-                    <div>
-                        <span class="reading-badge">Holy Gospel</span><br />
-                        <strong>@(b?.GospelReading ?? "")</strong>
-                    </div>
-                </div>
-            }
-        </div>
-
-        <div class="col-md-4">
-            <div class="b-card">
-                <h3>Hymns & Worship</h3>
-                <ol class="mb-0">
-                @{
-                    var hymns = new List<string>();
-                    if (!string.IsNullOrWhiteSpace(b?.HymnsList))
-                    {
-                        try { hymns = System.Text.Json.JsonSerializer.Deserialize<List<string>>(b.HymnsList) ?? b.HymnsList.Split('\n').Select(s => s.Trim()).Where(s => s.Length > 0).ToList(); }
-                        catch { hymns = b.HymnsList.Split('\n').Select(s => s.Trim()).Where(s => s.Length > 0).ToList(); }
-                    }
-                    foreach (var hymn in hymns)
-                    {
-                        <li>@hymn</li>
-                    }
+<section style="background: var(--fc-ink); color: var(--fc-ground)">
+    <div class="fc-container fc-container--narrow fc-stack" style="padding-top: 56px; padding-bottom: 48px; gap: 14px">
+        <p style="font-size: 15px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: #CFD8C2">
+            @(b?.ParishName ?? Localizer["FC_BULLETIN_DEFAULT_PARISH"].Value)@(string.IsNullOrWhiteSpace(b?.SundayName) ? "" : " · " + b!.SundayName)
+        </p>
+        <h1 style="color: #fff; font-size: clamp(34px, 5vw, 52px)">@(b?.Title ?? Localizer["FC_BULLETIN_DEFAULT_TITLE"].Value)</h1>
+        @if (b != null)
+        {
+            <p style="font-size: 18px; color: #E4E8DC">@b.BulletinDate.ToString("dddd d MMMM yyyy")</p>
+            <div class="fc-btn-row fc-no-print" style="margin-top: 8px">
+                @if (!string.IsNullOrWhiteSpace(b.PdfFilename))
+                {
+                    <a href="/uploads/bulletins/@Uri.EscapeDataString(b.PdfFilename)" class="fc-btn fc-btn--light" target="_blank" rel="noopener">
+                        <svg class="fc-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"></path></svg>
+                        @Localizer["FC_DOWNLOAD_PDF"]
+                    </a>
                 }
-                </ol>
+                <button type="button" class="fc-btn fc-btn--on-dark" data-fc-print>
+                    <svg class="fc-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9V3h12v6M6 18H4v-7h16v7h-2M8 14h8v7H8z"></path></svg>
+                    @Localizer["FC_PRINT"]
+                </button>
             </div>
-
-            <div class="b-card mt-3">
-                <h3>Pastoral Note</h3>
-                <p class="mb-0">@Html.Raw(System.Net.WebUtility.HtmlEncode(b?.PastoralNote ?? "").Replace("\n", "<br/>"))</p>
-            </div>
-        </div>
+        }
     </div>
+</section>
 
-    <div class="row mt-3">
-        <div class="col-12">
-            <div class="b-card">
-                <h3>Benefice Notices & Diary</h3>
-                <ul class="notices-list mb-0">
-                @{
-                    var beneficeNotices = new List<string>();
-                    if (!string.IsNullOrWhiteSpace(b?.NoticesList))
-                    {
-                        try { beneficeNotices = System.Text.Json.JsonSerializer.Deserialize<List<string>>(b.NoticesList) ?? b.NoticesList.Split('\n').Select(s => s.Trim()).Where(s => s.Length > 0).ToList(); }
-                        catch { beneficeNotices = b.NoticesList.Split('\n').Select(s => s.Trim()).Where(s => s.Length > 0).ToList(); }
-                    }
-                    foreach (var notice in beneficeNotices)
-                    {
-                        <li>@notice</li>
-                    }
-                }
+<div class="fc-container fc-container--narrow fc-section" style="padding-top: 32px; padding-bottom: 72px">
+    @if (b == null)
+    {
+        <div class="fc-card fc-empty">
+            <h2 class="fc-h3">@Localizer["FC_BULLETIN_NONE"]</h2>
+            <p class="fc-muted" style="margin-top: 8px">@Localizer["FC_BULLETIN_NONE_TEXT"]</p>
+        </div>
+    }
+    else if (isAnnouncement)
+    {
+        <article class="fc-card fc-stack" style="padding: 32px">
+            @if (!string.IsNullOrWhiteSpace(b.PastoralNote))
+            {
+                <p class="fc-lead" style="white-space: pre-line">@b.PastoralNote</p>
+            }
+            @if (notices.Count > 0)
+            {
+                <h2 class="fc-h3">@Localizer["FC_DETAILS"]</h2>
+                <ul style="margin: 0; padding-left: 22px" class="fc-stack">
+                    @foreach (var notice in notices) { <li>@notice</li> }
                 </ul>
+            }
+        </article>
+    }
+    else
+    {
+        <div data-fc-tabs class="fc-stack fc-stack--lg">
+            <div class="fc-tabs fc-no-print" role="tablist" aria-label="@Localizer["FC_BULLETIN_SECTIONS"]">
+                <button type="button" class="fc-tab" role="tab" id="tab-notices" aria-controls="panel-notices">@Localizer["FC_NOTICES"]</button>
+                <button type="button" class="fc-tab" role="tab" id="tab-readings" aria-controls="panel-readings">@Localizer["FC_READINGS"]</button>
+                <button type="button" class="fc-tab" role="tab" id="tab-hymns" aria-controls="panel-hymns">@Localizer["FC_HYMNS"]</button>
+                <button type="button" class="fc-tab" role="tab" id="tab-collect" aria-controls="panel-collect">@Localizer["FC_COLLECT"]</button>
             </div>
+
+            <section class="fc-card fc-tabpanel" role="tabpanel" id="panel-notices" aria-labelledby="tab-notices" style="padding: 32px">
+                <h2 class="fc-h2" style="font-size: 28px !important; margin-bottom: 8px">@Localizer["FC_THIS_WEEKS_NOTICES"]</h2>
+                @if (!string.IsNullOrWhiteSpace(b.PastoralNote))
+                {
+                    <p class="fc-lead" style="white-space: pre-line; margin-bottom: 8px">@b.PastoralNote</p>
+                }
+                @if (notices.Count == 0)
+                {
+                    <p class="fc-muted">@Localizer["FC_NOTHING_THIS_WEEK"]</p>
+                }
+                @foreach (var notice in notices)
+                {
+                    <p class="fc-list-row" style="display: block; font-size: 17px; line-height: 1.6; color: var(--fc-ink-2)">@notice</p>
+                }
+            </section>
+
+            <section class="fc-card fc-tabpanel" role="tabpanel" id="panel-readings" aria-labelledby="tab-readings" style="padding: 32px">
+                <h2 class="fc-h2" style="font-size: 28px !important; margin-bottom: 18px">@Localizer["FC_READINGS"]</h2>
+                @if (!hasReadings)
+                {
+                    <p class="fc-muted">@Localizer["FC_NOTHING_THIS_WEEK"]</p>
+                }
+                else
+                {
+                    <div class="fc-grid">
+                        @if (!string.IsNullOrWhiteSpace(b.FirstReading))
+                        {
+                            <div class="fc-panel"><span class="fc-keyfacts__label" style="display: block">@Localizer["FC_FIRST_READING"]</span><span style="font-family: var(--fc-serif); font-size: 22px; font-weight: 600">@b.FirstReading</span></div>
+                        }
+                        @if (!string.IsNullOrWhiteSpace(b.GospelReading))
+                        {
+                            <div class="fc-panel"><span class="fc-keyfacts__label" style="display: block">@Localizer["FC_GOSPEL"]</span><span style="font-family: var(--fc-serif); font-size: 22px; font-weight: 600">@b.GospelReading</span></div>
+                        }
+                    </div>
+                }
+            </section>
+
+            <section class="fc-card fc-tabpanel" role="tabpanel" id="panel-hymns" aria-labelledby="tab-hymns" style="padding: 32px">
+                <h2 class="fc-h2" style="font-size: 28px !important; margin-bottom: 14px">@Localizer["FC_HYMNS"]</h2>
+                @if (hymns.Count == 0)
+                {
+                    <p class="fc-muted">@Localizer["FC_NOTHING_THIS_WEEK"]</p>
+                }
+                else
+                {
+                    <ol class="fc-stack" style="margin: 0; padding-left: 24px; gap: 10px; font-size: 18px">
+                        @foreach (var hymn in hymns) { <li>@hymn</li> }
+                    </ol>
+                }
+            </section>
+
+            <section class="fc-card fc-tabpanel" role="tabpanel" id="panel-collect" aria-labelledby="tab-collect" style="padding: 32px">
+                <h2 class="fc-h2" style="font-size: 28px !important; margin-bottom: 14px">@Localizer["FC_THE_COLLECT"]</h2>
+                @if (string.IsNullOrWhiteSpace(b.CollectPrayer))
+                {
+                    <p class="fc-muted">@Localizer["FC_NOTHING_THIS_WEEK"]</p>
+                }
+                else
+                {
+                    <p style="font-family: var(--fc-serif); font-size: 22px; line-height: 1.6; font-style: italic; color: var(--fc-ink-2); white-space: pre-line">@b.CollectPrayer</p>
+                }
+            </section>
         </div>
-    </div>
+    }
 </div>
+
+@section Scripts {
+    <script nonce="@HttpContextAccessor.HttpContext?.Items["CSP-Script-Nonce"]">
+        document.querySelectorAll("[data-fc-print]").forEach(function (btn) {
+            btn.addEventListener("click", function () { window.print(); });
+        });
+    </script>
+}

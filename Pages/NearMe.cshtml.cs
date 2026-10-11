@@ -40,37 +40,37 @@ namespace ForestChurches.Pages
         public List<string> Denominations { get; set; } = new();
 
         [BindProperty]
-        public bool FilterParking { get; set; } = true;
+        public bool FilterParking { get; set; } = false;
 
         [BindProperty]
-        public bool FilterRestrooms { get; set; } = true;
+        public bool FilterRestrooms { get; set; } = false;
 
         [BindProperty]
-        public bool FilterWheelchairAccess { get; set; } = true;
+        public bool FilterWheelchairAccess { get; set; } = false;
 
         [BindProperty]
-        public bool FilterWifi { get; set; } = true;
+        public bool FilterWifi { get; set; } = false;
 
         [BindProperty]
-        public bool FilterRefreshments { get; set; } = true;
+        public bool FilterRefreshments { get; set; } = false;
 
         [BindProperty]
-        public bool FilterWorshipHall { get; set; } = true;
+        public bool FilterWorshipHall { get; set; } = false;
 
         [BindProperty]
-        public bool FilterChildcare { get; set; } = true;
+        public bool FilterChildcare { get; set; } = false;
 
         [BindProperty]
-        public bool FilterMeetingHall { get; set; } = true;
+        public bool FilterMeetingHall { get; set; } = false;
 
         [BindProperty]
-        public bool FilterKitchen { get; set; } = true;
+        public bool FilterKitchen { get; set; } = false;
 
         [BindProperty]
-        public bool FilterOutdoorSpaces { get; set; } = true;
+        public bool FilterOutdoorSpaces { get; set; } = false;
 
         [BindProperty]
-        public bool FilterHearingAidSupport { get; set; } = true;
+        public bool FilterHearingAidSupport { get; set; } = false;
 
         [BindProperty]
         public double? MaxDistanceMiles { get; set; } = 5.0;
@@ -90,6 +90,9 @@ namespace ForestChurches.Pages
         internal bool isAuthenticated { get; set; }
         internal bool ShowPlacesModal { get; set; }
         internal bool ShowEventsModal { get; set; }
+
+        // Distance (in miles) from the searched location, keyed by church ID.
+        internal Dictionary<string, double> PlaceDistanceMiles { get; } = new();
 
         public NearMeModel(
             GoogleInterface GoogleInterface,
@@ -119,27 +122,31 @@ namespace ForestChurches.Pages
         public async Task<IActionResult> OnGetAsync()
         {
             TempData["Message"] = null;
-            // Populate denomination dropdown from DB
+            await LoadLookupsAsync();
+            return Page();
+        }
+
+        // Populates the denomination and church dropdowns so they survive a re-render after any POST.
+        private async Task LoadLookupsAsync()
+        {
             Denominations = await _context.ChurchInformation
                 .Select(c => c.Denomination)
                 .Distinct()
                 .OrderBy(d => d)
                 .ToListAsync();
 
-            // Populate church names for event filter
             ChurchNames = await _context.ChurchInformation
                 .Where(c => c.Status == "Open")
                 .Select(c => c.Name)
                 .Distinct()
                 .OrderBy(n => n)
                 .ToListAsync();
-
-            return Page();
         }
 
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> OnPostChurchForm()
         {
+            await LoadLookupsAsync();
             if (!ModelState.IsValid)
             {
                 _logger.LogInformation("ModelState invalid in OnPostChurchForm");
@@ -188,7 +195,7 @@ namespace ForestChurches.Pages
                     FilterParking, FilterRestrooms, FilterWheelchairAccess, FilterWifi, FilterRefreshments, FilterWorshipHall, FilterChildcare, FilterMeetingHall, FilterKitchen, FilterOutdoorSpaces, FilterHearingAidSupport);
 
                 // Build base query and apply facility / denomination filters in SQL
-                var query = _context.ChurchInformation.Where(c => c.Status == "Open");
+                var query = _context.ChurchInformation.Include(c => c.ServiceTimes).Where(c => c.Status == "Open");
 
                 if (FilterParking) query = query.Where(c => c.Parking);
                 if (FilterRestrooms) query = query.Where(c => c.Restrooms);
@@ -244,6 +251,10 @@ namespace ForestChurches.Pages
 
                 cid = orderedChurches.Select(c => Guid.Parse(c.Church.ID)).ToList();
                 _places = orderedChurches.Select(x => x.Church).ToList();
+                foreach (var (church, distanceKm) in orderedChurches)
+                {
+                    PlaceDistanceMiles[church.ID] = distanceKm / 1.60934;
+                }
                 ShowPlacesModal = true;
             }
             catch (Exception ex)
@@ -259,6 +270,7 @@ namespace ForestChurches.Pages
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> OnPostEventForm()
         {
+            await LoadLookupsAsync();
             if (!ModelState.IsValid)
             {
                 // ensure church names available for re-render

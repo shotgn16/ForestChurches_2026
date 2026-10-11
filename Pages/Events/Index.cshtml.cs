@@ -48,9 +48,10 @@ namespace ForestChurches.Pages.Events
             _eventSyncService = eventSyncService;
         }
 
-        public void OnGet()
+        public async Task<IActionResult> OnGetAsync()
         {
-            LoadAsync();
+            // Previously LoadAsync() was not awaited, so the page could render before Events was loaded.
+            return await LoadAsync();
         }
 
         private async Task<IActionResult> LoadAsync()

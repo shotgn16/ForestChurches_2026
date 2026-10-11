@@ -1,69 +1,76 @@
-﻿@page
+@page
 @model LoginModel
 @using Microsoft.Extensions.Localization
 @{
-    ViewData["Title"] = Localizer["LOGIN_TITLE"];
+    ViewData["Title"] = Localizer["FC_NAV_CHURCH_LOGIN"];
+    var error = TempData["ErrorMessage"] as string ?? ViewData["ErrorMessage"] as string ?? Model.ErrorMessage ?? Request.Query["error"].FirstOrDefault();
 }
-<head>
-    <!-- Page specific CSS -->
-    <link rel="stylesheet" href="~/css2/Login.css" asp-append-version="true" />
-</head>
 
-<style nonce="@HttpContextAccessor.HttpContext?.Items["CSP-Style-Nonce"]">
-    .mb-3, .h3, h3 {
-        color: white;
-    }
-
-    footer {
-        position: fixed;
-    }
-
-    .login-container {
-        height: 70vh;
-    }
-</style>
-
-<body class="container-fluid login-container text-center">
-    <form id="account" method="post" class="form-signin">
-        <!-- AntiforgeryToken -->
-        @Html.AntiForgeryToken()
-
-        @{
-            var error = TempData["ErrorMessage"] as string ?? ViewData["ErrorMessage"] as string ?? Request.Query["error"].FirstOrDefault();
-        }
-        @if (!string.IsNullOrEmpty(error))
-        {
-            <div class="alert alert-warning" role="alert">@error</div>
-        }
-
-        <div asp-validation-summary="All" class="text-danger"></div>
-
-        <img class="mb-4" src="~/img/logo.png" width="300" height="200">
-            <h1 class="h3 mb-3 font-weight-normal">@Localizer["LOGIN_HEADING"]</h1>
-                <label asp-for="Input.Email" class="sr-only">@Localizer["LOGIN_EMAIL_LABEL"]</label>
-                <input asp-for="Input.Email" type="email" autocomplete="on" aria-required="true" class="form-control" placeholder="@Localizer["LOGIN_EMAIL_PLACEHOLDER"]" required="" autofocus="">
-                <span asp-validation-for="Input.Email" class="text-danger"></span>
-                <label asp-for="Input.Password" class="sr-only">@Localizer["LOGIN_PASSWORD_LABEL"]</label>
-                <input asp-for="Input.Password" type="password" autocomplete="on" aria-required="true" class="form-control" placeholder="@Localizer["LOGIN_PASSWORD_PLACEHOLDER"]" required="">
-                <span asp-validation-for="Input.Password" class="text-danger"></span>
-        <div class="form-container">
-            <button id="login-submit" type="submit" class="half-width w-100 btn btn-lg btn-success btn-block">@Localizer["LOGIN_HEADING"]</button>
-            <div class="half-width checkbox mb-3">
-                <label asp-for="Input.RememberMe">
-                    <input class="form-check-input" asp-for="Input.RememberMe" />
-                    @Html.DisplayNameFor(m => m.Input.RememberMe)
-                </label>
-            </div>
+<div class="fc-auth">
+    <div class="fc-auth__photo" aria-hidden="true">
+        <img src="~/img/hero.jpg" alt="" />
+        <div class="fc-auth__photo-shade"></div>
+        <div class="fc-auth__photo-copy">
+            <h2>@Localizer["FC_LOGIN_PITCH_TITLE"]</h2>
+            <p>@Localizer["FC_LOGIN_PITCH_TEXT"]</p>
         </div>
+    </div>
 
-        <div>
-            <p style="margin-top: 1.5rem;">
-                <a id="forgot-password" asp-page="./ForgotPassword">@Localizer["LOGIN_FORGOT_PASSWORD_LINK"]</a> | <a id="resend-confirmation" asp-page="./ResendEmailConfirmation">@Localizer["LOGIN_RESEND_CONFIRMATION_LINK"]</a>
+    <div class="fc-auth__form">
+        <div class="fc-auth__box">
+            <div class="fc-stack" style="gap: 6px">
+                <h1 style="font-size: 36px">@Localizer["FC_NAV_CHURCH_LOGIN"]</h1>
+                <p class="fc-muted">@Localizer["FC_LOGIN_LEAD"]</p>
+            </div>
+
+            @if (!string.IsNullOrEmpty(error))
+            {
+                <div class="fc-alert fc-alert--warn" role="alert">@error</div>
+            }
+
+            <form id="account" method="post" class="fc-stack">
+                <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+                <div class="fc-field">
+                    <label class="fc-label" asp-for="Input.Email">@Localizer["LOGIN_EMAIL_LABEL"]</label>
+                    <input class="fc-input" asp-for="Input.Email" type="email" autocomplete="username" aria-required="true" required autofocus />
+                    <span asp-validation-for="Input.Email" class="text-danger"></span>
+                </div>
+                <div class="fc-field">
+                    <div class="fc-row fc-row--between" style="align-items: baseline">
+                        <label class="fc-label" asp-for="Input.Password">@Localizer["LOGIN_PASSWORD_LABEL"]</label>
+                        <a id="forgot-password" asp-page="./ForgotPassword" class="fc-tiny" style="font-weight: 700">@Localizer["LOGIN_FORGOT_PASSWORD_LINK"]</a>
+                    </div>
+                    <div class="fc-pw">
+                        <input class="fc-input" asp-for="Input.Password" type="password" autocomplete="current-password" aria-required="true" required />
+                        <button type="button" class="fc-pw__toggle" data-fc-pw-toggle aria-controls="Input_Password" aria-pressed="false" data-show="@Localizer["FC_SHOW"]" data-hide="@Localizer["FC_HIDE"]">@Localizer["FC_SHOW"]</button>
+                    </div>
+                    <span asp-validation-for="Input.Password" class="text-danger"></span>
+                </div>
+                <label class="fc-check">
+                    <input asp-for="Input.RememberMe" />
+                    @Localizer["FC_KEEP_ME_SIGNED_IN"]
+                </label>
+                <button id="login-submit" type="submit" class="fc-btn fc-btn--primary fc-btn--lg fc-btn--block">@Localizer["FC_SIGN_IN"]</button>
+            </form>
+
+            @if (Model.ExternalLogins?.Count > 0)
+            {
+                <div class="fc-or">@Localizer["FC_OR"]</div>
+                <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="fc-stack" style="gap: 10px">
+                    @foreach (var provider in Model.ExternalLogins)
+                    {
+                        <button type="submit" class="fc-btn fc-btn--outline fc-btn--lg fc-btn--block" name="provider" value="@provider.Name">@Localizer["FC_SIGN_IN_WITH", provider.DisplayName ?? provider.Name]</button>
+                    }
+                </form>
+            }
+
+            <p class="fc-small fc-muted" style="line-height: 1.5">
+                @Localizer["FC_NOT_SET_UP"] <a asp-area="" asp-page="/Contact" style="font-weight: 700">@Localizer["FC_ASK_FOR_INVITE"]</a>.
+                <a id="resend-confirmation" asp-page="./ResendEmailConfirmation" style="font-weight: 700">@Localizer["LOGIN_RESEND_CONFIRMATION_LINK"]</a>
             </p>
         </div>
-    </form>
-</body>
-
+    </div>
+</div>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />

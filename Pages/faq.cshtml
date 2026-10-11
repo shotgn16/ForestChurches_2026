@@ -1,114 +1,39 @@
-﻿@page
+@page
 @model ForestChurches.Pages.faqModel
 @{
+    ViewData["Title"] = Localizer["FAQ_PAGE_TITLE"];
+    var visitorQuestions = new[] { 2, 4, 8 };
+    var churchQuestions = new[] { 1, 6, 5, 7, 3 };
 }
-<head>
-    <link href="~/css2/Page-header.css"  rel="stylesheet" />
-    <style nonce="@HttpContextAccessor.HttpContext?.Items["CSP-Style-Nonce"]">
-        .headers {
-            color: white;
-        }
-        main {
-            background-color: #00AD6A;
-        }
-    </style>
-</head>
 
-<div class="container-fluid page-hero">
-    <div class="hero-text">
-        <h1>@Localizer["FAQ_PAGE_TITLE"]</h1>
-    </div>
-</div>
-
-<div class="container marketing">
-    <!--Section: FAQ-->
-    <section>
-        <h3 class="text-center mb-4 pb-2 headers fw-bold">@Localizer["FAQ_SECTION_TITLE"]</h3>
-        <p class="text-center mb-5">
-            @Localizer["FAQ_INTRO_TEXT"]
-        </p>
-
-        <div class="row">
-            <div class="col-md-6 col-lg-4 mb-4">
-                <h4 class="mb-3 headers">
-                    @Localizer["FAQ_Q1_TITLE"]
-                </h4>
-                <p>
-                    @Localizer["FAQ_Q1_ANSWER"]
-                </p>
-            </div>
-            <!-- <a asp-page="./Add/Index" class="btn btn-success add-event-btn">Add Event</a> -->
-            <div class="col-md-6 col-lg-4 mb-4">
-                <h4 class="mb-3 headers">
-                    @Localizer["FAQ_Q2_TITLE"]
-                </h4>
-                <p>
-                    @Localizer["FAQ_Q2_ANSWER"]
-                </p>
-            </div>
-
-            <div class="col-md-6 col-lg-4 mb-4">
-                <h4 class="mb-3 headers">
-                    @Localizer["FAQ_Q3_TITLE"]
-                </h4>
-                <p>
-                    @Localizer["FAQ_Q3_ANSWER"]
-                </p>
-            </div>
-
-            <div class="col-md-6 col-lg-4 mb-4">
-                <h4 class="mb-3 headers">
-                    @Localizer["FAQ_Q4_TITLE"]
-                </h4>
-                <p>
-                    @Localizer["FAQ_Q4_ANSWER"]
-                </p>
-            </div>
-
-            <div class="col-md-6 col-lg-4 mb-4">
-                <h4 class="mb-3 headers">
-                    @Localizer["FAQ_Q5_TITLE"]
-                </h4>
-                <p>
-                    @Localizer["FAQ_Q5_ANSWER"]
-                </p>
-            </div>
-
-            <div class="col-md-6 col-lg-4 mb-4">
-                <h4 class="mb-3 headers">
-                    @Localizer["FAQ_Q6_TITLE"]
-                </h4>
-                <p>
-                    @Localizer["FAQ_Q6_ANSWER"]
-                </p>
-            </div>
-
-            <div class="col-md-6 col-lg-4 mb-4">
-                <h4 class="mb-3 headers">
-                    @Localizer["FAQ_Q7_TITLE"]
-                </h4>
-                <p>
-                    @Localizer["FAQ_Q7_ANSWER"]
-                </p>
-            </div>
-
-            <div class="col-md-6 col-lg-4 mb-4">
-                <h4 class="mb-3 headers">
-                    @Localizer["FAQ_Q8_TITLE"]
-                </h4>
-                <p>
-                    @Localizer["FAQ_Q8_ANSWER"]
-                </p>
-            </div>
-
-            <div class="col-md-6 col-lg-4 mb-4">
-                <h4 class="mb-3 headers">
-                    @Localizer["FAQ_Q9_TITLE"]
-                </h4>
-                <p>
-                    @Localizer["FAQ_Q9_ANSWER"]
-                </p>
-            </div>
+<div class="fc-container fc-container--narrow fc-section" style="padding-top: 64px; padding-bottom: 72px">
+    <div class="fc-stack fc-stack--lg">
+        <div class="fc-stack" style="gap: 12px">
+            <p class="fc-eyebrow">@Localizer["FC_HELP"]</p>
+            <h1 class="fc-display">@Localizer["FAQ_PAGE_TITLE"]</h1>
+            <p class="fc-lead">@Localizer["FAQ_INTRO_TEXT"] <a asp-page="/Contact" style="font-weight: 700">@Localizer["FC_SEND_US_A_MESSAGE"]</a>.</p>
         </div>
-    </section>
+
+        <section class="fc-stack" style="gap: 10px" aria-labelledby="faq-visitors">
+            <h2 id="faq-visitors" style="font-size: 26px; margin-bottom: 4px">@Localizer["FAQ_SECTION_TITLE"]</h2>
+            @foreach (var i in visitorQuestions)
+            {
+                <details class="fc-acc" open="@(i == visitorQuestions[0])">
+                    <summary>@Localizer[$"FAQ_Q{i}_TITLE"]</summary>
+                    <div class="fc-acc__body">@Localizer[$"FAQ_Q{i}_ANSWER"]</div>
+                </details>
+            }
+        </section>
+
+        <section class="fc-stack" style="gap: 10px" aria-labelledby="faq-churches">
+            <h2 id="faq-churches" style="font-size: 26px; margin-bottom: 4px">@Localizer["FC_FAQ_CHURCHES_TITLE"]</h2>
+            @foreach (var i in churchQuestions)
+            {
+                <details class="fc-acc">
+                    <summary>@Localizer[$"FAQ_Q{i}_TITLE"]</summary>
+                    <div class="fc-acc__body">@Localizer[$"FAQ_Q{i}_ANSWER"]</div>
+                </details>
+            }
+        </section>
+    </div>
 </div>

@@ -1,224 +1,266 @@
-﻿@page
-@inject ForestChurches.Components.Configuration.Configuration configuration;
+@page
+@model ForestChurches.Pages.ChurchModel
+@using System.Globalization
+@using ForestChurches.Components.Ui
 @inject ForestChurches.Components.Security.Encoder Encoder;
 @inject ForestChurches.Components.Storage.IBlobUrlService BlobUrlService;
-@model ForestChurches.Pages.ChurchModel
 @{
     Layout = "_Layout";
-    var eventCount = Model?.ChurchEvents?.Count ?? 0;
+    var church = Model.ChurchInformation;
+    ViewData["Title"] = church != null ? FcText.PlainText(church.Name) : Localizer["FC_CHURCH_NOT_FOUND"].Value;
+
     var defaultSrc = BlobUrlService.GetReadSasUrl("IMGUR-1.png", TimeSpan.FromDays(7));
+    var logoSrc = !string.IsNullOrEmpty(Model.AssociatedUser?.ImageBlobName)
+        ? BlobUrlService.GetReadSasUrl(Model.AssociatedUser!.ImageBlobName!, TimeSpan.FromHours(1))
+        : defaultSrc;
+
+    var services = church?.ServiceTimes?
+        .OrderBy(s => FcText.ServiceTimeSortKey(s.Time))
+        .ToList() ?? new List<ForestChurches.Models.ServiceTimes>();
+    var nextService = services.FirstOrDefault();
+
+    var today = DateOnly.FromDateTime(DateTime.Today);
+    var events = (Model.ChurchEvents ?? new List<ForestChurches.Models.EventsModel>())
+        .Where(e => e.Date >= today)
+        .OrderBy(e => e.Date).ThenBy(e => e.StartTime)
+        .ToList();
+
+    var facilities = church == null ? new List<string>() : new List<(bool On, string Key)>
+    {
+        (church.WheelchairAccess, "FC_FACT_STEP_FREE"),
+        (church.Parking, "NEARME_FACILITY_PARKING"),
+        (church.HearingAidSupport, "FC_FACT_HEARING_LOOP"),
+        (church.Restrooms, "NEARME_FACILITY_RESTROOMS"),
+        (church.Refreshments, "NEARME_FACILITY_REFRESHMENTS"),
+        (church.Childcare, "FC_FACT_CHILDREN"),
+        (church.Wifi, "NEARME_FACILITY_WIFI"),
+        (church.Kitchen, "NEARME_FACILITY_KITCHEN"),
+        (church.MeetingHall, "NEARME_FACILITY_COMMUNITY_HALL"),
+        (church.WorshipHall, "NEARME_FACILITY_WORSHIP_HALL"),
+        (church.OutdoorSpaces, "NEARME_FACILITY_OUTDOOR_SPACE"),
+    }.Where(f => f.On).Select(f => Localizer[f.Key].Value).ToList();
+
+    var directionsUrl = "https://www.google.com/maps/dir/?api=1&destination=" + Uri.EscapeDataString(church?.Address ?? string.Empty);
+    var website = church?.Website?.ToString();
+    var hasOwnWebsite = !string.IsNullOrEmpty(website) && !website.Contains("forestchurches.co.uk", StringComparison.OrdinalIgnoreCase);
+    var churchsuite = church?.Churchsuite?.ToString();
+    var hasChurchSuite = !string.IsNullOrEmpty(churchsuite) && !string.Equals(churchsuite.TrimEnd('/'), "https://churchsuite.com", StringComparison.OrdinalIgnoreCase);
+    var hasPhone = !string.IsNullOrWhiteSpace(church?.Phone) && church!.Phone.Any(char.IsDigit) && church.Phone.Trim('0', '-', ' ').Length > 0;
 }
-<head>
-    <link href="~/css2/Page-header.css" rel="stylesheet" />
-    <link href="~/css2/Church.css" integrity="sha256-W6G/2dOuJ/l5MThH2C+Af4olyq0PB+F4cq3Zn/SipAQ=" rel="stylesheet" />
-    <!-- <link href="~/css2/Church.css" integrity="sha256-vOw+N7AX1jr9hKhUOnkxSuoEKfFhB8Pxg8DmCcbqCqg=" rel="stylesheet" /> -->
-    <link href="~/css2/Declarations.css" integrity="sha256-b2v7B06n4c09zv1eqxFMGfVBCtakRqbLuoyHdAurYlI=" rel="stylesheet" />
-    <link href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" rel="stylesheet" crossorigin="anonymous" />
-</head>
-<style nonce="@HttpContextAccessor.HttpContext?.Items["CSP-Style-Nonce"]">
-    #noEvents {
-        text-align: center;
-        font-weight: bold;
-        font-size: large;
-        vertical-align: middle;
-    }
 
-    #map1 {
-        width: 100%;
-        height: 500px;
-    }
-
-    #map2 {
-        height: 150px;
-        width: 100vh;
-    }
-
-    img {
-        max-width: clamp(8rem, 8vw, 35rem);
-        border-radius: 10%;
-        max-height: 50%;
-        padding-top: calc(3.0rem + 1.0vw);
-    }
-
-    main {
-        background-color: #00AD6A;
-    }
-</style>
-
-<!-- Beginning of Page header -->
-<div class="container-fluid page-hero">
-    <div class="hero-text">
-        <div>
-            <img image-sas="@(Model.AssociatedUser?.ImageBlobName ?? string.Empty)" src="@defaultSrc" expires-minutes="60" alt="@Localizer["ALT_PROFILE_PICTURE"]" />
+@if (church == null)
+{
+    <section class="fc-container fc-section">
+        <div class="fc-card fc-empty">
+            <h1 class="fc-h2">@Localizer["FC_CHURCH_NOT_FOUND"]</h1>
+            <p class="fc-muted" style="margin: 10px 0 20px">@Localizer["FC_CHURCH_NOT_FOUND_TEXT"]</p>
+            <a class="fc-btn fc-btn--primary" asp-page="/Index">@Localizer["FC_NAV_FIND"]</a>
         </div>
-        <div class="heading-text">
-            <h1>@Model.ChurchInformation?.Name</h1>
-            <p>@Model.ChurchInformation?.Address</p>
-        </div>
-        <div class="tag-holder">
-            <div class="tag"><strong>@Localizer["LABEL_DENOMINATION"]</strong> @Model.ChurchInformation?.Denomination</div>
-            <div class="tag"><strong>@Localizer["CONGREGATION_SIZE_LABEL"]</strong> @Model.ChurchInformation?.Congregation</div>
-        </div>
-    </div>
-</div>
+    </section>
+    return;
+}
 
-<div class="content-container">
-    <main class="card-container">
-        <!-- General Church Information-->
-        <section class="card half-width">
-            <h2>@Localizer["CHURCH_GENERAL_INFO_TITLE"]</h2>
-            <p><strong>@Localizer["CHURCH_NAME_LABEL"] </strong>@Model.ChurchInformation?.Name</p>
-            <p><strong>@Localizer["CHURCH_DESCRIPTION_LABEL"] </strong>@Model.ChurchInformation?.Description</p>
-            <p><strong>@Localizer["CHURCH_WEBSITE_LABEL"] </strong><a href="@Model.ChurchInformation?.Website">@Model.ChurchInformation?.Website</a></p>
-            <p><strong>@Localizer["CHURCH_ADDRESS_LABEL"] </strong>@Model?.ChurchInformation?.Address</p>
-
-            <h2>@Localizer["CHURCH_FACILITIES_TITLE"]</h2>
-            <ul>
-                <li><p><strong>@Localizer["CHURCH_REFRESHMENTS_LABEL"]</strong> @(Model.ChurchInformation?.Refreshments == true ? @Localizer["CHURCH_FACILITY_AVAILABLE"] : @Localizer["CHURCH_FACILITY_NOT_AVAILABLE"])</p></li>
-                <li><p><strong>@Localizer["CHURCH_RESTROOMS_LABEL"]</strong> @(Model.ChurchInformation?.Restrooms == true ? @Localizer["CHURCH_FACILITY_AVAILABLE"] : @Localizer["CHURCH_FACILITY_NOT_AVAILABLE"])</p></li>
-                <li><p><strong>@Localizer["CHURCH_WIFI_LABEL"]</strong> @(Model.ChurchInformation?.Wifi == true ? @Localizer["CHURCH_FACILITY_AVAILABLE"] : @Localizer["CHURCH_FACILITY_NOT_AVAILABLE"])</p></li>
-                <li><p><strong>@Localizer["CHURCH_PARKING_LABEL"]</strong> @(Model.ChurchInformation?.Parking == true ? @Localizer["CHURCH_FACILITY_AVAILABLE"] : @Localizer["CHURCH_FACILITY_NOT_AVAILABLE"])</p></li>
-                <li><p><strong>@Localizer["CHURCH_WHEELCHAIR_LABEL"]</strong> @(Model.ChurchInformation?.WheelchairAccess == true ? @Localizer["CHURCH_FACILITY_AVAILABLE"] : @Localizer["CHURCH_FACILITY_NOT_AVAILABLE"])</p></li>
-                <li><p><strong>@Localizer["CHURCH_COMMUNITY_SPACE_LABEL"]</strong> @(Model.ChurchInformation?.MeetingHall == true ? @Localizer["CHURCH_FACILITY_AVAILABLE"] : @Localizer["CHURCH_FACILITY_NOT_AVAILABLE"])</p></li>
-                <li><p><strong>@Localizer["CHURCH_KITCHEN_LABEL"]</strong> @(Model.ChurchInformation?.Kitchen == true ? @Localizer["CHURCH_FACILITY_AVAILABLE"] : @Localizer["CHURCH_FACILITY_NOT_AVAILABLE"])</p></li>
-                <li><p><strong>@Localizer["CHURCH_HEARING_AID_LABEL"]</strong> @(Model.ChurchInformation?.HearingAidSupport == true ? @Localizer["CHURCH_FACILITY_AVAILABLE"] : @Localizer["CHURCH_FACILITY_NOT_AVAILABLE"])</p></li>
-                <li><p><strong>@Localizer["CHURCH_OUTDOOR_SPACE_LABEL"]</strong> @(Model.ChurchInformation?.OutdoorSpaces == true ? @Localizer["CHURCH_FACILITY_AVAILABLE"] : @Localizer["CHURCH_FACILITY_NOT_AVAILABLE"])</p></li>
-                <li><p><strong>@Localizer["CHURCH_BUILDING_LABEL"]</strong> @(Model.ChurchInformation?.WorshipHall == true ? @Localizer["CHURCH_FACILITY_AVAILABLE"] : @Localizer["CHURCH_FACILITY_NOT_AVAILABLE"])</p></li>
-                <li><p><strong>@Localizer["CHURCH_CHILDCARE_LABEL"]</strong> @(Model.ChurchInformation?.Childcare == true ? @Localizer["CHURCH_FACILITY_AVAILABLE"] : @Localizer["CHURCH_FACILITY_NOT_AVAILABLE"])</p></li>
-            </ul>
-
-            <div class="button-container">
-                <a href="@Html.Encode(Model.ChurchInformation?.Churchsuite)" class="btn btn-success half-width">@Localizer["CHURCH_CHURCHSUITE_BUTTON"]</a>
-                <form id="messageForm" action="/Contact" method="get">
-                    <!-- AntiforgeryToken -->
-                    @Html.AntiForgeryToken()
-                    <input type="hidden" name="cid" value="@Encoder.Protect(Model.ChurchInformation?.ID, "fc.data.contact")" />
-                    <!-- Assign an id to the button -->
-                    <button id="sendMessageButton" type="button" class="btn btn-primary half-width">@Localizer["CHURCH_SEND_MESSAGE_BUTTON"]</button>
-                </form>
-            </div>
-        </section>
-
-        <!-- Church Events for smaller screens -->
-        <section class="card full-width events-mobile">
-            <div class="list-group event-container">
-                @if (Model.ChurchEvents != null && Model.ChurchEvents.Count > 0)
+<section class="fc-hero fc-hero--slim" aria-labelledby="church-name">
+    <img class="fc-hero__img" src="~/img/hero.jpg" alt="" />
+    <div class="fc-hero__shade"></div>
+    <div class="fc-container fc-hero__body">
+        <img class="fc-hero__logo" image-sas="@(Model.AssociatedUser?.ImageBlobName ?? string.Empty)" src="@logoSrc" expires-minutes="60" alt="@Localizer["ALT_PROFILE_PICTURE"]" />
+        <div class="fc-stack" style="flex: 1 1 400px; gap: 10px">
+            <a class="fc-hero__back" asp-page="/Index" data-fc-back>@Localizer["FC_BACK"]</a>
+            <h1 id="church-name">@FcText.PlainText(church.Name)</h1>
+            <p style="color: #F1EEE4; font-size: 18px">@FcText.PlainText(church.Address)</p>
+            <div class="fc-row" style="gap: 8px">
+                <span class="fc-badge fc-badge--glass">@FcText.PlainText(church.Denomination)</span>
+                <span class="fc-badge fc-badge--glass">@Localizer["FC_CONGREGATION", FcText.PlainText(church.Congregation)]</span>
+                @if (church.Status == "Open")
                 {
-                    foreach (var item in Model.ChurchEvents)
-                    {
-                        <h2>@Localizer["CHURCH_EVENTS_HEADING"]</h2>
-                        <a href="@Html.Encode(item.Link)" class="list-group-item list-group-item-action flex-column align-items-start">
-                            <div class="d-flex w-100 justify-content-between">
-                                <h5 class="mb-1">@Encoder.HtmlEncode(item.Name)</h5>
-                                <small>@Encoder.HtmlEncode(item.Church)</small>
-                            </div>
-                            <p class="list-group-item-description mb-1">@Encoder.HtmlEncode(item.Description)</p>
-                            <small>@Encoder.HtmlEncode(item.Date), @Encoder.HtmlEncode(item.StartTime) - @Encoder.HtmlEncode(item.EndTime)</small>
-                        </a>
-                    }
+                    <span class="fc-badge fc-badge--ok">● @Localizer["STATUS_OPEN"]</span>
                 }
                 else
                 {
-                    <p id="noEvents">@Localizer["CHURCH_NO_EVENTS_MESSAGE"]</p>
+                    <span class="fc-badge fc-badge--warn">@Localizer["STATUS_CLOSED"]</span>
                 }
             </div>
-        </section>
+        </div>
+    </div>
+</section>
 
-        <!-- Church Services -->
-        <section class="card services-card full-width">
-            <h2>@Localizer["CHURCH_SUNDAY_SERVICES_HEADING"]</h2>
-            <ul>
-                @if (Model.ChurchInformation?.ServiceTimes != null)
-                {
-                    foreach (var service in Model.ChurchInformation.ServiceTimes)
-                    {
-                        <li>@Encoder.HtmlEncode(service.Note) @@ @Encoder.HtmlEncode(service.Time)</li>
-                        <br />
-                    }
-                }
-            </ul>
-        </section>
-    </main>
-
-    <!-- Church Events for larger screens -->
-    <aside class="card events">
-        <div class="list-group event-container">
-            @if (Model.ChurchEvents != null)
+<div class="fc-container">
+    <section class="fc-keyfacts" aria-label="@Localizer["FC_KEY_FACTS"]">
+        <div class="fc-keyfacts__main">
+            <span class="fc-keyfacts__label">@Localizer["FC_NEXT_SERVICE"]</span>
+            @if (nextService != null)
             {
-                foreach (var item in Model.ChurchEvents)
-                {
-                    <h2>@Localizer["CHURCH_EVENTS_HEADING"]</h2>
-                    <a href="@Html.Encode(item.Link)" class="list-group-item list-group-item-action flex-column align-items-start">
-                        <div class="d-flex w-100 justify-content-between">
-                            <h5 class="mb-1">@Html.Encode(item.Name)</h5>
-                            <small>@Html.Encode(item.Church)</small>
-                        </div>
-                        <p class="list-group-item-description mb-1">@item.Description</p>
-                        <small>@Html.Encode(item.Date), @Html.Encode(item.StartTime) - @Html.Encode(item.EndTime)</small>
-                    </a>
-                }
+                <span class="fc-keyfacts__value">@Localizer["FC_SUNDAY"] @FcText.ServiceTime(nextService.Time) · @FcText.PlainText(nextService.Note)</span>
             }
-            else if (Model.ChurchEvents == null)
+            else
             {
-                <p id="noEvents">@Localizer["CHURCH_NO_EVENTS_MESSAGE"]</p>
+                <span class="fc-keyfacts__value">@Localizer["FC_NO_SERVICE_TIMES"]</span>
             }
         </div>
+        <div class="fc-btn-row">
+            <a class="fc-btn fc-btn--primary" href="@directionsUrl" target="_blank" rel="noopener">
+                <svg class="fc-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11l18-8-8 18-2-8z"></path></svg>
+                @Localizer["FC_DIRECTIONS"]<span class="fc-sr-only"> (@Localizer["FC_OPENS_NEW_TAB"])</span>
+            </a>
+            <a class="fc-btn fc-btn--outline" href="#contact">@Localizer["CHURCH_SEND_MESSAGE_BUTTON"]</a>
+            @if (hasOwnWebsite)
+            {
+                <a class="fc-btn fc-btn--outline" href="@website" target="_blank" rel="noopener">@Localizer["FC_WEBSITE"]</a>
+            }
+            @if (hasChurchSuite)
+            {
+                <a class="fc-btn fc-btn--outline" href="@churchsuite" target="_blank" rel="noopener">@Localizer["CHURCH_CHURCHSUITE_BUTTON"]</a>
+            }
+        </div>
+    </section>
 
-        @if (eventCount <= 2)
-        {
-            <h2 class="map-header">@Localizer["CHURCH_FIND_ON_MAPS_HEADING"]</h2>
-            <section>
-                <div id="map1"></div>
+    <div class="fc-columns fc-section" style="padding-top: 32px; padding-bottom: 72px">
+        <div class="fc-columns__main">
+            @if (!string.IsNullOrWhiteSpace(church.Description))
+            {
+                <section class="fc-card" aria-labelledby="about-h">
+                    <h2 id="about-h" class="fc-card__title" style="font-size: 26px !important">@Localizer["FC_ABOUT_US"]</h2>
+                    <p class="fc-lead" style="font-size: 18px; white-space: pre-line">@FcText.PlainText(church.Description)</p>
+                </section>
+            }
+
+            <section class="fc-card" aria-labelledby="svc-h">
+                <h2 id="svc-h" class="fc-card__title" style="font-size: 26px !important">@Localizer["CHURCH_SUNDAY_SERVICES_HEADING"]</h2>
+                @if (services.Count == 0)
+                {
+                    <p class="fc-muted">@Localizer["FC_NO_SERVICE_TIMES"]</p>
+                }
+                else
+                {
+                    <div>
+                        @foreach (var s in services)
+                        {
+                            <div class="fc-service">
+                                <span class="fc-service__time">@FcText.ServiceTime(s.Time)</span>
+                                <span class="fc-service__name">@FcText.PlainText(s.Note)</span>
+                            </div>
+                        }
+                    </div>
+                }
             </section>
-        }
-    </aside>
+
+            <section class="fc-card" aria-labelledby="ev-h">
+                <div class="fc-row fc-row--between" style="margin-bottom: 4px">
+                    <h2 id="ev-h" style="font-size: 26px">@Localizer["FC_UPCOMING_EVENTS"]</h2>
+                </div>
+                @if (events.Count == 0)
+                {
+                    <p class="fc-muted" style="padding-top: 8px">@Localizer["CHURCH_NO_EVENTS_MESSAGE"]</p>
+                }
+                else
+                {
+                    @foreach (var item in events)
+                    {
+                        var desc = FcText.PlainText(item.Description);
+                        <div class="fc-event">
+                            <div class="fc-date" aria-hidden="true">
+                                <span class="fc-date__mon">@item.Date.ToString("MMM")</span>
+                                <span class="fc-date__day">@item.Date.Day</span>
+                            </div>
+                            <div class="fc-event__body">
+                                <span class="fc-event__name">@FcText.PlainText(item.Name)</span>
+                                <span class="fc-small fc-muted">@item.Date.ToString("dddd d MMMM") · @FcText.TimeRange(item.StartTime, item.EndTime)@(string.IsNullOrWhiteSpace(item.Repeats) || item.Repeats.Equals("No", StringComparison.OrdinalIgnoreCase) || item.Repeats.Equals("None", StringComparison.OrdinalIgnoreCase) ? "" : " · " + FcText.PlainText(item.Repeats))</span>
+                                @if (!string.IsNullOrEmpty(desc))
+                                {
+                                    <details>
+                                        <summary><span class="fc-when-closed">@Localizer["FC_READ_MORE"]</span><span class="fc-when-open">@Localizer["FC_SHOW_LESS"]</span></summary>
+                                        <p>@desc</p>
+                                    </details>
+                                }
+                            </div>
+                        </div>
+                    }
+                }
+            </section>
+        </div>
+
+        <aside class="fc-columns__side">
+            @if (facilities.Count > 0)
+            {
+                <section class="fc-card" aria-labelledby="fac-h" style="padding: 24px">
+                    <h2 id="fac-h" class="fc-card__title">@Localizer["FC_WHAT_TO_EXPECT"]</h2>
+                    <ul class="fc-facilities">
+                        @foreach (var f in facilities)
+                        {
+                            <li><span class="fc-facilities__tick"><svg class="fc-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12l5 5 9-10"></path></svg></span>@f</li>
+                        }
+                    </ul>
+                </section>
+            }
+
+            <section class="fc-card fc-card--flush" aria-labelledby="map-h">
+                <h2 id="map-h" class="fc-card__title" style="padding: 20px 24px 0">@Localizer["FC_FIND_US"]</h2>
+                <div id="fc-church-map" class="fc-map" role="img" aria-label="@Localizer["FC_MAP_OF", FcText.PlainText(church.Address)]"></div>
+                <div style="padding: 14px 24px 20px" class="fc-stack">
+                    <p class="fc-small">@FcText.PlainText(church.Address)</p>
+                    @if (hasPhone)
+                    {
+                        <p class="fc-small"><a href="tel:@church.Phone.Replace(" ", "")">@church.Phone</a></p>
+                    }
+                </div>
+            </section>
+
+            <section id="contact" class="fc-card" aria-labelledby="ct-h" style="padding: 24px">
+                <h2 id="ct-h" class="fc-card__title" style="margin-bottom: 4px !important">@Localizer["CHURCH_SEND_MESSAGE_BUTTON"]</h2>
+                <p class="fc-small fc-muted" style="margin-bottom: 16px">@Localizer["FC_GOES_TO_CHURCH"]</p>
+                <form method="post" asp-page="/Contact" class="fc-stack" style="gap: 12px">
+                    <input type="hidden" name="cid" value="@Encoder.Protect(church.ID, "fc.data.contact")" />
+                    <div class="fc-field">
+                        <label class="fc-label" for="ct-name">@Localizer["FC_YOUR_NAME"]</label>
+                        <input class="fc-input" id="ct-name" name="Input.Name" autocomplete="name" required />
+                    </div>
+                    <div class="fc-field">
+                        <label class="fc-label" for="ct-email">@Localizer["FC_YOUR_EMAIL"]</label>
+                        <input class="fc-input" id="ct-email" name="Input.ClientEmail" type="email" autocomplete="email" required />
+                    </div>
+                    <div class="fc-field">
+                        <label class="fc-label" for="ct-subject">@Localizer["CONTACT_SUBJECT_PLACEHOLDER"]</label>
+                        <input class="fc-input" id="ct-subject" name="Input.Subject" required />
+                    </div>
+                    <div class="fc-field">
+                        <label class="fc-label" for="ct-msg">@Localizer["CONTACT_MESSAGE_PLACEHOLDER"]</label>
+                        <textarea class="fc-textarea" id="ct-msg" name="Input.Message" rows="4" required></textarea>
+                    </div>
+                    <button type="submit" class="fc-btn fc-btn--primary">@Localizer["CONTACT_SUBMIT_BUTTON"]</button>
+                </form>
+            </section>
+        </aside>
+    </div>
 </div>
 
-@if (eventCount > 2)
-{
-    <h2 class="map-header">@Localizer["CHURCH_FIND_ON_MAPS_HEADING"]</h2>
-    <section>
-        <div id="map2"></div>
-    </section>
+@section Head {
+    <link href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" rel="stylesheet" crossorigin="anonymous" />
 }
 
-@section scripts {
+@section Scripts {
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin="anonymous"></script>
     <script nonce="@HttpContextAccessor.HttpContext?.Items["CSP-Script-Nonce"]">
-        document.addEventListener("DOMContentLoaded", function() {
-            var latitude = @Model.Latitude;
-            var longitude = @Model.Longitude;
-            var zoomLevel = (@eventCount > 2) ? 12 : 15;
-            var mapId = (@eventCount > 2) ? "map2" : "map1";
-
-            var map = L.map(mapId).setView([latitude, longitude], zoomLevel);
-            var tileLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: '&copy; OpenStreetMap contributors',
+        document.addEventListener("DOMContentLoaded", function () {
+            var el = document.getElementById("fc-church-map");
+            if (!el || typeof L === "undefined") { return; }
+            var lat = @Model.Latitude.ToString(CultureInfo.InvariantCulture);
+            var lng = @Model.Longitude.ToString(CultureInfo.InvariantCulture);
+            var map = L.map(el, { scrollWheelZoom: false }).setView([lat, lng], 15);
+            L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+                attribution: "&copy; OpenStreetMap contributors",
                 maxZoom: 18
             }).addTo(map);
+            var popup = document.createElement("div");
+            var strong = document.createElement("strong");
+            strong.textContent = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(FcText.PlainText(church.Name)));
+            popup.appendChild(strong);
+            L.marker([lat, lng]).addTo(map).bindPopup(popup);
 
-            tileLayer.on('error', function(e) {
-                console.error('Tile load error:', e);
-                // Fallback or alert for the user
-            });
-
-            L.marker([latitude, longitude]).addTo(map)
-                .bindPopup("<b>@Model.ChurchInformation?.Name</b><br>@Model.ChurchInformation?.Address")
-                .openPopup();
-        });
-    </script>
-
-    <script nonce="@HttpContextAccessor.HttpContext?.Items["CSP-Script-Nonce"]" crossorigin="anonymous">
-        document.addEventListener("DOMContentLoaded", function() {
-            var sendMessageButton = document.getElementById('sendMessageButton');
-            if (sendMessageButton) {
-                console.log('Button found');
-                sendMessageButton.addEventListener('click', function() {
-                    console.log('Button clicked');
-                    document.getElementById('messageForm').submit();
-                });
-            } else {
-                console.log('Button not found');
+            // "Back" returns to the previous page (e.g. search results) when it was on this site.
+            var back = document.querySelector("[data-fc-back]");
+            if (back && document.referrer.indexOf(window.location.origin) === 0 && window.history.length > 1) {
+                back.addEventListener("click", function (e) { e.preventDefault(); window.history.back(); });
             }
         });
     </script>

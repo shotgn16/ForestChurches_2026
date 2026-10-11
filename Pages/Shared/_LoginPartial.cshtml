@@ -1,33 +1,18 @@
-﻿@using ForestChurches.Components.Users
+@using ForestChurches.Components.Users
 @using Microsoft.AspNetCore.Identity
 @using ForestChurches.Areas.Identity.Data
 
 @inject SignInManager<ChurchAccount> SignInManager
-@inject UserManager<ChurchAccount> UserManager
 
-<head>
-    <link rel="stylesheet" href="~/css2/Nav.css" asp-append-version="true" />
-</head>
-
-    <ul class="sNavbar-Nav navbar-nav">
-    @if (SignInManager.IsSignedIn(User))
-    {
-        <li class="nav-item">
-            <a id="manage" class="nav-link text-light" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">@Localizer["NAV_WELCOME_BACK", UserManager.GetUserName(User)]</a>
-        </li>
-        <li class="nav-item">
-            <form id="logoutForm" class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/Index", new { area = "" })">
-                <!-- AntiforgeryToken -->
-                @Html.AntiForgeryToken()
-                <button id="logout" type="submit" class="nav-link btn btn-link btn-secondary text-light border-0">@Localizer["NAV_LOGOUT"]</button>
-            </form>
-        </li>
-    }
-    else
-    {
-        <li class="nav-item">
-            <a class="nav-link btn-secondary text-light ms-0" id="login" asp-area="Identity" asp-page="/Account/Login">@Localizer["NAV_LOGIN"]</a>
-        </li>
-    }
-</ul>
-
+@if (SignInManager.IsSignedIn(User))
+{
+    <a id="manage" class="fc-nav__pill" asp-area="Identity" asp-page="/Account/Manage/ChurchProfile">@Localizer["FC_NAV_MY_CHURCH"]</a>
+    <form id="logoutForm" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/Index", new { area = "" })" method="post">
+        @Html.AntiForgeryToken()
+        <button id="logout" type="submit" class="fc-nav__text-btn">@Localizer["NAV_LOGOUT"]</button>
+    </form>
+}
+else
+{
+    <a class="fc-nav__pill" id="login" asp-area="Identity" asp-page="/Account/Login">@Localizer["FC_NAV_CHURCH_LOGIN"]</a>
+}

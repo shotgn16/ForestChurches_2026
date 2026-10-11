@@ -1,21 +1,24 @@
-﻿@using ForestChurches.Components.Users
-@using Microsoft.Extensions.Localization
-@inject SignInManager<ChurchAccount> SignInManager
+@using ForestChurches.Components.Users
 @{
-    var hasExternalLogins = (await SignInManager.GetExternalAuthenticationSchemesAsync()).Any();
+    var active = ViewData["ActivePage"] as string;
+    string? Current(string page) => string.Equals(active, page, StringComparison.OrdinalIgnoreCase) ? "page" : null;
+    string Cls(string page) => string.Equals(active, page, StringComparison.OrdinalIgnoreCase) ? "active" : "";
+    var isSiteAdmin = User.IsInRole(ForestChurches.Components.Roles.Roles.Admin.ToString()) || User.IsInRole(ForestChurches.Components.Roles.Roles.SuperAdmin.ToString());
 }
 
-<head>
-    <link rel="stylesheet" href="~/css2/Nav.css" asp-append-version="true" />
-</head>
-
-<nav class="nav nav-pills nav-fill">
-    <a class="nav-item nav-link @ManageNavPages.IndexNavClass(ViewContext) id="profile" asp-page="./Index">@Localizer["NAV_LABEL_PROFILE"]</a>
-    <a class="nav-item nav-link @ManageNavPages.ChurchProfileNavClass(ViewContext)" id="churchProfile" asp-page="./ChurchProfile">@Localizer["NAV_LABEL_CHURCH_PROFILE"]</a>
-    <a class="nav-item nav-link @ManageNavPages.BulletinNavClass(ViewContext)" id="bulletin" asp-page="/Admin/Bulletin/Index">Bulletins</a>
-    @* <a class="nav-item nav-link @ManageNavPages.EmailNavClass(ViewContext)" id="email" asp-page="./Email">Email</a> *@
-    <a class="nav-item nav-link @ManageNavPages.ChangePasswordNavClass(ViewContext)" id="change-password" asp-page="./ChangePassword">@Localizer["NAV_LABEL_PASSWORD"]</a>
-    <a class="nav-item nav-link @ManageNavPages.ExternalLoginsNavClass(ViewContext)" id="external-login" asp-page="./ExternalLogins">@Localizer["NAV_LABEL_EXTERNAL_LOGIN"]</a>
-    <a class="nav-item nav-link @ManageNavPages.TwoFactorAuthenticationNavClass(ViewContext)" id="two-factor" asp-page="./TwoFactorAuthentication">@Localizer["NAV_LABEL_2FA"]</a>
-    <a class="nav-item nav-link @ManageNavPages.PersonalDataNavClass(ViewContext)" id="personal-data" asp-page="./PersonalData">@Localizer["NAV_LABEL_PERSONAL_DATA"]</a>
-</nav>
+<ul class="fc-sidenav">
+    <li><a id="churchProfile" class="@Cls(ManageNavPages.ChurchProfile)" aria-current="@Current(ManageNavPages.ChurchProfile)" asp-area="Identity" asp-page="/Account/Manage/ChurchProfile">@Localizer["NAV_LABEL_CHURCH_PROFILE"]</a></li>
+    <li><a id="events" class="@Cls("Events")" aria-current="@Current("Events")" asp-area="" asp-page="/Events/Index">@Localizer["NAV_MY_EVENTS"]</a></li>
+    <li><a id="external-login" class="@Cls(ManageNavPages.ExternalLogins)" aria-current="@Current(ManageNavPages.ExternalLogins)" asp-area="Identity" asp-page="/Account/Manage/ExternalLogins">@Localizer["FC_NAV_CHURCHSUITE"]</a></li>
+    <li><a id="bulletin" class="@Cls(ManageNavPages.Bulletin)" aria-current="@Current(ManageNavPages.Bulletin)" asp-area="Admin" asp-page="/Bulletin/Index">@Localizer["FC_NAV_BULLETINS"]</a></li>
+    <li class="fc-sidenav__sep" role="presentation"></li>
+    <li><a id="profile" class="@Cls(ManageNavPages.Index)" aria-current="@Current(ManageNavPages.Index)" asp-area="Identity" asp-page="/Account/Manage/Index">@Localizer["NAV_LABEL_PROFILE"]</a></li>
+    <li><a id="change-password" class="@Cls(ManageNavPages.ChangePassword)" aria-current="@Current(ManageNavPages.ChangePassword)" asp-area="Identity" asp-page="/Account/Manage/ChangePassword">@Localizer["NAV_LABEL_PASSWORD"]</a></li>
+    <li><a id="two-factor" class="@Cls(ManageNavPages.TwoFactorAuthentication)" aria-current="@Current(ManageNavPages.TwoFactorAuthentication)" asp-area="Identity" asp-page="/Account/Manage/TwoFactorAuthentication">@Localizer["NAV_LABEL_2FA"]</a></li>
+    <li><a id="personal-data" class="@Cls(ManageNavPages.PersonalData)" aria-current="@Current(ManageNavPages.PersonalData)" asp-area="Identity" asp-page="/Account/Manage/PersonalData">@Localizer["NAV_LABEL_PERSONAL_DATA"]</a></li>
+    @if (isSiteAdmin)
+    {
+        <li class="fc-sidenav__sep" role="presentation"></li>
+        <li class="fc-sidenav__accent"><a asp-area="" asp-page="/Admin/Index">@Localizer["FC_NAV_SITE_ADMIN"] →</a></li>
+    }
+</ul>

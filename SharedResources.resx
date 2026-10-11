@@ -415,7 +415,7 @@
     <value>About Us</value>
   </data>
   <data name="ABOUTUS_COMMUNITY_SECTION_TEXT" xml:space="preserve">
-    <value>Welcome, we hope you find what you are looking for. If you did't know already this is...! We are dedicated to serving our community with love and compassion. Our mission is to create a welcoming space where everyone feels valued and supported. Join us in making a positive impact!</value>
+    <value>We're dedicated to serving our community with love and compassion. Our mission is to create a welcoming space where everyone feels valued and supported. Join us in making a positive difference.</value>
   </data>
   <data name="ABOUTUS_COMMUNITY_SECTION_TITLE" xml:space="preserve">
     <value>We are for the community</value>
@@ -902,5 +902,737 @@
   </data>
   <data name="STATUS_CLOSE" xml:space="preserve">
     <value>Close</value>
+  </data>
+  <data name="EVENTS_CONTACT_LINK" xml:space="preserve">
+    <value>Contact us</value>
+  </data>
+  <data name="EVENTS_CONTACT_TEXT" xml:space="preserve">
+    <value>Think this is a mistake?</value>
+  </data>
+  <data name="EVENTS_FOOTER_NOTE_TEXT" xml:space="preserve">
+    <value>One-off events are removed about 24 hours after they finish, to keep the database tidy and running costs down. Repeating events stay listed.</value>
+  </data>
+  <data name="EVENTS_FOOTER_NOTE_TITLE" xml:space="preserve">
+    <value>Note</value>
+  </data>
+  <data name="EVENTS_NO_EVENTS_TEXT" xml:space="preserve">
+    <value>You don't have any upcoming events yet.</value>
+  </data>
+  <data name="FAQ_INTRO_TEXT" xml:space="preserve">
+    <value>Answers to the questions we're asked most often. Can't find what you need?</value>
+  </data>
+  <data name="FAQ_PAGE_TITLE" xml:space="preserve">
+    <value>Frequently asked questions</value>
+  </data>
+  <data name="FAQ_SECTION_TITLE" xml:space="preserve">
+    <value>Using the site</value>
+  </data>
+  <data name="FAQ_Q1_TITLE" xml:space="preserve">
+    <value>How do I register my church?</value>
+  </data>
+  <data name="FAQ_Q1_ANSWER" xml:space="preserve">
+    <value>Get in touch through the Contact page. We'll email you a unique invitation link so you can create an account, then you can fill in your church's details, service times and events.</value>
+  </data>
+  <data name="FAQ_Q2_TITLE" xml:space="preserve">
+    <value>Other services do something similar — why use this one?</value>
+  </data>
+  <data name="FAQ_Q2_ANSWER" xml:space="preserve">
+    <value>Other services can list churches, but many charge for it, and it can be hard to find out which church is nearest. Forest Churches is free and built around searching by postcode, so you can quickly see what's close to you.</value>
+  </data>
+  <data name="FAQ_Q3_TITLE" xml:space="preserve">
+    <value>How do I get a copy of my personal data?</value>
+  </data>
+  <data name="FAQ_Q3_ANSWER" xml:space="preserve">
+    <value>In Church admin, open My data and choose Download. If you need anything that isn't included, contact us and we'll be happy to help.</value>
+  </data>
+  <data name="FAQ_Q4_TITLE" xml:space="preserve">
+    <value>Where is my data stored?</value>
+  </data>
+  <data name="FAQ_Q4_ANSWER" xml:space="preserve">
+    <value>To keep your data safe, all information is stored in a secure external database that only the application itself can access.</value>
+  </data>
+  <data name="FAQ_Q5_TITLE" xml:space="preserve">
+    <value>My event disappeared from my church's page — why?</value>
+  </data>
+  <data name="FAQ_Q5_ANSWER" xml:space="preserve">
+    <value>To keep the database small and costs down, one-off events are removed up to 24 hours after they finish. Repeating events stay on the system.</value>
+  </data>
+  <data name="FAQ_Q6_TITLE" xml:space="preserve">
+    <value>How do I update my church's information?</value>
+  </data>
+  <data name="FAQ_Q6_ANSWER" xml:space="preserve">
+    <value>Sign in and open My church. You can change your details, facilities, service times and logo there.</value>
+  </data>
+  <data name="FAQ_Q7_TITLE" xml:space="preserve">
+    <value>Why can't I change the email address on my account?</value>
+  </data>
+  <data name="FAQ_Q7_ANSWER" xml:space="preserve">
+    <value>For security, email addresses can't be changed from the site. If you need to update yours, get in touch and we'll help.</value>
+  </data>
+  <data name="FAQ_Q8_TITLE" xml:space="preserve">
+    <value>Why isn't the link in my email working any more?</value>
+  </data>
+  <data name="FAQ_Q8_ANSWER" xml:space="preserve">
+    <value>Most links we email you are encrypted and only last 24 hours. If yours has expired, request a new one.</value>
+  </data>
+  <data name="FAQ_Q9_TITLE" xml:space="preserve">
+    <value>Why do some pages confirm my changes and others don't?</value>
+  </data>
+  <data name="FAQ_Q9_ANSWER" xml:space="preserve">
+    <value>Every page should now show a confirmation message after you save. If you spot one that doesn't, please let us know.</value>
+  </data>
+  <data name="LOGIN_EMAIL_LABEL" xml:space="preserve">
+    <value>Email</value>
+  </data>
+  <data name="LOGIN_PASSWORD_LABEL" xml:space="preserve">
+    <value>Password</value>
+  </data>
+  <data name="TAG_ADDRESS" xml:space="preserve">
+    <value>Address</value>
+  </data>
+  <data name="TAG_CHURCHSUITE" xml:space="preserve">
+    <value>ChurchSuite address</value>
+  </data>
+  <data name="TAG_FACILITIES" xml:space="preserve">
+    <value>Facilities</value>
+  </data>
+  <data name="TAG_SIZE_CONGREGATION" xml:space="preserve">
+    <value>Typical Sunday attendance</value>
+  </data>
+  <data name="TAG_WEBSITE" xml:space="preserve">
+    <value>Website</value>
+  </data>
+  <data name="RegisterTitle" xml:space="preserve">
+    <value>Register</value>
+  </data>
+  <data name="RegisterWith" xml:space="preserve">
+    <value>Register with</value>
+  </data>
+  <data name="FC_SKIP_TO_CONTENT" xml:space="preserve">
+    <value>Skip to main content</value>
+  </data>
+  <data name="FC_MENU" xml:space="preserve">
+    <value>Menu</value>
+  </data>
+  <data name="FC_MAIN_NAV" xml:space="preserve">
+    <value>Main</value>
+  </data>
+  <data name="FC_FOOTER_NAV" xml:space="preserve">
+    <value>Footer</value>
+  </data>
+  <data name="FC_NAV_FIND" xml:space="preserve">
+    <value>Find a church</value>
+  </data>
+  <data name="FC_NAV_BULLETIN" xml:space="preserve">
+    <value>Bulletin</value>
+  </data>
+  <data name="FC_NAV_CHURCH_LOGIN" xml:space="preserve">
+    <value>Church login</value>
+  </data>
+  <data name="FC_NAV_MY_CHURCH" xml:space="preserve">
+    <value>My church</value>
+  </data>
+  <data name="FC_NAV_CHURCHSUITE" xml:space="preserve">
+    <value>ChurchSuite</value>
+  </data>
+  <data name="FC_NAV_BULLETINS" xml:space="preserve">
+    <value>Bulletins</value>
+  </data>
+  <data name="FC_NAV_SITE_ADMIN" xml:space="preserve">
+    <value>Site admin</value>
+  </data>
+  <data name="FC_LANGUAGE" xml:space="preserve">
+    <value>Language</value>
+  </data>
+  <data name="FC_PRIVACY" xml:space="preserve">
+    <value>Privacy</value>
+  </data>
+  <data name="FC_FAQ" xml:space="preserve">
+    <value>FAQ</value>
+  </data>
+  <data name="FC_CHURCH_ADMIN" xml:space="preserve">
+    <value>Church admin</value>
+  </data>
+  <data name="FC_ACCOUNT_NAV" xml:space="preserve">
+    <value>Account</value>
+  </data>
+  <data name="FC_VIEW_PUBLIC_PAGE" xml:space="preserve">
+    <value>View public page</value>
+  </data>
+  <data name="FC_BACK_TO_SITE" xml:space="preserve">
+    <value>Back to site</value>
+  </data>
+  <data name="FC_STATUS_OPEN_LISTED" xml:space="preserve">
+    <value>Open · listed in search</value>
+  </data>
+  <data name="FC_STATUS_CLOSED_HIDDEN" xml:space="preserve">
+    <value>Closed · hidden from search</value>
+  </data>
+  <data name="FC_BULLETIN_BANNER_LABEL" xml:space="preserve">
+    <value>Latest bulletin</value>
+  </data>
+  <data name="FC_BULLETIN_NEW" xml:space="preserve">
+    <value>New bulletin:</value>
+  </data>
+  <data name="FC_BULLETIN_READ" xml:space="preserve">
+    <value>Read it</value>
+  </data>
+  <data name="FC_HOME_TITLE" xml:space="preserve">
+    <value>Find a church near you</value>
+  </data>
+  <data name="FC_HERO_ALT" xml:space="preserve">
+    <value>The Wye Valley from above, the river winding through woodland</value>
+  </data>
+  <data name="FC_HERO_EYEBROW" xml:space="preserve">
+    <value>Churches across the Forest of Dean</value>
+  </data>
+  <data name="FC_HERO_TITLE" xml:space="preserve">
+    <value>Find a church near you</value>
+  </data>
+  <data name="FC_HERO_LEAD" xml:space="preserve">
+    <value>Service times, events and what to expect — for church communities across the Forest.</value>
+  </data>
+  <data name="FC_SEARCH_LABEL" xml:space="preserve">
+    <value>Find a church</value>
+  </data>
+  <data name="FC_SEARCH_POSTCODE" xml:space="preserve">
+    <value>Postcode or town</value>
+  </data>
+  <data name="FC_SEARCH_WITHIN" xml:space="preserve">
+    <value>Within</value>
+  </data>
+  <data name="FC_SEARCH_BUTTON" xml:space="preserve">
+    <value>Search</value>
+  </data>
+  <data name="FC_MILES" xml:space="preserve">
+    <value>miles</value>
+  </data>
+  <data name="FC_MILES_SHORT" xml:space="preserve">
+    <value>mi</value>
+  </data>
+  <data name="FC_FINDING_YOU" xml:space="preserve">
+    <value>Finding you…</value>
+  </data>
+  <data name="FC_MORE_FILTERS" xml:space="preserve">
+    <value>More filters</value>
+  </data>
+  <data name="FC_HIDE_FILTERS" xml:space="preserve">
+    <value>Hide filters</value>
+  </data>
+  <data name="FC_MUST_HAVE" xml:space="preserve">
+    <value>Must have</value>
+  </data>
+  <data name="FC_OPTIONAL" xml:space="preserve">
+    <value>optional</value>
+  </data>
+  <data name="FC_WHATS_ON" xml:space="preserve">
+    <value>What's on across the Forest</value>
+  </data>
+  <data name="FC_FIND_EVENTS" xml:space="preserve">
+    <value>Find events</value>
+  </data>
+  <data name="FC_HOW_TITLE" xml:space="preserve">
+    <value>How it works</value>
+  </data>
+  <data name="FC_HOW_1_TITLE" xml:space="preserve">
+    <value>Search by postcode</value>
+  </data>
+  <data name="FC_HOW_1_TEXT" xml:space="preserve">
+    <value>Or use your location to see what's close.</value>
+  </data>
+  <data name="FC_HOW_2_TITLE" xml:space="preserve">
+    <value>Filter what matters</value>
+  </data>
+  <data name="FC_HOW_2_TEXT" xml:space="preserve">
+    <value>Step-free access, parking, children's activities, denomination.</value>
+  </data>
+  <data name="FC_HOW_3_TITLE" xml:space="preserve">
+    <value>Visit or get in touch</value>
+  </data>
+  <data name="FC_HOW_3_TEXT" xml:space="preserve">
+    <value>Get directions or send the church a message.</value>
+  </data>
+  <data name="FC_ABOUT_STRIP_TITLE" xml:space="preserve">
+    <value>One place for every church in the Forest</value>
+  </data>
+  <data name="FC_ABOUT_STRIP_TEXT" xml:space="preserve">
+    <value>Forest Churches brings together service times, events and contact details from local church communities, kept up to date by the churches themselves.</value>
+  </data>
+  <data name="FC_LIST_YOUR_CHURCH" xml:space="preserve">
+    <value>List your church</value>
+  </data>
+  <data name="FC_LEARN_MORE" xml:space="preserve">
+    <value>Learn more</value>
+  </data>
+  <data name="FC_RESULTS_TITLE" xml:space="preserve">
+    <value>Find a church</value>
+  </data>
+  <data name="FC_RESULTS_ONE" xml:space="preserve">
+    <value>1 church within {0} miles</value>
+  </data>
+  <data name="FC_RESULTS_MANY" xml:space="preserve">
+    <value>{0} churches within {1} miles</value>
+  </data>
+  <data name="FC_NO_RESULTS_TITLE" xml:space="preserve">
+    <value>No churches found</value>
+  </data>
+  <data name="FC_NO_RESULTS_TEXT" xml:space="preserve">
+    <value>Try a larger distance, or turn off some filters.</value>
+  </data>
+  <data name="FC_NEXT_SERVICE" xml:space="preserve">
+    <value>Next service</value>
+  </data>
+  <data name="FC_VIEW_CHURCH" xml:space="preserve">
+    <value>View church</value>
+  </data>
+  <data name="FC_DIRECTIONS" xml:space="preserve">
+    <value>Directions</value>
+  </data>
+  <data name="FC_OPENS_NEW_TAB" xml:space="preserve">
+    <value>opens in a new tab</value>
+  </data>
+  <data name="FC_READ_MORE" xml:space="preserve">
+    <value>Read more</value>
+  </data>
+  <data name="FC_SHOW_LESS" xml:space="preserve">
+    <value>Show less</value>
+  </data>
+  <data name="FC_FACT_STEP_FREE" xml:space="preserve">
+    <value>Step-free</value>
+  </data>
+  <data name="FC_FACT_HEARING_LOOP" xml:space="preserve">
+    <value>Hearing loop</value>
+  </data>
+  <data name="FC_FACT_CHILDREN" xml:space="preserve">
+    <value>Children's activities</value>
+  </data>
+  <data name="FC_CHURCH_NOT_FOUND" xml:space="preserve">
+    <value>Church not found</value>
+  </data>
+  <data name="FC_CHURCH_NOT_FOUND_TEXT" xml:space="preserve">
+    <value>This link may be out of date. Try searching for the church instead.</value>
+  </data>
+  <data name="FC_BACK" xml:space="preserve">
+    <value>← Back</value>
+  </data>
+  <data name="FC_CONGREGATION" xml:space="preserve">
+    <value>{0} on a Sunday</value>
+  </data>
+  <data name="FC_KEY_FACTS" xml:space="preserve">
+    <value>Key facts</value>
+  </data>
+  <data name="FC_SUNDAY" xml:space="preserve">
+    <value>Sunday</value>
+  </data>
+  <data name="FC_NO_SERVICE_TIMES" xml:space="preserve">
+    <value>Service times not listed yet</value>
+  </data>
+  <data name="FC_WEBSITE" xml:space="preserve">
+    <value>Website</value>
+  </data>
+  <data name="FC_ABOUT_US" xml:space="preserve">
+    <value>About us</value>
+  </data>
+  <data name="FC_UPCOMING_EVENTS" xml:space="preserve">
+    <value>Upcoming events</value>
+  </data>
+  <data name="FC_WHAT_TO_EXPECT" xml:space="preserve">
+    <value>What to expect</value>
+  </data>
+  <data name="FC_FIND_US" xml:space="preserve">
+    <value>Find us</value>
+  </data>
+  <data name="FC_MAP_OF" xml:space="preserve">
+    <value>Map showing {0}</value>
+  </data>
+  <data name="FC_GOES_TO_CHURCH" xml:space="preserve">
+    <value>Goes straight to the church.</value>
+  </data>
+  <data name="FC_YOUR_NAME" xml:space="preserve">
+    <value>Your name</value>
+  </data>
+  <data name="FC_YOUR_EMAIL" xml:space="preserve">
+    <value>Your email</value>
+  </data>
+  <data name="FC_CONTACT_TITLE" xml:space="preserve">
+    <value>Get in touch</value>
+  </data>
+  <data name="FC_CONTACT_LEAD" xml:space="preserve">
+    <value>Questions about the site, want to list your church, or spotted something wrong? We'll get back to you.</value>
+  </data>
+  <data name="FC_CONTACT_CHURCH_TITLE" xml:space="preserve">
+    <value>Message {0}</value>
+  </data>
+  <data name="FC_CONTACT_CHURCH_LEAD" xml:space="preserve">
+    <value>Your message goes straight to the church.</value>
+  </data>
+  <data name="FC_CONTACT_SPECIFIC_CHURCH" xml:space="preserve">
+    <value>Want to contact a specific church? Use the message form on its church page.</value>
+  </data>
+  <data name="FC_EMAIL" xml:space="preserve">
+    <value>Email</value>
+  </data>
+  <data name="FC_LOOKING_FOR_ANSWERS" xml:space="preserve">
+    <value>Looking for answers?</value>
+  </data>
+  <data name="FC_READ_FAQ" xml:space="preserve">
+    <value>Read the FAQ</value>
+  </data>
+  <data name="FC_MESSAGE_FORM" xml:space="preserve">
+    <value>Message form</value>
+  </data>
+  <data name="FC_PRIVACY_NOTE" xml:space="preserve">
+    <value>We only use your details to reply. See our</value>
+  </data>
+  <data name="FC_GET_IN_TOUCH" xml:space="preserve">
+    <value>Get in touch</value>
+  </data>
+  <data name="FC_ABOUT_SUPPORT_TITLE" xml:space="preserve">
+    <value>Supporting local churches</value>
+  </data>
+  <data name="FC_ABOUT_SUPPORT_TEXT" xml:space="preserve">
+    <value>Churches keep their own pages up to date — service times, facilities and events, synced from ChurchSuite where they use it — so visitors see what's actually happening.</value>
+  </data>
+  <data name="FC_HELP" xml:space="preserve">
+    <value>Help</value>
+  </data>
+  <data name="FC_SEND_US_A_MESSAGE" xml:space="preserve">
+    <value>Send us a message</value>
+  </data>
+  <data name="FC_FAQ_CHURCHES_TITLE" xml:space="preserve">
+    <value>For churches</value>
+  </data>
+  <data name="FC_BULLETIN_DEFAULT_TITLE" xml:space="preserve">
+    <value>Weekly Pew Sheet &amp; Benefice Bulletin</value>
+  </data>
+  <data name="FC_BULLETIN_DEFAULT_PARISH" xml:space="preserve">
+    <value>Forest of Dean Benefice</value>
+  </data>
+  <data name="FC_BULLETIN_NONE" xml:space="preserve">
+    <value>No bulletin published yet</value>
+  </data>
+  <data name="FC_BULLETIN_NONE_TEXT" xml:space="preserve">
+    <value>Check back soon for this week's pew sheet.</value>
+  </data>
+  <data name="FC_BULLETIN_SECTIONS" xml:space="preserve">
+    <value>Bulletin sections</value>
+  </data>
+  <data name="FC_DOWNLOAD_PDF" xml:space="preserve">
+    <value>Download PDF</value>
+  </data>
+  <data name="FC_PRINT" xml:space="preserve">
+    <value>Print</value>
+  </data>
+  <data name="FC_DETAILS" xml:space="preserve">
+    <value>Details</value>
+  </data>
+  <data name="FC_NOTICES" xml:space="preserve">
+    <value>Notices</value>
+  </data>
+  <data name="FC_READINGS" xml:space="preserve">
+    <value>Readings</value>
+  </data>
+  <data name="FC_HYMNS" xml:space="preserve">
+    <value>Hymns</value>
+  </data>
+  <data name="FC_COLLECT" xml:space="preserve">
+    <value>Collect</value>
+  </data>
+  <data name="FC_THE_COLLECT" xml:space="preserve">
+    <value>The Collect</value>
+  </data>
+  <data name="FC_THIS_WEEKS_NOTICES" xml:space="preserve">
+    <value>This week's notices</value>
+  </data>
+  <data name="FC_NOTHING_THIS_WEEK" xml:space="preserve">
+    <value>Nothing listed this week.</value>
+  </data>
+  <data name="FC_FIRST_READING" xml:space="preserve">
+    <value>First reading</value>
+  </data>
+  <data name="FC_GOSPEL" xml:space="preserve">
+    <value>Gospel</value>
+  </data>
+  <data name="FC_LOGIN_PITCH_TITLE" xml:space="preserve">
+    <value>Keep your church's page up to date</value>
+  </data>
+  <data name="FC_LOGIN_PITCH_TEXT" xml:space="preserve">
+    <value>Service times, facilities and events — all in one place, so visitors always know what to expect.</value>
+  </data>
+  <data name="FC_LOGIN_LEAD" xml:space="preserve">
+    <value>Sign in to manage your church.</value>
+  </data>
+  <data name="FC_SHOW" xml:space="preserve">
+    <value>Show</value>
+  </data>
+  <data name="FC_HIDE" xml:space="preserve">
+    <value>Hide</value>
+  </data>
+  <data name="FC_KEEP_ME_SIGNED_IN" xml:space="preserve">
+    <value>Keep me signed in</value>
+  </data>
+  <data name="FC_SIGN_IN" xml:space="preserve">
+    <value>Sign in</value>
+  </data>
+  <data name="FC_OR" xml:space="preserve">
+    <value>or</value>
+  </data>
+  <data name="FC_SIGN_IN_WITH" xml:space="preserve">
+    <value>Sign in with {0}</value>
+  </data>
+  <data name="FC_NOT_SET_UP" xml:space="preserve">
+    <value>Not set up yet? Churches join by invitation —</value>
+  </data>
+  <data name="FC_ASK_FOR_INVITE" xml:space="preserve">
+    <value>ask for an invite</value>
+  </data>
+  <data name="FC_RESET_PASSWORD" xml:space="preserve">
+    <value>Reset your password</value>
+  </data>
+  <data name="FC_RESET_LEAD" xml:space="preserve">
+    <value>Enter the email you sign in with and we'll send you a link to choose a new password.</value>
+  </data>
+  <data name="FC_SEND_RESET_LINK" xml:space="preserve">
+    <value>Send reset link</value>
+  </data>
+  <data name="FC_BACK_TO_LOGIN" xml:space="preserve">
+    <value>Back to login</value>
+  </data>
+  <data name="FC_CHECK_INBOX" xml:space="preserve">
+    <value>Check your inbox</value>
+  </data>
+  <data name="FC_CHECK_INBOX_TEXT" xml:space="preserve">
+    <value>If that email has an account, a reset link is on its way. Don't forget to check your spam folder.</value>
+  </data>
+  <data name="FC_USE_DIFFERENT_EMAIL" xml:space="preserve">
+    <value>Use a different email</value>
+  </data>
+  <data name="FC_MY_CHURCH_LEAD" xml:space="preserve">
+    <value>What visitors see on your public page and in search.</value>
+  </data>
+  <data name="FC_CHURCH_NAME" xml:space="preserve">
+    <value>Church name</value>
+  </data>
+  <data name="FC_ABOUT_YOUR_CHURCH" xml:space="preserve">
+    <value>About your church</value>
+  </data>
+  <data name="FC_SHOWN_AT_TOP" xml:space="preserve">
+    <value>shown at the top of your page</value>
+  </data>
+  <data name="FC_FACILITIES_HINT" xml:space="preserve">
+    <value>Visitors can filter search results by these.</value>
+  </data>
+  <data name="FC_DISCARD_CHANGES" xml:space="preserve">
+    <value>Discard changes</value>
+  </data>
+  <data name="FC_NO_SERVICE_TIMES_ADMIN" xml:space="preserve">
+    <value>No services added yet. Add your first one below.</value>
+  </data>
+  <data name="FC_CONFIRM_REMOVE_SERVICE" xml:space="preserve">
+    <value>Remove this service time?</value>
+  </data>
+  <data name="FC_SERVICE_NAME" xml:space="preserve">
+    <value>Service name</value>
+  </data>
+  <data name="FC_LOGO_TITLE" xml:space="preserve">
+    <value>Logo or photo</value>
+  </data>
+  <data name="FC_CURRENT_LOGO" xml:space="preserve">
+    <value>Current logo</value>
+  </data>
+  <data name="FC_LOGO_HINT" xml:space="preserve">
+    <value>PNG or JPEG. A square image works best.</value>
+  </data>
+  <data name="FC_SYNC_NOW" xml:space="preserve">
+    <value>Sync now</value>
+  </data>
+  <data name="FC_MANAGE_CONNECTION" xml:space="preserve">
+    <value>Manage connection</value>
+  </data>
+  <data name="FC_DANGER_ZONE" xml:space="preserve">
+    <value>Danger zone</value>
+  </data>
+  <data name="FC_MARK_CLOSED" xml:space="preserve">
+    <value>Mark church as closed…</value>
+  </data>
+  <data name="FC_MARK_OPEN" xml:space="preserve">
+    <value>Reopen church</value>
+  </data>
+  <data name="FC_CONFIRM_CLOSE" xml:space="preserve">
+    <value>{0} will be hidden from search. Are you sure?</value>
+  </data>
+  <data name="FC_CLOSED_NOW" xml:space="preserve">
+    <value>Your church is marked as closed and doesn't appear in search. Reopen it when you're holding services again.</value>
+  </data>
+  <data name="FC_PROFILE_LEAD" xml:space="preserve">
+    <value>Your own login details — separate from your church's public information.</value>
+  </data>
+  <data name="FC_YOUR_DETAILS" xml:space="preserve">
+    <value>Your details</value>
+  </data>
+  <data name="FC_EMAIL_SIGN_IN" xml:space="preserve">
+    <value>Email (used to sign in)</value>
+  </data>
+  <data name="FC_EMAIL_CHANGE_HINT" xml:space="preserve">
+    <value>To change your email, please contact us.</value>
+  </data>
+  <data name="FC_SECURITY_LEAD" xml:space="preserve">
+    <value>Keep your church's account safe.</value>
+  </data>
+  <data name="FC_PASSWORD_HINT" xml:space="preserve">
+    <value>Use at least 12 characters. A short phrase is easier to remember.</value>
+  </data>
+  <data name="FC_CONFIRM_NEW_PASSWORD" xml:space="preserve">
+    <value>Confirm new password</value>
+  </data>
+  <data name="FC_UPDATE_PASSWORD" xml:space="preserve">
+    <value>Update password</value>
+  </data>
+  <data name="FC_2FA_LEAD" xml:space="preserve">
+    <value>Ask for a code from an authenticator app when you sign in.</value>
+  </data>
+  <data name="FC_2FA_EXPLAIN" xml:space="preserve">
+    <value>Use an app such as Microsoft or Google Authenticator. Even if someone learns your password, they can't sign in without your phone.</value>
+  </data>
+  <data name="FC_MANAGE" xml:space="preserve">
+    <value>Manage</value>
+  </data>
+  <data name="FC_ON" xml:space="preserve">
+    <value>On</value>
+  </data>
+  <data name="FC_OFF_RECOMMENDED" xml:space="preserve">
+    <value>Off — recommended</value>
+  </data>
+  <data name="FC_RECOVERY_CODES" xml:space="preserve">
+    <value>Recovery codes</value>
+  </data>
+  <data name="FC_RECOVERY_CODES_LEFT" xml:space="preserve">
+    <value>You have {0} recovery codes left. Use one if you lose your phone.</value>
+  </data>
+  <data name="FC_CHURCHSUITE_LEAD" xml:space="preserve">
+    <value>Connect your ChurchSuite account and your events appear on your page automatically.</value>
+  </data>
+  <data name="FC_CONNECTED" xml:space="preserve">
+    <value>Connected</value>
+  </data>
+  <data name="FC_NOT_CONNECTED" xml:space="preserve">
+    <value>Not connected</value>
+  </data>
+  <data name="FC_CS_STEP_1" xml:space="preserve">
+    <value>In the ChurchSuite developer console, create a new OAuth app as a public (PKCE) client.</value>
+  </data>
+  <data name="FC_CS_STEP_2" xml:space="preserve">
+    <value>Copy its Client ID and paste it below.</value>
+  </data>
+  <data name="FC_CS_STEP_3" xml:space="preserve">
+    <value>Choose Save &amp; authorise, then approve access in ChurchSuite.</value>
+  </data>
+  <data name="FC_CONFIRM_REMOVE_LOGIN" xml:space="preserve">
+    <value>Remove the {0} login from your account?</value>
+  </data>
+  <data name="FC_DOWNLOAD_YOUR_DATA" xml:space="preserve">
+    <value>Download your data</value>
+  </data>
+  <data name="FC_DOWNLOAD_YOUR_DATA_TEXT" xml:space="preserve">
+    <value>Everything we hold about you and your church, as a single file.</value>
+  </data>
+  <data name="FC_DOWNLOAD" xml:space="preserve">
+    <value>Download</value>
+  </data>
+  <data name="FC_DELETE_ACCOUNT" xml:space="preserve">
+    <value>Delete your account</value>
+  </data>
+  <data name="FC_DELETE_ACCOUNT_TEXT" xml:space="preserve">
+    <value>Permanently removes your login and the data held with it.</value>
+  </data>
+  <data name="FC_DELETE_PERMANENT" xml:space="preserve">
+    <value>This can't be undone.</value>
+  </data>
+  <data name="FC_ENTER_PASSWORD_CONFIRM" xml:space="preserve">
+    <value>Enter your password to confirm</value>
+  </data>
+  <data name="FC_CANCEL" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="FC_DELETE_PERMANENTLY" xml:space="preserve">
+    <value>Delete permanently</value>
+  </data>
+  <data name="FC_EVENTS_LEAD" xml:space="preserve">
+    <value>Events from ChurchSuite sync automatically. Add one-off events here.</value>
+  </data>
+  <data name="FC_SYNC_FROM_CHURCHSUITE" xml:space="preserve">
+    <value>Sync from ChurchSuite</value>
+  </data>
+  <data name="FC_EVENT_COUNT" xml:space="preserve">
+    <value>{0} upcoming</value>
+  </data>
+  <data name="FC_PAST_EVENTS" xml:space="preserve">
+    <value>Past events ({0})</value>
+  </data>
+  <data name="FC_ADDED_HERE" xml:space="preserve">
+    <value>Added here</value>
+  </data>
+  <data name="FC_EDIT" xml:space="preserve">
+    <value>Edit</value>
+  </data>
+  <data name="FC_DELETE" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="FC_CONFIRM_DELETE_EVENT" xml:space="preserve">
+    <value>Delete “{0}”? This can't be undone.</value>
+  </data>
+  <data name="FC_ADD_EVENT" xml:space="preserve">
+    <value>Add an event</value>
+  </data>
+  <data name="FC_EDIT_EVENT" xml:space="preserve">
+    <value>Edit event</value>
+  </data>
+  <data name="FC_EVENT_NAME" xml:space="preserve">
+    <value>Event name</value>
+  </data>
+  <data name="FC_STARTS" xml:space="preserve">
+    <value>Starts</value>
+  </data>
+  <data name="FC_ENDS" xml:space="preserve">
+    <value>Ends</value>
+  </data>
+  <data name="FC_REPEATS" xml:space="preserve">
+    <value>Repeats</value>
+  </data>
+  <data name="FC_DESCRIPTION" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="FC_EVENT_LINK" xml:space="preserve">
+    <value>Link for more information</value>
+  </data>
+  <data name="FC_EVENT_IMAGE" xml:space="preserve">
+    <value>Image</value>
+  </data>
+  <data name="FC_SAVE_CHANGES" xml:space="preserve">
+    <value>Save changes</value>
+  </data>
+  <data name="FC_CREATE_EVENT" xml:space="preserve">
+    <value>Create event</value>
+  </data>
+  <data name="FC_REPEAT_NONE" xml:space="preserve">
+    <value>Doesn't repeat</value>
+  </data>
+  <data name="FC_REPEAT_DAILY" xml:space="preserve">
+    <value>Daily</value>
+  </data>
+  <data name="FC_REPEAT_WEEKLY" xml:space="preserve">
+    <value>Weekly</value>
+  </data>
+  <data name="FC_REPEAT_2W" xml:space="preserve">
+    <value>Every 2 weeks</value>
+  </data>
+  <data name="FC_REPEAT_3W" xml:space="preserve">
+    <value>Every 3 weeks</value>
+  </data>
+  <data name="FC_REPEAT_MONTHLY" xml:space="preserve">
+    <value>Monthly</value>
+  </data>
+  <data name="FC_REPEAT_2M" xml:space="preserve">
+    <value>Every 2 months</value>
   </data>
 </root>

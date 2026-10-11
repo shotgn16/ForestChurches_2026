@@ -1,0 +1,22 @@
+@model ForestChurches.Models.ChurchInformation
+@* Compact icon row used on search result cards: only the facilities visitors filter on most. *@
+@{
+    var facts = new List<(bool On, string Key, string Path)>
+    {
+        (Model.WheelchairAccess, "FC_FACT_STEP_FREE", "M12 4.2a1.6 1.6 0 1 0 0 .1M12 7v6h5l2 6M12 10H8M9.5 13.5a5 5 0 1 0 6.5 6"),
+        (Model.Parking, "NEARME_FACILITY_PARKING", "M7 20V4h6a4 4 0 0 1 0 8H7"),
+        (Model.HearingAidSupport, "FC_FACT_HEARING_LOOP", "M6 9a6 6 0 1 1 12 0c0 4-4 4-4 8a3 3 0 0 1-6 0M10 9a2 2 0 1 1 4 0"),
+        (Model.Refreshments, "NEARME_FACILITY_REFRESHMENTS", "M4 9h12v5a5 5 0 0 1-5 5H9a5 5 0 0 1-5-5zM16 11h2a2 2 0 0 1 0 4h-2M8 3v3M12 3v3"),
+        (Model.Childcare, "FC_FACT_CHILDREN", "M12 5.5a2 2 0 1 0 0 .1M8 21v-6l-2-4 6-2 6 2-2 4v6"),
+    };
+    var shown = facts.Where(f => f.On).ToList();
+}
+@if (shown.Count > 0)
+{
+    <ul class="fc-facts" aria-label="@Localizer["CHURCH_FACILITIES_TITLE"]">
+        @foreach (var f in shown)
+        {
+            <li><svg class="fc-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="@f.Path"></path></svg>@Localizer[f.Key]</li>
+        }
+    </ul>
+}

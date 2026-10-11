@@ -1,25 +1,70 @@
-﻿@{
-    if (ViewData.TryGetValue("ParentLayout", out var parentLayout) && parentLayout !=  null)
+@using ForestChurches.Components.Users
+@using Microsoft.EntityFrameworkCore
+@inject UserManager<ChurchAccount> UserManager
+@inject ForestChurches.Data.ForestChurchesContext DbContext
+@inject ForestChurches.Components.Storage.IBlobUrlService BlobUrlService
+@inject ForestChurches.Components.Security.Encoder Encoder
+@{
+    if (ViewData.TryGetValue("ParentLayout", out var parentLayout) && parentLayout != null)
     {
         Layout = parentLayout.ToString();
     }
     else
     {
-        Layout = "/Areas/Identity/Pages/_Layout.cshtml";
+        Layout = "/Pages/Shared/_Layout.cshtml";
     }
+    ViewData["FcShell"] = "admin";
+
+    // Church summary for the sidebar header. Never let it break the page.
+    ForestChurches.Models.ChurchInformation? church = null;
+    string? logoBlob = null;
+    try
+    {
+        var userId = UserManager.GetUserId(User);
+        if (!string.IsNullOrEmpty(userId))
+        {
+            church = await DbContext.ChurchInformation.AsNoTracking().FirstOrDefaultAsync(c => c.ChurchAccountId == userId);
+            logoBlob = (await UserManager.FindByIdAsync(userId))?.ImageBlobName;
+        }
+    }
+    catch
+    {
+        church = null;
+    }
+    var logoSrc = BlobUrlService.GetReadSasUrl(string.IsNullOrEmpty(logoBlob) ? "IMGUR-1.png" : logoBlob, TimeSpan.FromHours(1));
+    var isOpen = string.Equals(church?.Status, "Open", StringComparison.OrdinalIgnoreCase);
 }
 
-<head>
-    <link rel="stylesheet" href="~/css2/Nav.css" asp-append-version="true" />
-</head>
+@section AdminBarLinks {
+    @if (church != null && isOpen)
+    {
+        <a asp-area="" asp-page="/Church" asp-route-id="@Encoder.Protect(church.ID, "fc.data.church.information")">@Localizer["FC_VIEW_PUBLIC_PAGE"] ↗</a>
+    }
+    <a asp-area="" asp-page="/Index">@Localizer["FC_BACK_TO_SITE"]</a>
+}
 
-<div class="container-fluid">
-    <main role="main" class="p-0">
+<div class="fc-container fc-admin">
+    <nav class="fc-admin__side" aria-label="@Localizer["FC_ACCOUNT_NAV"]">
+        @if (church != null)
+        {
+            <div class="fc-admin__church">
+                <img src="@logoSrc" alt="" width="48" height="48" />
+                <div>
+                    <strong>@ForestChurches.Components.Ui.FcText.PlainText(church.Name)</strong>
+                    <span class="fc-admin__status @(isOpen ? "" : "fc-admin__status--closed")">● @(isOpen ? Localizer["FC_STATUS_OPEN_LISTED"] : Localizer["FC_STATUS_CLOSED_HIDDEN"])</span>
+                </div>
+            </div>
+        }
+        <partial name="_ManageNav" />
+    </nav>
+
+    <div class="fc-admin__main">
         @RenderBody()
-    </main>
+    </div>
 </div>
-
 
 @section Scripts {
     @RenderSection("Scripts", required: false)
 }
+@* Some older account pages declare an empty Styles section; accept it rather than throwing. *@
+@if (IsSectionDefined("Styles")) { IgnoreSection("Styles"); }

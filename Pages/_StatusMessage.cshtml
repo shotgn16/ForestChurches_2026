@@ -1,36 +1,14 @@
-﻿@model string
+@model string
 
 @if (!String.IsNullOrEmpty(Model))
 {
-    var statusMessageClass = Model.StartsWith("Error") || Model.StartsWith("Password") ? "danger" : "success";
-    if (Model.StartsWith("Error"))
-    {
-        statusMessageClass = "danger";
-    }
-    else if (Model.StartsWith("Success"))
-    {
-        statusMessageClass = "success";
-    }
-    else if (Model.StartsWith("Warning"))
-    {
-        statusMessageClass = "warning";
-    }
-    else if (Model.StartsWith("Info"))
-    {
-        statusMessageClass = "info";
-    }
-    <div id="statusMessage" class="alert alert-@statusMessageClass alert-dismissible" role="alert">
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        @Html.Raw(Model.Replace("\n", "<br />"))
-    </div>
+    var kind = "ok"; var bootstrapKind = "success";
+    if (Model.StartsWith("Error") || Model.StartsWith("Password")) { kind = "danger"; bootstrapKind = "danger"; }
+    else if (Model.StartsWith("Warning")) { kind = "warn"; bootstrapKind = "warning"; }
+    else if (Model.StartsWith("Info")) { kind = "info"; bootstrapKind = "info"; }
 
-    <script nonce="@HttpContextAccessor.HttpContext?.Items["CSP-Script-Nonce"]">
-        setTimeout(function() {
-            var statusMessage = document.getElementById('statusMessage');
-            if (statusMessage) {
-                var alert = new bootstrap.Alert(statusMessage);
-                alert.close();
-            }
-        }, 5000);
-    </script>
+    @* Messages can contain user-entered text (e.g. a church name), so encode before adding line breaks. *@
+    <div id="statusMessage" class="fc-alert fc-alert--@kind alert alert-@bootstrapKind" role="status">
+        @Html.Raw(System.Net.WebUtility.HtmlEncode(Model).Replace("\n", "<br />"))
+    </div>
 }

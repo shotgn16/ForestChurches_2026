@@ -1,131 +1,100 @@
-﻿@page
+@page
 @model ExternalLoginsModel
 @inject ForestChurches.Components.Security.Encoder Encoder;
-@inject ForestChurches.Components.Storage.IBlobUrlService BlobUrlService;
 @{
-    ViewData["Title"] = Localizer["EXTERNAL_LOGIN_TITLE"];
+    ViewData["Title"] = Localizer["FC_NAV_CHURCHSUITE"];
     ViewData["ActivePage"] = ManageNavPages.ExternalLogins;
-
-    // IMGUR-1
-    var defaultSrc = BlobUrlService.GetReadSasUrl("IMGUR-1.png", TimeSpan.FromDays(7));
-    string src = defaultSrc;
-
-    if (Model?.Currentuser != null)
-    {
-        if (!string.IsNullOrEmpty(Model.Currentuser.ImageBlobName))
-        {
-            src = BlobUrlService.GetReadSasUrl(Model.Currentuser.ImageBlobName, TimeSpan.FromDays(7));
-        }
-        else if (Model.Currentuser.ImageArray != null && Model.Currentuser.ImageArray.Length > 1)
-        {
-            src = "data:image;base64," + System.Convert.ToBase64String(Model.Currentuser.ImageArray);
-        }
-    }
+    var connected = Model?.HasChurchSuiteCredentials == true;
+    var authError = TempData["ChurchSuiteAuthError"] as string;
 }
-<head>
-    <link rel="stylesheet" href="~/css2/profile.css" asp-append-version="true" />
-</head>
 
-<!-- Beginning of Page Header -->
-<div class="container-fluid page-hero">
-    <div class="hero-text">
-        <div>
-            <img src="@src" alt="Profile Picture" />
-        </div>
-        <div class="heading-text">
-            <h1>@Localizer["PROFILE_WELCOME_BACK"]</h1>
-            <p>@Model.CurrentChurch?.Name, <strong>@Model.CurrentChurch?.Status</strong></p>
-        </div>
+<div class="fc-page-head">
+    <div>
+        <h1>@Localizer["FC_NAV_CHURCHSUITE"]</h1>
+        <p>@Localizer["FC_CHURCHSUITE_LEAD"]</p>
     </div>
 </div>
 
-<!-- Tab Nav -->
-<partial name="_ManageNav" />
 <partial name="_StatusMessage" for="StatusMessage" />
+@if (!string.IsNullOrEmpty(authError))
+{
+    <div class="fc-alert fc-alert--warn" role="alert">@authError</div>
+}
 
-<section class="data-section">
-    <h3>@ViewData["Title"]</h3>
+<section class="fc-card fc-stack" aria-labelledby="cs-h" style="gap: 20px">
+    <div class="fc-row" style="gap: 16px">
+        <span class="fc-cs-mark" aria-hidden="true"><svg class="fc-icon" style="width: 28px; height: 28px" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"></circle><path d="M12 3v18M3 12h18"></path></svg></span>
+        <div class="fc-stack" style="gap: 4px; flex: 1 1 300px">
+            <h2 id="cs-h" class="fc-h3">@Localizer["TAG_CONNECT_CHURCHSUITE"]</h2>
+            @if (connected)
+            {
+                <span class="fc-badge fc-badge--ok" style="align-self: flex-start">● @(Model!.ChurchSuiteStatusMessage ?? Localizer["FC_CONNECTED"].Value)</span>
+            }
+            else
+            {
+                <span class="fc-small fc-muted">@(Model?.ChurchSuiteStatusMessage ?? Localizer["FC_NOT_CONNECTED"].Value)</span>
+            }
+        </div>
+        @if (connected)
+        {
+            <form method="post" asp-page="./ChurchProfile" asp-page-handler="SyncChurchSuiteOAuth">
+                <button type="submit" class="fc-btn fc-btn--primary">@Localizer["FC_SYNC_NOW"]</button>
+            </form>
+        }
+    </div>
 
-    @if (Model.CurrentLogins?.Count > 0)
+    @if (!connected)
     {
-        <h3>@Localizer["TAG_REGISTERED_LOGINS"]</h3>
-        <table class="table">
-            <tbody>
-                @foreach (var login in Model.CurrentLogins)
-                {
-                    <tr>
-                        <td id="@($"login-provider-{login.LoginProvider}")">@login.ProviderDisplayName</td>
-                        <td>
-                            @if (Model.ShowRemoveButton)
-                            {
-                                <form id="@($"remove-login-{login.LoginProvider}")" asp-page-handler="RemoveLogin" method="post">
-                                    <div>
-                                        <input asp-for="@login.LoginProvider" name="LoginProvider" type="hidden" />
-                                        <input asp-for="@login.ProviderKey" name="ProviderKey" type="hidden" />
-
-                                        <!-- AntiforgeryToken -->
-                                        @Html.AntiForgeryToken()
-                                        <button type="submit" class="btn btn-primary" title="Remove this @login.ProviderDisplayName login from your account">@Localizer["STATUS_REMOVE"]</button>
-                                    </div>
-                                </form>
-                            }
-                            else
-                            {
-                                @: &nbsp;
-                            }
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-    }
-    @if (Model.OtherLogins?.Count > 0)
-    {
-        <h4>@Localizer["TAG_ANOTHER_SERVICE"]</h4>
-        <hr />
-        <form id="link-login-form" asp-page-handler="LinkLogin" method="post" class="form-horizontal">
-            <div id="socialLoginList">
-                <p>
-                    @foreach (var provider in Model.OtherLogins)
-                    {
-                        <button id="@($"link-login-button-{provider.Name}")" type="submit" class="btn btn-primary" name="provider" value="@Encoder.Protect(provider.Name, "fc.data.login.external")" title="Log in using your @provider.DisplayName account">@provider.DisplayName</button>
-                    }
-                </p>
-            </div>
-            <!-- AntiforgeryToken -->
-            @Html.AntiForgeryToken()
-        </form>
+        <ol class="fc-stack" style="margin: 0; padding-left: 22px; gap: 8px; color: var(--fc-ink-2)">
+            <li>@Localizer["FC_CS_STEP_1"]</li>
+            <li>@Localizer["FC_CS_STEP_2"]</li>
+            <li>@Localizer["FC_CS_STEP_3"]</li>
+        </ol>
     }
 
-    <hr />
-    <h4>@Localizer["TAG_CONNECT_CHURCHSUITE"]</h4>
-    <p>@Localizer["TAG_CHURCHSUITE_DESC"]</p>
-    <form method="post" asp-page-handler="SetClientId" class="form-inline" style="display:flex; gap:0.5rem; align-items:center;">
-        @Html.AntiForgeryToken()
-        <input name="clientId" value="@(Model.Currentuser?.ClientId ?? string.Empty)" placeholder="@Localizer["TAG_CHURCHSUITE_CLIENT_ID"]" class="form-control" />
-        <button type="submit" class="btn btn-primary">@Localizer["TAG_SAVE_AUTHORIZE"]</button>
+    <form method="post" asp-page-handler="SetClientId" class="fc-search__row">
+        <div class="fc-field fc-field--wide" style="flex: 1 1 320px">
+            <label class="fc-label" for="cs-client-id">@Localizer["TAG_CHURCHSUITE_CLIENT_ID"]</label>
+            <input class="fc-input" id="cs-client-id" name="clientId" value="@(Model?.Currentuser?.ClientId ?? string.Empty)" autocomplete="off" spellcheck="false" />
+            <span class="fc-hint">@Localizer["TAG_CHURCHSUITE_DESC"]</span>
+        </div>
+        <button type="submit" class="fc-btn @(connected ? "fc-btn--outline" : "fc-btn--primary")">@Localizer["TAG_SAVE_AUTHORIZE"]</button>
     </form>
-
-    @* Show connected indicator *@
-    @if (Model != null && Model.HasChurchSuiteCredentials)
-    {
-        <div class="alert alert-success mt-2" role="status">
-            <strong>@Model.ChurchSuiteStatusMessage</strong>
-        </div>
-    }
-    else if (Model != null)
-    {
-        <div class="alert alert-secondary mt-2" role="status">
-            @Model.ChurchSuiteStatusMessage
-        </div>
-    }
-
-    @if (TempData["ChurchSuiteAuthError"] != null)
-    {
-        <div class="alert alert-warning mt-2">@TempData["ChurchSuiteAuthError"]</div>
-    }
-
 </section>
+
+@if (Model?.CurrentLogins?.Count > 0 || Model?.OtherLogins?.Count > 0)
+{
+    <section class="fc-card" aria-labelledby="ext-h">
+        <h2 id="ext-h" class="fc-card__title">@Localizer["TAG_REGISTERED_LOGINS"]</h2>
+        @if (Model.CurrentLogins?.Count > 0)
+        {
+            @foreach (var login in Model.CurrentLogins)
+            {
+                <div class="fc-list-row">
+                    <span id="@($"login-provider-{login.LoginProvider}")" style="font-weight: 700">@login.ProviderDisplayName</span>
+                    @if (Model.ShowRemoveButton)
+                    {
+                        <form id="@($"remove-login-{login.LoginProvider}")" asp-page-handler="RemoveLogin" method="post" data-fc-confirm="@Localizer["FC_CONFIRM_REMOVE_LOGIN", login.ProviderDisplayName ?? login.LoginProvider]">
+                            <input asp-for="@login.LoginProvider" name="LoginProvider" type="hidden" />
+                            <input asp-for="@login.ProviderKey" name="ProviderKey" type="hidden" />
+                            <button type="submit" class="fc-btn fc-btn--danger-outline fc-btn--sm">@Localizer["STATUS_REMOVE"]<span class="fc-sr-only"> @login.ProviderDisplayName</span></button>
+                        </form>
+                    }
+                </div>
+            }
+        }
+        @if (Model.OtherLogins?.Count > 0)
+        {
+            <h3 class="fc-h3" style="font-size: 18px !important; margin: 16px 0 10px">@Localizer["TAG_ANOTHER_SERVICE"]</h3>
+            <form id="link-login-form" asp-page-handler="LinkLogin" method="post" class="fc-btn-row">
+                @foreach (var provider in Model.OtherLogins)
+                {
+                    <button id="@($"link-login-button-{provider.Name}")" type="submit" class="fc-btn fc-btn--outline" name="provider" value="@Encoder.Protect(provider.Name, "fc.data.login.external")">@provider.DisplayName</button>
+                }
+            </form>
+        }
+    </section>
+}
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
