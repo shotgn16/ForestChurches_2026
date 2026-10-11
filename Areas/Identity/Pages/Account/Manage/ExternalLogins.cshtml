@@ -1,59 +1,132 @@
 ﻿@page
 @model ExternalLoginsModel
 @inject ForestChurches.Components.Security.Encoder Encoder;
+@inject ForestChurches.Components.Storage.IBlobUrlService BlobUrlService;
 @{
-    ViewData["Title"] = "Manage your external logins";
+    ViewData["Title"] = Localizer["EXTERNAL_LOGIN_TITLE"];
     ViewData["ActivePage"] = ManageNavPages.ExternalLogins;
-}
 
-<partial name="_StatusMessage" for="StatusMessage" />
-@if (Model.CurrentLogins?.Count > 0)
-{
-    <h3>Registered Logins</h3>
-    <table class="table">
-        <tbody>
-            @foreach (var login in Model.CurrentLogins)
-            {
-                <tr>
-                    <td id="@($"login-provider-{login.LoginProvider}")">@login.ProviderDisplayName</td>
-                    <td>
-                        @if (Model.ShowRemoveButton)
-                        {
-                            <form id="@($"remove-login-{login.LoginProvider}")" asp-page-handler="RemoveLogin" method="post">
-                                <div>
-                                    <input asp-for="@login.LoginProvider" name="LoginProvider" type="hidden" />
-                                    <input asp-for="@login.ProviderKey" name="ProviderKey" type="hidden" />
+    // IMGUR-1
+    var defaultSrc = BlobUrlService.GetReadSasUrl("IMGUR-1.png", TimeSpan.FromDays(7));
+    string src = defaultSrc;
 
-                                    <!-- AntiforgeryToken -->
-                                    @Html.AntiForgeryToken()
-                                    <button type="submit" class="btn btn-primary" title="Remove this @login.ProviderDisplayName login from your account">Remove</button>
-                                </div>
-                            </form>
-                        }
-                        else
-                        {
-                            @: &nbsp;
-                        }
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
+    if (Model?.Currentuser != null)
+    {
+        if (!string.IsNullOrEmpty(Model.Currentuser.ImageBlobName))
+        {
+            src = BlobUrlService.GetReadSasUrl(Model.Currentuser.ImageBlobName, TimeSpan.FromDays(7));
+        }
+        else if (Model.Currentuser.ImageArray != null && Model.Currentuser.ImageArray.Length > 1)
+        {
+            src = "data:image;base64," + System.Convert.ToBase64String(Model.Currentuser.ImageArray);
+        }
+    }
 }
-@if (Model.OtherLogins?.Count > 0)
-{
-    <h4>Add another service to log in.</h4>
-    <hr />
-    <form id="link-login-form" asp-page-handler="LinkLogin" method="post" class="form-horizontal">
-        <div id="socialLoginList">
-            <p>
-                @foreach (var provider in Model.OtherLogins)
-                {
-                    <button id="@($"link-login-button-{provider.Name}")" type="submit" class="btn btn-primary" name="provider" value="@Encoder.Protect(provider.Name, "fc.data.login.external")" title="Log in using your @provider.DisplayName account">@provider.DisplayName</button>
-                }
-            </p>
+<head>
+    <link rel="stylesheet" href="~/css2/profile.css" asp-append-version="true" />
+</head>
+
+<!-- Beginning of Page Header -->
+<div class="container-fluid page-hero">
+    <div class="hero-text">
+        <div>
+            <img src="@src" alt="Profile Picture" />
         </div>
-        <!-- AntiforgeryToken -->
+        <div class="heading-text">
+            <h1>@Localizer["PROFILE_WELCOME_BACK"]</h1>
+            <p>@Model.CurrentChurch?.Name, <strong>@Model.CurrentChurch?.Status</strong></p>
+        </div>
+    </div>
+</div>
+
+<!-- Tab Nav -->
+<partial name="_ManageNav" />
+<partial name="_StatusMessage" for="StatusMessage" />
+
+<section class="data-section">
+    <h3>@ViewData["Title"]</h3>
+
+    @if (Model.CurrentLogins?.Count > 0)
+    {
+        <h3>@Localizer["TAG_REGISTERED_LOGINS"]</h3>
+        <table class="table">
+            <tbody>
+                @foreach (var login in Model.CurrentLogins)
+                {
+                    <tr>
+                        <td id="@($"login-provider-{login.LoginProvider}")">@login.ProviderDisplayName</td>
+                        <td>
+                            @if (Model.ShowRemoveButton)
+                            {
+                                <form id="@($"remove-login-{login.LoginProvider}")" asp-page-handler="RemoveLogin" method="post">
+                                    <div>
+                                        <input asp-for="@login.LoginProvider" name="LoginProvider" type="hidden" />
+                                        <input asp-for="@login.ProviderKey" name="ProviderKey" type="hidden" />
+
+                                        <!-- AntiforgeryToken -->
+                                        @Html.AntiForgeryToken()
+                                        <button type="submit" class="btn btn-primary" title="Remove this @login.ProviderDisplayName login from your account">@Localizer["STATUS_REMOVE"]</button>
+                                    </div>
+                                </form>
+                            }
+                            else
+                            {
+                                @: &nbsp;
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    @if (Model.OtherLogins?.Count > 0)
+    {
+        <h4>@Localizer["TAG_ANOTHER_SERVICE"]</h4>
+        <hr />
+        <form id="link-login-form" asp-page-handler="LinkLogin" method="post" class="form-horizontal">
+            <div id="socialLoginList">
+                <p>
+                    @foreach (var provider in Model.OtherLogins)
+                    {
+                        <button id="@($"link-login-button-{provider.Name}")" type="submit" class="btn btn-primary" name="provider" value="@Encoder.Protect(provider.Name, "fc.data.login.external")" title="Log in using your @provider.DisplayName account">@provider.DisplayName</button>
+                    }
+                </p>
+            </div>
+            <!-- AntiforgeryToken -->
+            @Html.AntiForgeryToken()
+        </form>
+    }
+
+    <hr />
+    <h4>@Localizer["TAG_CONNECT_CHURCHSUITE"]</h4>
+    <p>@Localizer["TAG_CHURCHSUITE_DESC"]</p>
+    <form method="post" asp-page-handler="SetClientId" class="form-inline" style="display:flex; gap:0.5rem; align-items:center;">
         @Html.AntiForgeryToken()
+        <input name="clientId" value="@(Model.Currentuser?.ClientId ?? string.Empty)" placeholder="@Localizer["TAG_CHURCHSUITE_CLIENT_ID"]" class="form-control" />
+        <button type="submit" class="btn btn-primary">@Localizer["TAG_SAVE_AUTHORIZE"]</button>
     </form>
+
+    @* Show connected indicator *@
+    @if (Model != null && Model.HasChurchSuiteCredentials)
+    {
+        <div class="alert alert-success mt-2" role="status">
+            <strong>@Model.ChurchSuiteStatusMessage</strong>
+        </div>
+    }
+    else if (Model != null)
+    {
+        <div class="alert alert-secondary mt-2" role="status">
+            @Model.ChurchSuiteStatusMessage
+        </div>
+    }
+
+    @if (TempData["ChurchSuiteAuthError"] != null)
+    {
+        <div class="alert alert-warning mt-2">@TempData["ChurchSuiteAuthError"]</div>
+    }
+
+</section>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
 }

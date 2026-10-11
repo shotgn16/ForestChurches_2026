@@ -3,8 +3,8 @@
 @{
 }
 <head>
-    <link href="~/css2/Page-header.css" rel="stylesheet" integrity="sha256-LLkAohflMVN28iW4WQ/sNrs4gytxsAGk+XDrW0zsHl0=" />
-    <link href="~/css2/Variables.css" rel="stylesheet" integrity="sha256-wd4oTW8y4Lp8tRmY3hv0zwWaq4priIdcTuxNqkOhWVg=" />
+    <link rel="stylesheet" href="~/css2/Page-header.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css2/Variables.css" asp-append-version="true" />
 </head>
 <style nonce="@HttpContextAccessor.HttpContext?.Items["CSP-Style-Nonce"]">
     .rounded-circle {
@@ -21,38 +21,46 @@
     main {
         background-color: #00AD6A;
     }
+
+    .container.marketing {
+        padding-top: 5%;
+        padding-bottom: 10%;
+    }
 </style>
 
 <!-- Beginning of Page header -->
 <div class="container-fluid page-hero">
     <div class="hero-text">
-        <h1>About Us</h1>
-        <p>Get to know about us and what we do</p>
+        <h1>@Localizer["ABOUTUS_PAGE_TITLE"]</h1>
+        <p>@Localizer["ABOUTUS_PAGE_SUBTITLE"]</p>
     </div>
 </div>
+
+@* Bulletin notify for this page *@
+@await Html.PartialAsync("_BulletinNotify")
 
 <!-- Content goes here -->
 <div class="container marketing">
     <!-- Three columns of text below the carousel -->
     <div class="row">
         <div class="col-lg-4">
-            <img class="rounded-circle" src="~/img/aboutus_dear.jpeg" alt="Community Image" width="140" height="140">
-            <h1>We are for the community</h1>
+            <img class="rounded-circle" src="~/img/aboutus_dear.jpeg" alt="@Localizer["ABOUTUS_COMMUNITY_IMAGE_ALT"]" width="140" height="140">
+            <h1>@Localizer["ABOUTUS_COMMUNITY_SECTION_TITLE"]</h1>
             <!-- RE-WRITE (28.01.2025) -->
-            <p>Welcome, we hope you find what you are looking for. If you did't know already this is...! We are dedicated to serving our community with love and compassion. Our mission is to create a welcoming space where everyone feels valued and supported. Join us in making a positive impact!</p>
+            <p>@Localizer["ABOUTUS_COMMUNITY_SECTION_TEXT"]</p>
         </div><!-- /.col-lg-4 -->
         <div class="col-lg-4">
-            <img class="rounded-circle" src="~/img/aboutus_stream.jpeg" alt="Support Image" width="140" height="140">
-            <h1>What We Believe</h1>
-            <p>Inspired by this truth, we affirm Jesus Christ as Lord and Saviour, who brings forgiveness, renewal, and a shared purpose to His Church. It is through Him that we are called to work together, celebrating our diversity while standing united in His love. This belief has driven the creation of this website as a means to connect, uplift, and equip churches across the Forest of Dean. Our mission is to bring communities together by supporting and promoting churches and enabling those around us to discover what lies within the Forest Of Dean.</p>
-        </div><!-- /.col-lg-4 -->
+            <img class="rounded-circle" src="~/img/aboutus_stream.jpeg" alt="@Localizer["ABOUTUS_SUPPORT_IMAGE_ALT"]" width="140" height="140">
+            <h1>@Localizer["ABOUTUS_BELIEF_SECTION_TITLE"]</h1>
+            <p>@Localizer["ABOUTUS_BELIEF_SECTION_TEXT"]</p>
+        </div>
         <div class="col-lg-4">
-            <img class="rounded-circle" src="~/img/aboutus_leaves.jpeg" alt="Light Image" width="140" height="140">
-            <h1>Lighting up the Forest with the light of Jesus</h1>
-            <p>Inspired by the teachings of Jesus, we aim to spread light and hope throughout the Forest Of Dean. Our faith drives us to serve others and share the message of love, peace, and kindness. Come be a part of our journey!</p>
-        </div><!-- /.col-lg-4 -->
+            <img class="rounded-circle" src="~/img/aboutus_leaves.jpeg" alt="@Localizer["ABOUTUS_LIGHT_IMAGE_ALT"]" width="140" height="140">
+            <h1>@Localizer["ABOUTUS_LIGHT_SECTION_TITLE"]</h1>
+            <p>@Localizer["ABOUTUS_LIGHT_SECTION_TEXT"]</p>
+        </div>
     </div><!-- /.row -->
     <div class="col-lg-12">
-        <p id="page-footer">This website, created by Jack Butcher-Barnard and Johnathan Kear, is dedicated to supporting and uplifting churches throughout the Forest of Dean.</p>
+        <p id="page-footer">@Localizer["ABOUTUS_FOOTER_TEXT"]</p>
     </div>
 </div>

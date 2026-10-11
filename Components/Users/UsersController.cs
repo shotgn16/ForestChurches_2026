@@ -68,7 +68,9 @@ public class UsersController : Controller, UserInterface
             ImageBlobName = blobName,
             // ImageArray column in database is NOT NULL; provide empty array to satisfy constraint
             ImageArray = Array.Empty<byte>(),
-            Role = Roles.SuperAdmin.ToString()
+            Role = Roles.SuperAdmin.ToString(),
+            // Set ClientId to empty string for system users without ChurchSuite OAuth credentials yet
+            ClientId = string.Empty
         };
 
 		if (userManager.Users.All(u => u.Id != superAdminUser.Id))
@@ -99,18 +101,6 @@ public class UsersController : Controller, UserInterface
 			{
 				_logger.LogInformation("Super admin user already exists.");
 			}
-		}
-	}
-
-	private async Task<byte[]> ConvertLinkToByteArray(string url)
-	{
-		using (WebClient client = new WebClient())
-		{
-			ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
-
-			byte[] imagebytes = client.DownloadData(url);
-
-			return imagebytes;
 		}
 	}
 }

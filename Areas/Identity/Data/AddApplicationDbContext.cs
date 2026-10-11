@@ -43,32 +43,31 @@ namespace ForestChurches.Areas.Identity.Data
 
         public string GetConnectionString()
         {
-            var AppDirectory = AppDomain.CurrentDomain.BaseDirectory;
+            var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
 
-            var certificatePath = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Production" ? Environment.GetEnvironmentVariable("CERTIFICATE_PATH_PRO") : _configuration["Certificates:DevelopmentPath"];
+            // 1. Get the Key Vault URL
+            var keyVaultURL = environment == "Production"
+                ? Environment.GetEnvironmentVariable("KEY_VAULT_URL")
+                : _configuration["Keyvault:Url"];
 
-            if (certificatePath == null)
+            if (string.IsNullOrEmpty(keyVaultURL))
+                throw new InvalidOperationException("Key Vault URL cannot be null.");
+
+            // 2. Initialize EnvironmentCredential
+            // This looks for the same AZURE_* environment variables as your ConfigureAzureServices class
+            var credential = new EnvironmentCredential();
+
+            // 3. Authenticate with Key Vault
+            var client = new SecretClient(new Uri(keyVaultURL), credential);
+
+            // 4. Retrieve Secret
+            // If Production, fetch from Key Vault; otherwise, use local configuration
+            if (environment == "Production")
             {
-                Console.WriteLine("Certificate path cannot be null. Environment: {0}, CERTIFICATE_PATH_PRO: {1}, CERTIFICATE_PATH_DEV: {2}",
-                    Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT"),
-                    Environment.GetEnvironmentVariable("CERTIFICATE_PATH_PRO"),
-                    _configuration["Certificates:DevelopmentPath"]);
-                throw new InvalidOperationException("Certificate path cannot be null.");
+                return client.GetSecret("db-connection-live").Value.Value;
             }
 
-            var fullPath = Path.Combine(AppDirectory, certificatePath);
-            var certificatePassword = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Production" ? Environment.GetEnvironmentVariable("CERTIFICATE_PWD") : _configuration["Certificates:Password"];
-            var certificate = new X509Certificate2(fullPath, certificatePassword);
-
-            // Authenticate with Azure using Certificate
-            var keyVaultURL = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Production" ? Environment.GetEnvironmentVariable("KEY_VAULT_URL") : _configuration["Keyvault:Url"];
-            var clientId = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Production" ? Environment.GetEnvironmentVariable("CLIENT_ID") : _configuration["Keyvault:ClientID"];
-            var tenantId = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Production" ? Environment.GetEnvironmentVariable("DIRECTORY_ID") : _configuration["Keyvault:DirectoryID"];
-
-            var clientCertificateCredential = new ClientCertificateCredential(tenantId, clientId, certificate);
-            var client = new SecretClient(new Uri(keyVaultURL), clientCertificateCredential);
-
-            return Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Production" ? client.GetSecret("db-connection-live").Value.Value : _configuration["ConnectionStrings:Development"];
+            return _configuration["ConnectionStrings:Development"];
         }
 
         private void BuildConfig()

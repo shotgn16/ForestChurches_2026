@@ -17,6 +17,10 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Primitives;
+using QuestPDF.Fluent;
+using QuestPDF.Infrastructure;
+using QuestPDF;
+using QuestPDF.Helpers;
 
 namespace ForestChurches.Areas.Identity.Pages.Account.Manage
 {
@@ -78,11 +82,47 @@ namespace ForestChurches.Areas.Identity.Pages.Account.Manage
                 }
 
                 personalData.Add($"Authenticator Key", await _userManager.GetAuthenticatorKeyAsync(user));
-
-                Response.Headers.TryAdd("Content-Disposition", "attachment; filename=PersonalData.json");
+                Response.Headers.TryAdd("Content-Disposition", "attachment; filename=PersonalData.pdf");
             }
 
-            return new FileContentResult(JsonSerializer.SerializeToUtf8Bytes(personalData), "application/json");
+            // Generate PDF using QuestPDF (inline document builder)
+            byte[] pdfBytes = Document.Create(container =>
+            {
+                container.Page(page =>
+                {
+                    page.Size(PageSizes.A4);
+                    page.Margin(20);
+                    page.PageColor(Colors.White);
+
+                    page.Header().Height(50).Row(row =>
+                    {
+                        row.RelativeColumn().Stack(stack =>
+                        {
+                            stack.Item().Text("Personal Data Export").FontSize(20).Bold();
+                            stack.Item().Text($"User: {User?.Identity?.Name ?? _userManager.GetUserId(User)}").FontSize(12).SemiBold();
+                        });
+                        row.ConstantColumn(100).AlignRight().Text(text => text.Span(DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm UTC")).FontSize(10));
+                    });
+
+                    page.Content().PaddingVertical(10).Column(column =>
+                    {
+                        column.Spacing(5);
+
+                        foreach (var kv in personalData)
+                        {
+                            column.Item().Row(r =>
+                            {
+                                r.ConstantColumn(250).Text(kv.Key).FontSize(11).Bold();
+                                r.RelativeColumn().Text(kv.Value).FontSize(11);
+                            });
+                        }
+                    });
+
+                    page.Footer().AlignCenter().Text(x => x.Span("ForestChurches - Personal Data Export").FontSize(9));
+                });
+            }).GeneratePdf();
+
+            return new FileContentResult(pdfBytes, "application/pdf");
         }
     }
 }

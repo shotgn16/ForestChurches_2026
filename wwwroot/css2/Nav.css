@@ -77,3 +77,13 @@
 .navbar-brand:hover {
     background-color: var(--active-color);
 }
+
+.nav-pills {
+    margin-bottom: 0 !important; /* Removes gap at the bottom */
+    padding-bottom: 0 !important;
+}
+
+.nav-link {
+    border-radius: 0 !important; /* Optional: Makes them look like tabs if desired */
+    margin-bottom: 0 !important;
+}

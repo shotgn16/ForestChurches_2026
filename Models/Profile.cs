@@ -20,5 +20,8 @@ namespace ForestChurches.Models
         [AllowNull]
         [DataType(DataType.MultilineText)]
         public List<string> Roles { get; set; }
+
+        // Indicates whether the account is active/confirmed in the system.
+        public bool IsActive { get; set; }
     }
 }

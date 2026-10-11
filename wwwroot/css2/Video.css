@@ -8,13 +8,15 @@
 
 #title {
     height: 100vh;
-    width: 100vw;
+    width: 100%;
     position: relative;
     color: white;
     text-align: center;
+    background-color: #000;
+    overflow: auto;
 }
 
-#background-video > video {
+#background-video {
     position: absolute;
     top: 0;
     left: 0;
@@ -23,6 +25,19 @@
     object-fit: cover;
     z-index: 1;
     background: var(--primary-color);
+}
+
+#background-video > video {
+    /* Slight over-scan (-1px / +2px) defeats the sub-pixel green seam some
+       mobile GPUs leave between an object-fit:cover video and its box edge. */
+    top: -10px;
+    left: -10px;
+    width: calc(100% + 2px);
+    height: calc(100% + 2px);
+    object-fit: cover;
+    z-index: 1;
+    /* Was var(--primary-color) (green) — that green was the visible border. */
+    background: #000;
 }
 
 /* Overlay the Video for Text */

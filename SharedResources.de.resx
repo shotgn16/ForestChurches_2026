@@ -1,0 +1,906 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="APP_TITLE" xml:space="preserve">
+    <value>Waldkirchen</value>
+  </data>
+  <data name="FOOTER_CONTACT_LINK" xml:space="preserve">
+    <value>Kontaktieren Sie uns</value>
+  </data>
+  <data name="HOMEPAGE_PAGE_TITLE" xml:space="preserve">
+    <value>Startseite - Waldkirchen</value>
+  </data>
+  <data name="NAV_BRAND" xml:space="preserve">
+    <value>Waldkirchen</value>
+  </data>
+  <data name="NAV_HOME" xml:space="preserve">
+    <value>Startseite</value>
+  </data>
+  <data name="NAV_ABOUT" xml:space="preserve">
+    <value>Über Uns</value>
+  </data>
+  <data name="NAV_WHATS_NEARBY" xml:space="preserve">
+    <value>Was ist in der Nähe</value>
+  </data>
+  <data name="NAV_MY_EVENTS" xml:space="preserve">
+    <value>Meine Veranstaltungen</value>
+  </data>
+  <data name="NAV_CONTACT" xml:space="preserve">
+    <value>Kontaktieren Sie uns</value>
+  </data>
+  <data name="NAV_ADMIN" xml:space="preserve">
+    <value>Admin</value>
+  </data>
+  <data name="NAV_LOGIN" xml:space="preserve">
+    <value>Anmelden</value>
+  </data>
+  <data name="HOMEPAGE_HERO_TITLE" xml:space="preserve">
+    <value>Willkommen bei Waldkirchen</value>
+  </data>
+  <data name="HOMEPAGE_HERO_SUBTITLE" xml:space="preserve">
+    <value>Verbindung von Gemeinden im Forest of Dean.</value>
+  </data>
+  <data name="CONTACT_PAGE_TITLE" xml:space="preserve">
+    <value>Kontaktieren Sie uns</value>
+  </data>
+  <data name="CONTACT_RECIPIENT_LABEL" xml:space="preserve">
+    <value>Empfänger:</value>
+  </data>
+  <data name="CONTACT_NAME_PLACEHOLDER" xml:space="preserve">
+    <value>Ihr Name</value>
+  </data>
+  <data name="CONTACT_SUBJECT_PLACEHOLDER" xml:space="preserve">
+    <value>Betreff</value>
+  </data>
+  <data name="CONTACT_EMAIL_PLACEHOLDER" xml:space="preserve">
+    <value>Wie können wir Sie erreichen? ('John@IhreKirche.com...')</value>
+  </data>
+  <data name="CONTACT_MESSAGE_PLACEHOLDER" xml:space="preserve">
+    <value>Ihre Nachricht</value>
+  </data>
+  <data name="CONTACT_SUBMIT_BUTTON" xml:space="preserve">
+    <value>Nachricht Senden</value>
+  </data>
+  <data name="SAVE" xml:space="preserve">
+    <value>Speichern</value>
+  </data>
+  <data name="CANCEL" xml:space="preserve">
+    <value>Abbrechen</value>
+  </data>
+  <data name="DELETE" xml:space="preserve">
+    <value>Löschen</value>
+  </data>
+  <data name="EDIT" xml:space="preserve">
+    <value>Bearbeiten</value>
+  </data>
+  <data name="CREATE" xml:space="preserve">
+    <value>Erstellen</value>
+  </data>
+  <data name="SEARCH" xml:space="preserve">
+    <value>Suche</value>
+  </data>
+  <data name="FILTER" xml:space="preserve">
+    <value>Filter</value>
+  </data>
+  <data name="SUBMIT" xml:space="preserve">
+    <value>Einreichen</value>
+  </data>
+  <data name="BACK" xml:space="preserve">
+    <value>Zurück</value>
+  </data>
+  <data name="ERROR" xml:space="preserve">
+    <value>Fehler</value>
+  </data>
+  <data name="SUCCESS" xml:space="preserve">
+    <value>Erfolg</value>
+  </data>
+  <data name="WARNING" xml:space="preserve">
+    <value>Warnung</value>
+  </data>
+  <data name="INFO" xml:space="preserve">
+    <value>Information</value>
+  </data>
+  <data name="LOADING" xml:space="preserve">
+    <value>Wird geladen...</value>
+  </data>
+  <data name="NO_RECORDS" xml:space="preserve">
+    <value>Keine Datensätze gefunden</value>
+  </data>
+  <data name="LOGIN" xml:space="preserve">
+    <value>Anmelden</value>
+  </data>
+  <data name="LOGOUT" xml:space="preserve">
+    <value>Abmelden</value>
+  </data>
+  <data name="REGISTER" xml:space="preserve">
+    <value>Registrieren</value>
+  </data>
+  <data name="PROFILE" xml:space="preserve">
+    <value>Profil</value>
+  </data>
+  <data name="EMAIL" xml:space="preserve">
+    <value>E-Mail</value>
+  </data>
+  <data name="PASSWORD" xml:space="preserve">
+    <value>Passwort</value>
+  </data>
+  <data name="NAME" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="ADDRESS" xml:space="preserve">
+    <value>Adresse</value>
+  </data>
+  <data name="PHONE" xml:space="preserve">
+    <value>Telefon</value>
+  </data>
+  <data name="NEARME_HERO_TITLE" xml:space="preserve">
+    <value>Finde Kirchen in Deiner Nähe</value>
+  </data>
+  <data name="NEARME_HERO_SUBTITLE" xml:space="preserve">
+    <value>Entdecke lokale Kirchen und Gemeinden in Deiner Gegend</value>
+  </data>
+  <data name="NEARME_TAB_HOME" xml:space="preserve">
+    <value>Startseite</value>
+  </data>
+  <data name="NEARME_TAB_CHURCHES" xml:space="preserve">
+    <value>Kirchen</value>
+  </data>
+  <data name="NEARME_TAB_ACTIVITIES" xml:space="preserve">
+    <value>Aktivitäten</value>
+  </data>
+  <data name="NEARME_WELCOME_HEADING" xml:space="preserve">
+    <value>Willkommen bei Wege im Wald</value>
+  </data>
+  <data name="NEARME_WELCOME_INTRO_TEXT" xml:space="preserve">
+    <value>Mit diesem Tool kannst Du Kirchen und Aktivitäten in Deiner Nähe entdecken. Nutze es, um spirituelle Gemeinschaften zu finden, die Deinen Interessen und Bedürfnissen entsprechen.</value>
+  </data>
+  <data name="NEARME_HOW_TO_USE_HEADING" xml:space="preserve">
+    <value>Verwendungsanleitung</value>
+  </data>
+  <data name="NEARME_HOW_TO_USE_TEXT" xml:space="preserve">
+    <value>1. Gehe zum Tab "Kirchen" und gib Deine Postleitzahl ein oder verwende Deinen aktuellen Standort. 2. Wähle die Einrichtungen aus, die Du finden möchtest (Parkplätze, Toiletten, Rollstuhlzugang, usw.). 3. Wähle Deine bevorzugte Konfession oder lasse alle Konfessionen offen. 4. Klicke auf „Was ist um mich herum", um Optionen in Deiner Nähe zu sehen. 5. Durchsuche die Ergebnisse und lade Informationen herunter oder sende sie Dir per E-Mail.</value>
+  </data>
+  <data name="NEARME_FIND_CHURCH_HEADING" xml:space="preserve">
+    <value>Finde eine Kirche in der Nähe</value>
+  </data>
+  <data name="NEARME_FIND_CHURCH_INTRO_TEXT" xml:space="preserve">
+    <value>Suche nach Kirchen in Deiner Gegend, indem Du Deine Postleitzahl eingibst und Deine Vorlieben wählst.</value>
+  </data>
+  <data name="NEARME_FACILITIES_TITLE" xml:space="preserve">
+    <value>Einrichtungen</value>
+  </data>
+  <data name="NEARME_FACILITY_PARKING" xml:space="preserve">
+    <value>Parkplatz</value>
+  </data>
+  <data name="NEARME_FACILITY_RESTROOMS" xml:space="preserve">
+    <value>Toiletten</value>
+  </data>
+  <data name="NEARME_FACILITY_WHEELCHAIR_ACCESS" xml:space="preserve">
+    <value>Rollstuhlzugang</value>
+  </data>
+  <data name="NEARME_FACILITY_WIFI" xml:space="preserve">
+    <value>W-LAN</value>
+  </data>
+  <data name="NEARME_FACILITY_REFRESHMENTS" xml:space="preserve">
+    <value>Erfrischungen</value>
+  </data>
+  <data name="NEARME_FACILITY_WORSHIP_HALL" xml:space="preserve">
+    <value>Gebetssaal</value>
+  </data>
+  <data name="NEARME_FACILITY_CHILDRENS_MINISTRY" xml:space="preserve">
+    <value>Kindergottesdienst</value>
+  </data>
+  <data name="NEARME_FACILITY_COMMUNITY_HALL" xml:space="preserve">
+    <value>Gemeindesaal</value>
+  </data>
+  <data name="NEARME_FACILITY_KITCHEN" xml:space="preserve">
+    <value>Küche</value>
+  </data>
+  <data name="NEARME_FACILITY_OUTDOOR_SPACE" xml:space="preserve">
+    <value>Außenbereich</value>
+  </data>
+  <data name="NEARME_FACILITY_HEARING_AID_SUPPORT" xml:space="preserve">
+    <value>Hörgeräteunterstützung</value>
+  </data>
+  <data name="NEARME_POSTCODE_LABEL" xml:space="preserve">
+    <value>Postleitzahl</value>
+  </data>
+  <data name="NEARME_POSTCODE_PLACEHOLDER" xml:space="preserve">
+    <value>Gib Deine Postleitzahl ein</value>
+  </data>
+  <data name="NEARME_MAX_DISTANCE_LABEL" xml:space="preserve">
+    <value>Maximale Entfernung (Kilometer)</value>
+  </data>
+  <data name="NEARME_DENOMINATION_LABEL" xml:space="preserve">
+    <value>Konfession</value>
+  </data>
+  <data name="NEARME_ANY_DENOMINATION_OPTION" xml:space="preserve">
+    <value>Alle Konfessionen</value>
+  </data>
+  <data name="NEARME_WHATS_AROUND_ME_BUTTON" xml:space="preserve">
+    <value>Was ist um mich herum</value>
+  </data>
+  <data name="NEARME_USE_MY_LOCATION_BUTTON" xml:space="preserve">
+    <value>Meinen Standort verwenden</value>
+  </data>
+  <data name="NEARME_PICK_CHURCH_MODAL_TITLE" xml:space="preserve">
+    <value>Wähle eine Kirche</value>
+  </data>
+  <data name="NEARME_NAME_LABEL" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="NEARME_DESCRIPTION_LABEL" xml:space="preserve">
+    <value>Beschreibung</value>
+  </data>
+  <data name="NEARME_DOWNLOAD_INFO_BUTTON" xml:space="preserve">
+    <value>Informationen herunterladen</value>
+  </data>
+  <data name="NEARME_SEND_INFO_BUTTON" xml:space="preserve">
+    <value>Informationen senden</value>
+  </data>
+  <data name="NEARME_FIND_OUT_MORE_BUTTON" xml:space="preserve">
+    <value>Mehr erfahren</value>
+  </data>
+  <data name="NEARME_NO_CHURCHES_FOUND" xml:space="preserve">
+    <value>Keine Kirchen gefunden innerhalb von</value>
+  </data>
+  <data name="NEARME_NO_RESULTS_SUFFIX" xml:space="preserve">
+    <value>von Deinem Standort. Versuche, die Suchentfernung zu erhöhen.</value>
+  </data>
+  <data name="NEARME_NEARBY_EVENTS_MODAL_TITLE" xml:space="preserve">
+    <value>Veranstaltungen in der Nähe</value>
+  </data>
+  <data name="NEARME_LOCATION_LABEL" xml:space="preserve">
+    <value>Ort</value>
+  </data>
+  <data name="NEARME_DATE_LABEL" xml:space="preserve">
+    <value>Datum</value>
+  </data>
+  <data name="NEARME_TIME_LABEL" xml:space="preserve">
+    <value>Zeit</value>
+  </data>
+  <data name="NEARME_EVENT_REPEATS_QUESTION" xml:space="preserve">
+    <value>Wiederholung?</value>
+  </data>
+  <data name="NEARME_EVENTS_HEADING" xml:space="preserve">
+    <value>Veranstaltungen in meiner Nähe</value>
+  </data>
+  <data name="NEARME_EVENTS_INTRO_TEXT" xml:space="preserve">
+    <value>Veranstaltung in meiner Nähe finden</value>
+  </data>
+  <data name="NEARME_CHURCH_LABEL" xml:space="preserve">
+    <value>Kirche</value>
+  </data>
+  <data name="NEARME_ANY_CHURCH_OPTION" xml:space="preserve">
+    <value>Jede Kirche</value>
+  </data>
+  <data name="NEARME_START_DATE_LABEL" xml:space="preserve">
+    <value>Startdatum</value>
+  </data>
+  <data name="NEARME_END_DATE_LABEL" xml:space="preserve">
+    <value>Enddatum</value>
+  </data>
+  <data name="NEARME_EVENT_HOSTED_BY" xml:space="preserve">
+    <value>Diese Veranstaltung wird ausgerichtet von</value>
+  </data>
+  <data name="NEARME_NO_EVENTS_FOUND" xml:space="preserve">
+    <value>Leider sind derzeit keine Veranstaltungen im angegebenen Umkreis Ihrer Adresse verfügbar.</value>
+  </data>
+  <data name="NEARME_EMAIL_MODAL_TITLE" xml:space="preserve">
+    <value>Geben Sie Ihre E-Mail-Adresse ein</value>
+  </data>
+  <data name="NEARME_EMAIL_LABEL" xml:space="preserve">
+    <value>E-Mail</value>
+  </data>
+  <data name="NEARME_SEND_INFORMATION_BUTTON" xml:space="preserve">
+    <value>Informationen senden</value>
+  </data>
+  <data name="ABOUTUS_PAGE_TITLE" xml:space="preserve">
+    <value>Über uns</value>
+  </data>
+  <data name="ABOUTUS_COMMUNITY_SECTION_TEXT" xml:space="preserve">
+    <value>Herzlich willkommen – wir hoffen, Sie finden hier, wonach Sie suchen. Falls Sie es noch nicht wussten: Das hier ist...! Wir setzen uns mit Liebe und Mitgefühl für unsere Gemeinschaft ein. Unsere Mission ist es, einen einladenden Ort zu schaffen, an dem sich jeder wertgeschätzt und unterstützt fühlt. Helfen Sie uns dabei, Positives zu bewirken!</value>
+  </data>
+  <data name="ABOUTUS_COMMUNITY_SECTION_TITLE" xml:space="preserve">
+    <value>Wir sind für die Gemeinschaft da.</value>
+  </data>
+  <data name="ABOUTUS_COMMUNITY_IMAGE_ALT" xml:space="preserve">
+    <value>Community-Bild</value>
+  </data>
+  <data name="ABOUTUS_PAGE_SUBTITLE" xml:space="preserve">
+    <value>Lernen Sie uns und unsere Arbeit kennen.</value>
+  </data>
+  <data name="ABOUTUS_SUPPORT_IMAGE_ALT" xml:space="preserve">
+    <value>Support-Bild</value>
+  </data>
+  <data name="ABOUTUS_BELIEF_SECTION_TITLE" xml:space="preserve">
+    <value>Was wir glauben</value>
+  </data>
+  <data name="ABOUTUS_BELIEF_SECTION_TEXT" xml:space="preserve">
+    <value>In diesem Bewusstsein bekennen wir uns zu Jesus Christus als unserem Herrn und Erlöser, der seiner Kirche Vergebung, Erneuerung und eine gemeinsame Bestimmung schenkt. Durch ihn sind wir dazu berufen, zusammenzuarbeiten: Wir feiern unsere Vielfalt und sind zugleich in seiner Liebe vereint. Aus dieser Überzeugung heraus ist diese Website entstanden – als Mittel, um die Kirchen im Gebiet des Forest of Dean miteinander zu vernetzen, zu stärken und für ihre Aufgaben zu rüsten. Unsere Mission ist es, Gemeinschaften zusammenzubringen, indem wir die Kirchen unterstützen und fördern und es den Menschen in unserer Umgebung ermöglichen, die Schätze und Möglichkeiten des Forest of Dean zu entdecken.</value>
+  </data>
+  <data name="ABOUTUS_LIGHT_IMAGE_ALT" xml:space="preserve">
+    <value>Lichtbild</value>
+  </data>
+  <data name="ABOUTUS_LIGHT_SECTION_TITLE" xml:space="preserve">
+    <value>Den Wald mit dem Licht Jesu erhellen</value>
+  </data>
+  <data name="LOGIN_HEADING" xml:space="preserve">
+    <value>Bitte melden Sie sich an, um fortzufahren...</value>
+  </data>
+  <data name="ABOUTUS_LIGHT_SECTION_TEXT" xml:space="preserve">
+    <value>Inspiriert von den Lehren Jesu möchten wir Licht und Hoffnung im Forest of Dean verbreiten. Unser Glaube motiviert uns dazu, anderen zu dienen und die Botschaft von Liebe, Frieden und Güte weiterzugeben. Kommen Sie und begleiten Sie uns auf unserem Weg!</value>
+  </data>
+  <data name="ABOUTUS_FOOTER_TEXT" xml:space="preserve">
+    <value>Diese von Jack Butcher-Barnard und Johnathan Kear erstellte Website widmet sich der Unterstützung und Stärkung von Kirchen im gesamten Forest of Dean.</value>
+  </data>
+  <data name="LOGIN_EMAIL_PLACEHOLDER" xml:space="preserve">
+    <value>E-Mail</value>
+  </data>
+  <data name="LOGIN_PASSWORD_PLACEHOLDER" xml:space="preserve">
+    <value>Passwort</value>
+  </data>
+  <data name="LOGIN_FORGOT_PASSWORD_LINK" xml:space="preserve">
+    <value>Passwort vergessen</value>
+  </data>
+  <data name="LOGIN_RESEND_CONFIRMATION_LINK" xml:space="preserve">
+    <value>Bestätigungs-E-Mail erneut senden</value>
+  </data>
+  <data name="NAV_WELCOME_BACK" xml:space="preserve">
+    <value>Willkommen zurück</value>
+  </data>
+  <data name="NAV_LOGOUT" xml:space="preserve">
+    <value>Abmelden</value>
+  </data>
+  <data name="EVENTS_PAGE_TITLE" xml:space="preserve">
+    <value>Veranstaltungen</value>
+  </data>
+  <data name="EVENTS_PAGE_SUBTITLE" xml:space="preserve">
+    <value>Ihre Kirchenveranstaltungen</value>
+  </data>
+  <data name="EVENTS_LEARN_MORE_BUTTON" xml:space="preserve">
+    <value>Mehr erfahren...</value>
+  </data>
+  <data name="EVENTS_CARD_LOCATION" xml:space="preserve">
+    <value>Ort</value>
+  </data>
+  <data name="EVENTS_CARD_DATE" xml:space="preserve">
+    <value>Datum</value>
+  </data>
+  <data name="EVENTS_CARD_TIME" xml:space="preserve">
+    <value>Zeit</value>
+  </data>
+  <data name="EVENTS_CARD_REPEATS" xml:space="preserve">
+    <value>Wiederholt es sich?</value>
+  </data>
+  <data name="EVENTS_EDIT_BUTTON" xml:space="preserve">
+    <value>Veranstaltung bearbeiten</value>
+  </data>
+  <data name="EVENTS_DELETE_BUTTON" xml:space="preserve">
+    <value>Veranstaltung löschen</value>
+  </data>
+  <data name="EVENTS_SYNC_EVENTS_TEXT" xml:space="preserve">
+    <value>Veranstaltungen importieren von</value>
+  </data>
+  <data name="EVENTS_ADD_EVENT_BUTTON" xml:space="preserve">
+    <value>Neue Veranstaltung hinzufügen</value>
+  </data>
+  <data name="WelcomeBackUser" xml:space="preserve">
+    <value>Willkommen zurück</value>
+  </data>
+  <data name="ChurchInfo" xml:space="preserve">
+    <value>Kirchenname</value>
+  </data>
+  <data name="NAV_LABEL_PROFILE" xml:space="preserve">
+    <value>Profil</value>
+  </data>
+  <data name="NAV_LABEL_CHURCH_PROFILE" xml:space="preserve">
+    <value>Meine Kirche</value>
+  </data>
+  <data name="NAV_LABEL_PASSWORD" xml:space="preserve">
+    <value>Passwort ändern</value>
+  </data>
+  <data name="NAV_LABEL_EXTERNAL_LOGIN" xml:space="preserve">
+    <value>Externe Anmeldung</value>
+  </data>
+  <data name="NAV_LABEL_2FA" xml:space="preserve">
+    <value>Zwei-Faktor-Authentifizierung</value>
+  </data>
+  <data name="NAV_LABEL_PERSONAL_DATA" xml:space="preserve">
+    <value>Meine Daten</value>
+  </data>
+  <data name="CONGREGATION_SIZE_LABEL" xml:space="preserve">
+    <value>Gemeinde</value>
+  </data>
+  <data name="PHONE_LABEL" xml:space="preserve">
+    <value>Telefon</value>
+  </data>
+  <data name="CHURCHSUITE_LABEL" xml:space="preserve">
+    <value>ChurchSuite</value>
+  </data>
+  <data name="CHURCH_WEBSITE_LABEL" xml:space="preserve">
+    <value>Webseite</value>
+  </data>
+  <data name="FACILITIES_LABEL" xml:space="preserve">
+    <value>Verfügbare Einrichtungen</value>
+  </data>
+  <data name="FACILITY_RESTROOMS" xml:space="preserve">
+    <value>Toiletten</value>
+  </data>
+  <data name="FACILITY_WHEELCHAIR_ACCESS" xml:space="preserve">
+    <value>Rollstuhlzugang</value>
+  </data>
+  <data name="FACILITY_FREE_WIFI" xml:space="preserve">
+    <value>W-LAN</value>
+  </data>
+  <data name="FACILITY_REFRESHMENTS" xml:space="preserve">
+    <value>Erfrischungen</value>
+  </data>
+  <data name="FACILITY_PARKING" xml:space="preserve">
+    <value>Parkplatz</value>
+  </data>
+  <data name="FACILITY_CHILDCARE" xml:space="preserve">
+    <value>Kinderbetreuung</value>
+  </data>
+  <data name="FACILITY_HEARING_AID_SUPPORT" xml:space="preserve">
+    <value>Hörgeräteunterstützung</value>
+  </data>
+  <data name="FACILITY_KITCHEN" xml:space="preserve">
+    <value>Küche</value>
+  </data>
+  <data name="FACILITY_COMMUNITY_SPACE" xml:space="preserve">
+    <value>Gemeinschaftsraum</value>
+  </data>
+  <data name="FACILITY_OUTDOOR_SPACES" xml:space="preserve">
+    <value>Außenbereich</value>
+  </data>
+  <data name="FACILITY_WORSHIP_HALL" xml:space="preserve">
+    <value>Gebetssaal</value>
+  </data>
+  <data name="USE_MY_LOCATION" xml:space="preserve">
+    <value>Meinen Standort verwenden</value>
+  </data>
+  <data name="UPDATE_CHURCH_INFO" xml:space="preserve">
+    <value>Ihre Kircheninformationen</value>
+  </data>
+  <data name="LABEL_UPLOAD_LOGO" xml:space="preserve">
+    <value>Logo hochladen</value>
+  </data>
+  <data name="LABEL_MANAGE_SERVICE_TIMES" xml:space="preserve">
+    <value>Gottesdienstzeiten verwalten</value>
+  </data>
+  <data name="MARK_CHURCH_AS" xml:space="preserve">
+    <value>Kirche markieren als</value>
+  </data>
+  <data name="STATUS_OPEN" xml:space="preserve">
+    <value>Offen</value>
+  </data>
+  <data name="STATUS_CLOSED" xml:space="preserve">
+    <value>Geschlossen</value>
+  </data>
+  <data name="PLEASE_ONLY_USE_THIS" xml:space="preserve">
+    <value>Bitte verwenden Sie dies nur,</value>
+  </data>
+  <data name="FOR_LONG_TERM_MAINTENANCE" xml:space="preserve">
+    <value>wenn Ihre Kirche wegen langfristiger Wartungsarbeiten geschlossen ist oder dauerhaft geschlossen wurde und keine Besucher mehr empfängt oder regelmäßige Gottesdienste abhält. Bitte beachten Sie, dass Ihre Kirche NICHT in der Umkreissuche erscheint, wenn der Status auf geschlossen gesetzt ist.</value>
+  </data>
+  <data name="CURRENT_SERVICE_TIMES" xml:space="preserve">
+    <value>Aktuelle Gottesdienstzeiten</value>
+  </data>
+  <data name="TIME_LABEL" xml:space="preserve">
+    <value>Zeit</value>
+  </data>
+  <data name="NOTE_LABEL" xml:space="preserve">
+    <value>Datum</value>
+  </data>
+  <data name="DELETE_ENTRY_LABEL" xml:space="preserve">
+    <value>Eintrag löschen</value>
+  </data>
+  <data name="STATUS_DELETE" xml:space="preserve">
+    <value>Entfernen</value>
+  </data>
+  <data name="ADD_SERVICE" xml:space="preserve">
+    <value>Gottesdienst hinzufügen</value>
+  </data>
+  <data name="PLACEHOLDER_SERVICE_NOTE" xml:space="preserve">
+    <value>Morgendlicher Abendmahlsgottesdienst</value>
+  </data>
+  <data name="STATUS_GEOLATION_NOT_SUPPORTED" xml:space="preserve">
+    <value>Geolokalisierung wird nicht unterstützt</value>
+  </data>
+  <data name="ManageYourData" xml:space="preserve">
+    <value>Persönliche Daten verwalten</value>
+  </data>
+  <data name="PersonalDataDeletionWarning" xml:space="preserve">
+    <value>Wenn Sie Ihre Informationen herunterladen möchten, einschließlich aller Daten, die wir über Ihre Kirche speichern, kontaktieren Sie uns bitte über die</value>
+  </data>
+  <data name="PERSONAL_DATA_P1" xml:space="preserve">
+    <value>Wenn Sie Ihre Informationen herunterladen möchten, einschließlich aller Daten, die wir über Ihre Kirche speichern, kontaktieren Sie uns bitte über die </value>
+  </data>
+  <data name="PERSONAL_DATA_P2" xml:space="preserve">
+    <value>Kontaktseite</value>
+  </data>
+  <data name="CLIENT_EMAIL_PLACEHOLDER" xml:space="preserve">
+    <value>Ihre E-Mail</value>
+  </data>
+  <data name="CHURCH_GENERAL_INFO_TITLE" xml:space="preserve">
+    <value>Allgemeine Informationen</value>
+  </data>
+  <data name="CHURCH_NAME_LABEL" xml:space="preserve">
+    <value>Name:</value>
+  </data>
+  <data name="CHURCH_DESCRIPTION_LABEL" xml:space="preserve">
+    <value>Beschreibung:</value>
+  </data>
+  <data name="CHURCH_ADDRESS_LABEL" xml:space="preserve">
+    <value>Adresse:</value>
+  </data>
+  <data name="CHURCH_FACILITIES_TITLE" xml:space="preserve">
+    <value>Einrichtungen</value>
+  </data>
+  <data name="CHURCH_REFRESHMENTS_LABEL" xml:space="preserve">
+    <value>Erfrischungen</value>
+  </data>
+  <data name="CHURCH_FACILITY_AVAILABLE" xml:space="preserve">
+    <value>Verfügbar</value>
+  </data>
+  <data name="CHURCH_FACILITY_NOT_AVAILABLE" xml:space="preserve">
+    <value>Nicht verfügbar</value>
+  </data>
+  <data name="CHURCH_RESTROOMS_LABEL" xml:space="preserve">
+    <value>Toiletten</value>
+  </data>
+  <data name="CHURCH_WIFI_LABEL" xml:space="preserve">
+    <value>W-LAN</value>
+  </data>
+  <data name="CHURCH_PARKING_LABEL" xml:space="preserve">
+    <value>Parkplatz</value>
+  </data>
+  <data name="CHURCH_WHEELCHAIR_LABEL" xml:space="preserve">
+    <value>Rollstuhlzugang</value>
+  </data>
+  <data name="CHURCH_COMMUNITY_SPACE_LABEL" xml:space="preserve">
+    <value>Gemeinschaftsraum</value>
+  </data>
+  <data name="CHURCH_KITCHEN_LABEL" xml:space="preserve">
+    <value>Küche</value>
+  </data>
+  <data name="CHURCH_HEARING_AID_LABEL" xml:space="preserve">
+    <value>Hörgeräteunterstützung</value>
+  </data>
+  <data name="CHURCH_OUTDOOR_SPACE_LABEL" xml:space="preserve">
+    <value>Außenbereich</value>
+  </data>
+  <data name="CHURCH_BUILDING_LABEL" xml:space="preserve">
+    <value>Gebetssaal</value>
+  </data>
+  <data name="CHURCH_CHILDCARE_LABEL" xml:space="preserve">
+    <value>Kinderbetreuung</value>
+  </data>
+  <data name="CHURCH_CHURCHSUITE_BUTTON" xml:space="preserve">
+    <value>ChurchSuite</value>
+  </data>
+  <data name="CHURCH_SEND_MESSAGE_BUTTON" xml:space="preserve">
+    <value>Nachricht senden</value>
+  </data>
+  <data name="CHURCH_EVENTS_HEADING" xml:space="preserve">
+    <value>Aktuelle / Anstehende Veranstaltungen</value>
+  </data>
+  <data name="CHURCH_NO_EVENTS_MESSAGE" xml:space="preserve">
+    <value>Diese Kirche hat keine anstehenden Veranstaltungen</value>
+  </data>
+  <data name="CHURCH_SUNDAY_SERVICES_HEADING" xml:space="preserve">
+    <value>Sonntagsgottesdienste</value>
+  </data>
+  <data name="CHURCH_FIND_ON_MAPS_HEADING" xml:space="preserve">
+    <value>Finden Sie uns auf Google Maps</value>
+  </data>
+  <data name="LABEL_DENOMINATION" xml:space="preserve">
+    <value>Konfession</value>
+  </data>
+  <data name="LABEL_CONGREGATION" xml:space="preserve">
+    <value>Gemeinde</value>
+  </data>
+  <data name="PROFILE_WELCOME_BACK" xml:space="preserve">
+    <value>Willkommen zurück</value>
+  </data>
+  <data name="TAG_USERNAME" xml:space="preserve">
+    <value>Benutzername</value>
+  </data>
+  <data name="TAG_PHONE" xml:space="preserve">
+    <value>Telefonnummer</value>
+  </data>
+  <data name="TAG_SAVE" xml:space="preserve">
+    <value>Änderungen speichern</value>
+  </data>
+  <data name="TAG_UPDATE_INFORMATION" xml:space="preserve">
+    <value>Informationen aktualisieren</value>
+  </data>
+  <data name="TAG_SYNC_FROM_CHURCHSUITE" xml:space="preserve">
+    <value>Von ChurchSuite synchronisieren</value>
+  </data>
+  <data name="TAG_SYNC_FROM_CHURCHSUITE_DESC" xml:space="preserve">
+    <value>Aktualisieren Sie Ihre Kircheninformationen aus Ihrem ChurchSuite-Konto.</value>
+  </data>
+  <data name="TAG_SELECT_IMAGE" xml:space="preserve">
+    <value>Datei auswählen (Hier klicken)</value>
+  </data>
+  <data name="TAG_CLOSED_INFO" xml:space="preserve">
+    <value>Bitte verwenden Sie die Schaltfläche Kirche als geschlossen markieren nur, wenn Ihre Kirche wegen langfristiger Wartung oder dauerhaft geschlossen ist. Bitte beachten Sie, dass Ihre Kirche NICHT in der Umkreissuche erscheint, wenn der Status auf geschlossen gesetzt ist.</value>
+  </data>
+  <data name="TAG_CHURCH_SERVICE_TIME_BUTTON" xml:space="preserve">
+    <value>Gottesdienstzeiten verwalten</value>
+  </data>
+  <data name="TAG_SERVICE_NOTE_PLACEHOLDER" xml:space="preserve">
+    <value>Morgendlicher Abendmahlsgottesdienst</value>
+  </data>
+  <data name="TAG_OLD_PASSWORD" xml:space="preserve">
+    <value>Bitte geben Sie Ihr altes Passwort ein</value>
+  </data>
+  <data name="TAG_NEW_PASSWORD" xml:space="preserve">
+    <value>Bitte geben Sie Ihr neues Passwort ein</value>
+  </data>
+  <data name="TAG_CURRENT_PWD" xml:space="preserve">
+    <value>Aktuelles Passwort</value>
+  </data>
+  <data name="TAG_NEW_PWD" xml:space="preserve">
+    <value>Neues Passwort</value>
+  </data>
+  <data name="TAG_CHANGE_PASSWORD" xml:space="preserve">
+    <value>Passwort ändern</value>
+  </data>
+  <data name="STATUS_SAVE" xml:space="preserve">
+    <value>Änderungen speichern</value>
+  </data>
+  <data name="EXTERNAL_LOGIN_TITLE" xml:space="preserve">
+    <value>Verwalten Sie Ihre externen Anmeldungen</value>
+  </data>
+  <data name="TAG_REGISTERED_LOGINS" xml:space="preserve">
+    <value>Registrierte Anmeldungen</value>
+  </data>
+  <data name="TAG_CONNECT_CHURCHSUITE" xml:space="preserve">
+    <value>ChurchSuite verbinden</value>
+  </data>
+  <data name="TAG_CHURCHSUITE_DESC" xml:space="preserve">
+    <value>Geben Sie Ihre öffentliche ChurchSuite-Client-ID (PKCE) ein und klicken Sie auf "Speichern &amp; Autorisieren", um Ihr ChurchSuite-Konto mit diesem ForestChurches-Konto zu verknüpfen.</value>
+  </data>
+  <data name="TAG_CHURCHSUITE_CLIENT_ID" xml:space="preserve">
+    <value>ChurchSuite Client-ID</value>
+  </data>
+  <data name="TAG_SAVE_AUTHORIZE" xml:space="preserve">
+    <value>Speichern &amp; Mit ChurchSuite autorisieren</value>
+  </data>
+  <data name="STATUS_CHURCHSUITE_CONNECTION" xml:space="preserve">
+    <value>Nicht mit ChurchSuite verbunden</value>
+  </data>
+  <data name="TAG_CHURCHSUITE_MSG_P1" xml:space="preserve">
+    <value>Diesen</value>
+  </data>
+  <data name="TAG_CHURCHSUITE_MSG_P2" xml:space="preserve">
+    <value>Anmeldenamen von Ihrem Konto entfernen</value>
+  </data>
+  <data name="STATUS_REMOVE" xml:space="preserve">
+    <value>Entfernen</value>
+  </data>
+  <data name="TAG_ANOTHER_SERVICE" xml:space="preserve">
+    <value>Einen weiteren Dienst zur Anmeldung hinzufügen</value>
+  </data>
+  <data name="TAG_LOGIN_DESC_A" xml:space="preserve">
+    <value>Melden Sie sich an mit Ihrem</value>
+  </data>
+  <data name="TAG_LOGIN_DESC_B" xml:space="preserve">
+    <value>-Konto</value>
+  </data>
+  <data name="TITLE_TWO_FACTOR_AUTHENTICATION" xml:space="preserve">
+    <value>Zwei-Faktor-Authentifizierung (2FA)</value>
+  </data>
+  <data name="ALT_PROFILE_PICTURE" xml:space="preserve">
+    <value>Profilbild</value>
+  </data>
+  <data name="NO_RECOVERY_CODES_LEFT_TITLE" xml:space="preserve">
+    <value>Sie haben keine Wiederherstellungscodes mehr.</value>
+  </data>
+  <data name="MUST_GENERATE_CODES_BEFORE" xml:space="preserve">
+    <value>Sie müssen</value>
+  </data>
+  <data name="GENERATE_NEW_CODES_LINK" xml:space="preserve">
+    <value>einen neuen Satz von Wiederherstellungscodes generieren</value>
+  </data>
+  <data name="MUST_GENERATE_CODES_AFTER" xml:space="preserve">
+    <value>bevor Sie sich mit einem Wiederherstellungscode anmelden können.</value>
+  </data>
+  <data name="ONE_RECOVERY_CODE_LEFT_TITLE" xml:space="preserve">
+    <value>Sie haben noch 1 Wiederherstellungscode.</value>
+  </data>
+  <data name="CAN_GENERATE_CODES_BEFORE" xml:space="preserve">
+    <value>Sie können</value>
+  </data>
+  <data name="MULTIPLE_RECOVERY_CODES_LEFT_BEFORE" xml:space="preserve">
+    <value>Sie haben noch</value>
+  </data>
+  <data name="MULTIPLE_RECOVERY_CODES_LEFT_AFTER" xml:space="preserve">
+    <value>Wiederherstellungscodes.</value>
+  </data>
+  <data name="SHOULD_GENERATE_CODES_BEFORE" xml:space="preserve">
+    <value>Sie sollten</value>
+  </data>
+  <data name="BTN_FORGET_BROWSER" xml:space="preserve">
+    <value>Diesen Browser vergessen</value>
+  </data>
+  <data name="BTN_DISABLE_2FA" xml:space="preserve">
+    <value>2FA deaktivieren</value>
+  </data>
+  <data name="BTN_RESET_RECOVERY_CODES" xml:space="preserve">
+    <value>Wiederherstellungscodes zurücksetzen</value>
+  </data>
+  <data name="AUTHENTICATOR_APP_HEADER" xml:space="preserve">
+    <value>Authenticator-App</value>
+  </data>
+  <data name="BTN_ADD_AUTHENTICATOR_APP" xml:space="preserve">
+    <value>Authenticator-App hinzufügen</value>
+  </data>
+  <data name="BTN_SET_UP_AUTHENTICATOR_APP" xml:space="preserve">
+    <value>Authenticator-App einrichten</value>
+  </data>
+  <data name="BTN_RESET_AUTHENTICATOR_APP" xml:space="preserve">
+    <value>Authenticator-App zurücksetzen</value>
+  </data>
+  <data name="PRIVACY_POLICY_NOT_ACCEPTED_TITLE" xml:space="preserve">
+    <value>Datenschutz- und Cookie-Richtlinie wurden nicht akzeptiert.</value>
+  </data>
+  <data name="PRIVACY_POLICY_NOT_ACCEPTED_BODY" xml:space="preserve">
+    <value>Sie müssen die Richtlinien akzeptieren, bevor Sie die Zwei-Faktor-Authentifizierung aktivieren können.</value>
+  </data>
+  <data name="TITLE_PERSONAL_DATA" xml:space="preserve">
+    <value>Persönliche Daten</value>
+  </data>
+  <data name="PROFILE_WELCOME_BACK_USER" xml:space="preserve">
+    <value>Willkommen zurück, Benutzer!</value>
+  </data>
+  <data name="DOWNLOAD_INFO_PREFIX" xml:space="preserve">
+    <value>Wenn Sie Ihre Informationen herunterladen möchten, einschließlich aller Daten, die wir über Ihre Kirche speichern, kontaktieren Sie uns bitte über die</value>
+  </data>
+  <data name="CONTACT_US_PAGE_LINK" xml:space="preserve">
+    <value>Kontaktseite</value>
+  </data>
+  <data name="SERVICE_TIMES_TITLE" xml:space="preserve">
+    <value>Ihre Gottesdienstzeiten</value>
+  </data>
+  <data name="STATUS_ADD_SERVICE" xml:space="preserve">
+    <value>Dienst hinzufügen</value>
+  </data>
+  <data name="MANAGE_CHURCH_SERVICE_TIMES" xml:space="preserve">
+    <value>Gottesdienstzeiten der Kirche verwalten</value>
+  </data>
+  <data name="UPLOAD_LOGO_TEXT" xml:space="preserve">
+    <value>Logo hochladen</value>
+  </data>
+  <data name="TAG_USE_GEOLOCATION" xml:space="preserve">
+    <value>Meinen aktuellen Standort verwenden</value>
+  </data>
+  <data name="TAG_USER" xml:space="preserve">
+    <value>Benutzer</value>
+  </data>
+  <data name="UpdateTitle" xml:space="preserve">
+    <value>Zwei-Faktor-Authentifizierung (2FA)</value>
+  </data>
+  <data name="STATUS_CLOSE" xml:space="preserve">
+    <value>Schließen</value>
+  </data>
+</root>

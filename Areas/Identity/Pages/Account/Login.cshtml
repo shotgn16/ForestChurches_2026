@@ -1,11 +1,12 @@
 ﻿@page
 @model LoginModel
+@using Microsoft.Extensions.Localization
 @{
-    ViewData["Title"] = "Please login to continue...";
+    ViewData["Title"] = Localizer["LOGIN_TITLE"];
 }
 <head>
     <!-- Page specific CSS -->
-    <link rel="stylesheet" integrity="sha256-F0H03/JY0AiRnWLu2uR3hqfsWg0n5LpkvZfNx8mUHWY=" href="~/css2/Login.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css2/Login.css" asp-append-version="true" />
 </head>
 
 <style nonce="@HttpContextAccessor.HttpContext?.Items["CSP-Style-Nonce"]">
@@ -16,23 +17,37 @@
     footer {
         position: fixed;
     }
+
+    .login-container {
+        height: 70vh;
+    }
 </style>
 
-<body class="container-fluid text-center">
+<body class="container-fluid login-container text-center">
     <form id="account" method="post" class="form-signin">
         <!-- AntiforgeryToken -->
         @Html.AntiForgeryToken()
 
-        <img class="mb-4" src="~/img/logo.png" alt="" width="300" height="200">
-            <h1 class="h3 mb-3 font-weight-normal">Please sign in to continue...</h1>
-                <label asp-for="Input.Email" class="sr-only">Email address</label>
-                <input asp-for="Input.Email" type="email" autocomplete="on" aria-required="true" class="form-control" placeholder="Email address" required="" autofocus="">
+        @{
+            var error = TempData["ErrorMessage"] as string ?? ViewData["ErrorMessage"] as string ?? Request.Query["error"].FirstOrDefault();
+        }
+        @if (!string.IsNullOrEmpty(error))
+        {
+            <div class="alert alert-warning" role="alert">@error</div>
+        }
+
+        <div asp-validation-summary="All" class="text-danger"></div>
+
+        <img class="mb-4" src="~/img/logo.png" width="300" height="200">
+            <h1 class="h3 mb-3 font-weight-normal">@Localizer["LOGIN_HEADING"]</h1>
+                <label asp-for="Input.Email" class="sr-only">@Localizer["LOGIN_EMAIL_LABEL"]</label>
+                <input asp-for="Input.Email" type="email" autocomplete="on" aria-required="true" class="form-control" placeholder="@Localizer["LOGIN_EMAIL_PLACEHOLDER"]" required="" autofocus="">
                 <span asp-validation-for="Input.Email" class="text-danger"></span>
-                <label asp-for="Input.Password" class="sr-only">Password</label>
-                <input asp-for="Input.Password" type="password" autocomplete="on" aria-required="true" class="form-control" placeholder="Password" required="">
+                <label asp-for="Input.Password" class="sr-only">@Localizer["LOGIN_PASSWORD_LABEL"]</label>
+                <input asp-for="Input.Password" type="password" autocomplete="on" aria-required="true" class="form-control" placeholder="@Localizer["LOGIN_PASSWORD_PLACEHOLDER"]" required="">
                 <span asp-validation-for="Input.Password" class="text-danger"></span>
         <div class="form-container">
-            <button id="login-submit" type="submit" class="half-width w-100 btn btn-lg btn-success btn-block">Log in</button>
+            <button id="login-submit" type="submit" class="half-width w-100 btn btn-lg btn-success btn-block">@Localizer["LOGIN_HEADING"]</button>
             <div class="half-width checkbox mb-3">
                 <label asp-for="Input.RememberMe">
                     <input class="form-check-input" asp-for="Input.RememberMe" />
@@ -40,9 +55,10 @@
                 </label>
             </div>
         </div>
+
         <div>
-            <p>
-                <a id="forgot-password" asp-page="./ForgotPassword">Forgot your password?</a> | <a id="resend-confirmation" asp-page="./ResendEmailConfirmation">Resend Email Confirmation</a>
+            <p style="margin-top: 1.5rem;">
+                <a id="forgot-password" asp-page="./ForgotPassword">@Localizer["LOGIN_FORGOT_PASSWORD_LINK"]</a> | <a id="resend-confirmation" asp-page="./ResendEmailConfirmation">@Localizer["LOGIN_RESEND_CONFIRMATION_LINK"]</a>
             </p>
         </div>
     </form>

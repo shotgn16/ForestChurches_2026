@@ -1,0 +1,906 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="APP_TITLE" xml:space="preserve">
+    <value>کلیساهای جنگل</value>
+  </data>
+  <data name="FOOTER_CONTACT_LINK" xml:space="preserve">
+    <value>تماس با ما</value>
+  </data>
+  <data name="HOMEPAGE_PAGE_TITLE" xml:space="preserve">
+    <value>خانه - کلیساهای جنگل</value>
+  </data>
+  <data name="NAV_BRAND" xml:space="preserve">
+    <value>کلیساهای جنگل</value>
+  </data>
+  <data name="NAV_HOME" xml:space="preserve">
+    <value>خانه</value>
+  </data>
+  <data name="NAV_ABOUT" xml:space="preserve">
+    <value>درباره ما</value>
+  </data>
+  <data name="NAV_WHATS_NEARBY" xml:space="preserve">
+    <value>نزدیک اینجا چی هست</value>
+  </data>
+  <data name="NAV_MY_EVENTS" xml:space="preserve">
+    <value>رویدادهای من</value>
+  </data>
+  <data name="NAV_CONTACT" xml:space="preserve">
+    <value>تماس با ما</value>
+  </data>
+  <data name="NAV_ADMIN" xml:space="preserve">
+    <value>مدیر</value>
+  </data>
+  <data name="NAV_LOGIN" xml:space="preserve">
+    <value>ورود</value>
+  </data>
+  <data name="HOMEPAGE_HERO_TITLE" xml:space="preserve">
+    <value>خوش آمدید به کلیساهای جنگل</value>
+  </data>
+  <data name="HOMEPAGE_HERO_SUBTITLE" xml:space="preserve">
+    <value>اتصال جوامع در جنگل دین</value>
+  </data>
+  <data name="CONTACT_PAGE_TITLE" xml:space="preserve">
+    <value>تماس با ما</value>
+  </data>
+  <data name="CONTACT_RECIPIENT_LABEL" xml:space="preserve">
+    <value>گیرنده:</value>
+  </data>
+  <data name="CONTACT_NAME_PLACEHOLDER" xml:space="preserve">
+    <value>نام شما</value>
+  </data>
+  <data name="CONTACT_SUBJECT_PLACEHOLDER" xml:space="preserve">
+    <value>موضوع</value>
+  </data>
+  <data name="CONTACT_EMAIL_PLACEHOLDER" xml:space="preserve">
+    <value>چگونه می توانیم با شما تماس بگیریم ('John@yourchurch.com...')</value>
+  </data>
+  <data name="CONTACT_MESSAGE_PLACEHOLDER" xml:space="preserve">
+    <value>پیام شما</value>
+  </data>
+  <data name="CONTACT_SUBMIT_BUTTON" xml:space="preserve">
+    <value>ارسال پیام</value>
+  </data>
+  <data name="SAVE" xml:space="preserve">
+    <value>ذخیره</value>
+  </data>
+  <data name="CANCEL" xml:space="preserve">
+    <value>لغو</value>
+  </data>
+  <data name="DELETE" xml:space="preserve">
+    <value>حذف</value>
+  </data>
+  <data name="EDIT" xml:space="preserve">
+    <value>ویرایش</value>
+  </data>
+  <data name="CREATE" xml:space="preserve">
+    <value>ایجاد</value>
+  </data>
+  <data name="SEARCH" xml:space="preserve">
+    <value>جستجو</value>
+  </data>
+  <data name="FILTER" xml:space="preserve">
+    <value>فیلتر</value>
+  </data>
+  <data name="SUBMIT" xml:space="preserve">
+    <value>ارسال</value>
+  </data>
+  <data name="BACK" xml:space="preserve">
+    <value>بازگشت</value>
+  </data>
+  <data name="ERROR" xml:space="preserve">
+    <value>خطا</value>
+  </data>
+  <data name="SUCCESS" xml:space="preserve">
+    <value>موفقیت</value>
+  </data>
+  <data name="WARNING" xml:space="preserve">
+    <value>اخطار</value>
+  </data>
+  <data name="INFO" xml:space="preserve">
+    <value>اطلاعات</value>
+  </data>
+  <data name="LOADING" xml:space="preserve">
+    <value>بارگیری...</value>
+  </data>
+  <data name="NO_RECORDS" xml:space="preserve">
+    <value>هیچ رکوردی یافت نشد</value>
+  </data>
+  <data name="LOGIN" xml:space="preserve">
+    <value>ورود</value>
+  </data>
+  <data name="LOGOUT" xml:space="preserve">
+    <value>خروج</value>
+  </data>
+  <data name="REGISTER" xml:space="preserve">
+    <value>ثبت نام</value>
+  </data>
+  <data name="PROFILE" xml:space="preserve">
+    <value>پروفایل</value>
+  </data>
+  <data name="EMAIL" xml:space="preserve">
+    <value>ایمیل</value>
+  </data>
+  <data name="PASSWORD" xml:space="preserve">
+    <value>رمز عبور</value>
+  </data>
+  <data name="NAME" xml:space="preserve">
+    <value>نام</value>
+  </data>
+  <data name="ADDRESS" xml:space="preserve">
+    <value>آدرس</value>
+  </data>
+  <data name="PHONE" xml:space="preserve">
+    <value>تلفن</value>
+  </data>
+  <data name="NEARME_HERO_TITLE" xml:space="preserve">
+    <value>کلیساهایی را در نزدیکی خود پیدا کنید</value>
+  </data>
+  <data name="NEARME_HERO_SUBTITLE" xml:space="preserve">
+    <value>کلیساهای محلی و جوامع در منطقه خود را کشف کنید</value>
+  </data>
+  <data name="NEARME_TAB_HOME" xml:space="preserve">
+    <value>خانه</value>
+  </data>
+  <data name="NEARME_TAB_CHURCHES" xml:space="preserve">
+    <value>کلیساها</value>
+  </data>
+  <data name="NEARME_TAB_ACTIVITIES" xml:space="preserve">
+    <value>فعالیت‌ها</value>
+  </data>
+  <data name="NEARME_WELCOME_HEADING" xml:space="preserve">
+    <value>به روشهای جنگل خوش آمدید</value>
+  </data>
+  <data name="NEARME_WELCOME_INTRO_TEXT" xml:space="preserve">
+    <value>این ابزار به شما کمک می‌کند تا کلیساها و فعالیت‌های نزدیک خود را کشف کنید. از آن برای یافتن جوامع معنوی که با علایق و نیازهای شما مطابقت دارند استفاده کنید.</value>
+  </data>
+  <data name="NEARME_HOW_TO_USE_HEADING" xml:space="preserve">
+    <value>نحوه استفاده از این ابزار</value>
+  </data>
+  <data name="NEARME_HOW_TO_USE_TEXT" xml:space="preserve">
+    <value>1. به برگه "کلیساها" بروید و کد پستی خود را وارد کنید یا از مکان فعلی خود استفاده کنید. 2. امکانات مورد علاقه خود را انتخاب کنید (پارکینگ، سرویس بهداشتی، دسترسی برای ویلچر و غیره). 3. فرقه مورد نظر خود را انتخاب کنید یا تمام فرقه‌ها را باز گذارید. 4. روی "چه چیزی در اطراف من است" کلیک کنید تا گزینه‌های نزدیک خود را ببینید. 5. نتایج را مرور کنید و اطلاعات را دانلود یا برای خود از طریق ایمیل ارسال کنید.</value>
+  </data>
+  <data name="NEARME_FIND_CHURCH_HEADING" xml:space="preserve">
+    <value>کلیسایی را در نزدیکی خود پیدا کنید</value>
+  </data>
+  <data name="NEARME_FIND_CHURCH_INTRO_TEXT" xml:space="preserve">
+    <value>با وارد کردن کد پستی خود و انتخاب ترجیحات خود، برای کلیساهای منطقه خود جستجو کنید.</value>
+  </data>
+  <data name="NEARME_FACILITIES_TITLE" xml:space="preserve">
+    <value>امکانات</value>
+  </data>
+  <data name="NEARME_FACILITY_PARKING" xml:space="preserve">
+    <value>پارکینگ</value>
+  </data>
+  <data name="NEARME_FACILITY_RESTROOMS" xml:space="preserve">
+    <value>سرویس بهداشتی</value>
+  </data>
+  <data name="NEARME_FACILITY_WHEELCHAIR_ACCESS" xml:space="preserve">
+    <value>دسترسی برای ویلچر</value>
+  </data>
+  <data name="NEARME_FACILITY_WIFI" xml:space="preserve">
+    <value>وایفای</value>
+  </data>
+  <data name="NEARME_FACILITY_REFRESHMENTS" xml:space="preserve">
+    <value>پذیرایی</value>
+  </data>
+  <data name="NEARME_FACILITY_WORSHIP_HALL" xml:space="preserve">
+    <value>سالن عبادت</value>
+  </data>
+  <data name="NEARME_FACILITY_CHILDRENS_MINISTRY" xml:space="preserve">
+    <value>خدمات کودکان</value>
+  </data>
+  <data name="NEARME_FACILITY_COMMUNITY_HALL" xml:space="preserve">
+    <value>سالن کمیونیتی</value>
+  </data>
+  <data name="NEARME_FACILITY_KITCHEN" xml:space="preserve">
+    <value>آشپزخانه</value>
+  </data>
+  <data name="NEARME_FACILITY_OUTDOOR_SPACE" xml:space="preserve">
+    <value>فضای بیرونی</value>
+  </data>
+  <data name="NEARME_FACILITY_HEARING_AID_SUPPORT" xml:space="preserve">
+    <value>پشتیبانی سماعت</value>
+  </data>
+  <data name="NEARME_POSTCODE_LABEL" xml:space="preserve">
+    <value>کد پستی</value>
+  </data>
+  <data name="NEARME_POSTCODE_PLACEHOLDER" xml:space="preserve">
+    <value>کد پستی خود را وارد کنید</value>
+  </data>
+  <data name="NEARME_MAX_DISTANCE_LABEL" xml:space="preserve">
+    <value>حداکثر فاصله (کیلومتر)</value>
+  </data>
+  <data name="NEARME_DENOMINATION_LABEL" xml:space="preserve">
+    <value>فرقه</value>
+  </data>
+  <data name="NEARME_ANY_DENOMINATION_OPTION" xml:space="preserve">
+    <value>تمام فرقه‌ها</value>
+  </data>
+  <data name="NEARME_WHATS_AROUND_ME_BUTTON" xml:space="preserve">
+    <value>چه چیزی در اطراف من است</value>
+  </data>
+  <data name="NEARME_USE_MY_LOCATION_BUTTON" xml:space="preserve">
+    <value>از مکان خود استفاده کنید</value>
+  </data>
+  <data name="NEARME_PICK_CHURCH_MODAL_TITLE" xml:space="preserve">
+    <value>یک کلیسا انتخاب کنید</value>
+  </data>
+  <data name="NEARME_NAME_LABEL" xml:space="preserve">
+    <value>نام</value>
+  </data>
+  <data name="NEARME_DESCRIPTION_LABEL" xml:space="preserve">
+    <value>توضیحات</value>
+  </data>
+  <data name="NEARME_DOWNLOAD_INFO_BUTTON" xml:space="preserve">
+    <value>دانلود اطلاعات</value>
+  </data>
+  <data name="NEARME_SEND_INFO_BUTTON" xml:space="preserve">
+    <value>ارسال اطلاعات</value>
+  </data>
+  <data name="NEARME_FIND_OUT_MORE_BUTTON" xml:space="preserve">
+    <value>اطلاعات بیشتر</value>
+  </data>
+  <data name="NEARME_NO_CHURCHES_FOUND" xml:space="preserve">
+    <value>هیچ کلیسایی در درون پیدا نشد</value>
+  </data>
+  <data name="NEARME_NO_RESULTS_SUFFIX" xml:space="preserve">
+    <value>از مکان شما. سعی کنید فاصله جستجو را افزایش دهید.</value>
+  </data>
+  <data name="NEARME_NEARBY_EVENTS_MODAL_TITLE" xml:space="preserve">
+    <value>رویدادهای نزدیک</value>
+  </data>
+  <data name="NEARME_LOCATION_LABEL" xml:space="preserve">
+    <value>مکان</value>
+  </data>
+  <data name="NEARME_DATE_LABEL" xml:space="preserve">
+    <value>تاریخ</value>
+  </data>
+  <data name="NEARME_TIME_LABEL" xml:space="preserve">
+    <value>زمان</value>
+  </data>
+  <data name="NEARME_EVENT_REPEATS_QUESTION" xml:space="preserve">
+    <value>تکرار می‌شود؟</value>
+  </data>
+  <data name="NEARME_EVENTS_HEADING" xml:space="preserve">
+    <value>رویدادهای نزدیک من</value>
+  </data>
+  <data name="NEARME_EVENTS_INTRO_TEXT" xml:space="preserve">
+    <value>رویدادی نزدیک من پیدا کنید</value>
+  </data>
+  <data name="NEARME_CHURCH_LABEL" xml:space="preserve">
+    <value>هر کلیسایی</value>
+  </data>
+  <data name="NEARME_ANY_CHURCH_OPTION" xml:space="preserve">
+    <value>هر کلیسایی</value>
+  </data>
+  <data name="NEARME_START_DATE_LABEL" xml:space="preserve">
+    <value>تاریخ شروع</value>
+  </data>
+  <data name="NEARME_END_DATE_LABEL" xml:space="preserve">
+    <value>تاریخ پایان</value>
+  </data>
+  <data name="NEARME_EVENT_HOSTED_BY" xml:space="preserve">
+    <value>این رویداد توسط برگزار می‌شود</value>
+  </data>
+  <data name="NEARME_NO_EVENTS_FOUND" xml:space="preserve">
+    <value>متاسفیم، در حال حاضر هیچ رویدادی در فاصله مشخص شده از آدرس شما موجود نیست.</value>
+  </data>
+  <data name="NEARME_EMAIL_MODAL_TITLE" xml:space="preserve">
+    <value>ایمیل خود را وارد کنید</value>
+  </data>
+  <data name="NEARME_EMAIL_LABEL" xml:space="preserve">
+    <value>ایمیل</value>
+  </data>
+  <data name="NEARME_SEND_INFORMATION_BUTTON" xml:space="preserve">
+    <value>ارسال اطلاعات</value>
+  </data>
+  <data name="ABOUTUS_PAGE_TITLE" xml:space="preserve">
+    <value>درباره ما</value>
+  </data>
+  <data name="ABOUTUS_COMMUNITY_SECTION_TEXT" xml:space="preserve">
+    <value>خوش آمدید، امیدواریم آنچه را که به دنبالش هستید پیدا کنید. اگر از قبل نمی‌دانستید، این...! ما متعهد به خدمت به جامعه خود با عشق و شفقت هستیم. ماموریت ما ایجاد فضایی صمیمانه است که در آن همه احساس ارزشمندی و حمایت کنند. به ما بپیوندید تا تأثیر مثبتی داشته باشید!</value>
+  </data>
+  <data name="ABOUTUS_COMMUNITY_SECTION_TITLE" xml:space="preserve">
+    <value>ما برای جامعه هستیم</value>
+  </data>
+  <data name="ABOUTUS_COMMUNITY_IMAGE_ALT" xml:space="preserve">
+    <value>تصویر جامعه</value>
+  </data>
+  <data name="ABOUTUS_PAGE_SUBTITLE" xml:space="preserve">
+    <value>درباره ما و فعالیت‌هایمان بدانید</value>
+  </data>
+  <data name="ABOUTUS_SUPPORT_IMAGE_ALT" xml:space="preserve">
+    <value>درباره ما</value>
+  </data>
+  <data name="ABOUTUS_BELIEF_SECTION_TITLE" xml:space="preserve">
+    <value>آنچه ما باور داریم</value>
+  </data>
+  <data name="ABOUTUS_BELIEF_SECTION_TEXT" xml:space="preserve">
+    <value>با الهام از این حقیقت، ما عیسی مسیح را به عنوان خداوند و نجات‌دهنده تصدیق می‌کنیم، کسی که بخشش، تجدید حیات و هدف مشترکی را برای کلیسای خود به ارمغان می‌آورد. از طریق اوست که ما فراخوانده شده‌ایم تا با هم همکاری کنیم، تنوع خود را جشن بگیریم و در عین حال در عشق او متحد بمانیم. این باور، انگیزه ایجاد این وب‌سایت را به عنوان وسیله‌ای برای اتصال، ارتقاء و تجهیز کلیساها در سراسر جنگل دین فراهم کرده است. ماموریت ما این است که با حمایت و ترویج کلیساها و قادر ساختن اطرافیانمان به کشف آنچه در جنگل دین نهفته است، جوامع را گرد هم آوریم.</value>
+  </data>
+  <data name="ABOUTUS_LIGHT_IMAGE_ALT" xml:space="preserve">
+    <value>تصویر نور</value>
+  </data>
+  <data name="ABOUTUS_LIGHT_SECTION_TITLE" xml:space="preserve">
+    <value>روشن کردن جنگل با نور عیسی</value>
+  </data>
+  <data name="LOGIN_HEADING" xml:space="preserve">
+    <value>ورود</value>
+  </data>
+  <data name="ABOUTUS_LIGHT_SECTION_TEXT" xml:space="preserve">
+    <value>با الهام از آموزه‌های عیسی، هدف ما گسترش نور و امید در سراسر جنگل دین است. ایمان ما ما را به خدمت به دیگران و به اشتراک گذاشتن پیام عشق، صلح و مهربانی سوق می‌دهد. بیایید و بخشی از سفر ما باشید!</value>
+  </data>
+  <data name="ABOUTUS_FOOTER_TEXT" xml:space="preserve">
+    <value>این وب‌سایت که توسط جک بوچر-بارنارد و جاناتان کییر ایجاد شده است، به حمایت و ارتقای کلیساهای سراسر جنگل دین اختصاص دارد.</value>
+  </data>
+  <data name="LOGIN_EMAIL_PLACEHOLDER" xml:space="preserve">
+    <value>ایمیل</value>
+  </data>
+  <data name="LOGIN_PASSWORD_PLACEHOLDER" xml:space="preserve">
+    <value>رمز عبور</value>
+  </data>
+  <data name="LOGIN_FORGOT_PASSWORD_LINK" xml:space="preserve">
+    <value>رمز عبور را فراموش کرده‌ام</value>
+  </data>
+  <data name="LOGIN_RESEND_CONFIRMATION_LINK" xml:space="preserve">
+    <value>ارسال مجدد ایمیل تایید</value>
+  </data>
+  <data name="NAV_WELCOME_BACK" xml:space="preserve">
+    <value>کاربر گرامی، خوش آمدید</value>
+  </data>
+  <data name="NAV_LOGOUT" xml:space="preserve">
+    <value>خروج</value>
+  </data>
+  <data name="EVENTS_PAGE_TITLE" xml:space="preserve">
+    <value>رویدادها</value>
+  </data>
+  <data name="EVENTS_PAGE_SUBTITLE" xml:space="preserve">
+    <value>رویدادهای کلیسای شما</value>
+  </data>
+  <data name="EVENTS_LEARN_MORE_BUTTON" xml:space="preserve">
+    <value>بیشتر بدانید...</value>
+  </data>
+  <data name="EVENTS_CARD_LOCATION" xml:space="preserve">
+    <value>مکان</value>
+  </data>
+  <data name="EVENTS_CARD_DATE" xml:space="preserve">
+    <value>تاریخ</value>
+  </data>
+  <data name="EVENTS_CARD_TIME" xml:space="preserve">
+    <value>Time</value>
+  </data>
+  <data name="EVENTS_CARD_REPEATS" xml:space="preserve">
+    <value>تکرار میشه؟</value>
+  </data>
+  <data name="EVENTS_EDIT_BUTTON" xml:space="preserve">
+    <value>ویرایش رویداد</value>
+  </data>
+  <data name="EVENTS_DELETE_BUTTON" xml:space="preserve">
+    <value>حذف رویداد</value>
+  </data>
+  <data name="EVENTS_SYNC_EVENTS_TEXT" xml:space="preserve">
+    <value>وارد کردن رویدادها از</value>
+  </data>
+  <data name="EVENTS_ADD_EVENT_BUTTON" xml:space="preserve">
+    <value>اضافه کردن رویداد جدید</value>
+  </data>
+  <data name="WelcomeBackUser" xml:space="preserve">
+    <value>خوش آمدید</value>
+  </data>
+  <data name="ChurchInfo" xml:space="preserve">
+    <value>نام کلیسا</value>
+  </data>
+  <data name="NAV_LABEL_PROFILE" xml:space="preserve">
+    <value>پروفایل</value>
+  </data>
+  <data name="NAV_LABEL_CHURCH_PROFILE" xml:space="preserve">
+    <value>کلیسای من</value>
+  </data>
+  <data name="NAV_LABEL_PASSWORD" xml:space="preserve">
+    <value>تغییر رمز عبور</value>
+  </data>
+  <data name="NAV_LABEL_EXTERNAL_LOGIN" xml:space="preserve">
+    <value>ورود خارجی</value>
+  </data>
+  <data name="NAV_LABEL_2FA" xml:space="preserve">
+    <value>احراز هویت دو مرحله‌ای</value>
+  </data>
+  <data name="NAV_LABEL_PERSONAL_DATA" xml:space="preserve">
+    <value>داده‌های من</value>
+  </data>
+  <data name="CONGREGATION_SIZE_LABEL" xml:space="preserve">
+    <value>جماعت</value>
+  </data>
+  <data name="PHONE_LABEL" xml:space="preserve">
+    <value>تلفن</value>
+  </data>
+  <data name="CHURCHSUITE_LABEL" xml:space="preserve">
+    <value>چرچ‌سوئیت</value>
+  </data>
+  <data name="CHURCH_WEBSITE_LABEL" xml:space="preserve">
+    <value>وب‌سایت</value>
+  </data>
+  <data name="FACILITIES_LABEL" xml:space="preserve">
+    <value>امکانات موجود</value>
+  </data>
+  <data name="FACILITY_RESTROOMS" xml:space="preserve">
+    <value>سرویس بهداشتی</value>
+  </data>
+  <data name="FACILITY_WHEELCHAIR_ACCESS" xml:space="preserve">
+    <value>دسترسی ویلچر</value>
+  </data>
+  <data name="FACILITY_FREE_WIFI" xml:space="preserve">
+    <value>وای‌فای</value>
+  </data>
+  <data name="FACILITY_REFRESHMENTS" xml:space="preserve">
+    <value>پذیرایی</value>
+  </data>
+  <data name="FACILITY_PARKING" xml:space="preserve">
+    <value>پارکینگ</value>
+  </data>
+  <data name="FACILITY_CHILDCARE" xml:space="preserve">
+    <value>مراقبت از کودکان</value>
+  </data>
+  <data name="FACILITY_HEARING_AID_SUPPORT" xml:space="preserve">
+    <value>شتیبانی از سمعک</value>
+  </data>
+  <data name="FACILITY_KITCHEN" xml:space="preserve">
+    <value>آشپزخانه</value>
+  </data>
+  <data name="FACILITY_COMMUNITY_SPACE" xml:space="preserve">
+    <value>فضای اجتماعی</value>
+  </data>
+  <data name="FACILITY_OUTDOOR_SPACES" xml:space="preserve">
+    <value>فضای باز</value>
+  </data>
+  <data name="FACILITY_WORSHIP_HALL" xml:space="preserve">
+    <value>سالن عبادات</value>
+  </data>
+  <data name="USE_MY_LOCATION" xml:space="preserve">
+    <value>از موقعیت مکانی من استفاده کنید</value>
+  </data>
+  <data name="UPDATE_CHURCH_INFO" xml:space="preserve">
+    <value>اطلاعات کلیسای شما</value>
+  </data>
+  <data name="LABEL_UPLOAD_LOGO" xml:space="preserve">
+    <value>آپلود لوگو</value>
+  </data>
+  <data name="LABEL_MANAGE_SERVICE_TIMES" xml:space="preserve">
+    <value>مدیریت زمان‌های مراسم کلیسا</value>
+  </data>
+  <data name="MARK_CHURCH_AS" xml:space="preserve">
+    <value>مارک چرچ</value>
+  </data>
+  <data name="STATUS_OPEN" xml:space="preserve">
+    <value>باز</value>
+  </data>
+  <data name="STATUS_CLOSED" xml:space="preserve">
+    <value>بسته</value>
+  </data>
+  <data name="PLEASE_ONLY_USE_THIS" xml:space="preserve">
+    <value>لطفا فقط از این استفاده کنید</value>
+  </data>
+  <data name="FOR_LONG_TERM_MAINTENANCE" xml:space="preserve">
+    <value>اگر کلیسای شما برای تعمیرات طولانی مدت بسته شده است یا کلیسای شما تعطیل شده و دیگر برای بازدیدکنندگان باز نیست یا هیچ مراسم منظمی برگزار نمی‌کند. لطفاً توجه داشته باشید که وقتی وضعیت شما روی بسته تنظیم شده باشد، کلیسای شما در جستجوی نزدیک ظاهر نمی‌شود.</value>
+  </data>
+  <data name="CURRENT_SERVICE_TIMES" xml:space="preserve">
+    <value>زمان‌های سرویس فعلی</value>
+  </data>
+  <data name="TIME_LABEL" xml:space="preserve">
+    <value>زمان</value>
+  </data>
+  <data name="NOTE_LABEL" xml:space="preserve">
+    <value>تاریخ</value>
+  </data>
+  <data name="DELETE_ENTRY_LABEL" xml:space="preserve">
+    <value>حذف ورودی</value>
+  </data>
+  <data name="STATUS_DELETE" xml:space="preserve">
+    <value>حذف</value>
+  </data>
+  <data name="ADD_SERVICE" xml:space="preserve">
+    <value>اضافه کردن سرویس</value>
+  </data>
+  <data name="PLACEHOLDER_SERVICE_NOTE" xml:space="preserve">
+    <value>مراسم عشای ربانی صبحگاهی</value>
+  </data>
+  <data name="STATUS_GEOLATION_NOT_SUPPORTED" xml:space="preserve">
+    <value>موقعیت جغرافیایی پشتیبانی نمی‌شود</value>
+  </data>
+  <data name="ManageYourData" xml:space="preserve">
+    <value>مدیریت داده‌های شخصی شما</value>
+  </data>
+  <data name="PersonalDataDeletionWarning" xml:space="preserve">
+    <value>اگر مایل به دانلود اطلاعات خود، از جمله هرگونه اطلاعاتی که ما در مورد کلیسای شما داریم، هستید، لطفاً از طریق ... با ما تماس بگیرید.</value>
+  </data>
+  <data name="PERSONAL_DATA_P1" xml:space="preserve">
+    <value>If you wish to download your information, including any and all information we hold on your church. Please get in contact with us via the </value>
+  </data>
+  <data name="PERSONAL_DATA_P2" xml:space="preserve">
+    <value>صفحه تماس با ما</value>
+  </data>
+  <data name="CLIENT_EMAIL_PLACEHOLDER" xml:space="preserve">
+    <value>ایمیل شما</value>
+  </data>
+  <data name="CHURCH_GENERAL_INFO_TITLE" xml:space="preserve">
+    <value>اطلاعات عمومی</value>
+  </data>
+  <data name="CHURCH_NAME_LABEL" xml:space="preserve">
+    <value>نام:</value>
+  </data>
+  <data name="CHURCH_DESCRIPTION_LABEL" xml:space="preserve">
+    <value>شرح:</value>
+  </data>
+  <data name="CHURCH_ADDRESS_LABEL" xml:space="preserve">
+    <value>آدرس:</value>
+  </data>
+  <data name="CHURCH_FACILITIES_TITLE" xml:space="preserve">
+    <value>امکانات</value>
+  </data>
+  <data name="CHURCH_REFRESHMENTS_LABEL" xml:space="preserve">
+    <value>نوشیدنی‌ها</value>
+  </data>
+  <data name="CHURCH_FACILITY_AVAILABLE" xml:space="preserve">
+    <value>موجود است</value>
+  </data>
+  <data name="CHURCH_FACILITY_NOT_AVAILABLE" xml:space="preserve">
+    <value>موجود نیست</value>
+  </data>
+  <data name="CHURCH_RESTROOMS_LABEL" xml:space="preserve">
+    <value>سرویس بهداشتی</value>
+  </data>
+  <data name="CHURCH_WIFI_LABEL" xml:space="preserve">
+    <value>وای فای</value>
+  </data>
+  <data name="CHURCH_PARKING_LABEL" xml:space="preserve">
+    <value>پارکینگ</value>
+  </data>
+  <data name="CHURCH_WHEELCHAIR_LABEL" xml:space="preserve">
+    <value>دسترسی با ویلچر</value>
+  </data>
+  <data name="CHURCH_COMMUNITY_SPACE_LABEL" xml:space="preserve">
+    <value>Community Space</value>
+  </data>
+  <data name="CHURCH_KITCHEN_LABEL" xml:space="preserve">
+    <value>آشپزخانه</value>
+  </data>
+  <data name="CHURCH_HEARING_AID_LABEL" xml:space="preserve">
+    <value>پشتیبانی از سمعک</value>
+  </data>
+  <data name="CHURCH_OUTDOOR_SPACE_LABEL" xml:space="preserve">
+    <value>فضای باز</value>
+  </data>
+  <data name="CHURCH_BUILDING_LABEL" xml:space="preserve">
+    <value>سالن عبادت</value>
+  </data>
+  <data name="CHURCH_CHILDCARE_LABEL" xml:space="preserve">
+    <value>مراقبت از کودکان</value>
+  </data>
+  <data name="CHURCH_CHURCHSUITE_BUTTON" xml:space="preserve">
+    <value>چرچ‌سوئیت</value>
+  </data>
+  <data name="CHURCH_SEND_MESSAGE_BUTTON" xml:space="preserve">
+    <value>ارسال پیام</value>
+  </data>
+  <data name="CHURCH_EVENTS_HEADING" xml:space="preserve">
+    <value>رویدادهای جاری/آینده</value>
+  </data>
+  <data name="CHURCH_NO_EVENTS_MESSAGE" xml:space="preserve">
+    <value>این کلیسا هیچ رویداد پیش رویی ندارد</value>
+  </data>
+  <data name="CHURCH_SUNDAY_SERVICES_HEADING" xml:space="preserve">
+    <value>خدمات یکشنبه</value>
+  </data>
+  <data name="CHURCH_FIND_ON_MAPS_HEADING" xml:space="preserve">
+    <value>ما را در نقشه گوگل پیدا کنید</value>
+  </data>
+  <data name="LABEL_DENOMINATION" xml:space="preserve">
+    <value>فرقه</value>
+  </data>
+  <data name="LABEL_CONGREGATION" xml:space="preserve">
+    <value>جماعت</value>
+  </data>
+  <data name="PROFILE_WELCOME_BACK" xml:space="preserve">
+    <value>خوش‌آمدید {0}!</value>
+  </data>
+  <data name="TAG_USERNAME" xml:space="preserve">
+    <value>نام کاربری</value>
+  </data>
+  <data name="TAG_PHONE" xml:space="preserve">
+    <value>شماره تلفن</value>
+  </data>
+  <data name="TAG_SAVE" xml:space="preserve">
+    <value>ذخیره تغییرات</value>
+  </data>
+  <data name="TAG_UPDATE_INFORMATION" xml:space="preserve">
+    <value>به‌روزرسانی اطلاعات</value>
+  </data>
+  <data name="TAG_SYNC_FROM_CHURCHSUITE" xml:space="preserve">
+    <value>همگام‌سازی از ChurchSuite</value>
+  </data>
+  <data name="TAG_SYNC_FROM_CHURCHSUITE_DESC" xml:space="preserve">
+    <value>اطلاعات کلیسای خود را از حساب ChurchSuite خود به روز کنید.</value>
+  </data>
+  <data name="TAG_SELECT_IMAGE" xml:space="preserve">
+    <value>انتخاب فایل (اینجا کلیک کنید)</value>
+  </data>
+  <data name="TAG_CLOSED_INFO" xml:space="preserve">
+    <value>لطفاً تنها در صورتی از دکمه علامت‌گذاری کلیسا به عنوان تعطیل استفاده کنید که کلیسای شما برای تعمیرات طولانی‌مدت تعطیل شده یا کاملاً بسته شده است. توجه داشته باشید که کلیسای شما در جستجوی اطراف هنگامی که وضعیت آن تعطیل است ظاهر نخواهد شد.</value>
+  </data>
+  <data name="TAG_CHURCH_SERVICE_TIME_BUTTON" xml:space="preserve">
+    <value>مدیریت زمان‌های خدمات کلیسا</value>
+  </data>
+  <data name="TAG_SERVICE_NOTE_PLACEHOLDER" xml:space="preserve">
+    <value>مراسم عشای ربانی صبحگاهی</value>
+  </data>
+  <data name="TAG_OLD_PASSWORD" xml:space="preserve">
+    <value>لطفاً رمز عبور قدیمی خود را وارد کنید</value>
+  </data>
+  <data name="TAG_NEW_PASSWORD" xml:space="preserve">
+    <value>لطفاً رمز عبور جدید خود را وارد کنید</value>
+  </data>
+  <data name="TAG_CURRENT_PWD" xml:space="preserve">
+    <value>رمز عبور فعلی</value>
+  </data>
+  <data name="TAG_NEW_PWD" xml:space="preserve">
+    <value>رمز عبور جدید</value>
+  </data>
+  <data name="TAG_CHANGE_PASSWORD" xml:space="preserve">
+    <value>تغییر رمز عبور</value>
+  </data>
+  <data name="STATUS_SAVE" xml:space="preserve">
+    <value>ذخیره تغییرات</value>
+  </data>
+  <data name="EXTERNAL_LOGIN_TITLE" xml:space="preserve">
+    <value>مدیریت ورودهای خارجی</value>
+  </data>
+  <data name="TAG_REGISTERED_LOGINS" xml:space="preserve">
+    <value>ورودهای ثبت شده</value>
+  </data>
+  <data name="TAG_CONNECT_CHURCHSUITE" xml:space="preserve">
+    <value>اتصال به ChurchSuite</value>
+  </data>
+  <data name="TAG_CHURCHSUITE_DESC" xml:space="preserve">
+    <value>شناسه کلاینت عمومی ChurchSuite خود (PKCE) را وارد کنید و روی "ذخیره و مجاز کردن" کلیک کنید تا حساب ChurchSuite خود را به این حساب ForestChurches متصل کنید.</value>
+  </data>
+  <data name="TAG_CHURCHSUITE_CLIENT_ID" xml:space="preserve">
+    <value>شناسه کلاینت ChurchSuite</value>
+  </data>
+  <data name="TAG_SAVE_AUTHORIZE" xml:space="preserve">
+    <value>ذخیره و تأیید با ChurchSuite</value>
+  </data>
+  <data name="STATUS_CHURCHSUITE_CONNECTION" xml:space="preserve">
+    <value>به ChurchSuite متصل نیست</value>
+  </data>
+  <data name="TAG_CHURCHSUITE_MSG_P1" xml:space="preserve">
+    <value>حذف این</value>
+  </data>
+  <data name="TAG_CHURCHSUITE_MSG_P2" xml:space="preserve">
+    <value>نام ورود از حساب شما</value>
+  </data>
+  <data name="STATUS_REMOVE" xml:space="preserve">
+    <value>حذف</value>
+  </data>
+  <data name="TAG_ANOTHER_SERVICE" xml:space="preserve">
+    <value>افزودن سرویس دیگری برای ورود</value>
+  </data>
+  <data name="TAG_LOGIN_DESC_A" xml:space="preserve">
+    <value>ورود با استفاده از حساب</value>
+  </data>
+  <data name="TAG_LOGIN_DESC_B" xml:space="preserve">
+    <value>خود</value>
+  </data>
+  <data name="TITLE_TWO_FACTOR_AUTHENTICATION" xml:space="preserve">
+    <value>احراز هویت دو مرحله‌ای (2FA)</value>
+  </data>
+  <data name="ALT_PROFILE_PICTURE" xml:space="preserve">
+    <value>تصویر پروفایل</value>
+  </data>
+  <data name="NO_RECOVERY_CODES_LEFT_TITLE" xml:space="preserve">
+    <value>شما هیچ کد بازیابی باقی مانده‌ای ندارید.</value>
+  </data>
+  <data name="MUST_GENERATE_CODES_BEFORE" xml:space="preserve">
+    <value>شما باید</value>
+  </data>
+  <data name="GENERATE_NEW_CODES_LINK" xml:space="preserve">
+    <value>مجموعه جدیدی از کدهای بازیابی ایجاد کنید</value>
+  </data>
+  <data name="MUST_GENERATE_CODES_AFTER" xml:space="preserve">
+    <value>قبل از اینکه بتوانید با کد بازیابی وارد شوید.</value>
+  </data>
+  <data name="ONE_RECOVERY_CODE_LEFT_TITLE" xml:space="preserve">
+    <value>شما ۱ کد بازیابی باقی مانده دارید.</value>
+  </data>
+  <data name="CAN_GENERATE_CODES_BEFORE" xml:space="preserve">
+    <value>شما می‌توانید</value>
+  </data>
+  <data name="MULTIPLE_RECOVERY_CODES_LEFT_BEFORE" xml:space="preserve">
+    <value>شما تعداد</value>
+  </data>
+  <data name="MULTIPLE_RECOVERY_CODES_LEFT_AFTER" xml:space="preserve">
+    <value>کد بازیابی باقی مانده دارید.</value>
+  </data>
+  <data name="SHOULD_GENERATE_CODES_BEFORE" xml:space="preserve">
+    <value>شما باید</value>
+  </data>
+  <data name="BTN_FORGET_BROWSER" xml:space="preserve">
+    <value>فراموش کردن این مرورگر</value>
+  </data>
+  <data name="BTN_DISABLE_2FA" xml:space="preserve">
+    <value>غیرفعال‌سازی احراز هویت دو مرحله‌ای</value>
+  </data>
+  <data name="BTN_RESET_RECOVERY_CODES" xml:space="preserve">
+    <value>بازنشانی کدهای بازیابی</value>
+  </data>
+  <data name="AUTHENTICATOR_APP_HEADER" xml:space="preserve">
+    <value>برنامه احراز هویت</value>
+  </data>
+  <data name="BTN_ADD_AUTHENTICATOR_APP" xml:space="preserve">
+    <value>افزودن برنامه احراز هویت</value>
+  </data>
+  <data name="BTN_SET_UP_AUTHENTICATOR_APP" xml:space="preserve">
+    <value>تنظیم برنامه احراز هویت</value>
+  </data>
+  <data name="BTN_RESET_AUTHENTICATOR_APP" xml:space="preserve">
+    <value>بازنشانی برنامه احراز هویت</value>
+  </data>
+  <data name="PRIVACY_POLICY_NOT_ACCEPTED_TITLE" xml:space="preserve">
+    <value>سیاست حریم خصوصی و کوکی‌ها پذیرفته نشده است.</value>
+  </data>
+  <data name="PRIVACY_POLICY_NOT_ACCEPTED_BODY" xml:space="preserve">
+    <value>قبل از فعال‌سازی احراز هویت دو مرحله‌ای، باید این سیاست را بپذیرید.</value>
+  </data>
+  <data name="TITLE_PERSONAL_DATA" xml:space="preserve">
+    <value>اطلاعات شخصی</value>
+  </data>
+  <data name="PROFILE_WELCOME_BACK_USER" xml:space="preserve">
+    <value>خوش‌آمدید، کاربر!</value>
+  </data>
+  <data name="DOWNLOAD_INFO_PREFIX" xml:space="preserve">
+    <value>اگر مایل به دانلود اطلاعات خود هستید، از جمله تمامی اطلاعاتی که درباره کلیسای شما داریم، لطفاً از طریق</value>
+  </data>
+  <data name="CONTACT_US_PAGE_LINK" xml:space="preserve">
+    <value>صفحه تماس با ما</value>
+  </data>
+  <data name="SERVICE_TIMES_TITLE" xml:space="preserve">
+    <value>زمان‌های خدمات کلیسای شما</value>
+  </data>
+  <data name="STATUS_ADD_SERVICE" xml:space="preserve">
+    <value>افزودن مراسم</value>
+  </data>
+  <data name="MANAGE_CHURCH_SERVICE_TIMES" xml:space="preserve">
+    <value>مدیریت زمان‌های مراسم کلیسا</value>
+  </data>
+  <data name="UPLOAD_LOGO_TEXT" xml:space="preserve">
+    <value>آپلود لوگو</value>
+  </data>
+  <data name="TAG_USE_GEOLOCATION" xml:space="preserve">
+    <value>استفاده از مکان فعلی من</value>
+  </data>
+  <data name="TAG_USER" xml:space="preserve">
+    <value>کاربر</value>
+  </data>
+  <data name="UpdateTitle" xml:space="preserve">
+    <value>احراز هویت دو مرحله‌ای (2FA)</value>
+  </data>
+  <data name="STATUS_CLOSE" xml:space="preserve">
+    <value>بستن</value>
+  </data>
+</root>

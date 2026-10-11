@@ -1,0 +1,52 @@
+name: Build, Test, and Deploy to Azure
+
+on:
+  push:
+    branches: [ "live" ] # Change this to your exact new branch name
+
+jobs:
+  test-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v4
+
+    - name: Setup .NET SDK
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '8.0'
+
+    # 1. Run Unit Tests Automatically
+    - name: Run Testing Framework
+      run: dotnet test --configuration Release
+
+    # 2. Log into your free GitHub Packages Registry
+    - name: Log in to GitHub Container Registry
+      uses: docker/login-action@v3
+      with:
+        registry: ghcr.io
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+
+    # 3. Compile the Dockerfile and Push to GHCR
+    - name: Build and Push Docker Image
+      uses: docker/build-push-action@v5
+      with:
+        context: .
+        file: ./Dockerfile
+        push: true
+        tags: ghcr.io/${{ github.repository_owner }}/forest_churches:live
+
+    # 4. Log into Azure securely 
+    - name: Log in to Azure
+      uses: azure/login@v2
+      with:
+        creds: ${{ secrets.OA38Q~TR~~PPkPD7rziPEqQI6qXdJIOrDDhIqbDQ }}
+
+    # 5. Tell Azure to refresh your app with the new container image
+    - name: Deploy to Azure Container Apps
+      uses: azure/container-apps-deploy-action@v2
+      with:
+        resourceGroup: myResourceGroup # Matches your screenshot
+        containerAppName: forestchurches # Matches your screenshot
+        imageToDeploy: ghcr.io/${{ github.repository_owner }}/forest_churches:live

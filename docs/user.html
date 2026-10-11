@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>User Guide — ForestChurches</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/styles.css">
+  <script src="assets/theme.js" defer></script>
+</head>
+<body>
+  <a href="index.html">← Back</a>
+  <h1>User Guide</h1>
+  <p>Summary of core user tasks: registration, managing church profile, adding events, and ChurchSuite sign-in.</p>
+
+  <h2>Registering</h2>
+  <ul>
+    <li>Open: /Identity/Account/Register (standard Identity pages integrated in Areas/Identity).</li>
+    <li>Admins can create users via Admin→Users→Register (Pages/Admin/Users/Register.cshtml.cs). The register flow creates a ChurchAccount, optional church information, and sends a welcome email.</li>
+  </ul>
+
+  <h2>Managing Church Profile</h2>
+  <ul>
+    <li>Users can edit their Church profile via Identity→Manage→ChurchProfile (Areas/Identity/Pages/Account/Manage/ChurchProfile.cshtml).</li>
+    <li>Geolocation helper: /wwwroot/js/churchprofile.js exposes a getLocation() helper which calls a handler to resolve latitude/longitude → address.</li>
+  </ul>
+
+  <h2>Events</h2>
+  <ul>
+    <li>Manage events from the user interface. Event pages are under Pages/Events and admin event pages are under Pages/Admin/Events.</li>
+    <li>Events can be synced from ChurchSuite when the account is connected.</li>
+  </ul>
+
+  <h2>Signing in with ChurchSuite (for users)</h2>
+  <div class="note">
+    When a user signs in with ChurchSuite the flow uses PKCE (no client secret required). If it's the first time, the app will complete authentication and persist ChurchSuite credentials in the ChurchSuiteCredentials table.<br/>
+  </div>
+  <ol>
+    <li>From Register or Manage External Logins, click "Sign in with ChurchSuite".</li>
+    <li>The app generates a PKCE code_verifier and code_challenge, saves the verifier to the ChurchSuiteCredential.TempCodeVerifier and redirects to ChurchSuite authorize endpoint (Pages/ChurchSuite/Authorize.cshtml.cs).</li>
+    <li>After login ChurchSuite calls /ChurchSuite/Callback where the code is exchanged for tokens using the saved verifier and client_id (Pages/ChurchSuite/Callback.cshtml.cs).</li>
+    <li>Tokens are stored by the token service; the app will then attempt to sync profile & events.</li>
+  </ol>
+
+  <h2>Troubleshooting Login</h2>
+  <ul>
+    <li>Ensure the user has a ClientId set (in the user record). If ClientId missing the authorize page redirects to Manage→ExternalLogins with an error message.</li>
+    <li>If callback reports token exchange errors, confirm the redirect URI exactly matches: <code>{scheme}://{host}/ChurchSuite/Callback</code>.</li>
+  </ul>
+
+  <footer style="margin-top:24px;color:#666;font-size:13px">For more details see ChurchSuite setup and Developer Notes.</footer>
+</body>
+</html>

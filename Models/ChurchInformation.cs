@@ -111,5 +111,17 @@ namespace ForestChurches.Models
         [DataType(DataType.Text)]
         [Display(Name = "Hearing Aid Support")]
         public bool HearingAidSupport { get; set; } = false;
+
+        /// <summary>
+        /// This subdomain string used for this church on ChurchSuite (e.g., "kingshope" if kingshope.churchsuite.com)
+        /// </summary>
+        [DataType(DataType.Text)]
+        public string? ChurchSuiteSubdomain { get; set; }
+
+        /// <summary>
+        /// The X-Auth-Key configuration token used for server-to-server Profile synchronization
+        /// </summary>
+        [DataType(DataType.Text)]
+        public string? ChurchSuiteApiKey { get; set; }
     }
 }

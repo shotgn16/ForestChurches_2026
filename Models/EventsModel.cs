@@ -46,10 +46,10 @@ namespace ForestChurches.Models
 
         [ValidateNever]
         [Obsolete("Use ImageBlobName to reference an image stored in blob storage.")]
-        public byte[] ImageArray { get; set; }
+        public byte[]? ImageArray { get; set; }
 
         [ValidateNever]
-        public string ImageBlobName { get; set; }
+        public string? ImageBlobName { get; set; }
 
         [ValidateNever]
         [NotMapped]

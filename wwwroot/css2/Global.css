@@ -1,15 +1,15 @@
-﻿@import url('Variables.css');
-
-/* Globals */
+﻿/* Update in Global.css */
 html, body {
     background-color: var(--primary-color);
-    position: relative;
+    /* Remove position: relative and min-height: 100% if they are forcing the layout width */
     min-height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden; /* This is essential to hide the sidebar */
 }
 
 .container {
     margin: auto;
-    width: 85%;
-    padding: clamp(0.75rem, 2rem, 3rem);
-    padding-bottom: 5rem;
+    width: 100%; /* Changed from 85% to ensure full width usage */
+    padding: 0; /* Remove padding if it's pushing the container out */
 }

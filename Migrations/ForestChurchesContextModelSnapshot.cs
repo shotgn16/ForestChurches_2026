@@ -17,7 +17,7 @@ namespace ForestChurches.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.10")
+                .HasAnnotation("ProductVersion", "8.0.26")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             MySqlModelBuilderExtensions.AutoIncrementColumns(modelBuilder);
@@ -56,6 +56,9 @@ namespace ForestChurches.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
+                    b.Property<string>("ClientId")
+                        .HasColumnType("longtext");
+
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("longtext");
@@ -76,7 +79,6 @@ namespace ForestChurches.Migrations
                         .HasColumnType("longblob");
 
                     b.Property<string>("ImageBlobName")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<bool>("LockoutEnabled")
@@ -127,6 +129,81 @@ namespace ForestChurches.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
+            modelBuilder.Entity("ForestChurches.Models.Bulletin", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime?>("BannerExpiresAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<bool>("BannerVisible")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<DateTime>("BulletinDate")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("CollectPrayer")
+                        .HasColumnType("longtext");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("FirstReading")
+                        .HasMaxLength(255)
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<string>("GospelReading")
+                        .HasMaxLength(255)
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<string>("HymnsList")
+                        .HasColumnType("longtext");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("NoticesList")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("ParishName")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<string>("PastoralNote")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("PdfFilename")
+                        .HasMaxLength(255)
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<string>("SundayName")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasMaxLength(64)
+                        .HasColumnType("varchar(64)");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Bulletins");
+                });
+
             modelBuilder.Entity("ForestChurches.Models.ChurchInformation", b =>
                 {
                     b.Property<string>("ID")
@@ -144,6 +221,12 @@ namespace ForestChurches.Migrations
                         .IsRequired()
                         .HasColumnType("varchar(255)");
 
+                    b.Property<string>("ChurchSuiteApiKey")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("ChurchSuiteSubdomain")
+                        .HasColumnType("longtext");
+
                     b.Property<string>("Churchsuite")
                         .IsRequired()
                         .HasColumnType("longtext");
@@ -158,8 +241,8 @@ namespace ForestChurches.Migrations
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("varchar(500)");
+                        .HasMaxLength(1000)
+                        .HasColumnType("varchar(1000)");
 
                     b.Property<bool>("HearingAidSupport")
                         .HasColumnType("tinyint(1)");
@@ -216,6 +299,62 @@ namespace ForestChurches.Migrations
                     b.ToTable("ChurchInformation");
                 });
 
+            modelBuilder.Entity("ForestChurches.Models.ChurchSuiteCredential", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("AccessToken")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("AccountId")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("ClientId")
+                        .HasColumnType("longtext");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<DateTime?>("ExpiresAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<DateTime?>("LastRefreshedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("RefreshToken")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Subdomain")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<string>("TempCodeVerifier")
+                        .HasColumnType("longtext");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("varchar(255)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId", "Subdomain")
+                        .IsUnique();
+
+                    b.ToTable("ChurchSuiteCredentials");
+                });
+
             modelBuilder.Entity("ForestChurches.Models.EventsModel", b =>
                 {
                     b.Property<string>("ID")
@@ -241,11 +380,9 @@ namespace ForestChurches.Migrations
                         .HasColumnType("time(6)");
 
                     b.Property<byte[]>("ImageArray")
-                        .IsRequired()
                         .HasColumnType("longblob");
 
                     b.Property<string>("ImageBlobName")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("Link")
@@ -279,12 +416,6 @@ namespace ForestChurches.Migrations
                         .HasColumnType("varchar(255)")
                         .HasDefaultValueSql("(UUID())");
 
-                    b.Property<string>("Action")
-                        .IsRequired()
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("longtext")
-                        .HasDefaultValue("Action");
-
                     b.Property<string>("Exception")
                         .HasColumnType("longtext");
 
@@ -317,12 +448,6 @@ namespace ForestChurches.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("longtext")
                         .HasDefaultValue("Timestamp");
-
-                    b.Property<string>("Url")
-                        .IsRequired()
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("longtext")
-                        .HasDefaultValue("Url");
 
                     b.HasKey("Id");
 

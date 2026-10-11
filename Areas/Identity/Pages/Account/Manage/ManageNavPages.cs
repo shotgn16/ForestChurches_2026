@@ -1,7 +1,6 @@
 ﻿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 #nullable disable
-
 using System;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
@@ -60,6 +59,8 @@ namespace  ForestChurches.Areas.Identity.Pages.Account.Manage
         /// </summary>
         public static string PersonalData => "PersonalData";
 
+        public static string Bulletin => "Bulletin";
+
         /// <summary>
         ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
         ///     directly from your code. This API may change or be removed in future releases.
@@ -67,6 +68,8 @@ namespace  ForestChurches.Areas.Identity.Pages.Account.Manage
         /// 
 
         public static string TwoFactorAuthentication => "TwoFactorAuthentication";
+
+        public static string BulletinNavClass(ViewContext viewContext) => PageNavClass(viewContext, Bulletin);
 
         /// <summary>
         ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used

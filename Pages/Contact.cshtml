@@ -25,24 +25,24 @@
 
         <partial name="_StatusMessage" model="Model.StatusMessage" />
 
-        <p><strong>Recipient:</strong> @Encoder.HtmlEncode(recipient)</p>
+        <p><strong>@Localizer["CONTACT_RECIPIENT_LABEL"]</strong> @Encoder.HtmlEncode(recipient)</p>
         <form method="post">
             @Html.AntiForgeryToken()
             <span asp-validation-for="Input.Name" class="text-danger"></span>
-            <input type="text" asp-for="Input.Name" placeholder="Enter your name" required>
+            <input type="text" asp-for="Input.Name" placeholder="@Localizer["CONTACT_NAME_PLACEHOLDER"]" required>
 
             <span asp-validation-for="Input.Subject" class="text-danger"></span>
-            <input type="text" asp-for="Input.Subject" placeholder="What's your enquiry? (Subject)" required>
+            <input type="text" asp-for="Input.Subject" placeholder="@Localizer["CONTACT_SUBJECT_PLACEHOLDER"]" required>
 
             <span asp-validation-for="Input.ClientEmail" class="text-danger"></span>
-            <input type="email" asp-for="Input.ClientEmail" placeholder="How can we get in touch with you? ('John@yourchurch.com...)'" required>
+            <input type="email" asp-for="Input.ClientEmail" placeholder="@Localizer["CLIENT_EMAIL_PLACEHOLDER"]" required>
 
             <span asp-validation-for="Input.Message" class="text-danger"></span>
-            <textarea class="form-control" type="text" asp-for="Input.Message" placeholder="What's up? (Message)" rows="3" required></textarea>
+            <textarea class="form-control" type="text" asp-for="Input.Message" placeholder="@Localizer["CONTACT_EMAIL_PLACEHOLDER"]" rows="3" required></textarea>
 
             <input type="hidden" name="cid" value="@Model.Input.Cid" />
 
-            <button id="contact-usSubmit" type="submit" class="half-width w-100 btn btn-lg btn-success">Send message</button>
+            <button id="contact-usSubmit" type="submit" class="half-width w-100 btn btn-lg btn-success">@Localizer["CONTACT_SUBMIT_BUTTON"]</button>
         </form>
     </div>
 </div>

@@ -1,20 +1,22 @@
-﻿using Serilog;
-using Serilog.Core;
-using Microsoft.AspNetCore.Hosting; // Make sure you have this using statement
+﻿using Microsoft.AspNetCore.Hosting; // Make sure you have this using statement
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using Serilog.Sinks.MariaDB; // Add this for the MariaDB sink
-using System.IO;
-using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.FileProviders;
+using Microsoft.Extensions.Hosting;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages;
+using Serilog;
+using Serilog.Core;
+using Serilog.Sinks.Grafana.Loki;
+using Serilog.Sinks.MariaDB; // Add this for the MariaDB sink
 using Serilog.Sinks.MariaDB.Extensions; // Add this for IWebHostEnvironment in .NET 6+
+using System;
+using System.IO;
 
 namespace ForestChurches.Components.Logging
 {
     public class LoggingConfiguration
     {
-        public static void ConfigureLogging(IServiceCollection services, string connectionString, string seq_key, string seq_link)
+        public static void ConfigureLogging(IServiceCollection services, string connectionString, string seq_key, string seq_link, string loki_key)
         {
             var serviceProvider = services.BuildServiceProvider();
 
@@ -79,9 +81,16 @@ namespace ForestChurches.Components.Logging
 
                 Log.Logger = new LoggerConfiguration()
                     .MinimumLevel.ControlledBy(levelSwitch)
-                    //.WriteTo.Seq(seq_link, Serilog.Events.LogEventLevel.Debug, 1000, TimeSpan.FromSeconds(5), seq_key, null, null, null, levelSwitch)
+                    .WriteTo.GrafanaLoki(
+                        "https://logs-prod-035.grafana.net", 
+                         labels: [new LokiLabel { Key = "ForestChurches", Value = "web_app" }],
+                         propertiesAsLabels: ["RequestPath"],
+                         credentials: new LokiCredentials { Login = "1773779", Password = loki_key },
+                         traceIdMode: LokiFieldDestination.StructuredMetadata,
+                         queueLimit: 100_000,
+                         period: TimeSpan.FromSeconds(2))
                     .WriteTo.MariaDB(connectionString, tableName: "applicationlogs", autoCreateTable: true, useBulkInsert: false)
-                    .WriteTo.Console()
+                    //.WriteTo.Console(Serilog.Events.LogEventLevel.Debug)
                     .CreateLogger();
             }
             catch (Exception ex)

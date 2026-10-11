@@ -210,8 +210,19 @@ namespace ForestChurches.Pages
                 var candidateChurches = await query.ToListAsync(); // reduced result set
                 _logger.LogInformation("Candidate churches after DB filter: {Count}", candidateChurches.Count);
 
-                // Geocode once for user
-                double[] inputCoordinates = await _googleAPI.ConvertToCoordinates(postcode);
+                // Resolve coordinates from the provided input (postcode or full address)
+                double[] inputCoordinates;
+                try
+                {
+                    inputCoordinates = await ResolveCoordinatesAsync(postcode).ConfigureAwait(true);
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogWarning(ex, "Failed to resolve coordinates from input '{Input}'", postcode);
+                    TempData["Message"] = "Unable to interpret the provided address/postcode. Try a shorter postcode or a more specific address.";
+                    return Page();
+                }
+
                 double latitude = inputCoordinates[0];
                 double longitude = inputCoordinates[1];
 
@@ -339,6 +350,85 @@ namespace ForestChurches.Pages
 
             double c = 2 * Math.Asin(Math.Sqrt(a));
             return RadiusKm * c;
+        }
+
+        private async Task<double[]> ResolveCoordinatesAsync(string input)
+        {
+            // Try the input directly first (works if user provided a postcode or well-formed address)
+            try
+            {
+                var coords = await _googleAPI.ConvertToCoordinates(input).ConfigureAwait(true);
+                if (coords != null && coords.Length == 2 && !double.IsNaN(coords[0]) && !double.IsNaN(coords[1]))
+                {
+                    return coords;
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogDebug(ex, "Direct geocode failed for input '{Input}'", input);
+            }
+
+            // If direct resolution fails, try to extract a postcode-like token from the input
+            try
+            {
+                var postcodeCandidate = ExtractPostcodeLikeToken(input);
+                if (!string.IsNullOrEmpty(postcodeCandidate))
+                {
+                    var coords = await _googleAPI.ConvertToCoordinates(postcodeCandidate).ConfigureAwait(true);
+                    if (coords != null && coords.Length == 2)
+                    {
+                        return coords;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogDebug(ex, "Postcode-token geocode failed for input '{Input}'", input);
+            }
+
+            // As a last resort, attempt incremental address reduction: split by commas and try from most-specific to least-specific
+            var parts = input.Split(',', StringSplitOptions.RemoveEmptyEntries).Select(p => p.Trim()).ToList();
+            for (int i = 0; i < parts.Count; i++)
+            {
+                var candidate = string.Join(", ", parts.Skip(i));
+                try
+                {
+                    var coords = await _googleAPI.ConvertToCoordinates(candidate).ConfigureAwait(true);
+                    if (coords != null && coords.Length == 2)
+                    {
+                        return coords;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogDebug(ex, "Incremental geocode failed for candidate '{Candidate}' from input '{Input}'", candidate, input);
+                }
+            }
+
+            throw new InvalidOperationException($"Unable to resolve coordinates for input '{input}'");
+        }
+
+        private string? ExtractPostcodeLikeToken(string input)
+        {
+            if (string.IsNullOrWhiteSpace(input)) return null;
+
+            // Typical UK postcode pattern (simplified) and some generic numeric postal codes.
+            var postcodePattern = new System.Text.RegularExpressions.Regex(@"([A-Z]{1,2}\d{1,2}[A-Z]?\s*\d[A-Z]{2})", System.Text.RegularExpressions.RegexOptions.IgnoreCase);
+            var match = postcodePattern.Match(input);
+            if (match.Success)
+            {
+                return match.Value.Trim();
+            }
+
+            // Generic numeric postal code (e.g., US ZIP)
+            var zipPattern = new System.Text.RegularExpressions.Regex(@"\b\d{5}(?:-\d{4})?\b");
+            var zipMatch = zipPattern.Match(input);
+            if (zipMatch.Success)
+            {
+                return zipMatch.Value;
+            }
+
+            return null;
         }
 
         public async Task<IActionResult> OnGetGetAddress(double latitude, double longitude)

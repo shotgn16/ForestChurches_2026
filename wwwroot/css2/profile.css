@@ -19,14 +19,15 @@ img {
 }
 
 .hero-text {
-    position: absolute;
+    /* position: absolute; */
     text-align: center;
     top: 50%;
     left: 50%;
     width: 80%;
     transform: translate(-50%, -50%);
     color: var(--font-color);
-    margin-bottom: 5vw;
+    /* margin-bottom: 5vw; */
+    margin-top: 10vw;
 }
 
 @media (max-width: 1024px) { /* Adjust the breakpoint as needed */
@@ -108,3 +109,25 @@ section {
     height: fit-content;
     padding-bottom: calc(3.5rem + 1.0vw);
 }
+
+/* 1. Ensure the nav container has no bottom margin */
+/* Replace '.nav-class-name' with the actual class/ID used inside your _ManageNav partial */
+.your-nav-container-class {
+    margin-bottom: 0 !important;
+    padding-bottom: 0 !important;
+}
+
+/* 2. Remove the top margin from the section immediately following the nav */
+section {
+    margin-top: 0 !important;
+    border-top: none; /* Optional: Remove the top border if you want a seamless look */
+    /* Keep your existing border-left/right/bottom if you want to keep the box effect */
+    border: 1px solid var(--primary-color);
+    border-top: none;
+}
+
+    /* 3. Ensure no rogue margins on headers inside the section */
+    section h1 {
+        margin-top: 0;
+        padding-top: 1.5rem;
+    }

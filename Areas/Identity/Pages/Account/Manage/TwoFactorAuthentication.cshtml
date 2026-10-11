@@ -3,10 +3,9 @@
 @model TwoFactorAuthenticationModel
 @inject ForestChurches.Components.Storage.IBlobUrlService BlobUrlService;
 @{
-    ViewData["Title"] = "Two-factor authentication (2FA)";
+    ViewData["Title"] = Localizer["TITLE_TWO_FACTOR_AUTHENTICATION"];
     ViewData["ActivePage"] = ManageNavPages.TwoFactorAuthentication;
 
-    // IMGUR-1
     var defaultSrc = BlobUrlService.GetReadSasUrl("IMGUR-1.png", TimeSpan.FromDays(7));
     string src = defaultSrc;
 
@@ -23,28 +22,24 @@
     }
 }
 <head>
-    <link rel="stylesheet" integrity="sha256-iDu24JsQ/F3K/zr6Jz5Fiik0mDVpeDrlhRYmnGPVaKU=" href="~/css2/profile.css" asp-append-version="true" />
-</head>
-
-<!-- Beginning of Page header -->
-<div class="container-fluid page-hero">
-    <div class="hero-text">
-        <div>
-            <img src="@src" alt="profile picture" />
-        </div>
-        <div class="heading-text">
-            <h1>Welcome back, User!</h1>
-            <p>@Model.CurrentChurch.Name (@Model.CurrentChurch.Status)</p>
-        </div>
+    <link rel="stylesheet" href="~/css2/profile.css" asp-append-version="true" />
+</head><!-- Beginning of Page header --><div class="container-fluid page-hero">
+<div class="hero-text">
+    <div>
+        <img src="@src" alt="@Localizer["ALT_PROFILE_PICTURE"]" />
+    </div>
+    <div class="heading-text">
+        <h1>@Localizer["PROFILE_WELCOME_BACK"]</h1>
+        <p>@Model.CurrentChurch?.Name, <strong>@Model.CurrentChurch?.Status</strong></p>
     </div>
 </div>
-
-<!-- Tab Nav -->
+</div><!-- Tab Nav -->
 <partial name="_ManageNav" />
 <partial name="_StatusMessage" for="StatusMessage" />
-
+@* Bulletin notify for TwoFactorAuthentication page *@
+@await Html.PartialAsync("_BulletinNotify")
 <section class="data-section">
-    <h3>Update @ViewData["Title"]</h3>
+    <h3>@Localizer["UpdateTitle"] @ViewData["Title"]]</h3>
     @{
         var consentFeature = HttpContext.Features.Get<ITrackingConsentFeature>();
         @if (consentFeature?.CanTrack ?? true)
@@ -54,57 +49,56 @@
                 if (Model.RecoveryCodesLeft == 0)
                 {
                     <div class="alert alert-danger">
-                        <strong>You have no recovery codes left.</strong>
-                        <p>You must <a asp-page="./GenerateRecoveryCodes">generate a new set of recovery codes</a> before you can log in with a recovery code.</p>
+                        <strong>@Localizer["NO_RECOVERY_CODES_LEFT_TITLE"]</strong>
+                        <p>@Localizer["MUST_GENERATE_CODES_BEFORE"] <a asp-page="./GenerateRecoveryCodes">@Localizer["GENERATE_NEW_CODES_LINK"]</a> @Localizer["MUST_GENERATE_CODES_AFTER"]</p>
                     </div>
                 }
                 else if (Model.RecoveryCodesLeft == 1)
                 {
                     <div class="alert alert-danger">
-                        <strong>You have 1 recovery code left.</strong>
-                        <p>You can <a asp-page="./GenerateRecoveryCodes">generate a new set of recovery codes</a>.</p>
+                        <strong>@Localizer["ONE_RECOVERY_CODE_LEFT_TITLE"]</strong>
+                        <p>@Localizer["CAN_GENERATE_CODES_BEFORE"] <a asp-page="./GenerateRecoveryCodes">@Localizer["GENERATE_NEW_CODES_LINK"]</a>.</p>
                     </div>
                 }
                 else if (Model.RecoveryCodesLeft <= 3)
                 {
                     <div class="alert alert-warning">
-                        <strong>You have @Model.RecoveryCodesLeft recovery codes left.</strong>
-                        <p>You should <a asp-page="./GenerateRecoveryCodes">generate a new set of recovery codes</a>.</p>
+                        <strong>@Localizer["MULTIPLE_RECOVERY_CODES_LEFT_BEFORE"] @Model.RecoveryCodesLeft @Localizer["MULTIPLE_RECOVERY_CODES_LEFT_AFTER"]</strong>
+                        <p>@Localizer["SHOULD_GENERATE_CODES_BEFORE"] <a asp-page="./GenerateRecoveryCodes">@Localizer["GENERATE_NEW_CODES_LINK"]</a>.</p>
                     </div>
                 }
 
                 if (Model.IsMachineRemembered)
                 {
                     <form method="post" style="display: inline-block">
-                        <button type="submit" class="btn btn-success">Forget this browser</button>
+                        <button type="submit" class="btn btn-success">@Localizer["BTN_FORGET_BROWSER"]</button>
                         <!-- AntiforgeryToken -->
                         @Html.AntiForgeryToken()
                     </form>
                 }
-                <a asp-page="./Disable2fa" class="btn btn-success">Disable 2FA</a>
-                <a asp-page="./GenerateRecoveryCodes" class="btn btn-success">Reset recovery codes</a>
+                <a asp-page="./Disable2fa" class="btn btn-success">@Localizer["BTN_DISABLE_2FA"]</a>
+                <a asp-page="./GenerateRecoveryCodes" class="btn btn-success">@Localizer["BTN_RESET_RECOVERY_CODES"]</a>
             }
 
-            <h4>Authenticator app</h4>
+            <h4>@Localizer["AUTHENTICATOR_APP_HEADER"]</h4>
             @if (!Model.HasAuthenticator)
             {
-                <a id="enable-authenticator" asp-page="./EnableAuthenticator" class="btn btn-success">Add authenticator app</a>
+                <a id="enable-authenticator" asp-page="./EnableAuthenticator" class="btn btn-success">@Localizer["BTN_ADD_AUTHENTICATOR_APP"]</a>
             }
             else
             {
-                <a id="enable-authenticator" asp-page="./EnableAuthenticator" class="btn btn-success">Set up authenticator app</a>
-                <a id="reset-authenticator" asp-page="./ResetAuthenticator" class="btn btn-success">Reset authenticator app</a>
+                <a id="enable-authenticator" asp-page="./EnableAuthenticator" class="btn btn-success">@Localizer["BTN_SET_UP_AUTHENTICATOR_APP"]</a>
+                <a id="reset-authenticator" asp-page="./ResetAuthenticator" class="btn btn-success">@Localizer["BTN_RESET_AUTHENTICATOR_APP"]</a>
             }
         }
         else
         {
             <div class="alert alert-danger">
-                <strong>Privacy and cookie policy have not been accepted.</strong>
-                <p>You must accept the policy before you can enable two factor authentication.</p>
+                <strong>@Localizer["PRIVACY_POLICY_NOT_ACCEPTED_TITLE"]</strong>
+                <p>@Localizer["PRIVACY_POLICY_NOT_ACCEPTED_BODY"]</p>
             </div>
         }
-}
-
+    }
 </section>
 
 @section Scripts {

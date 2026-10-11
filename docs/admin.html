@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Admin Guide — ForestChurches</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/styles.css">
+  <script src="assets/theme.js" defer></script>
+</head>
+<body>
+  <a href="index.html">← Back</a>
+  <h1>Admin Guide</h1>
+  <p>This page summarizes the key admin functions and where to find the code that implements them.</p>
+
+  <h2>User Management</h2>
+  <ul>
+    <li>Create admin users: Admins can create users from the Admin→Users→Register page (Pages/Admin/Users/Register.cshtml.cs). Passwords are validated with high requirements (min length 12, symbol, numeric, mixed case).</li>
+    <li>Seed super admin: The repository seeds a default SuperAdmin via UsersController.SeedSuperAdminAsync (Components/Users/UsersController.cs).</li>
+    <li>Assign roles: Roles are stored encrypted; role assignment happens on registration (see RegisterModel.OnPostRegisterUser).</li>
+  </ul>
+
+  <h2>Roles & Permissions</h2>
+  <ul>
+    <li>Role definitions and logic: Components/Roles and Components/Permissions contain system roles and permission checks. Look for AppPermissions and RolesController logic.</li>
+    <li>Authorization policy example: The register page uses [Authorize(Policy = "UserManagement.Write")].</li>
+  </ul>
+
+  <h2>Church Information & Events Management</h2>
+  <ul>
+    <li>Each user has a ChurchInformation record (Models/ChurchInformation). Admin pages to edit church info are under Pages/Admin/Church.</li>
+    <li>Event CRUD pages live under Pages/Admin/Events. Events sync with ChurchSuite via the ChurchSuiteService.</li>
+  </ul>
+
+  <h2>Email & Templates</h2>
+  <ul>
+    <li>Welcome and notification emails are sent through Components/Email/*. Templates are in templates/*.html (e.g., templates/registration_complete.html).</li>
+  </ul>
+
+  <h2>Files & Code References</h2>
+  <div class="files">
+    Pages/Admin/Users/Register.cshtml.cs<br/>
+    Components/Users/UsersController.cs<br/>
+    Pages/Admin/Church/Index.cshtml.cs and Edit.cshtml.cs<br/>
+    Pages/Admin/Events/* (Create/Edit/Index)
+  </div>
+
+  <h2>Quick Admin Tasks</h2>
+  <ol>
+    <li>Create a SuperAdmin via seed (UsersController.SeedSuperAdminAsync) or use the Admin→Invite flow.</li>
+    <li>Manage roles from Admin→Roles pages.</li>
+    <li>Review ChurchSuite connections per user under Admin→Users→Edit or Identity→Manage→External Logins.</li>
+  </ol>
+
+  <footer style="margin-top:24px;color:#666;font-size:13px">Use these pages as a starting point; for full developer-level details see Developer Notes and Documentation/ files in the repository.</footer>
+</body>
+</html>

@@ -178,5 +178,8 @@ namespace ForestChurches.Areas.Identity.Data
 
             return databaseSize;
         }
+
+        // ChurchSuite Integration
+
     }
 }

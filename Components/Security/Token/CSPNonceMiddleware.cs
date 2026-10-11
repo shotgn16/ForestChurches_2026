@@ -61,7 +61,7 @@ namespace ForestChurches.Components.Security.Token
         private string BuildCSP(string scriptNonce, string styleNonce)
         {
             // 1. Script Sources
-            var scriptSrc = new List<string> { "'self'", "https://unpkg.com", "https://ka-f.fontawesome.com" };
+            var scriptSrc = new List<string> { "'self'", "https://unpkg.com", "https://ka-f.fontawesome.com", "https://kit.fontawesome.com", "https://cdnjs.cloudflare.com" };
             if (_options.AdditionalScriptSources?.Count > 0)
                 scriptSrc.AddRange(_options.AdditionalScriptSources);
 
@@ -70,32 +70,35 @@ namespace ForestChurches.Components.Security.Token
             scriptSrc.Add("'unsafe-eval'");
 
             // 2. Style Sources
-            var styleSrc = new List<string> { "'self'", "https://unpkg.com" };
+            // No nonce here - nonces prevent 'unsafe-inline' from working for inline style attributes.
+            // The source allowlist provides sufficient protection for stylesheets.
+            // Inline style attributes are allowed via 'unsafe-inline' for third-party libraries.
+            var styleSrc = new List<string> { "'self'", "https://unpkg.com", "https://ka-f.fontawesome.com", "https://cdnjs.cloudflare.com", "https://cdn.lineicons.com", "'unsafe-inline'" };
             if (_options.AdditionalStyleSources?.Count > 0)
                 styleSrc.AddRange(_options.AdditionalStyleSources);
-
-            styleSrc.Add($"'nonce-{styleNonce}'");
-            // MiniProfiler uses inline styles for the popup UI
-            styleSrc.Add("'unsafe-inline'");
 
             // 3. Image Sources
             var imgSrc = new List<string> { "'self'", "data:", "https://*.blob.core.windows.net", "https://greenblockstorageaccount.blob.core.windows.net", "https://i.imgur.com", "https://imgur.com", "https://*.tile.openstreetmap.org" };
             if (_options.AdditionalImageSources?.Count > 0)
                 imgSrc.AddRange(_options.AdditionalImageSources);
 
-            // 4. Connect Sources (Crucial for MiniProfiler AJAX calls)
+            // 4. Connect Sources (Crucial for MiniProfiler AJAX calls and Browser Link)
             var connectSrc = new List<string> {
                 "'self'",
+                "https://ka-f.fontawesome.com",
                 "ws:",
                 "wss:",
-                "http://localhost:52559",
-                "http://127.0.0.1:52559",
-                "http://localhost:52671",
+                "http://localhost:*",
+                "http://127.0.0.1:*",
+                "https://localhost:*",
                 "https://localhost:7196"
             };
-            
+
             if (_options.AllowedScriptUrls?.Count > 0)
                 connectSrc.AddRange(_options.AllowedScriptUrls);
+
+            // 5. Form Action Sources - Allow same-origin and external OAuth providers
+            var formActionSrc = new List<string> { "'self'", "https://login.churchsuite.com" };
 
             // Build the string
             var sb = new StringBuilder();
@@ -104,8 +107,8 @@ namespace ForestChurches.Components.Security.Token
             sb.Append("style-src ").Append(string.Join(' ', styleSrc)).Append("; ");
             sb.Append("img-src ").Append(string.Join(' ', imgSrc)).Append("; ");
             sb.Append("connect-src ").Append(string.Join(' ', connectSrc)).Append("; ");
-            sb.Append("object-src 'none'; base-uri 'self'; form-action 'self'; ");
-            sb.Append("font-src 'self' https://ka-f.fontawesome.com; ");
+            sb.Append("object-src 'none'; base-uri 'self'; form-action ").Append(string.Join(' ', formActionSrc)).Append("; ");
+            sb.Append("font-src 'self' https://ka-f.fontawesome.com https://cdnjs.cloudflare.com https://cdn.lineicons.com; ");
 
             return sb.ToString();
         }

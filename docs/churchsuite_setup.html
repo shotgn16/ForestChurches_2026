@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>ChurchSuite Integration — Setup & Troubleshooting</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/styles.css">
+  <script src="assets/theme.js" defer></script>
+</head>
+<body>
+  <a href="index.html">← Back</a>
+  <h1>ChurchSuite Integration (PKCE) — Setup</h1>
+  <p>This project implements ChurchSuite OAuth using PKCE (public-client flow). Follow these steps to configure and test.</p>
+
+  <h2>1) Register an App in ChurchSuite</h2>
+  <ol>
+    <li>In the ChurchSuite developer console create a new OAuth app. Choose a public / PKCE-compatible client if the platform supports it.</li>
+    <li>Set the Redirect URI to: <code>https://YOUR_HOST/ChurchSuite/Callback</code> (replace YOUR_HOST with your domain or localhost:5001 when testing).</li>
+    <li>Do NOT rely on a static client secret; PKCE allows public clients.</li>
+  </ol>
+
+  <h2>2) Assign ClientId to a User</h2>
+  <ol>
+    <li>The app expects a ClientId per user. You can set this in the UI: Identity → Manage → External Logins (or seed in DB for testing).</li>
+    <li>For system-level clients you may add a ClientId into configuration, but the implemented flow prefers per-user ClientId stored on ChurchAccount.ClientId and persisted into ChurchSuiteCredential.ClientId.</li>
+  </ol>
+
+  <h2>3) Authorize Flow (what the app does)</h2>
+  <div class="code">
+    1. App generates code_verifier and code_challenge (S256).
+    2. App stores TempCodeVerifier in ChurchSuiteCredentials row for the user.
+    3. Redirect to https://login.churchsuite.com/oauth2/authorize?response_type=code&client_id=...&code_challenge=...&code_challenge_method=S256&scope=openid profile email api
+    4. User logs in at ChurchSuite and approves access.
+    5. ChurchSuite redirects to /ChurchSuite/Callback?code=...&state=...
+    6. Callback exchanges code using form fields: grant_type=authorization_code, code_verifier, client_id, redirect_uri → receives access_token + refresh_token.
+    7. App stores tokens via token service and marks credential IsActive.
+  </div>
+
+  <h2>4) Debugging & Troubleshooting</h2>
+  <ul>
+    <li>Redirect URI mismatch: ensure exact match including protocol and path. The code exchange expects the redirect URI set to <code>/ChurchSuite/Callback</code>.</li>
+    <li>Missing ClientId: Authorize page will reject if the user's ClientId is blank — set it via Manage → External Logins or update DB.</li>
+    <li>PKCE verifier missing: the app saves a TempCodeVerifier in DB and may also use session state. If session is lost, callback attempts to recover from DB.</li>
+    <li>Token exchange errors: check server logs (Callback.cshtml.cs logs provider error and response body). Look for provider error in TempData["ChurchSuiteAuthError"].</li>
+  </ul>
+
+  <h2>5) Where Tokens are Stored</h2>
+  <p>Tokens are stored in the ChurchSuiteCredentials table and managed by the token service (Components/Http/ChurchSuiteTokenService and Components/Http/ChurchSuiteService). The centralized token service handles automatic refresh logic when the app needs to call ChurchSuite APIs.</p>
+
+  <h2>6) Typical Files to Review</h2>
+  <div class="code">Pages/ChurchSuite/Authorize.cshtml.cs<br/>Pages/ChurchSuite/Callback.cshtml.cs<br/>Components/Http/ChurchSuiteService.cs<br/>Components/Http/ChurchSuiteTokenService.cs<br/>Models/ChurchSuiteCredential.cs</div>
+
+  <footer style="margin-top:24px;color:#666;font-size:13px">For detailed developer-level OAuth notes see Documentation/CHURCHSUITE_PKCE_IMPLEMENTATION.md and related files.</footer>
+</body>
+</html>

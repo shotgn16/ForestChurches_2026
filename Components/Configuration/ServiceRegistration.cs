@@ -1,27 +1,26 @@
-﻿using ForestChurches.Components.AutoEvents;
+﻿using ForestChurches.Areas.Identity.Data;
+using ForestChurches.Components.AutoEvents;
 using ForestChurches.Components.Email;
 using ForestChurches.Components.FileManager;
-using ForestChurches.Components.Http.Google;
 using ForestChurches.Components.Http;
+using ForestChurches.Components.Http.Google;
 using ForestChurches.Components.ImageHandler;
+using ForestChurches.Components.Logging;
 using ForestChurches.Components.LogReader;
+using ForestChurches.Components.Performance;
 using ForestChurches.Components.Permissions.Logic;
 using ForestChurches.Components.Roles.logic;
+using ForestChurches.Components.Security;
+using ForestChurches.Components.Token;
 using ForestChurches.Components.UserRegistration;
 using ForestChurches.Components.Users;
-using MailKit.Net.Smtp;
-using Microsoft.AspNetCore.Authorization;
-using ForestChurches.Components.Logging;
-using ForestChurches.Components.Token;
-using ForestChurches.Areas.Identity.Data;
-using ForestChurches.Components.Performance;
-using ForestChurches.Services;
 using ForestChurches.Data;
 using ForestChurches.Models;
-using System.Text.Encodings.Web;
-using ForestChurches.Components.Security;
+using ForestChurches.Services;
+using MailKit.Net.Smtp;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.DataProtection;
-using ForestChurches.Components.Security.Token;
+using System.Text.Encodings.Web;
 
 namespace ForestChurches.Components.Configuration
 {
@@ -29,11 +28,15 @@ namespace ForestChurches.Components.Configuration
     {
         public static void RegisterServices(IServiceCollection Services)
         {
-            // Registeration of application...
+            // Registration of application...
             Services.AddHttpClient();
             Services.AddSingleton<ILogger, ClassLogger>();
             Services.AddScoped<LogRetriver>();
+            Services.AddSingleton<ForestChurches.Components.Logging.SseManager>();
+            Services.AddSignalR();
             Services.AddTransient<AppSeeder>();
+            // Background service to watch DB for new logs and broadcast via SignalR
+            Services.AddHostedService<ForestChurches.Components.Logging.LogWatcherService>();
             Services.AddSingleton<UniqueCode>();
             Services.AddSingleton<Encoder>(provider =>
             {
@@ -64,7 +67,7 @@ namespace ForestChurches.Components.Configuration
             Services.AddTransient<IDatabaseService, DatabaseService>();
             Services.AddScoped<JwtTokenGenerator>();
 
-            // Authoization service registration
+            // Authorization service registration
             Services.AddTransient<IAuthorizationHandler, PermissionAuthorizationHandler>();
 
             // service used for verifying postcode input
@@ -78,11 +81,30 @@ namespace ForestChurches.Components.Configuration
             // Http service registration (for handling api requests)
             Services.AddTransient<IHttpWrapper, HttpWrapper>();
             Services.AddTransient<IHttpMethods, Http.HttpMethods>();
+            Services.AddHttpClient<IChurchSuiteService, ChurchSuiteService>();
+            Services.AddScoped<Pages.ChurchSuite.CallbackModel>();
+            Services.AddHttpClient<IChurchSuiteEventSyncService, ChurchSuiteEventSyncService>();
+
+            // Ensure blob storage service is available for event image uploads
+            Services.AddSingleton<ForestChurches.Components.Storage.IBlobStorageService>(sp =>
+            {
+                var config = sp.GetRequiredService<Microsoft.Extensions.Configuration.IConfiguration>();
+                var conn = config["BlobStorage:ConnectionString"] ?? string.Empty;
+                var container = config["BlobStorage:Container"] ?? "images";
+                return new ForestChurches.Components.Storage.BlobStorageService(conn, container);
+            });
+
+            // ChurchSuite OAuth token and authentication services
+            Services.AddHttpClient<IChurchSuiteTokenService, ChurchSuiteTokenService>();
+            Services.AddScoped<IChurchSuiteAuthenticationService, ChurchSuiteAuthenticationService>();
 
             Services.AddSingleton<IProcessUsageService, ProcessUsageService>();
 
             // Google api service registration
             Services.AddScoped<GoogleInterface, GoogleController>();
+
+            // Bulletin service
+            Services.AddScoped<ForestChurches.Components.Bulletins.IBulletinService, ForestChurches.Components.Bulletins.BulletinService>();
 
             // Image controller, used for converting images to Binary64 & back
             Services.AddTransient<ImageInterface, ImageController>();

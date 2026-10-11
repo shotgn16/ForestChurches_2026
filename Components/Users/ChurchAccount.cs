@@ -26,5 +26,9 @@ public class ChurchAccount : IdentityUser<string>
     [AllowNull]
     [PersonalData]
     public string Role { get; set; }
+
+    [AllowNull]
+    [PersonalData]
+    public string? ClientId { get; set; }
 }
 

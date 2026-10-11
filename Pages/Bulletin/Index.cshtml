@@ -1,0 +1,127 @@
+@page
+@model ForestChurches.Pages.PublicBulletin.IndexModel
+@{
+    // Prefer the active bulletin (admin-controlled). Fall back to the latest bulletin if none is active.
+    var b = Model.ActiveBulletin ?? Model.LatestBulletin;
+}
+
+@{
+    Layout = "_Layout";
+}
+
+<link href="~/css2/Bulletin.css" rel="stylesheet" asp-append-version="true" />
+
+<div class="container-fluid page-hero">
+    <div class="hero-text">
+        <h1>@(b?.Title ?? "Weekly Pew Sheet & Benefice Bulletin")</h1>
+        <p>@((b?.ParishName) ?? "Forest of Dean Benefice") • @(b?.SundayName ?? "")</p>
+    </div>
+</div>
+
+@await Html.PartialAsync("_BulletinNotify")
+
+<div class="container marketing">
+    <div class="row">
+        <div class="col-lg-12 mb-3">
+            <div class="lead-meta">
+                <strong>📅</strong> @(b?.BulletinDate != null ? b.BulletinDate.ToString("yyyy-MM-dd") : "")
+                <div class="mt-2">
+                    @if (!string.IsNullOrWhiteSpace(b?.PdfFilename))
+                    {
+                        <a href="/uploads/bulletins/@(b.PdfFilename)" class="btn btn-light btn-sm" target="_blank">📥 Download PDF Pew Sheet</a>
+                    }
+                    <button onclick="window.print()" class="btn btn-light btn-sm">🖨️ Print Pew Sheet</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-8">
+            @if (string.Equals(b?.Type, "Announcement", StringComparison.OrdinalIgnoreCase) || string.Equals(b?.Type, "Message", StringComparison.OrdinalIgnoreCase))
+            {
+                <div class="b-card">
+                    <h2 class="mb-3">@Html.Raw(System.Net.WebUtility.HtmlEncode(b?.Title ?? "Announcement"))</h2>
+                    <div class="mb-3">@Html.Raw(System.Net.WebUtility.HtmlEncode(b?.PastoralNote ?? "").Replace("\n", "<br/>"))</div>
+                    @if (!string.IsNullOrWhiteSpace(b?.NoticesList))
+                    {
+                        <hr />
+                        <h4>Details</h4>
+                        <ul>
+                        @{ 
+                            var announcementNotices = new List<string>();
+                            try { announcementNotices = System.Text.Json.JsonSerializer.Deserialize<List<string>>(b.NoticesList) ?? b.NoticesList.Split('\n').Select(s => s.Trim()).Where(s => s.Length > 0).ToList(); }
+                            catch { announcementNotices = b.NoticesList.Split('\n').Select(s => s.Trim()).Where(s => s.Length > 0).ToList(); }
+                            foreach (var notice in announcementNotices) { <li>@notice</li>; }
+                        }
+                        </ul>
+                    }
+                </div>
+            }
+            else
+            {
+                <div class="b-card">
+                    <h2>The Collect of the Day</h2>
+                    <p style="font-style: italic; line-height: 1.6; color: #333;">@Html.Raw(System.Net.WebUtility.HtmlEncode(b?.CollectPrayer ?? ""))</p>
+
+                    <h3 class="mt-4">Lectionary Readings</h3>
+                    <div class="mb-2">
+                        <span class="reading-badge">First Reading</span><br />
+                        <strong>@(b?.FirstReading ?? "")</strong>
+                    </div>
+                    <div>
+                        <span class="reading-badge">Holy Gospel</span><br />
+                        <strong>@(b?.GospelReading ?? "")</strong>
+                    </div>
+                </div>
+            }
+        </div>
+
+        <div class="col-md-4">
+            <div class="b-card">
+                <h3>Hymns & Worship</h3>
+                <ol class="mb-0">
+                @{
+                    var hymns = new List<string>();
+                    if (!string.IsNullOrWhiteSpace(b?.HymnsList))
+                    {
+                        try { hymns = System.Text.Json.JsonSerializer.Deserialize<List<string>>(b.HymnsList) ?? b.HymnsList.Split('\n').Select(s => s.Trim()).Where(s => s.Length > 0).ToList(); }
+                        catch { hymns = b.HymnsList.Split('\n').Select(s => s.Trim()).Where(s => s.Length > 0).ToList(); }
+                    }
+                    foreach (var hymn in hymns)
+                    {
+                        <li>@hymn</li>
+                    }
+                }
+                </ol>
+            </div>
+
+            <div class="b-card mt-3">
+                <h3>Pastoral Note</h3>
+                <p class="mb-0">@Html.Raw(System.Net.WebUtility.HtmlEncode(b?.PastoralNote ?? "").Replace("\n", "<br/>"))</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-3">
+        <div class="col-12">
+            <div class="b-card">
+                <h3>Benefice Notices & Diary</h3>
+                <ul class="notices-list mb-0">
+                @{
+                    var beneficeNotices = new List<string>();
+                    if (!string.IsNullOrWhiteSpace(b?.NoticesList))
+                    {
+                        try { beneficeNotices = System.Text.Json.JsonSerializer.Deserialize<List<string>>(b.NoticesList) ?? b.NoticesList.Split('\n').Select(s => s.Trim()).Where(s => s.Length > 0).ToList(); }
+                        catch { beneficeNotices = b.NoticesList.Split('\n').Select(s => s.Trim()).Where(s => s.Length > 0).ToList(); }
+                    }
+                    foreach (var notice in beneficeNotices)
+                    {
+                        <li>@notice</li>
+                    }
+                }
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

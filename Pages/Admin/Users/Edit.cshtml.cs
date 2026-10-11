@@ -69,7 +69,8 @@ namespace ForestChurches.Pages.Admin.Users
                 {
                     Email = CurrentUser.Email,
                     Phone = CurrentUser.PhoneNumber ?? string.Empty,
-                    Roles = userRoles.ToList()
+                    Roles = userRoles.ToList(),
+                    IsActive = CurrentUser.EmailConfirmed
                 };
 
                 Roles = await _roleManager.Roles.ToListAsync();
@@ -103,6 +104,29 @@ namespace ForestChurches.Pages.Admin.Users
                     var unprotectedRoles = Input.Roles.Select(role => _Encoder.Unprotect<string>(role, "fc.data.admin.users")).ToList();
                     await _userManager.AddToRolesAsync(user, unprotectedRoles);
                     user.Role = string.Join(", ", unprotectedRoles);
+
+                    // If roles were assigned, mark the account as confirmed so the user is registered/confirmed immediately.
+                    try
+                    {
+                        if (unprotectedRoles.Any())
+                        {
+                            // Some versions of Identity may not expose SetEmailConfirmedAsync; set the flag and update the user instead.
+                            user.EmailConfirmed = true;
+                            var updateResult = await _userManager.UpdateAsync(user).ConfigureAwait(true);
+                            if (updateResult.Succeeded)
+                            {
+                                _logger.LogInformation("Marked user {UserId} email as confirmed because roles were assigned.", user.Id);
+                            }
+                            else
+                            {
+                                _logger.LogWarning("Failed to update user {UserId} after setting EmailConfirmed: {Errors}", user.Id, string.Join("; ", updateResult.Errors.Select(e => e.Description)));
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        _logger.LogWarning(ex, "Exception while setting EmailConfirmed for user {UserId}", user.Id);
+                    }
                 }
 
                 user.Email = Input.Email ?? string.Empty;

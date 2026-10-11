@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Developer Notes — ForestChurches</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/styles.css">
+  <script src="assets/theme.js" defer></script>
+</head>
+<body>
+  <a href="index.html">← Back</a>
+  <h1>Developer Notes</h1>
+  <p class="lead">Quick reference for core components and where to look when extending or debugging the application.</p>
+
+  <h2>Authentication & Identity</h2>
+  <div class="files">Areas/Identity (Identity UI pages)<br/>Program.cs / ServiceRegistration.cs</div>
+
+  <h2>Users & Roles</h2>
+  <div class="files">Components/Users/UsersController.cs<br/>Components/Roles/logic/RolesController.cs<br/>Pages/Admin/Users/Register.cshtml.cs</div>
+
+  <h2>ChurchSuite Integration (HTTP clients & tokens)</h2>
+  <div class="files">Components/Http/ChurchSuiteService.cs<br/>Components/Http/ChurchSuiteTokenService.cs<br/>Controllers/ChurchsuiteController.cs</div>
+
+  <h2>Storage & Images</h2>
+  <div class="files">Components/Storage/* (blob url service, image helpers)<br/>Components/ImageHandler</div>
+
+  <h2>Background & Sync</h2>
+  <div class="files">Components/Hangfire (jobs), Tools/ImageMigrationHostedService.cs</div>
+
+  <h2>Where to look for logs/diagnostics</h2>
+  <ul>
+    <li>Server logs: use ClassLogger and Logging components under Components/Logging.</li>
+    <li>ChurchSuite diagnostics: ChurchSuiteService logs responses and writes diagnostic snippets when parsing events.</li>
+  </ul>
+
+  <h2>Database & Migrations</h2>
+  <div class="files">Migrations/ (EF Core migrations) — review migration files for schema changes.</div>
+
+  <h2>Testing & Documentation</h2>
+  <p>There is a Documentation/ folder containing 20+ markdown files including quick start, testing guides, and OAuth implementation details. Use these for deeper reference.</p>
+
+  <footer style="margin-top:24px;color:#666;font-size:13px">If you add new features, update these docs and add an entry to Documentation/ and docs/ as appropriate.</footer>
+</body>
+</html>

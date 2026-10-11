@@ -10,6 +10,14 @@
         width: 100%;
     }
 
+    /* Prevent the ChurchSuite logo from inheriting the global img rule */
+    .churchsuite-img {
+        all: unset;
+        display: inline-block;
+        height: 52px;
+        width: auto;
+    }
+
     #eventLink {
         word-wrap: anywhere;
     }
@@ -24,7 +32,7 @@
         <form id="createUserForm" method="get" asp-page="/Admin/Events/Create">
             <!-- AntiforgeryToken -->
             @Html.AntiForgeryToken()
-
+            <!-- Add Seperator Line -->
             <div class="input-group mb-3">
                 <input id="nameInput" type="text" class="form-control" placeholder="Event Name" name="eventName" required>
                 <div class="input-group-append">
@@ -61,11 +69,11 @@
                                 <td>@ChurchEvent.Name</td>
                                 <td>@ChurchEvent.Description</td>
                                 <td>@ChurchEvent.Address</td>
-                                <td>@_Encoder.HtmlEncode(ChurchEvent.Date)</td>
-                                <td>@_Encoder.HtmlEncode(ChurchEvent.StartTime) - @_Encoder.HtmlEncode(ChurchEvent.EndTime)</td>
-                                <td>@_Encoder.HtmlEncode(ChurchEvent.Repeats)</td>
-                                <td>@_Encoder.HtmlEncode(ChurchEvent.Church)</td>
-                                <td>@_Encoder.HtmlEncode(ChurchEvent.User)</td>
+                                <td>@ChurchEvent.Date</td>
+                                <td>@ChurchEvent.StartTime - @ChurchEvent.EndTime</td>
+                                <td>@ChurchEvent.Repeats</td>
+                                <td>@ChurchEvent.Church</td>
+                                <td>@ChurchEvent.User</td>
                                 <td id="eventLink" class="textarea"><a href="@ChurchEvent.Link ?? string.empty">@ChurchEvent.Link</a></td>
                                 <td>
                                     <form method="post">
@@ -107,3 +115,6 @@
 @section Scripts {
     <script src="~/js/confirmAction.js" integrity="sha256-13abFd38m2wExaGaZ4Rbp/RfbBi3xlkvuyUIkSavT/4="></script>
 }
+
+@* Bulletin notify for admin events page *@
+@await Html.PartialAsync("_BulletinNotify")

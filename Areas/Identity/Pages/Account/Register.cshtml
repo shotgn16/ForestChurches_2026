@@ -2,52 +2,95 @@
 @model RegisterModel
 @inject ForestChurches.Components.Security.Encoder Encoder
 @{
+    ViewData["Title"] = "Register";
 }
 <head>
-    <link rel="stylesheet" integrity="sha256-v/gnDYMzqHfIBds03Wr6xIhKovocestN7wL1IPh9JAQ=" href="~/css2/Register.css" />
+    <link rel="stylesheet" href="~/css2/Login.css" asp-append-version="true" />
 </head>
 
-<div class="container">
-    <div class="Register form">
-        <header>
-            <img class="mb-4" src="~/img/logo.png" alt="" width="300" height="200">
-        </header>
-        <partial name="_StatusMessage" model="Model.StatusMessage" />
-        @if (Model.isTokenValid)
-        {
-            <form id="register-form" enctype="multipart/form-data" asp-route-returnUrl="@Encoder.HtmlEncode(Model.ReturnUrl ?? "/")" method="post">
-                <!-- AntiforgeryToken -->
-                @Html.AntiForgeryToken()
+<style nonce="@HttpContextAccessor.HttpContext?.Items["CSP-Style-Nonce"]">
+    .mb-3, .h3, h3 { color: white; }
+    footer { position: fixed; }
+    #churchsuite-button {
+        background-color: #24264F;
+        border-color: #24264F;
+        color: white;
+        transition: background-color 0.2s, border-color 0.2s;
+    }
+    #churchsuite-button:hover {
+        background-color: #1a1835;
+        border-color: #1a1835;
+    }
+    #churchsuite-button:focus {
+        background-color: #24264F;
+        border-color: #24264F;
+        box-shadow: 0 0 0 0.2rem rgba(36, 38, 79, 0.25);
+    }
 
-                <!-- Email [Pre-filled] -->
-                <span asp-validation-for="Input.Email" class="text-danger"></span>
-                <input type="text" asp-for="Input.Email" placeholder="Enter your email" required readonly>
+    .form-signin {
+        padding: 0px;
+        margin-top: 0;
+    }
+</style>
 
-                <!-- Password -->
-                <span asp-validation-for="Input.Password" class="text-danger"></span>
-                <input type="password" asp-for="Input.Password" placeholder="Create a password" required>
+<body class="container-fluid text-center">
+    @{
+        var error = TempData["ErrorMessage"] as string ?? ViewData["ErrorMessage"] as string ?? Request.Query["error"].FirstOrDefault();
+    }
+    @if (!string.IsNullOrEmpty(error))
+    {
+        <div class="alert alert-warning" role="alert">@error</div>
+    }
 
-                <!-- Password twice -->
-                <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
-                <input type="password" asp-for="Input.ConfirmPassword" placeholder="Confirm your password" required>
+    <partial name="_StatusMessage" model="Model.StatusMessage" />
 
-                <div class="form-container">
-                    <div class="half-width custom-file">
-                        <label id="fancy-upload-button" for="upload-btn">Choose Profile Picture (Click Me)</label>
-                        <input asp-for="Input.Image" id="upload-btn" type="file" class="custom-file-input" accept="image/png, image/jpeg" hidden>
-                    </div>
-                    <button id="registerSubmit" type="submit" class="half-width w-100 btn btn-lg btn-success">Sign Up</button>
+    @if (Model.isTokenValid)
+    {
+        <img class="mb-4" src="~/img/logo.png" alt="" width="300" height="200">
+        <h1 class="h3 mb-3 font-weight-normal">Create your account</h1>
+
+        <p style="margin-bottom:1.5rem; font-size:0.875rem; color:rgba(255,255,255,0.8); text-align:center;">Register with email:</p>
+
+        <!-- Main registration form -->
+        <form id="register-form" method="post" enctype="multipart/form-data" class="form-signin" asp-route-returnUrl="@Encoder.HtmlEncode(Model.ReturnUrl ?? "/")">
+            @Html.AntiForgeryToken()
+
+            <div asp-validation-summary="All" class="text-danger"></div>
+
+            <!-- Email (Pre-filled, readonly) -->
+            <label asp-for="Input.Email" class="sr-only">Email address</label>
+            <input asp-for="Input.Email" type="email" autocomplete="on" class="form-control" placeholder="Email address" required readonly />
+            <span asp-validation-for="Input.Email" class="text-danger"></span>
+
+
+            <!-- Password -->
+            <label asp-for="Input.Password" class="sr-only">Password</label>
+            <input asp-for="Input.Password" type="password" autocomplete="new-password" class="form-control" placeholder="Create a password (min 12 chars, include a non-alphanumeric character)" required />
+            <span asp-validation-for="Input.Password" class="text-danger"></span>
+
+            <!-- Confirm Password -->
+            <label asp-for="Input.ConfirmPassword" class="sr-only">Confirm password</label>
+            <input asp-for="Input.ConfirmPassword" type="password" autocomplete="new-password" class="form-control" placeholder="Confirm your password" required />
+            <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+
+            <div class="form-container">
+                <div class="half-width custom-file">
+                    <label id="fancy-upload-button" for="upload-btn">Choose Profile Picture (Click Me)</label>
+                    <input asp-for="Input.Image" id="upload-btn" type="file" class="custom-file-input" accept="image/png, image/jpeg" hidden />
                 </div>
-            </form>
-        }
-        else
-        {
-            <div class="alert alert-danger">
-                <p>This link is no longer valid!</p>
+                <button id="registerSubmit" type="submit" class="half-width w-100 btn btn-lg btn-success">Sign Up</button>
             </div>
-        }
-    </div>
-</div>
+        </form>
+    }
+    else
+    {
+        <img class="mb-4" src="~/img/logo.png" alt="" width="300" height="200">
+        <h1 class="h3 mb-3 font-weight-normal">Create your account</h1>
+        <div class="alert alert-danger">
+            <p>This link is no longer valid!</p>
+        </div>
+    }
+</body>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />

@@ -3,11 +3,13 @@
 #nullable disable
 
 using ForestChurches.Components.Users;
+using ForestChurches.Data;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Primitives;
+using Microsoft.EntityFrameworkCore;
 
 namespace ForestChurches.Areas.Identity.Pages.Account.Manage
 {
@@ -17,19 +19,29 @@ namespace ForestChurches.Areas.Identity.Pages.Account.Manage
         private readonly SignInManager<ChurchAccount> _signInManager;
         private readonly ForestChurches.Components.Security.Encoder _Encoder;
         private readonly IUserStore<ChurchAccount> _userStore;
+        private readonly ForestChurchesContext _context;
 
         public ExternalLoginsModel(
             UserManager<ChurchAccount> userManager,
             SignInManager<ChurchAccount> signInManager,
             IUserStore<ChurchAccount> userStore, 
-            ForestChurches.Components.Security.Encoder Encoder)
+            ForestChurches.Components.Security.Encoder Encoder,
+            ForestChurchesContext context)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _userStore = userStore;
             _Encoder = Encoder;
+            _context = context;
         }
 
+        [TempData]
+        internal Models.ChurchInformation CurrentChurch { get; set; }
+        /// <summary>
+        ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
+        ///     directly from your code. This API may change or be removed in future releases.
+        /// </summary>
+        internal ChurchAccount Currentuser { get; set; }
         /// <summary>
         ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
         ///     directly from your code. This API may change or be removed in future releases.
@@ -48,6 +60,12 @@ namespace ForestChurches.Areas.Identity.Pages.Account.Manage
         /// </summary>
         public bool ShowRemoveButton { get; set; }
 
+        // Indicates whether the current user has active ChurchSuite OAuth credentials
+        public bool HasChurchSuiteCredentials { get; set; }
+
+        // Human readable status about ChurchSuite link for UI
+        public string ChurchSuiteStatusMessage { get; set; }
+
         /// <summary>
         ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
         ///     directly from your code. This API may change or be removed in future releases.
@@ -57,12 +75,18 @@ namespace ForestChurches.Areas.Identity.Pages.Account.Manage
 
         public async Task<IActionResult> OnGetAsync()
         {
+            // Get current Church & User
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
             {
                 return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
             }
 
+            // Assign logged-in user to 'currentUser' variable && load the header text
+            Currentuser = user;
+            CurrentChurch = _context.ChurchInformation.Where(ci => ci.ChurchAccountId == user.Id).FirstOrDefault();
+
+            // Default actions
             CurrentLogins = await _userManager.GetLoginsAsync(user);
             OtherLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync())
                 .Where(auth => CurrentLogins.All(ul => auth.Name != ul.LoginProvider))
@@ -75,6 +99,16 @@ namespace ForestChurches.Areas.Identity.Pages.Account.Manage
             }
 
             ShowRemoveButton = passwordHash != null || CurrentLogins.Count > 1;
+
+            // Check existing ChurchSuite credentials for this user
+            var cred = await _context.ChurchSuiteCredentials.FirstOrDefaultAsync(c => c.UserId == user.Id && c.IsActive);
+            HasChurchSuiteCredentials = cred != null && !string.IsNullOrEmpty(cred.AccessToken);
+            ChurchSuiteStatusMessage = HasChurchSuiteCredentials ? "Connected to ChurchSuite" : "Not connected to ChurchSuite";
+
+            // Provide current user data for view rendering
+            Currentuser = user;
+            CurrentChurch = _context.ChurchInformation.Where(ci => ci.ChurchAccountId == user.Id).FirstOrDefault();
+
             return Page();
         }
 
@@ -161,6 +195,35 @@ namespace ForestChurches.Areas.Identity.Pages.Account.Manage
 
             StatusMessage = "The external login was added.";
             return RedirectToPage();
+        }
+
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> OnPostSetClientIdAsync(string clientId)
+        {
+            if (string.IsNullOrWhiteSpace(clientId))
+            {
+                ModelState.AddModelError("clientId", "Client ID is required.");
+                return Page();
+            }
+
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+            }
+
+            // Save clientId to user record
+            user.ClientId = clientId.Trim();
+            var result = await _userManager.UpdateAsync(user);
+            if (!result.Succeeded)
+            {
+                StatusMessage = "Error: Unable to save Client ID.";
+                return RedirectToPage();
+            }
+
+            // Initiate per-user PKCE authorize redirect
+            var authorizeUrl = $"/churchsuite/authorize?user_id={Uri.EscapeDataString(user.Id)}&redirect_uri={Uri.EscapeDataString(Url.Page("~/"))}";
+            return Redirect(authorizeUrl);
         }
     }
 }

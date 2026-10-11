@@ -9,7 +9,7 @@
     var defaultSrc = BlobUrlService.GetReadSasUrl("IMGUR-1.png", TimeSpan.FromDays(7));
 }
 <head>
-    <link href="~/css2/Page-header.css" integrity="sha256-Rtz0HIcRj9MQNF8G3xzx3+XNkldfHcYBgrvQhm9r6qY=" rel="stylesheet" />
+    <link href="~/css2/Page-header.css" rel="stylesheet" />
     <link href="~/css2/Church.css" integrity="sha256-W6G/2dOuJ/l5MThH2C+Af4olyq0PB+F4cq3Zn/SipAQ=" rel="stylesheet" />
     <!-- <link href="~/css2/Church.css" integrity="sha256-vOw+N7AX1jr9hKhUOnkxSuoEKfFhB8Pxg8DmCcbqCqg=" rel="stylesheet" /> -->
     <link href="~/css2/Declarations.css" integrity="sha256-b2v7B06n4c09zv1eqxFMGfVBCtakRqbLuoyHdAurYlI=" rel="stylesheet" />
@@ -32,12 +32,14 @@
         height: 150px;
         width: 100vh;
     }
+
     img {
         max-width: clamp(8rem, 8vw, 35rem);
         border-radius: 10%;
         max-height: 50%;
         padding-top: calc(3.0rem + 1.0vw);
     }
+
     main {
         background-color: #00AD6A;
     }
@@ -47,15 +49,15 @@
 <div class="container-fluid page-hero">
     <div class="hero-text">
         <div>
-            <img image-sas="@(Model.AssociatedUser?.ImageBlobName ?? string.Empty)" src="@defaultSrc" expires-minutes="60" alt="profile picture" />
+            <img image-sas="@(Model.AssociatedUser?.ImageBlobName ?? string.Empty)" src="@defaultSrc" expires-minutes="60" alt="@Localizer["ALT_PROFILE_PICTURE"]" />
         </div>
         <div class="heading-text">
             <h1>@Model.ChurchInformation?.Name</h1>
             <p>@Model.ChurchInformation?.Address</p>
         </div>
         <div class="tag-holder">
-            <div class="tag"><strong>Denomination</strong> @Model.ChurchInformation?.Denomination</div>
-            <div class="tag"><strong>Congregation</strong> @Model.ChurchInformation?.Congregation</div>
+            <div class="tag"><strong>@Localizer["LABEL_DENOMINATION"]</strong> @Model.ChurchInformation?.Denomination</div>
+            <div class="tag"><strong>@Localizer["CONGREGATION_SIZE_LABEL"]</strong> @Model.ChurchInformation?.Congregation</div>
         </div>
     </div>
 </div>
@@ -64,35 +66,35 @@
     <main class="card-container">
         <!-- General Church Information-->
         <section class="card half-width">
-            <h2>General Information</h2>
-            <p><strong>Name: </strong>@Model.ChurchInformation?.Name</p>
-            <p><strong>Description: </strong>@Model.ChurchInformation?.Description</p>
-            <p><strong>Website: </strong><a href="@Model.ChurchInformation?.Website">@Model.ChurchInformation?.Website</a></p>
-            <p><strong>Address: </strong>@Model?.ChurchInformation?.Address</p>
+            <h2>@Localizer["CHURCH_GENERAL_INFO_TITLE"]</h2>
+            <p><strong>@Localizer["CHURCH_NAME_LABEL"] </strong>@Model.ChurchInformation?.Name</p>
+            <p><strong>@Localizer["CHURCH_DESCRIPTION_LABEL"] </strong>@Model.ChurchInformation?.Description</p>
+            <p><strong>@Localizer["CHURCH_WEBSITE_LABEL"] </strong><a href="@Model.ChurchInformation?.Website">@Model.ChurchInformation?.Website</a></p>
+            <p><strong>@Localizer["CHURCH_ADDRESS_LABEL"] </strong>@Model?.ChurchInformation?.Address</p>
 
-            <h2>Facilities</h2>
+            <h2>@Localizer["CHURCH_FACILITIES_TITLE"]</h2>
             <ul>
-                <li><p><strong>Refreshments</strong> @(Model.ChurchInformation?.Refreshments == true ? "Available" : "Not available")</p></li>
-                <li><p><strong>Restrooms</strong> @(Model.ChurchInformation?.Restrooms == true ? "Available" : "Not available")</p></li>
-                <li><p><strong>WiFi</strong> @(Model.ChurchInformation?.Wifi == true ? "Available" : "Not available")</p></li>
-                <li><p><strong>Parking</strong> @(Model.ChurchInformation?.Parking == true ? "Available" : "Not available")</p></li>
-                <li><p><strong>Wheelchair</strong> @(Model.ChurchInformation?.WheelchairAccess == true ? "Available" : "Not available")</p></li>
-                <li><p><strong>Community Space</strong> @(Model.ChurchInformation?.MeetingHall == true ? "Available" : "Not available")</p></li>
-                <li><p><strong>Kitchen</strong> @(Model.ChurchInformation?.Kitchen == true ? "Available" : "Not available")</p></li>
-                <li><p><strong>Hearing Aid Support</strong> @(Model.ChurchInformation?.HearingAidSupport == true ? "Available" : "Not available")</p></li>
-                <li><p><strong>Outdoor Space</strong> @(Model.ChurchInformation?.OutdoorSpaces == true ? "Available" : "Not available")</p></li>
-                <li><p><strong>Church Building</strong> @(Model.ChurchInformation?.WorshipHall == true ? "Available" : "Not available")</p></li>
-                <li><p><strong>Childrens Provision</strong> @(Model.ChurchInformation?.Childcare == true ? "Available" : "Not available")</p></li>
+                <li><p><strong>@Localizer["CHURCH_REFRESHMENTS_LABEL"]</strong> @(Model.ChurchInformation?.Refreshments == true ? @Localizer["CHURCH_FACILITY_AVAILABLE"] : @Localizer["CHURCH_FACILITY_NOT_AVAILABLE"])</p></li>
+                <li><p><strong>@Localizer["CHURCH_RESTROOMS_LABEL"]</strong> @(Model.ChurchInformation?.Restrooms == true ? @Localizer["CHURCH_FACILITY_AVAILABLE"] : @Localizer["CHURCH_FACILITY_NOT_AVAILABLE"])</p></li>
+                <li><p><strong>@Localizer["CHURCH_WIFI_LABEL"]</strong> @(Model.ChurchInformation?.Wifi == true ? @Localizer["CHURCH_FACILITY_AVAILABLE"] : @Localizer["CHURCH_FACILITY_NOT_AVAILABLE"])</p></li>
+                <li><p><strong>@Localizer["CHURCH_PARKING_LABEL"]</strong> @(Model.ChurchInformation?.Parking == true ? @Localizer["CHURCH_FACILITY_AVAILABLE"] : @Localizer["CHURCH_FACILITY_NOT_AVAILABLE"])</p></li>
+                <li><p><strong>@Localizer["CHURCH_WHEELCHAIR_LABEL"]</strong> @(Model.ChurchInformation?.WheelchairAccess == true ? @Localizer["CHURCH_FACILITY_AVAILABLE"] : @Localizer["CHURCH_FACILITY_NOT_AVAILABLE"])</p></li>
+                <li><p><strong>@Localizer["CHURCH_COMMUNITY_SPACE_LABEL"]</strong> @(Model.ChurchInformation?.MeetingHall == true ? @Localizer["CHURCH_FACILITY_AVAILABLE"] : @Localizer["CHURCH_FACILITY_NOT_AVAILABLE"])</p></li>
+                <li><p><strong>@Localizer["CHURCH_KITCHEN_LABEL"]</strong> @(Model.ChurchInformation?.Kitchen == true ? @Localizer["CHURCH_FACILITY_AVAILABLE"] : @Localizer["CHURCH_FACILITY_NOT_AVAILABLE"])</p></li>
+                <li><p><strong>@Localizer["CHURCH_HEARING_AID_LABEL"]</strong> @(Model.ChurchInformation?.HearingAidSupport == true ? @Localizer["CHURCH_FACILITY_AVAILABLE"] : @Localizer["CHURCH_FACILITY_NOT_AVAILABLE"])</p></li>
+                <li><p><strong>@Localizer["CHURCH_OUTDOOR_SPACE_LABEL"]</strong> @(Model.ChurchInformation?.OutdoorSpaces == true ? @Localizer["CHURCH_FACILITY_AVAILABLE"] : @Localizer["CHURCH_FACILITY_NOT_AVAILABLE"])</p></li>
+                <li><p><strong>@Localizer["CHURCH_BUILDING_LABEL"]</strong> @(Model.ChurchInformation?.WorshipHall == true ? @Localizer["CHURCH_FACILITY_AVAILABLE"] : @Localizer["CHURCH_FACILITY_NOT_AVAILABLE"])</p></li>
+                <li><p><strong>@Localizer["CHURCH_CHILDCARE_LABEL"]</strong> @(Model.ChurchInformation?.Childcare == true ? @Localizer["CHURCH_FACILITY_AVAILABLE"] : @Localizer["CHURCH_FACILITY_NOT_AVAILABLE"])</p></li>
             </ul>
 
             <div class="button-container">
-                <a href="@Html.Encode(Model.ChurchInformation?.Churchsuite)" class="btn btn-success half-width">ChurchSuite</a>
+                <a href="@Html.Encode(Model.ChurchInformation?.Churchsuite)" class="btn btn-success half-width">@Localizer["CHURCH_CHURCHSUITE_BUTTON"]</a>
                 <form id="messageForm" action="/Contact" method="get">
                     <!-- AntiforgeryToken -->
                     @Html.AntiForgeryToken()
                     <input type="hidden" name="cid" value="@Encoder.Protect(Model.ChurchInformation?.ID, "fc.data.contact")" />
                     <!-- Assign an id to the button -->
-                    <button id="sendMessageButton" type="button" class="btn btn-primary half-width">Send a message</button>
+                    <button id="sendMessageButton" type="button" class="btn btn-primary half-width">@Localizer["CHURCH_SEND_MESSAGE_BUTTON"]</button>
                 </form>
             </div>
         </section>
@@ -104,7 +106,7 @@
                 {
                     foreach (var item in Model.ChurchEvents)
                     {
-                        <h2>Events</h2>
+                        <h2>@Localizer["CHURCH_EVENTS_HEADING"]</h2>
                         <a href="@Html.Encode(item.Link)" class="list-group-item list-group-item-action flex-column align-items-start">
                             <div class="d-flex w-100 justify-content-between">
                                 <h5 class="mb-1">@Encoder.HtmlEncode(item.Name)</h5>
@@ -117,14 +119,14 @@
                 }
                 else
                 {
-                    <p id="noEvents">No events available.</p>
+                    <p id="noEvents">@Localizer["CHURCH_NO_EVENTS_MESSAGE"]</p>
                 }
             </div>
         </section>
 
         <!-- Church Services -->
         <section class="card services-card full-width">
-            <h2>Sunday Services</h2>
+            <h2>@Localizer["CHURCH_SUNDAY_SERVICES_HEADING"]</h2>
             <ul>
                 @if (Model.ChurchInformation?.ServiceTimes != null)
                 {
@@ -145,7 +147,7 @@
             {
                 foreach (var item in Model.ChurchEvents)
                 {
-                    <h2>Events</h2>
+                    <h2>@Localizer["CHURCH_EVENTS_HEADING"]</h2>
                     <a href="@Html.Encode(item.Link)" class="list-group-item list-group-item-action flex-column align-items-start">
                         <div class="d-flex w-100 justify-content-between">
                             <h5 class="mb-1">@Html.Encode(item.Name)</h5>
@@ -158,13 +160,13 @@
             }
             else if (Model.ChurchEvents == null)
             {
-                <p id="noEvents">No events available.</p>
+                <p id="noEvents">@Localizer["CHURCH_NO_EVENTS_MESSAGE"]</p>
             }
         </div>
 
         @if (eventCount <= 2)
         {
-            <h2 class="map-header">Find Us On Maps</h2>
+            <h2 class="map-header">@Localizer["CHURCH_FIND_ON_MAPS_HEADING"]</h2>
             <section>
                 <div id="map1"></div>
             </section>
@@ -174,7 +176,7 @@
 
 @if (eventCount > 2)
 {
-    <h2 class="map-header">Find Us On Maps</h2>
+    <h2 class="map-header">@Localizer["CHURCH_FIND_ON_MAPS_HEADING"]</h2>
     <section>
         <div id="map2"></div>
     </section>
@@ -183,36 +185,36 @@
 @section scripts {
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin="anonymous"></script>
     <script nonce="@HttpContextAccessor.HttpContext?.Items["CSP-Script-Nonce"]">
-document.addEventListener("DOMContentLoaded", function () {
-    var latitude = @Model.Latitude;
-    var longitude = @Model.Longitude;
-    var zoomLevel = (@eventCount > 2) ? 12 : 15;
-    var mapId = (@eventCount > 2) ? "map2" : "map1";
-    
-    var map = L.map(mapId).setView([latitude, longitude], zoomLevel);
-    var tileLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; OpenStreetMap contributors',
-        maxZoom: 18
-    }).addTo(map);
+        document.addEventListener("DOMContentLoaded", function() {
+            var latitude = @Model.Latitude;
+            var longitude = @Model.Longitude;
+            var zoomLevel = (@eventCount > 2) ? 12 : 15;
+            var mapId = (@eventCount > 2) ? "map2" : "map1";
 
-    tileLayer.on('error', function(e) {
-        console.error('Tile load error:', e);
-        // Fallback or alert for the user
-    });
+            var map = L.map(mapId).setView([latitude, longitude], zoomLevel);
+            var tileLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; OpenStreetMap contributors',
+                maxZoom: 18
+            }).addTo(map);
 
-    L.marker([latitude, longitude]).addTo(map)
-        .bindPopup("<b>@Model.ChurchInformation?.Name</b><br>@Model.ChurchInformation?.Address")
-        .openPopup();
-});
+            tileLayer.on('error', function(e) {
+                console.error('Tile load error:', e);
+                // Fallback or alert for the user
+            });
+
+            L.marker([latitude, longitude]).addTo(map)
+                .bindPopup("<b>@Model.ChurchInformation?.Name</b><br>@Model.ChurchInformation?.Address")
+                .openPopup();
+        });
     </script>
 
     <script nonce="@HttpContextAccessor.HttpContext?.Items["CSP-Script-Nonce"]" crossorigin="anonymous">
-       document.addEventListener("DOMContentLoaded", function() {
-           var sendMessageButton = document.getElementById('sendMessageButton');
-        if (sendMessageButton) {
-            console.log('Button found');
+        document.addEventListener("DOMContentLoaded", function() {
+            var sendMessageButton = document.getElementById('sendMessageButton');
+            if (sendMessageButton) {
+                console.log('Button found');
                 sendMessageButton.addEventListener('click', function() {
-                console.log('Button clicked');
+                    console.log('Button clicked');
                     document.getElementById('messageForm').submit();
                 });
             } else {

@@ -1,10 +1,10 @@
 ﻿@page
 @model ForestChurches.Pages.ValidateTokenModel
 @{
-    ViewData["Title"] = "Validating...";
+    ViewData["Title"] = Localizer["TOKEN_VALIDATION_PAGE_TITLE"];
 }
 <head>
-    <link rel="stylesheet" integrity="sha256-iDu24JsQ/F3K/zr6Jz5Fiik0mDVpeDrlhRYmnGPVaKU=" href="~/css2/profile.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css2/profile.css" asp-append-version="true" />
 </head>
 <style nonce="@HttpContextAccessor.HttpContext?.Items["CSP-Style-Nonce"]">
     h1 {
@@ -34,20 +34,20 @@
 
 <section>
     <img alt="Invalid Token" src="~/img/cross.png" />
-    <h1>Validation...</h1>
+    <h1>@Localizer["TOKEN_VALIDATION_PAGE_TITLE"]</h1>
 
     @if (Model.IsValidating)
     {
-        <p>Validating token...</p>
+        <p>@Localizer["TOKEN_VALIDATION_VALID_REDIRECTING"];</p>
     }
     else if (Model.IsTokenValid)
     {
-        <p>Token is valid. Redirecting...</p>
+        <p>@Localizer["TOKEN_VALIDATION_VALID_REDIRECTING"];</p>
     }
     else
     {
-        <p>The link you provided is invalid or has expired.</p>
-        <p id="subtitle">You can still access your account and content by accessing it from the website home page <a href="@Request.Scheme://@Request.Host">here</a></p>
+        <p>@Localizer["TOKEN_VALIDATION_INVALID_EXPIRED"];</p>
+        <p id="subtitle"><a href="@Request.Scheme://@Request.Host">here</a></p>
     }
 
 </section>

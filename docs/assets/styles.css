@@ -1,0 +1,36 @@
+/* Modern docs styling — Inter font, accent color, subtle shadows, responsive */
+:root{
+  --bg:#f6f7fb;
+  --card:#ffffff;
+  --text:#1f2937;
+  --muted:#6b7280;
+  --accent:#007351; /* forest green */
+  --accent-2:#a8bf6f;
+  --max-width:1100px;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;padding:24px;font-family:Inter,Segoe UI,Roboto,Arial,sans-serif;color:var(--text);background:var(--bg);-webkit-font-smoothing:antialiased}
+.container{max-width:var(--max-width);margin:0 auto}
+header{display:flex;align-items:center;justify-content:space-between;padding:18px 0;border-bottom:1px solid rgba(0,0,0,0.06);background:transparent}
+.brand{display:flex;align-items:center;gap:12px;color:var(--text);text-decoration:none;font-weight:600}
+.brand .logo{height:36px;width:auto;border-radius:6px}
+.top-actions{display:flex;gap:8px;align-items:center}
+.btn{background:transparent;border:1px solid rgba(0,0,0,0.08);padding:8px 12px;border-radius:8px;cursor:pointer;color:var(--text);font-weight:600}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-top:18px}
+a.card{display:block;padding:16px;background:var(--card);border-radius:10px;color:var(--accent);text-decoration:none;border:1px solid rgba(0,0,0,0.04);box-shadow:0 6px 18px rgba(18,38,63,0.06);transition:transform .12s ease,box-shadow .12s ease}
+a.card:hover{transform:translateY(-4px);box-shadow:0 18px 40px rgba(18,38,63,0.08)}
+small{color:var(--muted)}
+h1{margin:0;font-size:22px}
+h2{color:var(--text)}
+.note{background:#fff6f1;border:1px solid #ffefea;padding:12px;border-radius:8px}
+.files{font-family:monospace;background:#fff;border-radius:8px;padding:10px;border:1px solid rgba(0,0,0,0.04)}
+footer{margin-top:28px;color:var(--muted);font-size:13px}
+/* Page content wrapper */
+main{background:transparent;padding:18px 0}
+/* Dark theme */
+.dark-theme{--bg:#0b1220;--card:#071123;--text:#e6eef8;--muted:#9aa7b8}
+/* Responsive tweaks */
+@media (max-width:600px){body{padding:12px}header{flex-direction:column;align-items:flex-start;gap:12px}.brand .logo{height:28px}}

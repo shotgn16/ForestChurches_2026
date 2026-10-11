@@ -3,7 +3,13 @@
 
 html,
 body {
-    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh; /* Change height: 100% to min-height: 100vh */
+    margin: 0;
+    padding-top: 40px;
+    padding-bottom: 40px;
 }
 
 body {
@@ -25,7 +31,6 @@ body {
     max-width: 660px;
     padding: 15px;
     margin-inline: 0 auto;
-    margin-top: 5rem;
     justify-content: center;
     align-items: center;
 }

@@ -3,70 +3,105 @@
 @inject ForestChurches.Components.Security.Encoder Encoder;
 @inject ForestChurches.Components.Storage.IBlobUrlService BlobUrlService;
 @{
-    var defaultImage = BlobUrlService.GetReadSasUrl("IMGUR-1.png", TimeSpan.FromDays(7));
+    var defaultImage = BlobUrlService.GetReadSasUrl("IMGUR-1.png", TimeSpan.FromHours(24));
 }
 <head>
-    <link href="~/css2/Page-header.css" integrity="sha256-Rtz0HIcRj9MQNF8G3xzx3+XNkldfHcYBgrvQhm9r6qY=" rel="stylesheet" />
+    <link href="~/css2/Page-header.css"  rel="stylesheet" />
     <link rel="stylesheet" integrity="sha256-TCiepLIKrpXEnfmIoCPmhTD6lKP9ONdWUvCQO0rCL7s=" href="~/css2/Events.css" asp-append-version="true" />
+
+    <style nonce="@HttpContextAccessor.HttpContext?.Items["CSP-Style-Nonce"]">
+        /* Prevent the ChurchSuite logo from inheriting any global img rules */
+        .churchsuite-img {
+            all: unset;
+            display: inline-block;
+            height: 20px;
+            width: auto;
+        }
+    </style>
 </head>
 
 <!-- Beginning of Page header -->
 <div class="container-fluid page-hero">
     <div class="hero-text">
-        <h1>Your Events</h1>
-        <p>View, edit and add events that you have going on in your church here</p>
-        <button class="btn btn-success">Learn more</button>
+        <h1>@Localizer["EVENTS_PAGE_TITLE"]</h1>
+        <p>@Localizer["EVENTS_PAGE_SUBTITLE"]</p>
+        <button class="btn btn-success">@Localizer["EVENTS_LEARN_MORE_BUTTON"]</button>
     </div>
 </div>
 
 <!-- Content goes here -->
 <div class="container events-container">
 
+    @if (!string.IsNullOrEmpty(Model.StatusMessage))
+    {
+        <partial name="_StatusMessage" model="@Model.StatusMessage" />
+    }
+
     <!-- Conditional statement starts here -->
     @if (Model.Events == null || Model.Events.Count < 1)
     {
         <p class="no-event-found">
-            Unfortunately you have no events listed for your church?
-            <br>Think this is a mistake? (Contact Us <a asp-page="/contact">here</a>)
+            @Localizer["EVENTS_NO_EVENTS_TEXT"]
+            <br>@Localizer["EVENTS_CONTACT_TEXT"] <a asp-page="/contact">@Localizer["EVENTS_CONTACT_LINK"]</a>)
         </p>
 
-    <a asp-page="./Add/Index" class="btn btn-success add-event-btn">Add Event</a>
+        <a asp-page="./Add/Index" class="btn btn-success add-event-btn">@Localizer["EVENTS_ADD_EVENT_BUTTON"]</a>
+
+        <form method="post" asp-page-handler="SyncEvents" class="d-inline">
+            @Html.AntiForgeryToken()
+            <button type="submit" class="w-100 btn btn-lg churchsuite-logo" style="background-color: #1F2553 !important; border: 1px solid #1F2553 !important; padding: 10px !important; display: block !important; height: auto !important;">
+                <div style="display: flex; justify-content: center; align-items: center; width: 100%; gap: 0.5rem;">
+                    <span style="color: white; font-weight: 500;">@Localizer["EVENTS_SYNC_EVENTS_TEXT"]</span>
+                    <img src="~/img/cs_white.png" alt="ChurchSuite Logo" class="churchsuite-img" width="92" height="20" />
+                </div>
+            </button>
+        </form>
     }
 
-    else
+
     {
-        <div class="row">
+        <div class="row container-fluid">
             @foreach (var item in Model.Events)
             {
                 <div class="card">
-                    <img image-sas="@(!string.IsNullOrEmpty(item.ImageBlobName) ? item.ImageBlobName : string.Empty)" src="@defaultImage" expires-minutes="60" class="card-img-top card-image" alt="@item.Name picture">
+                    <img image-sas="@(!string.IsNullOrEmpty(item.ImageBlobName) ? item.ImageBlobName : string.Empty)" src="@defaultImage" expires-minutes="1440" class="card-img-top card-image" alt="@item.Name picture">
                     <div class="card-body">
-                        <h5 class="card-title">@Encoder.HtmlEncode(item.Name)</h5>
-                        <p class="card-text">@Encoder.HtmlEncode(item.Description)</p>
+                        <h5 class="card-title">@Encoder.HtmlEncode(Encoder.HtmlDecode(item.Name))</h5>
+                        <p class="card-text">@Html.Raw(Encoder.HtmlDecode(item.Description))</p>
                         <ul class="card-list">
-                            <li><p><strong>Location:</strong> @Encoder.HtmlEncode(item.Address)</p></li>
-                            <li><p><strong>Date:</strong> @Encoder.HtmlEncode(item.Date)</p></li>
-                            <li><p><strong>Time:</strong> @Encoder.HtmlEncode(item.StartTime) - @Encoder.HtmlEncode(item.EndTime)</p></li>
-                            <li><p><strong>Will it be on again?</strong> @Encoder.HtmlEncode(item.Repeats)</p></li>
+                            <li><p><strong>@Localizer["EVENTS_CARD_LOCATION"]:</strong> @Encoder.HtmlEncode(Encoder.HtmlDecode(item.Address))</p></li>
+                            <li><p><strong>@Localizer["EVENTS_CARD_DATE"]:</strong> @Encoder.HtmlEncode(item.Date)</p></li>
+                            <li><p><strong>@Localizer["EVENTS_CARD_TIME"]:</strong> @Encoder.HtmlEncode(item.StartTime) - @Encoder.HtmlEncode(item.EndTime)</p></li>
+                            <li><p><strong>@Localizer["EVENTS_CARD_REPEATS"]:</strong> @Encoder.HtmlEncode(item.Repeats)</p></li>
                         </ul>
                         <!-- Buttons go here -->
-                        <a asp-page="/Events/Edit/Index" asp-route-id="@Encoder.Protect(item.ID, "fc.data.user.events")" class="w-100 btn btn-primary">Edit</a>
+                        <a asp-page="/Events/Edit/Index" asp-route-id="@Encoder.Protect(item.ID, "fc.data.user.events")" class="w-100 btn btn-primary">@Localizer["EVENTS_EDIT_BUTTON"]</a>
 
                         <form method="post" class="contentButtons" asp-page-handler="DeleteEvent">
                             <!-- AntiforgeryToken -->
                             @Html.AntiForgeryToken()
                             <input type="hidden" name="eventId" value="@Encoder.Protect(item.ID, "fc.data.user.events")" />
-                            <button class="w-100 btn btn-danger" type="submit" onclick="return confirmAction('Are you sure you want to delete this event', '@Encoder.HtmlEncode(item.Name)')">Delete</button>
+                            <button class="w-100 btn btn-danger" type="submit" onclick="return confirmAction('@Localizer["EVENTS_DELETE_CONFIRMATION"]', '@Encoder.HtmlEncode(item.Name)')">@Localizer["EVENTS_DELETE_BUTTON"]</button>
                         </form>
                     </div>
                 </div>
             }
         </div>
 
-        <a asp-page="./Add/Index" class="btn btn-success add-event-btn">Add Event</a>
+        <a asp-page="./Add/Index" class="btn btn-success add-event-btn">@Localizer["EVENTS_ADD_EVENT_BUTTON"]</a>
+
+        <form method="post" asp-page-handler="SyncEvents" class="d-inline">
+            @Html.AntiForgeryToken()
+            <button type="submit" class="w-100 btn btn-lg churchsuite-logo" style="background-color: #1F2553 !important; border: 1px solid #1F2553 !important; padding: 10px !important; display: block !important; height: auto !important;">
+                <div style="display: flex; justify-content: center; align-items: center; width: 100%; gap: 0.5rem;">
+                    <span style="color: white; font-weight: 500;">@Localizer["EVENTS_SYNC_EVENTS_TEXT"]</span>
+                    <img src="~/img/cs_white.png" alt="ChurchSuite Logo" class="churchsuite-img" width="92" height="20" />
+                </div>
+            </button>
+        </form>
     }
     <!-- Conditional statement ends here -->
-    <p class="footer-note"><strong>Note:</strong> Once an event (that is not / is no longer reoccuring) finishes, the event will be deleted roughly 24 hours after the completion time. This is to help ensure we keep the database clean and running costs down. Thank you.</p>
+    <p class="footer-note"><strong>@Localizer["EVENTS_FOOTER_NOTE_TITLE"]:</strong> @Localizer["EVENTS_FOOTER_NOTE_TEXT"]</p>
 </div>
 
 @section scripts {

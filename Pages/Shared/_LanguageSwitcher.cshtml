@@ -1,0 +1,74 @@
+@using Microsoft.AspNetCore.Localization
+@using System.Globalization
+
+@{
+    var currentCulture = CultureInfo.CurrentCulture.TwoLetterISOLanguageName;
+    var supportedCultures = new[] { "en", "cs", "fa", "th", "uk", "fr", "de" };
+    var cultureNames = new Dictionary<string, string>()
+    {
+        { "en", "English" },
+        { "cs", "Czech" },
+        { "fa", "Farsi" },
+        { "th", "Thai (Persian)" },
+        { "uk", "Ukrainian" },
+        { "fr", "French" },
+        { "de", "German" }
+    };
+}
+
+<div class="language-switcher">
+    <style nonce="@Context.Items["CSP-Style-Nonce"]">
+        .language-switcher {
+            display: inline-block;
+        }
+
+        .language-switcher .dropdown-menu {
+            min-width: 120px;
+        }
+
+        .language-switcher a.language-link {
+            cursor: pointer;
+            padding: 0.5rem 0;
+            font-size: 0.9rem;
+            text-decoration: none;
+            display: block;
+        }
+
+        .language-switcher a.language-link:hover {
+            background-color: #f1f1f1;
+            padding-left: 0.5rem;
+        }
+
+        .language-switcher a.language-link.active {
+            font-weight: bold;
+            color: #00734B;
+        }
+    </style>
+
+    <div class="btn-group" role="group">
+        <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+            @cultureNames[currentCulture ?? "en"]
+        </button>
+        <ul class="dropdown-menu">
+            @foreach (var culture in supportedCultures)
+            {
+                var isActive = culture == currentCulture;
+                <li>
+                    <a class="dropdown-item language-link @(isActive ? "active" : "")" 
+                       href="?culture=@culture"
+                       onclick="setCulture('@culture'); return false;">
+                        @cultureNames[culture]
+                    </a>
+                </li>
+            }
+        </ul>
+    </div>
+</div>
+
+<script nonce="@Context.Items["CSP-Style-Nonce"]">
+    function setCulture(culture) {
+        var url = new URL(window.location.href);
+        url.searchParams.set('culture', culture);
+        window.location.href = url.toString();
+    }
+</script>

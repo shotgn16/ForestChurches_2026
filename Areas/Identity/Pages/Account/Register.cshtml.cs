@@ -37,7 +37,8 @@ namespace ForestChurches.Areas.Identity.Pages.Account
         private readonly iEmail _mailRepository;
         private readonly iMailSender _mailSender;
         internal readonly Configuration _configuration;
-        private readonly iRegistrationGenerate _registrationGenerator; 
+        private readonly iRegistrationGenerate _registrationGenerator;
+        private readonly IChurchSuiteService _churchSuiteService;
 
         private ImageInterface _iImage;
 
@@ -54,7 +55,8 @@ namespace ForestChurches.Areas.Identity.Pages.Account
             ForestChurchesContext context,
             Configuration configuration,
             iRegistrationGenerate registrationGenerator,
-            Components.Security.Encoder Encoder)
+            Components.Security.Encoder Encoder,
+            IChurchSuiteService churchSuiteService)
         {
             _userManager = userManager;
             _userStore = userStore;
@@ -71,6 +73,7 @@ namespace ForestChurches.Areas.Identity.Pages.Account
             _context = context;
             _registrationGenerator = registrationGenerator;
             _Encoder = Encoder;
+            _churchSuiteService = churchSuiteService;
         }
 
         [TempData]
@@ -146,6 +149,21 @@ namespace ForestChurches.Areas.Identity.Pages.Account
             [AllowNull]
             [PersonalData]
             public IFormFile Image { get; set; }
+
+            // ChurchSuite Integration Parameters (Optional)
+            [AllowNull]
+            [Display(Name = "ChurchSuite Account ID")]
+            public string ChurchSuiteAccountId { get; set; }
+
+            [AllowNull]
+            [DataType(DataType.Password)]
+            [Display(Name = "ChurchSuite API Key")]
+            public string ChurchSuiteApiKey { get; set; }
+
+            // Per-user client id (single per user)
+            [AllowNull]
+            [Display(Name = "Client ID")]
+            public string ClientId { get; set; }
         }
 
         public async Task OnGetAsync(string returnUrl = null, string email = "")
@@ -155,6 +173,16 @@ namespace ForestChurches.Areas.Identity.Pages.Account
 
             Input = new InputModel();
             Input.Email = email;
+
+            // If an existing identity user exists for this email, prefill the ClientId so the UI can render it readonly
+            if (!string.IsNullOrWhiteSpace(email))
+            {
+                var existingUser = await _userManager.FindByEmailAsync(email);
+                if (existingUser != null && !string.IsNullOrWhiteSpace(existingUser.ClientId))
+                {
+                    Input.ClientId = existingUser.ClientId;
+                }
+            }
         }
 
         [ValidateAntiForgeryToken]
@@ -188,6 +216,12 @@ namespace ForestChurches.Areas.Identity.Pages.Account
 
                     user.CreatedDate = DateTime.UtcNow.ToString();
 
+                    // Store provided ClientId on the identity user if present and user does not already have one set
+                    if (!string.IsNullOrWhiteSpace(Input.ClientId) && string.IsNullOrWhiteSpace(user.ClientId))
+                    {
+                        user.ClientId = Input.ClientId;
+                    }
+
                     if (Input.Image == null)
                     {
                         // IMGUR-1
@@ -200,9 +234,7 @@ namespace ForestChurches.Areas.Identity.Pages.Account
                         user.ImageArray = await _iImage.ConvertToByteArray(Input.Image);
                     }
 
-                    user.ChurchInformation = new Models.ChurchInformation();
-
-                    await _context.SaveChangesAsync();
+                    // Defer creation of ChurchInformation until after the Identity user is created so it can be linked by user.Id
 
                     await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                     await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
@@ -213,6 +245,131 @@ namespace ForestChurches.Areas.Identity.Pages.Account
                         _logger.LogInformation("User created a new account with password.");
                         StatusMessage = $"User '{user.UserName}' successfully registered!";
 
+                        // Create and persist ChurchInformation linked to the newly created Identity user
+                        var churchInfo = new Models.ChurchInformation
+                        {
+                            ChurchAccountId = user.Id,
+                            ChurchAccount = user,
+                            Name = "Default Church",
+                            Description = "Some church description. (This is not an actual church.)",
+                            Status = "Open",
+                            Denomination = "Anglican",
+                            Congregation = "20-50",
+                            Address = "TBA",
+                            Phone = "000-000-0000",
+                            Churchsuite = Uri.TryCreate(!string.IsNullOrEmpty(Input.ChurchSuiteAccountId) ? $"https://{Input.ChurchSuiteAccountId}.churchsuite.com/" : "https://churchsuite.com/", UriKind.Absolute, out var csUri) ? csUri : new Uri("https://churchsuite.com/"),
+                            Website = new Uri("https://forestchurches.co.uk/"),
+                            Parking = true,
+                            Restrooms = true,
+                            WheelchairAccess = true,
+                            Wifi = true,
+                            Refreshments = true,
+                            WorshipHall = true,
+                            Childcare = true,
+                            MeetingHall = true,
+                            Kitchen = true,
+                            OutdoorSpaces = true,
+                            HearingAidSupport = true,
+                            ChurchSuiteApiKey = string.IsNullOrEmpty(Input.ChurchSuiteApiKey) ? null : Input.ChurchSuiteApiKey,
+                            ChurchSuiteSubdomain = string.IsNullOrEmpty(Input.ChurchSuiteAccountId) ? null : Input.ChurchSuiteAccountId
+                        };
+
+                        if (!string.IsNullOrEmpty(Input.ChurchSuiteAccountId) && !string.IsNullOrEmpty(Input.ChurchSuiteApiKey))
+                        {
+                            try
+                            {
+                                var profileResponse = await _churchSuiteService.GetProfileAsync(Input.ChurchSuiteAccountId, Input.ChurchSuiteApiKey);
+                                if (profileResponse?.Account != null)
+                                {
+                                    if (!string.IsNullOrEmpty(profileResponse.Account.Name))
+                                    {
+                                        churchInfo.Name = profileResponse.Account.Name;
+                                    }
+                                    if (!string.IsNullOrEmpty(profileResponse.Account.Url) && Uri.TryCreate(profileResponse.Account.Url, UriKind.Absolute, out var websiteUri))
+                                    {
+                                        churchInfo.Website = websiteUri;
+                                    }
+                                    if (!string.IsNullOrEmpty(profileResponse.Account.Phone))
+                                    {
+                                        churchInfo.Phone = profileResponse.Account.Phone;
+                                    }
+                                    if (!string.IsNullOrEmpty(profileResponse.Account.Description))
+                                    {
+                                        churchInfo.Description = profileResponse.Account.Description;
+                                    }
+                                    if (!string.IsNullOrEmpty(profileResponse.Account.Subdomain))
+                                    {
+                                        churchInfo.Churchsuite = new Uri("https://" + profileResponse.Account.Subdomain + ".churchsuite.com");
+                                    }
+
+                                    // Persist churchsuite API details for future syncs
+                                    churchInfo.ChurchSuiteApiKey = Input.ChurchSuiteApiKey;
+                                    churchInfo.ChurchSuiteSubdomain = Input.ChurchSuiteAccountId;
+
+                                    // If ChurchSuite provides a canonical URL for the account, prefer it for the Churchsuite link
+                                    if (!string.IsNullOrEmpty(profileResponse.Account.Url) && Uri.TryCreate(profileResponse.Account.Url, UriKind.Absolute, out var csCanonical))
+                                    {
+                                        churchInfo.Churchsuite = csCanonical;
+                                    }
+
+                                    _logger.LogInformation("Successfully retrieved ChurchSuite profile for user {UserId}.", user.Id);
+
+                                    // If the ChurchSuite profile contains an email, update the user's email on the identity record
+                                    if (!string.IsNullOrEmpty(profileResponse.Account.Email))
+                                    {
+                                        try
+                                        {
+                                            await _emailStore.SetEmailAsync(user, profileResponse.Account.Email, CancellationToken.None);
+                                            await _userManager.UpdateAsync(user);
+                                        }
+                                        catch (Exception ex)
+                                        {
+                                            _logger.LogWarning(ex, "Failed to update user email from ChurchSuite for user {UserId}.", user.Id);
+                                        }
+                                    }
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+                                _logger.LogWarning(ex, "Failed to fetch ChurchSuite profile for user {UserId}. User registration continues without ChurchSuite data.", user.Id);
+                                // Don't fail registration if ChurchSuite API fails - just log the warning
+                            }
+                        }
+
+                        // Persist the ChurchInformation row linked to this user
+                        bool churchCreatedSuccessfully = false;
+                        try
+                        {
+                            await _context.ChurchInformation.AddAsync(churchInfo);
+                            await _context.SaveChangesAsync();
+                            _logger.LogInformation("Created ChurchInformation for user {UserId} with Church ID {ChurchId}.", user.Id, churchInfo.ID);
+                            churchCreatedSuccessfully = true;
+                        }
+                        catch (Exception ex)
+                        {
+                            _logger.LogError(ex, "Failed to create ChurchInformation for user {UserId}. Attempting to delete created user account.", user.Id);
+
+                            // Attempt to delete the user since we couldn't create the required church information
+                            try
+                            {
+                                await _userManager.DeleteAsync(user);
+                                _logger.LogInformation("Deleted user {UserId} due to church creation failure.", user.Id);
+                            }
+                            catch (Exception deleteEx)
+                            {
+                                _logger.LogError(deleteEx, "Failed to delete user {UserId} after church creation failure.", user.Id);
+                            }
+
+                            ModelState.AddModelError(string.Empty, "An error occurred while setting up your church profile. Please try registering again.");
+                            return Page();
+                        }
+
+                        if (!churchCreatedSuccessfully)
+                        {
+                            ModelState.AddModelError(string.Empty, "Failed to create church profile. Please try again.");
+                            return Page();
+                        }
+
                         var userId = await _userManager.GetUserIdAsync(user);
                         var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                         code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
@@ -221,6 +378,19 @@ namespace ForestChurches.Areas.Identity.Pages.Account
                             pageHandler: null,
                             values: new { area = "Identity", userId = _Encoder.Protect(userId, "fc.data.url.email"), code = _Encoder.Protect(code, "fc.data.url.email"), returnUrl = returnUrl },
                             protocol: Request.Scheme);
+
+                        // If the user has a ClientId set on the identity record, persist it explicitly now
+                        if (!string.IsNullOrWhiteSpace(user.ClientId))
+                        {
+                            try
+                            {
+                                await _userManager.UpdateAsync(user);
+                            }
+                            catch (Exception ex)
+                            {
+                                _logger.LogWarning(ex, "Failed to persist ClientId for user {UserId}", user.Id);
+                            }
+                        }
 
                         // Mark regisration as a success.
                         _registrationGenerator.MarkAsCompleted(Input.Email, DateTime.UtcNow);

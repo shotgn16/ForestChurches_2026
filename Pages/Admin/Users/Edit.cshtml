@@ -54,6 +54,18 @@
                         }
                     </div>
                 </div>
+                <!-- Confirmed Account (Checkbox) -->
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">Status</label>
+                    <div class="col-sm-10">
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" asp-for="Input.IsActive" id="statusCheckbox">
+                            <label class="form-check-label" for="statusCheckbox">Active</label>
+                        </div>
+                    </div>
+                </div>
+                <!-- End of active status-->
+
                 <div class="form-group row">
                     <label asp-for="@Model.Input.Password" class="col-sm-2 col-form-label">Password</label>
                     <div class="col-sm-10">

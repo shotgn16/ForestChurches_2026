@@ -14,17 +14,11 @@
       "commandName": "Project",
       "launchBrowser": true,
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development",
         "KEY_VAULT_URL": "https://projectgreenblock.vault.azure.net/",
         "AZURE_TENANT_ID": "8d80a5fd-3023-4941-985f-c68c920d085d",
         "AZURE_CLIENT_ID": "08abcc39-2915-4de2-812e-d7329d62a39c",
-        "CERTIFICATE_PWD": "OfD3anChurchsF0r3st",
-        "CERTIFICATE_PATH_PRO": "ForestChurches-IONOS.pfx",
-        "CERTIFICATE_PATH_DEV": "ForestChurches-Local.pfx",
-        "CERTIFICATE_PATH_STO": "ForestChurches-Storage.pfx",
-        "CERTIFICATE_NAME_PRO": "ForestChurches-IONOS",
-        "CERTIFICATE_NAME_DEV": "ForestChurches-Local",
-        "AZURE_CLIENT_SECRET": "OA38Q~TR~~PPkPD7rziPEqQI6qXdJIOrDDhIqbDQ"
+        "AZURE_CLIENT_SECRET": "OA38Q~TR~~PPkPD7rziPEqQI6qXdJIOrDDhIqbDQ",
+        "ASPNETCORE_ENVIRONMENT": "Development"
       },
       "dotnetRunMessages": true,
       "applicationUrl": "https://localhost:7196;http://localhost:5086",

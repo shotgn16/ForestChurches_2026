@@ -1,0 +1,76 @@
+@using Microsoft.AspNetCore.Identity
+@using ForestChurches.Components.Users
+@using ForestChurches.Components.Http
+@inject UserManager<ChurchAccount> UserManager
+@inject IChurchSuiteTokenService TokenService
+
+@{
+    var user = await UserManager.GetUserAsync(User);
+    string userId = user?.Id ?? "";
+    bool hasAuthorization = false;
+    bool hasValidToken = false;
+
+    if (!string.IsNullOrEmpty(userId))
+    {
+        hasAuthorization = await TokenService.UserHasAuthorizationAsync(userId);
+        hasValidToken = await TokenService.HasValidTokenAsync(userId);
+    }
+}
+
+<div id="churchsuite-auth-status" class="churchsuite-status">
+    @if (string.IsNullOrEmpty(userId))
+    {
+        <div class="alert alert-warning">@Localizer["CHURCHSUITE_NOT_LOGGED_IN"]</div>
+    }
+    else if (!hasAuthorization)
+    {
+        <div class="alert alert-info">
+            <p>@Localizer["CHURCHSUITE_NEED_AUTH"]</p>
+            <button type="button" class="btn btn-primary churchsuite-authorize-btn" data-user-id="@userId">
+                @Localizer["CHURCHSUITE_AUTHORIZE_BUTTON"]
+            </button>
+        </div>
+    }
+    else if (!hasValidToken)
+    {
+        <div class="alert alert-warning">
+            <p>@Localizer["CHURCHSUITE_EXPIRED_PROMPT"]</p>
+            <button type="button" class="btn btn-warning churchsuite-reauthorize-btn" data-user-id="@userId">
+                @Localizer["CHURCHSUITE_REAUTHORIZE_BUTTON"]
+            </button>
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-success">
+            <p>@Localizer["CHURCHSUITE_AUTHORIZED_MESSAGE"]</p>
+        </div>
+    }
+</div>
+
+<script>
+document.querySelectorAll('.churchsuite-authorize-btn, .churchsuite-reauthorize-btn').forEach(btn => {
+    btn.addEventListener('click', function(e) {
+        e.preventDefault();
+        const userId = this.getAttribute('data-user-id');
+        // Redirect to PKCE login with the current page as return URL
+        const returnUrl = window.location.pathname + window.location.search;
+        window.location.href = '/churchsuite/login-pkce?redirect_uri=' + encodeURIComponent(returnUrl);
+    });
+});
+</script>
+
+<style>
+.churchsuite-status {
+    margin: 1rem 0;
+}
+
+.churchsuite-status .alert {
+    margin-bottom: 0;
+}
+
+.churchsuite-authorize-btn,
+.churchsuite-reauthorize-btn {
+    margin-top: 0.5rem;
+}
+</style>

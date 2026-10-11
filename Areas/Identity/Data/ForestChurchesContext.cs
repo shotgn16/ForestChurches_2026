@@ -48,8 +48,14 @@ public class ForestChurchesContext : IdentityDbContext<ChurchAccount, ChurchRole
     public DbSet<WhitelistedUsers> WhitelistedUsers { get; set; }
     public DbSet<ChurchInformation> ChurchInformation { get; set; }
 
+    // ChurchSuite OAuth credentials
+    public DbSet<ChurchSuiteCredential> ChurchSuiteCredentials { get; set; }
+
     // Logs
     public DbSet<Models.LogEntry> system_logs { get; set; }
+
+    // Bulletins (Weekly Pew Sheet & Benefice Bulletin)
+    public DbSet<ForestChurches.Models.Bulletin> Bulletins { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
@@ -76,8 +82,20 @@ public class ForestChurchesContext : IdentityDbContext<ChurchAccount, ChurchRole
         builder.Entity<WhitelistedUsers>()
             .HasKey(pk => pk.ID);
 
+        builder.Entity<ChurchSuiteCredential>()
+            .HasKey(pk => pk.Id);
+
+        builder.Entity<ChurchSuiteCredential>()
+            .HasIndex(c => new { c.UserId, c.Subdomain })
+            .IsUnique();
+
         builder.Entity<Models.LogEntry>()
             .HasKey(pk => pk.Id);
+
+        // Bulletin entity mapping
+        builder.Entity<ForestChurches.Models.Bulletin>()
+            .HasKey(b => b.Id);
+
 
         builder.Entity<Models.LogEntry>()
             .Property(a => a.Id)
@@ -87,14 +105,6 @@ public class ForestChurchesContext : IdentityDbContext<ChurchAccount, ChurchRole
         builder.Entity<Models.LogEntry>()
             .Property(a => a.Exception)
             .IsRequired(false);
-
-        builder.Entity<Models.LogEntry>()
-            .Property(a => a.Url)
-            .HasDefaultValue("Url");
-
-        builder.Entity<Models.LogEntry>()
-            .Property(a => a.Action)
-            .HasDefaultValue("Action");
 
         builder.Entity<Models.LogEntry>()
             .Property(a => a.Level)

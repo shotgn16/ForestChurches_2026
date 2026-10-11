@@ -1,0 +1,906 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="APP_TITLE" xml:space="preserve">
+    <value>Церкви Лісу</value>
+  </data>
+  <data name="FOOTER_CONTACT_LINK" xml:space="preserve">
+    <value>Зв'яжіться з нами</value>
+  </data>
+  <data name="HOMEPAGE_PAGE_TITLE" xml:space="preserve">
+    <value>Головна - Церкви Лісу</value>
+  </data>
+  <data name="NAV_BRAND" xml:space="preserve">
+    <value>Церкви Лісу</value>
+  </data>
+  <data name="NAV_HOME" xml:space="preserve">
+    <value>Головна</value>
+  </data>
+  <data name="NAV_ABOUT" xml:space="preserve">
+    <value>Про нас</value>
+  </data>
+  <data name="NAV_WHATS_NEARBY" xml:space="preserve">
+    <value>Що є поблизу</value>
+  </data>
+  <data name="NAV_MY_EVENTS" xml:space="preserve">
+    <value>Мої Події</value>
+  </data>
+  <data name="NAV_CONTACT" xml:space="preserve">
+    <value>Зв'яжіться з нами</value>
+  </data>
+  <data name="NAV_ADMIN" xml:space="preserve">
+    <value>Адмін</value>
+  </data>
+  <data name="NAV_LOGIN" xml:space="preserve">
+    <value>Вхід</value>
+  </data>
+  <data name="HOMEPAGE_HERO_TITLE" xml:space="preserve">
+    <value>Ласкаво просимо до Церков Лісу</value>
+  </data>
+  <data name="HOMEPAGE_HERO_SUBTITLE" xml:space="preserve">
+    <value>Поєднання громад у Лісі Дітона.</value>
+  </data>
+  <data name="CONTACT_PAGE_TITLE" xml:space="preserve">
+    <value>Зв'яжіться з нами</value>
+  </data>
+  <data name="CONTACT_RECIPIENT_LABEL" xml:space="preserve">
+    <value>Одержувач:</value>
+  </data>
+  <data name="CONTACT_NAME_PLACEHOLDER" xml:space="preserve">
+    <value>Ваше ім'я</value>
+  </data>
+  <data name="CONTACT_SUBJECT_PLACEHOLDER" xml:space="preserve">
+    <value>Тема</value>
+  </data>
+  <data name="CONTACT_EMAIL_PLACEHOLDER" xml:space="preserve">
+    <value>Як ми можемо вас зв'язати ('John@yourchurch.com...')</value>
+  </data>
+  <data name="CONTACT_MESSAGE_PLACEHOLDER" xml:space="preserve">
+    <value>Ваше повідомлення</value>
+  </data>
+  <data name="CONTACT_SUBMIT_BUTTON" xml:space="preserve">
+    <value>Надіслати повідомлення</value>
+  </data>
+  <data name="SAVE" xml:space="preserve">
+    <value>Зберегти</value>
+  </data>
+  <data name="CANCEL" xml:space="preserve">
+    <value>Скасувати</value>
+  </data>
+  <data name="DELETE" xml:space="preserve">
+    <value>Видалити</value>
+  </data>
+  <data name="EDIT" xml:space="preserve">
+    <value>Редагувати</value>
+  </data>
+  <data name="CREATE" xml:space="preserve">
+    <value>Створити</value>
+  </data>
+  <data name="SEARCH" xml:space="preserve">
+    <value>Пошук</value>
+  </data>
+  <data name="FILTER" xml:space="preserve">
+    <value>Фільтр</value>
+  </data>
+  <data name="SUBMIT" xml:space="preserve">
+    <value>Надіслати</value>
+  </data>
+  <data name="BACK" xml:space="preserve">
+    <value>Назад</value>
+  </data>
+  <data name="ERROR" xml:space="preserve">
+    <value>Помилка</value>
+  </data>
+  <data name="SUCCESS" xml:space="preserve">
+    <value>Успіх</value>
+  </data>
+  <data name="WARNING" xml:space="preserve">
+    <value>Попередження</value>
+  </data>
+  <data name="INFO" xml:space="preserve">
+    <value>Інформація</value>
+  </data>
+  <data name="LOADING" xml:space="preserve">
+    <value>Завантаження...</value>
+  </data>
+  <data name="NO_RECORDS" xml:space="preserve">
+    <value>Записи не знайдені</value>
+  </data>
+  <data name="LOGIN" xml:space="preserve">
+    <value>Вхід</value>
+  </data>
+  <data name="LOGOUT" xml:space="preserve">
+    <value>Вихід</value>
+  </data>
+  <data name="REGISTER" xml:space="preserve">
+    <value>Реєстрація</value>
+  </data>
+  <data name="PROFILE" xml:space="preserve">
+    <value>Профіль</value>
+  </data>
+  <data name="EMAIL" xml:space="preserve">
+    <value>Email</value>
+  </data>
+  <data name="PASSWORD" xml:space="preserve">
+    <value>Пароль</value>
+  </data>
+  <data name="NAME" xml:space="preserve">
+    <value>Ім'я</value>
+  </data>
+  <data name="ADDRESS" xml:space="preserve">
+    <value>Адреса</value>
+  </data>
+  <data name="PHONE" xml:space="preserve">
+    <value>Телефон</value>
+  </data>
+  <data name="NEARME_HERO_TITLE" xml:space="preserve">
+    <value>Знайдіть церкви поблизу</value>
+  </data>
+  <data name="NEARME_HERO_SUBTITLE" xml:space="preserve">
+    <value>Відкрийте місцеві церкви та громади у вашому районі</value>
+  </data>
+  <data name="NEARME_TAB_HOME" xml:space="preserve">
+    <value>Домашня</value>
+  </data>
+  <data name="NEARME_TAB_CHURCHES" xml:space="preserve">
+    <value>Церкви</value>
+  </data>
+  <data name="NEARME_TAB_ACTIVITIES" xml:space="preserve">
+    <value>Заходи</value>
+  </data>
+  <data name="NEARME_WELCOME_HEADING" xml:space="preserve">
+    <value>Ласкаво просимо до Шляхів у ліс</value>
+  </data>
+  <data name="NEARME_WELCOME_INTRO_TEXT" xml:space="preserve">
+    <value>Цей інструмент допомагає вам відкривати церкви та заходи поблизу. Використовуйте його, щоб знайти духовні громади, які відповідають вашим інтересам та потребам.</value>
+  </data>
+  <data name="NEARME_HOW_TO_USE_HEADING" xml:space="preserve">
+    <value>Як користуватися цим інструментом</value>
+  </data>
+  <data name="NEARME_HOW_TO_USE_TEXT" xml:space="preserve">
+    <value>1. Перейдіть на вкладку "Церкви" та введіть свій поштовий індекс або використовуйте свою поточну розташування. 2. Виберіть засоби, які вас цікавлять (паркування, туалет, доступ для інвалідних колясок тощо). 3. Виберіть бажану конфесію або залиште її відкритою для всіх конфесій. 4. Натисніть "Що навколо мене", щоб побачити близькі варіанти. 5. Переглядайте результати та завантажуйте інформацію або відправляйте її собі електронною поштою.</value>
+  </data>
+  <data name="NEARME_FIND_CHURCH_HEADING" xml:space="preserve">
+    <value>Знайдіть церкву поблизу</value>
+  </data>
+  <data name="NEARME_FIND_CHURCH_INTRO_TEXT" xml:space="preserve">
+    <value>Шукайте церкви у вашому районі, введіть свій поштовий індекс та виберіть свої переваги.</value>
+  </data>
+  <data name="NEARME_FACILITIES_TITLE" xml:space="preserve">
+    <value>Засоби</value>
+  </data>
+  <data name="NEARME_FACILITY_PARKING" xml:space="preserve">
+    <value>Паркування</value>
+  </data>
+  <data name="NEARME_FACILITY_RESTROOMS" xml:space="preserve">
+    <value>Туалет</value>
+  </data>
+  <data name="NEARME_FACILITY_WHEELCHAIR_ACCESS" xml:space="preserve">
+    <value>Доступ для інвалідних колясок</value>
+  </data>
+  <data name="NEARME_FACILITY_WIFI" xml:space="preserve">
+    <value>Wi-Fi</value>
+  </data>
+  <data name="NEARME_FACILITY_REFRESHMENTS" xml:space="preserve">
+    <value>Напої та закуски</value>
+  </data>
+  <data name="NEARME_FACILITY_WORSHIP_HALL" xml:space="preserve">
+    <value>Молитовна залі</value>
+  </data>
+  <data name="NEARME_FACILITY_CHILDRENS_MINISTRY" xml:space="preserve">
+    <value>Дитячий служіння</value>
+  </data>
+  <data name="NEARME_FACILITY_COMMUNITY_HALL" xml:space="preserve">
+    <value>Громадський залі</value>
+  </data>
+  <data name="NEARME_FACILITY_KITCHEN" xml:space="preserve">
+    <value>Кухня</value>
+  </data>
+  <data name="NEARME_FACILITY_OUTDOOR_SPACE" xml:space="preserve">
+    <value>Відкритий простір</value>
+  </data>
+  <data name="NEARME_FACILITY_HEARING_AID_SUPPORT" xml:space="preserve">
+    <value>Підтримка слухових апаратів</value>
+  </data>
+  <data name="NEARME_POSTCODE_LABEL" xml:space="preserve">
+    <value>Поштовий індекс</value>
+  </data>
+  <data name="NEARME_POSTCODE_PLACEHOLDER" xml:space="preserve">
+    <value>Введіть свій поштовий індекс</value>
+  </data>
+  <data name="NEARME_MAX_DISTANCE_LABEL" xml:space="preserve">
+    <value>Максимальна відстань (км)</value>
+  </data>
+  <data name="NEARME_DENOMINATION_LABEL" xml:space="preserve">
+    <value>Конфесія</value>
+  </data>
+  <data name="NEARME_ANY_DENOMINATION_OPTION" xml:space="preserve">
+    <value>Будь-яка конфесія</value>
+  </data>
+  <data name="NEARME_WHATS_AROUND_ME_BUTTON" xml:space="preserve">
+    <value>Що навколо мене</value>
+  </data>
+  <data name="NEARME_USE_MY_LOCATION_BUTTON" xml:space="preserve">
+    <value>Використовувати моє розташування</value>
+  </data>
+  <data name="NEARME_PICK_CHURCH_MODAL_TITLE" xml:space="preserve">
+    <value>Виберіть церкву</value>
+  </data>
+  <data name="NEARME_NAME_LABEL" xml:space="preserve">
+    <value>Ім'я</value>
+  </data>
+  <data name="NEARME_DESCRIPTION_LABEL" xml:space="preserve">
+    <value>Опис</value>
+  </data>
+  <data name="NEARME_DOWNLOAD_INFO_BUTTON" xml:space="preserve">
+    <value>Завантажити інформацію</value>
+  </data>
+  <data name="NEARME_SEND_INFO_BUTTON" xml:space="preserve">
+    <value>Відправити інформацію</value>
+  </data>
+  <data name="NEARME_FIND_OUT_MORE_BUTTON" xml:space="preserve">
+    <value>Дізнатися більше</value>
+  </data>
+  <data name="NEARME_NO_CHURCHES_FOUND" xml:space="preserve">
+    <value>Не знайдено церков у межах</value>
+  </data>
+  <data name="NEARME_NO_RESULTS_SUFFIX" xml:space="preserve">
+    <value>від вашого розташування. Спробуйте збільшити відстань пошуку.</value>
+  </data>
+  <data name="NEARME_NEARBY_EVENTS_MODAL_TITLE" xml:space="preserve">
+    <value>Заходи поблизу</value>
+  </data>
+  <data name="NEARME_LOCATION_LABEL" xml:space="preserve">
+    <value>Розташування</value>
+  </data>
+  <data name="NEARME_DATE_LABEL" xml:space="preserve">
+    <value>Дата</value>
+  </data>
+  <data name="NEARME_TIME_LABEL" xml:space="preserve">
+    <value>Час</value>
+  </data>
+  <data name="NEARME_EVENT_REPEATS_QUESTION" xml:space="preserve">
+    <value>Повторюється?</value>
+  </data>
+  <data name="NEARME_EVENTS_HEADING" xml:space="preserve">
+    <value>Події поруч зі мною</value>
+  </data>
+  <data name="NEARME_EVENTS_INTRO_TEXT" xml:space="preserve">
+    <value>Знайти подію поруч зі мною</value>
+  </data>
+  <data name="NEARME_CHURCH_LABEL" xml:space="preserve">
+    <value>Церква</value>
+  </data>
+  <data name="NEARME_ANY_CHURCH_OPTION" xml:space="preserve">
+    <value>Будь-яка церква</value>
+  </data>
+  <data name="NEARME_START_DATE_LABEL" xml:space="preserve">
+    <value>Дата початку</value>
+  </data>
+  <data name="NEARME_END_DATE_LABEL" xml:space="preserve">
+    <value>Дата завершення</value>
+  </data>
+  <data name="NEARME_EVENT_HOSTED_BY" xml:space="preserve">
+    <value>Цей захід організовує</value>
+  </data>
+  <data name="NEARME_NO_EVENTS_FOUND" xml:space="preserve">
+    <value>На жаль, наразі немає доступних подій у межах вказаної вами відстані.</value>
+  </data>
+  <data name="NEARME_EMAIL_MODAL_TITLE" xml:space="preserve">
+    <value>Введіть свою електронну адресу</value>
+  </data>
+  <data name="NEARME_EMAIL_LABEL" xml:space="preserve">
+    <value>Електронна пошта</value>
+  </data>
+  <data name="NEARME_SEND_INFORMATION_BUTTON" xml:space="preserve">
+    <value>Надіслати інформацію</value>
+  </data>
+  <data name="ABOUTUS_PAGE_TITLE" xml:space="preserve">
+    <value>Про нас</value>
+  </data>
+  <data name="ABOUTUS_COMMUNITY_SECTION_TEXT" xml:space="preserve">
+    <value>Ласкаво просимо, сподіваємося, що ви знайдете те, що шукаєте. Якщо ви ще не знали, це...! Ми прагнемо служити нашій громаді з любов'ю та співчуттям. Наша місія — створити гостинний простір, де кожен почувається цінним та підтриманим. Приєднуйтесь до нас, щоб зробити позитивний внесок!</value>
+  </data>
+  <data name="ABOUTUS_COMMUNITY_SECTION_TITLE" xml:space="preserve">
+    <value>Ми за громаду</value>
+  </data>
+  <data name="ABOUTUS_COMMUNITY_IMAGE_ALT" xml:space="preserve">
+    <value>Зображення спільноти</value>
+  </data>
+  <data name="ABOUTUS_PAGE_SUBTITLE" xml:space="preserve">
+    <value>Дізнайтеся про нас і про те, чим ми займаємося</value>
+  </data>
+  <data name="ABOUTUS_SUPPORT_IMAGE_ALT" xml:space="preserve">
+    <value>Зображення підтримки</value>
+  </data>
+  <data name="ABOUTUS_BELIEF_SECTION_TITLE" xml:space="preserve">
+    <value>У що ми віримо</value>
+  </data>
+  <data name="ABOUTUS_BELIEF_SECTION_TEXT" xml:space="preserve">
+    <value>Натхненні цією істиною, ми стверджуємо Ісуса Христа як Господа і Спасителя, який приносить прощення, оновлення та спільну мету Своїй Церкві. Саме через Нього ми покликані працювати разом, святкуючи нашу різноманітність, стоячи об'єднаними в Його любові. Ця віра спонукала нас створити цей веб-сайт як засіб об'єднання, піднесення та оснащення церков по всьому Лісу Діна. Наша місія полягає в тому, щоб об'єднувати громади, підтримуючи та просуваючи церкви, а також дозволяючи оточуючим відкрити для себе те, що знаходиться в Лісі Діна.</value>
+  </data>
+  <data name="ABOUTUS_LIGHT_IMAGE_ALT" xml:space="preserve">
+    <value>Світле зображення</value>
+  </data>
+  <data name="ABOUTUS_LIGHT_SECTION_TITLE" xml:space="preserve">
+    <value>Освітлюючи ліс світлом Ісуса</value>
+  </data>
+  <data name="LOGIN_HEADING" xml:space="preserve">
+    <value>Будь ласка, увійдіть, щоб продовжити...</value>
+  </data>
+  <data name="ABOUTUS_LIGHT_SECTION_TEXT" xml:space="preserve">
+    <value>Натхненні вченнями Ісуса, ми прагнемо поширювати світло та надію по всьому Лісу Діна. Наша віра спонукає нас служити іншим та ділитися посланням любові, миру та доброти. Приєднуйтесь до нашої подорожі!</value>
+  </data>
+  <data name="ABOUTUS_FOOTER_TEXT" xml:space="preserve">
+    <value>Цей вебсайт, створений Джеком Бутчером-Барнардом та Джонатаном Кіром, присвячений підтримці та розвитку церков у всьому Лісі Діна.</value>
+  </data>
+  <data name="LOGIN_EMAIL_PLACEHOLDER" xml:space="preserve">
+    <value>Email</value>
+  </data>
+  <data name="LOGIN_PASSWORD_PLACEHOLDER" xml:space="preserve">
+    <value>Пароль</value>
+  </data>
+  <data name="LOGIN_FORGOT_PASSWORD_LINK" xml:space="preserve">
+    <value>Забули пароль</value>
+  </data>
+  <data name="LOGIN_RESEND_CONFIRMATION_LINK" xml:space="preserve">
+    <value>Надіслати лист підтвердження повторно</value>
+  </data>
+  <data name="NAV_WELCOME_BACK" xml:space="preserve">
+    <value>З поверненням</value>
+  </data>
+  <data name="NAV_LOGOUT" xml:space="preserve">
+    <value>Вихід</value>
+  </data>
+  <data name="EVENTS_PAGE_TITLE" xml:space="preserve">
+    <value>Події</value>
+  </data>
+  <data name="EVENTS_PAGE_SUBTITLE" xml:space="preserve">
+    <value>Події вашої церкви</value>
+  </data>
+  <data name="EVENTS_LEARN_MORE_BUTTON" xml:space="preserve">
+    <value>Дізнатися більше...</value>
+  </data>
+  <data name="EVENTS_CARD_LOCATION" xml:space="preserve">
+    <value>Розташування</value>
+  </data>
+  <data name="EVENTS_CARD_DATE" xml:space="preserve">
+    <value>Дата</value>
+  </data>
+  <data name="EVENTS_CARD_TIME" xml:space="preserve">
+    <value>Час</value>
+  </data>
+  <data name="EVENTS_CARD_REPEATS" xml:space="preserve">
+    <value>Повторюється?</value>
+  </data>
+  <data name="EVENTS_EDIT_BUTTON" xml:space="preserve">
+    <value>Редагувати подію</value>
+  </data>
+  <data name="EVENTS_DELETE_BUTTON" xml:space="preserve">
+    <value>Видалити подію</value>
+  </data>
+  <data name="EVENTS_SYNC_EVENTS_TEXT" xml:space="preserve">
+    <value>Імпортувати події з</value>
+  </data>
+  <data name="EVENTS_ADD_EVENT_BUTTON" xml:space="preserve">
+    <value>Додати нову подію</value>
+  </data>
+  <data name="WelcomeBackUser" xml:space="preserve">
+    <value>З поверненням</value>
+  </data>
+  <data name="ChurchInfo" xml:space="preserve">
+    <value>Назва церкви</value>
+  </data>
+  <data name="NAV_LABEL_PROFILE" xml:space="preserve">
+    <value>Профіль</value>
+  </data>
+  <data name="NAV_LABEL_CHURCH_PROFILE" xml:space="preserve">
+    <value>Моя церква</value>
+  </data>
+  <data name="NAV_LABEL_PASSWORD" xml:space="preserve">
+    <value>Змінити пароль</value>
+  </data>
+  <data name="NAV_LABEL_EXTERNAL_LOGIN" xml:space="preserve">
+    <value>Зовнішній вхід</value>
+  </data>
+  <data name="NAV_LABEL_2FA" xml:space="preserve">
+    <value>Двофакторна автентифікація</value>
+  </data>
+  <data name="NAV_LABEL_PERSONAL_DATA" xml:space="preserve">
+    <value>Мої дані</value>
+  </data>
+  <data name="CONGREGATION_SIZE_LABEL" xml:space="preserve">
+    <value>Громада</value>
+  </data>
+  <data name="PHONE_LABEL" xml:space="preserve">
+    <value>Телефон</value>
+  </data>
+  <data name="CHURCHSUITE_LABEL" xml:space="preserve">
+    <value>ChurchSuite</value>
+  </data>
+  <data name="CHURCH_WEBSITE_LABEL" xml:space="preserve">
+    <value>Вебсайт</value>
+  </data>
+  <data name="FACILITIES_LABEL" xml:space="preserve">
+    <value>Доступні зручності</value>
+  </data>
+  <data name="FACILITY_RESTROOMS" xml:space="preserve">
+    <value>Туалет</value>
+  </data>
+  <data name="FACILITY_WHEELCHAIR_ACCESS" xml:space="preserve">
+    <value>Доступ для інвалідних колясок</value>
+  </data>
+  <data name="FACILITY_FREE_WIFI" xml:space="preserve">
+    <value>Wi-Fi</value>
+  </data>
+  <data name="FACILITY_REFRESHMENTS" xml:space="preserve">
+    <value>Напої та закуски</value>
+  </data>
+  <data name="FACILITY_PARKING" xml:space="preserve">
+    <value>Паркування</value>
+  </data>
+  <data name="FACILITY_CHILDCARE" xml:space="preserve">
+    <value>Догляд за дітьми</value>
+  </data>
+  <data name="FACILITY_HEARING_AID_SUPPORT" xml:space="preserve">
+    <value>Підтримка слухових апаратів</value>
+  </data>
+  <data name="FACILITY_KITCHEN" xml:space="preserve">
+    <value>Кухня</value>
+  </data>
+  <data name="FACILITY_COMMUNITY_SPACE" xml:space="preserve">
+    <value>Громадський простір</value>
+  </data>
+  <data name="FACILITY_OUTDOOR_SPACES" xml:space="preserve">
+    <value>Відкритий простір</value>
+  </data>
+  <data name="FACILITY_WORSHIP_HALL" xml:space="preserve">
+    <value>Молитовна зала</value>
+  </data>
+  <data name="USE_MY_LOCATION" xml:space="preserve">
+    <value>Використовувати моє розташування</value>
+  </data>
+  <data name="UPDATE_CHURCH_INFO" xml:space="preserve">
+    <value>Інформація про вашу церкву</value>
+  </data>
+  <data name="LABEL_UPLOAD_LOGO" xml:space="preserve">
+    <value>Завантажити логотип</value>
+  </data>
+  <data name="LABEL_MANAGE_SERVICE_TIMES" xml:space="preserve">
+    <value>Управління часом богослужінь</value>
+  </data>
+  <data name="MARK_CHURCH_AS" xml:space="preserve">
+    <value>Позначити церкву як</value>
+  </data>
+  <data name="STATUS_OPEN" xml:space="preserve">
+    <value>Відкрита</value>
+  </data>
+  <data name="STATUS_CLOSED" xml:space="preserve">
+    <value>Зачинена</value>
+  </data>
+  <data name="PLEASE_ONLY_USE_THIS" xml:space="preserve">
+    <value>Будь ласка, використовуйте це лише в тому разі,</value>
+  </data>
+  <data name="FOR_LONG_TERM_MAINTENANCE" xml:space="preserve">
+    <value>якщо ваша церква зачинена на тривалий ремонт або закрилася назавжди й більше не приймає відвідувачів та не проводить регулярних богослужінь. Зверніть увагу: ваша церква НЕ відображатиметься в пошуку поблизу, якщо встановити статус «Зачинена».</value>
+  </data>
+  <data name="CURRENT_SERVICE_TIMES" xml:space="preserve">
+    <value>Поточний час богослужінь</value>
+  </data>
+  <data name="TIME_LABEL" xml:space="preserve">
+    <value>Час</value>
+  </data>
+  <data name="NOTE_LABEL" xml:space="preserve">
+    <value>Дата</value>
+  </data>
+  <data name="DELETE_ENTRY_LABEL" xml:space="preserve">
+    <value>Видалити запис</value>
+  </data>
+  <data name="STATUS_DELETE" xml:space="preserve">
+    <value>Видалити</value>
+  </data>
+  <data name="ADD_SERVICE" xml:space="preserve">
+    <value>Додати богослужіння</value>
+  </data>
+  <data name="PLACEHOLDER_SERVICE_NOTE" xml:space="preserve">
+    <value>Ранкове причасне богослужіння</value>
+  </data>
+  <data name="STATUS_GEOLATION_NOT_SUPPORTED" xml:space="preserve">
+    <value>Геолокація не підтримується</value>
+  </data>
+  <data name="ManageYourData" xml:space="preserve">
+    <value>Управління особистими даними</value>
+  </data>
+  <data name="PersonalDataDeletionWarning" xml:space="preserve">
+    <value>Якщо ви бажаєте завантажити свою інформацію, включно з усією інформацією про вашу церкву, зв'яжіться з нами через</value>
+  </data>
+  <data name="PERSONAL_DATA_P1" xml:space="preserve">
+    <value>Якщо ви бажаєте завантажити свою інформацію, включно з усією інформацією про вашу церкву, зв'яжіться з нами через </value>
+  </data>
+  <data name="PERSONAL_DATA_P2" xml:space="preserve">
+    <value>Сторінку контактів</value>
+  </data>
+  <data name="CLIENT_EMAIL_PLACEHOLDER" xml:space="preserve">
+    <value>Ваш Email</value>
+  </data>
+  <data name="CHURCH_GENERAL_INFO_TITLE" xml:space="preserve">
+    <value>Загальна інформація</value>
+  </data>
+  <data name="CHURCH_NAME_LABEL" xml:space="preserve">
+    <value>Назва:</value>
+  </data>
+  <data name="CHURCH_DESCRIPTION_LABEL" xml:space="preserve">
+    <value>Опис:</value>
+  </data>
+  <data name="CHURCH_ADDRESS_LABEL" xml:space="preserve">
+    <value>Адреса:</value>
+  </data>
+  <data name="CHURCH_FACILITIES_TITLE" xml:space="preserve">
+    <value>Зручності</value>
+  </data>
+  <data name="CHURCH_REFRESHMENTS_LABEL" xml:space="preserve">
+    <value>Напої та закуски</value>
+  </data>
+  <data name="CHURCH_FACILITY_AVAILABLE" xml:space="preserve">
+    <value>Доступно</value>
+  </data>
+  <data name="CHURCH_FACILITY_NOT_AVAILABLE" xml:space="preserve">
+    <value>Недоступно</value>
+  </data>
+  <data name="CHURCH_RESTROOMS_LABEL" xml:space="preserve">
+    <value>Туалет</value>
+  </data>
+  <data name="CHURCH_WIFI_LABEL" xml:space="preserve">
+    <value>Wi-Fi</value>
+  </data>
+  <data name="CHURCH_PARKING_LABEL" xml:space="preserve">
+    <value>Паркування</value>
+  </data>
+  <data name="CHURCH_WHEELCHAIR_LABEL" xml:space="preserve">
+    <value>Доступ для інвалідних колясок</value>
+  </data>
+  <data name="CHURCH_COMMUNITY_SPACE_LABEL" xml:space="preserve">
+    <value>Громадський простір</value>
+  </data>
+  <data name="CHURCH_KITCHEN_LABEL" xml:space="preserve">
+    <value>Кухня</value>
+  </data>
+  <data name="CHURCH_HEARING_AID_LABEL" xml:space="preserve">
+    <value>Підтримка слухових апаратів</value>
+  </data>
+  <data name="CHURCH_OUTDOOR_SPACE_LABEL" xml:space="preserve">
+    <value>Відкритий простір</value>
+  </data>
+  <data name="CHURCH_BUILDING_LABEL" xml:space="preserve">
+    <value>Молитовна зала</value>
+  </data>
+  <data name="CHURCH_CHILDCARE_LABEL" xml:space="preserve">
+    <value>Догляд за дітьми</value>
+  </data>
+  <data name="CHURCH_CHURCHSUITE_BUTTON" xml:space="preserve">
+    <value>ChurchSuite</value>
+  </data>
+  <data name="CHURCH_SEND_MESSAGE_BUTTON" xml:space="preserve">
+    <value>Надіслати повідомлення</value>
+  </data>
+  <data name="CHURCH_EVENTS_HEADING" xml:space="preserve">
+    <value>Поточні / майбутні події</value>
+  </data>
+  <data name="CHURCH_NO_EVENTS_MESSAGE" xml:space="preserve">
+    <value>У цієї церкви немає майбутніх подій</value>
+  </data>
+  <data name="CHURCH_SUNDAY_SERVICES_HEADING" xml:space="preserve">
+    <value>Недільні богослужіння</value>
+  </data>
+  <data name="CHURCH_FIND_ON_MAPS_HEADING" xml:space="preserve">
+    <value>Знайдіть нас на Google Maps</value>
+  </data>
+  <data name="LABEL_DENOMINATION" xml:space="preserve">
+    <value>Конфесія</value>
+  </data>
+  <data name="LABEL_CONGREGATION" xml:space="preserve">
+    <value>Громада</value>
+  </data>
+  <data name="PROFILE_WELCOME_BACK" xml:space="preserve">
+    <value>З поверненням</value>
+  </data>
+  <data name="TAG_USERNAME" xml:space="preserve">
+    <value>Ім'я користувача</value>
+  </data>
+  <data name="TAG_PHONE" xml:space="preserve">
+    <value>Номер телефону</value>
+  </data>
+  <data name="TAG_SAVE" xml:space="preserve">
+    <value>Зберегти зміни</value>
+  </data>
+  <data name="TAG_UPDATE_INFORMATION" xml:space="preserve">
+    <value>Оновити інформацію</value>
+  </data>
+  <data name="TAG_SYNC_FROM_CHURCHSUITE" xml:space="preserve">
+    <value>Синхронізувати з ChurchSuite</value>
+  </data>
+  <data name="TAG_SYNC_FROM_CHURCHSUITE_DESC" xml:space="preserve">
+    <value>Оновіть інформацію про вашу церкву з вашого облікового запису ChurchSuite.</value>
+  </data>
+  <data name="TAG_SELECT_IMAGE" xml:space="preserve">
+    <value>Виберіть файл (Натисніть тут)</value>
+  </data>
+  <data name="TAG_CLOSED_INFO" xml:space="preserve">
+    <value>Будь ласка, використовуйте кнопку Позначити церкву як зачинену лише тоді, коли ваша церква зачинена на тривалий ремонт або закрилася назавжди. Зверніть увагу: ваша церква НЕ відображатиметься в пошуку поблизу, якщо встановити статус «Зачинена».</value>
+  </data>
+  <data name="TAG_CHURCH_SERVICE_TIME_BUTTON" xml:space="preserve">
+    <value>Управління часом богослужінь</value>
+  </data>
+  <data name="TAG_SERVICE_NOTE_PLACEHOLDER" xml:space="preserve">
+    <value>Ранкове причасне богослужіння</value>
+  </data>
+  <data name="TAG_OLD_PASSWORD" xml:space="preserve">
+    <value>Будь ласка, введіть свій старий пароль</value>
+  </data>
+  <data name="TAG_NEW_PASSWORD" xml:space="preserve">
+    <value>Будь ласка, введіть свій новий пароль</value>
+  </data>
+  <data name="TAG_CURRENT_PWD" xml:space="preserve">
+    <value>Поточний пароль</value>
+  </data>
+  <data name="TAG_NEW_PWD" xml:space="preserve">
+    <value>Новий пароль</value>
+  </data>
+  <data name="TAG_CHANGE_PASSWORD" xml:space="preserve">
+    <value>Змінити свій пароль</value>
+  </data>
+  <data name="STATUS_SAVE" xml:space="preserve">
+    <value>Зберегти зміни</value>
+  </data>
+  <data name="EXTERNAL_LOGIN_TITLE" xml:space="preserve">
+    <value>Керуйте своїми зовнішніми входами</value>
+  </data>
+  <data name="TAG_REGISTERED_LOGINS" xml:space="preserve">
+    <value>Зареєстровані входи</value>
+  </data>
+  <data name="TAG_CONNECT_CHURCHSUITE" xml:space="preserve">
+    <value>Підключити ChurchSuite</value>
+  </data>
+  <data name="TAG_CHURCHSUITE_DESC" xml:space="preserve">
+    <value>Введіть публічний ID клієнта ChurchSuite (PKCE) і натисніть "Зберегти та авторизувати", щоб пов'язати свій обліковий запис ChurchSuite з цим обліковим записом ForestChurches.</value>
+  </data>
+  <data name="TAG_CHURCHSUITE_CLIENT_ID" xml:space="preserve">
+    <value>ID клієнта ChurchSuite</value>
+  </data>
+  <data name="TAG_SAVE_AUTHORIZE" xml:space="preserve">
+    <value>Зберегти та авторизувати через ChurchSuite</value>
+  </data>
+  <data name="STATUS_CHURCHSUITE_CONNECTION" xml:space="preserve">
+    <value>Не підключено до ChurchSuite</value>
+  </data>
+  <data name="TAG_CHURCHSUITE_MSG_P1" xml:space="preserve">
+    <value>Видалити це</value>
+  </data>
+  <data name="TAG_CHURCHSUITE_MSG_P2" xml:space="preserve">
+    <value>ім'я входу з вашого облікового запису</value>
+  </data>
+  <data name="STATUS_REMOVE" xml:space="preserve">
+    <value>Видалити</value>
+  </data>
+  <data name="TAG_ANOTHER_SERVICE" xml:space="preserve">
+    <value>Додати інший сервіс для входу</value>
+  </data>
+  <data name="TAG_LOGIN_DESC_A" xml:space="preserve">
+    <value>Увійдіть за допомогою свого облікового запису</value>
+  </data>
+  <data name="TAG_LOGIN_DESC_B" xml:space="preserve">
+    <value>обліковий запис</value>
+  </data>
+  <data name="TITLE_TWO_FACTOR_AUTHENTICATION" xml:space="preserve">
+    <value>Двофакторна автентифікація (2FA)</value>
+  </data>
+  <data name="ALT_PROFILE_PICTURE" xml:space="preserve">
+    <value>фото профілю</value>
+  </data>
+  <data name="NO_RECOVERY_CODES_LEFT_TITLE" xml:space="preserve">
+    <value>У вас не залишилося кодів відновлення.</value>
+  </data>
+  <data name="MUST_GENERATE_CODES_BEFORE" xml:space="preserve">
+    <value>Ви повинні</value>
+  </data>
+  <data name="GENERATE_NEW_CODES_LINK" xml:space="preserve">
+    <value>згенерувати новий набір кодів відновлення</value>
+  </data>
+  <data name="MUST_GENERATE_CODES_AFTER" xml:space="preserve">
+    <value>перш ніж увійти за допомогою коду відновлення.</value>
+  </data>
+  <data name="ONE_RECOVERY_CODE_LEFT_TITLE" xml:space="preserve">
+    <value>У вас залишився 1 код відновлення.</value>
+  </data>
+  <data name="CAN_GENERATE_CODES_BEFORE" xml:space="preserve">
+    <value>Ви можете</value>
+  </data>
+  <data name="MULTIPLE_RECOVERY_CODES_LEFT_BEFORE" xml:space="preserve">
+    <value>У вас залишилося</value>
+  </data>
+  <data name="MULTIPLE_RECOVERY_CODES_LEFT_AFTER" xml:space="preserve">
+    <value>код(ів) відновлення.</value>
+  </data>
+  <data name="SHOULD_GENERATE_CODES_BEFORE" xml:space="preserve">
+    <value>Вам слід</value>
+  </data>
+  <data name="BTN_FORGET_BROWSER" xml:space="preserve">
+    <value>Забути цей браузер</value>
+  </data>
+  <data name="BTN_DISABLE_2FA" xml:space="preserve">
+    <value>Вимкнути 2FA</value>
+  </data>
+  <data name="BTN_RESET_RECOVERY_CODES" xml:space="preserve">
+    <value>Скинути коди відновлення</value>
+  </data>
+  <data name="AUTHENTICATOR_APP_HEADER" xml:space="preserve">
+    <value>Додаток-автентифікатор</value>
+  </data>
+  <data name="BTN_ADD_AUTHENTICATOR_APP" xml:space="preserve">
+    <value>Додати додаток-автентифікатор</value>
+  </data>
+  <data name="BTN_SET_UP_AUTHENTICATOR_APP" xml:space="preserve">
+    <value>Налаштувати додаток-автентифікатор</value>
+  </data>
+  <data name="BTN_RESET_AUTHENTICATOR_APP" xml:space="preserve">
+    <value>Скинути додаток-автентифікатор</value>
+  </data>
+  <data name="PRIVACY_POLICY_NOT_ACCEPTED_TITLE" xml:space="preserve">
+    <value>Політику конфіденційності та файлів cookie не прийнято.</value>
+  </data>
+  <data name="PRIVACY_POLICY_NOT_ACCEPTED_BODY" xml:space="preserve">
+    <value>Ви повинні прийняти політику, перш ніж увімкнути двофакторну автентифікацію.</value>
+  </data>
+  <data name="TITLE_PERSONAL_DATA" xml:space="preserve">
+    <value>Особисті дані</value>
+  </data>
+  <data name="PROFILE_WELCOME_BACK_USER" xml:space="preserve">
+    <value>З поверненням, Користувачу!</value>
+  </data>
+  <data name="DOWNLOAD_INFO_PREFIX" xml:space="preserve">
+    <value>Якщо ви бажаєте завантажити свою інформацію, включно з усією інформацією про вашу церкву, зв'яжіться з нами через</value>
+  </data>
+  <data name="CONTACT_US_PAGE_LINK" xml:space="preserve">
+    <value>Сторінку контактів</value>
+  </data>
+  <data name="SERVICE_TIMES_TITLE" xml:space="preserve">
+    <value>Часи богослужінь вашої церкви</value>
+  </data>
+  <data name="STATUS_ADD_SERVICE" xml:space="preserve">
+    <value>Додати службу</value>
+  </data>
+  <data name="MANAGE_CHURCH_SERVICE_TIMES" xml:space="preserve">
+    <value>Керувати часами богослужінь церкви</value>
+  </data>
+  <data name="UPLOAD_LOGO_TEXT" xml:space="preserve">
+    <value>Завантажити логотип</value>
+  </data>
+  <data name="TAG_USE_GEOLOCATION" xml:space="preserve">
+    <value>Використати моє поточне місцезнаходження</value>
+  </data>
+  <data name="TAG_USER" xml:space="preserve">
+    <value>Користувач</value>
+  </data>
+  <data name="UpdateTitle" xml:space="preserve">
+    <value>Двофакторна автентифікація (2FA)</value>
+  </data>
+  <data name="STATUS_CLOSE" xml:space="preserve">
+    <value>Закрити</value>
+  </data>
+</root>

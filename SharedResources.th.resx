@@ -1,0 +1,906 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="APP_TITLE" xml:space="preserve">
+    <value>โบสถ์ป่า</value>
+  </data>
+  <data name="FOOTER_CONTACT_LINK" xml:space="preserve">
+    <value>ติดต่อเรา</value>
+  </data>
+  <data name="HOMEPAGE_PAGE_TITLE" xml:space="preserve">
+    <value>หน้าหลัก - โบสถ์ป่า</value>
+  </data>
+  <data name="NAV_BRAND" xml:space="preserve">
+    <value>โบสถ์ป่า</value>
+  </data>
+  <data name="NAV_HOME" xml:space="preserve">
+    <value>หน้าหลัก</value>
+  </data>
+  <data name="NAV_ABOUT" xml:space="preserve">
+    <value>เกี่ยวกับเรา</value>
+  </data>
+  <data name="NAV_WHATS_NEARBY" xml:space="preserve">
+    <value>มีอะไรใกล้ๆ</value>
+  </data>
+  <data name="NAV_MY_EVENTS" xml:space="preserve">
+    <value>อีเวนต์ของฉัน</value>
+  </data>
+  <data name="NAV_CONTACT" xml:space="preserve">
+    <value>ติดต่อเรา</value>
+  </data>
+  <data name="NAV_ADMIN" xml:space="preserve">
+    <value>แอดมิน</value>
+  </data>
+  <data name="NAV_LOGIN" xml:space="preserve">
+    <value>เข้าสู่ระบบ</value>
+  </data>
+  <data name="HOMEPAGE_HERO_TITLE" xml:space="preserve">
+    <value>ยินดีต้อนรับสู่โบสถ์ป่า</value>
+  </data>
+  <data name="HOMEPAGE_HERO_SUBTITLE" xml:space="preserve">
+    <value>เชื่อมต่อชุมชนในป่าดีน</value>
+  </data>
+  <data name="CONTACT_PAGE_TITLE" xml:space="preserve">
+    <value>ติดต่อเรา</value>
+  </data>
+  <data name="CONTACT_RECIPIENT_LABEL" xml:space="preserve">
+    <value>ผู้รับ:</value>
+  </data>
+  <data name="CONTACT_NAME_PLACEHOLDER" xml:space="preserve">
+    <value>ชื่อของคุณ</value>
+  </data>
+  <data name="CONTACT_SUBJECT_PLACEHOLDER" xml:space="preserve">
+    <value>หัวเรื่อง</value>
+  </data>
+  <data name="CONTACT_EMAIL_PLACEHOLDER" xml:space="preserve">
+    <value>เราจะติดต่อคุณได้อย่างไร ('John@yourchurch.com...')</value>
+  </data>
+  <data name="CONTACT_MESSAGE_PLACEHOLDER" xml:space="preserve">
+    <value>ข้อความของคุณ</value>
+  </data>
+  <data name="CONTACT_SUBMIT_BUTTON" xml:space="preserve">
+    <value>ส่งข้อความ</value>
+  </data>
+  <data name="SAVE" xml:space="preserve">
+    <value>บันทึก</value>
+  </data>
+  <data name="CANCEL" xml:space="preserve">
+    <value>ยกเลิก</value>
+  </data>
+  <data name="DELETE" xml:space="preserve">
+    <value>ลบ</value>
+  </data>
+  <data name="EDIT" xml:space="preserve">
+    <value>แก้ไข</value>
+  </data>
+  <data name="CREATE" xml:space="preserve">
+    <value>สร้าง</value>
+  </data>
+  <data name="SEARCH" xml:space="preserve">
+    <value>ค้นหา</value>
+  </data>
+  <data name="FILTER" xml:space="preserve">
+    <value>ตัวกรอง</value>
+  </data>
+  <data name="SUBMIT" xml:space="preserve">
+    <value>ส่ง</value>
+  </data>
+  <data name="BACK" xml:space="preserve">
+    <value>ย้อนกลับ</value>
+  </data>
+  <data name="ERROR" xml:space="preserve">
+    <value>ข้อผิดพลาด</value>
+  </data>
+  <data name="SUCCESS" xml:space="preserve">
+    <value>สำเร็จ</value>
+  </data>
+  <data name="WARNING" xml:space="preserve">
+    <value>คำเตือน</value>
+  </data>
+  <data name="INFO" xml:space="preserve">
+    <value>ข้อมูล</value>
+  </data>
+  <data name="LOADING" xml:space="preserve">
+    <value>กำลังโหลด...</value>
+  </data>
+  <data name="NO_RECORDS" xml:space="preserve">
+    <value>ไม่พบบันทึก</value>
+  </data>
+  <data name="LOGIN" xml:space="preserve">
+    <value>เข้าสู่ระบบ</value>
+  </data>
+  <data name="LOGOUT" xml:space="preserve">
+    <value>ออกจากระบบ</value>
+  </data>
+  <data name="REGISTER" xml:space="preserve">
+    <value>ลงทะเบียน</value>
+  </data>
+  <data name="PROFILE" xml:space="preserve">
+    <value>โปรไฟล์</value>
+  </data>
+  <data name="EMAIL" xml:space="preserve">
+    <value>อีเมล</value>
+  </data>
+  <data name="PASSWORD" xml:space="preserve">
+    <value>รหัสผ่าน</value>
+  </data>
+  <data name="NAME" xml:space="preserve">
+    <value>ชื่อ</value>
+  </data>
+  <data name="ADDRESS" xml:space="preserve">
+    <value>ที่อยู่</value>
+  </data>
+  <data name="PHONE" xml:space="preserve">
+    <value>โทรศัพท์</value>
+  </data>
+  <data name="NEARME_HERO_TITLE" xml:space="preserve">
+    <value>หาโบสถ์ใกล้คุณ</value>
+  </data>
+  <data name="NEARME_HERO_SUBTITLE" xml:space="preserve">
+    <value>ค้นพบโบสถ์และชุมชนท้องถิ่นในพื้นที่ของคุณ</value>
+  </data>
+  <data name="NEARME_TAB_HOME" xml:space="preserve">
+    <value>หน้าแรก</value>
+  </data>
+  <data name="NEARME_TAB_CHURCHES" xml:space="preserve">
+    <value>โบสถ์</value>
+  </data>
+  <data name="NEARME_TAB_ACTIVITIES" xml:space="preserve">
+    <value>กิจกรรม</value>
+  </data>
+  <data name="NEARME_WELCOME_HEADING" xml:space="preserve">
+    <value>ยินดีต้อนรับสู่เส้นทางในป่า</value>
+  </data>
+  <data name="NEARME_WELCOME_INTRO_TEXT" xml:space="preserve">
+    <value>เครื่องมือนี้ช่วยให้คุณค้นพบโบสถ์และกิจกรรมใกล้เคียง ใช้เพื่อค้นหาชุมชนจิตใจที่ตรงกับความสนใจและความต้องการของคุณ</value>
+  </data>
+  <data name="NEARME_HOW_TO_USE_HEADING" xml:space="preserve">
+    <value>วิธีใช้เครื่องมือนี้</value>
+  </data>
+  <data name="NEARME_HOW_TO_USE_TEXT" xml:space="preserve">
+    <value>1. ไปที่แท็บ "โบสถ์" และป้อนรหัสไปรษณีย์ของคุณ หรือใช้ตำแหน่งปัจจุบันของคุณ 2. เลือกสิ่งอำนวยความสะดวกที่คุณสนใจ (ที่จอดรถ ห้องน้ำ การเข้าถึงรถเข็น ฯลฯ) 3. เลือกนิกายที่คุณต้องการ หรือปล่อยให้เปิดสำหรับนิกายทั้งหมด 4. คลิก "มีอะไรอยู่รอบฉัน" เพื่อดูตัวเลือกใกล้เคียง 5. ท่องดูผลลัพธ์และดาวน์โหลดข้อมูล หรือส่งข้อมูลให้ตัวเองทางอีเมล</value>
+  </data>
+  <data name="NEARME_FIND_CHURCH_HEADING" xml:space="preserve">
+    <value>หาโบสถ์ใกล้ที่นี่</value>
+  </data>
+  <data name="NEARME_FIND_CHURCH_INTRO_TEXT" xml:space="preserve">
+    <value>ค้นหาโบสถ์ในพื้นที่ของคุณโดยป้อนรหัสไปรษณีย์และเลือกความต้องการของคุณ</value>
+  </data>
+  <data name="NEARME_FACILITIES_TITLE" xml:space="preserve">
+    <value>สิ่งอำนวยความสะดวก</value>
+  </data>
+  <data name="NEARME_FACILITY_PARKING" xml:space="preserve">
+    <value>ที่จอดรถ</value>
+  </data>
+  <data name="NEARME_FACILITY_RESTROOMS" xml:space="preserve">
+    <value>ห้องน้ำ</value>
+  </data>
+  <data name="NEARME_FACILITY_WHEELCHAIR_ACCESS" xml:space="preserve">
+    <value>การเข้าถึงรถเข็น</value>
+  </data>
+  <data name="NEARME_FACILITY_WIFI" xml:space="preserve">
+    <value>ไวไฟ</value>
+  </data>
+  <data name="NEARME_FACILITY_REFRESHMENTS" xml:space="preserve">
+    <value>ของรับประทาน</value>
+  </data>
+  <data name="NEARME_FACILITY_WORSHIP_HALL" xml:space="preserve">
+    <value>ห้องสักการะ</value>
+  </data>
+  <data name="NEARME_FACILITY_CHILDRENS_MINISTRY" xml:space="preserve">
+    <value>หน่วยงานสำหรับเด็ก</value>
+  </data>
+  <data name="NEARME_FACILITY_COMMUNITY_HALL" xml:space="preserve">
+    <value>ห้องชุมชน</value>
+  </data>
+  <data name="NEARME_FACILITY_KITCHEN" xml:space="preserve">
+    <value>ห้องครัว</value>
+  </data>
+  <data name="NEARME_FACILITY_OUTDOOR_SPACE" xml:space="preserve">
+    <value>พื้นที่กลางแจ้ง</value>
+  </data>
+  <data name="NEARME_FACILITY_HEARING_AID_SUPPORT" xml:space="preserve">
+    <value>การสนับสนุนอุปกรณ์ช่วยฟัง</value>
+  </data>
+  <data name="NEARME_POSTCODE_LABEL" xml:space="preserve">
+    <value>รหัสไปรษณีย์</value>
+  </data>
+  <data name="NEARME_POSTCODE_PLACEHOLDER" xml:space="preserve">
+    <value>ป้อนรหัสไปรษณีย์ของคุณ</value>
+  </data>
+  <data name="NEARME_MAX_DISTANCE_LABEL" xml:space="preserve">
+    <value>ระยะทางสูงสุด (กิโลเมตร)</value>
+  </data>
+  <data name="NEARME_DENOMINATION_LABEL" xml:space="preserve">
+    <value>นิกาย</value>
+  </data>
+  <data name="NEARME_ANY_DENOMINATION_OPTION" xml:space="preserve">
+    <value>นิกายใด ๆ</value>
+  </data>
+  <data name="NEARME_WHATS_AROUND_ME_BUTTON" xml:space="preserve">
+    <value>มีอะไรอยู่รอบฉัน</value>
+  </data>
+  <data name="NEARME_USE_MY_LOCATION_BUTTON" xml:space="preserve">
+    <value>ใช้ตำแหน่งของฉัน</value>
+  </data>
+  <data name="NEARME_PICK_CHURCH_MODAL_TITLE" xml:space="preserve">
+    <value>เลือกโบสถ์</value>
+  </data>
+  <data name="NEARME_NAME_LABEL" xml:space="preserve">
+    <value>ชื่อ</value>
+  </data>
+  <data name="NEARME_DESCRIPTION_LABEL" xml:space="preserve">
+    <value>คำอธิบาย</value>
+  </data>
+  <data name="NEARME_DOWNLOAD_INFO_BUTTON" xml:space="preserve">
+    <value>ดาวน์โหลดข้อมูล</value>
+  </data>
+  <data name="NEARME_SEND_INFO_BUTTON" xml:space="preserve">
+    <value>ส่งข้อมูล</value>
+  </data>
+  <data name="NEARME_FIND_OUT_MORE_BUTTON" xml:space="preserve">
+    <value>เรียนรู้เพิ่มเติม</value>
+  </data>
+  <data name="NEARME_NO_CHURCHES_FOUND" xml:space="preserve">
+    <value>ไม่พบโบสถ์ภายใน</value>
+  </data>
+  <data name="NEARME_NO_RESULTS_SUFFIX" xml:space="preserve">
+    <value>จากตำแหน่งของคุณ ลองเพิ่มระยะทางการค้นหา</value>
+  </data>
+  <data name="NEARME_NEARBY_EVENTS_MODAL_TITLE" xml:space="preserve">
+    <value>กิจกรรมใกล้เคียง</value>
+  </data>
+  <data name="NEARME_LOCATION_LABEL" xml:space="preserve">
+    <value>ตำแหน่ง</value>
+  </data>
+  <data name="NEARME_DATE_LABEL" xml:space="preserve">
+    <value>วันที่</value>
+  </data>
+  <data name="NEARME_TIME_LABEL" xml:space="preserve">
+    <value>เวลา</value>
+  </data>
+  <data name="NEARME_EVENT_REPEATS_QUESTION" xml:space="preserve">
+    <value>ซ้ำ?</value>
+  </data>
+  <data name="NEARME_EVENTS_HEADING" xml:space="preserve">
+    <value>กิจกรรมใกล้ฉัน</value>
+  </data>
+  <data name="NEARME_EVENTS_INTRO_TEXT" xml:space="preserve">
+    <value>ค้นหากิจกรรมใกล้ฉัน</value>
+  </data>
+  <data name="NEARME_CHURCH_LABEL" xml:space="preserve">
+    <value>คริสตจักร</value>
+  </data>
+  <data name="NEARME_ANY_CHURCH_OPTION" xml:space="preserve">
+    <value>คริสตจักรใดก็ได้</value>
+  </data>
+  <data name="NEARME_START_DATE_LABEL" xml:space="preserve">
+    <value>วันที่เริ่มต้น</value>
+  </data>
+  <data name="NEARME_END_DATE_LABEL" xml:space="preserve">
+    <value>วันที่สิ้นสุด</value>
+  </data>
+  <data name="NEARME_EVENT_HOSTED_BY" xml:space="preserve">
+    <value>กิจกรรมนี้จัดขึ้นโดย</value>
+  </data>
+  <data name="NEARME_NO_EVENTS_FOUND" xml:space="preserve">
+    <value>ขออภัย ขณะนี้ไม่มีกิจกรรมภายในระยะทางที่กำหนดจากที่อยู่ของคุณ</value>
+  </data>
+  <data name="NEARME_EMAIL_MODAL_TITLE" xml:space="preserve">
+    <value>กรอกอีเมลของคุณ</value>
+  </data>
+  <data name="NEARME_EMAIL_LABEL" xml:space="preserve">
+    <value>อีเมล</value>
+  </data>
+  <data name="NEARME_SEND_INFORMATION_BUTTON" xml:space="preserve">
+    <value>ส่งข้อมูล</value>
+  </data>
+  <data name="ABOUTUS_PAGE_TITLE" xml:space="preserve">
+    <value>เกี่ยวกับเรา</value>
+  </data>
+  <data name="ABOUTUS_COMMUNITY_SECTION_TEXT" xml:space="preserve">
+    <value>ยินดีต้อนรับค่ะ/ครับ เราหวังว่าคุณจะพบสิ่งที่คุณกำลังมองหา หากคุณยังไม่ทราบมาก่อน ที่นี่คือ...! เรามุ่งมั่นที่จะดูแลชุมชนของเราด้วยความรักและความห่วงใย โดยมีพันธกิจในการสร้างพื้นที่ที่อบอุ่นและเป็นมิตร ซึ่งทุกคนจะรู้สึกถึงคุณค่าและการได้รับการสนับสนุน มาร่วมสร้างสิ่งดีๆ ไปด้วยกันกับเรานะคะ/ครับ</value>
+  </data>
+  <data name="ABOUTUS_COMMUNITY_SECTION_TITLE" xml:space="preserve">
+    <value>เรายืนหยัดเพื่อชุมชน</value>
+  </data>
+  <data name="ABOUTUS_COMMUNITY_IMAGE_ALT" xml:space="preserve">
+    <value>ภาพลักษณ์ของชุมชน</value>
+  </data>
+  <data name="ABOUTUS_PAGE_SUBTITLE" xml:space="preserve">
+    <value>ทำความรู้จักกับเราและสิ่งที่เราทำ</value>
+  </data>
+  <data name="ABOUTUS_SUPPORT_IMAGE_ALT" xml:space="preserve">
+    <value>ภาพประกอบ</value>
+  </data>
+  <data name="ABOUTUS_BELIEF_SECTION_TITLE" xml:space="preserve">
+    <value>สิ่งที่เราเชื่อ</value>
+  </data>
+  <data name="ABOUTUS_BELIEF_SECTION_TEXT" xml:space="preserve">
+    <value>ด้วยแรงบันดาลใจจากความจริงข้อนี้ เราขอยืนยันว่าพระเยซูคริสต์ทรงเป็นองค์พระผู้เป็นเจ้าและพระผู้ช่วยให้รอด ผู้ทรงประทานการให้อภัย การฟื้นฟู และเป้าหมายร่วมกันแก่คริสตจักรของพระองค์ พระองค์ทรงเป็นผู้เรียกให้เราร่วมมือกัน โดยชื่นชมยินดีในความหลากหลายและยืนหยัดเป็นหนึ่งเดียวกันในความรักของพระองค์ ความเชื่อนี้เป็นแรงผลักดันให้เกิดเว็บไซต์นี้ขึ้น เพื่อเป็นช่องทางในการเชื่อมโยง เสริมสร้าง และเตรียมความพร้อมให้กับคริสตจักรต่างๆ ทั่วพื้นที่ Forest of Dean พันธกิจของเราคือการรวมชุมชนให้เป็นหนึ่งเดียวกัน ผ่านการสนับสนุนและส่งเสริมคริสตจักรต่างๆ พร้อมทั้งเปิดโอกาสให้ผู้คนรอบข้างได้ค้นพบสิ่งดีงามที่มีอยู่ใน Forest of Dean</value>
+  </data>
+  <data name="ABOUTUS_LIGHT_IMAGE_ALT" xml:space="preserve">
+    <value>ภาพแสง</value>
+  </data>
+  <data name="ABOUTUS_LIGHT_SECTION_TITLE" xml:space="preserve">
+    <value>ส่องสว่างในป่าด้วยแสงสว่างของพระเยซู</value>
+  </data>
+  <data name="LOGIN_HEADING" xml:space="preserve">
+    <value>กรุณาเข้าสู่ระบบเพื่อดำเนินการต่อ...</value>
+  </data>
+  <data name="ABOUTUS_LIGHT_SECTION_TEXT" xml:space="preserve">
+    <value>ด้วยแรงบันดาลใจจากคำสอนของพระเยซู เรามุ่งมั่นที่จะส่งมอบแสงสว่างและความหวังไปทั่วพื้นที่ Forest of Dean ความศรัทธาผลักดันให้เราอุทิศตนเพื่อรับใช้ผู้อื่นและแบ่งปันข่าวสารแห่งความรัก สันติสุข และความเมตตา มาร่วมเป็นส่วนหนึ่งในการเดินทางของเราสิคะ/ครับ</value>
+  </data>
+  <data name="ABOUTUS_FOOTER_TEXT" xml:space="preserve">
+    <value>เว็บไซต์นี้จัดทำขึ้นโดย Jack Butcher-Barnard และ Johnathan Kear โดยมีจุดมุ่งหมายเพื่อสนับสนุนและเสริมสร้างความเข้มแข็งให้กับคริสตจักรต่างๆ ทั่วพื้นที่ Forest of Dean</value>
+  </data>
+  <data name="LOGIN_EMAIL_PLACEHOLDER" xml:space="preserve">
+    <value>อีเมล</value>
+  </data>
+  <data name="LOGIN_PASSWORD_PLACEHOLDER" xml:space="preserve">
+    <value>รหัสผ่าน</value>
+  </data>
+  <data name="LOGIN_FORGOT_PASSWORD_LINK" xml:space="preserve">
+    <value>ลืมรหัสผ่าน</value>
+  </data>
+  <data name="LOGIN_RESEND_CONFIRMATION_LINK" xml:space="preserve">
+    <value>ส่งอีเมลยืนยันอีกครั้ง</value>
+  </data>
+  <data name="NAV_WELCOME_BACK" xml:space="preserve">
+    <value>ยินดีต้อนรับกลับมา</value>
+  </data>
+  <data name="NAV_LOGOUT" xml:space="preserve">
+    <value>ออกจากระบบ</value>
+  </data>
+  <data name="EVENTS_PAGE_TITLE" xml:space="preserve">
+    <value>กิจกรรม</value>
+  </data>
+  <data name="EVENTS_PAGE_SUBTITLE" xml:space="preserve">
+    <value>กิจกรรมโบสถ์ของคุณ</value>
+  </data>
+  <data name="EVENTS_LEARN_MORE_BUTTON" xml:space="preserve">
+    <value>เรียนรู้เพิ่มเติม...</value>
+  </data>
+  <data name="EVENTS_CARD_LOCATION" xml:space="preserve">
+    <value>สถานที่</value>
+  </data>
+  <data name="EVENTS_CARD_DATE" xml:space="preserve">
+    <value>วันที่</value>
+  </data>
+  <data name="EVENTS_CARD_TIME" xml:space="preserve">
+    <value>เวลา</value>
+  </data>
+  <data name="EVENTS_CARD_REPEATS" xml:space="preserve">
+    <value>มีการฉายซ้ำหรือไม่?</value>
+  </data>
+  <data name="EVENTS_EDIT_BUTTON" xml:space="preserve">
+    <value>แก้ไขกิจกรรม</value>
+  </data>
+  <data name="EVENTS_DELETE_BUTTON" xml:space="preserve">
+    <value>ลบกิจกรรม</value>
+  </data>
+  <data name="EVENTS_SYNC_EVENTS_TEXT" xml:space="preserve">
+    <value>นำเข้ากิจกรรมจาก</value>
+  </data>
+  <data name="EVENTS_ADD_EVENT_BUTTON" xml:space="preserve">
+    <value>เพิ่มกิจกรรมใหม่</value>
+  </data>
+  <data name="WelcomeBackUser" xml:space="preserve">
+    <value>ยินดีต้อนรับกลับมา</value>
+  </data>
+  <data name="ChurchInfo" xml:space="preserve">
+    <value>ชื่อโบสถ์</value>
+  </data>
+  <data name="NAV_LABEL_PROFILE" xml:space="preserve">
+    <value>โปรไฟล์</value>
+  </data>
+  <data name="NAV_LABEL_CHURCH_PROFILE" xml:space="preserve">
+    <value>โบสถ์ของฉัน</value>
+  </data>
+  <data name="NAV_LABEL_PASSWORD" xml:space="preserve">
+    <value>เปลี่ยนรหัสผ่าน</value>
+  </data>
+  <data name="NAV_LABEL_EXTERNAL_LOGIN" xml:space="preserve">
+    <value>การเข้าสู่ระบบภายนอก</value>
+  </data>
+  <data name="NAV_LABEL_2FA" xml:space="preserve">
+    <value>การยืนยันตัวตนสองปัจจัย</value>
+  </data>
+  <data name="NAV_LABEL_PERSONAL_DATA" xml:space="preserve">
+    <value>ข้อมูลของฉัน</value>
+  </data>
+  <data name="CONGREGATION_SIZE_LABEL" xml:space="preserve">
+    <value>สมาชิกโบสถ์</value>
+  </data>
+  <data name="PHONE_LABEL" xml:space="preserve">
+    <value>โทรศัพท์</value>
+  </data>
+  <data name="CHURCHSUITE_LABEL" xml:space="preserve">
+    <value>ChurchSuite</value>
+  </data>
+  <data name="CHURCH_WEBSITE_LABEL" xml:space="preserve">
+    <value>เว็บไซต์</value>
+  </data>
+  <data name="FACILITIES_LABEL" xml:space="preserve">
+    <value>สิ่งอำนวยความสะดวกที่มี</value>
+  </data>
+  <data name="FACILITY_RESTROOMS" xml:space="preserve">
+    <value>ห้องน้ำ</value>
+  </data>
+  <data name="FACILITY_WHEELCHAIR_ACCESS" xml:space="preserve">
+    <value>การเข้าถึงรถเข็น</value>
+  </data>
+  <data name="FACILITY_FREE_WIFI" xml:space="preserve">
+    <value>ไวไฟ</value>
+  </data>
+  <data name="FACILITY_REFRESHMENTS" xml:space="preserve">
+    <value>ของรับประทาน</value>
+  </data>
+  <data name="FACILITY_PARKING" xml:space="preserve">
+    <value>ที่จอดรถ</value>
+  </data>
+  <data name="FACILITY_CHILDCARE" xml:space="preserve">
+    <value>การดูแลเด็ก</value>
+  </data>
+  <data name="FACILITY_HEARING_AID_SUPPORT" xml:space="preserve">
+    <value>การสนับสนุนอุปกรณ์ช่วยฟัง</value>
+  </data>
+  <data name="FACILITY_KITCHEN" xml:space="preserve">
+    <value>ห้องครัว</value>
+  </data>
+  <data name="FACILITY_COMMUNITY_SPACE" xml:space="preserve">
+    <value>พื้นที่ชุมชน</value>
+  </data>
+  <data name="FACILITY_OUTDOOR_SPACES" xml:space="preserve">
+    <value>พื้นที่กลางแจ้ง</value>
+  </data>
+  <data name="FACILITY_WORSHIP_HALL" xml:space="preserve">
+    <value>ห้องสักการะ</value>
+  </data>
+  <data name="USE_MY_LOCATION" xml:space="preserve">
+    <value>ใช้ตำแหน่งของฉัน</value>
+  </data>
+  <data name="UPDATE_CHURCH_INFO" xml:space="preserve">
+    <value>ข้อมูลโบสถ์ของคุณ</value>
+  </data>
+  <data name="LABEL_UPLOAD_LOGO" xml:space="preserve">
+    <value>อัปโหลดโลโก้</value>
+  </data>
+  <data name="LABEL_MANAGE_SERVICE_TIMES" xml:space="preserve">
+    <value>จัดการเวลารอบนมัสการ</value>
+  </data>
+  <data name="MARK_CHURCH_AS" xml:space="preserve">
+    <value>ทำเครื่องหมายโบสถ์เป็น</value>
+  </data>
+  <data name="STATUS_OPEN" xml:space="preserve">
+    <value>เปิด</value>
+  </data>
+  <data name="STATUS_CLOSED" xml:space="preserve">
+    <value>ปิด</value>
+  </data>
+  <data name="PLEASE_ONLY_USE_THIS" xml:space="preserve">
+    <value>กรุณาใช้สิ่งนี้เฉพาะเมื่อ</value>
+  </data>
+  <data name="FOR_LONG_TERM_MAINTENANCE" xml:space="preserve">
+    <value>โบสถ์ของคุณปิดทำการเพื่อการบำรุงรักษาระยะยาว หรือปิดทำการและไม่เปิดให้ผู้เข้าชมหรือจัดบริการปกติอีกต่อไป โปรดทราบว่าโบสถ์ของคุณจะไม่ปรากฏในการค้นหาใกล้เคียงเมื่อสถานะตั้งเป็นปิด</value>
+  </data>
+  <data name="CURRENT_SERVICE_TIMES" xml:space="preserve">
+    <value>เวลารอบนมัสการปัจจุบัน</value>
+  </data>
+  <data name="TIME_LABEL" xml:space="preserve">
+    <value>เวลา</value>
+  </data>
+  <data name="NOTE_LABEL" xml:space="preserve">
+    <value>วันที่</value>
+  </data>
+  <data name="DELETE_ENTRY_LABEL" xml:space="preserve">
+    <value>ลบรายการ</value>
+  </data>
+  <data name="STATUS_DELETE" xml:space="preserve">
+    <value>เอาออก</value>
+  </data>
+  <data name="ADD_SERVICE" xml:space="preserve">
+    <value>เพิ่มรอบนมัสการ</value>
+  </data>
+  <data name="PLACEHOLDER_SERVICE_NOTE" xml:space="preserve">
+    <value>พิธีมหาสนิทช่วงเช้า</value>
+  </data>
+  <data name="STATUS_GEOLATION_NOT_SUPPORTED" xml:space="preserve">
+    <value>ไม่รองรับการระบุตำแหน่งทางภูมิศาสตร์</value>
+  </data>
+  <data name="ManageYourData" xml:space="preserve">
+    <value>จัดการข้อมูลส่วนบุคคลของคุณ</value>
+  </data>
+  <data name="PersonalDataDeletionWarning" xml:space="preserve">
+    <value>หากคุณต้องการดาวน์โหลดข้อมูลของคุณ รวมถึงข้อมูลทั้งหมดที่เรามีเกี่ยวกับโบสถ์ของคุณ โปรดติดต่อเราผ่านทาง</value>
+  </data>
+  <data name="PERSONAL_DATA_P1" xml:space="preserve">
+    <value>หากคุณต้องการดาวน์โหลดข้อมูลของคุณ รวมถึงข้อมูลทั้งหมดที่เรามีเกี่ยวกับโบสถ์ของคุณ โปรดติดต่อเราผ่านทาง </value>
+  </data>
+  <data name="PERSONAL_DATA_P2" xml:space="preserve">
+    <value>หน้าติดต่อเรา</value>
+  </data>
+  <data name="CLIENT_EMAIL_PLACEHOLDER" xml:space="preserve">
+    <value>อีเมลของคุณ</value>
+  </data>
+  <data name="CHURCH_GENERAL_INFO_TITLE" xml:space="preserve">
+    <value>ข้อมูลทั่วไป</value>
+  </data>
+  <data name="CHURCH_NAME_LABEL" xml:space="preserve">
+    <value>ชื่อ:</value>
+  </data>
+  <data name="CHURCH_DESCRIPTION_LABEL" xml:space="preserve">
+    <value>คำอธิบาย:</value>
+  </data>
+  <data name="CHURCH_ADDRESS_LABEL" xml:space="preserve">
+    <value>ที่อยู่:</value>
+  </data>
+  <data name="CHURCH_FACILITIES_TITLE" xml:space="preserve">
+    <value>สิ่งอำนวยความสะดวก</value>
+  </data>
+  <data name="CHURCH_REFRESHMENTS_LABEL" xml:space="preserve">
+    <value>ของรับประทาน</value>
+  </data>
+  <data name="CHURCH_FACILITY_AVAILABLE" xml:space="preserve">
+    <value>มีให้บริการ</value>
+  </data>
+  <data name="CHURCH_FACILITY_NOT_AVAILABLE" xml:space="preserve">
+    <value>ไม่มีให้บริการ</value>
+  </data>
+  <data name="CHURCH_RESTROOMS_LABEL" xml:space="preserve">
+    <value>ห้องน้ำ</value>
+  </data>
+  <data name="CHURCH_WIFI_LABEL" xml:space="preserve">
+    <value>ไวไฟ</value>
+  </data>
+  <data name="CHURCH_PARKING_LABEL" xml:space="preserve">
+    <value>ที่จอดรถ</value>
+  </data>
+  <data name="CHURCH_WHEELCHAIR_LABEL" xml:space="preserve">
+    <value>การเข้าถึงรถเข็น</value>
+  </data>
+  <data name="CHURCH_COMMUNITY_SPACE_LABEL" xml:space="preserve">
+    <value>พื้นที่ชุมชน</value>
+  </data>
+  <data name="CHURCH_KITCHEN_LABEL" xml:space="preserve">
+    <value>ห้องครัว</value>
+  </data>
+  <data name="CHURCH_HEARING_AID_LABEL" xml:space="preserve">
+    <value>การสนับสนุนอุปกรณ์ช่วยฟัง</value>
+  </data>
+  <data name="CHURCH_OUTDOOR_SPACE_LABEL" xml:space="preserve">
+    <value>พื้นที่กลางแจ้ง</value>
+  </data>
+  <data name="CHURCH_BUILDING_LABEL" xml:space="preserve">
+    <value>ห้องสักการะ</value>
+  </data>
+  <data name="CHURCH_CHILDCARE_LABEL" xml:space="preserve">
+    <value>การดูแลเด็ก</value>
+  </data>
+  <data name="CHURCH_CHURCHSUITE_BUTTON" xml:space="preserve">
+    <value>ChurchSuite</value>
+  </data>
+  <data name="CHURCH_SEND_MESSAGE_BUTTON" xml:space="preserve">
+    <value>ส่งข้อความ</value>
+  </data>
+  <data name="CHURCH_EVENTS_HEADING" xml:space="preserve">
+    <value>กิจกรรมปัจจุบัน / ที่กำลังจะมาถึง</value>
+  </data>
+  <data name="CHURCH_NO_EVENTS_MESSAGE" xml:space="preserve">
+    <value>โบสถ์นี้ไม่มีกิจกรรมที่กำลังจะมาถึง</value>
+  </data>
+  <data name="CHURCH_SUNDAY_SERVICES_HEADING" xml:space="preserve">
+    <value>รอบนมัสการวันอาทิตย์</value>
+  </data>
+  <data name="CHURCH_FIND_ON_MAPS_HEADING" xml:space="preserve">
+    <value>พบกับเราบน Google Maps</value>
+  </data>
+  <data name="LABEL_DENOMINATION" xml:space="preserve">
+    <value>นิกาย</value>
+  </data>
+  <data name="LABEL_CONGREGATION" xml:space="preserve">
+    <value>สมาชิกโบสถ์</value>
+  </data>
+  <data name="PROFILE_WELCOME_BACK" xml:space="preserve">
+    <value>ยินดีต้อนรับกลับมา</value>
+  </data>
+  <data name="TAG_USERNAME" xml:space="preserve">
+    <value>ชื่อผู้ใช้</value>
+  </data>
+  <data name="TAG_PHONE" xml:space="preserve">
+    <value>หมายเลขโทรศัพท์</value>
+  </data>
+  <data name="TAG_SAVE" xml:space="preserve">
+    <value>บันทึกการเปลี่ยนแปลง</value>
+  </data>
+  <data name="TAG_UPDATE_INFORMATION" xml:space="preserve">
+    <value>อัปเดตข้อมูล</value>
+  </data>
+  <data name="TAG_SYNC_FROM_CHURCHSUITE" xml:space="preserve">
+    <value>ซิงค์จาก ChurchSuite</value>
+  </data>
+  <data name="TAG_SYNC_FROM_CHURCHSUITE_DESC" xml:space="preserve">
+    <value>อัปเดตข้อมูลโบสถ์ของคุณจากบัญชี ChurchSuite ของคุณ</value>
+  </data>
+  <data name="TAG_SELECT_IMAGE" xml:space="preserve">
+    <value>เลือกไฟล์ (คลิกที่นี่)</value>
+  </data>
+  <data name="TAG_CLOSED_INFO" xml:space="preserve">
+    <value>โปรดใช้ปุ่มทำเครื่องหมายโบสถ์เป็นปิดเฉพาะเมื่อโบสถ์ของคุณปิดปรับปรุงระยะยาวหรือปิดทำการถาวรแล้วเท่านั้น โปรดทราบว่าโบสถ์ของคุณจะไม่ปรากฏในการค้นหาใกล้เคียงเมื่อสถานะตั้งเป็นปิด</value>
+  </data>
+  <data name="TAG_CHURCH_SERVICE_TIME_BUTTON" xml:space="preserve">
+    <value>จัดการเวลารอบนมัสการ</value>
+  </data>
+  <data name="TAG_SERVICE_NOTE_PLACEHOLDER" xml:space="preserve">
+    <value>พิธีมหาสนิทช่วงเช้า</value>
+  </data>
+  <data name="TAG_OLD_PASSWORD" xml:space="preserve">
+    <value>กรุณากรอกรหัสผ่านเดิมของคุณ</value>
+  </data>
+  <data name="TAG_NEW_PASSWORD" xml:space="preserve">
+    <value>กรุณากรอกรหัสผ่านใหม่ของคุณ</value>
+  </data>
+  <data name="TAG_CURRENT_PWD" xml:space="preserve">
+    <value>รหัสผ่านปัจจุบัน</value>
+  </data>
+  <data name="TAG_NEW_PWD" xml:space="preserve">
+    <value>รหัสผ่านใหม่</value>
+  </data>
+  <data name="TAG_CHANGE_PASSWORD" xml:space="preserve">
+    <value>เปลี่ยนรหัสผ่านของคุณ</value>
+  </data>
+  <data name="STATUS_SAVE" xml:space="preserve">
+    <value>บันทึกการเปลี่ยนแปลง</value>
+  </data>
+  <data name="EXTERNAL_LOGIN_TITLE" xml:space="preserve">
+    <value>จัดการการเข้าสู่ระบบภายนอกของคุณ</value>
+  </data>
+  <data name="TAG_REGISTERED_LOGINS" xml:space="preserve">
+    <value>การเข้าสู่ระบบที่ลงทะเบียนไว้</value>
+  </data>
+  <data name="TAG_CONNECT_CHURCHSUITE" xml:space="preserve">
+    <value>เชื่อมต่อ ChurchSuite</value>
+  </data>
+  <data name="TAG_CHURCHSUITE_DESC" xml:space="preserve">
+    <value>ป้อน Client ID สาธารณะของ ChurchSuite (PKCE) แล้วคลิก "บันทึกและอนุญาต" เพื่อเชื่อมโยงบัญชี ChurchSuite ของคุณกับบัญชี ForestChurches นี้</value>
+  </data>
+  <data name="TAG_CHURCHSUITE_CLIENT_ID" xml:space="preserve">
+    <value>ChurchSuite Client ID</value>
+  </data>
+  <data name="TAG_SAVE_AUTHORIZE" xml:space="preserve">
+    <value>บันทึกและอนุมัติด้วย ChurchSuite</value>
+  </data>
+  <data name="STATUS_CHURCHSUITE_CONNECTION" xml:space="preserve">
+    <value>ไม่ได้เชื่อมต่อกับ ChurchSuite</value>
+  </data>
+  <data name="TAG_CHURCHSUITE_MSG_P1" xml:space="preserve">
+    <value>ลบ</value>
+  </data>
+  <data name="TAG_CHURCHSUITE_MSG_P2" xml:space="preserve">
+    <value>ชื่อเข้าสู่ระบบนี้ออกจากบัญชีของคุณ</value>
+  </data>
+  <data name="STATUS_REMOVE" xml:space="preserve">
+    <value>เอาออก</value>
+  </data>
+  <data name="TAG_ANOTHER_SERVICE" xml:space="preserve">
+    <value>เพิ่มบริการอื่นเพื่อเข้าสู่ระบบ</value>
+  </data>
+  <data name="TAG_LOGIN_DESC_A" xml:space="preserve">
+    <value>เข้าสู่ระบบโดยใช้บัญชี</value>
+  </data>
+  <data name="TAG_LOGIN_DESC_B" xml:space="preserve">
+    <value>ของคุณ</value>
+  </data>
+  <data name="TITLE_TWO_FACTOR_AUTHENTICATION" xml:space="preserve">
+    <value>การยืนยันตัวตนสองปัจจัย (2FA)</value>
+  </data>
+  <data name="ALT_PROFILE_PICTURE" xml:space="preserve">
+    <value>รูปโปรไฟล์</value>
+  </data>
+  <data name="NO_RECOVERY_CODES_LEFT_TITLE" xml:space="preserve">
+    <value>คุณไม่มีรหัสกู้คืนเหลืออยู่แล้ว</value>
+  </data>
+  <data name="MUST_GENERATE_CODES_BEFORE" xml:space="preserve">
+    <value>คุณต้อง</value>
+  </data>
+  <data name="GENERATE_NEW_CODES_LINK" xml:space="preserve">
+    <value>สร้างชุดรหัสกู้คืนใหม่</value>
+  </data>
+  <data name="MUST_GENERATE_CODES_AFTER" xml:space="preserve">
+    <value>ก่อนที่คุณจะสามารถเข้าสู่ระบบด้วยรหัสกู้คืนได้</value>
+  </data>
+  <data name="ONE_RECOVERY_CODE_LEFT_TITLE" xml:space="preserve">
+    <value>คุณมีรหัสกู้คืนเหลือ 1 รหัส</value>
+  </data>
+  <data name="CAN_GENERATE_CODES_BEFORE" xml:space="preserve">
+    <value>คุณสามารถ</value>
+  </data>
+  <data name="MULTIPLE_RECOVERY_CODES_LEFT_BEFORE" xml:space="preserve">
+    <value>คุณมีรหัสกู้คืนเหลืออยู่</value>
+  </data>
+  <data name="MULTIPLE_RECOVERY_CODES_LEFT_AFTER" xml:space="preserve">
+    <value>รหัส</value>
+  </data>
+  <data name="SHOULD_GENERATE_CODES_BEFORE" xml:space="preserve">
+    <value>คุณควร</value>
+  </data>
+  <data name="BTN_FORGET_BROWSER" xml:space="preserve">
+    <value>ลืมเบราว์เซอร์นี้</value>
+  </data>
+  <data name="BTN_DISABLE_2FA" xml:space="preserve">
+    <value>ปิดใช้งาน 2FA</value>
+  </data>
+  <data name="BTN_RESET_RECOVERY_CODES" xml:space="preserve">
+    <value>รีเซ็ตรหัสกู้คืน</value>
+  </data>
+  <data name="AUTHENTICATOR_APP_HEADER" xml:space="preserve">
+    <value>แอปยืนยันตัวตน</value>
+  </data>
+  <data name="BTN_ADD_AUTHENTICATOR_APP" xml:space="preserve">
+    <value>เพิ่มแอปยืนยันตัวตน</value>
+  </data>
+  <data name="BTN_SET_UP_AUTHENTICATOR_APP" xml:space="preserve">
+    <value>ตั้งค่าแอปยืนยันตัวตน</value>
+  </data>
+  <data name="BTN_RESET_AUTHENTICATOR_APP" xml:space="preserve">
+    <value>รีเซ็ตแอปยืนยันตัวตน</value>
+  </data>
+  <data name="PRIVACY_POLICY_NOT_ACCEPTED_TITLE" xml:space="preserve">
+    <value>ยังไม่ได้ยอมรับนโยบายความเป็นส่วนตัวและคุกกี้</value>
+  </data>
+  <data name="PRIVACY_POLICY_NOT_ACCEPTED_BODY" xml:space="preserve">
+    <value>คุณต้องยอมรับนโยบายก่อนจึงจะสามารถเปิดใช้งานการยืนยันตัวตนสองปัจจัยได้</value>
+  </data>
+  <data name="TITLE_PERSONAL_DATA" xml:space="preserve">
+    <value>ข้อมูลส่วนบุคคล</value>
+  </data>
+  <data name="PROFILE_WELCOME_BACK_USER" xml:space="preserve">
+    <value>ยินดีต้อนรับกลับมา ผู้ใช้!</value>
+  </data>
+  <data name="DOWNLOAD_INFO_PREFIX" xml:space="preserve">
+    <value>หากคุณต้องการดาวน์โหลดข้อมูลของคุณ รวมถึงข้อมูลทั้งหมดที่เรามีเกี่ยวกับโบสถ์ของคุณ โปรดติดต่อเราผ่านทาง</value>
+  </data>
+  <data name="CONTACT_US_PAGE_LINK" xml:space="preserve">
+    <value>หน้าติดต่อเรา</value>
+  </data>
+  <data name="SERVICE_TIMES_TITLE" xml:space="preserve">
+    <value>เวลาบริการของโบสถ์ของคุณ</value>
+  </data>
+  <data name="STATUS_ADD_SERVICE" xml:space="preserve">
+    <value>เพิ่มบริการ</value>
+  </data>
+  <data name="MANAGE_CHURCH_SERVICE_TIMES" xml:space="preserve">
+    <value>จัดการเวลาบริการของโบสถ์</value>
+  </data>
+  <data name="UPLOAD_LOGO_TEXT" xml:space="preserve">
+    <value>อัปโหลดโลโก้</value>
+  </data>
+  <data name="TAG_USE_GEOLOCATION" xml:space="preserve">
+    <value>ใช้ตำแหน่งปัจจุบันของฉัน</value>
+  </data>
+  <data name="TAG_USER" xml:space="preserve">
+    <value>ผู้ใช้</value>
+  </data>
+  <data name="UpdateTitle" xml:space="preserve">
+    <value>การยืนยันตัวตนแบบสองปัจจัย (2FA)</value>
+  </data>
+  <data name="STATUS_CLOSE" xml:space="preserve">
+    <value>ปิด</value>
+  </data>
+</root>

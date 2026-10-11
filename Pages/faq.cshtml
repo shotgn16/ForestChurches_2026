@@ -3,7 +3,7 @@
 @{
 }
 <head>
-    <link href="~/css2/Page-header.css" integrity="sha256-Rtz0HIcRj9MQNF8G3xzx3+XNkldfHcYBgrvQhm9r6qY=" rel="stylesheet" />
+    <link href="~/css2/Page-header.css"  rel="stylesheet" />
     <style nonce="@HttpContextAccessor.HttpContext?.Items["CSP-Style-Nonce"]">
         .headers {
             color: white;
@@ -16,117 +16,97 @@
 
 <div class="container-fluid page-hero">
     <div class="hero-text">
-        <h1>Frequenty Asked Questions</h1>
+        <h1>@Localizer["FAQ_PAGE_TITLE"]</h1>
     </div>
 </div>
 
 <div class="container marketing">
     <!--Section: FAQ-->
     <section>
-        <h3 class="text-center mb-4 pb-2 headers fw-bold">FAQ</h3>
+        <h3 class="text-center mb-4 pb-2 headers fw-bold">@Localizer["FAQ_SECTION_TITLE"]</h3>
         <p class="text-center mb-5">
-            Find the answers for the most frequently asked questions below
+            @Localizer["FAQ_INTRO_TEXT"]
         </p>
 
         <div class="row">
             <div class="col-md-6 col-lg-4 mb-4">
                 <h4 class="mb-3 headers">
-                    How do i register my church?
+                    @Localizer["FAQ_Q1_TITLE"]
                 </h4>
                 <p>
-                    You can register your church by getting in contact with us using our 
-                    <a asp-page="/Contact">Contact Us</a> page. We will then send a unique invitation 
-                    link to your email where you will be able to create an account. 
-                    Upon registration, a church is automatically generated and assigned to your user. 
-                    You can then edit this to present your church information by going to your <a asp-page="../Identity/Pages/Manage/ChurchProfile">Church Profile</a>.
+                    @Localizer["FAQ_Q1_ANSWER"]
                 </p>
             </div>
             <!-- <a asp-page="./Add/Index" class="btn btn-success add-event-btn">Add Event</a> -->
             <div class="col-md-6 col-lg-4 mb-4">
                 <h4 class="mb-3 headers">
-                    There are other services that do the same thing, why should i use this one?
+                    @Localizer["FAQ_Q2_TITLE"]
                 </h4>
                 <p>
-                    Yes, there are many other services that can profile a church and advertise it. 
-                    However, in many cases this comes at a cost, whith the added task of trying to 
-                    find out what church is nearest. This app costs nothing (and never will). 
-                    The aim of this app is to provide a localized version to help people in the 
-                    Forest Of Dean find out about a nearby church or even ann event, hosted by a church.
+                    @Localizer["FAQ_Q2_ANSWER"]
                 </p>
             </div>
 
             <div class="col-md-6 col-lg-4 mb-4">
                 <h4 class="mb-3 headers">
-                    Why can't I directly download my personal information?
+                    @Localizer["FAQ_Q3_TITLE"]
                 </h4>
                 <p>
-                    Your personal information is available at any point in time. 
-                    While it's true, you cannot currenty access it directly, 
-                    one of our support team members would be more than happy to 
-                    provide you with your personal data should you ask for it. 
-                    Simply send us a message using our <a asp-page="/Contact">Contact Us</a> page.
+                    @Localizer["FAQ_Q3_ANSWER"]
                 </p>
             </div>
 
             <div class="col-md-6 col-lg-4 mb-4">
                 <h4 class="mb-3 headers">
-                    Where are you storing my data?
+                    @Localizer["FAQ_Q4_TITLE"]
                 </h4>
                 <p>
-                    To enure the safety and security of your data. 
-                    All information is stored in an external database, 
-                    which is only accessible to the application itself.
+                    @Localizer["FAQ_Q4_ANSWER"]
                 </p>
             </div>
 
             <div class="col-md-6 col-lg-4 mb-4">
                 <h4 class="mb-3 headers">
-                    My event dissapeared from my church?
+                    @Localizer["FAQ_Q5_TITLE"]
                 </h4>
                 <p>
-                    To minimlize the data stored and help keep costs down, 
-                    events will be automatically deleted up to 24 hours after an event has completed. 
-                    Repeated events remain on the system, however you will recieve the occasional email, 
-                    confirming whether you still want this event.
+                    @Localizer["FAQ_Q5_ANSWER"]
                 </p>
             </div>
 
             <div class="col-md-6 col-lg-4 mb-4">
                 <h4 class="mb-3 headers">
-                    How do I update my Church information?
+                    @Localizer["FAQ_Q6_TITLE"]
                 </h4>
                 <p>
-                    You can update your church information in your <a asp-page="../Identity/Pages/Manage/ChurchProfile">Church Profile</a>.
+                    @Localizer["FAQ_Q6_ANSWER"]
                 </p>
             </div>
 
             <div class="col-md-6 col-lg-4 mb-4">
                 <h4 class="mb-3 headers">
-                    Why can't i change the email address on my account?
+                    @Localizer["FAQ_Q7_TITLE"]
                 </h4>
                 <p>
-                    For security reasons, we have removed the ability for users to change the email address of their accounts. 
-                    If you wish to update your email, please get in touch with us and we would be happy to help.
+                    @Localizer["FAQ_Q7_ANSWER"]
                 </p>
             </div>
 
             <div class="col-md-6 col-lg-4 mb-4">
                 <h4 class="mb-3 headers">
-                    Why isn't the link in my email working anymore?
+                    @Localizer["FAQ_Q8_TITLE"]
                 </h4>
                 <p>
-                    The majority of links that you will recieve from us
-                    by email are encrypted and will only last 24 hours at a time.
+                    @Localizer["FAQ_Q8_ANSWER"]
                 </p>
             </div>
 
             <div class="col-md-6 col-lg-4 mb-4">
                 <h4 class="mb-3 headers">
-                    Why do some pages notifiy me of changes and others do not?
+                    @Localizer["FAQ_Q9_TITLE"]
                 </h4>
                 <p>
-                    The website is still in it's early stage of release, therefore a few bugs are to be expected. 
-                    The plan is that every page presents the StatusMessage upon completion of an action.
+                    @Localizer["FAQ_Q9_ANSWER"]
                 </p>
             </div>
         </div>

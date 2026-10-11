@@ -116,6 +116,35 @@ namespace ForestChurches.Pages.Admin.Church
                 // Log the current state of the church object
                 _logger.LogInformation("Updating church information for Church ID: {ChurchID}", church.ID);
 
+                // Determine final parking value robustly (checkbox may not post when unchecked)
+                bool finalParking = SaveChangesModel.Parking;
+                try
+                {
+                    if (Request?.Form != null)
+                    {
+                        if (Request.Form.TryGetValue("SaveChangesModel.Parking", out var pv) && pv.Count > 0)
+                        {
+                            var parsed = pv[0].ToString();
+                            if (string.Equals(parsed, "on", StringComparison.OrdinalIgnoreCase) || string.Equals(parsed, "true", StringComparison.OrdinalIgnoreCase) || parsed == "1")
+                                finalParking = true;
+                            else if (string.Equals(parsed, "false", StringComparison.OrdinalIgnoreCase) || parsed == "0")
+                                finalParking = false;
+                        }
+                        else if (Request.Form.TryGetValue("Parking", out var pv2) && pv2.Count > 0)
+                        {
+                            var parsed = pv2[0].ToString();
+                            if (string.Equals(parsed, "on", StringComparison.OrdinalIgnoreCase) || string.Equals(parsed, "true", StringComparison.OrdinalIgnoreCase) || parsed == "1")
+                                finalParking = true;
+                            else if (string.Equals(parsed, "false", StringComparison.OrdinalIgnoreCase) || parsed == "0")
+                                finalParking = false;
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogDebug(ex, "Failed to parse Parking value from form; falling back to bound value.");
+                }
+
                 await _context.ChurchInformation
                     .Where(a => a.ID == church.ID)
                     .ExecuteUpdateAsync(s => s
@@ -127,7 +156,7 @@ namespace ForestChurches.Pages.Admin.Church
                         .SetProperty(p => p.Phone, SaveChangesModel.Phone)
                         .SetProperty(p => p.Churchsuite, SaveChangesModel.Churchsuite)
                         .SetProperty(p => p.Website, SaveChangesModel.Website)
-                        .SetProperty(p => p.Parking, SaveChangesModel.Parking)
+                        .SetProperty(p => p.Parking, finalParking)
                         .SetProperty(p => p.Restrooms, SaveChangesModel.Restrooms)
                         .SetProperty(p => p.WheelchairAccess, SaveChangesModel.WheelchairAccess)
                         .SetProperty(p => p.Wifi, SaveChangesModel.Wifi)

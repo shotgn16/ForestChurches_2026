@@ -2,5 +2,9 @@
   "version": "1.0",
   "defaultProvider": "cdnjs",
   "libraries": [
+    {
+      "library": "font-awesome@7.3.0",
+      "destination": "wwwroot/lib/font-awesome"
+    }
   ]
 }

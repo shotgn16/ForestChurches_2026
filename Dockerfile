@@ -1,28 +1,28 @@
-# Stage 1: Base SDK for compiling and restoring dependencies for ARM64 Linux
-FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
-WORKDIR /app
+# Multi-stage Dockerfile for ForestChurches targeting .NET 8 (suitable for Azure container hosting)
 
-# Copy the main project file and restore dependencies specifically for ARM64
+# Build stage
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+WORKDIR /src
+
+# Copy csproj and restore as separate layers for better caching
 COPY *.csproj ./
-RUN dotnet restore -r linux-arm64
+RUN dotnet restore
 
-# Copy the rest of the application code and compile the release binaries
+# Copy everything and publish
 COPY . ./
-RUN dotnet publish -c Release -o out -r linux-arm64 --no-restore
+RUN dotnet publish -c Release -o /app/publish --no-restore
 
-# Stage 2: Testing target layer (This is what your Pi 5 runs during validation checks)
-FROM build AS test
-# If you have a separate unit test project, you would navigate into its folder here.
-# Since you have a single unified project structure, we run test on the root:
-RUN dotnet test --no-restore
-
-# Stage 3: Clean, optimized production runtime image
-FROM mcr.microsoft.com/dotnet/aspnet:9.0
+# Runtime stage
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime
 WORKDIR /app
-COPY --from=build /app/out .
 
-# Expose the port the app runs on
-EXPOSE 80
+# Tell .NET 8 to listen on port 8080
+ENV ASPNETCORE_URLS=http://+:8080
 
-# Run the application
+COPY --from=build /app/publish .
+
+# Expose port 8080
+EXPOSE 8080
+
+# Start the app
 ENTRYPOINT ["dotnet", "ForestChurches.dll"]

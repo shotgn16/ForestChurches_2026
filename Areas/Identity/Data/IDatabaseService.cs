@@ -1,4 +1,6 @@
-﻿namespace ForestChurches.Areas.Identity.Data
+﻿using ForestChurches.Models;
+
+namespace ForestChurches.Areas.Identity.Data
 {
     public interface IDatabaseService
     {

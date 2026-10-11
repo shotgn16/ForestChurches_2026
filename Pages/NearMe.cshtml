@@ -6,9 +6,10 @@
     Layout = "_Layout";
 }
 <head>
-    <link href="~/css2/Page-header.css" rel="stylesheet" integrity="sha256-LLkAohflMVN28iW4WQ/sNrs4gytxsAGk+XDrW0zsHl0=" />
-    <link href="~/css2/Modal.css" rel="stylesheet" integrity="sha256-Eul3YCoHYyzIGOq/6Nr8Nr1CfkkAZZI20VH2gKKhXP4=" />
-    <link href="~/css2/Overrides.css" rel="stylesheet" integrity="sha256-dl6TnEyR6nRFkWOVLSjHw0bb06FV8M3Awk+0UQT/l6M=" />
+    <link rel="stylesheet" href="~/css2/Page-header.css" asp-append-version="true" />
+    <link href="~/css2/Page-header.css" rel="stylesheet"  />
+    <link href="~/css2/Modal.css" rel="stylesheet" />
+    <link href="~/css2/Overrides.css" rel="stylesheet" />
 </head>
 <style nonce="@HttpContextAccessor.HttpContext?.Items["CSP-Style-Nonce"]">
     .tab-content > .tab-pane {
@@ -123,36 +124,37 @@
 <!-- Beginning of Page header -->
 <div class="container-fluid page-hero">
     <div class="hero-text">
-        <h1>What's around me?</h1>
-        <p>Get to know what is going on in your local area</p>
+        <h1>@Localizer["NEARME_HERO_TITLE"]</h1>
+        <p>@Localizer["NEARME_HERO_SUBTITLE"]</p>
     </div>
 </div>
 
 <!-- Pagination -->
 <ul class="nav nav-pills nav-fill" id="myTab" role="tablist">
     <li class="nav-item" role="presentation">
-        <a class="nav-link active" id="homeTab" data-bs-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Home</a>
+        <a class="nav-link active" id="homeTab" data-bs-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">@Localizer["NEARME_TAB_HOME"]</a>
     </li>
     <li class="nav-item" role="presentation">
-        <a class="nav-link" id="nearbyChurchesTab" data-bs-toggle="tab" href="#nearbyChurches" role="tab" aria-controls="nearbyChurches" aria-selected="false">Find a church nearby</a>
+        <a class="nav-link" id="nearbyChurchesTab" data-bs-toggle="tab" href="#nearbyChurches" role="tab" aria-controls="nearbyChurches" aria-selected="false">@Localizer["NEARME_TAB_CHURCHES"]</a>
     </li>
     <li class="nav-item" role="presentation">
-        <a class="nav-link" id="nearbyActivitiesTab" data-bs-toggle="tab" href="#nearbyActivities" role="tab" aria-controls="nearbyActivities" aria-selected="false">Find nearby activities</a>
+        <a class="nav-link" id="nearbyActivitiesTab" data-bs-toggle="tab" href="#nearbyActivities" role="tab" aria-controls="nearbyActivities" aria-selected="false">@Localizer["NEARME_TAB_ACTIVITIES"]</a>
     </li>
 </ul>
+
+@* Bulletin notify for this page *@
+@await Html.PartialAsync("_BulletinNotify")
 
 <!-- Tab Content-->
 <div class="tab-content">
     <!-- Home Tab-->
     <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="homeTab">
         <div class="welcome-form-container">
-            <h1>Welcome to "What's Around Me?"</h1>
-            <p>Discover the vibrant community around you! Whether you're looking for a nearby church to visit or fun activities to join, we've got you covered.</p>
-            <h1>How to Use This Page</h1>
+            <h1>@Localizer["NEARME_WELCOME_HEADING"]</h1>
+            <p>@Localizer["NEARME_WELCOME_INTRO_TEXT"]</p>
+            <h1>@Localizer["NEARME_HOW_TO_USE_HEADING"]</h1>
             <p>
-                It's super easy! Just enter your postcode in the field provided and click the "What's Around Me!" button to find churches or events near you. 
-                If you prefer, you can use your current location by clicking the "Use my Location" button. We'll show you the nearest options based on your input. 
-                Happy exploring!
+                @Localizer["NEARME_HOW_TO_USE_TEXT"]
             </p>
         </div>
     </div>
@@ -160,8 +162,8 @@
     <!-- Find a church nearby -->
 <div class="tab-pane fade" id="nearbyChurches" role="tabpanel" aria-labelledby="nearbyChurches">
     <div class="church-form-container">
-        <h1>Find a church...</h1>
-        <p>Enter your postcode and click the button to find a church nearby or simply click the button below.</p>
+        <h1>@Localizer["NEARME_FIND_CHURCH_HEADING"]</h1>
+        <p>@Localizer["NEARME_FIND_CHURCH_INTRO_TEXT"]</p>
         <form method="post" asp-page-handler="ChurchForm">
             @Html.AntiForgeryToken()
             @if (TempData["Message"] != null)
@@ -171,68 +173,68 @@
             <div class="church-form-flex">
                 <!-- Filters -->
                 <div class="church-form-filters">
-                    <div class="church-form-filters-title">Facilities</div>
+                    <div class="church-form-filters-title">@Localizer["NEARME_FACILITIES_TITLE"]</div>
                     <div class="church-form-filters-grid">
                         <label class="church-form-checkbox-label">
                             <input class="form-check-input" type="checkbox" asp-for="FilterParking" checked />
-                            Parking
+                            @Localizer["NEARME_FACILITY_PARKING"]
                         </label>
                         <label class="church-form-checkbox-label">
                             <input class="form-check-input" type="checkbox" asp-for="FilterRestrooms" checked />
-                            Restrooms
+                            @Localizer["NEARME_FACILITY_RESTROOMS"]
                         </label>
                         <label class="church-form-checkbox-label">
                             <input class="form-check-input" type="checkbox" asp-for="FilterWheelchairAccess" checked />
-                            Wheelchair Access
+                            @Localizer["NEARME_FACILITY_WHEELCHAIR_ACCESS"]
                         </label>
                         <label class="church-form-checkbox-label">
                             <input class="form-check-input" type="checkbox" asp-for="FilterWifi" checked />
-                            Wifi
+                            @Localizer["NEARME_FACILITY_WIFI"]
                         </label>
                         <label class="church-form-checkbox-label">
                             <input class="form-check-input" type="checkbox" asp-for="FilterRefreshments" checked />
-                            Refreshments
+                            @Localizer["NEARME_FACILITY_REFRESHMENTS"]
                         </label>
                         <label class="church-form-checkbox-label">
                             <input class="form-check-input" type="checkbox" asp-for="FilterWorshipHall" checked />
-                            Worship Hall
+                            @Localizer["NEARME_FACILITY_WORSHIP_HALL"]
                         </label>
                         <label class="church-form-checkbox-label">
                             <input class="form-check-input" type="checkbox" asp-for="FilterChildcare" checked />
-                            Children's Ministry
+                            @Localizer["NEARME_FACILITY_CHILDRENS_MINISTRY"]
                         </label>
                         <label class="church-form-checkbox-label">
                             <input class="form-check-input" type="checkbox" asp-for="FilterMeetingHall" checked />
-                            Community Hall
+                            @Localizer["NEARME_FACILITY_COMMUNITY_HALL"]
                         </label>
                         <label class="church-form-checkbox-label">
                             <input class="form-check-input" type="checkbox" asp-for="FilterKitchen" checked />
-                            Kitchen
+                            @Localizer["NEARME_FACILITY_KITCHEN"]
                         </label>
                         <label class="church-form-checkbox-label">
                             <input class="form-check-input" type="checkbox" asp-for="FilterOutdoorSpaces" checked />
-                            Outdoor Space
+                            @Localizer["NEARME_FACILITY_OUTDOOR_SPACE"]
                         </label>
                         <label class="church-form-checkbox-label">
                             <input class="form-check-input" type="checkbox" asp-for="FilterHearingAidSupport" checked />
-                            Hearing Aid Support
+                            @Localizer["NEARME_FACILITY_HEARING_AID_SUPPORT"]
                         </label>
                     </div>
                 </div>
                 <!-- Inputs -->
                 <div class="church-form-inputs">
                     <div class="church-form-input-group">
-                        <label for="Postcode" class="church-form-label">Postcode</label>
-                        <input asp-for="Postcode" id="addressInput" class="form-control" placeholder="Postcode" aria-describedby="postcodeInput" />
+                        <label for="Postcode" class="church-form-label">@Localizer["NEARME_POSTCODE_LABEL"]</label>
+                            <input asp-for="Postcode" id="addressInput" class="form-control" placeholder="@Localizer["NEARME_POSTCODE_LABEL"]" aria-describedby="postcodeInput" />
                     </div>
                     <div class="church-form-input-group">
-                        <label for="MaxDistanceMiles" class="church-form-label">Max distance (miles)</label>
+                        <label for="MaxDistanceMiles" class="church-form-label">@Localizer["NEARME_MAX_DISTANCE_LABEL"]</label>
                         <input asp-for="MaxDistanceMiles" type="number" min="1" max="100" step="0.1" class="form-control" />
                     </div>
                     <div class="church-form-input-group">
-                        <label for="SelectedDenomination" class="church-form-label">Denomination</label>
+                        <label for="SelectedDenomination" class="church-form-label">@Localizer["NEARME_DENOMINATION_LABEL"]</label>
                         <select asp-for="SelectedDenomination" class="form-select">
-                            <option value="">Any denomination</option>
+                            <option value="">@Localizer["NEARME_ANY_DENOMINATION_OPTION"]</option>
                             @if (Model.Denominations != null)
                             {
                                 foreach (var d in Model.Denominations)
@@ -250,8 +252,8 @@
                         </select>
                     </div>
                     <div class="church-form-buttons">
-                        <button type="submit" class="btn btn-success">What's around me!</button>
-                        <button type="button" class="btn btn-success" data-location="true">Use my Location</button>
+                        <button type="submit" class="btn btn-success">@Localizer["NEARME_WHATS_AROUND_ME_BUTTON"]</button>
+                        <button type="button" class="btn btn-success" data-location="true">@Localizer["NEARME_USE_MY_LOCATION_BUTTON"]</button>
                     </div>
                 </div>
             </div>
@@ -262,8 +264,8 @@
     <!-- Find near activities tab -->
     <div class="tab-pane fade" id="nearbyActivities" role="tabpanel" aria-labelledby="nearbyActivities">
         <div class="church-form-container">
-            <h1>Find an event...</h1>
-            <p>Enter your postcode and click the button to see what events are going on nearby or simply click the button below.</p>
+            <h1>@Localizer["NEARME_EVENTS_HEADING"]</h1>
+            <p>@Localizer["NEARME_EVENTS_INTRO_TEXT"]</p>
             <form method="post" asp-page-handler="EventForm">
                 @Html.AntiForgeryToken()
                 @if (TempData["Message"] != null)
@@ -273,11 +275,10 @@
                 <div class="church-form-flex">
                     <!-- Filters -->
                     <div class="church-form-filters">
-                        <div class="church-form-filters-title">Event Filters</div>
                         <div class="church-form-filters-grid">
-                            <label class="church-form-label" for="SelectedChurch">Church</label>
+                            <label class="church-form-label" for="SelectedChurch">@Localizer["NEARME_CHURCH_LABEL"]</label>
                             <select asp-for="SelectedChurch" class="form-select">
-                                <option value="">Any church</option>
+                                <option value="">@Localizer["NEARME_ANY_CHURCH_OPTION"]</option>
                                 @if (Model.ChurchNames != null)
                                 {
                                     foreach (var c in Model.ChurchNames)
@@ -293,21 +294,21 @@
                                     }
                                 }
                             </select>
-                            <label class="church-form-label" for="EventStartDate">Start Date</label>
+                            <label class="church-form-label" for="EventStartDate">@Localizer["NEARME_START_DATE_LABEL"]</label>
                             <input asp-for="EventStartDate" type="date" class="form-control" />
-                            <label class="church-form-label" for="EventEndDate">End Date</label>
+                            <label class="church-form-label" for="EventEndDate">@Localizer["NEARME_END_DATE_LABEL"]</label>
                             <input asp-for="EventEndDate" type="date" class="form-control" />
                         </div>
                     </div>
                     <!-- Inputs -->
                     <div class="church-form-inputs">
                         <div class="church-form-input-group">
-                            <label for="Postcode" class="church-form-label">Postcode</label>
-                            <input asp-for="Postcode" id="addressInput2" class="form-control" placeholder="Postcode" aria-describedby="postcodeInput" />
+                            <label for="Postcode" class="church-form-label">@Localizer["NEARME_POSTCODE_LABEL"]</label>
+                            <input asp-for="Postcode" id="addressInput2" class="form-control" placeholder="@Localizer["NEARME_POSTCODE_PLACEHOLDER"]" aria-describedby="postcodeInput" />
                         </div>
                         <div class="church-form-buttons">
-                            <button type="submit" class="btn btn-success">What's around me!</button>
-                            <button type="button" class="btn btn-success" data-location="true">Use my Location</button>
+                            <button type="submit" class="btn btn-success">@Localizer["NEARME_WHATS_AROUND_ME_BUTTON"]</button>
+                            <button type="button" class="btn btn-success" data-location="true">@Localizer["NEARME_USE_MY_LOCATION_BUTTON"]</button>
                         </div>
                     </div>
                 </div>
@@ -323,7 +324,7 @@
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h2 class="lead modal-title" id="churchesModalLabel">Pick a Nearby Church</h2>
+                    <h2 class="lead modal-title" id="churchesModalLabel">@Localizer["NEARME_PICK_CHURCH_MODAL_TITLE"]</h2>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -336,24 +337,24 @@
                                 <div class="row">
                                     <div class="col-12">
                                         <ul id="listContainer">
-                                            <p class="contentHeadings"><strong>Name: </strong>@Encoder.HtmlEncode(church.Name)</p>
-                                            <p class="contentHeadings"><strong>Description: </strong>@Encoder.HtmlEncode(church.Description)</p>
-                                            <p class="contentHeadings"><strong>Denomination: </strong>@Encoder.HtmlEncode(church.Denomination)</p>
+                                            <p class="contentHeadings"><strong>@Localizer["NEARME_NAME_LABEL"]: </strong>@Encoder.HtmlEncode(church.Name)</p>
+                                            <p class="contentHeadings"><strong>@Localizer["NEARME_DESCRIPTION_LABEL"]: </strong>@Encoder.HtmlEncode(church.Description)</p>
+                                            <p class="contentHeadings"><strong>@Localizer["NEARME_DENOMINATION_LABEL"]: </strong>@Encoder.HtmlEncode(church.Denomination)</p>
                                         </ul>
                                     </div>
                                     <form method="post" asp-page-handler="DownloadInformation">
                                         @Html.AntiForgeryToken()
-                                        <button class="w-100 btn btn-secondary" id="displayName_@index" name="id" value="@Encoder.Protect(church.ID, "fc.data.church.information")" type="submit">Download Information</button>
+                                        <button class="w-100 btn btn-secondary" id="displayName_@index" name="id" value="@Encoder.Protect(church.ID, "fc.data.church.information")" type="submit">@Localizer["NEARME_DOWNLOAD_INFO_BUTTON"]</button>
                                     </form>
                                     <form class="send-info-form" data-index="@index"> <!-- handleFormSubmission() -->
                                         @Html.AntiForgeryToken()
                                         <input type="hidden" name="idValue_@index" id="idValue_@index" value="@Encoder.Protect(church.ID, "fc.data.church.information")" />
-                                        <button class="w-100 btn btn-secondary" type="submit">Send me the Information</button>
+                                        <button class="w-100 btn btn-secondary" type="submit">@Localizer["NEARME_SEND_INFO_BUTTON"]</button>
                                     </form>
                                     <form method="get" asp-page="/Church">
                                         @Html.AntiForgeryToken()
                                         <input type="hidden" name="id" value="@Encoder.Protect(church.ID, "fc.data.church.information")" />
-                                        <button class="w-100 btn btn-success" type="submit">Find Out More</button>
+                                        <button class="w-100 btn btn-success" type="submit">@Localizer["NEARME_FIND_OUT_MORE_BUTTON"]</button>
                                     </form>
                                 </div>
                                 <hr id="hr">
@@ -362,8 +363,8 @@
                     }
 
                     else if (Model._places.Count == 0)
-                    {
-                        <p>Sorry, there are currently no churches available within <strong>@Model.MaxDistanceMiles miles</strong> of your address...</p>
+                        {
+                            <p>@Localizer["NEARME_NO_CHURCHES_FOUND"] <strong>@Model.MaxDistanceMiles miles</strong> @Localizer["NEARME_NO_RESULTS_SUFFIX"]</p>
                     }
                 </div>
             </div>
@@ -375,7 +376,7 @@
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="eventsModalLabel">Nearby Events</h5>
+                    <h5 class="modal-title" id="eventsModalLabel">@Localizer["NEARME_NEARBY_EVENTS_MODAL_TITLE"]</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body d-flex justify-content-center">
@@ -392,12 +393,12 @@
                                                 <p class="contentHeadings"><strong>@Encoder.HtmlEncode(listedEvent.Name)</strong></p>
                                                 <p class="contentHeadings">@Encoder.HtmlEncode(listedEvent.Description)</p>
                                                 <br />
-                                                <p class="contentHeadings"><strong>Location: </strong>@Encoder.HtmlEncode(listedEvent.Address)</p>
-                                                <p class="contentHeadings"><strong>Date: </strong>@Encoder.HtmlEncode(listedEvent.Date.ToString("dddd, dd MMMM yyyy"))</p>
-                                                <p class="contentHeadings"><strong>Time: </strong>@Encoder.HtmlEncode(listedEvent.StartTime.ToString("HH:mm")) - @Encoder.HtmlEncode(listedEvent.EndTime.ToString("HH:mm"))</p>
-                                                <p class="contentHeadings"><strong>Will this event be on again? </strong>@Encoder.HtmlEncode(listedEvent.Repeats)</p>
+                                                <p class="contentHeadings"><strong>@Localizer["NEARME_LOCATION_LABEL"]: </strong>@Encoder.HtmlEncode(listedEvent.Address)</p>
+                                                <p class="contentHeadings"><strong>@Localizer["NEARME_DATE_LABEL"]: </strong>@Encoder.HtmlEncode(listedEvent.Date.ToString("dddd, dd MMMM yyyy"))</p>
+                                                <p class="contentHeadings"><strong>@Localizer["NEARME_TIME_LABEL"]: </strong>@Encoder.HtmlEncode(listedEvent.StartTime.ToString("HH:mm")) - @Encoder.HtmlEncode(listedEvent.EndTime.ToString("HH:mm"))</p>
+                                                <p class="contentHeadings"><strong>@Localizer["NEARME_EVENT_REPEATS_QUESTION"] </strong>@Encoder.HtmlEncode(listedEvent.Repeats)</p>
                                                 <br />
-                                                <p>This event is hosted by <strong>@Encoder.HtmlEncode(listedEvent.Church)</strong></p>
+                                                <p>@Localizer["NEARME_EVENT_HOSTED_BY"] <strong>@Encoder.HtmlEncode(listedEvent.Church)</strong></p>
                                             </ul>
                                         </div>
                                     </div>
@@ -408,7 +409,7 @@
 
                         else if (Model._events.Count == 0)
                         {
-                            <p>Sorry, there are currently no events available within 5 miles of your address...</p>
+                            <p>@Localizer["NEARME_NO_EVENTS_FOUND"]</p>
                         }
                     </div>
                 </div>
@@ -421,7 +422,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="emailModalLabel">Enter Your Email</h5>
+                    <h5 class="modal-title" id="emailModalLabel">@Localizer["NEARME_EMAIL_MODAL_TITLE"]</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <form method="post" asp-page-handler="SendInformationWithEmail">
@@ -429,12 +430,12 @@
                     <div class="modal-body">
                         <input type="hidden" name="Id" id="emailModalChurchId">
                         <div class="mb-3">
-                            <label for="userEmail" class="col-form-label">Email:</label>
+                            <label for="userEmail" class="col-form-label">@Localizer["NEARME_EMAIL_LABEL"]:</label>
                             <input type="email" class="form-control" id="userEmail" name="email" required>
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="emailInfo_BTN btn btn-success">Send Information</button>
+                        <button type="submit" class="emailInfo_BTN btn btn-success">@Localizer["NEARME_SEND_INFORMATION_BUTTON"]</button>
                     </div>
                 </form>
             </div>

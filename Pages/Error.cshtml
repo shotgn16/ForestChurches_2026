@@ -1,7 +1,7 @@
 ﻿@page
 @model ErrorModel
 @{
-    ViewData["Title"] = "Error";
+    ViewData["Title"] = Localizer["ERROR_PAGE_TITLE"];
 }
 <head><link href="~/css2/error.css" integrity="sha256-yiZYepIwU9N56cqrhArTEqBqq7ce2LNk3MZn8MahOpQ=" rel="stylesheet" /></head>
 <style nonce="@HttpContextAccessor.HttpContext?.Items["CSP-Style-Nonce"]">
@@ -50,16 +50,16 @@
         @if (@ViewData["error_title"] == null)
         {
             <h1 style="font-size: calc(1.075rem + 0.5vw);">500</h1>
-            <h2>error</h2>
+            <h2>@Localizer["ERROR_PAGE_TITLE"]</h2>
         }
         else if (@ViewData["error_title"] != null) 
         {
             <h1>@Html.Encode(ViewData["error_title"].ToString())</h1>
         }
         <p>
-            <strong>Message:</strong> @Model.ExceptionMessage
+            <strong>@Localizer["ERROR_LABEL_MESSAGE"]</strong> @Model.ExceptionMessage
             <br>
-            <strong>ID:</strong> @Model.RequestId
+            <strong>@Localizer["ERROR_LABEL_ID"]</strong> @Model.RequestId
         </p>
     </div>
     <div class="stack-container">

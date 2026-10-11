@@ -1,30 +1,30 @@
-services:
-  db:
-    image: mysql:8.0
-    container_name: mysql
-    environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-      MYSQL_DATABASE: forestchurches
-      MYSQL_USER: ${MYSQL_USER}
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
-    ports:
-      - "3306:3306"
-    volumes:
-      - db-data:/var/lib/mysql
+version: "3.8"
 
-  app:
-    image: mcr.microsoft.com/dotnet/aspnet:9.0
-    container_name: dotnet-app
+services:
+  forestchurches:
     build:
       context: .
       dockerfile: Dockerfile
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-      - ConnectionStrings__DefaultConnection=Server=db;Database=forestchurches;User=${MYSQL_USER};Password=${MYSQL_PASSWORD};
+    image: forestchurches:local
     ports:
       - "8080:80"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - EMAILMANAGEMENT__BASEURL=http://emailmanagement:80
     depends_on:
-      - db
+      - emailmanagement
 
-volumes:
-  db-data:
+  emailmanagement:
+    build:
+      context: "./EmailManagement-ForestChurches (19.10.2025)"
+      dockerfile: Dockerfile
+    image: emailmanagement:local
+    ports:
+      - "8081:80"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - FORESTCHURCHES__BASEURL=http://forestchurches:80
+
+networks:
+  default:
+    driver: bridge

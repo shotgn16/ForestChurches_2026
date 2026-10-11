@@ -1,0 +1,93 @@
+@page
+@model ForestChurches.Areas.Admin.Pages.Bulletin.EditModel
+@{
+    Layout = "_Admin";
+    ViewData["Title"] = "Edit Bulletin";
+}
+
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title">Edit Bulletin</h3>
+    </div>
+    <div class="card-body">
+<form method="post" enctype="multipart/form-data">
+    @Html.AntiForgeryToken()
+        <div class="form-group">
+            <label>Type</label>
+            <select asp-for="ActiveBulletin.Type" class="form-control">
+                <option value="Bulletin">Bulletin (full pew sheet)</option>
+                <option value="Announcement">Announcement</option>
+                <option value="Message">Message</option>
+            </select>
+        </div>
+
+    <div class="form-group">
+        <label>Title</label>
+        <input asp-for="ActiveBulletin.Title" class="form-control" />
+    </div>
+
+    @* If Announcement/Message, show simplified fields: Description and Links *@
+    @if (string.Equals(Model.ActiveBulletin?.Type, "Announcement", System.StringComparison.OrdinalIgnoreCase) || string.Equals(Model.ActiveBulletin?.Type, "Message", System.StringComparison.OrdinalIgnoreCase))
+    {
+        <div class="form-group">
+            <label>Description</label>
+            <textarea asp-for="ActiveBulletin.PastoralNote" class="form-control" rows="6"></textarea>
+            <span class="form-text text-muted">Short description or announcement body.</span>
+        </div>
+
+        <div class="form-group">
+            <label>Links (one per line or JSON array)</label>
+            <textarea asp-for="ActiveBulletin.NoticesList" class="form-control" rows="3"></textarea>
+            <span class="form-text text-muted">Use newline separated URLs or JSON array for multiple links.</span>
+        </div>
+    }
+    else
+    {
+        @* Full bulletin fields *@
+        <div class="form-group">
+            <label>Parish Name</label>
+            <input asp-for="ActiveBulletin.ParishName" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label>Bulletin Date</label>
+            <input asp-for="ActiveBulletin.BulletinDate" type="date" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label>Sunday Name</label>
+            <input asp-for="ActiveBulletin.SundayName" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label>Collect Prayer</label>
+            <textarea asp-for="ActiveBulletin.CollectPrayer" class="form-control"></textarea>
+        </div>
+        <div class="form-group">
+            <label>First Reading</label>
+            <input asp-for="ActiveBulletin.FirstReading" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label>Gospel Reading</label>
+            <input asp-for="ActiveBulletin.GospelReading" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label>Hymns (JSON array or newline separated)</label>
+            <textarea asp-for="ActiveBulletin.HymnsList" class="form-control"></textarea>
+        </div>
+        <div class="form-group">
+            <label>Pastoral Note</label>
+            <textarea asp-for="ActiveBulletin.PastoralNote" class="form-control"></textarea>
+        </div>
+        <div class="form-group">
+            <label>Notices (JSON array or newline separated)</label>
+            <textarea asp-for="ActiveBulletin.NoticesList" class="form-control"></textarea>
+        </div>
+    }
+
+    <div class="form-group">
+        <label>Upload PDF</label>
+        <input asp-for="PdfUpload" type="file" accept="application/pdf" class="form-control" />
+    </div>
+        <button type="submit" class="btn btn-primary">Save</button>
+        <a class="btn btn-secondary" href="/Admin/Bulletin/Index">Cancel</a>
+    </form>
+    </div>
+</div>

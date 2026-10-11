@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Changelog & Migrations — ForestChurches</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/styles.css">
+  <script src="assets/theme.js" defer></script>
+</head>
+<body>
+  <a href="index.html">← Back</a>
+  <h1>Changelog & Migrations</h1>
+  <p>Where to find changelogs and database migrations.</p>
+
+  <h2>Application Changelogs</h2>
+  <p>The admin Changelogs page is available at <code>Pages/Admin/Changelogs.cshtml</code>. The UI page displays change history maintained by the project.</p>
+
+  <h2>Entity Framework Migrations</h2>
+  <div class="migs">
+    Migrations/<br/>
+    (Files such as 20260522123722_May2026_AddedChurchSuite.cs and many prior migration snapshots.)
+  </div>
+
+  <h2>How to create a new migration</h2>
+  <ol>
+    <li>From the repository root run: <code>dotnet ef migrations add &lt;Name&gt; --project ForestChurches.csproj</code></li>
+    <li>Then publish or update database as usual: <code>dotnet ef database update</code>.</li>
+  </ol>
+
+  <footer style="margin-top:24px;color:#666;font-size:13px">For release notes and detailed change summaries check Documentation/DOCUMENTATION_INDEX.md and Pages/Admin/Changelogs.cshtml.</footer>
+</body>
+</html>

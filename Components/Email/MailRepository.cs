@@ -104,109 +104,145 @@ namespace ForestChurches.Components.Email
                     request.AddHeader("Authorization", $"Bearer {token}");
                 }
 
-                // Create a cancellation token for 30 seconds (matches previous behaviour)
-                using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(30));
+                // Retry logic with exponential backoff for transient failures
+                int maxRetries = 3;
+                int[] timeoutSeconds = { 30, 40, 50 };
+                Exception lastException = null;
 
-                var response = await client.ExecuteAsync(request, cts.Token).ConfigureAwait(false);
-
-                if (response == null)
+                for (int attempt = 0; attempt < maxRetries; attempt++)
                 {
-                    _logger.LogError("Email API returned no response (null). Recipient: {Recipient}", recipientEmail);
-                    throw new InvalidOperationException("Email API returned no response.");
-                }
-
-                if (!response.IsSuccessful)
-                {
-                    var respBody = response.Content ?? "(none)";
-
-                    // Log WWW-Authenticate challenges (if any) and redirect target (Location) to diagnose 401/403 or redirect behaviour
-                    var wwwAuthHeader = response.Headers.FirstOrDefault(h => string.Equals(h.Name, "WWW-Authenticate", StringComparison.OrdinalIgnoreCase))?.Value?.ToString() ?? "(none)";
-                    var locationHeader = response.Headers.FirstOrDefault(h => string.Equals(h.Name, "Location", StringComparison.OrdinalIgnoreCase))?.Value?.ToString() ?? "(none)";
-
-                    _logger.LogError("Email API returned {Status}. Body: {Body}. WWW-Authenticate: {WwwAuth}. Location: {Location}", response.StatusCode, respBody, wwwAuthHeader, locationHeader);
-
-                    // If the server returned a redirect (3xx) and provided a Location, handle a single
-                    // manual redirect by re-sending the POST and preserving the Authorization header.
-                    var statusCodeInt = (int)response.StatusCode;
-                    if (statusCodeInt >= 300 && statusCodeInt < 400 && !string.Equals(locationHeader, "(none)", StringComparison.OrdinalIgnoreCase))
+                    try
                     {
-                        try
+                        int timeoutSecs = timeoutSeconds[attempt];
+                        _logger.LogInformation("Email API attempt {Attempt}/{MaxAttempts} with {TimeoutSecs}s timeout. Recipient: {Recipient}", 
+                            attempt + 1, maxRetries, timeoutSecs, recipientEmail);
+
+                        // Create a fresh cancellation token for this attempt
+                        using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(timeoutSecs));
+
+                        var response = await client.ExecuteAsync(request, cts.Token).ConfigureAwait(false);
+
+                        if (response == null)
                         {
-                            // Resolve relative Location against the original baseUri if needed
-                            var redirectUri = Uri.TryCreate(locationHeader, UriKind.Absolute, out var abs) ? abs : new Uri(new Uri(baseUrl.TrimEnd('/') + "/"), locationHeader);
+                            _logger.LogError("Email API returned no response (null). Recipient: {Recipient}", recipientEmail);
+                            throw new InvalidOperationException("Email API returned no response.");
+                        }
 
-                            _logger.LogInformation("Email API returned redirect {Status} to {Location}. Attempting manual POST to preserve Authorization header.", response.StatusCode, redirectUri);
-
-                            var redirectClient = new RestClient(new RestClientOptions(redirectUri)
-                            {
-                                FollowRedirects = false
-                            });
-
-                            var redirectRequest = new RestRequest()
-                                .AddJsonBody(payload);
-
-                            redirectRequest.Timeout = TimeSpan.FromSeconds(35);
-
-                            if (!string.IsNullOrWhiteSpace(token))
-                            {
-                                redirectRequest.AddHeader("Authorization", $"Bearer {token}");
-                            }
-
-                            var redirectResponse = await redirectClient.ExecuteAsync(redirectRequest, cts.Token).ConfigureAwait(false);
-
-                            if (redirectResponse == null)
-                            {
-                                _logger.LogError("Email API redirect returned no response (null). Recipient: {Recipient}", recipientEmail);
-                                throw new InvalidOperationException("Email API returned no response on redirect.");
-                            }
-
-                            if (!redirectResponse.IsSuccessful)
-                            {
-                                var rBody = redirectResponse.Content ?? "(none)";
-                                var rWwwAuth = redirectResponse.Headers.FirstOrDefault(h => string.Equals(h.Name, "WWW-Authenticate", StringComparison.OrdinalIgnoreCase))?.Value?.ToString() ?? "(none)";
-                                var rLocation = redirectResponse.Headers.FirstOrDefault(h => string.Equals(h.Name, "Location", StringComparison.OrdinalIgnoreCase))?.Value?.ToString() ?? "(none)";
-
-                                _logger.LogError("Email API redirect attempt returned {Status}. Body: {Body}. WWW-Authenticate: {WwwAuth}. Location: {Location}", redirectResponse.StatusCode, rBody, rWwwAuth, rLocation);
-
-                                if (redirectResponse.ErrorException != null)
+                        if (!response.IsSuccessful)
                                 {
-                                    throw new InvalidOperationException("Failed to POST to Email API on redirect", redirectResponse.ErrorException);
+                                    var respBody = response.Content ?? "(none)";
+
+                                    // Log WWW-Authenticate challenges (if any) and redirect target (Location) to diagnose 401/403 or redirect behaviour
+                                    var wwwAuthHeader = response.Headers?.FirstOrDefault(h => string.Equals(h.Name, "WWW-Authenticate", StringComparison.OrdinalIgnoreCase))?.Value?.ToString() ?? "(none)";
+                                    var locationHeader = response.Headers?.FirstOrDefault(h => string.Equals(h.Name, "Location", StringComparison.OrdinalIgnoreCase))?.Value?.ToString() ?? "(none)";
+
+                                    _logger.LogError("Email API returned {Status}. Body: {Body}. WWW-Authenticate: {WwwAuth}. Location: {Location}", response.StatusCode, respBody, wwwAuthHeader, locationHeader);
+
+                                    // If the server returned a redirect (3xx) and provided a Location, handle a single
+                                    // manual redirect by re-sending the POST and preserving the Authorization header.
+                                    var statusCodeInt = (int)response.StatusCode;
+                                    if (statusCodeInt >= 300 && statusCodeInt < 400 && !string.Equals(locationHeader, "(none)", StringComparison.OrdinalIgnoreCase))
+                                    {
+                                        try
+                                        {
+                                            // Resolve relative Location against the original baseUri if needed
+                                            var redirectUri = Uri.TryCreate(locationHeader, UriKind.Absolute, out var abs) ? abs : new Uri(new Uri(baseUrl.TrimEnd('/') + "/"), locationHeader);
+
+                                            _logger.LogInformation("Email API returned redirect {Status} to {Location}. Attempting manual POST to preserve Authorization header.", response.StatusCode, redirectUri);
+
+                                            var redirectClient = new RestClient(new RestClientOptions(redirectUri)
+                                            {
+                                                FollowRedirects = false
+                                            });
+
+                                            var redirectRequest = new RestRequest()
+                                                .AddJsonBody(payload);
+
+                                            redirectRequest.Timeout = TimeSpan.FromSeconds(timeoutSecs);
+
+                                            if (!string.IsNullOrWhiteSpace(token))
+                                            {
+                                                redirectRequest.AddHeader("Authorization", $"Bearer {token}");
+                                            }
+
+                                            var redirectResponse = await redirectClient.ExecuteAsync(redirectRequest, cts.Token).ConfigureAwait(false);
+
+                                            if (redirectResponse == null)
+                                            {
+                                                _logger.LogError("Email API redirect returned no response (null). Recipient: {Recipient}", recipientEmail);
+                                                throw new InvalidOperationException("Email API returned no response on redirect.");
+                                            }
+
+                                            if (!redirectResponse.IsSuccessful)
+                                            {
+                                                var rBody = redirectResponse.Content ?? "(none)";
+                                                var rWwwAuth = redirectResponse.Headers?.FirstOrDefault(h => string.Equals(h.Name, "WWW-Authenticate", StringComparison.OrdinalIgnoreCase))?.Value?.ToString() ?? "(none)";
+                                                var rLocation = redirectResponse.Headers?.FirstOrDefault(h => string.Equals(h.Name, "Location", StringComparison.OrdinalIgnoreCase))?.Value?.ToString() ?? "(none)";
+
+                                                _logger.LogError("Email API redirect attempt returned {Status}. Body: {Body}. WWW-Authenticate: {WwwAuth}. Location: {Location}", redirectResponse.StatusCode, rBody, rWwwAuth, rLocation);
+
+                                                if (redirectResponse.ErrorException != null)
+                                                {
+                                                    throw new InvalidOperationException("Failed to POST to Email API on redirect", redirectResponse.ErrorException);
+                                                }
+
+                                                throw new InvalidOperationException($"Email API redirect returned {(int)redirectResponse.StatusCode} {redirectResponse.StatusDescription}: {rBody}");
+                                            }
+
+                                            _logger.LogInformation("Enqueued email via Email API (redirect): To={To}, Subject={Subject}", recipientEmail, subject);
+                                            return; // success via redirect
+                                        }
+                                        catch (Exception ex)
+                                        {
+                                            _logger.LogError(ex, "Failed to follow redirect for Email API POST to {Location}", locationHeader);
+                                            throw;
+                                        }
+                                    }
+
+                                    // Preserve original error if available
+                                    if (response.ErrorException != null)
+                                    {
+                                        throw new InvalidOperationException("Failed to POST to Email API", response.ErrorException);
+                                    }
+
+                                    throw new InvalidOperationException($"Email API returned {(int)response.StatusCode} {response.StatusDescription}: {respBody}");
                                 }
-
-                                throw new InvalidOperationException($"Email API redirect returned {(int)redirectResponse.StatusCode} {redirectResponse.StatusDescription}: {rBody}");
+                                else
+                                {
+                                    _logger.LogInformation("Enqueued email via Email API: To={To}, Subject={Subject}", recipientEmail, subject);
+                                    return; // success
+                                }
                             }
-
-                            _logger.LogInformation("Enqueued email via Email API (redirect): To={To}, Subject={Subject}", recipientEmail, subject);
-                            return; // success via redirect
+                            catch (OperationCanceledException ocex)
+                            {
+                                lastException = ocex;
+                                _logger.LogWarning("Email API attempt {Attempt} timed out. {Message}", attempt + 1, ocex.Message);
+                                if (attempt == maxRetries - 1)
+                                {
+                                    _logger.LogError("Email API failed after {MaxRetries} attempts due to timeout. Recipient: {Recipient}", maxRetries, recipientEmail);
+                                    throw new InvalidOperationException($"Email API failed after {maxRetries} timeout attempts", ocex);
+                                }
+                                // Continue to next retry
+                            }
+                            catch (Exception ex)
+                            {
+                                lastException = ex;
+                                _logger.LogWarning("Email API attempt {Attempt} failed with error: {Message}", attempt + 1, ex.Message);
+                                if (attempt == maxRetries - 1)
+                                {
+                                    _logger.LogError(ex, "Email API failed after {MaxRetries} attempts. Recipient: {Recipient}", maxRetries, recipientEmail);
+                                    throw;
+                                }
+                                // Continue to next retry
+                            }
                         }
-                        catch (Exception ex)
-                        {
-                            _logger.LogError(ex, "Failed to follow redirect for Email API POST to {Location}", locationHeader);
-                            throw;
-                        }
-                    }
 
-                    // Preserve original error if available
-                    if (response.ErrorException != null)
-                    {
-                        throw new InvalidOperationException("Failed to POST to Email API", response.ErrorException);
-                    }
-
-                    throw new InvalidOperationException($"Email API returned {(int)response.StatusCode} {response.StatusDescription}: {respBody}");
-                }
-                else
-                {
-                    _logger.LogInformation("Enqueued email via Email API: To={To}, Subject={Subject}", recipientEmail, subject);
-                }
-            }
-            catch (OperationCanceledException)
-            {
-                _logger.LogError("Email API timed out (Server did not respond in time). Recipient: {Recipient}", recipientEmail);
-                throw;
+                        // Should not reach here, but fallback just in case
+                        throw new InvalidOperationException("Email API retry logic exhausted", lastException);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Failed to POST email to Email API for {Recipient}", recipientEmail);
+                _logger.LogError(ex, "Failed to send email to Email API for {Recipient}. All retry attempts exhausted.", recipientEmail);
                 throw;
             }
         }

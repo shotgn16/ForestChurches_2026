@@ -1,0 +1,906 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="APP_TITLE" xml:space="preserve">
+    <value>Lesní kostely</value>
+  </data>
+  <data name="FOOTER_CONTACT_LINK" xml:space="preserve">
+    <value>Kontaktujte nás</value>
+  </data>
+  <data name="HOMEPAGE_PAGE_TITLE" xml:space="preserve">
+    <value>Domů - Lesní kostely</value>
+  </data>
+  <data name="NAV_BRAND" xml:space="preserve">
+    <value>Lesní kostely</value>
+  </data>
+  <data name="NAV_HOME" xml:space="preserve">
+    <value>Domů</value>
+  </data>
+  <data name="NAV_ABOUT" xml:space="preserve">
+    <value>O nás</value>
+  </data>
+  <data name="NAV_WHATS_NEARBY" xml:space="preserve">
+    <value>Co je v okolí</value>
+  </data>
+  <data name="NAV_MY_EVENTS" xml:space="preserve">
+    <value>Moje události</value>
+  </data>
+  <data name="NAV_CONTACT" xml:space="preserve">
+    <value>Kontaktujte nás</value>
+  </data>
+  <data name="NAV_ADMIN" xml:space="preserve">
+    <value>Správa</value>
+  </data>
+  <data name="NAV_LOGIN" xml:space="preserve">
+    <value>Přihlášení</value>
+  </data>
+  <data name="HOMEPAGE_HERO_TITLE" xml:space="preserve">
+    <value>Vítejte v Lesních kostelích</value>
+  </data>
+  <data name="HOMEPAGE_HERO_SUBTITLE" xml:space="preserve">
+    <value>Propojování komunit v oblasti Forest of Dean.</value>
+  </data>
+  <data name="CONTACT_PAGE_TITLE" xml:space="preserve">
+    <value>Kontaktujte nás</value>
+  </data>
+  <data name="CONTACT_RECIPIENT_LABEL" xml:space="preserve">
+    <value>Příjemce:</value>
+  </data>
+  <data name="CONTACT_NAME_PLACEHOLDER" xml:space="preserve">
+    <value>Vaše jméno</value>
+  </data>
+  <data name="CONTACT_SUBJECT_PLACEHOLDER" xml:space="preserve">
+    <value>Předmět</value>
+  </data>
+  <data name="CONTACT_EMAIL_PLACEHOLDER" xml:space="preserve">
+    <value>Jak vás můžeme kontaktovat? ('Jan@vaskostel.cz...')</value>
+  </data>
+  <data name="CONTACT_MESSAGE_PLACEHOLDER" xml:space="preserve">
+    <value>Vaše zpráva</value>
+  </data>
+  <data name="CONTACT_SUBMIT_BUTTON" xml:space="preserve">
+    <value>Odeslat zprávu</value>
+  </data>
+  <data name="SAVE" xml:space="preserve">
+    <value>Uložit</value>
+  </data>
+  <data name="CANCEL" xml:space="preserve">
+    <value>Zrušit</value>
+  </data>
+  <data name="DELETE" xml:space="preserve">
+    <value>Smazat</value>
+  </data>
+  <data name="EDIT" xml:space="preserve">
+    <value>Upravit</value>
+  </data>
+  <data name="CREATE" xml:space="preserve">
+    <value>Vytvořit</value>
+  </data>
+  <data name="SEARCH" xml:space="preserve">
+    <value>Hledat</value>
+  </data>
+  <data name="FILTER" xml:space="preserve">
+    <value>Filtr</value>
+  </data>
+  <data name="SUBMIT" xml:space="preserve">
+    <value>Odeslat</value>
+  </data>
+  <data name="BACK" xml:space="preserve">
+    <value>Zpět</value>
+  </data>
+  <data name="ERROR" xml:space="preserve">
+    <value>Chyba</value>
+  </data>
+  <data name="SUCCESS" xml:space="preserve">
+    <value>Úspěch</value>
+  </data>
+  <data name="WARNING" xml:space="preserve">
+    <value>Varování</value>
+  </data>
+  <data name="INFO" xml:space="preserve">
+    <value>Informace</value>
+  </data>
+  <data name="LOADING" xml:space="preserve">
+    <value>Načítání...</value>
+  </data>
+  <data name="NO_RECORDS" xml:space="preserve">
+    <value>Nebyly nalezeny žádné záznamy</value>
+  </data>
+  <data name="LOGIN" xml:space="preserve">
+    <value>Přihlásit se</value>
+  </data>
+  <data name="LOGOUT" xml:space="preserve">
+    <value>Odhlásit se</value>
+  </data>
+  <data name="REGISTER" xml:space="preserve">
+    <value>Registrovat se</value>
+  </data>
+  <data name="PROFILE" xml:space="preserve">
+    <value>Profil</value>
+  </data>
+  <data name="EMAIL" xml:space="preserve">
+    <value>E-mail</value>
+  </data>
+  <data name="PASSWORD" xml:space="preserve">
+    <value>Heslo</value>
+  </data>
+  <data name="NAME" xml:space="preserve">
+    <value>Jméno</value>
+  </data>
+  <data name="ADDRESS" xml:space="preserve">
+    <value>Adresa</value>
+  </data>
+  <data name="PHONE" xml:space="preserve">
+    <value>Telefon</value>
+  </data>
+  <data name="NEARME_HERO_TITLE" xml:space="preserve">
+    <value>Najděte kostely ve vašem okolí</value>
+  </data>
+  <data name="NEARME_HERO_SUBTITLE" xml:space="preserve">
+    <value>Objevte místní kostely a komunity ve vaší oblasti</value>
+  </data>
+  <data name="NEARME_TAB_HOME" xml:space="preserve">
+    <value>Domů</value>
+  </data>
+  <data name="NEARME_TAB_CHURCHES" xml:space="preserve">
+    <value>Kostely</value>
+  </data>
+  <data name="NEARME_TAB_ACTIVITIES" xml:space="preserve">
+    <value>Aktivity</value>
+  </data>
+  <data name="NEARME_WELCOME_HEADING" xml:space="preserve">
+    <value>Vítejte na Cestách v lese</value>
+  </data>
+  <data name="NEARME_WELCOME_INTRO_TEXT" xml:space="preserve">
+    <value>Tento nástroj vám pomůže objevovat kostely a aktivity ve vašem okolí. Použijte jej k nalezení duchovních společenství, která odpovídají vašim zájmům a potřebám.</value>
+  </data>
+  <data name="NEARME_HOW_TO_USE_HEADING" xml:space="preserve">
+    <value>Jak tento nástroj používat</value>
+  </data>
+  <data name="NEARME_HOW_TO_USE_TEXT" xml:space="preserve">
+    <value>1. Přejděte na záložku Kostely a zadejte svoje PSČ nebo použijte svou aktuální polohu. 2. Vyberte vybavení, které hledáte (parkoviště, toalety, bezbariérový přístup atd.). 3. Zvolte preferovanou denominaci nebo nechte vyhledávání otevřené pro všechny denominace. 4. Klikněte na 'Co je v mém okolí' pro zobrazení možností. 5. Procházejte výsledky a stáhněte si informace nebo si je pošlete e-mailem.</value>
+  </data>
+  <data name="NEARME_FIND_CHURCH_HEADING" xml:space="preserve">
+    <value>Najít kostel v okolí</value>
+  </data>
+  <data name="NEARME_FIND_CHURCH_INTRO_TEXT" xml:space="preserve">
+    <value>Vyhledejte kostely ve vaší oblasti zadáním PSČ a výběrem preferencí.</value>
+  </data>
+  <data name="NEARME_FACILITIES_TITLE" xml:space="preserve">
+    <value>Vybavení a služby</value>
+  </data>
+  <data name="NEARME_FACILITY_PARKING" xml:space="preserve">
+    <value>Parkoviště</value>
+  </data>
+  <data name="NEARME_FACILITY_RESTROOMS" xml:space="preserve">
+    <value>Toalety</value>
+  </data>
+  <data name="NEARME_FACILITY_WHEELCHAIR_ACCESS" xml:space="preserve">
+    <value>Bezbariérový přístup</value>
+  </data>
+  <data name="NEARME_FACILITY_WIFI" xml:space="preserve">
+    <value>Wi-Fi</value>
+  </data>
+  <data name="NEARME_FACILITY_REFRESHMENTS" xml:space="preserve">
+    <value>Občerstvení</value>
+  </data>
+  <data name="NEARME_FACILITY_WORSHIP_HALL" xml:space="preserve">
+    <value>Modlitební sál</value>
+  </data>
+  <data name="NEARME_FACILITY_CHILDRENS_MINISTRY" xml:space="preserve">
+    <value>Služba pro děti</value>
+  </data>
+  <data name="NEARME_FACILITY_COMMUNITY_HALL" xml:space="preserve">
+    <value>Společenský sál</value>
+  </data>
+  <data name="NEARME_FACILITY_KITCHEN" xml:space="preserve">
+    <value>Kuchyně</value>
+  </data>
+  <data name="NEARME_FACILITY_OUTDOOR_SPACE" xml:space="preserve">
+    <value>Venkovní prostor</value>
+  </data>
+  <data name="NEARME_FACILITY_HEARING_AID_SUPPORT" xml:space="preserve">
+    <value>Podpora pro nedoslýchavé</value>
+  </data>
+  <data name="NEARME_POSTCODE_LABEL" xml:space="preserve">
+    <value>PSČ</value>
+  </data>
+  <data name="NEARME_POSTCODE_PLACEHOLDER" xml:space="preserve">
+    <value>Zadejte své PSČ</value>
+  </data>
+  <data name="NEARME_MAX_DISTANCE_LABEL" xml:space="preserve">
+    <value>Maximální vzdálenost (míle)</value>
+  </data>
+  <data name="NEARME_DENOMINATION_LABEL" xml:space="preserve">
+    <value>Denominace</value>
+  </data>
+  <data name="NEARME_ANY_DENOMINATION_OPTION" xml:space="preserve">
+    <value>Jakákoli denominace</value>
+  </data>
+  <data name="NEARME_WHATS_AROUND_ME_BUTTON" xml:space="preserve">
+    <value>Co je v mém okolí</value>
+  </data>
+  <data name="NEARME_USE_MY_LOCATION_BUTTON" xml:space="preserve">
+    <value>Použít moji polohu</value>
+  </data>
+  <data name="NEARME_PICK_CHURCH_MODAL_TITLE" xml:space="preserve">
+    <value>Vyberte kostel</value>
+  </data>
+  <data name="NEARME_NAME_LABEL" xml:space="preserve">
+    <value>Název</value>
+  </data>
+  <data name="NEARME_DESCRIPTION_LABEL" xml:space="preserve">
+    <value>Popis</value>
+  </data>
+  <data name="NEARME_DOWNLOAD_INFO_BUTTON" xml:space="preserve">
+    <value>Stáhnout informace</value>
+  </data>
+  <data name="NEARME_SEND_INFO_BUTTON" xml:space="preserve">
+    <value>Odeslat informace</value>
+  </data>
+  <data name="NEARME_FIND_OUT_MORE_BUTTON" xml:space="preserve">
+    <value>Zjistit více</value>
+  </data>
+  <data name="NEARME_NO_CHURCHES_FOUND" xml:space="preserve">
+    <value>V požadovaném okruhu nebyl nalezen žádný kostel od</value>
+  </data>
+  <data name="NEARME_NO_RESULTS_SUFFIX" xml:space="preserve">
+    <value>vaší polohy. Zkuste zvětšit vzdálenost vyhledávání.</value>
+  </data>
+  <data name="NEARME_NEARBY_EVENTS_MODAL_TITLE" xml:space="preserve">
+    <value>Události v okolí</value>
+  </data>
+  <data name="NEARME_LOCATION_LABEL" xml:space="preserve">
+    <value>Místo</value>
+  </data>
+  <data name="NEARME_DATE_LABEL" xml:space="preserve">
+    <value>Datum</value>
+  </data>
+  <data name="NEARME_TIME_LABEL" xml:space="preserve">
+    <value>Čas</value>
+  </data>
+  <data name="NEARME_EVENT_REPEATS_QUESTION" xml:space="preserve">
+    <value>Opakuje se?</value>
+  </data>
+  <data name="NEARME_EVENTS_HEADING" xml:space="preserve">
+    <value>Události v mém okolí</value>
+  </data>
+  <data name="NEARME_EVENTS_INTRO_TEXT" xml:space="preserve">
+    <value>Najít událost v mém okolí</value>
+  </data>
+  <data name="NEARME_CHURCH_LABEL" xml:space="preserve">
+    <value>Kostel</value>
+  </data>
+  <data name="NEARME_ANY_CHURCH_OPTION" xml:space="preserve">
+    <value>Jakýkoli kostel</value>
+  </data>
+  <data name="NEARME_START_DATE_LABEL" xml:space="preserve">
+    <value>Datum zahájení</value>
+  </data>
+  <data name="NEARME_END_DATE_LABEL" xml:space="preserve">
+    <value>Datum ukončení</value>
+  </data>
+  <data name="NEARME_EVENT_HOSTED_BY" xml:space="preserve">
+    <value>Tuto událost pořáádá </value>
+  </data>
+  <data name="NEARME_NO_EVENTS_FOUND" xml:space="preserve">
+    <value>Omlouváme se, ve zadané vzdálenosti od vaší adresy nejsou aktuálně k dispozici žádné události.</value>
+  </data>
+  <data name="NEARME_EMAIL_MODAL_TITLE" xml:space="preserve">
+    <value>Zadejte svůj e-mail</value>
+  </data>
+  <data name="NEARME_EMAIL_LABEL" xml:space="preserve">
+    <value>E-mail</value>
+  </data>
+  <data name="NEARME_SEND_INFORMATION_BUTTON" xml:space="preserve">
+    <value>Odeslat informace</value>
+  </data>
+  <data name="ABOUTUS_PAGE_TITLE" xml:space="preserve">
+    <value>O nás</value>
+  </data>
+  <data name="ABOUTUS_COMMUNITY_SECTION_TEXT" xml:space="preserve">
+    <value>Vítejte, doufáme, že zde najdete to, co hledáte. Pokud jste to ještě nevěděli, toto je...! Věnujeme se službě naší komunitě s láskou a soucitem. Naším posláním je vytvářet přívětivý prostor, kde se každý cítí přijatý a podporovaný. Připojte se k nám a pomozte nám měnit věci k lepšímu!</value>
+  </data>
+  <data name="ABOUTUS_COMMUNITY_SECTION_TITLE" xml:space="preserve">
+    <value>Jsme tu pro komunitu</value>
+  </data>
+  <data name="ABOUTUS_COMMUNITY_IMAGE_ALT" xml:space="preserve">
+    <value>Obrázek komunity</value>
+  </data>
+  <data name="ABOUTUS_PAGE_SUBTITLE" xml:space="preserve">
+    <value>Poznejte nás a to, co děláme</value>
+  </data>
+  <data name="ABOUTUS_SUPPORT_IMAGE_ALT" xml:space="preserve">
+    <value>Obrázek podpory</value>
+  </data>
+  <data name="ABOUTUS_BELIEF_SECTION_TITLE" xml:space="preserve">
+    <value>Čemu věříme</value>
+  </data>
+  <data name="ABOUTUS_BELIEF_SECTION_TEXT" xml:space="preserve">
+    <value>Inspirováni touto pravdou vyznáváme Ježíše Krista jako Pána a Spasitele, který přináší své církvi odpuštění, obnovu a společný cíl. Právě skrze Něho jsme povoláni ke společné práci, oslavě naší rozmanitosti a jednotě v Jeho lásce. Tato víra byla impulsem k vytvoření této webové stránky jako prostředku ke spojení, povzbuzení a vybavení kostelů napříč Forest of Dean. Naším posláním je propojovat komunity podporou a propagací kostelů a umožnit lidem kolem nás objevovat, co se skrývá v oblasti Forest of Dean.</value>
+  </data>
+  <data name="ABOUTUS_LIGHT_IMAGE_ALT" xml:space="preserve">
+    <value>Obrázek světla</value>
+  </data>
+  <data name="ABOUTUS_LIGHT_SECTION_TITLE" xml:space="preserve">
+    <value>Prosvětlení Lesa světlem Ježíšovým</value>
+  </data>
+  <data name="LOGIN_HEADING" xml:space="preserve">
+    <value>Pro pokračování se prosím přihlaste...</value>
+  </data>
+  <data name="ABOUTUS_LIGHT_SECTION_TEXT" xml:space="preserve">
+    <value>Inspirováni Ježíšovým učením se snažíme šířit světlo a naději po celém Forest of Dean. Naše víra nás vede k tomu, abychom sloužili druhým a sdíleli poselství lásky, pokoje a laskavosti. Staňte se součástí naší cesty!</value>
+  </data>
+  <data name="ABOUTUS_FOOTER_TEXT" xml:space="preserve">
+    <value>Tento web vytvořili Jack Butcher-Barnard a Johnathan Kear a je věnován podpoře a rozvoji kostelů v celé oblasti Forest of Dean.</value>
+  </data>
+  <data name="LOGIN_EMAIL_PLACEHOLDER" xml:space="preserve">
+    <value>E-mail</value>
+  </data>
+  <data name="LOGIN_PASSWORD_PLACEHOLDER" xml:space="preserve">
+    <value>Heslo</value>
+  </data>
+  <data name="LOGIN_FORGOT_PASSWORD_LINK" xml:space="preserve">
+    <value>Zapomenuté heslo</value>
+  </data>
+  <data name="LOGIN_RESEND_CONFIRMATION_LINK" xml:space="preserve">
+    <value>Znovu odeslat potvrzovací e-mail</value>
+  </data>
+  <data name="NAV_WELCOME_BACK" xml:space="preserve">
+    <value>Vítejte zpět</value>
+  </data>
+  <data name="NAV_LOGOUT" xml:space="preserve">
+    <value>Odhlásit se</value>
+  </data>
+  <data name="EVENTS_PAGE_TITLE" xml:space="preserve">
+    <value>Události</value>
+  </data>
+  <data name="EVENTS_PAGE_SUBTITLE" xml:space="preserve">
+    <value>Události vašeho kostela</value>
+  </data>
+  <data name="EVENTS_LEARN_MORE_BUTTON" xml:space="preserve">
+    <value>Dozvědět se více...</value>
+  </data>
+  <data name="EVENTS_CARD_LOCATION" xml:space="preserve">
+    <value>Místo</value>
+  </data>
+  <data name="EVENTS_CARD_DATE" xml:space="preserve">
+    <value>Datum</value>
+  </data>
+  <data name="EVENTS_CARD_TIME" xml:space="preserve">
+    <value>Čas</value>
+  </data>
+  <data name="EVENTS_CARD_REPEATS" xml:space="preserve">
+    <value>Opakuje se?</value>
+  </data>
+  <data name="EVENTS_EDIT_BUTTON" xml:space="preserve">
+    <value>Upravit událost</value>
+  </data>
+  <data name="EVENTS_DELETE_BUTTON" xml:space="preserve">
+    <value>Smazat událost</value>
+  </data>
+  <data name="EVENTS_SYNC_EVENTS_TEXT" xml:space="preserve">
+    <value>Importovat události z</value>
+  </data>
+  <data name="EVENTS_ADD_EVENT_BUTTON" xml:space="preserve">
+    <value>Přidat novou událost</value>
+  </data>
+  <data name="WelcomeBackUser" xml:space="preserve">
+    <value>Vítejte zpět</value>
+  </data>
+  <data name="ChurchInfo" xml:space="preserve">
+    <value>Název kostela</value>
+  </data>
+  <data name="NAV_LABEL_PROFILE" xml:space="preserve">
+    <value>Profil</value>
+  </data>
+  <data name="NAV_LABEL_CHURCH_PROFILE" xml:space="preserve">
+    <value>Můj kostel</value>
+  </data>
+  <data name="NAV_LABEL_PASSWORD" xml:space="preserve">
+    <value>Změnit heslo</value>
+  </data>
+  <data name="NAV_LABEL_EXTERNAL_LOGIN" xml:space="preserve">
+    <value>Externí přihlášení</value>
+  </data>
+  <data name="NAV_LABEL_2FA" xml:space="preserve">
+    <value>Dvoufázové ověření</value>
+  </data>
+  <data name="NAV_LABEL_PERSONAL_DATA" xml:space="preserve">
+    <value>Moje údaje</value>
+  </data>
+  <data name="CONGREGATION_SIZE_LABEL" xml:space="preserve">
+    <value>Farnost / Sbor</value>
+  </data>
+  <data name="PHONE_LABEL" xml:space="preserve">
+    <value>Telefon</value>
+  </data>
+  <data name="CHURCHSUITE_LABEL" xml:space="preserve">
+    <value>Churchsuite</value>
+  </data>
+  <data name="CHURCH_WEBSITE_LABEL" xml:space="preserve">
+    <value>Webové stránky</value>
+  </data>
+  <data name="FACILITIES_LABEL" xml:space="preserve">
+    <value>K dispozici vybavení</value>
+  </data>
+  <data name="FACILITY_RESTROOMS" xml:space="preserve">
+    <value>Toalety</value>
+  </data>
+  <data name="FACILITY_WHEELCHAIR_ACCESS" xml:space="preserve">
+    <value>Bezbariérový přístup</value>
+  </data>
+  <data name="FACILITY_FREE_WIFI" xml:space="preserve">
+    <value>Wi-Fi</value>
+  </data>
+  <data name="FACILITY_REFRESHMENTS" xml:space="preserve">
+    <value>Občerstvení</value>
+  </data>
+  <data name="FACILITY_PARKING" xml:space="preserve">
+    <value>Parkoviště</value>
+  </data>
+  <data name="FACILITY_CHILDCARE" xml:space="preserve">
+    <value>Péče o děti</value>
+  </data>
+  <data name="FACILITY_HEARING_AID_SUPPORT" xml:space="preserve">
+    <value>Podpora pro nedoslýchavé</value>
+  </data>
+  <data name="FACILITY_KITCHEN" xml:space="preserve">
+    <value>Kuchyně</value>
+  </data>
+  <data name="FACILITY_COMMUNITY_SPACE" xml:space="preserve">
+    <value>Společenský prostor</value>
+  </data>
+  <data name="FACILITY_OUTDOOR_SPACES" xml:space="preserve">
+    <value>Venkovní prostor</value>
+  </data>
+  <data name="FACILITY_WORSHIP_HALL" xml:space="preserve">
+    <value>Modlitební sál</value>
+  </data>
+  <data name="USE_MY_LOCATION" xml:space="preserve">
+    <value>Použít moji polohu</value>
+  </data>
+  <data name="UPDATE_CHURCH_INFO" xml:space="preserve">
+    <value>Informace o vašem kostele</value>
+  </data>
+  <data name="LABEL_UPLOAD_LOGO" xml:space="preserve">
+    <value>Nahrát logo</value>
+  </data>
+  <data name="LABEL_MANAGE_SERVICE_TIMES" xml:space="preserve">
+    <value>Spravovat časy bohoslužeb</value>
+  </data>
+  <data name="MARK_CHURCH_AS" xml:space="preserve">
+    <value>Označit kostel jako</value>
+  </data>
+  <data name="STATUS_OPEN" xml:space="preserve">
+    <value>Otevřeno</value>
+  </data>
+  <data name="STATUS_CLOSED" xml:space="preserve">
+    <value>Zavřeno</value>
+  </data>
+  <data name="PLEASE_ONLY_USE_THIS" xml:space="preserve">
+    <value>Používejte toto prosím pouze</value>
+  </data>
+  <data name="FOR_LONG_TERM_MAINTENANCE" xml:space="preserve">
+    <value>pokud je váš kostel uzavřen z důvodu dlouhodobé údržby nebo byl trvale uzavřen a již není přístupný návštěvníkům ani nepořádá pravidelné bohoslužby. Upozorňujeme, že pokud je stav nastaven na zavřeno, váš kostel se NEBUDE zobrazovat ve vyhledávání v okolí.</value>
+  </data>
+  <data name="CURRENT_SERVICE_TIMES" xml:space="preserve">
+    <value>Aktuální časy bohoslužeb</value>
+  </data>
+  <data name="TIME_LABEL" xml:space="preserve">
+    <value>Čas</value>
+  </data>
+  <data name="NOTE_LABEL" xml:space="preserve">
+    <value>Datum</value>
+  </data>
+  <data name="DELETE_ENTRY_LABEL" xml:space="preserve">
+    <value>Smazat záznam</value>
+  </data>
+  <data name="STATUS_DELETE" xml:space="preserve">
+    <value>Odebrat</value>
+  </data>
+  <data name="ADD_SERVICE" xml:space="preserve">
+    <value>Přidat bohoslužbu</value>
+  </data>
+  <data name="PLACEHOLDER_SERVICE_NOTE" xml:space="preserve">
+    <value>Ranní eucharistická bohoslužba</value>
+  </data>
+  <data name="STATUS_GEOLATION_NOT_SUPPORTED" xml:space="preserve">
+    <value>Geolokace není podporována</value>
+  </data>
+  <data name="ManageYourData" xml:space="preserve">
+    <value>Spravujte své osobní údaje</value>
+  </data>
+  <data name="PersonalDataDeletionWarning" xml:space="preserve">
+    <value>Pokud si přejete stáhnout své informace, včetně veškerých údajů, které uchováváme o vašem kostele, kontaktujte nás prosím prostřednictvím</value>
+  </data>
+  <data name="PERSONAL_DATA_P1" xml:space="preserve">
+    <value>Pokud si přejete stáhnout své informace, včetně veškerých údajů, které uchováváme o vašem kostele, kontaktujte nás prosím prostřednictvím </value>
+  </data>
+  <data name="PERSONAL_DATA_P2" xml:space="preserve">
+    <value>Kontaktní stránky</value>
+  </data>
+  <data name="CLIENT_EMAIL_PLACEHOLDER" xml:space="preserve">
+    <value>Váš e-mail</value>
+  </data>
+  <data name="CHURCH_GENERAL_INFO_TITLE" xml:space="preserve">
+    <value>Obecné informace</value>
+  </data>
+  <data name="CHURCH_NAME_LABEL" xml:space="preserve">
+    <value>Název:</value>
+  </data>
+  <data name="CHURCH_DESCRIPTION_LABEL" xml:space="preserve">
+    <value>Popis:</value>
+  </data>
+  <data name="CHURCH_ADDRESS_LABEL" xml:space="preserve">
+    <value>Adresa:</value>
+  </data>
+  <data name="CHURCH_FACILITIES_TITLE" xml:space="preserve">
+    <value>Vybavení</value>
+  </data>
+  <data name="CHURCH_REFRESHMENTS_LABEL" xml:space="preserve">
+    <value>Občerstvení</value>
+  </data>
+  <data name="CHURCH_FACILITY_AVAILABLE" xml:space="preserve">
+    <value>K dispozici</value>
+  </data>
+  <data name="CHURCH_FACILITY_NOT_AVAILABLE" xml:space="preserve">
+    <value>Není k dispozici</value>
+  </data>
+  <data name="CHURCH_RESTROOMS_LABEL" xml:space="preserve">
+    <value>Toalety</value>
+  </data>
+  <data name="CHURCH_WIFI_LABEL" xml:space="preserve">
+    <value>Wi-Fi</value>
+  </data>
+  <data name="CHURCH_PARKING_LABEL" xml:space="preserve">
+    <value>Parkoviště</value>
+  </data>
+  <data name="CHURCH_WHEELCHAIR_LABEL" xml:space="preserve">
+    <value>Bezbariérový přístup</value>
+  </data>
+  <data name="CHURCH_COMMUNITY_SPACE_LABEL" xml:space="preserve">
+    <value>Společenský prostor</value>
+  </data>
+  <data name="CHURCH_KITCHEN_LABEL" xml:space="preserve">
+    <value>Kuchyně</value>
+  </data>
+  <data name="CHURCH_HEARING_AID_LABEL" xml:space="preserve">
+    <value>Podpora pro nedoslýchavé</value>
+  </data>
+  <data name="CHURCH_OUTDOOR_SPACE_LABEL" xml:space="preserve">
+    <value>Venkovní prostor</value>
+  </data>
+  <data name="CHURCH_BUILDING_LABEL" xml:space="preserve">
+    <value>Modlitební sál</value>
+  </data>
+  <data name="CHURCH_CHILDCARE_LABEL" xml:space="preserve">
+    <value>Péče o děti</value>
+  </data>
+  <data name="CHURCH_CHURCHSUITE_BUTTON" xml:space="preserve">
+    <value>ChurchSuite</value>
+  </data>
+  <data name="CHURCH_SEND_MESSAGE_BUTTON" xml:space="preserve">
+    <value>Odeslat zprávu</value>
+  </data>
+  <data name="CHURCH_EVENTS_HEADING" xml:space="preserve">
+    <value>Aktuální / nadcházející události</value>
+  </data>
+  <data name="CHURCH_NO_EVENTS_MESSAGE" xml:space="preserve">
+    <value>Tento kostel nemá žádné nadcházející události</value>
+  </data>
+  <data name="CHURCH_SUNDAY_SERVICES_HEADING" xml:space="preserve">
+    <value>Nedělní bohoslužby</value>
+  </data>
+  <data name="CHURCH_FIND_ON_MAPS_HEADING" xml:space="preserve">
+    <value>Najděte nás na Google Maps</value>
+  </data>
+  <data name="LABEL_DENOMINATION" xml:space="preserve">
+    <value>Denominace</value>
+  </data>
+  <data name="LABEL_CONGREGATION" xml:space="preserve">
+    <value>Farnost / Sbor</value>
+  </data>
+  <data name="PROFILE_WELCOME_BACK" xml:space="preserve">
+    <value>Vítejte zpět</value>
+  </data>
+  <data name="TAG_USERNAME" xml:space="preserve">
+    <value>Uživatelské jméno</value>
+  </data>
+  <data name="TAG_PHONE" xml:space="preserve">
+    <value>Telefonní číslo</value>
+  </data>
+  <data name="TAG_SAVE" xml:space="preserve">
+    <value>Uložit změny</value>
+  </data>
+  <data name="TAG_UPDATE_INFORMATION" xml:space="preserve">
+    <value>Aktualizovat informace</value>
+  </data>
+  <data name="TAG_SYNC_FROM_CHURCHSUITE" xml:space="preserve">
+    <value>Synchronizovat z ChurchSuite</value>
+  </data>
+  <data name="TAG_SYNC_FROM_CHURCHSUITE_DESC" xml:space="preserve">
+    <value>Aktualizujte informace o svém kostele z účtu ChurchSuite.</value>
+  </data>
+  <data name="TAG_SELECT_IMAGE" xml:space="preserve">
+    <value>Vybrat soubor (Klikněte zde)</value>
+  </data>
+  <data name="TAG_CLOSED_INFO" xml:space="preserve">
+    <value>Tlačítko Označit kostel jako zavřený používejte pouze tehdy, je-li váš kostel uzavřen z důvodu dlouhodobé údržby nebo je-li trvale uzavřen. Upozorňujeme, že pokud je stav nastaven na zavřeno, váš kostel se NEBUDE zobrazovat ve vyhledávání v okolí.</value>
+  </data>
+  <data name="TAG_CHURCH_SERVICE_TIME_BUTTON" xml:space="preserve">
+    <value>Spravovat časy bohoslužeb</value>
+  </data>
+  <data name="TAG_SERVICE_NOTE_PLACEHOLDER" xml:space="preserve">
+    <value>Ranní eucharistická bohoslužba</value>
+  </data>
+  <data name="TAG_OLD_PASSWORD" xml:space="preserve">
+    <value>Zadejte prosím své staré heslo</value>
+  </data>
+  <data name="TAG_NEW_PASSWORD" xml:space="preserve">
+    <value>Zadejte prosím své nové heslo</value>
+  </data>
+  <data name="TAG_CURRENT_PWD" xml:space="preserve">
+    <value>Současné heslo</value>
+  </data>
+  <data name="TAG_NEW_PWD" xml:space="preserve">
+    <value>Nové heslo</value>
+  </data>
+  <data name="TAG_CHANGE_PASSWORD" xml:space="preserve">
+    <value>Změnit vaše heslo</value>
+  </data>
+  <data name="STATUS_SAVE" xml:space="preserve">
+    <value>Uložit změny</value>
+  </data>
+  <data name="EXTERNAL_LOGIN_TITLE" xml:space="preserve">
+    <value>Spravovat externí přihlášení</value>
+  </data>
+  <data name="TAG_REGISTERED_LOGINS" xml:space="preserve">
+    <value>Registrovaná přihlášení</value>
+  </data>
+  <data name="TAG_CONNECT_CHURCHSUITE" xml:space="preserve">
+    <value>Připojit ChurchSuite</value>
+  </data>
+  <data name="TAG_CHURCHSUITE_DESC" xml:space="preserve">
+    <value>Zadejte ID veřejného klienta ChurchSuite (PKCE) a klikněte na "Uložit a autorizovat" pro propojení účtu ChurchSuite s tímto účtem ForestChurches.</value>
+  </data>
+  <data name="TAG_CHURCHSUITE_CLIENT_ID" xml:space="preserve">
+    <value>ID klienta ChurchSuite</value>
+  </data>
+  <data name="TAG_SAVE_AUTHORIZE" xml:space="preserve">
+    <value>Uložit a autorizovat přes ChurchSuite</value>
+  </data>
+  <data name="STATUS_CHURCHSUITE_CONNECTION" xml:space="preserve">
+    <value>Není připojeno k ChurchSuite</value>
+  </data>
+  <data name="TAG_CHURCHSUITE_MSG_P1" xml:space="preserve">
+    <value>Odebrat toto</value>
+  </data>
+  <data name="TAG_CHURCHSUITE_MSG_P2" xml:space="preserve">
+    <value>přihlašovací jméno z vašeho účtu</value>
+  </data>
+  <data name="STATUS_REMOVE" xml:space="preserve">
+    <value>Odebrat</value>
+  </data>
+  <data name="TAG_ANOTHER_SERVICE" xml:space="preserve">
+    <value>Přidat další službu pro přihlášení</value>
+  </data>
+  <data name="TAG_LOGIN_DESC_A" xml:space="preserve">
+    <value>Přihlásit se pomocí účtu</value>
+  </data>
+  <data name="TAG_LOGIN_DESC_B" xml:space="preserve">
+    <value>účet</value>
+  </data>
+  <data name="TITLE_TWO_FACTOR_AUTHENTICATION" xml:space="preserve">
+    <value>Dvoufázové ověření (2FA)</value>
+  </data>
+  <data name="ALT_PROFILE_PICTURE" xml:space="preserve">
+    <value>profilový obrázek</value>
+  </data>
+  <data name="NO_RECOVERY_CODES_LEFT_TITLE" xml:space="preserve">
+    <value>Nezbývají vám žádné záchranné kódy.</value>
+  </data>
+  <data name="MUST_GENERATE_CODES_BEFORE" xml:space="preserve">
+    <value>Musíte</value>
+  </data>
+  <data name="GENERATE_NEW_CODES_LINK" xml:space="preserve">
+    <value>vygenerovat novou sadu záchranných kódů</value>
+  </data>
+  <data name="MUST_GENERATE_CODES_AFTER" xml:space="preserve">
+    <value>předtím, než se budete moci přihlásit pomocí záchranného kódu.</value>
+  </data>
+  <data name="ONE_RECOVERY_CODE_LEFT_TITLE" xml:space="preserve">
+    <value>Zbývá vám 1 záchranný kód.</value>
+  </data>
+  <data name="CAN_GENERATE_CODES_BEFORE" xml:space="preserve">
+    <value>Můžete</value>
+  </data>
+  <data name="MULTIPLE_RECOVERY_CODES_LEFT_BEFORE" xml:space="preserve">
+    <value>Máte ještě</value>
+  </data>
+  <data name="MULTIPLE_RECOVERY_CODES_LEFT_AFTER" xml:space="preserve">
+    <value>zbývajících záchranných kódů.</value>
+  </data>
+  <data name="SHOULD_GENERATE_CODES_BEFORE" xml:space="preserve">
+    <value>Měli byste</value>
+  </data>
+  <data name="BTN_FORGET_BROWSER" xml:space="preserve">
+    <value>Zapomenout tento prohlížeč</value>
+  </data>
+  <data name="BTN_DISABLE_2FA" xml:space="preserve">
+    <value>Deaktivovat dvoufázové ověření</value>
+  </data>
+  <data name="BTN_RESET_RECOVERY_CODES" xml:space="preserve">
+    <value>Obnovit záchranné kódy</value>
+  </data>
+  <data name="AUTHENTICATOR_APP_HEADER" xml:space="preserve">
+    <value>Aplikace autentikátoru</value>
+  </data>
+  <data name="BTN_ADD_AUTHENTICATOR_APP" xml:space="preserve">
+    <value>Přidat aplikaci autentikátoru</value>
+  </data>
+  <data name="BTN_SET_UP_AUTHENTICATOR_APP" xml:space="preserve">
+    <value>Nastavit aplikaci autentikátoru</value>
+  </data>
+  <data name="BTN_RESET_AUTHENTICATOR_APP" xml:space="preserve">
+    <value>Obnovit aplikaci autentikátoru</value>
+  </data>
+  <data name="PRIVACY_POLICY_NOT_ACCEPTED_TITLE" xml:space="preserve">
+    <value>Zásady ochrany osobních údajů a souborů cookie nebyly přijaty.</value>
+  </data>
+  <data name="PRIVACY_POLICY_NOT_ACCEPTED_BODY" xml:space="preserve">
+    <value>Před zapnutím dvoufázového ověření musíte přijmout tyto zásady.</value>
+  </data>
+  <data name="TITLE_PERSONAL_DATA" xml:space="preserve">
+    <value>Osobní údaje</value>
+  </data>
+  <data name="PROFILE_WELCOME_BACK_USER" xml:space="preserve">
+    <value>Vítejte zpět, uživateli!</value>
+  </data>
+  <data name="DOWNLOAD_INFO_PREFIX" xml:space="preserve">
+    <value>Pokud si přejete stáhnout své informace, včetně veškerých údajů, které uchováváme o vašem kostele, kontaktujte nás prosím prostřednictvím</value>
+  </data>
+  <data name="CONTACT_US_PAGE_LINK" xml:space="preserve">
+    <value>Kontaktní stránka</value>
+  </data>
+  <data name="SERVICE_TIMES_TITLE" xml:space="preserve">
+    <value>Časy bohoslužeb vašeho kostela</value>
+  </data>
+  <data name="STATUS_ADD_SERVICE" xml:space="preserve">
+    <value>Přidat bohoslužbu</value>
+  </data>
+  <data name="MANAGE_CHURCH_SERVICE_TIMES" xml:space="preserve">
+    <value>Spravovat časy bohoslužeb kostela</value>
+  </data>
+  <data name="UPLOAD_LOGO_TEXT" xml:space="preserve">
+    <value>Nahrát logo</value>
+  </data>
+  <data name="TAG_USE_GEOLOCATION" xml:space="preserve">
+    <value>Použít moji aktuální polohu</value>
+  </data>
+  <data name="TAG_USER" xml:space="preserve">
+    <value>Uživatel</value>
+  </data>
+  <data name="UpdateTitle" xml:space="preserve">
+    <value>Dvoufázové ověření (2FA)</value>
+  </data>
+  <data name="STATUS_CLOSE" xml:space="preserve">
+    <value>Zavřít</value>
+  </data>
+</root>

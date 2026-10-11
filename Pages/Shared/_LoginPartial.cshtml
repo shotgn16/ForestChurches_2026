@@ -6,27 +6,27 @@
 @inject UserManager<ChurchAccount> UserManager
 
 <head>
-    <link rel="stylesheet" href="~/css2/Nav.css" integrity="sha256-vb1B4OCia/PLNCcR1sf3s0PwkjUtFri603v49QZBsLo=" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css2/Nav.css" asp-append-version="true" />
 </head>
 
-<ul class="sNavbar-Nav navbar-nav">
+    <ul class="sNavbar-Nav navbar-nav">
     @if (SignInManager.IsSignedIn(User))
     {
         <li class="nav-item">
-            <a id="manage" class="nav-link text-light" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Welcome back, @UserManager.GetUserName(User)</a>
+            <a id="manage" class="nav-link text-light" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">@Localizer["NAV_WELCOME_BACK", UserManager.GetUserName(User)]</a>
         </li>
         <li class="nav-item">
             <form id="logoutForm" class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/Index", new { area = "" })">
                 <!-- AntiforgeryToken -->
                 @Html.AntiForgeryToken()
-                <button id="logout" type="submit" class="nav-link btn btn-link btn-secondary text-light border-0">Logout</button>
+                <button id="logout" type="submit" class="nav-link btn btn-link btn-secondary text-light border-0">@Localizer["NAV_LOGOUT"]</button>
             </form>
         </li>
     }
     else
     {
         <li class="nav-item">
-            <a class="nav-link btn-secondary text-light ms-0" id="login" asp-area="Identity" asp-page="/Account/Login">Login</a>
+            <a class="nav-link btn-secondary text-light ms-0" id="login" asp-area="Identity" asp-page="/Account/Login">@Localizer["NAV_LOGIN"]</a>
         </li>
     }
 </ul>

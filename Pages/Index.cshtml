@@ -1,12 +1,12 @@
 ﻿@page
 @model IndexModel
 @{
-    ViewData["Title"] = "Welcome to Forest Churches";
+    ViewData["Title"] = Localizer["HOMEPAGE_PAGE_TITLE"];
 }
 <head>
     <!-- Page specific CSS -->
-    <link rel="stylesheet" integrity="sha256-wd4oTW8y4Lp8tRmY3hv0zwWaq4priIdcTuxNqkOhWVg=" href="~/css2/Variables.css" />
-    <link rel="stylesheet" integrity="sha256-cK3tC3v7ctjhKlbQCutGr7zR4G4JfHZ19hT3NGVCZRg=" href="~/css2/Video.css" />
+    <link rel="stylesheet" href="~/css2/Variables.css" />
+    <link rel="stylesheet" href="~/css2/Video.css" />
 </head>
 <style nonce="@HttpContextAccessor.HttpContext?.Items["CSP-Style-Nonce"]">
     .footer-container {
@@ -47,8 +47,8 @@
     <main>
         <section id='title'>
             <div id='subtitle'>
-                <h1>Welcome to Forest Churches</h1>
-                <p id="Info">Connecting Communities in the Forest of Dean.</p>
+                <h1>@Localizer["HOMEPAGE_HERO_TITLE"]</h1>
+                <p id="Info">@Localizer["HOMEPAGE_HERO_SUBTITLE"]</p>
             </div>
 
             <section id='background-video'>
