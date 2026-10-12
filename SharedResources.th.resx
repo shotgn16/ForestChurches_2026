@@ -415,7 +415,7 @@
     <value>เกี่ยวกับเรา</value>
   </data>
   <data name="ABOUTUS_COMMUNITY_SECTION_TEXT" xml:space="preserve">
-    <value>ยินดีต้อนรับค่ะ/ครับ เราหวังว่าคุณจะพบสิ่งที่คุณกำลังมองหา หากคุณยังไม่ทราบมาก่อน ที่นี่คือ...! เรามุ่งมั่นที่จะดูแลชุมชนของเราด้วยความรักและความห่วงใย โดยมีพันธกิจในการสร้างพื้นที่ที่อบอุ่นและเป็นมิตร ซึ่งทุกคนจะรู้สึกถึงคุณค่าและการได้รับการสนับสนุน มาร่วมสร้างสิ่งดีๆ ไปด้วยกันกับเรานะคะ/ครับ</value>
+    <value>เราตั้งใจรับใช้ชุมชนด้วยความรักและความเมตตา พันธกิจของเราคือสร้างพื้นที่อบอุ่นที่ทุกคนรู้สึกว่ามีคุณค่าและได้รับการสนับสนุน มาร่วมสร้างความเปลี่ยนแปลงที่ดีไปด้วยกัน</value>
   </data>
   <data name="ABOUTUS_COMMUNITY_SECTION_TITLE" xml:space="preserve">
     <value>เรายืนหยัดเพื่อชุมชน</value>
@@ -607,7 +607,7 @@
     <value>เวลา</value>
   </data>
   <data name="NOTE_LABEL" xml:space="preserve">
-    <value>วันที่</value>
+    <value>การนมัสการ</value>
   </data>
   <data name="DELETE_ENTRY_LABEL" xml:space="preserve">
     <value>ลบรายการ</value>
@@ -739,7 +739,7 @@
     <value>อัปเดตข้อมูลโบสถ์ของคุณจากบัญชี ChurchSuite ของคุณ</value>
   </data>
   <data name="TAG_SELECT_IMAGE" xml:space="preserve">
-    <value>เลือกไฟล์ (คลิกที่นี่)</value>
+    <value>เลือกรูปภาพ</value>
   </data>
   <data name="TAG_CLOSED_INFO" xml:space="preserve">
     <value>โปรดใช้ปุ่มทำเครื่องหมายโบสถ์เป็นปิดเฉพาะเมื่อโบสถ์ของคุณปิดปรับปรุงระยะยาวหรือปิดทำการถาวรแล้วเท่านั้น โปรดทราบว่าโบสถ์ของคุณจะไม่ปรากฏในการค้นหาใกล้เคียงเมื่อสถานะตั้งเป็นปิด</value>
@@ -781,7 +781,7 @@
     <value>ป้อน Client ID สาธารณะของ ChurchSuite (PKCE) แล้วคลิก "บันทึกและอนุญาต" เพื่อเชื่อมโยงบัญชี ChurchSuite ของคุณกับบัญชี ForestChurches นี้</value>
   </data>
   <data name="TAG_CHURCHSUITE_CLIENT_ID" xml:space="preserve">
-    <value>ChurchSuite Client ID</value>
+    <value>Client ID ของ ChurchSuite</value>
   </data>
   <data name="TAG_SAVE_AUTHORIZE" xml:space="preserve">
     <value>บันทึกและอนุมัติด้วย ChurchSuite</value>
@@ -902,5 +902,1616 @@
   </data>
   <data name="STATUS_CLOSE" xml:space="preserve">
     <value>ปิด</value>
+  </data>
+  <data name="EVENTS_CONTACT_LINK" xml:space="preserve">
+    <value>ติดต่อเรา</value>
+  </data>
+  <data name="EVENTS_CONTACT_TEXT" xml:space="preserve">
+    <value>คิดว่านี่เป็นข้อผิดพลาดใช่ไหม</value>
+  </data>
+  <data name="EVENTS_FOOTER_NOTE_TEXT" xml:space="preserve">
+    <value>กิจกรรมที่จัดครั้งเดียวจะถูกลบประมาณ 24 ชั่วโมงหลังจบ เพื่อให้ฐานข้อมูลเป็นระเบียบและประหยัดค่าใช้จ่าย กิจกรรมที่จัดซ้ำจะยังคงแสดงอยู่</value>
+  </data>
+  <data name="EVENTS_FOOTER_NOTE_TITLE" xml:space="preserve">
+    <value>หมายเหตุ</value>
+  </data>
+  <data name="EVENTS_NO_EVENTS_TEXT" xml:space="preserve">
+    <value>คุณยังไม่มีกิจกรรมที่กำลังจะมาถึง</value>
+  </data>
+  <data name="FAQ_INTRO_TEXT" xml:space="preserve">
+    <value>คำตอบของคำถามที่เราได้รับบ่อยที่สุด ไม่พบสิ่งที่ต้องการใช่ไหม</value>
+  </data>
+  <data name="FAQ_PAGE_TITLE" xml:space="preserve">
+    <value>คำถามที่พบบ่อย</value>
+  </data>
+  <data name="FAQ_SECTION_TITLE" xml:space="preserve">
+    <value>การใช้งานเว็บไซต์</value>
+  </data>
+  <data name="FAQ_Q1_TITLE" xml:space="preserve">
+    <value>จะลงทะเบียนโบสถ์ของฉันได้อย่างไร</value>
+  </data>
+  <data name="FAQ_Q1_ANSWER" xml:space="preserve">
+    <value>ติดต่อเราผ่านหน้าติดต่อ เราจะส่งลิงก์คำเชิญเฉพาะของคุณทางอีเมลเพื่อสร้างบัญชี จากนั้นคุณจึงกรอกข้อมูลโบสถ์ เวลานมัสการ และกิจกรรมได้</value>
+  </data>
+  <data name="FAQ_Q2_TITLE" xml:space="preserve">
+    <value>บริการอื่นก็ทำคล้ายกัน ทำไมต้องใช้บริการนี้</value>
+  </data>
+  <data name="FAQ_Q2_ANSWER" xml:space="preserve">
+    <value>บริการอื่นอาจแสดงรายชื่อโบสถ์ แต่หลายแห่งเก็บค่าบริการ และยากที่จะรู้ว่าโบสถ์ไหนใกล้ที่สุด Forest Churches ใช้ฟรีและออกแบบมาให้ค้นหาด้วยรหัสไปรษณีย์ คุณจึงเห็นได้ทันทีว่ามีอะไรใกล้ตัว</value>
+  </data>
+  <data name="FAQ_Q3_TITLE" xml:space="preserve">
+    <value>จะขอสำเนาข้อมูลส่วนบุคคลของฉันได้อย่างไร</value>
+  </data>
+  <data name="FAQ_Q3_ANSWER" xml:space="preserve">
+    <value>ในส่วนจัดการโบสถ์ เปิด "ข้อมูลของฉัน" แล้วเลือก "ดาวน์โหลด" หากต้องการสิ่งที่ไม่มีในนั้น ติดต่อเรา เรายินดีช่วย</value>
+  </data>
+  <data name="FAQ_Q4_TITLE" xml:space="preserve">
+    <value>ข้อมูลของฉันถูกเก็บไว้ที่ไหน</value>
+  </data>
+  <data name="FAQ_Q4_ANSWER" xml:space="preserve">
+    <value>เพื่อความปลอดภัย ข้อมูลทั้งหมดถูกเก็บในฐานข้อมูลภายนอกที่ปลอดภัย ซึ่งมีเพียงแอปพลิเคชันเท่านั้นที่เข้าถึงได้</value>
+  </data>
+  <data name="FAQ_Q5_TITLE" xml:space="preserve">
+    <value>กิจกรรมของฉันหายไปจากหน้าโบสถ์ ทำไม</value>
+  </data>
+  <data name="FAQ_Q5_ANSWER" xml:space="preserve">
+    <value>เพื่อให้ฐานข้อมูลมีขนาดเล็กและประหยัดค่าใช้จ่าย กิจกรรมที่จัดครั้งเดียวจะถูกลบภายใน 24 ชั่วโมงหลังจบ กิจกรรมที่จัดซ้ำจะยังอยู่ในระบบ</value>
+  </data>
+  <data name="FAQ_Q6_TITLE" xml:space="preserve">
+    <value>จะอัปเดตข้อมูลโบสถ์ของฉันได้อย่างไร</value>
+  </data>
+  <data name="FAQ_Q6_ANSWER" xml:space="preserve">
+    <value>เข้าสู่ระบบแล้วเปิด "โบสถ์ของฉัน" คุณแก้ไขรายละเอียด สิ่งอำนวยความสะดวก เวลานมัสการ และโลโก้ได้ที่นั่น</value>
+  </data>
+  <data name="FAQ_Q7_TITLE" xml:space="preserve">
+    <value>ทำไมฉันเปลี่ยนอีเมลของบัญชีไม่ได้</value>
+  </data>
+  <data name="FAQ_Q7_ANSWER" xml:space="preserve">
+    <value>เพื่อความปลอดภัย ไม่สามารถเปลี่ยนอีเมลผ่านเว็บไซต์ได้ หากต้องการเปลี่ยน กรุณาติดต่อเรา แล้วเราจะช่วย</value>
+  </data>
+  <data name="FAQ_Q8_TITLE" xml:space="preserve">
+    <value>ทำไมลิงก์ในอีเมลของฉันใช้ไม่ได้แล้ว</value>
+  </data>
+  <data name="FAQ_Q8_ANSWER" xml:space="preserve">
+    <value>ลิงก์ส่วนใหญ่ที่เราส่งทางอีเมลถูกเข้ารหัสและใช้ได้เพียง 24 ชั่วโมง หากลิงก์ของคุณหมดอายุ ให้ขอลิงก์ใหม่</value>
+  </data>
+  <data name="FAQ_Q9_TITLE" xml:space="preserve">
+    <value>ทำไมบางหน้ายืนยันการเปลี่ยนแปลงแต่บางหน้าไม่ยืนยัน</value>
+  </data>
+  <data name="FAQ_Q9_ANSWER" xml:space="preserve">
+    <value>ตอนนี้ทุกหน้าควรแสดงข้อความยืนยันหลังบันทึก หากพบหน้าที่ไม่แสดง โปรดแจ้งให้เราทราบ</value>
+  </data>
+  <data name="LOGIN_EMAIL_LABEL" xml:space="preserve">
+    <value>อีเมล</value>
+  </data>
+  <data name="LOGIN_PASSWORD_LABEL" xml:space="preserve">
+    <value>รหัสผ่าน</value>
+  </data>
+  <data name="TAG_ADDRESS" xml:space="preserve">
+    <value>ที่อยู่</value>
+  </data>
+  <data name="TAG_CHURCHSUITE" xml:space="preserve">
+    <value>ที่อยู่ ChurchSuite</value>
+  </data>
+  <data name="TAG_FACILITIES" xml:space="preserve">
+    <value>สิ่งอำนวยความสะดวก</value>
+  </data>
+  <data name="TAG_SIZE_CONGREGATION" xml:space="preserve">
+    <value>จำนวนผู้มาร่วมวันอาทิตย์โดยปกติ</value>
+  </data>
+  <data name="TAG_WEBSITE" xml:space="preserve">
+    <value>เว็บไซต์</value>
+  </data>
+  <data name="RegisterTitle" xml:space="preserve">
+    <value>ลงทะเบียน</value>
+  </data>
+  <data name="RegisterWith" xml:space="preserve">
+    <value>ลงทะเบียนด้วย</value>
+  </data>
+  <data name="FC_SKIP_TO_CONTENT" xml:space="preserve">
+    <value>ข้ามไปยังเนื้อหาหลัก</value>
+  </data>
+  <data name="FC_MENU" xml:space="preserve">
+    <value>เมนู</value>
+  </data>
+  <data name="FC_MAIN_NAV" xml:space="preserve">
+    <value>เมนูหลัก</value>
+  </data>
+  <data name="FC_FOOTER_NAV" xml:space="preserve">
+    <value>ส่วนท้าย</value>
+  </data>
+  <data name="FC_NAV_FIND" xml:space="preserve">
+    <value>ค้นหาโบสถ์</value>
+  </data>
+  <data name="FC_NAV_BULLETIN" xml:space="preserve">
+    <value>จดหมายข่าว</value>
+  </data>
+  <data name="FC_NAV_CHURCH_LOGIN" xml:space="preserve">
+    <value>เข้าสู่ระบบสำหรับโบสถ์</value>
+  </data>
+  <data name="FC_NAV_MY_CHURCH" xml:space="preserve">
+    <value>โบสถ์ของฉัน</value>
+  </data>
+  <data name="FC_NAV_CHURCHSUITE" xml:space="preserve">
+    <value>ChurchSuite</value>
+  </data>
+  <data name="FC_NAV_BULLETINS" xml:space="preserve">
+    <value>จดหมายข่าว</value>
+  </data>
+  <data name="FC_NAV_SITE_ADMIN" xml:space="preserve">
+    <value>ผู้ดูแลเว็บไซต์</value>
+  </data>
+  <data name="FC_LANGUAGE" xml:space="preserve">
+    <value>ภาษา</value>
+  </data>
+  <data name="FC_PRIVACY" xml:space="preserve">
+    <value>ความเป็นส่วนตัว</value>
+  </data>
+  <data name="FC_FAQ" xml:space="preserve">
+    <value>คำถามที่พบบ่อย</value>
+  </data>
+  <data name="FC_CHURCH_ADMIN" xml:space="preserve">
+    <value>จัดการโบสถ์</value>
+  </data>
+  <data name="FC_ACCOUNT_NAV" xml:space="preserve">
+    <value>บัญชี</value>
+  </data>
+  <data name="FC_VIEW_PUBLIC_PAGE" xml:space="preserve">
+    <value>ดูหน้าสาธารณะ</value>
+  </data>
+  <data name="FC_BACK_TO_SITE" xml:space="preserve">
+    <value>กลับไปที่เว็บไซต์</value>
+  </data>
+  <data name="FC_STATUS_OPEN_LISTED" xml:space="preserve">
+    <value>เปิด · แสดงในการค้นหา</value>
+  </data>
+  <data name="FC_STATUS_CLOSED_HIDDEN" xml:space="preserve">
+    <value>ปิด · ซ่อนจากการค้นหา</value>
+  </data>
+  <data name="FC_BULLETIN_BANNER_LABEL" xml:space="preserve">
+    <value>จดหมายข่าวล่าสุด</value>
+  </data>
+  <data name="FC_BULLETIN_NEW" xml:space="preserve">
+    <value>จดหมายข่าวใหม่:</value>
+  </data>
+  <data name="FC_BULLETIN_READ" xml:space="preserve">
+    <value>อ่าน</value>
+  </data>
+  <data name="FC_HOME_TITLE" xml:space="preserve">
+    <value>ค้นหาโบสถ์ใกล้คุณ</value>
+  </data>
+  <data name="FC_HERO_ALT" xml:space="preserve">
+    <value>หุบเขาไวมองจากมุมสูง แม่น้ำคดเคี้ยวผ่านป่า</value>
+  </data>
+  <data name="FC_HERO_EYEBROW" xml:space="preserve">
+    <value>โบสถ์ทั่วฟอเรสต์ออฟดีน</value>
+  </data>
+  <data name="FC_HERO_TITLE" xml:space="preserve">
+    <value>ค้นหาโบสถ์ใกล้คุณ</value>
+  </data>
+  <data name="FC_HERO_LEAD" xml:space="preserve">
+    <value>เวลานมัสการ กิจกรรม และสิ่งที่ควรรู้ก่อนไป สำหรับชุมชนคริสตจักรทั่วพื้นที่</value>
+  </data>
+  <data name="FC_SEARCH_LABEL" xml:space="preserve">
+    <value>ค้นหาโบสถ์</value>
+  </data>
+  <data name="FC_SEARCH_POSTCODE" xml:space="preserve">
+    <value>รหัสไปรษณีย์หรือเมือง</value>
+  </data>
+  <data name="FC_SEARCH_WITHIN" xml:space="preserve">
+    <value>ภายในระยะ</value>
+  </data>
+  <data name="FC_SEARCH_BUTTON" xml:space="preserve">
+    <value>ค้นหา</value>
+  </data>
+  <data name="FC_MILES" xml:space="preserve">
+    <value>ไมล์</value>
+  </data>
+  <data name="FC_MILES_SHORT" xml:space="preserve">
+    <value>ไมล์</value>
+  </data>
+  <data name="FC_FINDING_YOU" xml:space="preserve">
+    <value>กำลังหาตำแหน่งของคุณ…</value>
+  </data>
+  <data name="FC_MORE_FILTERS" xml:space="preserve">
+    <value>ตัวกรองเพิ่มเติม</value>
+  </data>
+  <data name="FC_HIDE_FILTERS" xml:space="preserve">
+    <value>ซ่อนตัวกรอง</value>
+  </data>
+  <data name="FC_MUST_HAVE" xml:space="preserve">
+    <value>ต้องมี</value>
+  </data>
+  <data name="FC_OPTIONAL" xml:space="preserve">
+    <value>ไม่บังคับ</value>
+  </data>
+  <data name="FC_WHATS_ON" xml:space="preserve">
+    <value>มีอะไรเกิดขึ้นในพื้นที่</value>
+  </data>
+  <data name="FC_FIND_EVENTS" xml:space="preserve">
+    <value>ค้นหากิจกรรม</value>
+  </data>
+  <data name="FC_HOW_TITLE" xml:space="preserve">
+    <value>ใช้งานอย่างไร</value>
+  </data>
+  <data name="FC_HOW_1_TITLE" xml:space="preserve">
+    <value>ค้นหาด้วยรหัสไปรษณีย์</value>
+  </data>
+  <data name="FC_HOW_1_TEXT" xml:space="preserve">
+    <value>หรือใช้ตำแหน่งของคุณเพื่อดูว่ามีอะไรอยู่ใกล้</value>
+  </data>
+  <data name="FC_HOW_2_TITLE" xml:space="preserve">
+    <value>กรองตามสิ่งที่สำคัญ</value>
+  </data>
+  <data name="FC_HOW_2_TEXT" xml:space="preserve">
+    <value>ทางเข้าไม่มีขั้นบันได ที่จอดรถ กิจกรรมสำหรับเด็ก นิกาย</value>
+  </data>
+  <data name="FC_HOW_3_TITLE" xml:space="preserve">
+    <value>ไปเยี่ยมหรือติดต่อ</value>
+  </data>
+  <data name="FC_HOW_3_TEXT" xml:space="preserve">
+    <value>ดูเส้นทางหรือส่งข้อความถึงโบสถ์</value>
+  </data>
+  <data name="FC_ABOUT_STRIP_TITLE" xml:space="preserve">
+    <value>ที่เดียวสำหรับทุกโบสถ์ในพื้นที่</value>
+  </data>
+  <data name="FC_ABOUT_STRIP_TEXT" xml:space="preserve">
+    <value>Forest Churches รวบรวมเวลานมัสการ กิจกรรม และข้อมูลติดต่อของชุมชนคริสตจักรในท้องถิ่น ซึ่งโบสถ์เป็นผู้อัปเดตเอง</value>
+  </data>
+  <data name="FC_LIST_YOUR_CHURCH" xml:space="preserve">
+    <value>เพิ่มโบสถ์ของคุณ</value>
+  </data>
+  <data name="FC_LEARN_MORE" xml:space="preserve">
+    <value>ดูเพิ่มเติม</value>
+  </data>
+  <data name="FC_RESULTS_TITLE" xml:space="preserve">
+    <value>ค้นหาโบสถ์</value>
+  </data>
+  <data name="FC_RESULTS_ONE" xml:space="preserve">
+    <value>พบ 1 โบสถ์ภายใน {0} ไมล์</value>
+  </data>
+  <data name="FC_RESULTS_MANY" xml:space="preserve">
+    <value>พบ {0} โบสถ์ภายใน {1} ไมล์</value>
+  </data>
+  <data name="FC_NO_RESULTS_TITLE" xml:space="preserve">
+    <value>ไม่พบโบสถ์</value>
+  </data>
+  <data name="FC_NO_RESULTS_TEXT" xml:space="preserve">
+    <value>ลองเพิ่มระยะทางหรือปิดตัวกรองบางรายการ</value>
+  </data>
+  <data name="FC_NEXT_SERVICE" xml:space="preserve">
+    <value>การนมัสการครั้งถัดไป</value>
+  </data>
+  <data name="FC_VIEW_CHURCH" xml:space="preserve">
+    <value>ดูโบสถ์</value>
+  </data>
+  <data name="FC_DIRECTIONS" xml:space="preserve">
+    <value>เส้นทาง</value>
+  </data>
+  <data name="FC_OPENS_NEW_TAB" xml:space="preserve">
+    <value>เปิดในแท็บใหม่</value>
+  </data>
+  <data name="FC_READ_MORE" xml:space="preserve">
+    <value>อ่านเพิ่มเติม</value>
+  </data>
+  <data name="FC_SHOW_LESS" xml:space="preserve">
+    <value>แสดงน้อยลง</value>
+  </data>
+  <data name="FC_FACT_STEP_FREE" xml:space="preserve">
+    <value>ไม่มีขั้นบันได</value>
+  </data>
+  <data name="FC_FACT_HEARING_LOOP" xml:space="preserve">
+    <value>ระบบช่วยฟัง</value>
+  </data>
+  <data name="FC_FACT_CHILDREN" xml:space="preserve">
+    <value>กิจกรรมสำหรับเด็ก</value>
+  </data>
+  <data name="FC_CHURCH_NOT_FOUND" xml:space="preserve">
+    <value>ไม่พบโบสถ์</value>
+  </data>
+  <data name="FC_CHURCH_NOT_FOUND_TEXT" xml:space="preserve">
+    <value>ลิงก์นี้อาจล้าสมัยแล้ว ลองค้นหาโบสถ์แทน</value>
+  </data>
+  <data name="FC_BACK" xml:space="preserve">
+    <value>← กลับ</value>
+  </data>
+  <data name="FC_CONGREGATION" xml:space="preserve">
+    <value>{0} คนในวันอาทิตย์</value>
+  </data>
+  <data name="FC_KEY_FACTS" xml:space="preserve">
+    <value>ข้อมูลสำคัญ</value>
+  </data>
+  <data name="FC_SUNDAY" xml:space="preserve">
+    <value>วันอาทิตย์</value>
+  </data>
+  <data name="FC_NO_SERVICE_TIMES" xml:space="preserve">
+    <value>ยังไม่ได้ระบุเวลานมัสการ</value>
+  </data>
+  <data name="FC_WEBSITE" xml:space="preserve">
+    <value>เว็บไซต์</value>
+  </data>
+  <data name="FC_ABOUT_US" xml:space="preserve">
+    <value>เกี่ยวกับเรา</value>
+  </data>
+  <data name="FC_UPCOMING_EVENTS" xml:space="preserve">
+    <value>กิจกรรมที่กำลังจะมาถึง</value>
+  </data>
+  <data name="FC_WHAT_TO_EXPECT" xml:space="preserve">
+    <value>สิ่งที่ควรรู้ก่อนไป</value>
+  </data>
+  <data name="FC_FIND_US" xml:space="preserve">
+    <value>การเดินทางมาหาเรา</value>
+  </data>
+  <data name="FC_MAP_OF" xml:space="preserve">
+    <value>แผนที่แสดง {0}</value>
+  </data>
+  <data name="FC_GOES_TO_CHURCH" xml:space="preserve">
+    <value>ส่งตรงถึงโบสถ์</value>
+  </data>
+  <data name="FC_YOUR_NAME" xml:space="preserve">
+    <value>ชื่อของคุณ</value>
+  </data>
+  <data name="FC_YOUR_EMAIL" xml:space="preserve">
+    <value>อีเมลของคุณ</value>
+  </data>
+  <data name="FC_CONTACT_TITLE" xml:space="preserve">
+    <value>ติดต่อเรา</value>
+  </data>
+  <data name="FC_CONTACT_LEAD" xml:space="preserve">
+    <value>มีคำถามเกี่ยวกับเว็บไซต์ อยากเพิ่มโบสถ์ของคุณ หรือพบข้อผิดพลาด เราจะตอบกลับคุณ</value>
+  </data>
+  <data name="FC_CONTACT_CHURCH_TITLE" xml:space="preserve">
+    <value>ส่งข้อความถึง {0}</value>
+  </data>
+  <data name="FC_CONTACT_CHURCH_LEAD" xml:space="preserve">
+    <value>ข้อความของคุณจะส่งตรงถึงโบสถ์</value>
+  </data>
+  <data name="FC_CONTACT_SPECIFIC_CHURCH" xml:space="preserve">
+    <value>ต้องการติดต่อโบสถ์ใดโดยเฉพาะ ใช้แบบฟอร์มในหน้าของโบสถ์นั้น</value>
+  </data>
+  <data name="FC_EMAIL" xml:space="preserve">
+    <value>อีเมล</value>
+  </data>
+  <data name="FC_LOOKING_FOR_ANSWERS" xml:space="preserve">
+    <value>กำลังหาคำตอบอยู่ใช่ไหม</value>
+  </data>
+  <data name="FC_READ_FAQ" xml:space="preserve">
+    <value>อ่านคำถามที่พบบ่อย</value>
+  </data>
+  <data name="FC_MESSAGE_FORM" xml:space="preserve">
+    <value>แบบฟอร์มข้อความ</value>
+  </data>
+  <data name="FC_PRIVACY_NOTE" xml:space="preserve">
+    <value>เราใช้ข้อมูลของคุณเพื่อตอบกลับเท่านั้น ดู</value>
+  </data>
+  <data name="FC_GET_IN_TOUCH" xml:space="preserve">
+    <value>ติดต่อเรา</value>
+  </data>
+  <data name="FC_ABOUT_SUPPORT_TITLE" xml:space="preserve">
+    <value>สนับสนุนโบสถ์ในท้องถิ่น</value>
+  </data>
+  <data name="FC_ABOUT_SUPPORT_TEXT" xml:space="preserve">
+    <value>โบสถ์อัปเดตหน้าของตนเอง ทั้งเวลานมัสการ สิ่งอำนวยความสะดวก และกิจกรรม ซึ่งซิงค์จาก ChurchSuite หากใช้งานอยู่ เพื่อให้ผู้มาเยือนเห็นสิ่งที่เกิดขึ้นจริง</value>
+  </data>
+  <data name="FC_HELP" xml:space="preserve">
+    <value>ความช่วยเหลือ</value>
+  </data>
+  <data name="FC_SEND_US_A_MESSAGE" xml:space="preserve">
+    <value>ส่งข้อความถึงเรา</value>
+  </data>
+  <data name="FC_FAQ_CHURCHES_TITLE" xml:space="preserve">
+    <value>สำหรับโบสถ์</value>
+  </data>
+  <data name="FC_BULLETIN_DEFAULT_TITLE" xml:space="preserve">
+    <value>จดหมายข่าวประจำสัปดาห์</value>
+  </data>
+  <data name="FC_BULLETIN_DEFAULT_PARISH" xml:space="preserve">
+    <value>Forest of Dean Benefice</value>
+  </data>
+  <data name="FC_BULLETIN_NONE" xml:space="preserve">
+    <value>ยังไม่มีจดหมายข่าวที่เผยแพร่</value>
+  </data>
+  <data name="FC_BULLETIN_NONE_TEXT" xml:space="preserve">
+    <value>กลับมาดูจดหมายข่าวของสัปดาห์นี้เร็ว ๆ นี้</value>
+  </data>
+  <data name="FC_BULLETIN_SECTIONS" xml:space="preserve">
+    <value>ส่วนของจดหมายข่าว</value>
+  </data>
+  <data name="FC_DOWNLOAD_PDF" xml:space="preserve">
+    <value>ดาวน์โหลด PDF</value>
+  </data>
+  <data name="FC_PRINT" xml:space="preserve">
+    <value>พิมพ์</value>
+  </data>
+  <data name="FC_DETAILS" xml:space="preserve">
+    <value>รายละเอียด</value>
+  </data>
+  <data name="FC_NOTICES" xml:space="preserve">
+    <value>ประกาศ</value>
+  </data>
+  <data name="FC_READINGS" xml:space="preserve">
+    <value>บทอ่าน</value>
+  </data>
+  <data name="FC_HYMNS" xml:space="preserve">
+    <value>เพลงสรรเสริญ</value>
+  </data>
+  <data name="FC_COLLECT" xml:space="preserve">
+    <value>คำอธิษฐานประจำวัน</value>
+  </data>
+  <data name="FC_THE_COLLECT" xml:space="preserve">
+    <value>คำอธิษฐานประจำวัน</value>
+  </data>
+  <data name="FC_THIS_WEEKS_NOTICES" xml:space="preserve">
+    <value>ประกาศประจำสัปดาห์</value>
+  </data>
+  <data name="FC_NOTHING_THIS_WEEK" xml:space="preserve">
+    <value>สัปดาห์นี้ยังไม่มีรายการ</value>
+  </data>
+  <data name="FC_FIRST_READING" xml:space="preserve">
+    <value>บทอ่านที่หนึ่ง</value>
+  </data>
+  <data name="FC_GOSPEL" xml:space="preserve">
+    <value>พระวรสาร</value>
+  </data>
+  <data name="FC_LOGIN_PITCH_TITLE" xml:space="preserve">
+    <value>อัปเดตหน้าโบสถ์ของคุณให้เป็นปัจจุบัน</value>
+  </data>
+  <data name="FC_LOGIN_PITCH_TEXT" xml:space="preserve">
+    <value>เวลานมัสการ สิ่งอำนวยความสะดวก และกิจกรรม รวมไว้ในที่เดียว ให้ผู้มาเยือนรู้เสมอว่าจะได้พบกับอะไร</value>
+  </data>
+  <data name="FC_LOGIN_LEAD" xml:space="preserve">
+    <value>เข้าสู่ระบบเพื่อจัดการโบสถ์ของคุณ</value>
+  </data>
+  <data name="FC_SHOW" xml:space="preserve">
+    <value>แสดง</value>
+  </data>
+  <data name="FC_HIDE" xml:space="preserve">
+    <value>ซ่อน</value>
+  </data>
+  <data name="FC_KEEP_ME_SIGNED_IN" xml:space="preserve">
+    <value>จดจำการเข้าสู่ระบบ</value>
+  </data>
+  <data name="FC_SIGN_IN" xml:space="preserve">
+    <value>เข้าสู่ระบบ</value>
+  </data>
+  <data name="FC_OR" xml:space="preserve">
+    <value>หรือ</value>
+  </data>
+  <data name="FC_SIGN_IN_WITH" xml:space="preserve">
+    <value>เข้าสู่ระบบด้วย {0}</value>
+  </data>
+  <data name="FC_NOT_SET_UP" xml:space="preserve">
+    <value>ยังไม่ได้สมัครใช่ไหม โบสถ์เข้าร่วมได้ด้วยคำเชิญ —</value>
+  </data>
+  <data name="FC_ASK_FOR_INVITE" xml:space="preserve">
+    <value>ขอคำเชิญ</value>
+  </data>
+  <data name="FC_RESET_PASSWORD" xml:space="preserve">
+    <value>ตั้งรหัสผ่านใหม่</value>
+  </data>
+  <data name="FC_RESET_LEAD" xml:space="preserve">
+    <value>กรอกอีเมลที่ใช้เข้าสู่ระบบ แล้วเราจะส่งลิงก์สำหรับตั้งรหัสผ่านใหม่ให้</value>
+  </data>
+  <data name="FC_SEND_RESET_LINK" xml:space="preserve">
+    <value>ส่งลิงก์</value>
+  </data>
+  <data name="FC_BACK_TO_LOGIN" xml:space="preserve">
+    <value>กลับไปหน้าเข้าสู่ระบบ</value>
+  </data>
+  <data name="FC_CHECK_INBOX" xml:space="preserve">
+    <value>ตรวจสอบกล่องจดหมาย</value>
+  </data>
+  <data name="FC_CHECK_INBOX_TEXT" xml:space="preserve">
+    <value>หากอีเมลนี้มีบัญชีอยู่ ลิงก์กำลังส่งไปให้ อย่าลืมตรวจสอบโฟลเดอร์สแปมด้วย</value>
+  </data>
+  <data name="FC_USE_DIFFERENT_EMAIL" xml:space="preserve">
+    <value>ใช้อีเมลอื่น</value>
+  </data>
+  <data name="FC_MY_CHURCH_LEAD" xml:space="preserve">
+    <value>สิ่งที่ผู้มาเยือนเห็นบนหน้าสาธารณะและในการค้นหา</value>
+  </data>
+  <data name="FC_CHURCH_NAME" xml:space="preserve">
+    <value>ชื่อโบสถ์</value>
+  </data>
+  <data name="FC_ABOUT_YOUR_CHURCH" xml:space="preserve">
+    <value>เกี่ยวกับโบสถ์ของคุณ</value>
+  </data>
+  <data name="FC_SHOWN_AT_TOP" xml:space="preserve">
+    <value>แสดงที่ด้านบนของหน้า</value>
+  </data>
+  <data name="FC_FACILITIES_HINT" xml:space="preserve">
+    <value>ผู้มาเยือนสามารถกรองผลการค้นหาตามรายการเหล่านี้</value>
+  </data>
+  <data name="FC_DISCARD_CHANGES" xml:space="preserve">
+    <value>ยกเลิกการเปลี่ยนแปลง</value>
+  </data>
+  <data name="FC_NO_SERVICE_TIMES_ADMIN" xml:space="preserve">
+    <value>ยังไม่มีการนมัสการ เพิ่มรายการแรกด้านล่าง</value>
+  </data>
+  <data name="FC_CONFIRM_REMOVE_SERVICE" xml:space="preserve">
+    <value>ลบเวลานมัสการนี้ใช่ไหม</value>
+  </data>
+  <data name="FC_SERVICE_NAME" xml:space="preserve">
+    <value>ชื่อการนมัสการ</value>
+  </data>
+  <data name="FC_LOGO_TITLE" xml:space="preserve">
+    <value>โลโก้หรือรูปภาพ</value>
+  </data>
+  <data name="FC_CURRENT_LOGO" xml:space="preserve">
+    <value>โลโก้ปัจจุบัน</value>
+  </data>
+  <data name="FC_LOGO_HINT" xml:space="preserve">
+    <value>PNG หรือ JPEG รูปสี่เหลี่ยมจัตุรัสจะดีที่สุด</value>
+  </data>
+  <data name="FC_SYNC_NOW" xml:space="preserve">
+    <value>ซิงค์ตอนนี้</value>
+  </data>
+  <data name="FC_MANAGE_CONNECTION" xml:space="preserve">
+    <value>จัดการการเชื่อมต่อ</value>
+  </data>
+  <data name="FC_DANGER_ZONE" xml:space="preserve">
+    <value>ส่วนที่ต้องระวัง</value>
+  </data>
+  <data name="FC_MARK_CLOSED" xml:space="preserve">
+    <value>ทำเครื่องหมายว่าโบสถ์ปิด…</value>
+  </data>
+  <data name="FC_MARK_OPEN" xml:space="preserve">
+    <value>เปิดโบสถ์อีกครั้ง</value>
+  </data>
+  <data name="FC_CONFIRM_CLOSE" xml:space="preserve">
+    <value>{0} จะถูกซ่อนจากการค้นหา แน่ใจไหม</value>
+  </data>
+  <data name="FC_CLOSED_NOW" xml:space="preserve">
+    <value>โบสถ์ของคุณถูกทำเครื่องหมายว่าปิดและจะไม่แสดงในการค้นหา เปิดอีกครั้งเมื่อกลับมาจัดนมัสการ</value>
+  </data>
+  <data name="FC_PROFILE_LEAD" xml:space="preserve">
+    <value>ข้อมูลเข้าสู่ระบบของคุณเอง แยกจากข้อมูลสาธารณะของโบสถ์</value>
+  </data>
+  <data name="FC_YOUR_DETAILS" xml:space="preserve">
+    <value>ข้อมูลของคุณ</value>
+  </data>
+  <data name="FC_EMAIL_SIGN_IN" xml:space="preserve">
+    <value>อีเมล (ใช้เข้าสู่ระบบ)</value>
+  </data>
+  <data name="FC_EMAIL_CHANGE_HINT" xml:space="preserve">
+    <value>หากต้องการเปลี่ยนอีเมล โปรดติดต่อเรา</value>
+  </data>
+  <data name="FC_SECURITY_LEAD" xml:space="preserve">
+    <value>รักษาบัญชีโบสถ์ของคุณให้ปลอดภัย</value>
+  </data>
+  <data name="FC_PASSWORD_HINT" xml:space="preserve">
+    <value>ใช้อย่างน้อย 12 ตัวอักษร วลีสั้น ๆ จะจำได้ง่ายกว่า</value>
+  </data>
+  <data name="FC_CONFIRM_NEW_PASSWORD" xml:space="preserve">
+    <value>ยืนยันรหัสผ่านใหม่</value>
+  </data>
+  <data name="FC_UPDATE_PASSWORD" xml:space="preserve">
+    <value>เปลี่ยนรหัสผ่าน</value>
+  </data>
+  <data name="FC_2FA_LEAD" xml:space="preserve">
+    <value>ขอรหัสจากแอปยืนยันตัวตนเมื่อเข้าสู่ระบบ</value>
+  </data>
+  <data name="FC_2FA_EXPLAIN" xml:space="preserve">
+    <value>ใช้แอปอย่าง Microsoft หรือ Google Authenticator แม้มีคนรู้รหัสผ่านของคุณ ก็เข้าสู่ระบบไม่ได้หากไม่มีโทรศัพท์ของคุณ</value>
+  </data>
+  <data name="FC_MANAGE" xml:space="preserve">
+    <value>จัดการ</value>
+  </data>
+  <data name="FC_ON" xml:space="preserve">
+    <value>เปิด</value>
+  </data>
+  <data name="FC_OFF_RECOMMENDED" xml:space="preserve">
+    <value>ปิด — แนะนำให้เปิด</value>
+  </data>
+  <data name="FC_RECOVERY_CODES" xml:space="preserve">
+    <value>รหัสกู้คืน</value>
+  </data>
+  <data name="FC_RECOVERY_CODES_LEFT" xml:space="preserve">
+    <value>คุณเหลือรหัสกู้คืน {0} รหัส ใช้หนึ่งรหัสหากทำโทรศัพท์หาย</value>
+  </data>
+  <data name="FC_CHURCHSUITE_LEAD" xml:space="preserve">
+    <value>เชื่อมต่อบัญชี ChurchSuite แล้วกิจกรรมของคุณจะแสดงบนหน้าโดยอัตโนมัติ</value>
+  </data>
+  <data name="FC_CONNECTED" xml:space="preserve">
+    <value>เชื่อมต่อแล้ว</value>
+  </data>
+  <data name="FC_NOT_CONNECTED" xml:space="preserve">
+    <value>ยังไม่ได้เชื่อมต่อ</value>
+  </data>
+  <data name="FC_CS_STEP_1" xml:space="preserve">
+    <value>ในคอนโซลนักพัฒนาของ ChurchSuite ให้สร้างแอป OAuth ใหม่แบบไคลเอนต์สาธารณะ (PKCE)</value>
+  </data>
+  <data name="FC_CS_STEP_2" xml:space="preserve">
+    <value>คัดลอก Client ID ของแอปแล้ววางด้านล่าง</value>
+  </data>
+  <data name="FC_CS_STEP_3" xml:space="preserve">
+    <value>เลือก "บันทึกและอนุญาต" แล้วอนุมัติการเข้าถึงใน ChurchSuite</value>
+  </data>
+  <data name="FC_CONFIRM_REMOVE_LOGIN" xml:space="preserve">
+    <value>ลบการเข้าสู่ระบบด้วย {0} ออกจากบัญชีของคุณใช่ไหม</value>
+  </data>
+  <data name="FC_DOWNLOAD_YOUR_DATA" xml:space="preserve">
+    <value>ดาวน์โหลดข้อมูลของคุณ</value>
+  </data>
+  <data name="FC_DOWNLOAD_YOUR_DATA_TEXT" xml:space="preserve">
+    <value>ข้อมูลทั้งหมดที่เรามีเกี่ยวกับคุณและโบสถ์ของคุณในไฟล์เดียว</value>
+  </data>
+  <data name="FC_DOWNLOAD" xml:space="preserve">
+    <value>ดาวน์โหลด</value>
+  </data>
+  <data name="FC_DELETE_ACCOUNT" xml:space="preserve">
+    <value>ลบบัญชีของคุณ</value>
+  </data>
+  <data name="FC_DELETE_ACCOUNT_TEXT" xml:space="preserve">
+    <value>ลบการเข้าสู่ระบบและข้อมูลที่เกี่ยวข้องอย่างถาวร</value>
+  </data>
+  <data name="FC_DELETE_PERMANENT" xml:space="preserve">
+    <value>การดำเนินการนี้ย้อนกลับไม่ได้</value>
+  </data>
+  <data name="FC_ENTER_PASSWORD_CONFIRM" xml:space="preserve">
+    <value>กรอกรหัสผ่านเพื่อยืนยัน</value>
+  </data>
+  <data name="FC_CANCEL" xml:space="preserve">
+    <value>ยกเลิก</value>
+  </data>
+  <data name="FC_DELETE_PERMANENTLY" xml:space="preserve">
+    <value>ลบถาวร</value>
+  </data>
+  <data name="FC_EVENTS_LEAD" xml:space="preserve">
+    <value>กิจกรรมจาก ChurchSuite ซิงค์โดยอัตโนมัติ เพิ่มกิจกรรมที่จัดครั้งเดียวได้ที่นี่</value>
+  </data>
+  <data name="FC_SYNC_FROM_CHURCHSUITE" xml:space="preserve">
+    <value>ซิงค์จาก ChurchSuite</value>
+  </data>
+  <data name="FC_EVENT_COUNT" xml:space="preserve">
+    <value>กำลังจะมาถึง {0} รายการ</value>
+  </data>
+  <data name="FC_PAST_EVENTS" xml:space="preserve">
+    <value>กิจกรรมที่ผ่านมา ({0})</value>
+  </data>
+  <data name="FC_ADDED_HERE" xml:space="preserve">
+    <value>เพิ่มที่นี่</value>
+  </data>
+  <data name="FC_EDIT" xml:space="preserve">
+    <value>แก้ไข</value>
+  </data>
+  <data name="FC_DELETE" xml:space="preserve">
+    <value>ลบ</value>
+  </data>
+  <data name="FC_CONFIRM_DELETE_EVENT" xml:space="preserve">
+    <value>ลบ "{0}" ใช่ไหม การดำเนินการนี้ย้อนกลับไม่ได้</value>
+  </data>
+  <data name="FC_ADD_EVENT" xml:space="preserve">
+    <value>เพิ่มกิจกรรม</value>
+  </data>
+  <data name="FC_EDIT_EVENT" xml:space="preserve">
+    <value>แก้ไขกิจกรรม</value>
+  </data>
+  <data name="FC_EVENT_NAME" xml:space="preserve">
+    <value>ชื่อกิจกรรม</value>
+  </data>
+  <data name="FC_STARTS" xml:space="preserve">
+    <value>เริ่ม</value>
+  </data>
+  <data name="FC_ENDS" xml:space="preserve">
+    <value>สิ้นสุด</value>
+  </data>
+  <data name="FC_REPEATS" xml:space="preserve">
+    <value>การจัดซ้ำ</value>
+  </data>
+  <data name="FC_DESCRIPTION" xml:space="preserve">
+    <value>คำอธิบาย</value>
+  </data>
+  <data name="FC_EVENT_LINK" xml:space="preserve">
+    <value>ลิงก์สำหรับข้อมูลเพิ่มเติม</value>
+  </data>
+  <data name="FC_EVENT_IMAGE" xml:space="preserve">
+    <value>รูปภาพ</value>
+  </data>
+  <data name="FC_SAVE_CHANGES" xml:space="preserve">
+    <value>บันทึกการเปลี่ยนแปลง</value>
+  </data>
+  <data name="FC_CREATE_EVENT" xml:space="preserve">
+    <value>สร้างกิจกรรม</value>
+  </data>
+  <data name="FC_REPEAT_NONE" xml:space="preserve">
+    <value>ไม่จัดซ้ำ</value>
+  </data>
+  <data name="FC_REPEAT_DAILY" xml:space="preserve">
+    <value>ทุกวัน</value>
+  </data>
+  <data name="FC_REPEAT_WEEKLY" xml:space="preserve">
+    <value>ทุกสัปดาห์</value>
+  </data>
+  <data name="FC_REPEAT_2W" xml:space="preserve">
+    <value>ทุก 2 สัปดาห์</value>
+  </data>
+  <data name="FC_REPEAT_3W" xml:space="preserve">
+    <value>ทุก 3 สัปดาห์</value>
+  </data>
+  <data name="FC_REPEAT_MONTHLY" xml:space="preserve">
+    <value>ทุกเดือน</value>
+  </data>
+  <data name="FC_REPEAT_2M" xml:space="preserve">
+    <value>ทุก 2 เดือน</value>
+  </data>
+  <data name="CHURCHSUITE_AUTHORIZED_MESSAGE" xml:space="preserve">
+    <value>บัญชี ChurchSuite ของคุณเชื่อมต่อแล้ว กิจกรรมจะซิงค์โดยอัตโนมัติ</value>
+  </data>
+  <data name="CHURCHSUITE_AUTHORIZE_BUTTON" xml:space="preserve">
+    <value>เชื่อมต่อ ChurchSuite</value>
+  </data>
+  <data name="CHURCHSUITE_EXPIRED_PROMPT" xml:space="preserve">
+    <value>การเชื่อมต่อ ChurchSuite หมดอายุแล้ว เชื่อมต่อใหม่เพื่อให้กิจกรรมซิงค์ต่อไป</value>
+  </data>
+  <data name="CHURCHSUITE_NEED_AUTH" xml:space="preserve">
+    <value>เชื่อมต่อบัญชี ChurchSuite เพื่อนำเข้ากิจกรรมโดยอัตโนมัติ</value>
+  </data>
+  <data name="CHURCHSUITE_NOT_LOGGED_IN" xml:space="preserve">
+    <value>โปรดเข้าสู่ระบบเพื่อเชื่อมต่อ ChurchSuite</value>
+  </data>
+  <data name="CHURCHSUITE_REAUTHORIZE_BUTTON" xml:space="preserve">
+    <value>เชื่อมต่อ ChurchSuite อีกครั้ง</value>
+  </data>
+  <data name="ERROR_LABEL_ID" xml:space="preserve">
+    <value>รหัสคำขอ:</value>
+  </data>
+  <data name="ERROR_LABEL_MESSAGE" xml:space="preserve">
+    <value>ข้อความ:</value>
+  </data>
+  <data name="ERROR_PAGE_TITLE" xml:space="preserve">
+    <value>ข้อผิดพลาด</value>
+  </data>
+  <data name="FC_2FA_KEY_TEXT" xml:space="preserve">
+    <value>สแกนไม่ได้ใช่ไหม กรอกคีย์นี้แทน (ช่องว่างไม่มีผล):</value>
+  </data>
+  <data name="FC_2FA_LOGIN_TEXT" xml:space="preserve">
+    <value>การเข้าสู่ระบบของคุณได้รับการปกป้องด้วยแอปยืนยันตัวตน กรอกรหัส 6 หลักที่แอปแสดง</value>
+  </data>
+  <data name="FC_2FA_QR_ALT" xml:space="preserve">
+    <value>คิวอาร์โค้ดสำหรับสแกนด้วยแอปยืนยันตัวตน</value>
+  </data>
+  <data name="FC_2FA_STEP1" xml:space="preserve">
+    <value>ติดตั้งแอปยืนยันตัวตน</value>
+  </data>
+  <data name="FC_2FA_STEP1_TEXT" xml:space="preserve">
+    <value>เช่น Microsoft Authenticator หรือ Google Authenticator บนโทรศัพท์ของคุณ</value>
+  </data>
+  <data name="FC_2FA_STEP2" xml:space="preserve">
+    <value>สแกนคิวอาร์โค้ดนี้ด้วยแอป</value>
+  </data>
+  <data name="FC_2FA_STEP3" xml:space="preserve">
+    <value>กรอกรหัส 6 หลักที่แอปแสดง</value>
+  </data>
+  <data name="FC_ACCESS_DENIED" xml:space="preserve">
+    <value>ไม่มีสิทธิ์เข้าถึง</value>
+  </data>
+  <data name="FC_ACCESS_DENIED_TEXT" xml:space="preserve">
+    <value>บัญชีของคุณไม่มีสิทธิ์เปิดหน้านี้ หากคิดว่าควรมี โปรดติดต่อเรา</value>
+  </data>
+  <data name="FC_AUTH_CODE" xml:space="preserve">
+    <value>รหัสยืนยันตัวตน</value>
+  </data>
+  <data name="FC_CHOOSE_NEW_PASSWORD" xml:space="preserve">
+    <value>ตั้งรหัสผ่านใหม่</value>
+  </data>
+  <data name="FC_CODES_KEYS_UNCHANGED" xml:space="preserve">
+    <value>การสร้างรหัสใหม่ไม่ได้เปลี่ยนแอปที่ใช้เข้าสู่ระบบ หากต้องการเปลี่ยน ให้ใช้</value>
+  </data>
+  <data name="FC_CODES_LOSE_DEVICE" xml:space="preserve">
+    <value>หากทำโทรศัพท์หายและไม่มีรหัสกู้คืน คุณจะเข้าสู่ระบบไม่ได้</value>
+  </data>
+  <data name="FC_CODES_SAFE_PLACE" xml:space="preserve">
+    <value>เก็บรหัสเหล่านี้ไว้ในที่ปลอดภัย</value>
+  </data>
+  <data name="FC_CONFIRMED" xml:space="preserve">
+    <value>ยืนยันแล้ว</value>
+  </data>
+  <data name="FC_CONFIRM_ACCOUNT" xml:space="preserve">
+    <value>ยืนยันบัญชีของฉัน</value>
+  </data>
+  <data name="FC_CONFIRM_EMAIL_SENT" xml:space="preserve">
+    <value>เราส่งอีเมลถึงคุณแล้ว เปิดลิงก์ในอีเมลเพื่อยืนยันบัญชี</value>
+  </data>
+  <data name="FC_CONFIRM_FAILED" xml:space="preserve">
+    <value>ยืนยันอีเมลของคุณไม่สำเร็จ</value>
+  </data>
+  <data name="FC_CONFIRM_FAILED_TEXT" xml:space="preserve">
+    <value>ลิงก์อาจหมดอายุหรือถูกใช้ไปแล้ว โปรดขอลิงก์ใหม่</value>
+  </data>
+  <data name="FC_CONFIRM_LINK_DEV" xml:space="preserve">
+    <value>ยังไม่ได้ตั้งค่าบริการอีเมล จึงใช้ปุ่มด้านล่างเพื่อยืนยันบัญชี</value>
+  </data>
+  <data name="FC_CONFIRM_NEW_CODES" xml:space="preserve">
+    <value>สร้างรหัสกู้คืนใหม่ใช่ไหม รหัสเก่าจะใช้ไม่ได้อีก</value>
+  </data>
+  <data name="FC_CONFIRM_PASSWORD" xml:space="preserve">
+    <value>ยืนยันรหัสผ่าน</value>
+  </data>
+  <data name="FC_CREATE_ACCOUNT" xml:space="preserve">
+    <value>สร้างบัญชี</value>
+  </data>
+  <data name="FC_CREATE_ACCOUNT_LEAD" xml:space="preserve">
+    <value>ใช้อีเมลที่ได้รับคำเชิญ</value>
+  </data>
+  <data name="FC_CURRENT_EMAIL" xml:space="preserve">
+    <value>อีเมลปัจจุบัน</value>
+  </data>
+  <data name="FC_DONE" xml:space="preserve">
+    <value>เสร็จสิ้น</value>
+  </data>
+  <data name="FC_DOWNLOAD_DETAILS" xml:space="preserve">
+    <value>ดาวน์โหลดรายละเอียด</value>
+  </data>
+  <data name="FC_EMAIL_CHANGED" xml:space="preserve">
+    <value>เปลี่ยนอีเมลแล้ว</value>
+  </data>
+  <data name="FC_EMAIL_CONFIRMED" xml:space="preserve">
+    <value>ยืนยันอีเมลแล้ว</value>
+  </data>
+  <data name="FC_EMAIL_CONFIRMED_TEXT" xml:space="preserve">
+    <value>ขอบคุณ อีเมลของคุณได้รับการยืนยันแล้ว และสามารถเข้าสู่ระบบได้</value>
+  </data>
+  <data name="FC_EMAIL_ME_DETAILS" xml:space="preserve">
+    <value>ส่งรายละเอียดทางอีเมล</value>
+  </data>
+  <data name="FC_ERROR_TEXT" xml:space="preserve">
+    <value>ขออภัย เกิดข้อผิดพลาดขณะดำเนินการตามคำขอ โปรดลองอีกครั้งในอีกสักครู่</value>
+  </data>
+  <data name="FC_ERROR_TITLE" xml:space="preserve">
+    <value>เกิดข้อผิดพลาด</value>
+  </data>
+  <data name="FC_EXTERNAL_LEAD" xml:space="preserve">
+    <value>คุณเข้าสู่ระบบด้วย {0} แล้ว กรอกอีเมลด้านล่างเพื่อสร้างบัญชีให้เสร็จ</value>
+  </data>
+  <data name="FC_INVITE_EMAIL_HINT" xml:space="preserve">
+    <value>ลงทะเบียนได้เฉพาะผู้ที่ได้รับคำเชิญ</value>
+  </data>
+  <data name="FC_INVITE_INVALID" xml:space="preserve">
+    <value>คำเชิญนี้ไม่ถูกต้องหรือหมดอายุ โปรดติดต่อเราเพื่อขอคำเชิญใหม่</value>
+  </data>
+  <data name="FC_LEGAL" xml:space="preserve">
+    <value>ข้อกฎหมาย</value>
+  </data>
+  <data name="FC_LOCKED_OUT" xml:space="preserve">
+    <value>บัญชีถูกล็อก</value>
+  </data>
+  <data name="FC_LOCKED_OUT_TEXT" xml:space="preserve">
+    <value>มีการพยายามเข้าสู่ระบบไม่สำเร็จหลายครั้ง บัญชีจึงถูกล็อกชั่วคราว โปรดลองอีกครั้งภายหลัง</value>
+  </data>
+  <data name="FC_NEW_EMAIL" xml:space="preserve">
+    <value>อีเมลใหม่</value>
+  </data>
+  <data name="FC_NEW_RECOVERY_CODES" xml:space="preserve">
+    <value>รหัสกู้คืนชุดใหม่</value>
+  </data>
+  <data name="FC_NO" xml:space="preserve">
+    <value>ไม่</value>
+  </data>
+  <data name="FC_NO_DEVICE" xml:space="preserve">
+    <value>ไม่มีโทรศัพท์อยู่กับตัวใช่ไหม</value>
+  </data>
+  <data name="FC_PASSWORD_RESET_DONE" xml:space="preserve">
+    <value>ตั้งรหัสผ่านใหม่แล้ว</value>
+  </data>
+  <data name="FC_PASSWORD_RESET_DONE_TEXT" xml:space="preserve">
+    <value>รหัสผ่านของคุณถูกเปลี่ยนแล้ว เข้าสู่ระบบด้วยรหัสผ่านใหม่ได้เลย</value>
+  </data>
+  <data name="FC_PASSWORD_RULES" xml:space="preserve">
+    <value>อย่างน้อย 12 ตัวอักษร มีตัวพิมพ์ใหญ่และพิมพ์เล็ก ตัวเลข และสัญลักษณ์</value>
+  </data>
+  <data name="FC_PHONE" xml:space="preserve">
+    <value>โทรศัพท์</value>
+  </data>
+  <data name="FC_RECOVERY_CODE" xml:space="preserve">
+    <value>รหัสกู้คืน</value>
+  </data>
+  <data name="FC_RECOVERY_CODE_LOGIN" xml:space="preserve">
+    <value>เข้าสู่ระบบด้วยรหัสกู้คืน</value>
+  </data>
+  <data name="FC_RECOVERY_CODE_LOGIN_TEXT" xml:space="preserve">
+    <value>กรอกรหัสกู้คืนหนึ่งรหัสที่คุณบันทึกไว้ตอนตั้งค่าการยืนยันตัวตนสองขั้นตอน แต่ละรหัสใช้ได้ครั้งเดียว</value>
+  </data>
+  <data name="FC_REMEMBER_DEVICE" xml:space="preserve">
+    <value>จดจำอุปกรณ์นี้</value>
+  </data>
+  <data name="FC_RESEND_CONFIRMATION" xml:space="preserve">
+    <value>ส่งอีเมลยืนยันอีกครั้ง</value>
+  </data>
+  <data name="FC_RESEND_CONFIRMATION_BUTTON" xml:space="preserve">
+    <value>ส่งอีเมลอีกครั้ง</value>
+  </data>
+  <data name="FC_RESEND_CONFIRMATION_TEXT" xml:space="preserve">
+    <value>กรอกอีเมลของคุณ แล้วเราจะส่งลิงก์ยืนยันใหม่ให้</value>
+  </data>
+  <data name="FC_RESET_AUTH_TEXT" xml:space="preserve">
+    <value>การดำเนินการนี้จะปิดการเข้าสู่ระบบสองขั้นตอนจนกว่าคุณจะตั้งค่าแอปยืนยันตัวตนอีกครั้ง</value>
+  </data>
+  <data name="FC_RESET_AUTH_WARN" xml:space="preserve">
+    <value>แอปยืนยันตัวตนปัจจุบันจะใช้ไม่ได้อีก</value>
+  </data>
+  <data name="FC_RESULTS_MAP" xml:space="preserve">
+    <value>แผนที่โบสถ์ในผลการค้นหา</value>
+  </data>
+  <data name="FC_SAVE_DETAILS" xml:space="preserve">
+    <value>เก็บรายละเอียดเหล่านี้</value>
+  </data>
+  <data name="FC_SAVE_DETAILS_TEXT" xml:space="preserve">
+    <value>ดาวน์โหลดหรือให้ส่งทางอีเมลเพื่อเก็บไว้ดูภายหลัง</value>
+  </data>
+  <data name="FC_SEND_VERIFICATION" xml:space="preserve">
+    <value>ส่งอีเมลยืนยัน</value>
+  </data>
+  <data name="FC_SET_PASSWORD" xml:space="preserve">
+    <value>ตั้งรหัสผ่าน</value>
+  </data>
+  <data name="FC_SET_PASSWORD_LEAD" xml:space="preserve">
+    <value>บัญชีของคุณยังไม่มีรหัสผ่าน ตั้งรหัสผ่านเพื่อให้เข้าสู่ระบบด้วยอีเมลได้ด้วย</value>
+  </data>
+  <data name="FC_SIGNED_OUT" xml:space="preserve">
+    <value>ออกจากระบบแล้ว</value>
+  </data>
+  <data name="FC_SIGNED_OUT_TEXT" xml:space="preserve">
+    <value>คุณออกจากระบบ Forest Churches แล้ว</value>
+  </data>
+  <data name="FC_SIGN_OUT_CONFIRM" xml:space="preserve">
+    <value>แน่ใจไหมว่าต้องการออกจากระบบ</value>
+  </data>
+  <data name="FC_SITE_ADMIN" xml:space="preserve">
+    <value>ผู้ดูแลเว็บไซต์</value>
+  </data>
+  <data name="FC_TECHNICAL_DETAILS" xml:space="preserve">
+    <value>รายละเอียดทางเทคนิค</value>
+  </data>
+  <data name="FC_TOGGLE_THEME" xml:space="preserve">
+    <value>สลับโหมดสว่างและโหมดมืด</value>
+  </data>
+  <data name="FC_TURN_OFF_2FA" xml:space="preserve">
+    <value>ปิดการเข้าสู่ระบบสองขั้นตอน</value>
+  </data>
+  <data name="FC_TURN_OFF_2FA_TEXT" xml:space="preserve">
+    <value>บัญชีของคุณจะปลอดภัยน้อยลง ตัวแอปยืนยันตัวตนจะไม่เปลี่ยน หากต้องการตั้งค่าแอปอื่น ให้ใช้</value>
+  </data>
+  <data name="FC_TURN_OFF_2FA_WARN" xml:space="preserve">
+    <value>บัญชีของคุณจะถูกเจาะได้ง่ายขึ้น</value>
+  </data>
+  <data name="FC_USE_RECOVERY_CODE" xml:space="preserve">
+    <value>ใช้รหัสกู้คืน</value>
+  </data>
+  <data name="FC_VERIFY_TURN_ON" xml:space="preserve">
+    <value>ยืนยันและเปิดใช้</value>
+  </data>
+  <data name="FC_YES" xml:space="preserve">
+    <value>ใช่</value>
+  </data>
+  <data name="SUCCESS_BACK_TO_HOME" xml:space="preserve">
+    <value>กลับไปหน้าแรก</value>
+  </data>
+  <data name="TOKEN_VALIDATION_INVALID_EXPIRED" xml:space="preserve">
+    <value>ลิงก์นี้ไม่ถูกต้องหรือหมดอายุ โปรดขอลิงก์ใหม่</value>
+  </data>
+  <data name="TOKEN_VALIDATION_PAGE_TITLE" xml:space="preserve">
+    <value>กำลังตรวจสอบลิงก์</value>
+  </data>
+  <data name="TOKEN_VALIDATION_VALID_REDIRECTING" xml:space="preserve">
+    <value>ลิงก์ถูกต้อง กำลังพาคุณไป…</value>
+  </data>
+  <data name="PRIVACY_PAGE_TITLE" xml:space="preserve">
+    <value>นโยบายความเป็นส่วนตัว</value>
+  </data>
+  <data name="PRIVACY_EFFECTIVE_DATE" xml:space="preserve">
+    <value>มีผลตั้งแต่: 1 มีนาคม 2025</value>
+  </data>
+  <data name="PRIVACY_INTRO_TEXT" xml:space="preserve">
+    <value>นโยบายนี้อธิบายว่า Forest Churches ("เรา") เก็บรวบรวม ใช้ และเปิดเผยข้อมูลส่วนบุคคลอย่างไรเมื่อคุณใช้เว็บไซต์นี้</value>
+  </data>
+  <data name="PRIVACY_SECTION1_TITLE" xml:space="preserve">
+    <value>1. ข้อมูลที่เราเก็บรวบรวม</value>
+  </data>
+  <data name="PRIVACY_SECTION1_SUBTITLE1" xml:space="preserve">
+    <value>1.1 ข้อมูลส่วนบุคคล</value>
+  </data>
+  <data name="PRIVACY_SECTION1_TEXT1" xml:space="preserve">
+    <value>เราอาจเก็บข้อมูลส่วนบุคคลที่คุณให้ไว้เมื่อใช้เว็บไซต์ เช่น:</value>
+  </data>
+  <data name="PRIVACY_SECTION1_ITEM1" xml:space="preserve">
+    <value>ข้อมูลติดต่อ เช่น ชื่อ อีเมล และหมายเลขโทรศัพท์</value>
+  </data>
+  <data name="PRIVACY_SECTION1_ITEM2" xml:space="preserve">
+    <value>ข้อมูลเข้าสู่ระบบ (ชื่อผู้ใช้และรหัสผ่าน)</value>
+  </data>
+  <data name="PRIVACY_SECTION1_ITEM3" xml:space="preserve">
+    <value>ข้อมูลโปรไฟล์ เช่น รูปโปรไฟล์และการตั้งค่าของคุณ</value>
+  </data>
+  <data name="PRIVACY_SECTION1_ITEM4" xml:space="preserve">
+    <value>ข้อมูลโบสถ์ เช่น ลิงก์เว็บไซต์และข้อมูลติดต่อ</value>
+  </data>
+  <data name="PRIVACY_SECTION1_SUBTITLE2" xml:space="preserve">
+    <value>1.2 ข้อมูลการใช้งาน</value>
+  </data>
+  <data name="PRIVACY_SECTION1_TEXT2" xml:space="preserve">
+    <value>เราอาจเก็บข้อมูลที่ไม่ใช่ข้อมูลส่วนบุคคลโดยอัตโนมัติเมื่อคุณใช้เว็บไซต์ เช่น:</value>
+  </data>
+  <data name="PRIVACY_SECTION1_ITEM5" xml:space="preserve">
+    <value>ข้อมูลบันทึก รวมถึงที่อยู่ IP ประเภทเบราว์เซอร์ ระบบปฏิบัติการ และเวลาที่เข้าใช้</value>
+  </data>
+  <data name="PRIVACY_SECTION1_ITEM6" xml:space="preserve">
+    <value>ข้อมูลอุปกรณ์ เช่น ประเภทอุปกรณ์</value>
+  </data>
+  <data name="PRIVACY_SECTION1_ITEM7" xml:space="preserve">
+    <value>วิธีที่คุณใช้เว็บไซต์และการตั้งค่าของคุณ</value>
+  </data>
+  <data name="PRIVACY_SECTION1_ITEM8" xml:space="preserve">
+    <value>ตำแหน่งโดยประมาณจากที่อยู่ IP หรือรหัสไปรษณีย์ที่คุณให้</value>
+  </data>
+  <data name="PRIVACY_SECTION2_TITLE" xml:space="preserve">
+    <value>2. วิธีที่เราใช้ข้อมูลของคุณ</value>
+  </data>
+  <data name="PRIVACY_SECTION2_TEXT" xml:space="preserve">
+    <value>เราใช้ข้อมูลที่เก็บรวบรวมเพื่อ:</value>
+  </data>
+  <data name="PRIVACY_SECTION2_ITEM1" xml:space="preserve">
+    <value>ดำเนินการและดูแลให้เว็บไซต์ทำงานได้</value>
+  </data>
+  <data name="PRIVACY_SECTION2_ITEM2" xml:space="preserve">
+    <value>ปรับปรุงเว็บไซต์ให้ใช้งานง่ายขึ้น</value>
+  </data>
+  <data name="PRIVACY_SECTION2_ITEM3" xml:space="preserve">
+    <value>ตอบข้อความและคำขอความช่วยเหลือของคุณ</value>
+  </data>
+  <data name="PRIVACY_SECTION2_ITEM4" xml:space="preserve">
+    <value>แสดงข้อมูลที่ถูกต้องและเป็นปัจจุบัน เช่น โบสถ์ใกล้คุณ</value>
+  </data>
+  <data name="PRIVACY_SECTION2_ITEM5" xml:space="preserve">
+    <value>ส่งข่าวสารเกี่ยวกับเว็บไซต์เป็นครั้งคราว</value>
+  </data>
+  <data name="PRIVACY_SECTION2_ITEM6" xml:space="preserve">
+    <value>แก้ไขปัญหาและป้องกันการฉ้อโกง</value>
+  </data>
+  <data name="PRIVACY_SECTION2_ITEM7" xml:space="preserve">
+    <value>ปฏิบัติตามกฎหมายและปกป้องสิทธิของเรา</value>
+  </data>
+  <data name="PRIVACY_SECTION3_TITLE" xml:space="preserve">
+    <value>3. การเปิดเผยข้อมูลของคุณ</value>
+  </data>
+  <data name="PRIVACY_SECTION3_INTRO_TEXT" xml:space="preserve">
+    <value>เราเปิดเผยข้อมูลส่วนบุคคลเฉพาะในกรณีต่อไปนี้:</value>
+  </data>
+  <data name="PRIVACY_SECTION3_SUBTITLE1" xml:space="preserve">
+    <value>ผู้ให้บริการ:</value>
+  </data>
+  <data name="PRIVACY_SECTION3_TEXT1" xml:space="preserve">
+    <value>บริษัทที่เชื่อถือได้ซึ่งช่วยเราดำเนินเว็บไซต์ (เช่น โฮสติ้งและอีเมล) เข้าถึงข้อมูลส่วนบุคคลได้เฉพาะเพื่องานนั้น และต้องเก็บรักษาเป็นความลับ</value>
+  </data>
+  <data name="PRIVACY_SECTION3_SUBTITLE2" xml:space="preserve">
+    <value>ข้อกำหนดทางกฎหมาย:</value>
+  </data>
+  <data name="PRIVACY_SECTION3_TEXT2" xml:space="preserve">
+    <value>เราอาจเปิดเผยข้อมูลหากกฎหมาย ศาล หรือหน่วยงานรัฐกำหนด หรือเพื่อป้องกันการฉ้อโกงหรือภัยคุกคามด้านความปลอดภัย</value>
+  </data>
+  <data name="PRIVACY_SECTION4_TITLE" xml:space="preserve">
+    <value>4. ระยะเวลาการเก็บข้อมูล</value>
+  </data>
+  <data name="PRIVACY_SECTION4_TEXT" xml:space="preserve">
+    <value>เราเก็บข้อมูลส่วนบุคคลไว้เท่าที่จำเป็นตามวัตถุประสงค์ในนโยบายนี้ เว้นแต่กฎหมายกำหนดให้เก็บนานกว่านั้น เมื่อไม่จำเป็นแล้ว เราจะลบหรือทำให้ไม่สามารถระบุตัวตนได้</value>
+  </data>
+  <data name="PRIVACY_SECTION5_TITLE" xml:space="preserve">
+    <value>5. ความปลอดภัยของข้อมูล</value>
+  </data>
+  <data name="PRIVACY_SECTION5_TEXT" xml:space="preserve">
+    <value>เราใช้มาตรการที่เหมาะสมเพื่อปกป้องข้อมูลส่วนบุคคลจากการเข้าถึง เปิดเผย แก้ไข หรือทำลายโดยไม่ได้รับอนุญาต ไม่มีวิธีส่งหรือจัดเก็บข้อมูลออนไลน์ใดที่ปลอดภัยสมบูรณ์ เราจึงรับประกันความปลอดภัยแบบเด็ดขาดไม่ได้</value>
+  </data>
+  <data name="PRIVACY_SECTION6_TITLE" xml:space="preserve">
+    <value>6. เด็ก</value>
+  </data>
+  <data name="PRIVACY_SECTION6_TEXT" xml:space="preserve">
+    <value>บัญชีโบสถ์ไม่ได้มีไว้สำหรับผู้ที่อายุต่ำกว่า 18 ปี และเราไม่เก็บข้อมูลส่วนบุคคลของเด็กโดยเจตนา หากพบว่าเกิดขึ้น เราจะลบข้อมูลนั้น</value>
+  </data>
+  <data name="PRIVACY_SECTION7_TITLE" xml:space="preserve">
+    <value>7. สิทธิของคุณ</value>
+  </data>
+  <data name="PRIVACY_SECTION7_TEXT" xml:space="preserve">
+    <value>คุณมีสิทธิดู แก้ไข หรือลบข้อมูลส่วนบุคคลของคุณ หรือจำกัดการใช้ข้อมูล และยกเลิกรับข่าวสารจากเราได้ทุกเมื่อ ผู้ใช้ที่เข้าสู่ระบบสามารถดาวน์โหลดหรือลบข้อมูลจากบัญชีได้ สำหรับเรื่องอื่น โปรดติดต่อเรา</value>
+  </data>
+  <data name="PRIVACY_SECTION8_TITLE" xml:space="preserve">
+    <value>8. การเปลี่ยนแปลงนโยบายนี้</value>
+  </data>
+  <data name="PRIVACY_SECTION8_TEXT" xml:space="preserve">
+    <value>เราอาจปรับปรุงนโยบายนี้เป็นครั้งคราว เมื่อมีการเปลี่ยนแปลง เราจะแก้วันที่ด้านบนของหน้านี้ โปรดกลับมาตรวจสอบเป็นระยะ การใช้เว็บไซต์ต่อไปถือว่าคุณยอมรับนโยบายที่ปรับปรุงแล้ว</value>
+  </data>
+  <data name="PRIVACY_CONTACT_TITLE" xml:space="preserve">
+    <value>ติดต่อเรา</value>
+  </data>
+  <data name="PRIVACY_CONTACT_TEXT" xml:space="preserve">
+    <value>หากมีคำถามหรือคำขอเกี่ยวกับนโยบายนี้หรือวิธีที่เราจัดการข้อมูลของคุณ โปรด</value>
+  </data>
+  <data name="PRIVACY_CONTACT_LINK" xml:space="preserve">
+    <value>ติดต่อเราผ่านหน้าติดต่อ</value>
+  </data>
+  <data name="PRIVACY_ACKNOWLEDGMENT" xml:space="preserve">
+    <value>การใช้เว็บไซต์นี้ถือว่าคุณได้อ่านและเข้าใจนโยบายความเป็นส่วนตัวนี้แล้ว</value>
+  </data>
+  <data name="FC_ADM_ACCOUNT_CONFIRMED" xml:space="preserve">
+    <value>ยืนยันบัญชีแล้ว</value>
+  </data>
+  <data name="FC_ADM_ACCOUNT_UNCONFIRMED" xml:space="preserve">
+    <value>ยังไม่ได้ยืนยันอีเมล</value>
+  </data>
+  <data name="FC_ADM_ACTIONS" xml:space="preserve">
+    <value>การดำเนินการ</value>
+  </data>
+  <data name="FC_ADM_ALL_BULLETINS" xml:space="preserve">
+    <value>จดหมายข่าวทั้งหมด</value>
+  </data>
+  <data name="FC_ADM_ALL_ROLES" xml:space="preserve">
+    <value>บทบาททั้งหมด</value>
+  </data>
+  <data name="FC_ADM_ALL_USERS" xml:space="preserve">
+    <value>ผู้ใช้ทั้งหมด</value>
+  </data>
+  <data name="FC_ADM_AWAITING_SIGNUP" xml:space="preserve">
+    <value>รอการลงทะเบียน</value>
+  </data>
+  <data name="FC_ADM_BACK_TO_CHURCHES" xml:space="preserve">
+    <value>กลับไปที่รายการโบสถ์</value>
+  </data>
+  <data name="FC_ADM_BACK_TO_EVENTS" xml:space="preserve">
+    <value>กลับไปที่รายการกิจกรรม</value>
+  </data>
+  <data name="FC_ADM_BACK_TO_USERS" xml:space="preserve">
+    <value>กลับไปที่รายการผู้ใช้</value>
+  </data>
+  <data name="FC_ADM_BANNER_EXPIRED" xml:space="preserve">
+    <value>แบนเนอร์หมดอายุ</value>
+  </data>
+  <data name="FC_ADM_BANNER_SHOWN" xml:space="preserve">
+    <value>แบนเนอร์เปิดอยู่</value>
+  </data>
+  <data name="FC_ADM_BANNER_UNTIL" xml:space="preserve">
+    <value>แสดงแบนเนอร์ถึง</value>
+  </data>
+  <data name="FC_ADM_BULLETIN" xml:space="preserve">
+    <value>จดหมายข่าว</value>
+  </data>
+  <data name="FC_ADM_BULLETINS_LEAD" xml:space="preserve">
+    <value>เขียนจดหมายข่าวประจำสัปดาห์หรือประกาศสั้น ๆ ฉบับที่ใช้งานอยู่จะแสดงในหน้าจดหมายข่าวสาธารณะ</value>
+  </data>
+  <data name="FC_ADM_BULLETIN_MESSAGE" xml:space="preserve">
+    <value>ข้อความหรือบันทึกจากศิษยาภิบาล</value>
+  </data>
+  <data name="FC_ADM_BULLETIN_NOTICES" xml:space="preserve">
+    <value>ประกาศหรือลิงก์</value>
+  </data>
+  <data name="FC_ADM_BULLETIN_TITLE" xml:space="preserve">
+    <value>หัวข้อ</value>
+  </data>
+  <data name="FC_ADM_BULLETIN_TYPE" xml:space="preserve">
+    <value>ประเภท</value>
+  </data>
+  <data name="FC_ADM_CHANGELOG" xml:space="preserve">
+    <value>บันทึกการเปลี่ยนแปลง</value>
+  </data>
+  <data name="FC_ADM_CHANGELOG_LEAD" xml:space="preserve">
+    <value>สิ่งที่เปลี่ยนแปลงบนเว็บไซต์ เรียงจากล่าสุด</value>
+  </data>
+  <data name="FC_ADM_CHOOSE_ACCOUNT" xml:space="preserve">
+    <value>เลือกบัญชี…</value>
+  </data>
+  <data name="FC_ADM_CHOOSE_RECIPIENT" xml:space="preserve">
+    <value>เลือกผู้รับ…</value>
+  </data>
+  <data name="FC_ADM_CHURCH" xml:space="preserve">
+    <value>โบสถ์</value>
+  </data>
+  <data name="FC_ADM_CHURCHES" xml:space="preserve">
+    <value>โบสถ์</value>
+  </data>
+  <data name="FC_ADM_CHURCHES_LEAD" xml:space="preserve">
+    <value>รายการโบสถ์ทั้งหมดบนเว็บไซต์ เฉพาะโบสถ์ที่เปิดอยู่จะแสดงในการค้นหา</value>
+  </data>
+  <data name="FC_ADM_CHURCH_NOT_FOUND" xml:space="preserve">
+    <value>ไม่พบโบสถ์นี้</value>
+  </data>
+  <data name="FC_ADM_CONFIRM_DELETE_BULLETIN" xml:space="preserve">
+    <value>ลบ "{0}" ใช่ไหม การดำเนินการนี้ย้อนกลับไม่ได้</value>
+  </data>
+  <data name="FC_ADM_CONFIRM_DELETE_ROLE" xml:space="preserve">
+    <value>ลบบทบาท "{0}" ใช่ไหม</value>
+  </data>
+  <data name="FC_ADM_CONFIRM_DELETE_USER" xml:space="preserve">
+    <value>ลบ {0} ใช่ไหม บัญชีและการเข้าสู่ระบบจะถูกลบ การดำเนินการนี้ย้อนกลับไม่ได้</value>
+  </data>
+  <data name="FC_ADM_CONFIRM_REMOVE_INVITE" xml:space="preserve">
+    <value>ลบคำเชิญของ {0} ใช่ไหม ลิงก์จะใช้ไม่ได้อีก</value>
+  </data>
+  <data name="FC_ADM_CONFIRM_RESET_CHURCH" xml:space="preserve">
+    <value>รีเซ็ต {0} เป็นข้อมูลเริ่มต้นใช่ไหม รายการจะถูกซ่อนจากการค้นหาจนกว่าจะกรอกข้อมูลใหม่</value>
+  </data>
+  <data name="FC_ADM_CONGREGATION_N" xml:space="preserve">
+    <value>ผู้ร่วมนมัสการ {0}</value>
+  </data>
+  <data name="FC_ADM_CONTINUE" xml:space="preserve">
+    <value>ดำเนินการต่อ</value>
+  </data>
+  <data name="FC_ADM_CPU" xml:space="preserve">
+    <value>ซีพียู</value>
+  </data>
+  <data name="FC_ADM_CREATE_ROLE" xml:space="preserve">
+    <value>สร้างบทบาท</value>
+  </data>
+  <data name="FC_ADM_CREATE_USER" xml:space="preserve">
+    <value>สร้างผู้ใช้</value>
+  </data>
+  <data name="FC_ADM_CREATE_USER_LEAD" xml:space="preserve">
+    <value>สร้างบัญชีโดยตรงโดยไม่ต้องมีคำเชิญ ผู้ใช้จะได้รับอีเมลต้อนรับ</value>
+  </data>
+  <data name="FC_ADM_CURRENT_PDF" xml:space="preserve">
+    <value>PDF ปัจจุบัน:</value>
+  </data>
+  <data name="FC_ADM_DASHBOARD" xml:space="preserve">
+    <value>แดชบอร์ด</value>
+  </data>
+  <data name="FC_ADM_DASHBOARD_LEAD" xml:space="preserve">
+    <value>ภาพรวมของ Forest Churches</value>
+  </data>
+  <data name="FC_ADM_DATABASE" xml:space="preserve">
+    <value>ฐานข้อมูล</value>
+  </data>
+  <data name="FC_ADM_DOWNLOAD" xml:space="preserve">
+    <value>ดาวน์โหลด</value>
+  </data>
+  <data name="FC_ADM_DOWNLOADING" xml:space="preserve">
+    <value>กำลังดาวน์โหลด…</value>
+  </data>
+  <data name="FC_ADM_DOWNLOAD_LOGS" xml:space="preserve">
+    <value>ดาวน์โหลดบันทึก</value>
+  </data>
+  <data name="FC_ADM_EDIT_BULLETIN" xml:space="preserve">
+    <value>แก้ไขจดหมายข่าว</value>
+  </data>
+  <data name="FC_ADM_EDIT_CHURCH" xml:space="preserve">
+    <value>แก้ไขโบสถ์</value>
+  </data>
+  <data name="FC_ADM_EDIT_EVENT" xml:space="preserve">
+    <value>แก้ไขกิจกรรม</value>
+  </data>
+  <data name="FC_ADM_EDIT_PERMISSIONS" xml:space="preserve">
+    <value>แก้ไขสิทธิ์</value>
+  </data>
+  <data name="FC_ADM_EDIT_USER" xml:space="preserve">
+    <value>แก้ไขผู้ใช้</value>
+  </data>
+  <data name="FC_ADM_EMAILS" xml:space="preserve">
+    <value>อีเมล</value>
+  </data>
+  <data name="FC_ADM_EMAILS_LEAD" xml:space="preserve">
+    <value>ส่งข้อความถึงผู้ใช้หนึ่งคนหรือทุกคน</value>
+  </data>
+  <data name="FC_ADM_EMAIL_CONFIRMED" xml:space="preserve">
+    <value>ยืนยันอีเมลแล้ว</value>
+  </data>
+  <data name="FC_ADM_EMAIL_FROM_HINT" xml:space="preserve">
+    <value>ข้อความจะส่งจาก info@forestchurches.co.uk</value>
+  </data>
+  <data name="FC_ADM_EVENTS" xml:space="preserve">
+    <value>กิจกรรม</value>
+  </data>
+  <data name="FC_ADM_EVENTS_LEAD" xml:space="preserve">
+    <value>กิจกรรมของทุกโบสถ์ รวมถึงที่ซิงค์จาก ChurchSuite</value>
+  </data>
+  <data name="FC_ADM_EVENT_NOT_FOUND" xml:space="preserve">
+    <value>ไม่พบกิจกรรมนี้</value>
+  </data>
+  <data name="FC_ADM_EVENT_OWNER" xml:space="preserve">
+    <value>บัญชีโบสถ์</value>
+  </data>
+  <data name="FC_ADM_EVENT_OWNER_HINT" xml:space="preserve">
+    <value>กิจกรรมจะแสดงภายใต้โบสถ์ของบัญชีนี้</value>
+  </data>
+  <data name="FC_ADM_EXCEPTION" xml:space="preserve">
+    <value>ข้อยกเว้น</value>
+  </data>
+  <data name="FC_ADM_FROM" xml:space="preserve">
+    <value>จาก</value>
+  </data>
+  <data name="FC_ADM_HIDE_BANNER" xml:space="preserve">
+    <value>ซ่อนแบนเนอร์</value>
+  </data>
+  <data name="FC_ADM_INVITES" xml:space="preserve">
+    <value>คำเชิญ</value>
+  </data>
+  <data name="FC_ADM_INVITES_LEAD" xml:space="preserve">
+    <value>เฉพาะอีเมลที่ได้รับเชิญเท่านั้นที่ลงทะเบียนบัญชีโบสถ์ได้</value>
+  </data>
+  <data name="FC_ADM_INVITE_CHURCH" xml:space="preserve">
+    <value>เชิญโบสถ์</value>
+  </data>
+  <data name="FC_ADM_INVITE_COMPLETE" xml:space="preserve">
+    <value>ลงทะเบียนแล้ว</value>
+  </data>
+  <data name="FC_ADM_INVITE_EXPIRED" xml:space="preserve">
+    <value>ลิงก์หมดอายุ</value>
+  </data>
+  <data name="FC_ADM_INVITE_HINT" xml:space="preserve">
+    <value>เราจะส่งลิงก์ลงทะเบียนทางอีเมล ใช้ได้ 24 ชั่วโมง และส่งซ้ำได้</value>
+  </data>
+  <data name="FC_ADM_INVITE_LIST" xml:space="preserve">
+    <value>อีเมลที่ได้รับเชิญ</value>
+  </data>
+  <data name="FC_ADM_INVITE_PENDING" xml:space="preserve">
+    <value>รอดำเนินการ</value>
+  </data>
+  <data name="FC_ADM_JOINED" xml:space="preserve">
+    <value>เข้าร่วมเมื่อ {0}</value>
+  </data>
+  <data name="FC_ADM_KEEP_IMAGE_HINT" xml:space="preserve">
+    <value>เว้นว่างไว้เพื่อใช้รูปปัจจุบัน</value>
+  </data>
+  <data name="FC_ADM_LEVEL" xml:space="preserve">
+    <value>ระดับ</value>
+  </data>
+  <data name="FC_ADM_LINK_EXPIRES" xml:space="preserve">
+    <value>ลิงก์หมดอายุ</value>
+  </data>
+  <data name="FC_ADM_LIVE" xml:space="preserve">
+    <value>ใช้งานอยู่</value>
+  </data>
+  <data name="FC_ADM_LOGS" xml:space="preserve">
+    <value>บันทึก</value>
+  </data>
+  <data name="FC_ADM_LOGS_CLICK_HINT" xml:space="preserve">
+    <value>เลือกแถวเพื่อดูรายละเอียดทั้งหมด</value>
+  </data>
+  <data name="FC_ADM_LOGS_LEAD" xml:space="preserve">
+    <value>รายการบันทึกของแอปพลิเคชัน รายการใหม่จะปรากฏด้านบนเมื่อเกิดขึ้น</value>
+  </data>
+  <data name="FC_ADM_LOG_DATABASE" xml:space="preserve">
+    <value>ฐานข้อมูลบันทึก</value>
+  </data>
+  <data name="FC_ADM_MAKE_LIVE" xml:space="preserve">
+    <value>เปิดใช้งาน</value>
+  </data>
+  <data name="FC_ADM_MEMORY" xml:space="preserve">
+    <value>หน่วยความจำ</value>
+  </data>
+  <data name="FC_ADM_MESSAGE" xml:space="preserve">
+    <value>ข้อความ</value>
+  </data>
+  <data name="FC_ADM_NEWEST_MEMBER" xml:space="preserve">
+    <value>สมาชิกใหม่ล่าสุด</value>
+  </data>
+  <data name="FC_ADM_NEW_BULLETIN" xml:space="preserve">
+    <value>จดหมายข่าวใหม่</value>
+  </data>
+  <data name="FC_ADM_NEW_PASSWORD" xml:space="preserve">
+    <value>รหัสผ่านใหม่</value>
+  </data>
+  <data name="FC_ADM_NEXT" xml:space="preserve">
+    <value>ถัดไป</value>
+  </data>
+  <data name="FC_ADM_NO_BULLETINS" xml:space="preserve">
+    <value>ยังไม่มีจดหมายข่าว</value>
+  </data>
+  <data name="FC_ADM_NO_CHURCHES" xml:space="preserve">
+    <value>ยังไม่มีโบสถ์</value>
+  </data>
+  <data name="FC_ADM_NO_EVENTS" xml:space="preserve">
+    <value>ไม่มีกิจกรรม</value>
+  </data>
+  <data name="FC_ADM_NO_INVITES" xml:space="preserve">
+    <value>ยังไม่มีคำเชิญ</value>
+  </data>
+  <data name="FC_ADM_NO_PERMISSIONS" xml:space="preserve">
+    <value>ไม่มีสิทธิ์</value>
+  </data>
+  <data name="FC_ADM_NO_ROLES" xml:space="preserve">
+    <value>ยังไม่มีบทบาท</value>
+  </data>
+  <data name="FC_ADM_NO_UPCOMING" xml:space="preserve">
+    <value>ไม่มีกิจกรรมที่กำลังจะมาถึง</value>
+  </data>
+  <data name="FC_ADM_NO_USERS" xml:space="preserve">
+    <value>ยังไม่มีผู้ใช้</value>
+  </data>
+  <data name="FC_ADM_N_CHURCHES" xml:space="preserve">
+    <value>{0} โบสถ์</value>
+  </data>
+  <data name="FC_ADM_N_INVITES" xml:space="preserve">
+    <value>{0} คำเชิญ</value>
+  </data>
+  <data name="FC_ADM_N_LISTED" xml:space="preserve">
+    <value>แสดงในการค้นหา {0} แห่ง</value>
+  </data>
+  <data name="FC_ADM_N_UPCOMING" xml:space="preserve">
+    <value>กำลังจะมาถึง {0} รายการ</value>
+  </data>
+  <data name="FC_ADM_N_USERS" xml:space="preserve">
+    <value>{0} ผู้ใช้</value>
+  </data>
+  <data name="FC_ADM_ONE_PER_LINE" xml:space="preserve">
+    <value>บรรทัดละหนึ่งรายการ</value>
+  </data>
+  <data name="FC_ADM_PAGE" xml:space="preserve">
+    <value>หน้า</value>
+  </data>
+  <data name="FC_ADM_PARISH" xml:space="preserve">
+    <value>เขตวัดหรือเขตปกครอง</value>
+  </data>
+  <data name="FC_ADM_PASSWORD_BLANK_HINT" xml:space="preserve">
+    <value>เว้นว่างไว้เพื่อใช้รหัสผ่านเดิม</value>
+  </data>
+  <data name="FC_ADM_PDF" xml:space="preserve">
+    <value>ฉบับ PDF</value>
+  </data>
+  <data name="FC_ADM_PENDING_INVITES" xml:space="preserve">
+    <value>คำเชิญที่รอดำเนินการ</value>
+  </data>
+  <data name="FC_ADM_PERMISSIONS" xml:space="preserve">
+    <value>สิทธิ์</value>
+  </data>
+  <data name="FC_ADM_PERMISSIONS_LEAD" xml:space="preserve">
+    <value>เลือกว่าผู้ที่มีบทบาทนี้ทำอะไรได้บ้าง</value>
+  </data>
+  <data name="FC_ADM_PEW_SHEET" xml:space="preserve">
+    <value>เอกสารนมัสการ</value>
+  </data>
+  <data name="FC_ADM_PEW_SHEET_HINT" xml:space="preserve">
+    <value>บทอ่าน เพลงสรรเสริญ และคำอธิษฐานประจำวัน สำหรับจดหมายข่าวประจำสัปดาห์ฉบับเต็ม</value>
+  </data>
+  <data name="FC_ADM_PREVIOUS" xml:space="preserve">
+    <value>ก่อนหน้า</value>
+  </data>
+  <data name="FC_ADM_PROFILE_IMAGE" xml:space="preserve">
+    <value>รูปโปรไฟล์</value>
+  </data>
+  <data name="FC_ADM_RECENT_CHURCHES" xml:space="preserve">
+    <value>โบสถ์ที่เพิ่มล่าสุด</value>
+  </data>
+  <data name="FC_ADM_RECENT_ENTRIES" xml:space="preserve">
+    <value>รายการล่าสุด</value>
+  </data>
+  <data name="FC_ADM_RECIPIENT" xml:space="preserve">
+    <value>ส่งถึง</value>
+  </data>
+  <data name="FC_ADM_REGISTERED" xml:space="preserve">
+    <value>ลงทะเบียน</value>
+  </data>
+  <data name="FC_ADM_REGISTERED_CHURCHES" xml:space="preserve">
+    <value>โบสถ์ที่ลงทะเบียน</value>
+  </data>
+  <data name="FC_ADM_REGISTERED_USERS" xml:space="preserve">
+    <value>ผู้ใช้ที่ลงทะเบียน</value>
+  </data>
+  <data name="FC_ADM_RELEASE" xml:space="preserve">
+    <value>เวอร์ชัน {0}</value>
+  </data>
+  <data name="FC_ADM_REMOVE" xml:space="preserve">
+    <value>ลบออก</value>
+  </data>
+  <data name="FC_ADM_REPLACE_PDF" xml:space="preserve">
+    <value>แทนที่ PDF</value>
+  </data>
+  <data name="FC_ADM_RESEND" xml:space="preserve">
+    <value>ส่งลิงก์อีกครั้ง</value>
+  </data>
+  <data name="FC_ADM_RESET_LISTING" xml:space="preserve">
+    <value>รีเซ็ตรายการ</value>
+  </data>
+  <data name="FC_ADM_ROLE" xml:space="preserve">
+    <value>บทบาท</value>
+  </data>
+  <data name="FC_ADM_ROLES" xml:space="preserve">
+    <value>บทบาท</value>
+  </data>
+  <data name="FC_ADM_ROLES_HINT" xml:space="preserve">
+    <value>การกำหนดบทบาทจะยืนยันบัญชีด้วย</value>
+  </data>
+  <data name="FC_ADM_ROLES_LEAD" xml:space="preserve">
+    <value>บทบาทกำหนดว่าแต่ละบัญชีดูและแก้ไขอะไรได้บ้าง</value>
+  </data>
+  <data name="FC_ADM_ROLE_ADMIN" xml:space="preserve">
+    <value>ผู้ดูแลระบบ</value>
+  </data>
+  <data name="FC_ADM_ROLE_APPROVED" xml:space="preserve">
+    <value>โบสถ์ที่อนุมัติแล้ว</value>
+  </data>
+  <data name="FC_ADM_ROLE_DEVELOPER" xml:space="preserve">
+    <value>นักพัฒนา</value>
+  </data>
+  <data name="FC_ADM_ROLE_NAME" xml:space="preserve">
+    <value>ชื่อบทบาท</value>
+  </data>
+  <data name="FC_ADM_ROLE_PENDING" xml:space="preserve">
+    <value>รอการอนุมัติ</value>
+  </data>
+  <data name="FC_ADM_SEARCH" xml:space="preserve">
+    <value>ค้นหา</value>
+  </data>
+  <data name="FC_ADM_SEARCH_LOGS" xml:space="preserve">
+    <value>ค้นหาในบันทึก</value>
+  </data>
+  <data name="FC_ADM_SEND_INVITE" xml:space="preserve">
+    <value>ส่งคำเชิญ</value>
+  </data>
+  <data name="FC_ADM_SEND_MESSAGE" xml:space="preserve">
+    <value>ส่งข้อความ</value>
+  </data>
+  <data name="FC_ADM_SET" xml:space="preserve">
+    <value>ตั้งค่า</value>
+  </data>
+  <data name="FC_ADM_SHOW_BANNER" xml:space="preserve">
+    <value>แสดงแบนเนอร์</value>
+  </data>
+  <data name="FC_ADM_SIGN_OFF_AS" xml:space="preserve">
+    <value>ลงชื่อในนาม</value>
+  </data>
+  <data name="FC_ADM_SIGN_OFF_HINT" xml:space="preserve">
+    <value>แสดงเป็นชื่อผู้ส่งท้ายอีเมล</value>
+  </data>
+  <data name="FC_ADM_SITE_AT_A_GLANCE" xml:space="preserve">
+    <value>ภาพรวมโดยย่อ</value>
+  </data>
+  <data name="FC_ADM_SITE_BANNER" xml:space="preserve">
+    <value>แบนเนอร์เว็บไซต์</value>
+  </data>
+  <data name="FC_ADM_STATS_UNAVAILABLE" xml:space="preserve">
+    <value>ขณะนี้ไม่มีข้อมูลแบบสด</value>
+  </data>
+  <data name="FC_ADM_STATUS" xml:space="preserve">
+    <value>สถานะ</value>
+  </data>
+  <data name="FC_ADM_STATUS_CLOSED" xml:space="preserve">
+    <value>ซ่อนอยู่</value>
+  </data>
+  <data name="FC_ADM_STATUS_NOT_SET_UP" xml:space="preserve">
+    <value>ยังไม่ได้ตั้งค่า</value>
+  </data>
+  <data name="FC_ADM_STATUS_OPEN" xml:space="preserve">
+    <value>แสดงอยู่</value>
+  </data>
+  <data name="FC_ADM_SUNDAY_NAME" xml:space="preserve">
+    <value>วันอาทิตย์หรือชื่อการนมัสการ</value>
+  </data>
+  <data name="FC_ADM_SYSTEM_HEALTH" xml:space="preserve">
+    <value>สถานะระบบ</value>
+  </data>
+  <data name="FC_ADM_TIME" xml:space="preserve">
+    <value>เวลา</value>
+  </data>
+  <data name="FC_ADM_TO" xml:space="preserve">
+    <value>ถึง</value>
+  </data>
+  <data name="FC_ADM_TYPE_ANNOUNCEMENT" xml:space="preserve">
+    <value>ประกาศ</value>
+  </data>
+  <data name="FC_ADM_TYPE_BULLETIN" xml:space="preserve">
+    <value>จดหมายข่าวประจำสัปดาห์ (เอกสารนมัสการ)</value>
+  </data>
+  <data name="FC_ADM_TYPE_MESSAGE" xml:space="preserve">
+    <value>ข้อความ</value>
+  </data>
+  <data name="FC_ADM_UPLOAD_PDF" xml:space="preserve">
+    <value>อัปโหลด PDF</value>
+  </data>
+  <data name="FC_ADM_USER" xml:space="preserve">
+    <value>ผู้ใช้</value>
+  </data>
+  <data name="FC_ADM_USERS" xml:space="preserve">
+    <value>ผู้ใช้</value>
+  </data>
+  <data name="FC_ADM_USERS_LEAD" xml:space="preserve">
+    <value>ทุกคนที่มีบัญชี และสิ่งที่แต่ละคนทำได้</value>
+  </data>
+  <data name="FC_ADM_USER_NOT_FOUND" xml:space="preserve">
+    <value>ไม่พบผู้ใช้นี้</value>
+  </data>
+  <data name="FC_ADM_VIEW_ALL" xml:space="preserve">
+    <value>ดูทั้งหมด</value>
+  </data>
+  <data name="FC_ADM_WHEN" xml:space="preserve">
+    <value>เมื่อไร</value>
+  </data>
+  <data name="FC_ADM_PAST_EVENTS" xml:space="preserve">
+    <value>กิจกรรมที่ผ่านมา</value>
   </data>
 </root>

@@ -235,7 +235,7 @@
     <value>Профіль</value>
   </data>
   <data name="EMAIL" xml:space="preserve">
-    <value>Email</value>
+    <value>Електронна пошта</value>
   </data>
   <data name="PASSWORD" xml:space="preserve">
     <value>Пароль</value>
@@ -415,7 +415,7 @@
     <value>Про нас</value>
   </data>
   <data name="ABOUTUS_COMMUNITY_SECTION_TEXT" xml:space="preserve">
-    <value>Ласкаво просимо, сподіваємося, що ви знайдете те, що шукаєте. Якщо ви ще не знали, це...! Ми прагнемо служити нашій громаді з любов'ю та співчуттям. Наша місія — створити гостинний простір, де кожен почувається цінним та підтриманим. Приєднуйтесь до нас, щоб зробити позитивний внесок!</value>
+    <value>Ми прагнемо служити нашій громаді з любов'ю та співчуттям. Наша місія — створити привітне місце, де кожен почувається цінним і підтриманим. Приєднуйтеся, щоб разом змінювати світ на краще.</value>
   </data>
   <data name="ABOUTUS_COMMUNITY_SECTION_TITLE" xml:space="preserve">
     <value>Ми за громаду</value>
@@ -451,7 +451,7 @@
     <value>Цей вебсайт, створений Джеком Бутчером-Барнардом та Джонатаном Кіром, присвячений підтримці та розвитку церков у всьому Лісі Діна.</value>
   </data>
   <data name="LOGIN_EMAIL_PLACEHOLDER" xml:space="preserve">
-    <value>Email</value>
+    <value>Електронна пошта</value>
   </data>
   <data name="LOGIN_PASSWORD_PLACEHOLDER" xml:space="preserve">
     <value>Пароль</value>
@@ -607,7 +607,7 @@
     <value>Час</value>
   </data>
   <data name="NOTE_LABEL" xml:space="preserve">
-    <value>Дата</value>
+    <value>Богослужіння</value>
   </data>
   <data name="DELETE_ENTRY_LABEL" xml:space="preserve">
     <value>Видалити запис</value>
@@ -739,7 +739,7 @@
     <value>Оновіть інформацію про вашу церкву з вашого облікового запису ChurchSuite.</value>
   </data>
   <data name="TAG_SELECT_IMAGE" xml:space="preserve">
-    <value>Виберіть файл (Натисніть тут)</value>
+    <value>Вибрати зображення</value>
   </data>
   <data name="TAG_CLOSED_INFO" xml:space="preserve">
     <value>Будь ласка, використовуйте кнопку Позначити церкву як зачинену лише тоді, коли ваша церква зачинена на тривалий ремонт або закрилася назавжди. Зверніть увагу: ваша церква НЕ відображатиметься в пошуку поблизу, якщо встановити статус «Зачинена».</value>
@@ -902,5 +902,1616 @@
   </data>
   <data name="STATUS_CLOSE" xml:space="preserve">
     <value>Закрити</value>
+  </data>
+  <data name="EVENTS_CONTACT_LINK" xml:space="preserve">
+    <value>Зв'яжіться з нами</value>
+  </data>
+  <data name="EVENTS_CONTACT_TEXT" xml:space="preserve">
+    <value>Вважаєте, що це помилка?</value>
+  </data>
+  <data name="EVENTS_FOOTER_NOTE_TEXT" xml:space="preserve">
+    <value>Одноразові події видаляються приблизно через 24 години після завершення, щоб база даних залишалася охайною, а витрати — низькими. Повторювані події залишаються в списку.</value>
+  </data>
+  <data name="EVENTS_FOOTER_NOTE_TITLE" xml:space="preserve">
+    <value>Примітка</value>
+  </data>
+  <data name="EVENTS_NO_EVENTS_TEXT" xml:space="preserve">
+    <value>У вас поки немає майбутніх подій.</value>
+  </data>
+  <data name="FAQ_INTRO_TEXT" xml:space="preserve">
+    <value>Відповіді на запитання, які нам ставлять найчастіше. Не знайшли потрібного?</value>
+  </data>
+  <data name="FAQ_PAGE_TITLE" xml:space="preserve">
+    <value>Часті запитання</value>
+  </data>
+  <data name="FAQ_SECTION_TITLE" xml:space="preserve">
+    <value>Користування сайтом</value>
+  </data>
+  <data name="FAQ_Q1_TITLE" xml:space="preserve">
+    <value>Як зареєструвати мою церкву?</value>
+  </data>
+  <data name="FAQ_Q1_ANSWER" xml:space="preserve">
+    <value>Зв'яжіться з нами через сторінку «Контакти». Ми надішлемо вам електронною поштою особисте посилання-запрошення для створення облікового запису, після чого ви зможете заповнити дані церкви, розклад богослужінь і події.</value>
+  </data>
+  <data name="FAQ_Q2_TITLE" xml:space="preserve">
+    <value>Інші сервіси роблять щось подібне — чому саме цей?</value>
+  </data>
+  <data name="FAQ_Q2_ANSWER" xml:space="preserve">
+    <value>Інші сервіси теж показують церкви, але багато з них платні, і буває важко зрозуміти, яка церква найближча. Forest Churches безкоштовний і побудований навколо пошуку за поштовим індексом, тож ви швидко побачите, що поруч.</value>
+  </data>
+  <data name="FAQ_Q3_TITLE" xml:space="preserve">
+    <value>Як отримати копію моїх персональних даних?</value>
+  </data>
+  <data name="FAQ_Q3_ANSWER" xml:space="preserve">
+    <value>У розділі керування церквою відкрийте «Мої дані» й виберіть «Завантажити». Якщо чогось бракує, зв'яжіться з нами — ми охоче допоможемо.</value>
+  </data>
+  <data name="FAQ_Q4_TITLE" xml:space="preserve">
+    <value>Де зберігаються мої дані?</value>
+  </data>
+  <data name="FAQ_Q4_ANSWER" xml:space="preserve">
+    <value>Щоб захистити ваші дані, вся інформація зберігається в захищеній зовнішній базі даних, доступ до якої має лише сам застосунок.</value>
+  </data>
+  <data name="FAQ_Q5_TITLE" xml:space="preserve">
+    <value>Моя подія зникла зі сторінки церкви — чому?</value>
+  </data>
+  <data name="FAQ_Q5_ANSWER" xml:space="preserve">
+    <value>Щоб база даних була невеликою, а витрати низькими, одноразові події видаляються протягом 24 годин після завершення. Повторювані події залишаються в системі.</value>
+  </data>
+  <data name="FAQ_Q6_TITLE" xml:space="preserve">
+    <value>Як оновити інформацію про мою церкву?</value>
+  </data>
+  <data name="FAQ_Q6_ANSWER" xml:space="preserve">
+    <value>Увійдіть і відкрийте «Моя церква». Там можна змінити дані, зручності, розклад богослужінь і логотип.</value>
+  </data>
+  <data name="FAQ_Q7_TITLE" xml:space="preserve">
+    <value>Чому я не можу змінити адресу електронної пошти облікового запису?</value>
+  </data>
+  <data name="FAQ_Q7_ANSWER" xml:space="preserve">
+    <value>З міркувань безпеки адреси електронної пошти не можна змінювати на сайті. Якщо вам потрібно змінити свою, зв'яжіться з нами — ми допоможемо.</value>
+  </data>
+  <data name="FAQ_Q8_TITLE" xml:space="preserve">
+    <value>Чому посилання з мого листа більше не працює?</value>
+  </data>
+  <data name="FAQ_Q8_ANSWER" xml:space="preserve">
+    <value>Більшість посилань, які ми надсилаємо, зашифровані й діють лише 24 години. Якщо ваше прострочене, запросіть нове.</value>
+  </data>
+  <data name="FAQ_Q9_TITLE" xml:space="preserve">
+    <value>Чому одні сторінки підтверджують мої зміни, а інші — ні?</value>
+  </data>
+  <data name="FAQ_Q9_ANSWER" xml:space="preserve">
+    <value>Тепер кожна сторінка має показувати підтвердження після збереження. Якщо помітите сторінку, яка цього не робить, будь ласка, повідомте нам.</value>
+  </data>
+  <data name="LOGIN_EMAIL_LABEL" xml:space="preserve">
+    <value>Електронна пошта</value>
+  </data>
+  <data name="LOGIN_PASSWORD_LABEL" xml:space="preserve">
+    <value>Пароль</value>
+  </data>
+  <data name="TAG_ADDRESS" xml:space="preserve">
+    <value>Адреса</value>
+  </data>
+  <data name="TAG_CHURCHSUITE" xml:space="preserve">
+    <value>Адреса ChurchSuite</value>
+  </data>
+  <data name="TAG_FACILITIES" xml:space="preserve">
+    <value>Зручності</value>
+  </data>
+  <data name="TAG_SIZE_CONGREGATION" xml:space="preserve">
+    <value>Звичайна кількість людей у неділю</value>
+  </data>
+  <data name="TAG_WEBSITE" xml:space="preserve">
+    <value>Вебсайт</value>
+  </data>
+  <data name="RegisterTitle" xml:space="preserve">
+    <value>Реєстрація</value>
+  </data>
+  <data name="RegisterWith" xml:space="preserve">
+    <value>Зареєструватися через</value>
+  </data>
+  <data name="FC_SKIP_TO_CONTENT" xml:space="preserve">
+    <value>Перейти до основного вмісту</value>
+  </data>
+  <data name="FC_MENU" xml:space="preserve">
+    <value>Меню</value>
+  </data>
+  <data name="FC_MAIN_NAV" xml:space="preserve">
+    <value>Головна навігація</value>
+  </data>
+  <data name="FC_FOOTER_NAV" xml:space="preserve">
+    <value>Нижній колонтитул</value>
+  </data>
+  <data name="FC_NAV_FIND" xml:space="preserve">
+    <value>Знайти церкву</value>
+  </data>
+  <data name="FC_NAV_BULLETIN" xml:space="preserve">
+    <value>Бюлетень</value>
+  </data>
+  <data name="FC_NAV_CHURCH_LOGIN" xml:space="preserve">
+    <value>Вхід для церков</value>
+  </data>
+  <data name="FC_NAV_MY_CHURCH" xml:space="preserve">
+    <value>Моя церква</value>
+  </data>
+  <data name="FC_NAV_CHURCHSUITE" xml:space="preserve">
+    <value>ChurchSuite</value>
+  </data>
+  <data name="FC_NAV_BULLETINS" xml:space="preserve">
+    <value>Бюлетені</value>
+  </data>
+  <data name="FC_NAV_SITE_ADMIN" xml:space="preserve">
+    <value>Адміністрування сайту</value>
+  </data>
+  <data name="FC_LANGUAGE" xml:space="preserve">
+    <value>Мова</value>
+  </data>
+  <data name="FC_PRIVACY" xml:space="preserve">
+    <value>Конфіденційність</value>
+  </data>
+  <data name="FC_FAQ" xml:space="preserve">
+    <value>Часті запитання</value>
+  </data>
+  <data name="FC_CHURCH_ADMIN" xml:space="preserve">
+    <value>Керування церквою</value>
+  </data>
+  <data name="FC_ACCOUNT_NAV" xml:space="preserve">
+    <value>Обліковий запис</value>
+  </data>
+  <data name="FC_VIEW_PUBLIC_PAGE" xml:space="preserve">
+    <value>Переглянути публічну сторінку</value>
+  </data>
+  <data name="FC_BACK_TO_SITE" xml:space="preserve">
+    <value>Повернутися на сайт</value>
+  </data>
+  <data name="FC_STATUS_OPEN_LISTED" xml:space="preserve">
+    <value>Відкрита · показується в пошуку</value>
+  </data>
+  <data name="FC_STATUS_CLOSED_HIDDEN" xml:space="preserve">
+    <value>Закрита · прихована з пошуку</value>
+  </data>
+  <data name="FC_BULLETIN_BANNER_LABEL" xml:space="preserve">
+    <value>Останній бюлетень</value>
+  </data>
+  <data name="FC_BULLETIN_NEW" xml:space="preserve">
+    <value>Новий бюлетень:</value>
+  </data>
+  <data name="FC_BULLETIN_READ" xml:space="preserve">
+    <value>Читати</value>
+  </data>
+  <data name="FC_HOME_TITLE" xml:space="preserve">
+    <value>Знайдіть церкву поруч</value>
+  </data>
+  <data name="FC_HERO_ALT" xml:space="preserve">
+    <value>Долина річки Вай згори, річка звивається лісом</value>
+  </data>
+  <data name="FC_HERO_EYEBROW" xml:space="preserve">
+    <value>Церкви по всьому Форест-оф-Дін</value>
+  </data>
+  <data name="FC_HERO_TITLE" xml:space="preserve">
+    <value>Знайдіть церкву поруч</value>
+  </data>
+  <data name="FC_HERO_LEAD" xml:space="preserve">
+    <value>Розклад богослужінь, події та чого очікувати — для церковних громад по всьому лісовому краю.</value>
+  </data>
+  <data name="FC_SEARCH_LABEL" xml:space="preserve">
+    <value>Знайти церкву</value>
+  </data>
+  <data name="FC_SEARCH_POSTCODE" xml:space="preserve">
+    <value>Поштовий індекс або місто</value>
+  </data>
+  <data name="FC_SEARCH_WITHIN" xml:space="preserve">
+    <value>У межах</value>
+  </data>
+  <data name="FC_SEARCH_BUTTON" xml:space="preserve">
+    <value>Шукати</value>
+  </data>
+  <data name="FC_MILES" xml:space="preserve">
+    <value>миль</value>
+  </data>
+  <data name="FC_MILES_SHORT" xml:space="preserve">
+    <value>мил.</value>
+  </data>
+  <data name="FC_FINDING_YOU" xml:space="preserve">
+    <value>Визначаємо місцезнаходження…</value>
+  </data>
+  <data name="FC_MORE_FILTERS" xml:space="preserve">
+    <value>Більше фільтрів</value>
+  </data>
+  <data name="FC_HIDE_FILTERS" xml:space="preserve">
+    <value>Сховати фільтри</value>
+  </data>
+  <data name="FC_MUST_HAVE" xml:space="preserve">
+    <value>Обов'язково</value>
+  </data>
+  <data name="FC_OPTIONAL" xml:space="preserve">
+    <value>необов'язково</value>
+  </data>
+  <data name="FC_WHATS_ON" xml:space="preserve">
+    <value>Що відбувається в краї</value>
+  </data>
+  <data name="FC_FIND_EVENTS" xml:space="preserve">
+    <value>Знайти події</value>
+  </data>
+  <data name="FC_HOW_TITLE" xml:space="preserve">
+    <value>Як це працює</value>
+  </data>
+  <data name="FC_HOW_1_TITLE" xml:space="preserve">
+    <value>Шукайте за поштовим індексом</value>
+  </data>
+  <data name="FC_HOW_1_TEXT" xml:space="preserve">
+    <value>Або використайте своє місцезнаходження, щоб побачити, що поруч.</value>
+  </data>
+  <data name="FC_HOW_2_TITLE" xml:space="preserve">
+    <value>Фільтруйте за важливим</value>
+  </data>
+  <data name="FC_HOW_2_TEXT" xml:space="preserve">
+    <value>Доступ без сходинок, паркування, заняття для дітей, конфесія.</value>
+  </data>
+  <data name="FC_HOW_3_TITLE" xml:space="preserve">
+    <value>Відвідайте або напишіть</value>
+  </data>
+  <data name="FC_HOW_3_TEXT" xml:space="preserve">
+    <value>Прокладіть маршрут або надішліть церкві повідомлення.</value>
+  </data>
+  <data name="FC_ABOUT_STRIP_TITLE" xml:space="preserve">
+    <value>Одне місце для всіх церков краю</value>
+  </data>
+  <data name="FC_ABOUT_STRIP_TEXT" xml:space="preserve">
+    <value>Forest Churches збирає розклад богослужінь, події та контакти місцевих церковних громад, які самі церкви підтримують в актуальному стані.</value>
+  </data>
+  <data name="FC_LIST_YOUR_CHURCH" xml:space="preserve">
+    <value>Додайте свою церкву</value>
+  </data>
+  <data name="FC_LEARN_MORE" xml:space="preserve">
+    <value>Докладніше</value>
+  </data>
+  <data name="FC_RESULTS_TITLE" xml:space="preserve">
+    <value>Знайти церкву</value>
+  </data>
+  <data name="FC_RESULTS_ONE" xml:space="preserve">
+    <value>1 церква в межах {0} миль</value>
+  </data>
+  <data name="FC_RESULTS_MANY" xml:space="preserve">
+    <value>Церков у межах {1} миль: {0}</value>
+  </data>
+  <data name="FC_NO_RESULTS_TITLE" xml:space="preserve">
+    <value>Церков не знайдено</value>
+  </data>
+  <data name="FC_NO_RESULTS_TEXT" xml:space="preserve">
+    <value>Спробуйте більшу відстань або вимкніть деякі фільтри.</value>
+  </data>
+  <data name="FC_NEXT_SERVICE" xml:space="preserve">
+    <value>Наступне богослужіння</value>
+  </data>
+  <data name="FC_VIEW_CHURCH" xml:space="preserve">
+    <value>Переглянути церкву</value>
+  </data>
+  <data name="FC_DIRECTIONS" xml:space="preserve">
+    <value>Маршрут</value>
+  </data>
+  <data name="FC_OPENS_NEW_TAB" xml:space="preserve">
+    <value>відкривається в новій вкладці</value>
+  </data>
+  <data name="FC_READ_MORE" xml:space="preserve">
+    <value>Читати далі</value>
+  </data>
+  <data name="FC_SHOW_LESS" xml:space="preserve">
+    <value>Згорнути</value>
+  </data>
+  <data name="FC_FACT_STEP_FREE" xml:space="preserve">
+    <value>Без сходинок</value>
+  </data>
+  <data name="FC_FACT_HEARING_LOOP" xml:space="preserve">
+    <value>Індукційна петля</value>
+  </data>
+  <data name="FC_FACT_CHILDREN" xml:space="preserve">
+    <value>Заняття для дітей</value>
+  </data>
+  <data name="FC_CHURCH_NOT_FOUND" xml:space="preserve">
+    <value>Церкву не знайдено</value>
+  </data>
+  <data name="FC_CHURCH_NOT_FOUND_TEXT" xml:space="preserve">
+    <value>Можливо, це посилання застаріло. Спробуйте знайти церкву через пошук.</value>
+  </data>
+  <data name="FC_BACK" xml:space="preserve">
+    <value>← Назад</value>
+  </data>
+  <data name="FC_CONGREGATION" xml:space="preserve">
+    <value>{0} у неділю</value>
+  </data>
+  <data name="FC_KEY_FACTS" xml:space="preserve">
+    <value>Головне</value>
+  </data>
+  <data name="FC_SUNDAY" xml:space="preserve">
+    <value>Неділя</value>
+  </data>
+  <data name="FC_NO_SERVICE_TIMES" xml:space="preserve">
+    <value>Розклад богослужінь ще не вказано</value>
+  </data>
+  <data name="FC_WEBSITE" xml:space="preserve">
+    <value>Вебсайт</value>
+  </data>
+  <data name="FC_ABOUT_US" xml:space="preserve">
+    <value>Про нас</value>
+  </data>
+  <data name="FC_UPCOMING_EVENTS" xml:space="preserve">
+    <value>Майбутні події</value>
+  </data>
+  <data name="FC_WHAT_TO_EXPECT" xml:space="preserve">
+    <value>Чого очікувати</value>
+  </data>
+  <data name="FC_FIND_US" xml:space="preserve">
+    <value>Як нас знайти</value>
+  </data>
+  <data name="FC_MAP_OF" xml:space="preserve">
+    <value>Мапа: {0}</value>
+  </data>
+  <data name="FC_GOES_TO_CHURCH" xml:space="preserve">
+    <value>Надходить безпосередньо до церкви.</value>
+  </data>
+  <data name="FC_YOUR_NAME" xml:space="preserve">
+    <value>Ваше ім'я</value>
+  </data>
+  <data name="FC_YOUR_EMAIL" xml:space="preserve">
+    <value>Ваша електронна пошта</value>
+  </data>
+  <data name="FC_CONTACT_TITLE" xml:space="preserve">
+    <value>Зв'язатися з нами</value>
+  </data>
+  <data name="FC_CONTACT_LEAD" xml:space="preserve">
+    <value>Маєте запитання щодо сайту, хочете додати свою церкву або помітили помилку? Ми вам відповімо.</value>
+  </data>
+  <data name="FC_CONTACT_CHURCH_TITLE" xml:space="preserve">
+    <value>Повідомлення для {0}</value>
+  </data>
+  <data name="FC_CONTACT_CHURCH_LEAD" xml:space="preserve">
+    <value>Ваше повідомлення надійде безпосередньо до церкви.</value>
+  </data>
+  <data name="FC_CONTACT_SPECIFIC_CHURCH" xml:space="preserve">
+    <value>Хочете зв'язатися з конкретною церквою? Скористайтеся формою на її сторінці.</value>
+  </data>
+  <data name="FC_EMAIL" xml:space="preserve">
+    <value>Електронна пошта</value>
+  </data>
+  <data name="FC_LOOKING_FOR_ANSWERS" xml:space="preserve">
+    <value>Шукаєте відповіді?</value>
+  </data>
+  <data name="FC_READ_FAQ" xml:space="preserve">
+    <value>Читати часті запитання</value>
+  </data>
+  <data name="FC_MESSAGE_FORM" xml:space="preserve">
+    <value>Форма повідомлення</value>
+  </data>
+  <data name="FC_PRIVACY_NOTE" xml:space="preserve">
+    <value>Ми використовуємо ваші дані лише для відповіді. Див. нашу</value>
+  </data>
+  <data name="FC_GET_IN_TOUCH" xml:space="preserve">
+    <value>Зв'язатися з нами</value>
+  </data>
+  <data name="FC_ABOUT_SUPPORT_TITLE" xml:space="preserve">
+    <value>Підтримка місцевих церков</value>
+  </data>
+  <data name="FC_ABOUT_SUPPORT_TEXT" xml:space="preserve">
+    <value>Церкви самі оновлюють свої сторінки — розклад богослужінь, зручності й події, синхронізовані з ChurchSuite, якщо вони ним користуються, — щоб відвідувачі бачили, що відбувається насправді.</value>
+  </data>
+  <data name="FC_HELP" xml:space="preserve">
+    <value>Довідка</value>
+  </data>
+  <data name="FC_SEND_US_A_MESSAGE" xml:space="preserve">
+    <value>Надішліть нам повідомлення</value>
+  </data>
+  <data name="FC_FAQ_CHURCHES_TITLE" xml:space="preserve">
+    <value>Для церков</value>
+  </data>
+  <data name="FC_BULLETIN_DEFAULT_TITLE" xml:space="preserve">
+    <value>Щотижневий парафіяльний бюлетень</value>
+  </data>
+  <data name="FC_BULLETIN_DEFAULT_PARISH" xml:space="preserve">
+    <value>Forest of Dean Benefice</value>
+  </data>
+  <data name="FC_BULLETIN_NONE" xml:space="preserve">
+    <value>Бюлетень ще не опубліковано</value>
+  </data>
+  <data name="FC_BULLETIN_NONE_TEXT" xml:space="preserve">
+    <value>Зазирніть пізніше — тут з'явиться бюлетень на цей тиждень.</value>
+  </data>
+  <data name="FC_BULLETIN_SECTIONS" xml:space="preserve">
+    <value>Розділи бюлетеня</value>
+  </data>
+  <data name="FC_DOWNLOAD_PDF" xml:space="preserve">
+    <value>Завантажити PDF</value>
+  </data>
+  <data name="FC_PRINT" xml:space="preserve">
+    <value>Друкувати</value>
+  </data>
+  <data name="FC_DETAILS" xml:space="preserve">
+    <value>Подробиці</value>
+  </data>
+  <data name="FC_NOTICES" xml:space="preserve">
+    <value>Оголошення</value>
+  </data>
+  <data name="FC_READINGS" xml:space="preserve">
+    <value>Читання</value>
+  </data>
+  <data name="FC_HYMNS" xml:space="preserve">
+    <value>Гімни</value>
+  </data>
+  <data name="FC_COLLECT" xml:space="preserve">
+    <value>Молитва дня</value>
+  </data>
+  <data name="FC_THE_COLLECT" xml:space="preserve">
+    <value>Молитва дня</value>
+  </data>
+  <data name="FC_THIS_WEEKS_NOTICES" xml:space="preserve">
+    <value>Оголошення цього тижня</value>
+  </data>
+  <data name="FC_NOTHING_THIS_WEEK" xml:space="preserve">
+    <value>Цього тижня нічого немає.</value>
+  </data>
+  <data name="FC_FIRST_READING" xml:space="preserve">
+    <value>Перше читання</value>
+  </data>
+  <data name="FC_GOSPEL" xml:space="preserve">
+    <value>Євангеліє</value>
+  </data>
+  <data name="FC_LOGIN_PITCH_TITLE" xml:space="preserve">
+    <value>Підтримуйте сторінку своєї церкви актуальною</value>
+  </data>
+  <data name="FC_LOGIN_PITCH_TEXT" xml:space="preserve">
+    <value>Розклад богослужінь, зручності й події — усе в одному місці, щоб відвідувачі завжди знали, чого очікувати.</value>
+  </data>
+  <data name="FC_LOGIN_LEAD" xml:space="preserve">
+    <value>Увійдіть, щоб керувати своєю церквою.</value>
+  </data>
+  <data name="FC_SHOW" xml:space="preserve">
+    <value>Показати</value>
+  </data>
+  <data name="FC_HIDE" xml:space="preserve">
+    <value>Сховати</value>
+  </data>
+  <data name="FC_KEEP_ME_SIGNED_IN" xml:space="preserve">
+    <value>Не виходити з системи</value>
+  </data>
+  <data name="FC_SIGN_IN" xml:space="preserve">
+    <value>Увійти</value>
+  </data>
+  <data name="FC_OR" xml:space="preserve">
+    <value>або</value>
+  </data>
+  <data name="FC_SIGN_IN_WITH" xml:space="preserve">
+    <value>Увійти через {0}</value>
+  </data>
+  <data name="FC_NOT_SET_UP" xml:space="preserve">
+    <value>Ще не зареєстровані? Церкви приєднуються за запрошенням —</value>
+  </data>
+  <data name="FC_ASK_FOR_INVITE" xml:space="preserve">
+    <value>попросіть запрошення</value>
+  </data>
+  <data name="FC_RESET_PASSWORD" xml:space="preserve">
+    <value>Скидання пароля</value>
+  </data>
+  <data name="FC_RESET_LEAD" xml:space="preserve">
+    <value>Введіть електронну пошту, з якою ви входите, і ми надішлемо посилання для вибору нового пароля.</value>
+  </data>
+  <data name="FC_SEND_RESET_LINK" xml:space="preserve">
+    <value>Надіслати посилання</value>
+  </data>
+  <data name="FC_BACK_TO_LOGIN" xml:space="preserve">
+    <value>Повернутися до входу</value>
+  </data>
+  <data name="FC_CHECK_INBOX" xml:space="preserve">
+    <value>Перевірте пошту</value>
+  </data>
+  <data name="FC_CHECK_INBOX_TEXT" xml:space="preserve">
+    <value>Якщо для цієї адреси є обліковий запис, посилання вже надіслано. Не забудьте перевірити папку «Спам».</value>
+  </data>
+  <data name="FC_USE_DIFFERENT_EMAIL" xml:space="preserve">
+    <value>Використати іншу адресу</value>
+  </data>
+  <data name="FC_MY_CHURCH_LEAD" xml:space="preserve">
+    <value>Що відвідувачі бачать на вашій публічній сторінці та в пошуку.</value>
+  </data>
+  <data name="FC_CHURCH_NAME" xml:space="preserve">
+    <value>Назва церкви</value>
+  </data>
+  <data name="FC_ABOUT_YOUR_CHURCH" xml:space="preserve">
+    <value>Про вашу церкву</value>
+  </data>
+  <data name="FC_SHOWN_AT_TOP" xml:space="preserve">
+    <value>показується вгорі вашої сторінки</value>
+  </data>
+  <data name="FC_FACILITIES_HINT" xml:space="preserve">
+    <value>Відвідувачі можуть фільтрувати результати пошуку за цими пунктами.</value>
+  </data>
+  <data name="FC_DISCARD_CHANGES" xml:space="preserve">
+    <value>Скасувати зміни</value>
+  </data>
+  <data name="FC_NO_SERVICE_TIMES_ADMIN" xml:space="preserve">
+    <value>Богослужінь ще не додано. Додайте перше нижче.</value>
+  </data>
+  <data name="FC_CONFIRM_REMOVE_SERVICE" xml:space="preserve">
+    <value>Видалити цей час богослужіння?</value>
+  </data>
+  <data name="FC_SERVICE_NAME" xml:space="preserve">
+    <value>Назва богослужіння</value>
+  </data>
+  <data name="FC_LOGO_TITLE" xml:space="preserve">
+    <value>Логотип або фото</value>
+  </data>
+  <data name="FC_CURRENT_LOGO" xml:space="preserve">
+    <value>Поточний логотип</value>
+  </data>
+  <data name="FC_LOGO_HINT" xml:space="preserve">
+    <value>PNG або JPEG. Найкраще підходить квадратне зображення.</value>
+  </data>
+  <data name="FC_SYNC_NOW" xml:space="preserve">
+    <value>Синхронізувати зараз</value>
+  </data>
+  <data name="FC_MANAGE_CONNECTION" xml:space="preserve">
+    <value>Керувати з'єднанням</value>
+  </data>
+  <data name="FC_DANGER_ZONE" xml:space="preserve">
+    <value>Небезпечна зона</value>
+  </data>
+  <data name="FC_MARK_CLOSED" xml:space="preserve">
+    <value>Позначити церкву як закриту…</value>
+  </data>
+  <data name="FC_MARK_OPEN" xml:space="preserve">
+    <value>Знову відкрити церкву</value>
+  </data>
+  <data name="FC_CONFIRM_CLOSE" xml:space="preserve">
+    <value>{0} буде приховано з пошуку. Ви впевнені?</value>
+  </data>
+  <data name="FC_CLOSED_NOW" xml:space="preserve">
+    <value>Вашу церкву позначено як закриту, і вона не показується в пошуку. Відкрийте її знову, коли богослужіння відновляться.</value>
+  </data>
+  <data name="FC_PROFILE_LEAD" xml:space="preserve">
+    <value>Ваші власні дані для входу — окремо від публічної інформації церкви.</value>
+  </data>
+  <data name="FC_YOUR_DETAILS" xml:space="preserve">
+    <value>Ваші дані</value>
+  </data>
+  <data name="FC_EMAIL_SIGN_IN" xml:space="preserve">
+    <value>Електронна пошта (для входу)</value>
+  </data>
+  <data name="FC_EMAIL_CHANGE_HINT" xml:space="preserve">
+    <value>Щоб змінити електронну пошту, зв'яжіться з нами.</value>
+  </data>
+  <data name="FC_SECURITY_LEAD" xml:space="preserve">
+    <value>Захистіть обліковий запис своєї церкви.</value>
+  </data>
+  <data name="FC_PASSWORD_HINT" xml:space="preserve">
+    <value>Використовуйте щонайменше 12 символів. Коротку фразу запам'ятати легше.</value>
+  </data>
+  <data name="FC_CONFIRM_NEW_PASSWORD" xml:space="preserve">
+    <value>Підтвердіть новий пароль</value>
+  </data>
+  <data name="FC_UPDATE_PASSWORD" xml:space="preserve">
+    <value>Оновити пароль</value>
+  </data>
+  <data name="FC_2FA_LEAD" xml:space="preserve">
+    <value>Запитувати код із застосунку автентифікації під час входу.</value>
+  </data>
+  <data name="FC_2FA_EXPLAIN" xml:space="preserve">
+    <value>Скористайтеся застосунком на кшталт Microsoft або Google Authenticator. Навіть якщо хтось дізнається ваш пароль, без вашого телефона увійти не вийде.</value>
+  </data>
+  <data name="FC_MANAGE" xml:space="preserve">
+    <value>Керувати</value>
+  </data>
+  <data name="FC_ON" xml:space="preserve">
+    <value>Увімкнено</value>
+  </data>
+  <data name="FC_OFF_RECOMMENDED" xml:space="preserve">
+    <value>Вимкнено — радимо увімкнути</value>
+  </data>
+  <data name="FC_RECOVERY_CODES" xml:space="preserve">
+    <value>Резервні коди</value>
+  </data>
+  <data name="FC_RECOVERY_CODES_LEFT" xml:space="preserve">
+    <value>Залишилося резервних кодів: {0}. Скористайтеся одним, якщо втратите телефон.</value>
+  </data>
+  <data name="FC_CHURCHSUITE_LEAD" xml:space="preserve">
+    <value>Під'єднайте обліковий запис ChurchSuite, і ваші події автоматично з'являться на сторінці.</value>
+  </data>
+  <data name="FC_CONNECTED" xml:space="preserve">
+    <value>Під'єднано</value>
+  </data>
+  <data name="FC_NOT_CONNECTED" xml:space="preserve">
+    <value>Не під'єднано</value>
+  </data>
+  <data name="FC_CS_STEP_1" xml:space="preserve">
+    <value>У консолі розробника ChurchSuite створіть новий застосунок OAuth як публічний клієнт (PKCE).</value>
+  </data>
+  <data name="FC_CS_STEP_2" xml:space="preserve">
+    <value>Скопіюйте його Client ID і вставте нижче.</value>
+  </data>
+  <data name="FC_CS_STEP_3" xml:space="preserve">
+    <value>Виберіть «Зберегти й авторизувати», а потім підтвердьте доступ у ChurchSuite.</value>
+  </data>
+  <data name="FC_CONFIRM_REMOVE_LOGIN" xml:space="preserve">
+    <value>Вилучити вхід через {0} з вашого облікового запису?</value>
+  </data>
+  <data name="FC_DOWNLOAD_YOUR_DATA" xml:space="preserve">
+    <value>Завантажити ваші дані</value>
+  </data>
+  <data name="FC_DOWNLOAD_YOUR_DATA_TEXT" xml:space="preserve">
+    <value>Усе, що ми зберігаємо про вас і вашу церкву, в одному файлі.</value>
+  </data>
+  <data name="FC_DOWNLOAD" xml:space="preserve">
+    <value>Завантажити</value>
+  </data>
+  <data name="FC_DELETE_ACCOUNT" xml:space="preserve">
+    <value>Видалити обліковий запис</value>
+  </data>
+  <data name="FC_DELETE_ACCOUNT_TEXT" xml:space="preserve">
+    <value>Назавжди видаляє ваш вхід і пов'язані з ним дані.</value>
+  </data>
+  <data name="FC_DELETE_PERMANENT" xml:space="preserve">
+    <value>Цю дію не можна скасувати.</value>
+  </data>
+  <data name="FC_ENTER_PASSWORD_CONFIRM" xml:space="preserve">
+    <value>Введіть пароль для підтвердження</value>
+  </data>
+  <data name="FC_CANCEL" xml:space="preserve">
+    <value>Скасувати</value>
+  </data>
+  <data name="FC_DELETE_PERMANENTLY" xml:space="preserve">
+    <value>Видалити назавжди</value>
+  </data>
+  <data name="FC_EVENTS_LEAD" xml:space="preserve">
+    <value>Події з ChurchSuite синхронізуються автоматично. Одноразові події додавайте тут.</value>
+  </data>
+  <data name="FC_SYNC_FROM_CHURCHSUITE" xml:space="preserve">
+    <value>Синхронізувати з ChurchSuite</value>
+  </data>
+  <data name="FC_EVENT_COUNT" xml:space="preserve">
+    <value>Майбутніх: {0}</value>
+  </data>
+  <data name="FC_PAST_EVENTS" xml:space="preserve">
+    <value>Минулі події ({0})</value>
+  </data>
+  <data name="FC_ADDED_HERE" xml:space="preserve">
+    <value>Додано тут</value>
+  </data>
+  <data name="FC_EDIT" xml:space="preserve">
+    <value>Редагувати</value>
+  </data>
+  <data name="FC_DELETE" xml:space="preserve">
+    <value>Видалити</value>
+  </data>
+  <data name="FC_CONFIRM_DELETE_EVENT" xml:space="preserve">
+    <value>Видалити «{0}»? Цю дію не можна скасувати.</value>
+  </data>
+  <data name="FC_ADD_EVENT" xml:space="preserve">
+    <value>Додати подію</value>
+  </data>
+  <data name="FC_EDIT_EVENT" xml:space="preserve">
+    <value>Редагувати подію</value>
+  </data>
+  <data name="FC_EVENT_NAME" xml:space="preserve">
+    <value>Назва події</value>
+  </data>
+  <data name="FC_STARTS" xml:space="preserve">
+    <value>Початок</value>
+  </data>
+  <data name="FC_ENDS" xml:space="preserve">
+    <value>Кінець</value>
+  </data>
+  <data name="FC_REPEATS" xml:space="preserve">
+    <value>Повторення</value>
+  </data>
+  <data name="FC_DESCRIPTION" xml:space="preserve">
+    <value>Опис</value>
+  </data>
+  <data name="FC_EVENT_LINK" xml:space="preserve">
+    <value>Посилання на докладнішу інформацію</value>
+  </data>
+  <data name="FC_EVENT_IMAGE" xml:space="preserve">
+    <value>Зображення</value>
+  </data>
+  <data name="FC_SAVE_CHANGES" xml:space="preserve">
+    <value>Зберегти зміни</value>
+  </data>
+  <data name="FC_CREATE_EVENT" xml:space="preserve">
+    <value>Створити подію</value>
+  </data>
+  <data name="FC_REPEAT_NONE" xml:space="preserve">
+    <value>Не повторюється</value>
+  </data>
+  <data name="FC_REPEAT_DAILY" xml:space="preserve">
+    <value>Щодня</value>
+  </data>
+  <data name="FC_REPEAT_WEEKLY" xml:space="preserve">
+    <value>Щотижня</value>
+  </data>
+  <data name="FC_REPEAT_2W" xml:space="preserve">
+    <value>Кожні 2 тижні</value>
+  </data>
+  <data name="FC_REPEAT_3W" xml:space="preserve">
+    <value>Кожні 3 тижні</value>
+  </data>
+  <data name="FC_REPEAT_MONTHLY" xml:space="preserve">
+    <value>Щомісяця</value>
+  </data>
+  <data name="FC_REPEAT_2M" xml:space="preserve">
+    <value>Кожні 2 місяці</value>
+  </data>
+  <data name="CHURCHSUITE_AUTHORIZED_MESSAGE" xml:space="preserve">
+    <value>Ваш обліковий запис ChurchSuite під'єднано. Події синхронізуватимуться автоматично.</value>
+  </data>
+  <data name="CHURCHSUITE_AUTHORIZE_BUTTON" xml:space="preserve">
+    <value>Під'єднати ChurchSuite</value>
+  </data>
+  <data name="CHURCHSUITE_EXPIRED_PROMPT" xml:space="preserve">
+    <value>З'єднання з ChurchSuite прострочене. Під'єднайтеся знову, щоб події й далі синхронізувалися.</value>
+  </data>
+  <data name="CHURCHSUITE_NEED_AUTH" xml:space="preserve">
+    <value>Під'єднайте обліковий запис ChurchSuite, щоб автоматично імпортувати події.</value>
+  </data>
+  <data name="CHURCHSUITE_NOT_LOGGED_IN" xml:space="preserve">
+    <value>Увійдіть, щоб під'єднати ChurchSuite.</value>
+  </data>
+  <data name="CHURCHSUITE_REAUTHORIZE_BUTTON" xml:space="preserve">
+    <value>Під'єднати ChurchSuite знову</value>
+  </data>
+  <data name="ERROR_LABEL_ID" xml:space="preserve">
+    <value>Ідентифікатор запиту:</value>
+  </data>
+  <data name="ERROR_LABEL_MESSAGE" xml:space="preserve">
+    <value>Повідомлення:</value>
+  </data>
+  <data name="ERROR_PAGE_TITLE" xml:space="preserve">
+    <value>Помилка</value>
+  </data>
+  <data name="FC_2FA_KEY_TEXT" xml:space="preserve">
+    <value>Не вдається відсканувати? Введіть натомість цей ключ (пробіли не мають значення):</value>
+  </data>
+  <data name="FC_2FA_LOGIN_TEXT" xml:space="preserve">
+    <value>Ваш вхід захищено застосунком автентифікації. Введіть 6-значний код, який він показує.</value>
+  </data>
+  <data name="FC_2FA_QR_ALT" xml:space="preserve">
+    <value>QR-код для сканування застосунком автентифікації</value>
+  </data>
+  <data name="FC_2FA_STEP1" xml:space="preserve">
+    <value>Установіть застосунок автентифікації</value>
+  </data>
+  <data name="FC_2FA_STEP1_TEXT" xml:space="preserve">
+    <value>Наприклад, Microsoft Authenticator або Google Authenticator на телефон.</value>
+  </data>
+  <data name="FC_2FA_STEP2" xml:space="preserve">
+    <value>Відскануйте цей QR-код застосунком</value>
+  </data>
+  <data name="FC_2FA_STEP3" xml:space="preserve">
+    <value>Введіть 6-значний код із застосунку</value>
+  </data>
+  <data name="FC_ACCESS_DENIED" xml:space="preserve">
+    <value>Доступ заборонено</value>
+  </data>
+  <data name="FC_ACCESS_DENIED_TEXT" xml:space="preserve">
+    <value>Ваш обліковий запис не має дозволу відкривати цю сторінку. Якщо вважаєте, що має, зв'яжіться з нами.</value>
+  </data>
+  <data name="FC_AUTH_CODE" xml:space="preserve">
+    <value>Код автентифікації</value>
+  </data>
+  <data name="FC_CHOOSE_NEW_PASSWORD" xml:space="preserve">
+    <value>Виберіть новий пароль</value>
+  </data>
+  <data name="FC_CODES_KEYS_UNCHANGED" xml:space="preserve">
+    <value>Нові коди не змінюють застосунок, яким ви входите. Щоб змінити його, скористайтеся</value>
+  </data>
+  <data name="FC_CODES_LOSE_DEVICE" xml:space="preserve">
+    <value>Якщо ви втратите телефон і не матимете резервного коду, увійти не вийде.</value>
+  </data>
+  <data name="FC_CODES_SAFE_PLACE" xml:space="preserve">
+    <value>Збережіть ці коди в надійному місці.</value>
+  </data>
+  <data name="FC_CONFIRMED" xml:space="preserve">
+    <value>Підтверджено</value>
+  </data>
+  <data name="FC_CONFIRM_ACCOUNT" xml:space="preserve">
+    <value>Підтвердити мій обліковий запис</value>
+  </data>
+  <data name="FC_CONFIRM_EMAIL_SENT" xml:space="preserve">
+    <value>Ми надіслали вам листа. Відкрийте посилання в ньому, щоб підтвердити обліковий запис.</value>
+  </data>
+  <data name="FC_CONFIRM_FAILED" xml:space="preserve">
+    <value>Не вдалося підтвердити вашу пошту</value>
+  </data>
+  <data name="FC_CONFIRM_FAILED_TEXT" xml:space="preserve">
+    <value>Можливо, посилання прострочене або вже використане. Будь ласка, запросіть нове.</value>
+  </data>
+  <data name="FC_CONFIRM_LINK_DEV" xml:space="preserve">
+    <value>Поштовий сервіс ще не налаштовано, тож підтвердьте обліковий запис кнопкою нижче.</value>
+  </data>
+  <data name="FC_CONFIRM_NEW_CODES" xml:space="preserve">
+    <value>Створити нові резервні коди? Старі коди перестануть працювати.</value>
+  </data>
+  <data name="FC_CONFIRM_PASSWORD" xml:space="preserve">
+    <value>Підтвердіть пароль</value>
+  </data>
+  <data name="FC_CREATE_ACCOUNT" xml:space="preserve">
+    <value>Створити обліковий запис</value>
+  </data>
+  <data name="FC_CREATE_ACCOUNT_LEAD" xml:space="preserve">
+    <value>Використайте адресу, на яку надійшло запрошення.</value>
+  </data>
+  <data name="FC_CURRENT_EMAIL" xml:space="preserve">
+    <value>Поточна електронна пошта</value>
+  </data>
+  <data name="FC_DONE" xml:space="preserve">
+    <value>Готово</value>
+  </data>
+  <data name="FC_DOWNLOAD_DETAILS" xml:space="preserve">
+    <value>Завантажити відомості</value>
+  </data>
+  <data name="FC_EMAIL_CHANGED" xml:space="preserve">
+    <value>Адресу електронної пошти змінено</value>
+  </data>
+  <data name="FC_EMAIL_CONFIRMED" xml:space="preserve">
+    <value>Пошту підтверджено</value>
+  </data>
+  <data name="FC_EMAIL_CONFIRMED_TEXT" xml:space="preserve">
+    <value>Дякуємо. Вашу адресу підтверджено, тепер ви можете увійти.</value>
+  </data>
+  <data name="FC_EMAIL_ME_DETAILS" xml:space="preserve">
+    <value>Надіслати відомості на пошту</value>
+  </data>
+  <data name="FC_ERROR_TEXT" xml:space="preserve">
+    <value>На жаль, під час обробки запиту сталася помилка. Спробуйте ще раз за хвилину.</value>
+  </data>
+  <data name="FC_ERROR_TITLE" xml:space="preserve">
+    <value>Щось пішло не так</value>
+  </data>
+  <data name="FC_EXTERNAL_LEAD" xml:space="preserve">
+    <value>Ви увійшли через {0}. Введіть свою електронну пошту нижче, щоб завершити створення облікового запису.</value>
+  </data>
+  <data name="FC_INVITE_EMAIL_HINT" xml:space="preserve">
+    <value>Реєстрація можлива лише за запрошенням.</value>
+  </data>
+  <data name="FC_INVITE_INVALID" xml:space="preserve">
+    <value>Це запрошення недійсне або прострочене. Зв'яжіться з нами, щоб отримати нове.</value>
+  </data>
+  <data name="FC_LEGAL" xml:space="preserve">
+    <value>Правова інформація</value>
+  </data>
+  <data name="FC_LOCKED_OUT" xml:space="preserve">
+    <value>Обліковий запис заблоковано</value>
+  </data>
+  <data name="FC_LOCKED_OUT_TEXT" xml:space="preserve">
+    <value>Було забагато невдалих спроб входу, тому обліковий запис тимчасово заблоковано. Спробуйте пізніше.</value>
+  </data>
+  <data name="FC_NEW_EMAIL" xml:space="preserve">
+    <value>Нова електронна пошта</value>
+  </data>
+  <data name="FC_NEW_RECOVERY_CODES" xml:space="preserve">
+    <value>Нові резервні коди</value>
+  </data>
+  <data name="FC_NO" xml:space="preserve">
+    <value>Ні</value>
+  </data>
+  <data name="FC_NO_DEVICE" xml:space="preserve">
+    <value>Немає телефона під рукою?</value>
+  </data>
+  <data name="FC_PASSWORD_RESET_DONE" xml:space="preserve">
+    <value>Пароль скинуто</value>
+  </data>
+  <data name="FC_PASSWORD_RESET_DONE_TEXT" xml:space="preserve">
+    <value>Ваш пароль змінено. Тепер ви можете увійти з новим паролем.</value>
+  </data>
+  <data name="FC_PASSWORD_RULES" xml:space="preserve">
+    <value>Щонайменше 12 символів: великі й малі літери, цифра та символ.</value>
+  </data>
+  <data name="FC_PHONE" xml:space="preserve">
+    <value>Телефон</value>
+  </data>
+  <data name="FC_RECOVERY_CODE" xml:space="preserve">
+    <value>Резервний код</value>
+  </data>
+  <data name="FC_RECOVERY_CODE_LOGIN" xml:space="preserve">
+    <value>Увійти з резервним кодом</value>
+  </data>
+  <data name="FC_RECOVERY_CODE_LOGIN_TEXT" xml:space="preserve">
+    <value>Введіть один із резервних кодів, які ви зберегли під час налаштування двофакторної автентифікації. Кожен код діє один раз.</value>
+  </data>
+  <data name="FC_REMEMBER_DEVICE" xml:space="preserve">
+    <value>Запам'ятати цей пристрій</value>
+  </data>
+  <data name="FC_RESEND_CONFIRMATION" xml:space="preserve">
+    <value>Надіслати лист підтвердження ще раз</value>
+  </data>
+  <data name="FC_RESEND_CONFIRMATION_BUTTON" xml:space="preserve">
+    <value>Надіслати ще раз</value>
+  </data>
+  <data name="FC_RESEND_CONFIRMATION_TEXT" xml:space="preserve">
+    <value>Введіть свою електронну пошту, і ми надішлемо нове посилання для підтвердження.</value>
+  </data>
+  <data name="FC_RESET_AUTH_TEXT" xml:space="preserve">
+    <value>Це вимкне двофакторний вхід, доки ви знову не налаштуєте застосунок автентифікації.</value>
+  </data>
+  <data name="FC_RESET_AUTH_WARN" xml:space="preserve">
+    <value>Ваш поточний застосунок автентифікації перестане працювати.</value>
+  </data>
+  <data name="FC_RESULTS_MAP" xml:space="preserve">
+    <value>Мапа церков із ваших результатів</value>
+  </data>
+  <data name="FC_SAVE_DETAILS" xml:space="preserve">
+    <value>Зберегти ці відомості</value>
+  </data>
+  <data name="FC_SAVE_DETAILS_TEXT" xml:space="preserve">
+    <value>Завантажте їх або отримайте поштою, щоб мати під рукою.</value>
+  </data>
+  <data name="FC_SEND_VERIFICATION" xml:space="preserve">
+    <value>Надіслати лист перевірки</value>
+  </data>
+  <data name="FC_SET_PASSWORD" xml:space="preserve">
+    <value>Встановити пароль</value>
+  </data>
+  <data name="FC_SET_PASSWORD_LEAD" xml:space="preserve">
+    <value>У вашого облікового запису ще немає пароля. Встановіть його, щоб також входити за електронною поштою.</value>
+  </data>
+  <data name="FC_SIGNED_OUT" xml:space="preserve">
+    <value>Ви вийшли</value>
+  </data>
+  <data name="FC_SIGNED_OUT_TEXT" xml:space="preserve">
+    <value>Ви вийшли з Forest Churches.</value>
+  </data>
+  <data name="FC_SIGN_OUT_CONFIRM" xml:space="preserve">
+    <value>Ви справді хочете вийти?</value>
+  </data>
+  <data name="FC_SITE_ADMIN" xml:space="preserve">
+    <value>Адміністрування сайту</value>
+  </data>
+  <data name="FC_TECHNICAL_DETAILS" xml:space="preserve">
+    <value>Технічні подробиці</value>
+  </data>
+  <data name="FC_TOGGLE_THEME" xml:space="preserve">
+    <value>Перемкнути світлу й темну тему</value>
+  </data>
+  <data name="FC_TURN_OFF_2FA" xml:space="preserve">
+    <value>Вимкнути двофакторний вхід</value>
+  </data>
+  <data name="FC_TURN_OFF_2FA_TEXT" xml:space="preserve">
+    <value>Ваш обліковий запис стане менш захищеним. Сам застосунок автентифікації не зміниться. Щоб налаштувати інший застосунок, скористайтеся</value>
+  </data>
+  <data name="FC_TURN_OFF_2FA_WARN" xml:space="preserve">
+    <value>Ваш обліковий запис буде легше зламати.</value>
+  </data>
+  <data name="FC_USE_RECOVERY_CODE" xml:space="preserve">
+    <value>Використати резервний код</value>
+  </data>
+  <data name="FC_VERIFY_TURN_ON" xml:space="preserve">
+    <value>Перевірити й увімкнути</value>
+  </data>
+  <data name="FC_YES" xml:space="preserve">
+    <value>Так</value>
+  </data>
+  <data name="SUCCESS_BACK_TO_HOME" xml:space="preserve">
+    <value>На головну сторінку</value>
+  </data>
+  <data name="TOKEN_VALIDATION_INVALID_EXPIRED" xml:space="preserve">
+    <value>Це посилання недійсне або прострочене. Будь ласка, запросіть нове.</value>
+  </data>
+  <data name="TOKEN_VALIDATION_PAGE_TITLE" xml:space="preserve">
+    <value>Перевіряємо ваше посилання</value>
+  </data>
+  <data name="TOKEN_VALIDATION_VALID_REDIRECTING" xml:space="preserve">
+    <value>Посилання дійсне. Переспрямовуємо…</value>
+  </data>
+  <data name="PRIVACY_PAGE_TITLE" xml:space="preserve">
+    <value>Політика конфіденційності</value>
+  </data>
+  <data name="PRIVACY_EFFECTIVE_DATE" xml:space="preserve">
+    <value>Набуває чинності: 1 березня 2025 р.</value>
+  </data>
+  <data name="PRIVACY_INTRO_TEXT" xml:space="preserve">
+    <value>Ця політика пояснює, як Forest Churches («ми») збирає, використовує й передає персональні дані, коли ви користуєтеся цим сайтом.</value>
+  </data>
+  <data name="PRIVACY_SECTION1_TITLE" xml:space="preserve">
+    <value>1. Які дані ми збираємо</value>
+  </data>
+  <data name="PRIVACY_SECTION1_SUBTITLE1" xml:space="preserve">
+    <value>1.1 Персональні дані</value>
+  </data>
+  <data name="PRIVACY_SECTION1_TEXT1" xml:space="preserve">
+    <value>Ми можемо збирати персональні дані, які ви надаєте під час користування сайтом, зокрема:</value>
+  </data>
+  <data name="PRIVACY_SECTION1_ITEM1" xml:space="preserve">
+    <value>Контактні дані: ім'я, адресу електронної пошти й номер телефону</value>
+  </data>
+  <data name="PRIVACY_SECTION1_ITEM2" xml:space="preserve">
+    <value>Дані для входу (ім'я користувача та пароль)</value>
+  </data>
+  <data name="PRIVACY_SECTION1_ITEM3" xml:space="preserve">
+    <value>Дані профілю, як-от фото профілю та ваші налаштування</value>
+  </data>
+  <data name="PRIVACY_SECTION1_ITEM4" xml:space="preserve">
+    <value>Інформацію про церкву: посилання на сайт і контактні дані</value>
+  </data>
+  <data name="PRIVACY_SECTION1_SUBTITLE2" xml:space="preserve">
+    <value>1.2 Дані про використання</value>
+  </data>
+  <data name="PRIVACY_SECTION1_TEXT2" xml:space="preserve">
+    <value>Під час користування сайтом ми можемо автоматично збирати неперсональні дані, наприклад:</value>
+  </data>
+  <data name="PRIVACY_SECTION1_ITEM5" xml:space="preserve">
+    <value>Дані журналів: IP-адресу, тип браузера, операційну систему й час доступу</value>
+  </data>
+  <data name="PRIVACY_SECTION1_ITEM6" xml:space="preserve">
+    <value>Дані про пристрій, як-от його тип</value>
+  </data>
+  <data name="PRIVACY_SECTION1_ITEM7" xml:space="preserve">
+    <value>Як ви користуєтеся сайтом і ваші налаштування</value>
+  </data>
+  <data name="PRIVACY_SECTION1_ITEM8" xml:space="preserve">
+    <value>Приблизне місцезнаходження за IP-адресою або вказаним вами поштовим індексом</value>
+  </data>
+  <data name="PRIVACY_SECTION2_TITLE" xml:space="preserve">
+    <value>2. Як ми використовуємо ваші дані</value>
+  </data>
+  <data name="PRIVACY_SECTION2_TEXT" xml:space="preserve">
+    <value>Зібрані дані ми використовуємо, щоб:</value>
+  </data>
+  <data name="PRIVACY_SECTION2_ITEM1" xml:space="preserve">
+    <value>забезпечувати роботу сайту</value>
+  </data>
+  <data name="PRIVACY_SECTION2_ITEM2" xml:space="preserve">
+    <value>покращувати сайт і робити його зручнішим</value>
+  </data>
+  <data name="PRIVACY_SECTION2_ITEM3" xml:space="preserve">
+    <value>відповідати на ваші повідомлення й запити про допомогу</value>
+  </data>
+  <data name="PRIVACY_SECTION2_ITEM4" xml:space="preserve">
+    <value>показувати точну й актуальну інформацію, як-от церкви поруч із вами</value>
+  </data>
+  <data name="PRIVACY_SECTION2_ITEM5" xml:space="preserve">
+    <value>час від часу надсилати новини сайту</value>
+  </data>
+  <data name="PRIVACY_SECTION2_ITEM6" xml:space="preserve">
+    <value>усувати проблеми та запобігати шахрайству</value>
+  </data>
+  <data name="PRIVACY_SECTION2_ITEM7" xml:space="preserve">
+    <value>виконувати юридичні зобов'язання й захищати наші права</value>
+  </data>
+  <data name="PRIVACY_SECTION3_TITLE" xml:space="preserve">
+    <value>3. Передавання ваших даних</value>
+  </data>
+  <data name="PRIVACY_SECTION3_INTRO_TEXT" xml:space="preserve">
+    <value>Ми передаємо персональні дані лише в таких випадках:</value>
+  </data>
+  <data name="PRIVACY_SECTION3_SUBTITLE1" xml:space="preserve">
+    <value>Постачальники послуг:</value>
+  </data>
+  <data name="PRIVACY_SECTION3_TEXT1" xml:space="preserve">
+    <value>надійні компанії, що допомагають нам підтримувати сайт (наприклад, хостинг і пошта), мають доступ до персональних даних лише для цієї роботи й зобов'язані зберігати їх конфіденційність.</value>
+  </data>
+  <data name="PRIVACY_SECTION3_SUBTITLE2" xml:space="preserve">
+    <value>Вимоги закону:</value>
+  </data>
+  <data name="PRIVACY_SECTION3_TEXT2" xml:space="preserve">
+    <value>ми можемо розкрити дані, якщо цього вимагає закон, суд чи державний орган, або для захисту від шахрайства чи загроз безпеці.</value>
+  </data>
+  <data name="PRIVACY_SECTION4_TITLE" xml:space="preserve">
+    <value>4. Як довго ми зберігаємо дані</value>
+  </data>
+  <data name="PRIVACY_SECTION4_TEXT" xml:space="preserve">
+    <value>Ми зберігаємо персональні дані лише стільки, скільки потрібно для цілей цієї політики, якщо закон не вимагає довшого строку. Потім ми їх видаляємо або знеособлюємо.</value>
+  </data>
+  <data name="PRIVACY_SECTION5_TITLE" xml:space="preserve">
+    <value>5. Безпека ваших даних</value>
+  </data>
+  <data name="PRIVACY_SECTION5_TEXT" xml:space="preserve">
+    <value>Ми вживаємо розумних заходів, щоб захистити персональні дані від несанкціонованого доступу, розкриття, зміни чи знищення. Жоден спосіб передавання чи зберігання даних в інтернеті не є повністю безпечним, тому ми не можемо гарантувати абсолютної безпеки.</value>
+  </data>
+  <data name="PRIVACY_SECTION6_TITLE" xml:space="preserve">
+    <value>6. Діти</value>
+  </data>
+  <data name="PRIVACY_SECTION6_TEXT" xml:space="preserve">
+    <value>Облікові записи церков не призначені для осіб до 18 років, і ми свідомо не збираємо персональних даних дітей. Якщо з'ясується, що це сталося, ми їх видалимо.</value>
+  </data>
+  <data name="PRIVACY_SECTION7_TITLE" xml:space="preserve">
+    <value>7. Ваші права</value>
+  </data>
+  <data name="PRIVACY_SECTION7_TEXT" xml:space="preserve">
+    <value>Ви маєте право переглядати, виправляти чи видаляти свої персональні дані або обмежувати їх використання. Ви можете будь-коли відмовитися від наших новин. Користувачі, що увійшли, можуть завантажити чи видалити свої дані в обліковому записі; з іншими питаннями звертайтеся до нас.</value>
+  </data>
+  <data name="PRIVACY_SECTION8_TITLE" xml:space="preserve">
+    <value>8. Зміни цієї політики</value>
+  </data>
+  <data name="PRIVACY_SECTION8_TEXT" xml:space="preserve">
+    <value>Ми можемо час від часу оновлювати цю політику. Тоді ми змінимо дату вгорі сторінки. Заглядайте сюди час від часу; подальше користування сайтом означає згоду з оновленою політикою.</value>
+  </data>
+  <data name="PRIVACY_CONTACT_TITLE" xml:space="preserve">
+    <value>Зв'яжіться з нами</value>
+  </data>
+  <data name="PRIVACY_CONTACT_TEXT" xml:space="preserve">
+    <value>Якщо у вас є запитання чи прохання щодо цієї політики або того, як ми обробляємо ваші дані, будь ласка,</value>
+  </data>
+  <data name="PRIVACY_CONTACT_LINK" xml:space="preserve">
+    <value>напишіть нам через сторінку «Контакти»</value>
+  </data>
+  <data name="PRIVACY_ACKNOWLEDGMENT" xml:space="preserve">
+    <value>Користуючись цим сайтом, ви підтверджуєте, що прочитали й зрозуміли цю політику конфіденційності.</value>
+  </data>
+  <data name="FC_ADM_ACCOUNT_CONFIRMED" xml:space="preserve">
+    <value>Обліковий запис підтверджено</value>
+  </data>
+  <data name="FC_ADM_ACCOUNT_UNCONFIRMED" xml:space="preserve">
+    <value>Пошту ще не підтверджено</value>
+  </data>
+  <data name="FC_ADM_ACTIONS" xml:space="preserve">
+    <value>Дії</value>
+  </data>
+  <data name="FC_ADM_ALL_BULLETINS" xml:space="preserve">
+    <value>Усі бюлетені</value>
+  </data>
+  <data name="FC_ADM_ALL_ROLES" xml:space="preserve">
+    <value>Усі ролі</value>
+  </data>
+  <data name="FC_ADM_ALL_USERS" xml:space="preserve">
+    <value>Усі користувачі</value>
+  </data>
+  <data name="FC_ADM_AWAITING_SIGNUP" xml:space="preserve">
+    <value>Очікують реєстрації</value>
+  </data>
+  <data name="FC_ADM_BACK_TO_CHURCHES" xml:space="preserve">
+    <value>Назад до церков</value>
+  </data>
+  <data name="FC_ADM_BACK_TO_EVENTS" xml:space="preserve">
+    <value>Назад до подій</value>
+  </data>
+  <data name="FC_ADM_BACK_TO_USERS" xml:space="preserve">
+    <value>Назад до користувачів</value>
+  </data>
+  <data name="FC_ADM_BANNER_EXPIRED" xml:space="preserve">
+    <value>Банер прострочено</value>
+  </data>
+  <data name="FC_ADM_BANNER_SHOWN" xml:space="preserve">
+    <value>Банер увімкнено</value>
+  </data>
+  <data name="FC_ADM_BANNER_UNTIL" xml:space="preserve">
+    <value>Показувати банер до</value>
+  </data>
+  <data name="FC_ADM_BULLETIN" xml:space="preserve">
+    <value>Бюлетень</value>
+  </data>
+  <data name="FC_ADM_BULLETINS_LEAD" xml:space="preserve">
+    <value>Напишіть щотижневий бюлетень або коротке оголошення. Активний показується на публічній сторінці «Бюлетень».</value>
+  </data>
+  <data name="FC_ADM_BULLETIN_MESSAGE" xml:space="preserve">
+    <value>Повідомлення або пастирське слово</value>
+  </data>
+  <data name="FC_ADM_BULLETIN_NOTICES" xml:space="preserve">
+    <value>Оголошення або посилання</value>
+  </data>
+  <data name="FC_ADM_BULLETIN_TITLE" xml:space="preserve">
+    <value>Заголовок</value>
+  </data>
+  <data name="FC_ADM_BULLETIN_TYPE" xml:space="preserve">
+    <value>Тип</value>
+  </data>
+  <data name="FC_ADM_CHANGELOG" xml:space="preserve">
+    <value>Журнал змін</value>
+  </data>
+  <data name="FC_ADM_CHANGELOG_LEAD" xml:space="preserve">
+    <value>Що змінилося на сайті, від найновішого.</value>
+  </data>
+  <data name="FC_ADM_CHOOSE_ACCOUNT" xml:space="preserve">
+    <value>Виберіть обліковий запис…</value>
+  </data>
+  <data name="FC_ADM_CHOOSE_RECIPIENT" xml:space="preserve">
+    <value>Виберіть одержувача…</value>
+  </data>
+  <data name="FC_ADM_CHURCH" xml:space="preserve">
+    <value>Церква</value>
+  </data>
+  <data name="FC_ADM_CHURCHES" xml:space="preserve">
+    <value>Церкви</value>
+  </data>
+  <data name="FC_ADM_CHURCHES_LEAD" xml:space="preserve">
+    <value>Усі записи церков на сайті. У пошуку показуються лише відкриті церкви.</value>
+  </data>
+  <data name="FC_ADM_CHURCH_NOT_FOUND" xml:space="preserve">
+    <value>Цю церкву не знайдено</value>
+  </data>
+  <data name="FC_ADM_CONFIRM_DELETE_BULLETIN" xml:space="preserve">
+    <value>Видалити «{0}»? Цю дію не можна скасувати.</value>
+  </data>
+  <data name="FC_ADM_CONFIRM_DELETE_ROLE" xml:space="preserve">
+    <value>Видалити роль «{0}»?</value>
+  </data>
+  <data name="FC_ADM_CONFIRM_DELETE_USER" xml:space="preserve">
+    <value>Видалити {0}? Обліковий запис і вхід буде видалено. Цю дію не можна скасувати.</value>
+  </data>
+  <data name="FC_ADM_CONFIRM_REMOVE_INVITE" xml:space="preserve">
+    <value>Вилучити запрошення для {0}? Посилання перестане працювати.</value>
+  </data>
+  <data name="FC_ADM_CONFIRM_RESET_CHURCH" xml:space="preserve">
+    <value>Скинути {0} до стандартних даних? Запис буде приховано з пошуку, доки його знову не заповнять.</value>
+  </data>
+  <data name="FC_ADM_CONGREGATION_N" xml:space="preserve">
+    <value>Громада {0}</value>
+  </data>
+  <data name="FC_ADM_CONTINUE" xml:space="preserve">
+    <value>Продовжити</value>
+  </data>
+  <data name="FC_ADM_CPU" xml:space="preserve">
+    <value>Процесор</value>
+  </data>
+  <data name="FC_ADM_CREATE_ROLE" xml:space="preserve">
+    <value>Створити роль</value>
+  </data>
+  <data name="FC_ADM_CREATE_USER" xml:space="preserve">
+    <value>Створити користувача</value>
+  </data>
+  <data name="FC_ADM_CREATE_USER_LEAD" xml:space="preserve">
+    <value>Створіть обліковий запис напряму, без запрошення. Людина отримає вітальний лист.</value>
+  </data>
+  <data name="FC_ADM_CURRENT_PDF" xml:space="preserve">
+    <value>Поточний PDF:</value>
+  </data>
+  <data name="FC_ADM_DASHBOARD" xml:space="preserve">
+    <value>Огляд</value>
+  </data>
+  <data name="FC_ADM_DASHBOARD_LEAD" xml:space="preserve">
+    <value>Загальний огляд Forest Churches.</value>
+  </data>
+  <data name="FC_ADM_DATABASE" xml:space="preserve">
+    <value>База даних</value>
+  </data>
+  <data name="FC_ADM_DOWNLOAD" xml:space="preserve">
+    <value>Завантажити</value>
+  </data>
+  <data name="FC_ADM_DOWNLOADING" xml:space="preserve">
+    <value>Завантаження…</value>
+  </data>
+  <data name="FC_ADM_DOWNLOAD_LOGS" xml:space="preserve">
+    <value>Завантажити журнали</value>
+  </data>
+  <data name="FC_ADM_EDIT_BULLETIN" xml:space="preserve">
+    <value>Редагувати бюлетень</value>
+  </data>
+  <data name="FC_ADM_EDIT_CHURCH" xml:space="preserve">
+    <value>Редагувати церкву</value>
+  </data>
+  <data name="FC_ADM_EDIT_EVENT" xml:space="preserve">
+    <value>Редагувати подію</value>
+  </data>
+  <data name="FC_ADM_EDIT_PERMISSIONS" xml:space="preserve">
+    <value>Редагувати дозволи</value>
+  </data>
+  <data name="FC_ADM_EDIT_USER" xml:space="preserve">
+    <value>Редагувати користувача</value>
+  </data>
+  <data name="FC_ADM_EMAILS" xml:space="preserve">
+    <value>Листи</value>
+  </data>
+  <data name="FC_ADM_EMAILS_LEAD" xml:space="preserve">
+    <value>Надішліть повідомлення одному користувачеві або всім.</value>
+  </data>
+  <data name="FC_ADM_EMAIL_CONFIRMED" xml:space="preserve">
+    <value>Пошту підтверджено</value>
+  </data>
+  <data name="FC_ADM_EMAIL_FROM_HINT" xml:space="preserve">
+    <value>Листи надсилаються з адреси info@forestchurches.co.uk.</value>
+  </data>
+  <data name="FC_ADM_EVENTS" xml:space="preserve">
+    <value>Події</value>
+  </data>
+  <data name="FC_ADM_EVENTS_LEAD" xml:space="preserve">
+    <value>Події всіх церков, зокрема синхронізовані з ChurchSuite.</value>
+  </data>
+  <data name="FC_ADM_EVENT_NOT_FOUND" xml:space="preserve">
+    <value>Цю подію не знайдено</value>
+  </data>
+  <data name="FC_ADM_EVENT_OWNER" xml:space="preserve">
+    <value>Обліковий запис церкви</value>
+  </data>
+  <data name="FC_ADM_EVENT_OWNER_HINT" xml:space="preserve">
+    <value>Подія показується під церквою цього облікового запису.</value>
+  </data>
+  <data name="FC_ADM_EXCEPTION" xml:space="preserve">
+    <value>Виняток</value>
+  </data>
+  <data name="FC_ADM_FROM" xml:space="preserve">
+    <value>З</value>
+  </data>
+  <data name="FC_ADM_HIDE_BANNER" xml:space="preserve">
+    <value>Сховати банер</value>
+  </data>
+  <data name="FC_ADM_INVITES" xml:space="preserve">
+    <value>Запрошення</value>
+  </data>
+  <data name="FC_ADM_INVITES_LEAD" xml:space="preserve">
+    <value>Зареєструвати обліковий запис церкви можуть лише запрошені адреси.</value>
+  </data>
+  <data name="FC_ADM_INVITE_CHURCH" xml:space="preserve">
+    <value>Запросити церкву</value>
+  </data>
+  <data name="FC_ADM_INVITE_COMPLETE" xml:space="preserve">
+    <value>Зареєстровано</value>
+  </data>
+  <data name="FC_ADM_INVITE_EXPIRED" xml:space="preserve">
+    <value>Посилання прострочене</value>
+  </data>
+  <data name="FC_ADM_INVITE_HINT" xml:space="preserve">
+    <value>Ми надішлемо посилання для реєстрації. Воно діє 24 години, і його можна надіслати повторно.</value>
+  </data>
+  <data name="FC_ADM_INVITE_LIST" xml:space="preserve">
+    <value>Запрошені адреси</value>
+  </data>
+  <data name="FC_ADM_INVITE_PENDING" xml:space="preserve">
+    <value>Очікує</value>
+  </data>
+  <data name="FC_ADM_JOINED" xml:space="preserve">
+    <value>Приєднався(-лася) {0}</value>
+  </data>
+  <data name="FC_ADM_KEEP_IMAGE_HINT" xml:space="preserve">
+    <value>залиште порожнім, щоб зберегти поточне зображення</value>
+  </data>
+  <data name="FC_ADM_LEVEL" xml:space="preserve">
+    <value>Рівень</value>
+  </data>
+  <data name="FC_ADM_LINK_EXPIRES" xml:space="preserve">
+    <value>Посилання діє до</value>
+  </data>
+  <data name="FC_ADM_LIVE" xml:space="preserve">
+    <value>Активний</value>
+  </data>
+  <data name="FC_ADM_LOGS" xml:space="preserve">
+    <value>Журнали</value>
+  </data>
+  <data name="FC_ADM_LOGS_CLICK_HINT" xml:space="preserve">
+    <value>Виберіть рядок, щоб побачити всі подробиці.</value>
+  </data>
+  <data name="FC_ADM_LOGS_LEAD" xml:space="preserve">
+    <value>Записи журналу застосунку. Нові з'являються вгорі в міру появи.</value>
+  </data>
+  <data name="FC_ADM_LOG_DATABASE" xml:space="preserve">
+    <value>База журналів</value>
+  </data>
+  <data name="FC_ADM_MAKE_LIVE" xml:space="preserve">
+    <value>Зробити активним</value>
+  </data>
+  <data name="FC_ADM_MEMORY" xml:space="preserve">
+    <value>Пам'ять</value>
+  </data>
+  <data name="FC_ADM_MESSAGE" xml:space="preserve">
+    <value>Повідомлення</value>
+  </data>
+  <data name="FC_ADM_NEWEST_MEMBER" xml:space="preserve">
+    <value>Найновіший учасник</value>
+  </data>
+  <data name="FC_ADM_NEW_BULLETIN" xml:space="preserve">
+    <value>Новий бюлетень</value>
+  </data>
+  <data name="FC_ADM_NEW_PASSWORD" xml:space="preserve">
+    <value>Новий пароль</value>
+  </data>
+  <data name="FC_ADM_NEXT" xml:space="preserve">
+    <value>Далі</value>
+  </data>
+  <data name="FC_ADM_NO_BULLETINS" xml:space="preserve">
+    <value>Бюлетенів ще немає.</value>
+  </data>
+  <data name="FC_ADM_NO_CHURCHES" xml:space="preserve">
+    <value>Церков ще немає.</value>
+  </data>
+  <data name="FC_ADM_NO_EVENTS" xml:space="preserve">
+    <value>Подій немає.</value>
+  </data>
+  <data name="FC_ADM_NO_INVITES" xml:space="preserve">
+    <value>Запрошень ще немає.</value>
+  </data>
+  <data name="FC_ADM_NO_PERMISSIONS" xml:space="preserve">
+    <value>Немає дозволів</value>
+  </data>
+  <data name="FC_ADM_NO_ROLES" xml:space="preserve">
+    <value>Ролей ще немає.</value>
+  </data>
+  <data name="FC_ADM_NO_UPCOMING" xml:space="preserve">
+    <value>Майбутніх подій немає.</value>
+  </data>
+  <data name="FC_ADM_NO_USERS" xml:space="preserve">
+    <value>Користувачів ще немає.</value>
+  </data>
+  <data name="FC_ADM_N_CHURCHES" xml:space="preserve">
+    <value>Церков: {0}</value>
+  </data>
+  <data name="FC_ADM_N_INVITES" xml:space="preserve">
+    <value>Запрошень: {0}</value>
+  </data>
+  <data name="FC_ADM_N_LISTED" xml:space="preserve">
+    <value>У пошуку: {0}</value>
+  </data>
+  <data name="FC_ADM_N_UPCOMING" xml:space="preserve">
+    <value>Майбутніх: {0}</value>
+  </data>
+  <data name="FC_ADM_N_USERS" xml:space="preserve">
+    <value>Користувачів: {0}</value>
+  </data>
+  <data name="FC_ADM_ONE_PER_LINE" xml:space="preserve">
+    <value>По одному в рядку.</value>
+  </data>
+  <data name="FC_ADM_PAGE" xml:space="preserve">
+    <value>Сторінка</value>
+  </data>
+  <data name="FC_ADM_PARISH" xml:space="preserve">
+    <value>Парафія</value>
+  </data>
+  <data name="FC_ADM_PASSWORD_BLANK_HINT" xml:space="preserve">
+    <value>Залиште порожнім, щоб зберегти поточний пароль.</value>
+  </data>
+  <data name="FC_ADM_PDF" xml:space="preserve">
+    <value>Версія PDF</value>
+  </data>
+  <data name="FC_ADM_PENDING_INVITES" xml:space="preserve">
+    <value>Запрошення в очікуванні</value>
+  </data>
+  <data name="FC_ADM_PERMISSIONS" xml:space="preserve">
+    <value>Дозволи</value>
+  </data>
+  <data name="FC_ADM_PERMISSIONS_LEAD" xml:space="preserve">
+    <value>Виберіть, що можуть робити люди з цією роллю.</value>
+  </data>
+  <data name="FC_ADM_PEW_SHEET" xml:space="preserve">
+    <value>Богослужбовий листок</value>
+  </data>
+  <data name="FC_ADM_PEW_SHEET_HINT" xml:space="preserve">
+    <value>Читання, гімни й молитва дня для повного щотижневого бюлетеня.</value>
+  </data>
+  <data name="FC_ADM_PREVIOUS" xml:space="preserve">
+    <value>Назад</value>
+  </data>
+  <data name="FC_ADM_PROFILE_IMAGE" xml:space="preserve">
+    <value>Фото профілю</value>
+  </data>
+  <data name="FC_ADM_RECENT_CHURCHES" xml:space="preserve">
+    <value>Нещодавно додані церкви</value>
+  </data>
+  <data name="FC_ADM_RECENT_ENTRIES" xml:space="preserve">
+    <value>Останні записи</value>
+  </data>
+  <data name="FC_ADM_RECIPIENT" xml:space="preserve">
+    <value>Кому</value>
+  </data>
+  <data name="FC_ADM_REGISTERED" xml:space="preserve">
+    <value>Зареєстровано</value>
+  </data>
+  <data name="FC_ADM_REGISTERED_CHURCHES" xml:space="preserve">
+    <value>Зареєстровані церкви</value>
+  </data>
+  <data name="FC_ADM_REGISTERED_USERS" xml:space="preserve">
+    <value>Зареєстровані користувачі</value>
+  </data>
+  <data name="FC_ADM_RELEASE" xml:space="preserve">
+    <value>Версія {0}</value>
+  </data>
+  <data name="FC_ADM_REMOVE" xml:space="preserve">
+    <value>Вилучити</value>
+  </data>
+  <data name="FC_ADM_REPLACE_PDF" xml:space="preserve">
+    <value>Замінити PDF</value>
+  </data>
+  <data name="FC_ADM_RESEND" xml:space="preserve">
+    <value>Надіслати посилання ще раз</value>
+  </data>
+  <data name="FC_ADM_RESET_LISTING" xml:space="preserve">
+    <value>Скинути запис</value>
+  </data>
+  <data name="FC_ADM_ROLE" xml:space="preserve">
+    <value>Роль</value>
+  </data>
+  <data name="FC_ADM_ROLES" xml:space="preserve">
+    <value>Ролі</value>
+  </data>
+  <data name="FC_ADM_ROLES_HINT" xml:space="preserve">
+    <value>Призначення ролі також підтверджує обліковий запис.</value>
+  </data>
+  <data name="FC_ADM_ROLES_LEAD" xml:space="preserve">
+    <value>Ролі визначають, що кожен обліковий запис може бачити й змінювати.</value>
+  </data>
+  <data name="FC_ADM_ROLE_ADMIN" xml:space="preserve">
+    <value>Адміністратор</value>
+  </data>
+  <data name="FC_ADM_ROLE_APPROVED" xml:space="preserve">
+    <value>Схвалена церква</value>
+  </data>
+  <data name="FC_ADM_ROLE_DEVELOPER" xml:space="preserve">
+    <value>Розробник</value>
+  </data>
+  <data name="FC_ADM_ROLE_NAME" xml:space="preserve">
+    <value>Назва ролі</value>
+  </data>
+  <data name="FC_ADM_ROLE_PENDING" xml:space="preserve">
+    <value>Очікує схвалення</value>
+  </data>
+  <data name="FC_ADM_SEARCH" xml:space="preserve">
+    <value>Шукати</value>
+  </data>
+  <data name="FC_ADM_SEARCH_LOGS" xml:space="preserve">
+    <value>Пошук у журналах</value>
+  </data>
+  <data name="FC_ADM_SEND_INVITE" xml:space="preserve">
+    <value>Надіслати запрошення</value>
+  </data>
+  <data name="FC_ADM_SEND_MESSAGE" xml:space="preserve">
+    <value>Надіслати повідомлення</value>
+  </data>
+  <data name="FC_ADM_SET" xml:space="preserve">
+    <value>Застосувати</value>
+  </data>
+  <data name="FC_ADM_SHOW_BANNER" xml:space="preserve">
+    <value>Показати банер</value>
+  </data>
+  <data name="FC_ADM_SIGN_OFF_AS" xml:space="preserve">
+    <value>Підпис</value>
+  </data>
+  <data name="FC_ADM_SIGN_OFF_HINT" xml:space="preserve">
+    <value>Показується як ім'я відправника в кінці листа.</value>
+  </data>
+  <data name="FC_ADM_SITE_AT_A_GLANCE" xml:space="preserve">
+    <value>Коротко</value>
+  </data>
+  <data name="FC_ADM_SITE_BANNER" xml:space="preserve">
+    <value>Банер сайту</value>
+  </data>
+  <data name="FC_ADM_STATS_UNAVAILABLE" xml:space="preserve">
+    <value>Поточні показники зараз недоступні.</value>
+  </data>
+  <data name="FC_ADM_STATUS" xml:space="preserve">
+    <value>Стан</value>
+  </data>
+  <data name="FC_ADM_STATUS_CLOSED" xml:space="preserve">
+    <value>Приховано</value>
+  </data>
+  <data name="FC_ADM_STATUS_NOT_SET_UP" xml:space="preserve">
+    <value>Не налаштовано</value>
+  </data>
+  <data name="FC_ADM_STATUS_OPEN" xml:space="preserve">
+    <value>Показується</value>
+  </data>
+  <data name="FC_ADM_SUNDAY_NAME" xml:space="preserve">
+    <value>Неділя або назва богослужіння</value>
+  </data>
+  <data name="FC_ADM_SYSTEM_HEALTH" xml:space="preserve">
+    <value>Стан системи</value>
+  </data>
+  <data name="FC_ADM_TIME" xml:space="preserve">
+    <value>Час</value>
+  </data>
+  <data name="FC_ADM_TO" xml:space="preserve">
+    <value>По</value>
+  </data>
+  <data name="FC_ADM_TYPE_ANNOUNCEMENT" xml:space="preserve">
+    <value>Оголошення</value>
+  </data>
+  <data name="FC_ADM_TYPE_BULLETIN" xml:space="preserve">
+    <value>Щотижневий бюлетень (богослужбовий листок)</value>
+  </data>
+  <data name="FC_ADM_TYPE_MESSAGE" xml:space="preserve">
+    <value>Повідомлення</value>
+  </data>
+  <data name="FC_ADM_UPLOAD_PDF" xml:space="preserve">
+    <value>Завантажити PDF на сайт</value>
+  </data>
+  <data name="FC_ADM_USER" xml:space="preserve">
+    <value>Користувач</value>
+  </data>
+  <data name="FC_ADM_USERS" xml:space="preserve">
+    <value>Користувачі</value>
+  </data>
+  <data name="FC_ADM_USERS_LEAD" xml:space="preserve">
+    <value>Усі, хто має обліковий запис, і що вони можуть робити.</value>
+  </data>
+  <data name="FC_ADM_USER_NOT_FOUND" xml:space="preserve">
+    <value>Цього користувача не знайдено</value>
+  </data>
+  <data name="FC_ADM_VIEW_ALL" xml:space="preserve">
+    <value>Переглянути всі</value>
+  </data>
+  <data name="FC_ADM_WHEN" xml:space="preserve">
+    <value>Коли</value>
+  </data>
+  <data name="FC_ADM_PAST_EVENTS" xml:space="preserve">
+    <value>Минулі події</value>
   </data>
 </root>

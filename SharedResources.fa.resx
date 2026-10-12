@@ -415,7 +415,7 @@
     <value>درباره ما</value>
   </data>
   <data name="ABOUTUS_COMMUNITY_SECTION_TEXT" xml:space="preserve">
-    <value>خوش آمدید، امیدواریم آنچه را که به دنبالش هستید پیدا کنید. اگر از قبل نمی‌دانستید، این...! ما متعهد به خدمت به جامعه خود با عشق و شفقت هستیم. ماموریت ما ایجاد فضایی صمیمانه است که در آن همه احساس ارزشمندی و حمایت کنند. به ما بپیوندید تا تأثیر مثبتی داشته باشید!</value>
+    <value>ما متعهدیم با محبت و همدلی به جامعهٔ خود خدمت کنیم. مأموریت ما ساختن فضایی صمیمی است که در آن همه احساس ارزشمندی و حمایت کنند. به ما بپیوندید تا با هم تغییری مثبت ایجاد کنیم.</value>
   </data>
   <data name="ABOUTUS_COMMUNITY_SECTION_TITLE" xml:space="preserve">
     <value>ما برای جامعه هستیم</value>
@@ -484,7 +484,7 @@
     <value>تاریخ</value>
   </data>
   <data name="EVENTS_CARD_TIME" xml:space="preserve">
-    <value>Time</value>
+    <value>زمان</value>
   </data>
   <data name="EVENTS_CARD_REPEATS" xml:space="preserve">
     <value>تکرار میشه؟</value>
@@ -607,7 +607,7 @@
     <value>زمان</value>
   </data>
   <data name="NOTE_LABEL" xml:space="preserve">
-    <value>تاریخ</value>
+    <value>مراسم</value>
   </data>
   <data name="DELETE_ENTRY_LABEL" xml:space="preserve">
     <value>حذف ورودی</value>
@@ -631,7 +631,7 @@
     <value>اگر مایل به دانلود اطلاعات خود، از جمله هرگونه اطلاعاتی که ما در مورد کلیسای شما داریم، هستید، لطفاً از طریق ... با ما تماس بگیرید.</value>
   </data>
   <data name="PERSONAL_DATA_P1" xml:space="preserve">
-    <value>If you wish to download your information, including any and all information we hold on your church. Please get in contact with us via the </value>
+    <value>اگر می‌خواهید اطلاعات خود، از جمله همهٔ اطلاعاتی را که دربارهٔ کلیسایتان نگه می‌داریم، دانلود کنید، لطفاً از طریق این صفحه با ما تماس بگیرید: </value>
   </data>
   <data name="PERSONAL_DATA_P2" xml:space="preserve">
     <value>صفحه تماس با ما</value>
@@ -676,7 +676,7 @@
     <value>دسترسی با ویلچر</value>
   </data>
   <data name="CHURCH_COMMUNITY_SPACE_LABEL" xml:space="preserve">
-    <value>Community Space</value>
+    <value>فضای اجتماعی</value>
   </data>
   <data name="CHURCH_KITCHEN_LABEL" xml:space="preserve">
     <value>آشپزخانه</value>
@@ -739,7 +739,7 @@
     <value>اطلاعات کلیسای خود را از حساب ChurchSuite خود به روز کنید.</value>
   </data>
   <data name="TAG_SELECT_IMAGE" xml:space="preserve">
-    <value>انتخاب فایل (اینجا کلیک کنید)</value>
+    <value>انتخاب تصویر</value>
   </data>
   <data name="TAG_CLOSED_INFO" xml:space="preserve">
     <value>لطفاً تنها در صورتی از دکمه علامت‌گذاری کلیسا به عنوان تعطیل استفاده کنید که کلیسای شما برای تعمیرات طولانی‌مدت تعطیل شده یا کاملاً بسته شده است. توجه داشته باشید که کلیسای شما در جستجوی اطراف هنگامی که وضعیت آن تعطیل است ظاهر نخواهد شد.</value>
@@ -902,5 +902,1616 @@
   </data>
   <data name="STATUS_CLOSE" xml:space="preserve">
     <value>بستن</value>
+  </data>
+  <data name="EVENTS_CONTACT_LINK" xml:space="preserve">
+    <value>با ما تماس بگیرید</value>
+  </data>
+  <data name="EVENTS_CONTACT_TEXT" xml:space="preserve">
+    <value>فکر می‌کنید اشتباهی رخ داده است؟</value>
+  </data>
+  <data name="EVENTS_FOOTER_NOTE_TEXT" xml:space="preserve">
+    <value>رویدادهای یک‌باره حدود ۲۴ ساعت پس از پایان حذف می‌شوند تا پایگاه داده مرتب بماند و هزینه‌ها پایین باشد. رویدادهای تکرارشونده در فهرست می‌مانند.</value>
+  </data>
+  <data name="EVENTS_FOOTER_NOTE_TITLE" xml:space="preserve">
+    <value>توجه</value>
+  </data>
+  <data name="EVENTS_NO_EVENTS_TEXT" xml:space="preserve">
+    <value>هنوز هیچ رویداد پیش رویی ندارید.</value>
+  </data>
+  <data name="FAQ_INTRO_TEXT" xml:space="preserve">
+    <value>پاسخ پرتکرارترین پرسش‌هایی که از ما می‌شود. آنچه را لازم دارید پیدا نکردید؟</value>
+  </data>
+  <data name="FAQ_PAGE_TITLE" xml:space="preserve">
+    <value>پرسش‌های متداول</value>
+  </data>
+  <data name="FAQ_SECTION_TITLE" xml:space="preserve">
+    <value>استفاده از سایت</value>
+  </data>
+  <data name="FAQ_Q1_TITLE" xml:space="preserve">
+    <value>چگونه کلیسای خود را ثبت کنم؟</value>
+  </data>
+  <data name="FAQ_Q1_ANSWER" xml:space="preserve">
+    <value>از طریق صفحهٔ تماس با ما در ارتباط باشید. یک پیوند دعوت اختصاصی برایتان ایمیل می‌کنیم تا حساب بسازید؛ سپس می‌توانید اطلاعات کلیسا، زمان مراسم و رویدادها را وارد کنید.</value>
+  </data>
+  <data name="FAQ_Q2_TITLE" xml:space="preserve">
+    <value>سرویس‌های دیگری هم کار مشابهی می‌کنند — چرا این یکی؟</value>
+  </data>
+  <data name="FAQ_Q2_ANSWER" xml:space="preserve">
+    <value>سرویس‌های دیگر هم کلیساها را فهرست می‌کنند، اما بسیاری هزینه دریافت می‌کنند و فهمیدن اینکه نزدیک‌ترین کلیسا کدام است دشوار است. Forest Churches رایگان است و بر پایهٔ جست‌وجو با کد پستی ساخته شده تا زود ببینید چه چیزی نزدیک شماست.</value>
+  </data>
+  <data name="FAQ_Q3_TITLE" xml:space="preserve">
+    <value>چگونه یک نسخه از اطلاعات شخصی‌ام را بگیرم؟</value>
+  </data>
+  <data name="FAQ_Q3_ANSWER" xml:space="preserve">
+    <value>در مدیریت کلیسا، «اطلاعات من» را باز کنید و «دانلود» را انتخاب کنید. اگر چیزی کم بود، با ما تماس بگیرید؛ با کمال میل کمک می‌کنیم.</value>
+  </data>
+  <data name="FAQ_Q4_TITLE" xml:space="preserve">
+    <value>اطلاعات من کجا نگهداری می‌شود؟</value>
+  </data>
+  <data name="FAQ_Q4_ANSWER" xml:space="preserve">
+    <value>برای امنیت اطلاعات شما، همهٔ داده‌ها در یک پایگاه دادهٔ خارجی امن نگهداری می‌شوند که فقط خود برنامه به آن دسترسی دارد.</value>
+  </data>
+  <data name="FAQ_Q5_TITLE" xml:space="preserve">
+    <value>رویدادم از صفحهٔ کلیسا ناپدید شد — چرا؟</value>
+  </data>
+  <data name="FAQ_Q5_ANSWER" xml:space="preserve">
+    <value>برای کوچک ماندن پایگاه داده و کاهش هزینه‌ها، رویدادهای یک‌باره تا ۲۴ ساعت پس از پایان حذف می‌شوند. رویدادهای تکرارشونده در سیستم می‌مانند.</value>
+  </data>
+  <data name="FAQ_Q6_TITLE" xml:space="preserve">
+    <value>چگونه اطلاعات کلیسای خود را به‌روز کنم؟</value>
+  </data>
+  <data name="FAQ_Q6_ANSWER" xml:space="preserve">
+    <value>وارد شوید و «کلیسای من» را باز کنید. آنجا می‌توانید اطلاعات، امکانات، زمان مراسم و لوگو را تغییر دهید.</value>
+  </data>
+  <data name="FAQ_Q7_TITLE" xml:space="preserve">
+    <value>چرا نمی‌توانم نشانی ایمیل حسابم را تغییر دهم؟</value>
+  </data>
+  <data name="FAQ_Q7_ANSWER" xml:space="preserve">
+    <value>به دلایل امنیتی، نشانی ایمیل را نمی‌توان از سایت تغییر داد. اگر لازم است ایمیل خود را تغییر دهید، با ما تماس بگیرید تا کمک کنیم.</value>
+  </data>
+  <data name="FAQ_Q8_TITLE" xml:space="preserve">
+    <value>چرا پیوند داخل ایمیلم دیگر کار نمی‌کند؟</value>
+  </data>
+  <data name="FAQ_Q8_ANSWER" xml:space="preserve">
+    <value>بیشتر پیوندهایی که ایمیل می‌کنیم رمزگذاری شده‌اند و فقط ۲۴ ساعت اعتبار دارند. اگر پیوند شما منقضی شده، پیوند تازه‌ای درخواست کنید.</value>
+  </data>
+  <data name="FAQ_Q9_TITLE" xml:space="preserve">
+    <value>چرا برخی صفحه‌ها تغییراتم را تأیید می‌کنند و برخی نه؟</value>
+  </data>
+  <data name="FAQ_Q9_ANSWER" xml:space="preserve">
+    <value>اکنون هر صفحه باید پس از ذخیره پیام تأیید نشان دهد. اگر صفحه‌ای دیدید که این کار را نمی‌کند، لطفاً به ما خبر دهید.</value>
+  </data>
+  <data name="LOGIN_EMAIL_LABEL" xml:space="preserve">
+    <value>ایمیل</value>
+  </data>
+  <data name="LOGIN_PASSWORD_LABEL" xml:space="preserve">
+    <value>گذرواژه</value>
+  </data>
+  <data name="TAG_ADDRESS" xml:space="preserve">
+    <value>نشانی</value>
+  </data>
+  <data name="TAG_CHURCHSUITE" xml:space="preserve">
+    <value>نشانی ChurchSuite</value>
+  </data>
+  <data name="TAG_FACILITIES" xml:space="preserve">
+    <value>امکانات</value>
+  </data>
+  <data name="TAG_SIZE_CONGREGATION" xml:space="preserve">
+    <value>تعداد معمول حاضران یکشنبه</value>
+  </data>
+  <data name="TAG_WEBSITE" xml:space="preserve">
+    <value>وب‌سایت</value>
+  </data>
+  <data name="RegisterTitle" xml:space="preserve">
+    <value>ثبت‌نام</value>
+  </data>
+  <data name="RegisterWith" xml:space="preserve">
+    <value>ثبت‌نام با</value>
+  </data>
+  <data name="FC_SKIP_TO_CONTENT" xml:space="preserve">
+    <value>رفتن به محتوای اصلی</value>
+  </data>
+  <data name="FC_MENU" xml:space="preserve">
+    <value>منو</value>
+  </data>
+  <data name="FC_MAIN_NAV" xml:space="preserve">
+    <value>ناوبری اصلی</value>
+  </data>
+  <data name="FC_FOOTER_NAV" xml:space="preserve">
+    <value>پانویس</value>
+  </data>
+  <data name="FC_NAV_FIND" xml:space="preserve">
+    <value>یافتن کلیسا</value>
+  </data>
+  <data name="FC_NAV_BULLETIN" xml:space="preserve">
+    <value>بولتن</value>
+  </data>
+  <data name="FC_NAV_CHURCH_LOGIN" xml:space="preserve">
+    <value>ورود کلیساها</value>
+  </data>
+  <data name="FC_NAV_MY_CHURCH" xml:space="preserve">
+    <value>کلیسای من</value>
+  </data>
+  <data name="FC_NAV_CHURCHSUITE" xml:space="preserve">
+    <value>ChurchSuite</value>
+  </data>
+  <data name="FC_NAV_BULLETINS" xml:space="preserve">
+    <value>بولتن‌ها</value>
+  </data>
+  <data name="FC_NAV_SITE_ADMIN" xml:space="preserve">
+    <value>مدیریت سایت</value>
+  </data>
+  <data name="FC_LANGUAGE" xml:space="preserve">
+    <value>زبان</value>
+  </data>
+  <data name="FC_PRIVACY" xml:space="preserve">
+    <value>حریم خصوصی</value>
+  </data>
+  <data name="FC_FAQ" xml:space="preserve">
+    <value>پرسش‌های متداول</value>
+  </data>
+  <data name="FC_CHURCH_ADMIN" xml:space="preserve">
+    <value>مدیریت کلیسا</value>
+  </data>
+  <data name="FC_ACCOUNT_NAV" xml:space="preserve">
+    <value>حساب</value>
+  </data>
+  <data name="FC_VIEW_PUBLIC_PAGE" xml:space="preserve">
+    <value>مشاهدهٔ صفحهٔ عمومی</value>
+  </data>
+  <data name="FC_BACK_TO_SITE" xml:space="preserve">
+    <value>بازگشت به سایت</value>
+  </data>
+  <data name="FC_STATUS_OPEN_LISTED" xml:space="preserve">
+    <value>باز · در جست‌وجو نمایش داده می‌شود</value>
+  </data>
+  <data name="FC_STATUS_CLOSED_HIDDEN" xml:space="preserve">
+    <value>بسته · در جست‌وجو پنهان است</value>
+  </data>
+  <data name="FC_BULLETIN_BANNER_LABEL" xml:space="preserve">
+    <value>تازه‌ترین بولتن</value>
+  </data>
+  <data name="FC_BULLETIN_NEW" xml:space="preserve">
+    <value>بولتن جدید:</value>
+  </data>
+  <data name="FC_BULLETIN_READ" xml:space="preserve">
+    <value>خواندن</value>
+  </data>
+  <data name="FC_HOME_TITLE" xml:space="preserve">
+    <value>کلیسایی نزدیک خود پیدا کنید</value>
+  </data>
+  <data name="FC_HERO_ALT" xml:space="preserve">
+    <value>درهٔ وای از بالا؛ رودخانه از میان جنگل پیچ می‌خورد</value>
+  </data>
+  <data name="FC_HERO_EYEBROW" xml:space="preserve">
+    <value>کلیساها در سراسر جنگل دین</value>
+  </data>
+  <data name="FC_HERO_TITLE" xml:space="preserve">
+    <value>کلیسایی نزدیک خود پیدا کنید</value>
+  </data>
+  <data name="FC_HERO_LEAD" xml:space="preserve">
+    <value>زمان مراسم، رویدادها و آنچه انتظارتان را می‌کشد — برای جوامع کلیسایی سراسر منطقه.</value>
+  </data>
+  <data name="FC_SEARCH_LABEL" xml:space="preserve">
+    <value>یافتن کلیسا</value>
+  </data>
+  <data name="FC_SEARCH_POSTCODE" xml:space="preserve">
+    <value>کد پستی یا شهر</value>
+  </data>
+  <data name="FC_SEARCH_WITHIN" xml:space="preserve">
+    <value>در شعاع</value>
+  </data>
+  <data name="FC_SEARCH_BUTTON" xml:space="preserve">
+    <value>جست‌وجو</value>
+  </data>
+  <data name="FC_MILES" xml:space="preserve">
+    <value>مایل</value>
+  </data>
+  <data name="FC_MILES_SHORT" xml:space="preserve">
+    <value>مایل</value>
+  </data>
+  <data name="FC_FINDING_YOU" xml:space="preserve">
+    <value>در حال یافتن موقعیت شما…</value>
+  </data>
+  <data name="FC_MORE_FILTERS" xml:space="preserve">
+    <value>فیلترهای بیشتر</value>
+  </data>
+  <data name="FC_HIDE_FILTERS" xml:space="preserve">
+    <value>پنهان کردن فیلترها</value>
+  </data>
+  <data name="FC_MUST_HAVE" xml:space="preserve">
+    <value>باید داشته باشد</value>
+  </data>
+  <data name="FC_OPTIONAL" xml:space="preserve">
+    <value>اختیاری</value>
+  </data>
+  <data name="FC_WHATS_ON" xml:space="preserve">
+    <value>چه خبر است در منطقه</value>
+  </data>
+  <data name="FC_FIND_EVENTS" xml:space="preserve">
+    <value>یافتن رویدادها</value>
+  </data>
+  <data name="FC_HOW_TITLE" xml:space="preserve">
+    <value>چگونه کار می‌کند</value>
+  </data>
+  <data name="FC_HOW_1_TITLE" xml:space="preserve">
+    <value>با کد پستی جست‌وجو کنید</value>
+  </data>
+  <data name="FC_HOW_1_TEXT" xml:space="preserve">
+    <value>یا از موقعیت مکانی خود استفاده کنید تا ببینید چه چیزی نزدیک است.</value>
+  </data>
+  <data name="FC_HOW_2_TITLE" xml:space="preserve">
+    <value>بر اساس نیازتان فیلتر کنید</value>
+  </data>
+  <data name="FC_HOW_2_TEXT" xml:space="preserve">
+    <value>دسترسی بدون پله، پارکینگ، برنامه‌های کودکان، فرقه.</value>
+  </data>
+  <data name="FC_HOW_3_TITLE" xml:space="preserve">
+    <value>سر بزنید یا تماس بگیرید</value>
+  </data>
+  <data name="FC_HOW_3_TEXT" xml:space="preserve">
+    <value>مسیر را ببینید یا به کلیسا پیام بدهید.</value>
+  </data>
+  <data name="FC_ABOUT_STRIP_TITLE" xml:space="preserve">
+    <value>یک جا برای همهٔ کلیساهای منطقه</value>
+  </data>
+  <data name="FC_ABOUT_STRIP_TEXT" xml:space="preserve">
+    <value>Forest Churches زمان مراسم، رویدادها و اطلاعات تماس جوامع کلیسایی محلی را گرد هم می‌آورد و خود کلیساها آن‌ها را به‌روز نگه می‌دارند.</value>
+  </data>
+  <data name="FC_LIST_YOUR_CHURCH" xml:space="preserve">
+    <value>کلیسای خود را ثبت کنید</value>
+  </data>
+  <data name="FC_LEARN_MORE" xml:space="preserve">
+    <value>بیشتر بدانید</value>
+  </data>
+  <data name="FC_RESULTS_TITLE" xml:space="preserve">
+    <value>یافتن کلیسا</value>
+  </data>
+  <data name="FC_RESULTS_ONE" xml:space="preserve">
+    <value>۱ کلیسا در شعاع {0} مایل</value>
+  </data>
+  <data name="FC_RESULTS_MANY" xml:space="preserve">
+    <value>{0} کلیسا در شعاع {1} مایل</value>
+  </data>
+  <data name="FC_NO_RESULTS_TITLE" xml:space="preserve">
+    <value>کلیسایی پیدا نشد</value>
+  </data>
+  <data name="FC_NO_RESULTS_TEXT" xml:space="preserve">
+    <value>فاصلهٔ بیشتری را امتحان کنید یا برخی فیلترها را خاموش کنید.</value>
+  </data>
+  <data name="FC_NEXT_SERVICE" xml:space="preserve">
+    <value>مراسم بعدی</value>
+  </data>
+  <data name="FC_VIEW_CHURCH" xml:space="preserve">
+    <value>مشاهدهٔ کلیسا</value>
+  </data>
+  <data name="FC_DIRECTIONS" xml:space="preserve">
+    <value>مسیریابی</value>
+  </data>
+  <data name="FC_OPENS_NEW_TAB" xml:space="preserve">
+    <value>در زبانهٔ جدید باز می‌شود</value>
+  </data>
+  <data name="FC_READ_MORE" xml:space="preserve">
+    <value>ادامهٔ مطلب</value>
+  </data>
+  <data name="FC_SHOW_LESS" xml:space="preserve">
+    <value>نمایش کمتر</value>
+  </data>
+  <data name="FC_FACT_STEP_FREE" xml:space="preserve">
+    <value>بدون پله</value>
+  </data>
+  <data name="FC_FACT_HEARING_LOOP" xml:space="preserve">
+    <value>حلقهٔ شنوایی</value>
+  </data>
+  <data name="FC_FACT_CHILDREN" xml:space="preserve">
+    <value>برنامه‌های کودکان</value>
+  </data>
+  <data name="FC_CHURCH_NOT_FOUND" xml:space="preserve">
+    <value>کلیسا پیدا نشد</value>
+  </data>
+  <data name="FC_CHURCH_NOT_FOUND_TEXT" xml:space="preserve">
+    <value>ممکن است این پیوند قدیمی باشد. به جای آن کلیسا را جست‌وجو کنید.</value>
+  </data>
+  <data name="FC_BACK" xml:space="preserve">
+    <value>→ بازگشت</value>
+  </data>
+  <data name="FC_CONGREGATION" xml:space="preserve">
+    <value>{0} نفر در یکشنبه</value>
+  </data>
+  <data name="FC_KEY_FACTS" xml:space="preserve">
+    <value>نکات اصلی</value>
+  </data>
+  <data name="FC_SUNDAY" xml:space="preserve">
+    <value>یکشنبه</value>
+  </data>
+  <data name="FC_NO_SERVICE_TIMES" xml:space="preserve">
+    <value>زمان مراسم هنوز ثبت نشده است</value>
+  </data>
+  <data name="FC_WEBSITE" xml:space="preserve">
+    <value>وب‌سایت</value>
+  </data>
+  <data name="FC_ABOUT_US" xml:space="preserve">
+    <value>دربارهٔ ما</value>
+  </data>
+  <data name="FC_UPCOMING_EVENTS" xml:space="preserve">
+    <value>رویدادهای پیش رو</value>
+  </data>
+  <data name="FC_WHAT_TO_EXPECT" xml:space="preserve">
+    <value>چه انتظاری داشته باشید</value>
+  </data>
+  <data name="FC_FIND_US" xml:space="preserve">
+    <value>ما را پیدا کنید</value>
+  </data>
+  <data name="FC_MAP_OF" xml:space="preserve">
+    <value>نقشهٔ {0}</value>
+  </data>
+  <data name="FC_GOES_TO_CHURCH" xml:space="preserve">
+    <value>مستقیم برای کلیسا فرستاده می‌شود.</value>
+  </data>
+  <data name="FC_YOUR_NAME" xml:space="preserve">
+    <value>نام شما</value>
+  </data>
+  <data name="FC_YOUR_EMAIL" xml:space="preserve">
+    <value>ایمیل شما</value>
+  </data>
+  <data name="FC_CONTACT_TITLE" xml:space="preserve">
+    <value>تماس با ما</value>
+  </data>
+  <data name="FC_CONTACT_LEAD" xml:space="preserve">
+    <value>پرسشی دربارهٔ سایت دارید، می‌خواهید کلیسایتان را ثبت کنید یا اشکالی دیده‌اید؟ پاسخ‌تان را می‌دهیم.</value>
+  </data>
+  <data name="FC_CONTACT_CHURCH_TITLE" xml:space="preserve">
+    <value>پیام به {0}</value>
+  </data>
+  <data name="FC_CONTACT_CHURCH_LEAD" xml:space="preserve">
+    <value>پیام شما مستقیم به کلیسا می‌رسد.</value>
+  </data>
+  <data name="FC_CONTACT_SPECIFIC_CHURCH" xml:space="preserve">
+    <value>می‌خواهید با کلیسای خاصی تماس بگیرید؟ از فرم پیام در صفحهٔ آن کلیسا استفاده کنید.</value>
+  </data>
+  <data name="FC_EMAIL" xml:space="preserve">
+    <value>ایمیل</value>
+  </data>
+  <data name="FC_LOOKING_FOR_ANSWERS" xml:space="preserve">
+    <value>دنبال پاسخ هستید؟</value>
+  </data>
+  <data name="FC_READ_FAQ" xml:space="preserve">
+    <value>خواندن پرسش‌های متداول</value>
+  </data>
+  <data name="FC_MESSAGE_FORM" xml:space="preserve">
+    <value>فرم پیام</value>
+  </data>
+  <data name="FC_PRIVACY_NOTE" xml:space="preserve">
+    <value>از اطلاعات شما فقط برای پاسخ دادن استفاده می‌کنیم. ببینید:</value>
+  </data>
+  <data name="FC_GET_IN_TOUCH" xml:space="preserve">
+    <value>تماس با ما</value>
+  </data>
+  <data name="FC_ABOUT_SUPPORT_TITLE" xml:space="preserve">
+    <value>پشتیبانی از کلیساهای محلی</value>
+  </data>
+  <data name="FC_ABOUT_SUPPORT_TEXT" xml:space="preserve">
+    <value>کلیساها خودشان صفحه‌هایشان را به‌روز نگه می‌دارند — زمان مراسم، امکانات و رویدادها، که در صورت استفاده از ChurchSuite از آنجا همگام می‌شوند — تا بازدیدکنندگان ببینند واقعاً چه خبر است.</value>
+  </data>
+  <data name="FC_HELP" xml:space="preserve">
+    <value>راهنما</value>
+  </data>
+  <data name="FC_SEND_US_A_MESSAGE" xml:space="preserve">
+    <value>برای ما پیام بفرستید</value>
+  </data>
+  <data name="FC_FAQ_CHURCHES_TITLE" xml:space="preserve">
+    <value>برای کلیساها</value>
+  </data>
+  <data name="FC_BULLETIN_DEFAULT_TITLE" xml:space="preserve">
+    <value>بولتن هفتگی کلیسا</value>
+  </data>
+  <data name="FC_BULLETIN_DEFAULT_PARISH" xml:space="preserve">
+    <value>Forest of Dean Benefice</value>
+  </data>
+  <data name="FC_BULLETIN_NONE" xml:space="preserve">
+    <value>هنوز بولتنی منتشر نشده است</value>
+  </data>
+  <data name="FC_BULLETIN_NONE_TEXT" xml:space="preserve">
+    <value>به‌زودی برای بولتن این هفته سر بزنید.</value>
+  </data>
+  <data name="FC_BULLETIN_SECTIONS" xml:space="preserve">
+    <value>بخش‌های بولتن</value>
+  </data>
+  <data name="FC_DOWNLOAD_PDF" xml:space="preserve">
+    <value>دانلود PDF</value>
+  </data>
+  <data name="FC_PRINT" xml:space="preserve">
+    <value>چاپ</value>
+  </data>
+  <data name="FC_DETAILS" xml:space="preserve">
+    <value>جزئیات</value>
+  </data>
+  <data name="FC_NOTICES" xml:space="preserve">
+    <value>اطلاعیه‌ها</value>
+  </data>
+  <data name="FC_READINGS" xml:space="preserve">
+    <value>قرائت‌ها</value>
+  </data>
+  <data name="FC_HYMNS" xml:space="preserve">
+    <value>سرودها</value>
+  </data>
+  <data name="FC_COLLECT" xml:space="preserve">
+    <value>دعای روز</value>
+  </data>
+  <data name="FC_THE_COLLECT" xml:space="preserve">
+    <value>دعای روز</value>
+  </data>
+  <data name="FC_THIS_WEEKS_NOTICES" xml:space="preserve">
+    <value>اطلاعیه‌های این هفته</value>
+  </data>
+  <data name="FC_NOTHING_THIS_WEEK" xml:space="preserve">
+    <value>این هفته چیزی ثبت نشده است.</value>
+  </data>
+  <data name="FC_FIRST_READING" xml:space="preserve">
+    <value>قرائت نخست</value>
+  </data>
+  <data name="FC_GOSPEL" xml:space="preserve">
+    <value>انجیل</value>
+  </data>
+  <data name="FC_LOGIN_PITCH_TITLE" xml:space="preserve">
+    <value>صفحهٔ کلیسای خود را به‌روز نگه دارید</value>
+  </data>
+  <data name="FC_LOGIN_PITCH_TEXT" xml:space="preserve">
+    <value>زمان مراسم، امکانات و رویدادها — همه در یک جا، تا بازدیدکنندگان همیشه بدانند چه انتظاری داشته باشند.</value>
+  </data>
+  <data name="FC_LOGIN_LEAD" xml:space="preserve">
+    <value>برای مدیریت کلیسای خود وارد شوید.</value>
+  </data>
+  <data name="FC_SHOW" xml:space="preserve">
+    <value>نمایش</value>
+  </data>
+  <data name="FC_HIDE" xml:space="preserve">
+    <value>پنهان</value>
+  </data>
+  <data name="FC_KEEP_ME_SIGNED_IN" xml:space="preserve">
+    <value>مرا وارد نگه دار</value>
+  </data>
+  <data name="FC_SIGN_IN" xml:space="preserve">
+    <value>ورود</value>
+  </data>
+  <data name="FC_OR" xml:space="preserve">
+    <value>یا</value>
+  </data>
+  <data name="FC_SIGN_IN_WITH" xml:space="preserve">
+    <value>ورود با {0}</value>
+  </data>
+  <data name="FC_NOT_SET_UP" xml:space="preserve">
+    <value>هنوز عضو نیستید؟ کلیساها با دعوت‌نامه می‌پیوندند —</value>
+  </data>
+  <data name="FC_ASK_FOR_INVITE" xml:space="preserve">
+    <value>درخواست دعوت‌نامه</value>
+  </data>
+  <data name="FC_RESET_PASSWORD" xml:space="preserve">
+    <value>بازنشانی گذرواژه</value>
+  </data>
+  <data name="FC_RESET_LEAD" xml:space="preserve">
+    <value>ایمیلی را که با آن وارد می‌شوید بنویسید تا پیوندی برای انتخاب گذرواژهٔ جدید برایتان بفرستیم.</value>
+  </data>
+  <data name="FC_SEND_RESET_LINK" xml:space="preserve">
+    <value>ارسال پیوند</value>
+  </data>
+  <data name="FC_BACK_TO_LOGIN" xml:space="preserve">
+    <value>بازگشت به ورود</value>
+  </data>
+  <data name="FC_CHECK_INBOX" xml:space="preserve">
+    <value>صندوق ایمیل خود را بررسی کنید</value>
+  </data>
+  <data name="FC_CHECK_INBOX_TEXT" xml:space="preserve">
+    <value>اگر برای این ایمیل حسابی وجود داشته باشد، پیوند در راه است. پوشهٔ هرزنامه را هم بررسی کنید.</value>
+  </data>
+  <data name="FC_USE_DIFFERENT_EMAIL" xml:space="preserve">
+    <value>استفاده از ایمیل دیگر</value>
+  </data>
+  <data name="FC_MY_CHURCH_LEAD" xml:space="preserve">
+    <value>آنچه بازدیدکنندگان در صفحهٔ عمومی و جست‌وجو می‌بینند.</value>
+  </data>
+  <data name="FC_CHURCH_NAME" xml:space="preserve">
+    <value>نام کلیسا</value>
+  </data>
+  <data name="FC_ABOUT_YOUR_CHURCH" xml:space="preserve">
+    <value>دربارهٔ کلیسای شما</value>
+  </data>
+  <data name="FC_SHOWN_AT_TOP" xml:space="preserve">
+    <value>در بالای صفحهٔ شما نمایش داده می‌شود</value>
+  </data>
+  <data name="FC_FACILITIES_HINT" xml:space="preserve">
+    <value>بازدیدکنندگان می‌توانند نتایج جست‌وجو را بر اساس این موارد فیلتر کنند.</value>
+  </data>
+  <data name="FC_DISCARD_CHANGES" xml:space="preserve">
+    <value>لغو تغییرات</value>
+  </data>
+  <data name="FC_NO_SERVICE_TIMES_ADMIN" xml:space="preserve">
+    <value>هنوز مراسمی اضافه نشده است. نخستین مورد را در پایین اضافه کنید.</value>
+  </data>
+  <data name="FC_CONFIRM_REMOVE_SERVICE" xml:space="preserve">
+    <value>این زمان مراسم حذف شود؟</value>
+  </data>
+  <data name="FC_SERVICE_NAME" xml:space="preserve">
+    <value>نام مراسم</value>
+  </data>
+  <data name="FC_LOGO_TITLE" xml:space="preserve">
+    <value>لوگو یا عکس</value>
+  </data>
+  <data name="FC_CURRENT_LOGO" xml:space="preserve">
+    <value>لوگوی فعلی</value>
+  </data>
+  <data name="FC_LOGO_HINT" xml:space="preserve">
+    <value>PNG یا JPEG. تصویر مربعی بهترین نتیجه را می‌دهد.</value>
+  </data>
+  <data name="FC_SYNC_NOW" xml:space="preserve">
+    <value>همگام‌سازی اکنون</value>
+  </data>
+  <data name="FC_MANAGE_CONNECTION" xml:space="preserve">
+    <value>مدیریت اتصال</value>
+  </data>
+  <data name="FC_DANGER_ZONE" xml:space="preserve">
+    <value>بخش حساس</value>
+  </data>
+  <data name="FC_MARK_CLOSED" xml:space="preserve">
+    <value>علامت‌گذاری کلیسا به‌عنوان بسته…</value>
+  </data>
+  <data name="FC_MARK_OPEN" xml:space="preserve">
+    <value>بازگشایی دوبارهٔ کلیسا</value>
+  </data>
+  <data name="FC_CONFIRM_CLOSE" xml:space="preserve">
+    <value>{0} در جست‌وجو پنهان می‌شود. مطمئن هستید؟</value>
+  </data>
+  <data name="FC_CLOSED_NOW" xml:space="preserve">
+    <value>کلیسای شما بسته علامت خورده و در جست‌وجو نمایش داده نمی‌شود. وقتی دوباره مراسم برگزار کردید، آن را باز کنید.</value>
+  </data>
+  <data name="FC_PROFILE_LEAD" xml:space="preserve">
+    <value>اطلاعات ورود شخصی شما — جدا از اطلاعات عمومی کلیسا.</value>
+  </data>
+  <data name="FC_YOUR_DETAILS" xml:space="preserve">
+    <value>اطلاعات شما</value>
+  </data>
+  <data name="FC_EMAIL_SIGN_IN" xml:space="preserve">
+    <value>ایمیل (برای ورود)</value>
+  </data>
+  <data name="FC_EMAIL_CHANGE_HINT" xml:space="preserve">
+    <value>برای تغییر ایمیل، لطفاً با ما تماس بگیرید.</value>
+  </data>
+  <data name="FC_SECURITY_LEAD" xml:space="preserve">
+    <value>حساب کلیسای خود را ایمن نگه دارید.</value>
+  </data>
+  <data name="FC_PASSWORD_HINT" xml:space="preserve">
+    <value>دست‌کم ۱۲ نویسه به کار ببرید. یک جملهٔ کوتاه راحت‌تر به خاطر می‌ماند.</value>
+  </data>
+  <data name="FC_CONFIRM_NEW_PASSWORD" xml:space="preserve">
+    <value>تأیید گذرواژهٔ جدید</value>
+  </data>
+  <data name="FC_UPDATE_PASSWORD" xml:space="preserve">
+    <value>به‌روزرسانی گذرواژه</value>
+  </data>
+  <data name="FC_2FA_LEAD" xml:space="preserve">
+    <value>هنگام ورود، کدی از برنامهٔ احراز هویت درخواست شود.</value>
+  </data>
+  <data name="FC_2FA_EXPLAIN" xml:space="preserve">
+    <value>از برنامه‌ای مانند Microsoft یا Google Authenticator استفاده کنید. حتی اگر کسی گذرواژه‌تان را بداند، بدون گوشی شما نمی‌تواند وارد شود.</value>
+  </data>
+  <data name="FC_MANAGE" xml:space="preserve">
+    <value>مدیریت</value>
+  </data>
+  <data name="FC_ON" xml:space="preserve">
+    <value>روشن</value>
+  </data>
+  <data name="FC_OFF_RECOMMENDED" xml:space="preserve">
+    <value>خاموش — روشن کردن توصیه می‌شود</value>
+  </data>
+  <data name="FC_RECOVERY_CODES" xml:space="preserve">
+    <value>کدهای بازیابی</value>
+  </data>
+  <data name="FC_RECOVERY_CODES_LEFT" xml:space="preserve">
+    <value>{0} کد بازیابی برایتان مانده است. اگر گوشی‌تان را گم کردید، یکی را به کار ببرید.</value>
+  </data>
+  <data name="FC_CHURCHSUITE_LEAD" xml:space="preserve">
+    <value>حساب ChurchSuite خود را متصل کنید تا رویدادهایتان خودکار در صفحه‌تان نمایش داده شوند.</value>
+  </data>
+  <data name="FC_CONNECTED" xml:space="preserve">
+    <value>متصل</value>
+  </data>
+  <data name="FC_NOT_CONNECTED" xml:space="preserve">
+    <value>متصل نیست</value>
+  </data>
+  <data name="FC_CS_STEP_1" xml:space="preserve">
+    <value>در کنسول توسعه‌دهندهٔ ChurchSuite یک برنامهٔ OAuth جدید به‌عنوان کلاینت عمومی (PKCE) بسازید.</value>
+  </data>
+  <data name="FC_CS_STEP_2" xml:space="preserve">
+    <value>شناسهٔ کلاینت (Client ID) آن را کپی و در زیر وارد کنید.</value>
+  </data>
+  <data name="FC_CS_STEP_3" xml:space="preserve">
+    <value>«ذخیره و مجوز» را انتخاب کنید و سپس دسترسی را در ChurchSuite تأیید کنید.</value>
+  </data>
+  <data name="FC_CONFIRM_REMOVE_LOGIN" xml:space="preserve">
+    <value>ورود با {0} از حساب شما حذف شود؟</value>
+  </data>
+  <data name="FC_DOWNLOAD_YOUR_DATA" xml:space="preserve">
+    <value>دانلود اطلاعات شما</value>
+  </data>
+  <data name="FC_DOWNLOAD_YOUR_DATA_TEXT" xml:space="preserve">
+    <value>همهٔ آنچه دربارهٔ شما و کلیسایتان نگه می‌داریم، در یک فایل.</value>
+  </data>
+  <data name="FC_DOWNLOAD" xml:space="preserve">
+    <value>دانلود</value>
+  </data>
+  <data name="FC_DELETE_ACCOUNT" xml:space="preserve">
+    <value>حذف حساب</value>
+  </data>
+  <data name="FC_DELETE_ACCOUNT_TEXT" xml:space="preserve">
+    <value>ورود شما و اطلاعات مرتبط با آن را برای همیشه حذف می‌کند.</value>
+  </data>
+  <data name="FC_DELETE_PERMANENT" xml:space="preserve">
+    <value>این کار برگشت‌پذیر نیست.</value>
+  </data>
+  <data name="FC_ENTER_PASSWORD_CONFIRM" xml:space="preserve">
+    <value>برای تأیید، گذرواژهٔ خود را وارد کنید</value>
+  </data>
+  <data name="FC_CANCEL" xml:space="preserve">
+    <value>لغو</value>
+  </data>
+  <data name="FC_DELETE_PERMANENTLY" xml:space="preserve">
+    <value>حذف برای همیشه</value>
+  </data>
+  <data name="FC_EVENTS_LEAD" xml:space="preserve">
+    <value>رویدادهای ChurchSuite خودکار همگام می‌شوند. رویدادهای یک‌باره را اینجا اضافه کنید.</value>
+  </data>
+  <data name="FC_SYNC_FROM_CHURCHSUITE" xml:space="preserve">
+    <value>همگام‌سازی از ChurchSuite</value>
+  </data>
+  <data name="FC_EVENT_COUNT" xml:space="preserve">
+    <value>{0} رویداد پیش رو</value>
+  </data>
+  <data name="FC_PAST_EVENTS" xml:space="preserve">
+    <value>رویدادهای گذشته ({0})</value>
+  </data>
+  <data name="FC_ADDED_HERE" xml:space="preserve">
+    <value>افزوده‌شده در اینجا</value>
+  </data>
+  <data name="FC_EDIT" xml:space="preserve">
+    <value>ویرایش</value>
+  </data>
+  <data name="FC_DELETE" xml:space="preserve">
+    <value>حذف</value>
+  </data>
+  <data name="FC_CONFIRM_DELETE_EVENT" xml:space="preserve">
+    <value>«{0}» حذف شود؟ این کار برگشت‌پذیر نیست.</value>
+  </data>
+  <data name="FC_ADD_EVENT" xml:space="preserve">
+    <value>افزودن رویداد</value>
+  </data>
+  <data name="FC_EDIT_EVENT" xml:space="preserve">
+    <value>ویرایش رویداد</value>
+  </data>
+  <data name="FC_EVENT_NAME" xml:space="preserve">
+    <value>نام رویداد</value>
+  </data>
+  <data name="FC_STARTS" xml:space="preserve">
+    <value>شروع</value>
+  </data>
+  <data name="FC_ENDS" xml:space="preserve">
+    <value>پایان</value>
+  </data>
+  <data name="FC_REPEATS" xml:space="preserve">
+    <value>تکرار</value>
+  </data>
+  <data name="FC_DESCRIPTION" xml:space="preserve">
+    <value>توضیحات</value>
+  </data>
+  <data name="FC_EVENT_LINK" xml:space="preserve">
+    <value>پیوند برای اطلاعات بیشتر</value>
+  </data>
+  <data name="FC_EVENT_IMAGE" xml:space="preserve">
+    <value>تصویر</value>
+  </data>
+  <data name="FC_SAVE_CHANGES" xml:space="preserve">
+    <value>ذخیرهٔ تغییرات</value>
+  </data>
+  <data name="FC_CREATE_EVENT" xml:space="preserve">
+    <value>ایجاد رویداد</value>
+  </data>
+  <data name="FC_REPEAT_NONE" xml:space="preserve">
+    <value>تکرار نمی‌شود</value>
+  </data>
+  <data name="FC_REPEAT_DAILY" xml:space="preserve">
+    <value>روزانه</value>
+  </data>
+  <data name="FC_REPEAT_WEEKLY" xml:space="preserve">
+    <value>هفتگی</value>
+  </data>
+  <data name="FC_REPEAT_2W" xml:space="preserve">
+    <value>هر ۲ هفته</value>
+  </data>
+  <data name="FC_REPEAT_3W" xml:space="preserve">
+    <value>هر ۳ هفته</value>
+  </data>
+  <data name="FC_REPEAT_MONTHLY" xml:space="preserve">
+    <value>ماهانه</value>
+  </data>
+  <data name="FC_REPEAT_2M" xml:space="preserve">
+    <value>هر ۲ ماه</value>
+  </data>
+  <data name="CHURCHSUITE_AUTHORIZED_MESSAGE" xml:space="preserve">
+    <value>حساب ChurchSuite شما متصل است. رویدادها خودکار همگام می‌شوند.</value>
+  </data>
+  <data name="CHURCHSUITE_AUTHORIZE_BUTTON" xml:space="preserve">
+    <value>اتصال به ChurchSuite</value>
+  </data>
+  <data name="CHURCHSUITE_EXPIRED_PROMPT" xml:space="preserve">
+    <value>اتصال ChurchSuite شما منقضی شده است. دوباره متصل شوید تا رویدادها همگام بمانند.</value>
+  </data>
+  <data name="CHURCHSUITE_NEED_AUTH" xml:space="preserve">
+    <value>حساب ChurchSuite خود را متصل کنید تا رویدادها خودکار وارد شوند.</value>
+  </data>
+  <data name="CHURCHSUITE_NOT_LOGGED_IN" xml:space="preserve">
+    <value>برای اتصال ChurchSuite لطفاً وارد شوید.</value>
+  </data>
+  <data name="CHURCHSUITE_REAUTHORIZE_BUTTON" xml:space="preserve">
+    <value>اتصال دوباره به ChurchSuite</value>
+  </data>
+  <data name="ERROR_LABEL_ID" xml:space="preserve">
+    <value>شناسهٔ درخواست:</value>
+  </data>
+  <data name="ERROR_LABEL_MESSAGE" xml:space="preserve">
+    <value>پیام:</value>
+  </data>
+  <data name="ERROR_PAGE_TITLE" xml:space="preserve">
+    <value>خطا</value>
+  </data>
+  <data name="FC_2FA_KEY_TEXT" xml:space="preserve">
+    <value>نمی‌توانید اسکن کنید؟ به جای آن این کلید را وارد کنید (فاصله‌ها مهم نیستند):</value>
+  </data>
+  <data name="FC_2FA_LOGIN_TEXT" xml:space="preserve">
+    <value>ورود شما با برنامهٔ احراز هویت محافظت می‌شود. کد ۶ رقمی‌ای را که نشان می‌دهد وارد کنید.</value>
+  </data>
+  <data name="FC_2FA_QR_ALT" xml:space="preserve">
+    <value>کد QR برای اسکن با برنامهٔ احراز هویت</value>
+  </data>
+  <data name="FC_2FA_STEP1" xml:space="preserve">
+    <value>یک برنامهٔ احراز هویت نصب کنید</value>
+  </data>
+  <data name="FC_2FA_STEP1_TEXT" xml:space="preserve">
+    <value>برای نمونه Microsoft Authenticator یا Google Authenticator روی گوشی‌تان.</value>
+  </data>
+  <data name="FC_2FA_STEP2" xml:space="preserve">
+    <value>این کد QR را با برنامه اسکن کنید</value>
+  </data>
+  <data name="FC_2FA_STEP3" xml:space="preserve">
+    <value>کد ۶ رقمی برنامه را وارد کنید</value>
+  </data>
+  <data name="FC_ACCESS_DENIED" xml:space="preserve">
+    <value>دسترسی مجاز نیست</value>
+  </data>
+  <data name="FC_ACCESS_DENIED_TEXT" xml:space="preserve">
+    <value>حساب شما اجازهٔ باز کردن این صفحه را ندارد. اگر فکر می‌کنید باید داشته باشد، با ما تماس بگیرید.</value>
+  </data>
+  <data name="FC_AUTH_CODE" xml:space="preserve">
+    <value>کد احراز هویت</value>
+  </data>
+  <data name="FC_CHOOSE_NEW_PASSWORD" xml:space="preserve">
+    <value>گذرواژهٔ جدید را انتخاب کنید</value>
+  </data>
+  <data name="FC_CODES_KEYS_UNCHANGED" xml:space="preserve">
+    <value>ساختن کدهای جدید برنامه‌ای را که با آن وارد می‌شوید تغییر نمی‌دهد. برای تغییر آن از این گزینه استفاده کنید:</value>
+  </data>
+  <data name="FC_CODES_LOSE_DEVICE" xml:space="preserve">
+    <value>اگر گوشی‌تان را گم کنید و کد بازیابی نداشته باشید، نمی‌توانید وارد شوید.</value>
+  </data>
+  <data name="FC_CODES_SAFE_PLACE" xml:space="preserve">
+    <value>این کدها را در جای امنی نگه دارید.</value>
+  </data>
+  <data name="FC_CONFIRMED" xml:space="preserve">
+    <value>تأییدشده</value>
+  </data>
+  <data name="FC_CONFIRM_ACCOUNT" xml:space="preserve">
+    <value>تأیید حساب من</value>
+  </data>
+  <data name="FC_CONFIRM_EMAIL_SENT" xml:space="preserve">
+    <value>برایتان ایمیلی فرستادیم. پیوند داخل آن را باز کنید تا حسابتان تأیید شود.</value>
+  </data>
+  <data name="FC_CONFIRM_FAILED" xml:space="preserve">
+    <value>نتوانستیم ایمیل شما را تأیید کنیم</value>
+  </data>
+  <data name="FC_CONFIRM_FAILED_TEXT" xml:space="preserve">
+    <value>ممکن است پیوند منقضی شده یا قبلاً استفاده شده باشد. لطفاً پیوند تازه‌ای درخواست کنید.</value>
+  </data>
+  <data name="FC_CONFIRM_LINK_DEV" xml:space="preserve">
+    <value>هنوز سرویس ایمیل راه‌اندازی نشده است؛ برای تأیید حساب از دکمهٔ زیر استفاده کنید.</value>
+  </data>
+  <data name="FC_CONFIRM_NEW_CODES" xml:space="preserve">
+    <value>کدهای بازیابی جدید ساخته شود؟ کدهای قبلی دیگر کار نمی‌کنند.</value>
+  </data>
+  <data name="FC_CONFIRM_PASSWORD" xml:space="preserve">
+    <value>تأیید گذرواژه</value>
+  </data>
+  <data name="FC_CREATE_ACCOUNT" xml:space="preserve">
+    <value>ایجاد حساب</value>
+  </data>
+  <data name="FC_CREATE_ACCOUNT_LEAD" xml:space="preserve">
+    <value>از نشانی ایمیلی استفاده کنید که دعوت‌نامه به آن فرستاده شده است.</value>
+  </data>
+  <data name="FC_CURRENT_EMAIL" xml:space="preserve">
+    <value>ایمیل فعلی</value>
+  </data>
+  <data name="FC_DONE" xml:space="preserve">
+    <value>تمام</value>
+  </data>
+  <data name="FC_DOWNLOAD_DETAILS" xml:space="preserve">
+    <value>دانلود اطلاعات</value>
+  </data>
+  <data name="FC_EMAIL_CHANGED" xml:space="preserve">
+    <value>نشانی ایمیل تغییر کرد</value>
+  </data>
+  <data name="FC_EMAIL_CONFIRMED" xml:space="preserve">
+    <value>ایمیل تأیید شد</value>
+  </data>
+  <data name="FC_EMAIL_CONFIRMED_TEXT" xml:space="preserve">
+    <value>سپاس. نشانی ایمیل شما تأیید شد و اکنون می‌توانید وارد شوید.</value>
+  </data>
+  <data name="FC_EMAIL_ME_DETAILS" xml:space="preserve">
+    <value>اطلاعات را برایم ایمیل کن</value>
+  </data>
+  <data name="FC_ERROR_TEXT" xml:space="preserve">
+    <value>متأسفیم، هنگام رسیدگی به درخواست شما مشکلی پیش آمد. لطفاً کمی بعد دوباره امتحان کنید.</value>
+  </data>
+  <data name="FC_ERROR_TITLE" xml:space="preserve">
+    <value>مشکلی پیش آمد</value>
+  </data>
+  <data name="FC_EXTERNAL_LEAD" xml:space="preserve">
+    <value>با {0} وارد شده‌اید. برای تکمیل ساخت حساب، نشانی ایمیل خود را در زیر وارد کنید.</value>
+  </data>
+  <data name="FC_INVITE_EMAIL_HINT" xml:space="preserve">
+    <value>ثبت‌نام فقط با دعوت‌نامه ممکن است.</value>
+  </data>
+  <data name="FC_INVITE_INVALID" xml:space="preserve">
+    <value>این دعوت‌نامه معتبر نیست یا منقضی شده است. برای دعوت‌نامهٔ جدید با ما تماس بگیرید.</value>
+  </data>
+  <data name="FC_LEGAL" xml:space="preserve">
+    <value>حقوقی</value>
+  </data>
+  <data name="FC_LOCKED_OUT" xml:space="preserve">
+    <value>حساب قفل شد</value>
+  </data>
+  <data name="FC_LOCKED_OUT_TEXT" xml:space="preserve">
+    <value>تلاش‌های ناموفق ورود زیاد بود، بنابراین حساب شما مدتی قفل شده است. لطفاً بعداً دوباره امتحان کنید.</value>
+  </data>
+  <data name="FC_NEW_EMAIL" xml:space="preserve">
+    <value>ایمیل جدید</value>
+  </data>
+  <data name="FC_NEW_RECOVERY_CODES" xml:space="preserve">
+    <value>کدهای بازیابی جدید</value>
+  </data>
+  <data name="FC_NO" xml:space="preserve">
+    <value>خیر</value>
+  </data>
+  <data name="FC_NO_DEVICE" xml:space="preserve">
+    <value>گوشی‌تان همراهتان نیست؟</value>
+  </data>
+  <data name="FC_PASSWORD_RESET_DONE" xml:space="preserve">
+    <value>گذرواژه بازنشانی شد</value>
+  </data>
+  <data name="FC_PASSWORD_RESET_DONE_TEXT" xml:space="preserve">
+    <value>گذرواژهٔ شما تغییر کرد. اکنون می‌توانید با گذرواژهٔ جدید وارد شوید.</value>
+  </data>
+  <data name="FC_PASSWORD_RULES" xml:space="preserve">
+    <value>دست‌کم ۱۲ نویسه، شامل حروف بزرگ و کوچک، یک عدد و یک نماد.</value>
+  </data>
+  <data name="FC_PHONE" xml:space="preserve">
+    <value>تلفن</value>
+  </data>
+  <data name="FC_RECOVERY_CODE" xml:space="preserve">
+    <value>کد بازیابی</value>
+  </data>
+  <data name="FC_RECOVERY_CODE_LOGIN" xml:space="preserve">
+    <value>ورود با کد بازیابی</value>
+  </data>
+  <data name="FC_RECOVERY_CODE_LOGIN_TEXT" xml:space="preserve">
+    <value>یکی از کدهای بازیابی‌ای را که هنگام راه‌اندازی احراز هویت دومرحله‌ای ذخیره کردید وارد کنید. هر کد فقط یک بار کار می‌کند.</value>
+  </data>
+  <data name="FC_REMEMBER_DEVICE" xml:space="preserve">
+    <value>این دستگاه را به خاطر بسپار</value>
+  </data>
+  <data name="FC_RESEND_CONFIRMATION" xml:space="preserve">
+    <value>ارسال دوبارهٔ ایمیل تأیید</value>
+  </data>
+  <data name="FC_RESEND_CONFIRMATION_BUTTON" xml:space="preserve">
+    <value>ارسال دوبارهٔ ایمیل</value>
+  </data>
+  <data name="FC_RESEND_CONFIRMATION_TEXT" xml:space="preserve">
+    <value>نشانی ایمیل خود را وارد کنید تا پیوند تأیید جدیدی برایتان بفرستیم.</value>
+  </data>
+  <data name="FC_RESET_AUTH_TEXT" xml:space="preserve">
+    <value>با این کار ورود دومرحله‌ای خاموش می‌شود تا وقتی که دوباره برنامهٔ احراز هویت را راه‌اندازی کنید.</value>
+  </data>
+  <data name="FC_RESET_AUTH_WARN" xml:space="preserve">
+    <value>برنامهٔ احراز هویت فعلی شما دیگر کار نخواهد کرد.</value>
+  </data>
+  <data name="FC_RESULTS_MAP" xml:space="preserve">
+    <value>نقشهٔ کلیساهای نتایج شما</value>
+  </data>
+  <data name="FC_SAVE_DETAILS" xml:space="preserve">
+    <value>ذخیرهٔ این اطلاعات</value>
+  </data>
+  <data name="FC_SAVE_DETAILS_TEXT" xml:space="preserve">
+    <value>آن‌ها را دانلود کنید یا بخواهید برایتان ایمیل شود تا بعداً در دسترس باشند.</value>
+  </data>
+  <data name="FC_SEND_VERIFICATION" xml:space="preserve">
+    <value>ارسال ایمیل تأیید</value>
+  </data>
+  <data name="FC_SET_PASSWORD" xml:space="preserve">
+    <value>تعیین گذرواژه</value>
+  </data>
+  <data name="FC_SET_PASSWORD_LEAD" xml:space="preserve">
+    <value>حساب شما هنوز گذرواژه ندارد. یکی تعیین کنید تا بتوانید با ایمیل خود هم وارد شوید.</value>
+  </data>
+  <data name="FC_SIGNED_OUT" xml:space="preserve">
+    <value>خارج شدید</value>
+  </data>
+  <data name="FC_SIGNED_OUT_TEXT" xml:space="preserve">
+    <value>از Forest Churches خارج شدید.</value>
+  </data>
+  <data name="FC_SIGN_OUT_CONFIRM" xml:space="preserve">
+    <value>آیا مطمئن هستید که می‌خواهید خارج شوید؟</value>
+  </data>
+  <data name="FC_SITE_ADMIN" xml:space="preserve">
+    <value>مدیریت سایت</value>
+  </data>
+  <data name="FC_TECHNICAL_DETAILS" xml:space="preserve">
+    <value>جزئیات فنی</value>
+  </data>
+  <data name="FC_TOGGLE_THEME" xml:space="preserve">
+    <value>جابه‌جایی بین حالت روشن و تیره</value>
+  </data>
+  <data name="FC_TURN_OFF_2FA" xml:space="preserve">
+    <value>خاموش کردن ورود دومرحله‌ای</value>
+  </data>
+  <data name="FC_TURN_OFF_2FA_TEXT" xml:space="preserve">
+    <value>این کار امنیت حساب شما را کم می‌کند. خود برنامهٔ احراز هویت تغییری نمی‌کند. برای راه‌اندازی برنامهٔ دیگر از این گزینه استفاده کنید:</value>
+  </data>
+  <data name="FC_TURN_OFF_2FA_WARN" xml:space="preserve">
+    <value>نفوذ به حساب شما آسان‌تر می‌شود.</value>
+  </data>
+  <data name="FC_USE_RECOVERY_CODE" xml:space="preserve">
+    <value>استفاده از کد بازیابی</value>
+  </data>
+  <data name="FC_VERIFY_TURN_ON" xml:space="preserve">
+    <value>تأیید و روشن کردن</value>
+  </data>
+  <data name="FC_YES" xml:space="preserve">
+    <value>بله</value>
+  </data>
+  <data name="SUCCESS_BACK_TO_HOME" xml:space="preserve">
+    <value>بازگشت به صفحهٔ اصلی</value>
+  </data>
+  <data name="TOKEN_VALIDATION_INVALID_EXPIRED" xml:space="preserve">
+    <value>این پیوند معتبر نیست یا منقضی شده است. لطفاً پیوند تازه‌ای درخواست کنید.</value>
+  </data>
+  <data name="TOKEN_VALIDATION_PAGE_TITLE" xml:space="preserve">
+    <value>در حال بررسی پیوند شما</value>
+  </data>
+  <data name="TOKEN_VALIDATION_VALID_REDIRECTING" xml:space="preserve">
+    <value>پیوند شما معتبر است. در حال انتقال…</value>
+  </data>
+  <data name="PRIVACY_PAGE_TITLE" xml:space="preserve">
+    <value>سیاست حریم خصوصی</value>
+  </data>
+  <data name="PRIVACY_EFFECTIVE_DATE" xml:space="preserve">
+    <value>تاریخ اجرا: ۱ مارس ۲۰۲۵</value>
+  </data>
+  <data name="PRIVACY_INTRO_TEXT" xml:space="preserve">
+    <value>این سیاست توضیح می‌دهد که Forest Churches («ما») هنگام استفادهٔ شما از این سایت چگونه اطلاعات شخصی را گردآوری، استفاده و به اشتراک می‌گذارد.</value>
+  </data>
+  <data name="PRIVACY_SECTION1_TITLE" xml:space="preserve">
+    <value>۱. اطلاعاتی که گردآوری می‌کنیم</value>
+  </data>
+  <data name="PRIVACY_SECTION1_SUBTITLE1" xml:space="preserve">
+    <value>۱.۱ اطلاعات شخصی</value>
+  </data>
+  <data name="PRIVACY_SECTION1_TEXT1" xml:space="preserve">
+    <value>ممکن است اطلاعات شخصی‌ای را که هنگام استفاده از سایت به ما می‌دهید گردآوری کنیم، از جمله:</value>
+  </data>
+  <data name="PRIVACY_SECTION1_ITEM1" xml:space="preserve">
+    <value>اطلاعات تماس مانند نام، نشانی ایمیل و شمارهٔ تلفن</value>
+  </data>
+  <data name="PRIVACY_SECTION1_ITEM2" xml:space="preserve">
+    <value>اطلاعات ورود به حساب (نام کاربری و گذرواژه)</value>
+  </data>
+  <data name="PRIVACY_SECTION1_ITEM3" xml:space="preserve">
+    <value>اطلاعات نمایه مانند عکس نمایه و ترجیحات شما</value>
+  </data>
+  <data name="PRIVACY_SECTION1_ITEM4" xml:space="preserve">
+    <value>اطلاعات کلیسا مانند پیوندهای وب‌سایت و اطلاعات تماس</value>
+  </data>
+  <data name="PRIVACY_SECTION1_SUBTITLE2" xml:space="preserve">
+    <value>۱.۲ داده‌های استفاده</value>
+  </data>
+  <data name="PRIVACY_SECTION1_TEXT2" xml:space="preserve">
+    <value>ممکن است هنگام استفاده از سایت به‌طور خودکار اطلاعات غیرشخصی گردآوری کنیم، مانند:</value>
+  </data>
+  <data name="PRIVACY_SECTION1_ITEM5" xml:space="preserve">
+    <value>داده‌های گزارش، شامل نشانی IP، نوع مرورگر، سیستم‌عامل و زمان دسترسی</value>
+  </data>
+  <data name="PRIVACY_SECTION1_ITEM6" xml:space="preserve">
+    <value>اطلاعات دستگاه، مانند نوع دستگاه</value>
+  </data>
+  <data name="PRIVACY_SECTION1_ITEM7" xml:space="preserve">
+    <value>نحوهٔ استفادهٔ شما از سایت و ترجیحاتتان</value>
+  </data>
+  <data name="PRIVACY_SECTION1_ITEM8" xml:space="preserve">
+    <value>موقعیت تقریبی بر اساس نشانی IP یا کد پستی‌ای که وارد می‌کنید</value>
+  </data>
+  <data name="PRIVACY_SECTION2_TITLE" xml:space="preserve">
+    <value>۲. چگونه از اطلاعات شما استفاده می‌کنیم</value>
+  </data>
+  <data name="PRIVACY_SECTION2_TEXT" xml:space="preserve">
+    <value>از اطلاعات گردآوری‌شده برای این کارها استفاده می‌کنیم:</value>
+  </data>
+  <data name="PRIVACY_SECTION2_ITEM1" xml:space="preserve">
+    <value>اداره و نگهداری سایت</value>
+  </data>
+  <data name="PRIVACY_SECTION2_ITEM2" xml:space="preserve">
+    <value>بهبود سایت و آسان‌تر کردن استفاده از آن</value>
+  </data>
+  <data name="PRIVACY_SECTION2_ITEM3" xml:space="preserve">
+    <value>پاسخ به پیام‌ها و درخواست‌های پشتیبانی شما</value>
+  </data>
+  <data name="PRIVACY_SECTION2_ITEM4" xml:space="preserve">
+    <value>نمایش اطلاعات دقیق و به‌روز، مانند کلیساهای نزدیک شما</value>
+  </data>
+  <data name="PRIVACY_SECTION2_ITEM5" xml:space="preserve">
+    <value>ارسال گاه‌به‌گاه اخبار سایت</value>
+  </data>
+  <data name="PRIVACY_SECTION2_ITEM6" xml:space="preserve">
+    <value>رفع مشکلات و جلوگیری از کلاهبرداری</value>
+  </data>
+  <data name="PRIVACY_SECTION2_ITEM7" xml:space="preserve">
+    <value>انجام تعهدات قانونی و حفاظت از حقوق خود</value>
+  </data>
+  <data name="PRIVACY_SECTION3_TITLE" xml:space="preserve">
+    <value>۳. اشتراک‌گذاری اطلاعات شما</value>
+  </data>
+  <data name="PRIVACY_SECTION3_INTRO_TEXT" xml:space="preserve">
+    <value>اطلاعات شخصی را فقط در این موارد به اشتراک می‌گذاریم:</value>
+  </data>
+  <data name="PRIVACY_SECTION3_SUBTITLE1" xml:space="preserve">
+    <value>ارائه‌دهندگان خدمات:</value>
+  </data>
+  <data name="PRIVACY_SECTION3_TEXT1" xml:space="preserve">
+    <value>شرکت‌های مورد اعتمادی که در اداره‌ی سایت به ما کمک می‌کنند (مانند میزبانی و ایمیل) فقط برای انجام همان کار به اطلاعات شخصی دسترسی دارند و باید آن را محرمانه نگه دارند.</value>
+  </data>
+  <data name="PRIVACY_SECTION3_SUBTITLE2" xml:space="preserve">
+    <value>الزامات قانونی:</value>
+  </data>
+  <data name="PRIVACY_SECTION3_TEXT2" xml:space="preserve">
+    <value>اگر قانون، دادگاه یا نهادی دولتی بخواهد، یا برای محافظت در برابر کلاهبرداری یا تهدیدهای امنیتی، ممکن است اطلاعات را افشا کنیم.</value>
+  </data>
+  <data name="PRIVACY_SECTION4_TITLE" xml:space="preserve">
+    <value>۴. مدت نگهداری اطلاعات</value>
+  </data>
+  <data name="PRIVACY_SECTION4_TEXT" xml:space="preserve">
+    <value>اطلاعات شخصی را فقط تا زمانی که برای اهداف این سیاست لازم است نگه می‌داریم، مگر اینکه قانون مدت طولانی‌تری بخواهد. پس از آن، آن را حذف یا ناشناس می‌کنیم.</value>
+  </data>
+  <data name="PRIVACY_SECTION5_TITLE" xml:space="preserve">
+    <value>۵. امنیت اطلاعات شما</value>
+  </data>
+  <data name="PRIVACY_SECTION5_TEXT" xml:space="preserve">
+    <value>اقدامات معقولی برای محافظت از اطلاعات شخصی در برابر دسترسی، افشا، تغییر یا نابودی غیرمجاز انجام می‌دهیم. هیچ روش انتقال یا ذخیره‌سازی در اینترنت کاملاً امن نیست، بنابراین نمی‌توانیم امنیت مطلق را تضمین کنیم.</value>
+  </data>
+  <data name="PRIVACY_SECTION6_TITLE" xml:space="preserve">
+    <value>۶. کودکان</value>
+  </data>
+  <data name="PRIVACY_SECTION6_TEXT" xml:space="preserve">
+    <value>حساب‌های کلیسا برای افراد زیر ۱۸ سال نیست و ما آگاهانه اطلاعات شخصی کودکان را گردآوری نمی‌کنیم. اگر متوجه شویم چنین شده است، آن را حذف می‌کنیم.</value>
+  </data>
+  <data name="PRIVACY_SECTION7_TITLE" xml:space="preserve">
+    <value>۷. حقوق شما</value>
+  </data>
+  <data name="PRIVACY_SECTION7_TEXT" xml:space="preserve">
+    <value>شما حق دارید اطلاعات شخصی خود را ببینید، اصلاح یا حذف کنید یا استفاده از آن را محدود کنید. هر زمان هم می‌توانید دریافت اخبار ما را لغو کنید. کاربرانی که وارد شده‌اند می‌توانند داده‌هایشان را از حساب خود دانلود یا حذف کنند؛ برای موارد دیگر با ما تماس بگیرید.</value>
+  </data>
+  <data name="PRIVACY_SECTION8_TITLE" xml:space="preserve">
+    <value>۸. تغییرات این سیاست</value>
+  </data>
+  <data name="PRIVACY_SECTION8_TEXT" xml:space="preserve">
+    <value>ممکن است گاهی این سیاست را به‌روز کنیم. در این صورت تاریخ بالای این صفحه را تغییر می‌دهیم. گاه‌به‌گاه سری بزنید؛ ادامهٔ استفاده از سایت به معنای پذیرش سیاست به‌روزشده است.</value>
+  </data>
+  <data name="PRIVACY_CONTACT_TITLE" xml:space="preserve">
+    <value>تماس با ما</value>
+  </data>
+  <data name="PRIVACY_CONTACT_TEXT" xml:space="preserve">
+    <value>اگر دربارهٔ این سیاست یا نحوهٔ رسیدگی ما به اطلاعاتتان پرسش یا درخواستی دارید، لطفاً</value>
+  </data>
+  <data name="PRIVACY_CONTACT_LINK" xml:space="preserve">
+    <value>از طریق صفحهٔ تماس با ما در ارتباط باشید</value>
+  </data>
+  <data name="PRIVACY_ACKNOWLEDGMENT" xml:space="preserve">
+    <value>با استفاده از این سایت تأیید می‌کنید که این سیاست حریم خصوصی را خوانده و فهمیده‌اید.</value>
+  </data>
+  <data name="FC_ADM_ACCOUNT_CONFIRMED" xml:space="preserve">
+    <value>حساب تأیید شده</value>
+  </data>
+  <data name="FC_ADM_ACCOUNT_UNCONFIRMED" xml:space="preserve">
+    <value>ایمیل هنوز تأیید نشده</value>
+  </data>
+  <data name="FC_ADM_ACTIONS" xml:space="preserve">
+    <value>اقدامات</value>
+  </data>
+  <data name="FC_ADM_ALL_BULLETINS" xml:space="preserve">
+    <value>همهٔ بولتن‌ها</value>
+  </data>
+  <data name="FC_ADM_ALL_ROLES" xml:space="preserve">
+    <value>همهٔ نقش‌ها</value>
+  </data>
+  <data name="FC_ADM_ALL_USERS" xml:space="preserve">
+    <value>همهٔ کاربران</value>
+  </data>
+  <data name="FC_ADM_AWAITING_SIGNUP" xml:space="preserve">
+    <value>در انتظار ثبت‌نام</value>
+  </data>
+  <data name="FC_ADM_BACK_TO_CHURCHES" xml:space="preserve">
+    <value>بازگشت به کلیساها</value>
+  </data>
+  <data name="FC_ADM_BACK_TO_EVENTS" xml:space="preserve">
+    <value>بازگشت به رویدادها</value>
+  </data>
+  <data name="FC_ADM_BACK_TO_USERS" xml:space="preserve">
+    <value>بازگشت به کاربران</value>
+  </data>
+  <data name="FC_ADM_BANNER_EXPIRED" xml:space="preserve">
+    <value>بنر منقضی شده</value>
+  </data>
+  <data name="FC_ADM_BANNER_SHOWN" xml:space="preserve">
+    <value>بنر روشن</value>
+  </data>
+  <data name="FC_ADM_BANNER_UNTIL" xml:space="preserve">
+    <value>نمایش بنر تا</value>
+  </data>
+  <data name="FC_ADM_BULLETIN" xml:space="preserve">
+    <value>بولتن</value>
+  </data>
+  <data name="FC_ADM_BULLETINS_LEAD" xml:space="preserve">
+    <value>بولتن هفتگی یا یک اطلاعیهٔ کوتاه بنویسید. بولتن فعال در صفحهٔ عمومی «بولتن» نمایش داده می‌شود.</value>
+  </data>
+  <data name="FC_ADM_BULLETIN_MESSAGE" xml:space="preserve">
+    <value>پیام یا یادداشت شبانی</value>
+  </data>
+  <data name="FC_ADM_BULLETIN_NOTICES" xml:space="preserve">
+    <value>اطلاعیه‌ها یا پیوندها</value>
+  </data>
+  <data name="FC_ADM_BULLETIN_TITLE" xml:space="preserve">
+    <value>عنوان</value>
+  </data>
+  <data name="FC_ADM_BULLETIN_TYPE" xml:space="preserve">
+    <value>نوع</value>
+  </data>
+  <data name="FC_ADM_CHANGELOG" xml:space="preserve">
+    <value>تاریخچهٔ تغییرات</value>
+  </data>
+  <data name="FC_ADM_CHANGELOG_LEAD" xml:space="preserve">
+    <value>تغییرات سایت، از جدیدترین.</value>
+  </data>
+  <data name="FC_ADM_CHOOSE_ACCOUNT" xml:space="preserve">
+    <value>یک حساب انتخاب کنید…</value>
+  </data>
+  <data name="FC_ADM_CHOOSE_RECIPIENT" xml:space="preserve">
+    <value>گیرنده را انتخاب کنید…</value>
+  </data>
+  <data name="FC_ADM_CHURCH" xml:space="preserve">
+    <value>کلیسا</value>
+  </data>
+  <data name="FC_ADM_CHURCHES" xml:space="preserve">
+    <value>کلیساها</value>
+  </data>
+  <data name="FC_ADM_CHURCHES_LEAD" xml:space="preserve">
+    <value>همهٔ کلیساهای ثبت‌شده در سایت. فقط کلیساهای باز در جست‌وجو دیده می‌شوند.</value>
+  </data>
+  <data name="FC_ADM_CHURCH_NOT_FOUND" xml:space="preserve">
+    <value>این کلیسا پیدا نشد</value>
+  </data>
+  <data name="FC_ADM_CONFIRM_DELETE_BULLETIN" xml:space="preserve">
+    <value>«{0}» حذف شود؟ این کار برگشت‌پذیر نیست.</value>
+  </data>
+  <data name="FC_ADM_CONFIRM_DELETE_ROLE" xml:space="preserve">
+    <value>نقش «{0}» حذف شود؟</value>
+  </data>
+  <data name="FC_ADM_CONFIRM_DELETE_USER" xml:space="preserve">
+    <value>{0} حذف شود؟ حساب و ورود او حذف می‌شود. این کار برگشت‌پذیر نیست.</value>
+  </data>
+  <data name="FC_ADM_CONFIRM_REMOVE_INVITE" xml:space="preserve">
+    <value>دعوت‌نامهٔ {0} حذف شود؟ پیوند او دیگر کار نمی‌کند.</value>
+  </data>
+  <data name="FC_ADM_CONFIRM_RESET_CHURCH" xml:space="preserve">
+    <value>اطلاعات {0} به حالت پیش‌فرض بازگردد؟ تا زمانی که دوباره تکمیل شود، در جست‌وجو پنهان می‌ماند.</value>
+  </data>
+  <data name="FC_ADM_CONGREGATION_N" xml:space="preserve">
+    <value>جماعت {0}</value>
+  </data>
+  <data name="FC_ADM_CONTINUE" xml:space="preserve">
+    <value>ادامه</value>
+  </data>
+  <data name="FC_ADM_CPU" xml:space="preserve">
+    <value>پردازنده</value>
+  </data>
+  <data name="FC_ADM_CREATE_ROLE" xml:space="preserve">
+    <value>ایجاد نقش</value>
+  </data>
+  <data name="FC_ADM_CREATE_USER" xml:space="preserve">
+    <value>ایجاد کاربر</value>
+  </data>
+  <data name="FC_ADM_CREATE_USER_LEAD" xml:space="preserve">
+    <value>بدون دعوت‌نامه، مستقیم یک حساب بسازید. فرد یک ایمیل خوشامد دریافت می‌کند.</value>
+  </data>
+  <data name="FC_ADM_CURRENT_PDF" xml:space="preserve">
+    <value>PDF فعلی:</value>
+  </data>
+  <data name="FC_ADM_DASHBOARD" xml:space="preserve">
+    <value>داشبورد</value>
+  </data>
+  <data name="FC_ADM_DASHBOARD_LEAD" xml:space="preserve">
+    <value>نمای کلی Forest Churches.</value>
+  </data>
+  <data name="FC_ADM_DATABASE" xml:space="preserve">
+    <value>پایگاه داده</value>
+  </data>
+  <data name="FC_ADM_DOWNLOAD" xml:space="preserve">
+    <value>دانلود</value>
+  </data>
+  <data name="FC_ADM_DOWNLOADING" xml:space="preserve">
+    <value>در حال دانلود…</value>
+  </data>
+  <data name="FC_ADM_DOWNLOAD_LOGS" xml:space="preserve">
+    <value>دانلود گزارش‌ها</value>
+  </data>
+  <data name="FC_ADM_EDIT_BULLETIN" xml:space="preserve">
+    <value>ویرایش بولتن</value>
+  </data>
+  <data name="FC_ADM_EDIT_CHURCH" xml:space="preserve">
+    <value>ویرایش کلیسا</value>
+  </data>
+  <data name="FC_ADM_EDIT_EVENT" xml:space="preserve">
+    <value>ویرایش رویداد</value>
+  </data>
+  <data name="FC_ADM_EDIT_PERMISSIONS" xml:space="preserve">
+    <value>ویرایش مجوزها</value>
+  </data>
+  <data name="FC_ADM_EDIT_USER" xml:space="preserve">
+    <value>ویرایش کاربر</value>
+  </data>
+  <data name="FC_ADM_EMAILS" xml:space="preserve">
+    <value>ایمیل‌ها</value>
+  </data>
+  <data name="FC_ADM_EMAILS_LEAD" xml:space="preserve">
+    <value>برای یک کاربر یا همه پیام بفرستید.</value>
+  </data>
+  <data name="FC_ADM_EMAIL_CONFIRMED" xml:space="preserve">
+    <value>ایمیل تأییدشده</value>
+  </data>
+  <data name="FC_ADM_EMAIL_FROM_HINT" xml:space="preserve">
+    <value>پیام‌ها از info@forestchurches.co.uk فرستاده می‌شوند.</value>
+  </data>
+  <data name="FC_ADM_EVENTS" xml:space="preserve">
+    <value>رویدادها</value>
+  </data>
+  <data name="FC_ADM_EVENTS_LEAD" xml:space="preserve">
+    <value>رویدادهای همهٔ کلیساها، از جمله رویدادهای همگام‌شده از ChurchSuite.</value>
+  </data>
+  <data name="FC_ADM_EVENT_NOT_FOUND" xml:space="preserve">
+    <value>این رویداد پیدا نشد</value>
+  </data>
+  <data name="FC_ADM_EVENT_OWNER" xml:space="preserve">
+    <value>حساب کلیسا</value>
+  </data>
+  <data name="FC_ADM_EVENT_OWNER_HINT" xml:space="preserve">
+    <value>رویداد زیر کلیسای این حساب نمایش داده می‌شود.</value>
+  </data>
+  <data name="FC_ADM_EXCEPTION" xml:space="preserve">
+    <value>استثنا</value>
+  </data>
+  <data name="FC_ADM_FROM" xml:space="preserve">
+    <value>از</value>
+  </data>
+  <data name="FC_ADM_HIDE_BANNER" xml:space="preserve">
+    <value>پنهان کردن بنر</value>
+  </data>
+  <data name="FC_ADM_INVITES" xml:space="preserve">
+    <value>دعوت‌نامه‌ها</value>
+  </data>
+  <data name="FC_ADM_INVITES_LEAD" xml:space="preserve">
+    <value>فقط نشانی‌های ایمیل دعوت‌شده می‌توانند حساب کلیسا ثبت کنند.</value>
+  </data>
+  <data name="FC_ADM_INVITE_CHURCH" xml:space="preserve">
+    <value>دعوت از یک کلیسا</value>
+  </data>
+  <data name="FC_ADM_INVITE_COMPLETE" xml:space="preserve">
+    <value>ثبت‌نام شده</value>
+  </data>
+  <data name="FC_ADM_INVITE_EXPIRED" xml:space="preserve">
+    <value>پیوند منقضی شده</value>
+  </data>
+  <data name="FC_ADM_INVITE_HINT" xml:space="preserve">
+    <value>پیوند ثبت‌نام برایشان ایمیل می‌شود. ۲۴ ساعت اعتبار دارد و می‌توانید دوباره بفرستید.</value>
+  </data>
+  <data name="FC_ADM_INVITE_LIST" xml:space="preserve">
+    <value>نشانی‌های ایمیل دعوت‌شده</value>
+  </data>
+  <data name="FC_ADM_INVITE_PENDING" xml:space="preserve">
+    <value>در انتظار</value>
+  </data>
+  <data name="FC_ADM_JOINED" xml:space="preserve">
+    <value>عضو شده در {0}</value>
+  </data>
+  <data name="FC_ADM_KEEP_IMAGE_HINT" xml:space="preserve">
+    <value>برای حفظ تصویر فعلی خالی بگذارید</value>
+  </data>
+  <data name="FC_ADM_LEVEL" xml:space="preserve">
+    <value>سطح</value>
+  </data>
+  <data name="FC_ADM_LINK_EXPIRES" xml:space="preserve">
+    <value>انقضای پیوند</value>
+  </data>
+  <data name="FC_ADM_LIVE" xml:space="preserve">
+    <value>فعال</value>
+  </data>
+  <data name="FC_ADM_LOGS" xml:space="preserve">
+    <value>گزارش‌ها</value>
+  </data>
+  <data name="FC_ADM_LOGS_CLICK_HINT" xml:space="preserve">
+    <value>برای دیدن همهٔ جزئیات، یک ردیف را انتخاب کنید.</value>
+  </data>
+  <data name="FC_ADM_LOGS_LEAD" xml:space="preserve">
+    <value>رخدادهای ثبت‌شدهٔ برنامه. موارد جدید هنگام وقوع در بالا ظاهر می‌شوند.</value>
+  </data>
+  <data name="FC_ADM_LOG_DATABASE" xml:space="preserve">
+    <value>پایگاه دادهٔ گزارش‌ها</value>
+  </data>
+  <data name="FC_ADM_MAKE_LIVE" xml:space="preserve">
+    <value>فعال کردن</value>
+  </data>
+  <data name="FC_ADM_MEMORY" xml:space="preserve">
+    <value>حافظه</value>
+  </data>
+  <data name="FC_ADM_MESSAGE" xml:space="preserve">
+    <value>پیام</value>
+  </data>
+  <data name="FC_ADM_NEWEST_MEMBER" xml:space="preserve">
+    <value>جدیدترین عضو</value>
+  </data>
+  <data name="FC_ADM_NEW_BULLETIN" xml:space="preserve">
+    <value>بولتن جدید</value>
+  </data>
+  <data name="FC_ADM_NEW_PASSWORD" xml:space="preserve">
+    <value>گذرواژهٔ جدید</value>
+  </data>
+  <data name="FC_ADM_NEXT" xml:space="preserve">
+    <value>بعدی</value>
+  </data>
+  <data name="FC_ADM_NO_BULLETINS" xml:space="preserve">
+    <value>هنوز بولتنی وجود ندارد.</value>
+  </data>
+  <data name="FC_ADM_NO_CHURCHES" xml:space="preserve">
+    <value>هنوز کلیسایی وجود ندارد.</value>
+  </data>
+  <data name="FC_ADM_NO_EVENTS" xml:space="preserve">
+    <value>رویدادی وجود ندارد.</value>
+  </data>
+  <data name="FC_ADM_NO_INVITES" xml:space="preserve">
+    <value>هنوز دعوت‌نامه‌ای وجود ندارد.</value>
+  </data>
+  <data name="FC_ADM_NO_PERMISSIONS" xml:space="preserve">
+    <value>بدون مجوز</value>
+  </data>
+  <data name="FC_ADM_NO_ROLES" xml:space="preserve">
+    <value>هنوز نقشی وجود ندارد.</value>
+  </data>
+  <data name="FC_ADM_NO_UPCOMING" xml:space="preserve">
+    <value>رویداد پیش رویی وجود ندارد.</value>
+  </data>
+  <data name="FC_ADM_NO_USERS" xml:space="preserve">
+    <value>هنوز کاربری وجود ندارد.</value>
+  </data>
+  <data name="FC_ADM_N_CHURCHES" xml:space="preserve">
+    <value>{0} کلیسا</value>
+  </data>
+  <data name="FC_ADM_N_INVITES" xml:space="preserve">
+    <value>{0} دعوت‌نامه</value>
+  </data>
+  <data name="FC_ADM_N_LISTED" xml:space="preserve">
+    <value>{0} مورد در جست‌وجو</value>
+  </data>
+  <data name="FC_ADM_N_UPCOMING" xml:space="preserve">
+    <value>{0} رویداد پیش رو</value>
+  </data>
+  <data name="FC_ADM_N_USERS" xml:space="preserve">
+    <value>{0} کاربر</value>
+  </data>
+  <data name="FC_ADM_ONE_PER_LINE" xml:space="preserve">
+    <value>هر مورد در یک خط.</value>
+  </data>
+  <data name="FC_ADM_PAGE" xml:space="preserve">
+    <value>صفحه</value>
+  </data>
+  <data name="FC_ADM_PARISH" xml:space="preserve">
+    <value>حوزهٔ کلیسایی</value>
+  </data>
+  <data name="FC_ADM_PASSWORD_BLANK_HINT" xml:space="preserve">
+    <value>برای حفظ گذرواژهٔ فعلی خالی بگذارید.</value>
+  </data>
+  <data name="FC_ADM_PDF" xml:space="preserve">
+    <value>نسخهٔ PDF</value>
+  </data>
+  <data name="FC_ADM_PENDING_INVITES" xml:space="preserve">
+    <value>دعوت‌نامه‌های در انتظار</value>
+  </data>
+  <data name="FC_ADM_PERMISSIONS" xml:space="preserve">
+    <value>مجوزها</value>
+  </data>
+  <data name="FC_ADM_PERMISSIONS_LEAD" xml:space="preserve">
+    <value>انتخاب کنید افراد دارای این نقش چه کارهایی می‌توانند بکنند.</value>
+  </data>
+  <data name="FC_ADM_PEW_SHEET" xml:space="preserve">
+    <value>برگهٔ مراسم</value>
+  </data>
+  <data name="FC_ADM_PEW_SHEET_HINT" xml:space="preserve">
+    <value>قرائت‌ها، سرودها و دعای روز برای یک بولتن هفتگی کامل.</value>
+  </data>
+  <data name="FC_ADM_PREVIOUS" xml:space="preserve">
+    <value>قبلی</value>
+  </data>
+  <data name="FC_ADM_PROFILE_IMAGE" xml:space="preserve">
+    <value>عکس نمایه</value>
+  </data>
+  <data name="FC_ADM_RECENT_CHURCHES" xml:space="preserve">
+    <value>کلیساهای تازه افزوده‌شده</value>
+  </data>
+  <data name="FC_ADM_RECENT_ENTRIES" xml:space="preserve">
+    <value>آخرین موارد</value>
+  </data>
+  <data name="FC_ADM_RECIPIENT" xml:space="preserve">
+    <value>ارسال به</value>
+  </data>
+  <data name="FC_ADM_REGISTERED" xml:space="preserve">
+    <value>ثبت‌نام</value>
+  </data>
+  <data name="FC_ADM_REGISTERED_CHURCHES" xml:space="preserve">
+    <value>کلیساهای ثبت‌شده</value>
+  </data>
+  <data name="FC_ADM_REGISTERED_USERS" xml:space="preserve">
+    <value>کاربران ثبت‌شده</value>
+  </data>
+  <data name="FC_ADM_RELEASE" xml:space="preserve">
+    <value>نسخهٔ {0}</value>
+  </data>
+  <data name="FC_ADM_REMOVE" xml:space="preserve">
+    <value>حذف</value>
+  </data>
+  <data name="FC_ADM_REPLACE_PDF" xml:space="preserve">
+    <value>جایگزینی PDF</value>
+  </data>
+  <data name="FC_ADM_RESEND" xml:space="preserve">
+    <value>ارسال دوبارهٔ پیوند</value>
+  </data>
+  <data name="FC_ADM_RESET_LISTING" xml:space="preserve">
+    <value>بازنشانی اطلاعات</value>
+  </data>
+  <data name="FC_ADM_ROLE" xml:space="preserve">
+    <value>نقش</value>
+  </data>
+  <data name="FC_ADM_ROLES" xml:space="preserve">
+    <value>نقش‌ها</value>
+  </data>
+  <data name="FC_ADM_ROLES_HINT" xml:space="preserve">
+    <value>دادن نقش به کسی، حساب او را هم تأیید می‌کند.</value>
+  </data>
+  <data name="FC_ADM_ROLES_LEAD" xml:space="preserve">
+    <value>نقش‌ها تعیین می‌کنند هر حساب چه چیزی را ببیند و تغییر دهد.</value>
+  </data>
+  <data name="FC_ADM_ROLE_ADMIN" xml:space="preserve">
+    <value>مدیر</value>
+  </data>
+  <data name="FC_ADM_ROLE_APPROVED" xml:space="preserve">
+    <value>کلیسای تأییدشده</value>
+  </data>
+  <data name="FC_ADM_ROLE_DEVELOPER" xml:space="preserve">
+    <value>توسعه‌دهنده</value>
+  </data>
+  <data name="FC_ADM_ROLE_NAME" xml:space="preserve">
+    <value>نام نقش</value>
+  </data>
+  <data name="FC_ADM_ROLE_PENDING" xml:space="preserve">
+    <value>در انتظار تأیید</value>
+  </data>
+  <data name="FC_ADM_SEARCH" xml:space="preserve">
+    <value>جست‌وجو</value>
+  </data>
+  <data name="FC_ADM_SEARCH_LOGS" xml:space="preserve">
+    <value>جست‌وجو در گزارش‌ها</value>
+  </data>
+  <data name="FC_ADM_SEND_INVITE" xml:space="preserve">
+    <value>ارسال دعوت‌نامه</value>
+  </data>
+  <data name="FC_ADM_SEND_MESSAGE" xml:space="preserve">
+    <value>ارسال پیام</value>
+  </data>
+  <data name="FC_ADM_SET" xml:space="preserve">
+    <value>تنظیم</value>
+  </data>
+  <data name="FC_ADM_SHOW_BANNER" xml:space="preserve">
+    <value>نمایش بنر</value>
+  </data>
+  <data name="FC_ADM_SIGN_OFF_AS" xml:space="preserve">
+    <value>امضا به نام</value>
+  </data>
+  <data name="FC_ADM_SIGN_OFF_HINT" xml:space="preserve">
+    <value>در پایان ایمیل به‌عنوان نام فرستنده نمایش داده می‌شود.</value>
+  </data>
+  <data name="FC_ADM_SITE_AT_A_GLANCE" xml:space="preserve">
+    <value>در یک نگاه</value>
+  </data>
+  <data name="FC_ADM_SITE_BANNER" xml:space="preserve">
+    <value>بنر سایت</value>
+  </data>
+  <data name="FC_ADM_STATS_UNAVAILABLE" xml:space="preserve">
+    <value>آمار زنده در حال حاضر در دسترس نیست.</value>
+  </data>
+  <data name="FC_ADM_STATUS" xml:space="preserve">
+    <value>وضعیت</value>
+  </data>
+  <data name="FC_ADM_STATUS_CLOSED" xml:space="preserve">
+    <value>پنهان</value>
+  </data>
+  <data name="FC_ADM_STATUS_NOT_SET_UP" xml:space="preserve">
+    <value>راه‌اندازی نشده</value>
+  </data>
+  <data name="FC_ADM_STATUS_OPEN" xml:space="preserve">
+    <value>نمایش داده می‌شود</value>
+  </data>
+  <data name="FC_ADM_SUNDAY_NAME" xml:space="preserve">
+    <value>یکشنبه یا نام مراسم</value>
+  </data>
+  <data name="FC_ADM_SYSTEM_HEALTH" xml:space="preserve">
+    <value>سلامت سیستم</value>
+  </data>
+  <data name="FC_ADM_TIME" xml:space="preserve">
+    <value>زمان</value>
+  </data>
+  <data name="FC_ADM_TO" xml:space="preserve">
+    <value>تا</value>
+  </data>
+  <data name="FC_ADM_TYPE_ANNOUNCEMENT" xml:space="preserve">
+    <value>اطلاعیه</value>
+  </data>
+  <data name="FC_ADM_TYPE_BULLETIN" xml:space="preserve">
+    <value>بولتن هفتگی (برگهٔ مراسم)</value>
+  </data>
+  <data name="FC_ADM_TYPE_MESSAGE" xml:space="preserve">
+    <value>پیام</value>
+  </data>
+  <data name="FC_ADM_UPLOAD_PDF" xml:space="preserve">
+    <value>بارگذاری PDF</value>
+  </data>
+  <data name="FC_ADM_USER" xml:space="preserve">
+    <value>کاربر</value>
+  </data>
+  <data name="FC_ADM_USERS" xml:space="preserve">
+    <value>کاربران</value>
+  </data>
+  <data name="FC_ADM_USERS_LEAD" xml:space="preserve">
+    <value>همهٔ افراد دارای حساب و آنچه می‌توانند انجام دهند.</value>
+  </data>
+  <data name="FC_ADM_USER_NOT_FOUND" xml:space="preserve">
+    <value>این کاربر پیدا نشد</value>
+  </data>
+  <data name="FC_ADM_VIEW_ALL" xml:space="preserve">
+    <value>مشاهدهٔ همه</value>
+  </data>
+  <data name="FC_ADM_WHEN" xml:space="preserve">
+    <value>زمان</value>
+  </data>
+  <data name="FC_ADM_PAST_EVENTS" xml:space="preserve">
+    <value>رویدادهای گذشته</value>
   </data>
 </root>

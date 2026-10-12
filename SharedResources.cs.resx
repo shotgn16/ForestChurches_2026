@@ -415,7 +415,7 @@
     <value>O nás</value>
   </data>
   <data name="ABOUTUS_COMMUNITY_SECTION_TEXT" xml:space="preserve">
-    <value>Vítejte, doufáme, že zde najdete to, co hledáte. Pokud jste to ještě nevěděli, toto je...! Věnujeme se službě naší komunitě s láskou a soucitem. Naším posláním je vytvářet přívětivý prostor, kde se každý cítí přijatý a podporovaný. Připojte se k nám a pomozte nám měnit věci k lepšímu!</value>
+    <value>Chceme sloužit naší komunitě s láskou a soucitem. Naším posláním je vytvářet vstřícné místo, kde se každý cítí ceněný a podporovaný. Přidejte se k nám a pomozte měnit věci k lepšímu.</value>
   </data>
   <data name="ABOUTUS_COMMUNITY_SECTION_TITLE" xml:space="preserve">
     <value>Jsme tu pro komunitu</value>
@@ -607,7 +607,7 @@
     <value>Čas</value>
   </data>
   <data name="NOTE_LABEL" xml:space="preserve">
-    <value>Datum</value>
+    <value>Bohoslužba</value>
   </data>
   <data name="DELETE_ENTRY_LABEL" xml:space="preserve">
     <value>Smazat záznam</value>
@@ -739,7 +739,7 @@
     <value>Aktualizujte informace o svém kostele z účtu ChurchSuite.</value>
   </data>
   <data name="TAG_SELECT_IMAGE" xml:space="preserve">
-    <value>Vybrat soubor (Klikněte zde)</value>
+    <value>Vybrat obrázek</value>
   </data>
   <data name="TAG_CLOSED_INFO" xml:space="preserve">
     <value>Tlačítko Označit kostel jako zavřený používejte pouze tehdy, je-li váš kostel uzavřen z důvodu dlouhodobé údržby nebo je-li trvale uzavřen. Upozorňujeme, že pokud je stav nastaven na zavřeno, váš kostel se NEBUDE zobrazovat ve vyhledávání v okolí.</value>
@@ -902,5 +902,1616 @@
   </data>
   <data name="STATUS_CLOSE" xml:space="preserve">
     <value>Zavřít</value>
+  </data>
+  <data name="EVENTS_CONTACT_LINK" xml:space="preserve">
+    <value>Kontaktujte nás</value>
+  </data>
+  <data name="EVENTS_CONTACT_TEXT" xml:space="preserve">
+    <value>Myslíte si, že jde o chybu?</value>
+  </data>
+  <data name="EVENTS_FOOTER_NOTE_TEXT" xml:space="preserve">
+    <value>Jednorázové události se odstraňují přibližně 24 hodin po skončení, aby databáze zůstala přehledná a náklady nízké. Opakující se události zůstávají zveřejněné.</value>
+  </data>
+  <data name="EVENTS_FOOTER_NOTE_TITLE" xml:space="preserve">
+    <value>Poznámka</value>
+  </data>
+  <data name="EVENTS_NO_EVENTS_TEXT" xml:space="preserve">
+    <value>Zatím nemáte žádné nadcházející události.</value>
+  </data>
+  <data name="FAQ_INTRO_TEXT" xml:space="preserve">
+    <value>Odpovědi na otázky, které dostáváme nejčastěji. Nenašli jste, co potřebujete?</value>
+  </data>
+  <data name="FAQ_PAGE_TITLE" xml:space="preserve">
+    <value>Často kladené otázky</value>
+  </data>
+  <data name="FAQ_SECTION_TITLE" xml:space="preserve">
+    <value>Používání webu</value>
+  </data>
+  <data name="FAQ_Q1_TITLE" xml:space="preserve">
+    <value>Jak zaregistruji svůj kostel?</value>
+  </data>
+  <data name="FAQ_Q1_ANSWER" xml:space="preserve">
+    <value>Ozvěte se nám přes stránku Kontakt. Pošleme vám e-mailem jedinečný odkaz s pozvánkou, pomocí kterého si vytvoříte účet. Poté můžete vyplnit údaje o kostele, časy bohoslužeb a události.</value>
+  </data>
+  <data name="FAQ_Q2_TITLE" xml:space="preserve">
+    <value>Jiné služby dělají něco podobného — proč používat tuto?</value>
+  </data>
+  <data name="FAQ_Q2_ANSWER" xml:space="preserve">
+    <value>Jiné služby také uvádějí kostely, ale mnohé si za to účtují poplatky a je těžké zjistit, který kostel je nejblíž. Forest Churches je zdarma a postavený na hledání podle PSČ, takže rychle uvidíte, co je ve vašem okolí.</value>
+  </data>
+  <data name="FAQ_Q3_TITLE" xml:space="preserve">
+    <value>Jak získám kopii svých osobních údajů?</value>
+  </data>
+  <data name="FAQ_Q3_ANSWER" xml:space="preserve">
+    <value>V administraci kostela otevřete „Moje údaje“ a zvolte „Stáhnout“. Pokud tam něco chybí, kontaktujte nás a rádi pomůžeme.</value>
+  </data>
+  <data name="FAQ_Q4_TITLE" xml:space="preserve">
+    <value>Kde jsou moje údaje uloženy?</value>
+  </data>
+  <data name="FAQ_Q4_ANSWER" xml:space="preserve">
+    <value>Kvůli bezpečnosti jsou všechny informace uloženy v zabezpečené externí databázi, ke které má přístup pouze samotná aplikace.</value>
+  </data>
+  <data name="FAQ_Q5_TITLE" xml:space="preserve">
+    <value>Moje událost zmizela ze stránky kostela — proč?</value>
+  </data>
+  <data name="FAQ_Q5_ANSWER" xml:space="preserve">
+    <value>Aby databáze zůstala malá a náklady nízké, jednorázové události se odstraňují do 24 hodin po skončení. Opakující se události v systému zůstávají.</value>
+  </data>
+  <data name="FAQ_Q6_TITLE" xml:space="preserve">
+    <value>Jak aktualizuji informace o svém kostele?</value>
+  </data>
+  <data name="FAQ_Q6_ANSWER" xml:space="preserve">
+    <value>Přihlaste se a otevřete „Můj kostel“. Tam můžete změnit údaje, vybavení, časy bohoslužeb i logo.</value>
+  </data>
+  <data name="FAQ_Q7_TITLE" xml:space="preserve">
+    <value>Proč nemohu změnit e-mailovou adresu svého účtu?</value>
+  </data>
+  <data name="FAQ_Q7_ANSWER" xml:space="preserve">
+    <value>Z bezpečnostních důvodů nelze e-mailové adresy měnit přímo na webu. Pokud potřebujete svou změnit, ozvěte se nám a pomůžeme.</value>
+  </data>
+  <data name="FAQ_Q8_TITLE" xml:space="preserve">
+    <value>Proč odkaz v mém e-mailu už nefunguje?</value>
+  </data>
+  <data name="FAQ_Q8_ANSWER" xml:space="preserve">
+    <value>Většina odkazů, které posíláme e-mailem, je šifrovaná a platí jen 24 hodin. Pokud vám vypršel, požádejte o nový.</value>
+  </data>
+  <data name="FAQ_Q9_TITLE" xml:space="preserve">
+    <value>Proč některé stránky potvrzují mé změny a jiné ne?</value>
+  </data>
+  <data name="FAQ_Q9_ANSWER" xml:space="preserve">
+    <value>Každá stránka by nyní měla po uložení zobrazit potvrzení. Pokud narazíte na nějakou, která to nedělá, dejte nám prosím vědět.</value>
+  </data>
+  <data name="LOGIN_EMAIL_LABEL" xml:space="preserve">
+    <value>E-mail</value>
+  </data>
+  <data name="LOGIN_PASSWORD_LABEL" xml:space="preserve">
+    <value>Heslo</value>
+  </data>
+  <data name="TAG_ADDRESS" xml:space="preserve">
+    <value>Adresa</value>
+  </data>
+  <data name="TAG_CHURCHSUITE" xml:space="preserve">
+    <value>Adresa ChurchSuite</value>
+  </data>
+  <data name="TAG_FACILITIES" xml:space="preserve">
+    <value>Vybavení</value>
+  </data>
+  <data name="TAG_SIZE_CONGREGATION" xml:space="preserve">
+    <value>Obvyklá nedělní návštěvnost</value>
+  </data>
+  <data name="TAG_WEBSITE" xml:space="preserve">
+    <value>Webové stránky</value>
+  </data>
+  <data name="RegisterTitle" xml:space="preserve">
+    <value>Registrace</value>
+  </data>
+  <data name="RegisterWith" xml:space="preserve">
+    <value>Registrovat přes</value>
+  </data>
+  <data name="FC_SKIP_TO_CONTENT" xml:space="preserve">
+    <value>Přejít na hlavní obsah</value>
+  </data>
+  <data name="FC_MENU" xml:space="preserve">
+    <value>Nabídka</value>
+  </data>
+  <data name="FC_MAIN_NAV" xml:space="preserve">
+    <value>Hlavní navigace</value>
+  </data>
+  <data name="FC_FOOTER_NAV" xml:space="preserve">
+    <value>Zápatí</value>
+  </data>
+  <data name="FC_NAV_FIND" xml:space="preserve">
+    <value>Najít kostel</value>
+  </data>
+  <data name="FC_NAV_BULLETIN" xml:space="preserve">
+    <value>Zpravodaj</value>
+  </data>
+  <data name="FC_NAV_CHURCH_LOGIN" xml:space="preserve">
+    <value>Přihlášení pro kostely</value>
+  </data>
+  <data name="FC_NAV_MY_CHURCH" xml:space="preserve">
+    <value>Můj kostel</value>
+  </data>
+  <data name="FC_NAV_CHURCHSUITE" xml:space="preserve">
+    <value>ChurchSuite</value>
+  </data>
+  <data name="FC_NAV_BULLETINS" xml:space="preserve">
+    <value>Zpravodaje</value>
+  </data>
+  <data name="FC_NAV_SITE_ADMIN" xml:space="preserve">
+    <value>Správa webu</value>
+  </data>
+  <data name="FC_LANGUAGE" xml:space="preserve">
+    <value>Jazyk</value>
+  </data>
+  <data name="FC_PRIVACY" xml:space="preserve">
+    <value>Ochrana soukromí</value>
+  </data>
+  <data name="FC_FAQ" xml:space="preserve">
+    <value>Časté dotazy</value>
+  </data>
+  <data name="FC_CHURCH_ADMIN" xml:space="preserve">
+    <value>Správa kostela</value>
+  </data>
+  <data name="FC_ACCOUNT_NAV" xml:space="preserve">
+    <value>Účet</value>
+  </data>
+  <data name="FC_VIEW_PUBLIC_PAGE" xml:space="preserve">
+    <value>Zobrazit veřejnou stránku</value>
+  </data>
+  <data name="FC_BACK_TO_SITE" xml:space="preserve">
+    <value>Zpět na web</value>
+  </data>
+  <data name="FC_STATUS_OPEN_LISTED" xml:space="preserve">
+    <value>Otevřeno · zobrazeno ve vyhledávání</value>
+  </data>
+  <data name="FC_STATUS_CLOSED_HIDDEN" xml:space="preserve">
+    <value>Zavřeno · skryto ve vyhledávání</value>
+  </data>
+  <data name="FC_BULLETIN_BANNER_LABEL" xml:space="preserve">
+    <value>Nejnovější zpravodaj</value>
+  </data>
+  <data name="FC_BULLETIN_NEW" xml:space="preserve">
+    <value>Nový zpravodaj:</value>
+  </data>
+  <data name="FC_BULLETIN_READ" xml:space="preserve">
+    <value>Přečíst</value>
+  </data>
+  <data name="FC_HOME_TITLE" xml:space="preserve">
+    <value>Najděte kostel ve svém okolí</value>
+  </data>
+  <data name="FC_HERO_ALT" xml:space="preserve">
+    <value>Údolí řeky Wye shora, řeka se vine lesem</value>
+  </data>
+  <data name="FC_HERO_EYEBROW" xml:space="preserve">
+    <value>Kostely v celém Forest of Dean</value>
+  </data>
+  <data name="FC_HERO_TITLE" xml:space="preserve">
+    <value>Najděte kostel ve svém okolí</value>
+  </data>
+  <data name="FC_HERO_LEAD" xml:space="preserve">
+    <value>Časy bohoslužeb, události a co vás čeká — pro církevní společenství v celém kraji.</value>
+  </data>
+  <data name="FC_SEARCH_LABEL" xml:space="preserve">
+    <value>Najít kostel</value>
+  </data>
+  <data name="FC_SEARCH_POSTCODE" xml:space="preserve">
+    <value>PSČ nebo město</value>
+  </data>
+  <data name="FC_SEARCH_WITHIN" xml:space="preserve">
+    <value>Do vzdálenosti</value>
+  </data>
+  <data name="FC_SEARCH_BUTTON" xml:space="preserve">
+    <value>Hledat</value>
+  </data>
+  <data name="FC_MILES" xml:space="preserve">
+    <value>mil</value>
+  </data>
+  <data name="FC_MILES_SHORT" xml:space="preserve">
+    <value>mi</value>
+  </data>
+  <data name="FC_FINDING_YOU" xml:space="preserve">
+    <value>Zjišťuji polohu…</value>
+  </data>
+  <data name="FC_MORE_FILTERS" xml:space="preserve">
+    <value>Další filtry</value>
+  </data>
+  <data name="FC_HIDE_FILTERS" xml:space="preserve">
+    <value>Skrýt filtry</value>
+  </data>
+  <data name="FC_MUST_HAVE" xml:space="preserve">
+    <value>Musí mít</value>
+  </data>
+  <data name="FC_OPTIONAL" xml:space="preserve">
+    <value>nepovinné</value>
+  </data>
+  <data name="FC_WHATS_ON" xml:space="preserve">
+    <value>Co se děje v okolí</value>
+  </data>
+  <data name="FC_FIND_EVENTS" xml:space="preserve">
+    <value>Najít události</value>
+  </data>
+  <data name="FC_HOW_TITLE" xml:space="preserve">
+    <value>Jak to funguje</value>
+  </data>
+  <data name="FC_HOW_1_TITLE" xml:space="preserve">
+    <value>Hledejte podle PSČ</value>
+  </data>
+  <data name="FC_HOW_1_TEXT" xml:space="preserve">
+    <value>Nebo použijte svou polohu a uvidíte, co je blízko.</value>
+  </data>
+  <data name="FC_HOW_2_TITLE" xml:space="preserve">
+    <value>Filtrujte podle toho, na čem záleží</value>
+  </data>
+  <data name="FC_HOW_2_TEXT" xml:space="preserve">
+    <value>Bezbariérový přístup, parkování, program pro děti, denominace.</value>
+  </data>
+  <data name="FC_HOW_3_TITLE" xml:space="preserve">
+    <value>Navštivte nebo se ozvěte</value>
+  </data>
+  <data name="FC_HOW_3_TEXT" xml:space="preserve">
+    <value>Zjistěte trasu nebo pošlete kostelu zprávu.</value>
+  </data>
+  <data name="FC_ABOUT_STRIP_TITLE" xml:space="preserve">
+    <value>Jedno místo pro všechny kostely v kraji</value>
+  </data>
+  <data name="FC_ABOUT_STRIP_TEXT" xml:space="preserve">
+    <value>Forest Churches shromažďuje časy bohoslužeb, události a kontakty místních církevních společenství, které aktualizují samy kostely.</value>
+  </data>
+  <data name="FC_LIST_YOUR_CHURCH" xml:space="preserve">
+    <value>Přidejte svůj kostel</value>
+  </data>
+  <data name="FC_LEARN_MORE" xml:space="preserve">
+    <value>Zjistit více</value>
+  </data>
+  <data name="FC_RESULTS_TITLE" xml:space="preserve">
+    <value>Najít kostel</value>
+  </data>
+  <data name="FC_RESULTS_ONE" xml:space="preserve">
+    <value>1 kostel do {0} mil</value>
+  </data>
+  <data name="FC_RESULTS_MANY" xml:space="preserve">
+    <value>Kostelů do {1} mil: {0}</value>
+  </data>
+  <data name="FC_NO_RESULTS_TITLE" xml:space="preserve">
+    <value>Nenašli jsme žádné kostely</value>
+  </data>
+  <data name="FC_NO_RESULTS_TEXT" xml:space="preserve">
+    <value>Zkuste větší vzdálenost nebo vypněte některé filtry.</value>
+  </data>
+  <data name="FC_NEXT_SERVICE" xml:space="preserve">
+    <value>Příští bohoslužba</value>
+  </data>
+  <data name="FC_VIEW_CHURCH" xml:space="preserve">
+    <value>Zobrazit kostel</value>
+  </data>
+  <data name="FC_DIRECTIONS" xml:space="preserve">
+    <value>Trasa</value>
+  </data>
+  <data name="FC_OPENS_NEW_TAB" xml:space="preserve">
+    <value>otevře se v nové kartě</value>
+  </data>
+  <data name="FC_READ_MORE" xml:space="preserve">
+    <value>Číst dál</value>
+  </data>
+  <data name="FC_SHOW_LESS" xml:space="preserve">
+    <value>Zobrazit méně</value>
+  </data>
+  <data name="FC_FACT_STEP_FREE" xml:space="preserve">
+    <value>Bezbariérové</value>
+  </data>
+  <data name="FC_FACT_HEARING_LOOP" xml:space="preserve">
+    <value>Indukční smyčka</value>
+  </data>
+  <data name="FC_FACT_CHILDREN" xml:space="preserve">
+    <value>Program pro děti</value>
+  </data>
+  <data name="FC_CHURCH_NOT_FOUND" xml:space="preserve">
+    <value>Kostel nenalezen</value>
+  </data>
+  <data name="FC_CHURCH_NOT_FOUND_TEXT" xml:space="preserve">
+    <value>Tento odkaz může být zastaralý. Zkuste kostel raději vyhledat.</value>
+  </data>
+  <data name="FC_BACK" xml:space="preserve">
+    <value>← Zpět</value>
+  </data>
+  <data name="FC_CONGREGATION" xml:space="preserve">
+    <value>{0} v neděli</value>
+  </data>
+  <data name="FC_KEY_FACTS" xml:space="preserve">
+    <value>Základní informace</value>
+  </data>
+  <data name="FC_SUNDAY" xml:space="preserve">
+    <value>Neděle</value>
+  </data>
+  <data name="FC_NO_SERVICE_TIMES" xml:space="preserve">
+    <value>Časy bohoslužeb zatím nejsou uvedeny</value>
+  </data>
+  <data name="FC_WEBSITE" xml:space="preserve">
+    <value>Webové stránky</value>
+  </data>
+  <data name="FC_ABOUT_US" xml:space="preserve">
+    <value>O nás</value>
+  </data>
+  <data name="FC_UPCOMING_EVENTS" xml:space="preserve">
+    <value>Nadcházející události</value>
+  </data>
+  <data name="FC_WHAT_TO_EXPECT" xml:space="preserve">
+    <value>Co vás čeká</value>
+  </data>
+  <data name="FC_FIND_US" xml:space="preserve">
+    <value>Kde nás najdete</value>
+  </data>
+  <data name="FC_MAP_OF" xml:space="preserve">
+    <value>Mapa: {0}</value>
+  </data>
+  <data name="FC_GOES_TO_CHURCH" xml:space="preserve">
+    <value>Zpráva jde přímo kostelu.</value>
+  </data>
+  <data name="FC_YOUR_NAME" xml:space="preserve">
+    <value>Vaše jméno</value>
+  </data>
+  <data name="FC_YOUR_EMAIL" xml:space="preserve">
+    <value>Váš e-mail</value>
+  </data>
+  <data name="FC_CONTACT_TITLE" xml:space="preserve">
+    <value>Napište nám</value>
+  </data>
+  <data name="FC_CONTACT_LEAD" xml:space="preserve">
+    <value>Máte dotaz k webu, chcete přidat svůj kostel nebo jste našli chybu? Ozveme se vám.</value>
+  </data>
+  <data name="FC_CONTACT_CHURCH_TITLE" xml:space="preserve">
+    <value>Zpráva pro {0}</value>
+  </data>
+  <data name="FC_CONTACT_CHURCH_LEAD" xml:space="preserve">
+    <value>Vaše zpráva půjde přímo kostelu.</value>
+  </data>
+  <data name="FC_CONTACT_SPECIFIC_CHURCH" xml:space="preserve">
+    <value>Chcete kontaktovat konkrétní kostel? Použijte formulář na jeho stránce.</value>
+  </data>
+  <data name="FC_EMAIL" xml:space="preserve">
+    <value>E-mail</value>
+  </data>
+  <data name="FC_LOOKING_FOR_ANSWERS" xml:space="preserve">
+    <value>Hledáte odpovědi?</value>
+  </data>
+  <data name="FC_READ_FAQ" xml:space="preserve">
+    <value>Přečíst časté dotazy</value>
+  </data>
+  <data name="FC_MESSAGE_FORM" xml:space="preserve">
+    <value>Formulář zprávy</value>
+  </data>
+  <data name="FC_PRIVACY_NOTE" xml:space="preserve">
+    <value>Vaše údaje použijeme jen k odpovědi. Viz naše</value>
+  </data>
+  <data name="FC_GET_IN_TOUCH" xml:space="preserve">
+    <value>Napište nám</value>
+  </data>
+  <data name="FC_ABOUT_SUPPORT_TITLE" xml:space="preserve">
+    <value>Podpora místních kostelů</value>
+  </data>
+  <data name="FC_ABOUT_SUPPORT_TEXT" xml:space="preserve">
+    <value>Kostely si své stránky aktualizují samy — časy bohoslužeb, vybavení a události, synchronizované z ChurchSuite, pokud ho používají — aby návštěvníci viděli, co se skutečně děje.</value>
+  </data>
+  <data name="FC_HELP" xml:space="preserve">
+    <value>Nápověda</value>
+  </data>
+  <data name="FC_SEND_US_A_MESSAGE" xml:space="preserve">
+    <value>Pošlete nám zprávu</value>
+  </data>
+  <data name="FC_FAQ_CHURCHES_TITLE" xml:space="preserve">
+    <value>Pro kostely</value>
+  </data>
+  <data name="FC_BULLETIN_DEFAULT_TITLE" xml:space="preserve">
+    <value>Týdenní farní zpravodaj</value>
+  </data>
+  <data name="FC_BULLETIN_DEFAULT_PARISH" xml:space="preserve">
+    <value>Forest of Dean Benefice</value>
+  </data>
+  <data name="FC_BULLETIN_NONE" xml:space="preserve">
+    <value>Zatím nebyl zveřejněn žádný zpravodaj</value>
+  </data>
+  <data name="FC_BULLETIN_NONE_TEXT" xml:space="preserve">
+    <value>Brzy se vraťte pro zpravodaj na tento týden.</value>
+  </data>
+  <data name="FC_BULLETIN_SECTIONS" xml:space="preserve">
+    <value>Části zpravodaje</value>
+  </data>
+  <data name="FC_DOWNLOAD_PDF" xml:space="preserve">
+    <value>Stáhnout PDF</value>
+  </data>
+  <data name="FC_PRINT" xml:space="preserve">
+    <value>Tisk</value>
+  </data>
+  <data name="FC_DETAILS" xml:space="preserve">
+    <value>Podrobnosti</value>
+  </data>
+  <data name="FC_NOTICES" xml:space="preserve">
+    <value>Oznámení</value>
+  </data>
+  <data name="FC_READINGS" xml:space="preserve">
+    <value>Čtení</value>
+  </data>
+  <data name="FC_HYMNS" xml:space="preserve">
+    <value>Písně</value>
+  </data>
+  <data name="FC_COLLECT" xml:space="preserve">
+    <value>Vstupní modlitba</value>
+  </data>
+  <data name="FC_THE_COLLECT" xml:space="preserve">
+    <value>Vstupní modlitba</value>
+  </data>
+  <data name="FC_THIS_WEEKS_NOTICES" xml:space="preserve">
+    <value>Oznámení tohoto týdne</value>
+  </data>
+  <data name="FC_NOTHING_THIS_WEEK" xml:space="preserve">
+    <value>Tento týden zde nic není.</value>
+  </data>
+  <data name="FC_FIRST_READING" xml:space="preserve">
+    <value>První čtení</value>
+  </data>
+  <data name="FC_GOSPEL" xml:space="preserve">
+    <value>Evangelium</value>
+  </data>
+  <data name="FC_LOGIN_PITCH_TITLE" xml:space="preserve">
+    <value>Udržujte stránku svého kostela aktuální</value>
+  </data>
+  <data name="FC_LOGIN_PITCH_TEXT" xml:space="preserve">
+    <value>Časy bohoslužeb, vybavení a události — vše na jednom místě, aby návštěvníci vždy věděli, co je čeká.</value>
+  </data>
+  <data name="FC_LOGIN_LEAD" xml:space="preserve">
+    <value>Přihlaste se a spravujte svůj kostel.</value>
+  </data>
+  <data name="FC_SHOW" xml:space="preserve">
+    <value>Zobrazit</value>
+  </data>
+  <data name="FC_HIDE" xml:space="preserve">
+    <value>Skrýt</value>
+  </data>
+  <data name="FC_KEEP_ME_SIGNED_IN" xml:space="preserve">
+    <value>Zůstat přihlášen</value>
+  </data>
+  <data name="FC_SIGN_IN" xml:space="preserve">
+    <value>Přihlásit se</value>
+  </data>
+  <data name="FC_OR" xml:space="preserve">
+    <value>nebo</value>
+  </data>
+  <data name="FC_SIGN_IN_WITH" xml:space="preserve">
+    <value>Přihlásit se přes {0}</value>
+  </data>
+  <data name="FC_NOT_SET_UP" xml:space="preserve">
+    <value>Ještě nemáte účet? Kostely se připojují na pozvání —</value>
+  </data>
+  <data name="FC_ASK_FOR_INVITE" xml:space="preserve">
+    <value>požádejte o pozvánku</value>
+  </data>
+  <data name="FC_RESET_PASSWORD" xml:space="preserve">
+    <value>Obnovení hesla</value>
+  </data>
+  <data name="FC_RESET_LEAD" xml:space="preserve">
+    <value>Zadejte e-mail, kterým se přihlašujete, a pošleme vám odkaz pro nastavení nového hesla.</value>
+  </data>
+  <data name="FC_SEND_RESET_LINK" xml:space="preserve">
+    <value>Poslat odkaz</value>
+  </data>
+  <data name="FC_BACK_TO_LOGIN" xml:space="preserve">
+    <value>Zpět na přihlášení</value>
+  </data>
+  <data name="FC_CHECK_INBOX" xml:space="preserve">
+    <value>Zkontrolujte svou schránku</value>
+  </data>
+  <data name="FC_CHECK_INBOX_TEXT" xml:space="preserve">
+    <value>Pokud k tomuto e-mailu existuje účet, odkaz je na cestě. Nezapomeňte se podívat i do spamu.</value>
+  </data>
+  <data name="FC_USE_DIFFERENT_EMAIL" xml:space="preserve">
+    <value>Použít jiný e-mail</value>
+  </data>
+  <data name="FC_MY_CHURCH_LEAD" xml:space="preserve">
+    <value>Co návštěvníci vidí na vaší veřejné stránce a ve vyhledávání.</value>
+  </data>
+  <data name="FC_CHURCH_NAME" xml:space="preserve">
+    <value>Název kostela</value>
+  </data>
+  <data name="FC_ABOUT_YOUR_CHURCH" xml:space="preserve">
+    <value>O vašem kostele</value>
+  </data>
+  <data name="FC_SHOWN_AT_TOP" xml:space="preserve">
+    <value>zobrazí se v horní části stránky</value>
+  </data>
+  <data name="FC_FACILITIES_HINT" xml:space="preserve">
+    <value>Návštěvníci podle toho mohou filtrovat výsledky.</value>
+  </data>
+  <data name="FC_DISCARD_CHANGES" xml:space="preserve">
+    <value>Zahodit změny</value>
+  </data>
+  <data name="FC_NO_SERVICE_TIMES_ADMIN" xml:space="preserve">
+    <value>Zatím nejsou přidány žádné bohoslužby. Přidejte první níže.</value>
+  </data>
+  <data name="FC_CONFIRM_REMOVE_SERVICE" xml:space="preserve">
+    <value>Odstranit tento čas bohoslužby?</value>
+  </data>
+  <data name="FC_SERVICE_NAME" xml:space="preserve">
+    <value>Název bohoslužby</value>
+  </data>
+  <data name="FC_LOGO_TITLE" xml:space="preserve">
+    <value>Logo nebo fotografie</value>
+  </data>
+  <data name="FC_CURRENT_LOGO" xml:space="preserve">
+    <value>Současné logo</value>
+  </data>
+  <data name="FC_LOGO_HINT" xml:space="preserve">
+    <value>PNG nebo JPEG. Nejlépe funguje čtvercový obrázek.</value>
+  </data>
+  <data name="FC_SYNC_NOW" xml:space="preserve">
+    <value>Synchronizovat nyní</value>
+  </data>
+  <data name="FC_MANAGE_CONNECTION" xml:space="preserve">
+    <value>Spravovat propojení</value>
+  </data>
+  <data name="FC_DANGER_ZONE" xml:space="preserve">
+    <value>Nebezpečná zóna</value>
+  </data>
+  <data name="FC_MARK_CLOSED" xml:space="preserve">
+    <value>Označit kostel jako zavřený…</value>
+  </data>
+  <data name="FC_MARK_OPEN" xml:space="preserve">
+    <value>Znovu otevřít kostel</value>
+  </data>
+  <data name="FC_CONFIRM_CLOSE" xml:space="preserve">
+    <value>{0} bude skryt ve vyhledávání. Opravdu?</value>
+  </data>
+  <data name="FC_CLOSED_NOW" xml:space="preserve">
+    <value>Váš kostel je označen jako zavřený a nezobrazuje se ve vyhledávání. Znovu ho otevřete, až budete opět sloužit bohoslužby.</value>
+  </data>
+  <data name="FC_PROFILE_LEAD" xml:space="preserve">
+    <value>Vaše vlastní přihlašovací údaje — oddělené od veřejných informací o kostele.</value>
+  </data>
+  <data name="FC_YOUR_DETAILS" xml:space="preserve">
+    <value>Vaše údaje</value>
+  </data>
+  <data name="FC_EMAIL_SIGN_IN" xml:space="preserve">
+    <value>E-mail (pro přihlášení)</value>
+  </data>
+  <data name="FC_EMAIL_CHANGE_HINT" xml:space="preserve">
+    <value>Pro změnu e-mailu nás prosím kontaktujte.</value>
+  </data>
+  <data name="FC_SECURITY_LEAD" xml:space="preserve">
+    <value>Chraňte účet svého kostela.</value>
+  </data>
+  <data name="FC_PASSWORD_HINT" xml:space="preserve">
+    <value>Použijte alespoň 12 znaků. Krátká věta se pamatuje snadněji.</value>
+  </data>
+  <data name="FC_CONFIRM_NEW_PASSWORD" xml:space="preserve">
+    <value>Potvrzení nového hesla</value>
+  </data>
+  <data name="FC_UPDATE_PASSWORD" xml:space="preserve">
+    <value>Změnit heslo</value>
+  </data>
+  <data name="FC_2FA_LEAD" xml:space="preserve">
+    <value>Při přihlášení vyžadovat kód z ověřovací aplikace.</value>
+  </data>
+  <data name="FC_2FA_EXPLAIN" xml:space="preserve">
+    <value>Použijte aplikaci jako Microsoft nebo Google Authenticator. I když někdo zjistí vaše heslo, bez vašeho telefonu se nepřihlásí.</value>
+  </data>
+  <data name="FC_MANAGE" xml:space="preserve">
+    <value>Spravovat</value>
+  </data>
+  <data name="FC_ON" xml:space="preserve">
+    <value>Zapnuto</value>
+  </data>
+  <data name="FC_OFF_RECOMMENDED" xml:space="preserve">
+    <value>Vypnuto — doporučujeme zapnout</value>
+  </data>
+  <data name="FC_RECOVERY_CODES" xml:space="preserve">
+    <value>Záložní kódy</value>
+  </data>
+  <data name="FC_RECOVERY_CODES_LEFT" xml:space="preserve">
+    <value>Zbývá vám záložních kódů: {0}. Použijte jeden, pokud ztratíte telefon.</value>
+  </data>
+  <data name="FC_CHURCHSUITE_LEAD" xml:space="preserve">
+    <value>Propojte svůj účet ChurchSuite a události se na vaší stránce zobrazí automaticky.</value>
+  </data>
+  <data name="FC_CONNECTED" xml:space="preserve">
+    <value>Propojeno</value>
+  </data>
+  <data name="FC_NOT_CONNECTED" xml:space="preserve">
+    <value>Nepropojeno</value>
+  </data>
+  <data name="FC_CS_STEP_1" xml:space="preserve">
+    <value>V konzoli pro vývojáře ChurchSuite vytvořte novou aplikaci OAuth jako veřejného (PKCE) klienta.</value>
+  </data>
+  <data name="FC_CS_STEP_2" xml:space="preserve">
+    <value>Zkopírujte její Client ID a vložte ho níže.</value>
+  </data>
+  <data name="FC_CS_STEP_3" xml:space="preserve">
+    <value>Zvolte „Uložit a autorizovat“ a poté v ChurchSuite přístup schvalte.</value>
+  </data>
+  <data name="FC_CONFIRM_REMOVE_LOGIN" xml:space="preserve">
+    <value>Odebrat přihlášení přes {0} z vašeho účtu?</value>
+  </data>
+  <data name="FC_DOWNLOAD_YOUR_DATA" xml:space="preserve">
+    <value>Stáhnout vaše data</value>
+  </data>
+  <data name="FC_DOWNLOAD_YOUR_DATA_TEXT" xml:space="preserve">
+    <value>Vše, co o vás a vašem kostele uchováváme, v jednom souboru.</value>
+  </data>
+  <data name="FC_DOWNLOAD" xml:space="preserve">
+    <value>Stáhnout</value>
+  </data>
+  <data name="FC_DELETE_ACCOUNT" xml:space="preserve">
+    <value>Smazat účet</value>
+  </data>
+  <data name="FC_DELETE_ACCOUNT_TEXT" xml:space="preserve">
+    <value>Trvale odstraní vaše přihlášení a s ním spojená data.</value>
+  </data>
+  <data name="FC_DELETE_PERMANENT" xml:space="preserve">
+    <value>Tuto akci nelze vrátit.</value>
+  </data>
+  <data name="FC_ENTER_PASSWORD_CONFIRM" xml:space="preserve">
+    <value>Pro potvrzení zadejte heslo</value>
+  </data>
+  <data name="FC_CANCEL" xml:space="preserve">
+    <value>Zrušit</value>
+  </data>
+  <data name="FC_DELETE_PERMANENTLY" xml:space="preserve">
+    <value>Trvale smazat</value>
+  </data>
+  <data name="FC_EVENTS_LEAD" xml:space="preserve">
+    <value>Události z ChurchSuite se synchronizují automaticky. Jednorázové události přidejte zde.</value>
+  </data>
+  <data name="FC_SYNC_FROM_CHURCHSUITE" xml:space="preserve">
+    <value>Synchronizovat z ChurchSuite</value>
+  </data>
+  <data name="FC_EVENT_COUNT" xml:space="preserve">
+    <value>Nadcházející: {0}</value>
+  </data>
+  <data name="FC_PAST_EVENTS" xml:space="preserve">
+    <value>Minulé události ({0})</value>
+  </data>
+  <data name="FC_ADDED_HERE" xml:space="preserve">
+    <value>Přidáno zde</value>
+  </data>
+  <data name="FC_EDIT" xml:space="preserve">
+    <value>Upravit</value>
+  </data>
+  <data name="FC_DELETE" xml:space="preserve">
+    <value>Smazat</value>
+  </data>
+  <data name="FC_CONFIRM_DELETE_EVENT" xml:space="preserve">
+    <value>Smazat „{0}“? Tuto akci nelze vrátit.</value>
+  </data>
+  <data name="FC_ADD_EVENT" xml:space="preserve">
+    <value>Přidat událost</value>
+  </data>
+  <data name="FC_EDIT_EVENT" xml:space="preserve">
+    <value>Upravit událost</value>
+  </data>
+  <data name="FC_EVENT_NAME" xml:space="preserve">
+    <value>Název události</value>
+  </data>
+  <data name="FC_STARTS" xml:space="preserve">
+    <value>Začátek</value>
+  </data>
+  <data name="FC_ENDS" xml:space="preserve">
+    <value>Konec</value>
+  </data>
+  <data name="FC_REPEATS" xml:space="preserve">
+    <value>Opakování</value>
+  </data>
+  <data name="FC_DESCRIPTION" xml:space="preserve">
+    <value>Popis</value>
+  </data>
+  <data name="FC_EVENT_LINK" xml:space="preserve">
+    <value>Odkaz na další informace</value>
+  </data>
+  <data name="FC_EVENT_IMAGE" xml:space="preserve">
+    <value>Obrázek</value>
+  </data>
+  <data name="FC_SAVE_CHANGES" xml:space="preserve">
+    <value>Uložit změny</value>
+  </data>
+  <data name="FC_CREATE_EVENT" xml:space="preserve">
+    <value>Vytvořit událost</value>
+  </data>
+  <data name="FC_REPEAT_NONE" xml:space="preserve">
+    <value>Neopakuje se</value>
+  </data>
+  <data name="FC_REPEAT_DAILY" xml:space="preserve">
+    <value>Denně</value>
+  </data>
+  <data name="FC_REPEAT_WEEKLY" xml:space="preserve">
+    <value>Týdně</value>
+  </data>
+  <data name="FC_REPEAT_2W" xml:space="preserve">
+    <value>Každé 2 týdny</value>
+  </data>
+  <data name="FC_REPEAT_3W" xml:space="preserve">
+    <value>Každé 3 týdny</value>
+  </data>
+  <data name="FC_REPEAT_MONTHLY" xml:space="preserve">
+    <value>Měsíčně</value>
+  </data>
+  <data name="FC_REPEAT_2M" xml:space="preserve">
+    <value>Každé 2 měsíce</value>
+  </data>
+  <data name="CHURCHSUITE_AUTHORIZED_MESSAGE" xml:space="preserve">
+    <value>Váš účet ChurchSuite je propojen. Události se budou synchronizovat automaticky.</value>
+  </data>
+  <data name="CHURCHSUITE_AUTHORIZE_BUTTON" xml:space="preserve">
+    <value>Propojit ChurchSuite</value>
+  </data>
+  <data name="CHURCHSUITE_EXPIRED_PROMPT" xml:space="preserve">
+    <value>Propojení s ChurchSuite vypršelo. Propojte ho znovu, aby se události dál synchronizovaly.</value>
+  </data>
+  <data name="CHURCHSUITE_NEED_AUTH" xml:space="preserve">
+    <value>Propojte svůj účet ChurchSuite a události se budou importovat automaticky.</value>
+  </data>
+  <data name="CHURCHSUITE_NOT_LOGGED_IN" xml:space="preserve">
+    <value>Pro propojení ChurchSuite se prosím přihlaste.</value>
+  </data>
+  <data name="CHURCHSUITE_REAUTHORIZE_BUTTON" xml:space="preserve">
+    <value>Znovu propojit ChurchSuite</value>
+  </data>
+  <data name="ERROR_LABEL_ID" xml:space="preserve">
+    <value>ID požadavku:</value>
+  </data>
+  <data name="ERROR_LABEL_MESSAGE" xml:space="preserve">
+    <value>Zpráva:</value>
+  </data>
+  <data name="ERROR_PAGE_TITLE" xml:space="preserve">
+    <value>Chyba</value>
+  </data>
+  <data name="FC_2FA_KEY_TEXT" xml:space="preserve">
+    <value>Nejde to naskenovat? Zadejte místo toho tento klíč (na mezerách nezáleží):</value>
+  </data>
+  <data name="FC_2FA_LOGIN_TEXT" xml:space="preserve">
+    <value>Vaše přihlášení je chráněno ověřovací aplikací. Zadejte šestimístný kód, který zobrazuje.</value>
+  </data>
+  <data name="FC_2FA_QR_ALT" xml:space="preserve">
+    <value>QR kód k naskenování ověřovací aplikací</value>
+  </data>
+  <data name="FC_2FA_STEP1" xml:space="preserve">
+    <value>Nainstalujte ověřovací aplikaci</value>
+  </data>
+  <data name="FC_2FA_STEP1_TEXT" xml:space="preserve">
+    <value>Například Microsoft Authenticator nebo Google Authenticator do telefonu.</value>
+  </data>
+  <data name="FC_2FA_STEP2" xml:space="preserve">
+    <value>Naskenujte tento QR kód aplikací</value>
+  </data>
+  <data name="FC_2FA_STEP3" xml:space="preserve">
+    <value>Zadejte šestimístný kód z aplikace</value>
+  </data>
+  <data name="FC_ACCESS_DENIED" xml:space="preserve">
+    <value>Přístup odepřen</value>
+  </data>
+  <data name="FC_ACCESS_DENIED_TEXT" xml:space="preserve">
+    <value>Váš účet nemá oprávnění otevřít tuto stránku. Pokud si myslíte, že by měl, kontaktujte nás.</value>
+  </data>
+  <data name="FC_AUTH_CODE" xml:space="preserve">
+    <value>Ověřovací kód</value>
+  </data>
+  <data name="FC_CHOOSE_NEW_PASSWORD" xml:space="preserve">
+    <value>Zvolte nové heslo</value>
+  </data>
+  <data name="FC_CODES_KEYS_UNCHANGED" xml:space="preserve">
+    <value>Nové kódy nemění aplikaci, kterou se přihlašujete. Pro její změnu použijte</value>
+  </data>
+  <data name="FC_CODES_LOSE_DEVICE" xml:space="preserve">
+    <value>Pokud ztratíte telefon a nebudete mít záložní kód, nebudete se moci přihlásit.</value>
+  </data>
+  <data name="FC_CODES_SAFE_PLACE" xml:space="preserve">
+    <value>Uložte si tyto kódy na bezpečné místo.</value>
+  </data>
+  <data name="FC_CONFIRMED" xml:space="preserve">
+    <value>Potvrzeno</value>
+  </data>
+  <data name="FC_CONFIRM_ACCOUNT" xml:space="preserve">
+    <value>Potvrdit můj účet</value>
+  </data>
+  <data name="FC_CONFIRM_EMAIL_SENT" xml:space="preserve">
+    <value>Poslali jsme vám e-mail. Otevřete v něm odkaz a potvrďte svůj účet.</value>
+  </data>
+  <data name="FC_CONFIRM_FAILED" xml:space="preserve">
+    <value>E-mail se nepodařilo potvrdit</value>
+  </data>
+  <data name="FC_CONFIRM_FAILED_TEXT" xml:space="preserve">
+    <value>Odkaz možná vypršel nebo už byl použit. Požádejte prosím o nový.</value>
+  </data>
+  <data name="FC_CONFIRM_LINK_DEV" xml:space="preserve">
+    <value>E-mailová služba zatím není nastavena, proto účet potvrďte tlačítkem níže.</value>
+  </data>
+  <data name="FC_CONFIRM_NEW_CODES" xml:space="preserve">
+    <value>Vytvořit nové záložní kódy? Staré kódy přestanou fungovat.</value>
+  </data>
+  <data name="FC_CONFIRM_PASSWORD" xml:space="preserve">
+    <value>Potvrzení hesla</value>
+  </data>
+  <data name="FC_CREATE_ACCOUNT" xml:space="preserve">
+    <value>Vytvořit účet</value>
+  </data>
+  <data name="FC_CREATE_ACCOUNT_LEAD" xml:space="preserve">
+    <value>Použijte e-mailovou adresu, na kterou přišla pozvánka.</value>
+  </data>
+  <data name="FC_CURRENT_EMAIL" xml:space="preserve">
+    <value>Současný e-mail</value>
+  </data>
+  <data name="FC_DONE" xml:space="preserve">
+    <value>Hotovo</value>
+  </data>
+  <data name="FC_DOWNLOAD_DETAILS" xml:space="preserve">
+    <value>Stáhnout údaje</value>
+  </data>
+  <data name="FC_EMAIL_CHANGED" xml:space="preserve">
+    <value>E-mailová adresa změněna</value>
+  </data>
+  <data name="FC_EMAIL_CONFIRMED" xml:space="preserve">
+    <value>E-mail potvrzen</value>
+  </data>
+  <data name="FC_EMAIL_CONFIRMED_TEXT" xml:space="preserve">
+    <value>Děkujeme. Vaše e-mailová adresa je potvrzena a nyní se můžete přihlásit.</value>
+  </data>
+  <data name="FC_EMAIL_ME_DETAILS" xml:space="preserve">
+    <value>Poslat údaje e-mailem</value>
+  </data>
+  <data name="FC_ERROR_TEXT" xml:space="preserve">
+    <value>Omlouváme se, při zpracování požadavku se něco pokazilo. Zkuste to prosím za chvíli znovu.</value>
+  </data>
+  <data name="FC_ERROR_TITLE" xml:space="preserve">
+    <value>Něco se pokazilo</value>
+  </data>
+  <data name="FC_EXTERNAL_LEAD" xml:space="preserve">
+    <value>Přihlásili jste se přes {0}. Zadejte níže svou e-mailovou adresu a dokončete vytvoření účtu.</value>
+  </data>
+  <data name="FC_INVITE_EMAIL_HINT" xml:space="preserve">
+    <value>Registrace je možná pouze na pozvání.</value>
+  </data>
+  <data name="FC_INVITE_INVALID" xml:space="preserve">
+    <value>Tato pozvánka není platná nebo vypršela. Kontaktujte nás pro novou.</value>
+  </data>
+  <data name="FC_LEGAL" xml:space="preserve">
+    <value>Právní informace</value>
+  </data>
+  <data name="FC_LOCKED_OUT" xml:space="preserve">
+    <value>Účet uzamčen</value>
+  </data>
+  <data name="FC_LOCKED_OUT_TEXT" xml:space="preserve">
+    <value>Bylo příliš mnoho neúspěšných pokusů o přihlášení, proto je váš účet na chvíli uzamčen. Zkuste to prosím později.</value>
+  </data>
+  <data name="FC_NEW_EMAIL" xml:space="preserve">
+    <value>Nový e-mail</value>
+  </data>
+  <data name="FC_NEW_RECOVERY_CODES" xml:space="preserve">
+    <value>Nové záložní kódy</value>
+  </data>
+  <data name="FC_NO" xml:space="preserve">
+    <value>Ne</value>
+  </data>
+  <data name="FC_NO_DEVICE" xml:space="preserve">
+    <value>Nemáte u sebe telefon?</value>
+  </data>
+  <data name="FC_PASSWORD_RESET_DONE" xml:space="preserve">
+    <value>Heslo obnoveno</value>
+  </data>
+  <data name="FC_PASSWORD_RESET_DONE_TEXT" xml:space="preserve">
+    <value>Vaše heslo bylo změněno. Nyní se můžete přihlásit novým heslem.</value>
+  </data>
+  <data name="FC_PASSWORD_RULES" xml:space="preserve">
+    <value>Alespoň 12 znaků, velká i malá písmena, číslice a symbol.</value>
+  </data>
+  <data name="FC_PHONE" xml:space="preserve">
+    <value>Telefon</value>
+  </data>
+  <data name="FC_RECOVERY_CODE" xml:space="preserve">
+    <value>Záložní kód</value>
+  </data>
+  <data name="FC_RECOVERY_CODE_LOGIN" xml:space="preserve">
+    <value>Přihlásit se záložním kódem</value>
+  </data>
+  <data name="FC_RECOVERY_CODE_LOGIN_TEXT" xml:space="preserve">
+    <value>Zadejte jeden ze záložních kódů, které jste si uložili při nastavení dvoufázového ověření. Každý kód funguje jen jednou.</value>
+  </data>
+  <data name="FC_REMEMBER_DEVICE" xml:space="preserve">
+    <value>Zapamatovat toto zařízení</value>
+  </data>
+  <data name="FC_RESEND_CONFIRMATION" xml:space="preserve">
+    <value>Znovu poslat potvrzovací e-mail</value>
+  </data>
+  <data name="FC_RESEND_CONFIRMATION_BUTTON" xml:space="preserve">
+    <value>Poslat e-mail znovu</value>
+  </data>
+  <data name="FC_RESEND_CONFIRMATION_TEXT" xml:space="preserve">
+    <value>Zadejte svou e-mailovou adresu a pošleme vám nový potvrzovací odkaz.</value>
+  </data>
+  <data name="FC_RESET_AUTH_TEXT" xml:space="preserve">
+    <value>Tím se vypne dvoufázové přihlášení, dokud znovu nenastavíte ověřovací aplikaci.</value>
+  </data>
+  <data name="FC_RESET_AUTH_WARN" xml:space="preserve">
+    <value>Vaše současná ověřovací aplikace přestane fungovat.</value>
+  </data>
+  <data name="FC_RESULTS_MAP" xml:space="preserve">
+    <value>Mapa kostelů ve výsledcích</value>
+  </data>
+  <data name="FC_SAVE_DETAILS" xml:space="preserve">
+    <value>Uložit si tyto údaje</value>
+  </data>
+  <data name="FC_SAVE_DETAILS_TEXT" xml:space="preserve">
+    <value>Stáhněte si je nebo si je nechte poslat e-mailem, abyste je měli po ruce.</value>
+  </data>
+  <data name="FC_SEND_VERIFICATION" xml:space="preserve">
+    <value>Poslat ověřovací e-mail</value>
+  </data>
+  <data name="FC_SET_PASSWORD" xml:space="preserve">
+    <value>Nastavit heslo</value>
+  </data>
+  <data name="FC_SET_PASSWORD_LEAD" xml:space="preserve">
+    <value>Váš účet zatím nemá heslo. Nastavte si ho, abyste se mohli přihlásit i e-mailem.</value>
+  </data>
+  <data name="FC_SIGNED_OUT" xml:space="preserve">
+    <value>Odhlášeno</value>
+  </data>
+  <data name="FC_SIGNED_OUT_TEXT" xml:space="preserve">
+    <value>Odhlásili jste se z Forest Churches.</value>
+  </data>
+  <data name="FC_SIGN_OUT_CONFIRM" xml:space="preserve">
+    <value>Opravdu se chcete odhlásit?</value>
+  </data>
+  <data name="FC_SITE_ADMIN" xml:space="preserve">
+    <value>Správa webu</value>
+  </data>
+  <data name="FC_TECHNICAL_DETAILS" xml:space="preserve">
+    <value>Technické podrobnosti</value>
+  </data>
+  <data name="FC_TOGGLE_THEME" xml:space="preserve">
+    <value>Přepnout světlý a tmavý režim</value>
+  </data>
+  <data name="FC_TURN_OFF_2FA" xml:space="preserve">
+    <value>Vypnout dvoufázové přihlášení</value>
+  </data>
+  <data name="FC_TURN_OFF_2FA_TEXT" xml:space="preserve">
+    <value>Váš účet bude méně zabezpečený. Samotná ověřovací aplikace se nezmění. Pro nastavení jiné aplikace použijte</value>
+  </data>
+  <data name="FC_TURN_OFF_2FA_WARN" xml:space="preserve">
+    <value>Do vašeho účtu bude snazší se nabourat.</value>
+  </data>
+  <data name="FC_USE_RECOVERY_CODE" xml:space="preserve">
+    <value>Použít záložní kód</value>
+  </data>
+  <data name="FC_VERIFY_TURN_ON" xml:space="preserve">
+    <value>Ověřit a zapnout</value>
+  </data>
+  <data name="FC_YES" xml:space="preserve">
+    <value>Ano</value>
+  </data>
+  <data name="SUCCESS_BACK_TO_HOME" xml:space="preserve">
+    <value>Zpět na úvodní stránku</value>
+  </data>
+  <data name="TOKEN_VALIDATION_INVALID_EXPIRED" xml:space="preserve">
+    <value>Tento odkaz není platný nebo vypršel. Požádejte prosím o nový.</value>
+  </data>
+  <data name="TOKEN_VALIDATION_PAGE_TITLE" xml:space="preserve">
+    <value>Ověřujeme váš odkaz</value>
+  </data>
+  <data name="TOKEN_VALIDATION_VALID_REDIRECTING" xml:space="preserve">
+    <value>Váš odkaz je platný. Přesměrováváme vás…</value>
+  </data>
+  <data name="PRIVACY_PAGE_TITLE" xml:space="preserve">
+    <value>Zásady ochrany soukromí</value>
+  </data>
+  <data name="PRIVACY_EFFECTIVE_DATE" xml:space="preserve">
+    <value>Platné od: 1. března 2025</value>
+  </data>
+  <data name="PRIVACY_INTRO_TEXT" xml:space="preserve">
+    <value>Tyto zásady vysvětlují, jak Forest Churches („my“) shromažďuje, používá a sdílí osobní údaje, když používáte tento web.</value>
+  </data>
+  <data name="PRIVACY_SECTION1_TITLE" xml:space="preserve">
+    <value>1. Jaké údaje shromažďujeme</value>
+  </data>
+  <data name="PRIVACY_SECTION1_SUBTITLE1" xml:space="preserve">
+    <value>1.1 Osobní údaje</value>
+  </data>
+  <data name="PRIVACY_SECTION1_TEXT1" xml:space="preserve">
+    <value>Můžeme shromažďovat osobní údaje, které nám poskytnete při používání webu, například:</value>
+  </data>
+  <data name="PRIVACY_SECTION1_ITEM1" xml:space="preserve">
+    <value>Kontaktní údaje, jako je jméno, e-mailová adresa a telefonní číslo</value>
+  </data>
+  <data name="PRIVACY_SECTION1_ITEM2" xml:space="preserve">
+    <value>Přihlašovací údaje (uživatelské jméno a heslo)</value>
+  </data>
+  <data name="PRIVACY_SECTION1_ITEM3" xml:space="preserve">
+    <value>Profilové informace, jako je profilová fotka a vaše předvolby</value>
+  </data>
+  <data name="PRIVACY_SECTION1_ITEM4" xml:space="preserve">
+    <value>Informace o kostele, jako jsou odkazy na web a kontaktní údaje</value>
+  </data>
+  <data name="PRIVACY_SECTION1_SUBTITLE2" xml:space="preserve">
+    <value>1.2 Údaje o používání</value>
+  </data>
+  <data name="PRIVACY_SECTION1_TEXT2" xml:space="preserve">
+    <value>Při používání webu můžeme automaticky shromažďovat neosobní údaje, například:</value>
+  </data>
+  <data name="PRIVACY_SECTION1_ITEM5" xml:space="preserve">
+    <value>Záznamy v protokolech včetně IP adresy, typu prohlížeče, operačního systému a času přístupu</value>
+  </data>
+  <data name="PRIVACY_SECTION1_ITEM6" xml:space="preserve">
+    <value>Informace o zařízení, například jeho typ</value>
+  </data>
+  <data name="PRIVACY_SECTION1_ITEM7" xml:space="preserve">
+    <value>Jak web používáte a vaše předvolby</value>
+  </data>
+  <data name="PRIVACY_SECTION1_ITEM8" xml:space="preserve">
+    <value>Přibližnou polohu podle IP adresy nebo PSČ, které zadáte</value>
+  </data>
+  <data name="PRIVACY_SECTION2_TITLE" xml:space="preserve">
+    <value>2. Jak vaše údaje používáme</value>
+  </data>
+  <data name="PRIVACY_SECTION2_TEXT" xml:space="preserve">
+    <value>Shromážděné údaje používáme k tomu, abychom:</value>
+  </data>
+  <data name="PRIVACY_SECTION2_ITEM1" xml:space="preserve">
+    <value>provozovali web a udržovali ho funkční</value>
+  </data>
+  <data name="PRIVACY_SECTION2_ITEM2" xml:space="preserve">
+    <value>web zlepšovali a usnadňovali jeho používání</value>
+  </data>
+  <data name="PRIVACY_SECTION2_ITEM3" xml:space="preserve">
+    <value>odpovídali na vaše zprávy a žádosti o podporu</value>
+  </data>
+  <data name="PRIVACY_SECTION2_ITEM4" xml:space="preserve">
+    <value>vám ukazovali přesné a aktuální informace, například kostely ve vašem okolí</value>
+  </data>
+  <data name="PRIVACY_SECTION2_ITEM5" xml:space="preserve">
+    <value>občas posílali novinky o webu</value>
+  </data>
+  <data name="PRIVACY_SECTION2_ITEM6" xml:space="preserve">
+    <value>řešili problémy a předcházeli podvodům</value>
+  </data>
+  <data name="PRIVACY_SECTION2_ITEM7" xml:space="preserve">
+    <value>plnili zákonné povinnosti a chránili svá práva</value>
+  </data>
+  <data name="PRIVACY_SECTION3_TITLE" xml:space="preserve">
+    <value>3. Sdílení vašich údajů</value>
+  </data>
+  <data name="PRIVACY_SECTION3_INTRO_TEXT" xml:space="preserve">
+    <value>Osobní údaje sdílíme pouze v těchto případech:</value>
+  </data>
+  <data name="PRIVACY_SECTION3_SUBTITLE1" xml:space="preserve">
+    <value>Poskytovatelé služeb:</value>
+  </data>
+  <data name="PRIVACY_SECTION3_TEXT1" xml:space="preserve">
+    <value>důvěryhodné firmy, které nám pomáhají web provozovat (například hosting a e-mail), mají k osobním údajům přístup jen kvůli této práci a musí je uchovávat v tajnosti.</value>
+  </data>
+  <data name="PRIVACY_SECTION3_SUBTITLE2" xml:space="preserve">
+    <value>Zákonné požadavky:</value>
+  </data>
+  <data name="PRIVACY_SECTION3_TEXT2" xml:space="preserve">
+    <value>údaje můžeme zpřístupnit, pokud to vyžaduje zákon, soud nebo úřad, nebo k ochraně před podvodem či bezpečnostními hrozbami.</value>
+  </data>
+  <data name="PRIVACY_SECTION4_TITLE" xml:space="preserve">
+    <value>4. Jak dlouho údaje uchováváme</value>
+  </data>
+  <data name="PRIVACY_SECTION4_TEXT" xml:space="preserve">
+    <value>Osobní údaje uchováváme jen tak dlouho, jak je potřebujeme pro účely v těchto zásadách, pokud zákon nevyžaduje delší dobu. Poté je smažeme nebo anonymizujeme.</value>
+  </data>
+  <data name="PRIVACY_SECTION5_TITLE" xml:space="preserve">
+    <value>5. Zabezpečení vašich údajů</value>
+  </data>
+  <data name="PRIVACY_SECTION5_TEXT" xml:space="preserve">
+    <value>Přijímáme přiměřená opatření k ochraně osobních údajů před neoprávněným přístupem, zveřejněním, změnou nebo zničením. Žádný způsob přenosu či ukládání na internetu není zcela bezpečný, proto nemůžeme zaručit absolutní bezpečnost.</value>
+  </data>
+  <data name="PRIVACY_SECTION6_TITLE" xml:space="preserve">
+    <value>6. Děti</value>
+  </data>
+  <data name="PRIVACY_SECTION6_TEXT" xml:space="preserve">
+    <value>Účty kostelů nejsou určeny osobám mladším 18 let a vědomě neshromažďujeme osobní údaje dětí. Pokud zjistíme, že se tak stalo, údaje smažeme.</value>
+  </data>
+  <data name="PRIVACY_SECTION7_TITLE" xml:space="preserve">
+    <value>7. Vaše práva</value>
+  </data>
+  <data name="PRIVACY_SECTION7_TEXT" xml:space="preserve">
+    <value>Máte právo na přístup ke svým osobním údajům, jejich opravu či výmaz nebo omezení jejich zpracování. Novinky od nás můžete kdykoli odhlásit. Přihlášení uživatelé si mohou svá data stáhnout nebo smazat v účtu; ve všem ostatním nás prosím kontaktujte.</value>
+  </data>
+  <data name="PRIVACY_SECTION8_TITLE" xml:space="preserve">
+    <value>8. Změny těchto zásad</value>
+  </data>
+  <data name="PRIVACY_SECTION8_TEXT" xml:space="preserve">
+    <value>Tyto zásady můžeme čas od času aktualizovat. V takovém případě změníme datum v horní části stránky. Občas se sem prosím podívejte; dalším používáním webu vyjadřujete souhlas s aktualizovanými zásadami.</value>
+  </data>
+  <data name="PRIVACY_CONTACT_TITLE" xml:space="preserve">
+    <value>Kontaktujte nás</value>
+  </data>
+  <data name="PRIVACY_CONTACT_TEXT" xml:space="preserve">
+    <value>Pokud máte dotazy nebo požadavky týkající se těchto zásad či zacházení s vašimi údaji,</value>
+  </data>
+  <data name="PRIVACY_CONTACT_LINK" xml:space="preserve">
+    <value>napište nám přes kontaktní stránku</value>
+  </data>
+  <data name="PRIVACY_ACKNOWLEDGMENT" xml:space="preserve">
+    <value>Používáním tohoto webu potvrzujete, že jste si tyto zásady ochrany soukromí přečetli a porozuměli jim.</value>
+  </data>
+  <data name="FC_ADM_ACCOUNT_CONFIRMED" xml:space="preserve">
+    <value>Účet potvrzen</value>
+  </data>
+  <data name="FC_ADM_ACCOUNT_UNCONFIRMED" xml:space="preserve">
+    <value>E-mail zatím nepotvrzen</value>
+  </data>
+  <data name="FC_ADM_ACTIONS" xml:space="preserve">
+    <value>Akce</value>
+  </data>
+  <data name="FC_ADM_ALL_BULLETINS" xml:space="preserve">
+    <value>Všechny zpravodaje</value>
+  </data>
+  <data name="FC_ADM_ALL_ROLES" xml:space="preserve">
+    <value>Všechny role</value>
+  </data>
+  <data name="FC_ADM_ALL_USERS" xml:space="preserve">
+    <value>Všichni uživatelé</value>
+  </data>
+  <data name="FC_ADM_AWAITING_SIGNUP" xml:space="preserve">
+    <value>Čeká na registraci</value>
+  </data>
+  <data name="FC_ADM_BACK_TO_CHURCHES" xml:space="preserve">
+    <value>Zpět na kostely</value>
+  </data>
+  <data name="FC_ADM_BACK_TO_EVENTS" xml:space="preserve">
+    <value>Zpět na události</value>
+  </data>
+  <data name="FC_ADM_BACK_TO_USERS" xml:space="preserve">
+    <value>Zpět na uživatele</value>
+  </data>
+  <data name="FC_ADM_BANNER_EXPIRED" xml:space="preserve">
+    <value>Banner vypršel</value>
+  </data>
+  <data name="FC_ADM_BANNER_SHOWN" xml:space="preserve">
+    <value>Banner zapnut</value>
+  </data>
+  <data name="FC_ADM_BANNER_UNTIL" xml:space="preserve">
+    <value>Zobrazovat banner do</value>
+  </data>
+  <data name="FC_ADM_BULLETIN" xml:space="preserve">
+    <value>Zpravodaj</value>
+  </data>
+  <data name="FC_ADM_BULLETINS_LEAD" xml:space="preserve">
+    <value>Napište týdenní farní zpravodaj nebo krátké oznámení. Aktivní se zobrazí na veřejné stránce Zpravodaj.</value>
+  </data>
+  <data name="FC_ADM_BULLETIN_MESSAGE" xml:space="preserve">
+    <value>Zpráva nebo slovo duchovního</value>
+  </data>
+  <data name="FC_ADM_BULLETIN_NOTICES" xml:space="preserve">
+    <value>Oznámení nebo odkazy</value>
+  </data>
+  <data name="FC_ADM_BULLETIN_TITLE" xml:space="preserve">
+    <value>Nadpis</value>
+  </data>
+  <data name="FC_ADM_BULLETIN_TYPE" xml:space="preserve">
+    <value>Typ</value>
+  </data>
+  <data name="FC_ADM_CHANGELOG" xml:space="preserve">
+    <value>Přehled změn</value>
+  </data>
+  <data name="FC_ADM_CHANGELOG_LEAD" xml:space="preserve">
+    <value>Co se na webu změnilo, od nejnovějšího.</value>
+  </data>
+  <data name="FC_ADM_CHOOSE_ACCOUNT" xml:space="preserve">
+    <value>Vyberte účet…</value>
+  </data>
+  <data name="FC_ADM_CHOOSE_RECIPIENT" xml:space="preserve">
+    <value>Vyberte příjemce…</value>
+  </data>
+  <data name="FC_ADM_CHURCH" xml:space="preserve">
+    <value>Kostel</value>
+  </data>
+  <data name="FC_ADM_CHURCHES" xml:space="preserve">
+    <value>Kostely</value>
+  </data>
+  <data name="FC_ADM_CHURCHES_LEAD" xml:space="preserve">
+    <value>Všechny záznamy kostelů na webu. Ve vyhledávání se zobrazují jen otevřené kostely.</value>
+  </data>
+  <data name="FC_ADM_CHURCH_NOT_FOUND" xml:space="preserve">
+    <value>Tento kostel jsme nenašli</value>
+  </data>
+  <data name="FC_ADM_CONFIRM_DELETE_BULLETIN" xml:space="preserve">
+    <value>Smazat „{0}“? Tuto akci nelze vrátit.</value>
+  </data>
+  <data name="FC_ADM_CONFIRM_DELETE_ROLE" xml:space="preserve">
+    <value>Smazat roli „{0}“?</value>
+  </data>
+  <data name="FC_ADM_CONFIRM_DELETE_USER" xml:space="preserve">
+    <value>Smazat {0}? Účet i přihlášení budou odstraněny. Tuto akci nelze vrátit.</value>
+  </data>
+  <data name="FC_ADM_CONFIRM_REMOVE_INVITE" xml:space="preserve">
+    <value>Odebrat pozvánku pro {0}? Odkaz přestane fungovat.</value>
+  </data>
+  <data name="FC_ADM_CONFIRM_RESET_CHURCH" xml:space="preserve">
+    <value>Obnovit výchozí údaje pro {0}? Záznam bude skryt ve vyhledávání, dokud nebude znovu vyplněn.</value>
+  </data>
+  <data name="FC_ADM_CONGREGATION_N" xml:space="preserve">
+    <value>Sbor {0}</value>
+  </data>
+  <data name="FC_ADM_CONTINUE" xml:space="preserve">
+    <value>Pokračovat</value>
+  </data>
+  <data name="FC_ADM_CPU" xml:space="preserve">
+    <value>CPU</value>
+  </data>
+  <data name="FC_ADM_CREATE_ROLE" xml:space="preserve">
+    <value>Vytvořit roli</value>
+  </data>
+  <data name="FC_ADM_CREATE_USER" xml:space="preserve">
+    <value>Vytvořit uživatele</value>
+  </data>
+  <data name="FC_ADM_CREATE_USER_LEAD" xml:space="preserve">
+    <value>Vytvořte účet přímo, bez pozvánky. Uživatel dostane uvítací e-mail.</value>
+  </data>
+  <data name="FC_ADM_CURRENT_PDF" xml:space="preserve">
+    <value>Současné PDF:</value>
+  </data>
+  <data name="FC_ADM_DASHBOARD" xml:space="preserve">
+    <value>Přehled</value>
+  </data>
+  <data name="FC_ADM_DASHBOARD_LEAD" xml:space="preserve">
+    <value>Přehled Forest Churches.</value>
+  </data>
+  <data name="FC_ADM_DATABASE" xml:space="preserve">
+    <value>Databáze</value>
+  </data>
+  <data name="FC_ADM_DOWNLOAD" xml:space="preserve">
+    <value>Stáhnout</value>
+  </data>
+  <data name="FC_ADM_DOWNLOADING" xml:space="preserve">
+    <value>Stahování…</value>
+  </data>
+  <data name="FC_ADM_DOWNLOAD_LOGS" xml:space="preserve">
+    <value>Stáhnout protokoly</value>
+  </data>
+  <data name="FC_ADM_EDIT_BULLETIN" xml:space="preserve">
+    <value>Upravit zpravodaj</value>
+  </data>
+  <data name="FC_ADM_EDIT_CHURCH" xml:space="preserve">
+    <value>Upravit kostel</value>
+  </data>
+  <data name="FC_ADM_EDIT_EVENT" xml:space="preserve">
+    <value>Upravit událost</value>
+  </data>
+  <data name="FC_ADM_EDIT_PERMISSIONS" xml:space="preserve">
+    <value>Upravit oprávnění</value>
+  </data>
+  <data name="FC_ADM_EDIT_USER" xml:space="preserve">
+    <value>Upravit uživatele</value>
+  </data>
+  <data name="FC_ADM_EMAILS" xml:space="preserve">
+    <value>E-maily</value>
+  </data>
+  <data name="FC_ADM_EMAILS_LEAD" xml:space="preserve">
+    <value>Pošlete zprávu jednomu uživateli nebo všem.</value>
+  </data>
+  <data name="FC_ADM_EMAIL_CONFIRMED" xml:space="preserve">
+    <value>E-mail potvrzen</value>
+  </data>
+  <data name="FC_ADM_EMAIL_FROM_HINT" xml:space="preserve">
+    <value>Zprávy se odesílají z adresy info@forestchurches.co.uk.</value>
+  </data>
+  <data name="FC_ADM_EVENTS" xml:space="preserve">
+    <value>Události</value>
+  </data>
+  <data name="FC_ADM_EVENTS_LEAD" xml:space="preserve">
+    <value>Události všech kostelů, včetně těch synchronizovaných z ChurchSuite.</value>
+  </data>
+  <data name="FC_ADM_EVENT_NOT_FOUND" xml:space="preserve">
+    <value>Tuto událost jsme nenašli</value>
+  </data>
+  <data name="FC_ADM_EVENT_OWNER" xml:space="preserve">
+    <value>Účet kostela</value>
+  </data>
+  <data name="FC_ADM_EVENT_OWNER_HINT" xml:space="preserve">
+    <value>Událost se zobrazí u kostela tohoto účtu.</value>
+  </data>
+  <data name="FC_ADM_EXCEPTION" xml:space="preserve">
+    <value>Výjimka</value>
+  </data>
+  <data name="FC_ADM_FROM" xml:space="preserve">
+    <value>Od</value>
+  </data>
+  <data name="FC_ADM_HIDE_BANNER" xml:space="preserve">
+    <value>Skrýt banner</value>
+  </data>
+  <data name="FC_ADM_INVITES" xml:space="preserve">
+    <value>Pozvánky</value>
+  </data>
+  <data name="FC_ADM_INVITES_LEAD" xml:space="preserve">
+    <value>Účet kostela si mohou zaregistrovat jen pozvané e-mailové adresy.</value>
+  </data>
+  <data name="FC_ADM_INVITE_CHURCH" xml:space="preserve">
+    <value>Pozvat kostel</value>
+  </data>
+  <data name="FC_ADM_INVITE_COMPLETE" xml:space="preserve">
+    <value>Zaregistrováno</value>
+  </data>
+  <data name="FC_ADM_INVITE_EXPIRED" xml:space="preserve">
+    <value>Odkaz vypršel</value>
+  </data>
+  <data name="FC_ADM_INVITE_HINT" xml:space="preserve">
+    <value>Pošleme jim e-mailem registrační odkaz. Platí 24 hodin a lze ho poslat znovu.</value>
+  </data>
+  <data name="FC_ADM_INVITE_LIST" xml:space="preserve">
+    <value>Pozvané e-mailové adresy</value>
+  </data>
+  <data name="FC_ADM_INVITE_PENDING" xml:space="preserve">
+    <value>Čeká</value>
+  </data>
+  <data name="FC_ADM_JOINED" xml:space="preserve">
+    <value>Připojen(a) {0}</value>
+  </data>
+  <data name="FC_ADM_KEEP_IMAGE_HINT" xml:space="preserve">
+    <value>ponechte prázdné pro zachování současného obrázku</value>
+  </data>
+  <data name="FC_ADM_LEVEL" xml:space="preserve">
+    <value>Úroveň</value>
+  </data>
+  <data name="FC_ADM_LINK_EXPIRES" xml:space="preserve">
+    <value>Platnost odkazu</value>
+  </data>
+  <data name="FC_ADM_LIVE" xml:space="preserve">
+    <value>Aktivní</value>
+  </data>
+  <data name="FC_ADM_LOGS" xml:space="preserve">
+    <value>Protokoly</value>
+  </data>
+  <data name="FC_ADM_LOGS_CLICK_HINT" xml:space="preserve">
+    <value>Vyberte řádek pro zobrazení všech podrobností.</value>
+  </data>
+  <data name="FC_ADM_LOGS_LEAD" xml:space="preserve">
+    <value>Záznamy protokolu aplikace. Nové se objevují nahoře, jakmile vzniknou.</value>
+  </data>
+  <data name="FC_ADM_LOG_DATABASE" xml:space="preserve">
+    <value>Databáze protokolů</value>
+  </data>
+  <data name="FC_ADM_MAKE_LIVE" xml:space="preserve">
+    <value>Zveřejnit</value>
+  </data>
+  <data name="FC_ADM_MEMORY" xml:space="preserve">
+    <value>Paměť</value>
+  </data>
+  <data name="FC_ADM_MESSAGE" xml:space="preserve">
+    <value>Zpráva</value>
+  </data>
+  <data name="FC_ADM_NEWEST_MEMBER" xml:space="preserve">
+    <value>Nejnovější člen</value>
+  </data>
+  <data name="FC_ADM_NEW_BULLETIN" xml:space="preserve">
+    <value>Nový zpravodaj</value>
+  </data>
+  <data name="FC_ADM_NEW_PASSWORD" xml:space="preserve">
+    <value>Nové heslo</value>
+  </data>
+  <data name="FC_ADM_NEXT" xml:space="preserve">
+    <value>Další</value>
+  </data>
+  <data name="FC_ADM_NO_BULLETINS" xml:space="preserve">
+    <value>Zatím žádné zpravodaje.</value>
+  </data>
+  <data name="FC_ADM_NO_CHURCHES" xml:space="preserve">
+    <value>Zatím žádné kostely.</value>
+  </data>
+  <data name="FC_ADM_NO_EVENTS" xml:space="preserve">
+    <value>Žádné události.</value>
+  </data>
+  <data name="FC_ADM_NO_INVITES" xml:space="preserve">
+    <value>Zatím žádné pozvánky.</value>
+  </data>
+  <data name="FC_ADM_NO_PERMISSIONS" xml:space="preserve">
+    <value>Žádná oprávnění</value>
+  </data>
+  <data name="FC_ADM_NO_ROLES" xml:space="preserve">
+    <value>Zatím žádné role.</value>
+  </data>
+  <data name="FC_ADM_NO_UPCOMING" xml:space="preserve">
+    <value>Žádné nadcházející události.</value>
+  </data>
+  <data name="FC_ADM_NO_USERS" xml:space="preserve">
+    <value>Zatím žádní uživatelé.</value>
+  </data>
+  <data name="FC_ADM_N_CHURCHES" xml:space="preserve">
+    <value>Kostelů: {0}</value>
+  </data>
+  <data name="FC_ADM_N_INVITES" xml:space="preserve">
+    <value>Pozvánek: {0}</value>
+  </data>
+  <data name="FC_ADM_N_LISTED" xml:space="preserve">
+    <value>Ve vyhledávání: {0}</value>
+  </data>
+  <data name="FC_ADM_N_UPCOMING" xml:space="preserve">
+    <value>Nadcházející: {0}</value>
+  </data>
+  <data name="FC_ADM_N_USERS" xml:space="preserve">
+    <value>Uživatelů: {0}</value>
+  </data>
+  <data name="FC_ADM_ONE_PER_LINE" xml:space="preserve">
+    <value>Jedna položka na řádek.</value>
+  </data>
+  <data name="FC_ADM_PAGE" xml:space="preserve">
+    <value>Strana</value>
+  </data>
+  <data name="FC_ADM_PARISH" xml:space="preserve">
+    <value>Farnost</value>
+  </data>
+  <data name="FC_ADM_PASSWORD_BLANK_HINT" xml:space="preserve">
+    <value>Ponechte prázdné, pokud chcete zachovat současné heslo.</value>
+  </data>
+  <data name="FC_ADM_PDF" xml:space="preserve">
+    <value>Verze PDF</value>
+  </data>
+  <data name="FC_ADM_PENDING_INVITES" xml:space="preserve">
+    <value>Čekající pozvánky</value>
+  </data>
+  <data name="FC_ADM_PERMISSIONS" xml:space="preserve">
+    <value>Oprávnění</value>
+  </data>
+  <data name="FC_ADM_PERMISSIONS_LEAD" xml:space="preserve">
+    <value>Zvolte, co mohou lidé s touto rolí dělat.</value>
+  </data>
+  <data name="FC_ADM_PEW_SHEET" xml:space="preserve">
+    <value>Farní list</value>
+  </data>
+  <data name="FC_ADM_PEW_SHEET_HINT" xml:space="preserve">
+    <value>Čtení, písně a vstupní modlitba pro úplný týdenní zpravodaj.</value>
+  </data>
+  <data name="FC_ADM_PREVIOUS" xml:space="preserve">
+    <value>Předchozí</value>
+  </data>
+  <data name="FC_ADM_PROFILE_IMAGE" xml:space="preserve">
+    <value>Profilová fotka</value>
+  </data>
+  <data name="FC_ADM_RECENT_CHURCHES" xml:space="preserve">
+    <value>Nedávno přidané kostely</value>
+  </data>
+  <data name="FC_ADM_RECENT_ENTRIES" xml:space="preserve">
+    <value>Nejnovější záznamy</value>
+  </data>
+  <data name="FC_ADM_RECIPIENT" xml:space="preserve">
+    <value>Komu</value>
+  </data>
+  <data name="FC_ADM_REGISTERED" xml:space="preserve">
+    <value>Registrace</value>
+  </data>
+  <data name="FC_ADM_REGISTERED_CHURCHES" xml:space="preserve">
+    <value>Registrované kostely</value>
+  </data>
+  <data name="FC_ADM_REGISTERED_USERS" xml:space="preserve">
+    <value>Registrovaní uživatelé</value>
+  </data>
+  <data name="FC_ADM_RELEASE" xml:space="preserve">
+    <value>Verze {0}</value>
+  </data>
+  <data name="FC_ADM_REMOVE" xml:space="preserve">
+    <value>Odebrat</value>
+  </data>
+  <data name="FC_ADM_REPLACE_PDF" xml:space="preserve">
+    <value>Nahradit PDF</value>
+  </data>
+  <data name="FC_ADM_RESEND" xml:space="preserve">
+    <value>Poslat odkaz znovu</value>
+  </data>
+  <data name="FC_ADM_RESET_LISTING" xml:space="preserve">
+    <value>Obnovit záznam</value>
+  </data>
+  <data name="FC_ADM_ROLE" xml:space="preserve">
+    <value>Role</value>
+  </data>
+  <data name="FC_ADM_ROLES" xml:space="preserve">
+    <value>Role</value>
+  </data>
+  <data name="FC_ADM_ROLES_HINT" xml:space="preserve">
+    <value>Přidělení role zároveň potvrdí účet.</value>
+  </data>
+  <data name="FC_ADM_ROLES_LEAD" xml:space="preserve">
+    <value>Role určují, co může každý účet vidět a měnit.</value>
+  </data>
+  <data name="FC_ADM_ROLE_ADMIN" xml:space="preserve">
+    <value>Správce</value>
+  </data>
+  <data name="FC_ADM_ROLE_APPROVED" xml:space="preserve">
+    <value>Schválený kostel</value>
+  </data>
+  <data name="FC_ADM_ROLE_DEVELOPER" xml:space="preserve">
+    <value>Vývojář</value>
+  </data>
+  <data name="FC_ADM_ROLE_NAME" xml:space="preserve">
+    <value>Název role</value>
+  </data>
+  <data name="FC_ADM_ROLE_PENDING" xml:space="preserve">
+    <value>Čeká na schválení</value>
+  </data>
+  <data name="FC_ADM_SEARCH" xml:space="preserve">
+    <value>Hledat</value>
+  </data>
+  <data name="FC_ADM_SEARCH_LOGS" xml:space="preserve">
+    <value>Hledat v protokolech</value>
+  </data>
+  <data name="FC_ADM_SEND_INVITE" xml:space="preserve">
+    <value>Poslat pozvánku</value>
+  </data>
+  <data name="FC_ADM_SEND_MESSAGE" xml:space="preserve">
+    <value>Odeslat zprávu</value>
+  </data>
+  <data name="FC_ADM_SET" xml:space="preserve">
+    <value>Nastavit</value>
+  </data>
+  <data name="FC_ADM_SHOW_BANNER" xml:space="preserve">
+    <value>Zobrazit banner</value>
+  </data>
+  <data name="FC_ADM_SIGN_OFF_AS" xml:space="preserve">
+    <value>Podpis</value>
+  </data>
+  <data name="FC_ADM_SIGN_OFF_HINT" xml:space="preserve">
+    <value>Zobrazí se jako jméno odesílatele na konci e-mailu.</value>
+  </data>
+  <data name="FC_ADM_SITE_AT_A_GLANCE" xml:space="preserve">
+    <value>Na první pohled</value>
+  </data>
+  <data name="FC_ADM_SITE_BANNER" xml:space="preserve">
+    <value>Banner webu</value>
+  </data>
+  <data name="FC_ADM_STATS_UNAVAILABLE" xml:space="preserve">
+    <value>Živé hodnoty teď nejsou k dispozici.</value>
+  </data>
+  <data name="FC_ADM_STATUS" xml:space="preserve">
+    <value>Stav</value>
+  </data>
+  <data name="FC_ADM_STATUS_CLOSED" xml:space="preserve">
+    <value>Skryto</value>
+  </data>
+  <data name="FC_ADM_STATUS_NOT_SET_UP" xml:space="preserve">
+    <value>Nenastaveno</value>
+  </data>
+  <data name="FC_ADM_STATUS_OPEN" xml:space="preserve">
+    <value>Zobrazeno</value>
+  </data>
+  <data name="FC_ADM_SUNDAY_NAME" xml:space="preserve">
+    <value>Neděle nebo název bohoslužby</value>
+  </data>
+  <data name="FC_ADM_SYSTEM_HEALTH" xml:space="preserve">
+    <value>Stav systému</value>
+  </data>
+  <data name="FC_ADM_TIME" xml:space="preserve">
+    <value>Čas</value>
+  </data>
+  <data name="FC_ADM_TO" xml:space="preserve">
+    <value>Do</value>
+  </data>
+  <data name="FC_ADM_TYPE_ANNOUNCEMENT" xml:space="preserve">
+    <value>Oznámení</value>
+  </data>
+  <data name="FC_ADM_TYPE_BULLETIN" xml:space="preserve">
+    <value>Týdenní zpravodaj (farní list)</value>
+  </data>
+  <data name="FC_ADM_TYPE_MESSAGE" xml:space="preserve">
+    <value>Zpráva</value>
+  </data>
+  <data name="FC_ADM_UPLOAD_PDF" xml:space="preserve">
+    <value>Nahrát PDF</value>
+  </data>
+  <data name="FC_ADM_USER" xml:space="preserve">
+    <value>Uživatel</value>
+  </data>
+  <data name="FC_ADM_USERS" xml:space="preserve">
+    <value>Uživatelé</value>
+  </data>
+  <data name="FC_ADM_USERS_LEAD" xml:space="preserve">
+    <value>Všichni s účtem a co mohou dělat.</value>
+  </data>
+  <data name="FC_ADM_USER_NOT_FOUND" xml:space="preserve">
+    <value>Tohoto uživatele jsme nenašli</value>
+  </data>
+  <data name="FC_ADM_VIEW_ALL" xml:space="preserve">
+    <value>Zobrazit vše</value>
+  </data>
+  <data name="FC_ADM_WHEN" xml:space="preserve">
+    <value>Kdy</value>
+  </data>
+  <data name="FC_ADM_PAST_EVENTS" xml:space="preserve">
+    <value>Minulé události</value>
   </data>
 </root>
