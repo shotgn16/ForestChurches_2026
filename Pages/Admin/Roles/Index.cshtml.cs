@@ -48,78 +48,70 @@ namespace ForestChurches.Pages.Admin.Roles
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> OnPostCreateRole(string roleName)
         {
-            IdentityResult actionResult = new();
+            roleName = roleName?.Trim();
+            if (string.IsNullOrWhiteSpace(roleName))
+            {
+                StatusMessage = "Error: please enter a role name.";
+                return RedirectToPage();
+            }
 
             try
             {
-                if (!ModelState.IsValid)
+                if (await _roleManager.RoleExistsAsync(roleName).ConfigureAwait(true))
                 {
-                    StatusMessage = "Invalid input model...";
-                    return Page();
+                    StatusMessage = $"Error: a role called '{roleName}' already exists.";
+                    return RedirectToPage();
                 }
 
-                else if (ModelState.IsValid)
-                {
-                    bool x = await _roleManager.RoleExistsAsync(roleName)
-                    .ConfigureAwait(true);
-
-                    if (!x)
-                    {
-                        var role = new ChurchRoles() 
-                        {
-                            Name = roleName
-                        };
-                        actionResult = await _roleManager.CreateAsync(role).ConfigureAwait(true);
-                    }
-
-                    Roles = await GetRoles().ConfigureAwait(true);
-                }
+                var result = await _roleManager.CreateAsync(new ChurchRoles { Name = roleName }).ConfigureAwait(true);
+                StatusMessage = result.Succeeded
+                    ? $"Saved: the role '{roleName}' was created."
+                    : "Error: " + string.Join(" ", result.Errors.Select(e => e.Description));
             }
-
             catch (Exception ex)
             {
-                _logger.LogError("Error! " + ex.Message, ex);
+                _logger.LogError(ex, "Error creating role {RoleName}", roleName);
+                StatusMessage = "Error: the role couldn't be created.";
             }
 
-            StatusMessage = actionResult.Succeeded == true ? "Role successfully created!" : "An error occurred while creating the role.";
-            return Page();
+            return RedirectToPage();
         }
 
         [ValidateAntiForgeryToken]
-        public IActionResult OnPostDeleteRole(string value)
+        public async Task<IActionResult> OnPostDeleteRole(string value)
         {
             try
             {
-                if (!ModelState.IsValid)
+                var role = await _roleManager.FindByIdAsync(_Encoder.Unprotect<string>(value, "fc.data.admin.role")).ConfigureAwait(true);
+                if (role == null)
                 {
-                    StatusMessage = "Invalid input model...";
-                    return Page();
+                    StatusMessage = "Error: that role no longer exists.";
+                    return RedirectToPage();
                 }
 
-                else if (ModelState.IsValid)
+                // Check before deleting: previously the role was removed first and the check came too late.
+                var usersInRole = await _userManager.GetUsersInRoleAsync(role.Name).ConfigureAwait(true);
+                if (usersInRole.Count > 0)
                 {
-                    var role = _roleManager.FindByIdAsync(_Encoder.Unprotect<string>(value, "fc.data.admin.role")).Result;
-                    var result = _roleManager.DeleteAsync(role).Result;
+                    StatusMessage = $"Error: the role '{role.Name}' is used by {usersInRole.Count} user(s), so it can't be deleted.";
+                    return RedirectToPage();
+                }
 
-                    var usersInRole = _userManager.GetUsersInRoleAsync(role.Name).Result;
-
-                    if (usersInRole.Count > 0)
-                    {
-                        RedirectToPage("./Index");
-                        StatusMessage = $"Role '{role.Name}' is in use by {usersInRole.Count} user(s) and cannot be deleted...";
-                    }
-
-                    if (result.Succeeded)
-                    {
-                        _logger.LogInformation($"Role '{role.Name}' successfully deleted...");
-                        StatusMessage = $"Role '{role.Name}' successfully deleted...";
-                    }
+                var result = await _roleManager.DeleteAsync(role).ConfigureAwait(true);
+                if (result.Succeeded)
+                {
+                    _logger.LogInformation("Role {RoleName} deleted", role.Name);
+                    StatusMessage = $"Saved: the role '{role.Name}' was deleted.";
+                }
+                else
+                {
+                    StatusMessage = "Error: " + string.Join(" ", result.Errors.Select(e => e.Description));
                 }
             }
-
             catch (Exception ex)
             {
-                _logger.LogError(ex.Message, ex);
+                _logger.LogError(ex, "Error deleting role");
+                StatusMessage = "Error: the role couldn't be deleted.";
             }
 
             return RedirectToPage();

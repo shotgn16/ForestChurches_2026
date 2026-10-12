@@ -1,196 +1,56 @@
-﻿@inject IHttpContextAccessor httpContext;
+@* Site administration shell: the shared top bar (in admin mode) plus a sidebar of admin sections.
+   Pages keep using Layout = "_Admin"; the area pages (Bulletins) use it too. *@
 @{
-    var url = $"{httpContext.HttpContext.Request.Scheme}://{httpContext.HttpContext.Request.Host.Value}";
-    ViewData["Title"] = "";
+    Layout = "/Pages/Shared/_Layout.cshtml";
+    ViewData["FcShell"] = "admin";
+    ViewData["FcShellTag"] = Localizer["FC_SITE_ADMIN"].Value;
+
+    var area = ViewContext.RouteData.Values["area"]?.ToString() ?? string.Empty;
+    var page = ViewContext.RouteData.Values["page"]?.ToString() ?? string.Empty;
+    var path = string.IsNullOrEmpty(area) ? page : $"/{area}{page}";
+
+    // A section is "current" when the page lives under it, e.g. /Admin/Users/Edit belongs to Users.
+    bool IsIn(string section) => section == "/Admin/Index"
+        ? string.Equals(path, section, StringComparison.OrdinalIgnoreCase)
+        : path.StartsWith(section, StringComparison.OrdinalIgnoreCase);
+    string? Current(string section) => IsIn(section) ? "page" : null;
+
+    var sections = new (string Section, string Href, string Key)[]
+    {
+        ("/Admin/Index", Url.Page("/Admin/Index", new { area = "" })!, "FC_ADM_DASHBOARD"),
+        ("/Admin/Users", Url.Page("/Admin/Users/Index", new { area = "" })!, "FC_ADM_USERS"),
+        ("/Admin/Roles", Url.Page("/Admin/Roles/Index", new { area = "" })!, "FC_ADM_ROLES"),
+        ("/Admin/Invite", Url.Page("/Admin/Invite", new { area = "" })!, "FC_ADM_INVITES"),
+        ("/Admin/Church", Url.Page("/Admin/Church/Index", new { area = "" })!, "FC_ADM_CHURCHES"),
+        ("/Admin/Events", Url.Page("/Admin/Events/Index", new { area = "" })!, "FC_ADM_EVENTS"),
+        ("/Admin/Bulletin", Url.Page("/Bulletin/Index", new { area = "Admin" })!, "FC_NAV_BULLETINS"),
+        ("/Admin/Contact", Url.Page("/Admin/Contact", new { area = "" })!, "FC_ADM_EMAILS"),
+        ("/Admin/AdminLogs", Url.Page("/Admin/AdminLogs", new { area = "" })!, "FC_ADM_LOGS"),
+        ("/Admin/Changelogs", Url.Page("/Admin/Changelogs", new { area = "" })!, "FC_ADM_CHANGELOG"),
+    };
 }
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Forest Churches | Admin</title>
-    
-  <link href="~/@(nameof(ForestChurches)).styles.css" rel="stylesheet" />
-  <!-- Google Font: Source Sans Pro -->
-  <link rel="stylesheet" href="~/fonts/SourceSansPro.ttf" >
-  <link rel="stylesheet" href="~/js/toastr.min.css" referrerpolicy="no-referrer" />
-  <script src="~/js/toastr.min.js" referrerpolicy="no-referrer"></script>
-  <script src="~/js/32ff283d61.js" referrerpolicy="no-referrer"></script>
+@section AdminBarLinks {
+    <a asp-area="Identity" asp-page="/Account/Manage/ChurchProfile">@Localizer["FC_CHURCH_ADMIN"]</a>
+    <a asp-area="" asp-page="/Index">@Localizer["FC_BACK_TO_SITE"]</a>
+}
 
-  <link rel="stylesheet" href="~/plugins/fontawesome-free/css/all.min.css">
-  <link rel="stylesheet" href="~/css/adminlte.min.css">
-  <link href="https://cdn.lineicons.com/5.1/line/lineicons.css" rel="stylesheet" />
-
-  @RenderSection("Styles", required: false)
-</head>
-<style nonce="@HttpContextAccessor.HttpContext?.Items["CSP-Style-Nonce"]">
-    .brand-image {
-        opacity: .8
-    }
-
-    img {
-        max-width: 100%;
-    }
-</style>
-
-<body class="hold-transition sidebar-mini">
-<!-- Site wrapper -->
-<div class="wrapper">
-  <!-- Navbar -->
-  <nav class="main-header navbar navbar-expand navbar-white navbar-light">
-    <!-- Left navbar links -->
-    <ul class="navbar-nav">
-      <li class="nav-item">
-        <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
-      </li>
-      <li class="nav-item d-none d-sm-inline-block">
-        <a asp-page="/Admin/Index" class="nav-link">Home</a>
-      </li>
-    </ul>
-
-    <!-- Right navbar links -->
-    <ul class="navbar-nav ml-auto">
-
-      <li class="nav-item">
-        <a class="nav-link" data-widget="fullscreen" href="#" role="button">
-          <i class="fas fa-expand-arrows-alt"></i>
-        </a>
-      </li>
-    </ul>
-  </nav>
-  <!-- /.navbar -->
-
-  <!-- Main Sidebar Container -->
-  <aside class="main-sidebar sidebar-dark-primary elevation-4">
-    <!-- Brand Logo -->
-    <a asp-page="/Index" class="brand-link">
-        <img src="~/img/admin_logo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3">
-      <span class="brand-text font-weight-light">Forest Churches</span>
-    </a>
-
-    <div class="sidebar">
-      <nav class="mt-2">
-        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-            <li class="nav-item">
-                <a asp-page="/Admin/Users/Index" class="nav-link">
-                    <p>Users</p>
-                </a>
-            </li>
-
-            <li class="nav-item">
-                <a asp-page="/Admin/Roles/Index" class="nav-link">
-                    <p>Roles</p>
-                </a>
-            </li>
-
-            <li class="nav-item">
-                <a asp-page="/Admin/Events/Index" class="nav-link">
-                    <p>Events</p>
-                </a>
-            </li>
-
-            <li class="nav-item">
-                <a asp-page="/Admin/Invite" class="nav-link">
-                    <p>Whitelist Users</p>
-                </a>
-            </li>
-
-            <li class="nav-item">
-                <a asp-page="/Admin/Church/Index" class="nav-link">
-                    <p>Churches</p>
-                </a>
-            </li>
-
-            <li class="nav-item">
-                <a asp-page="/Admin/Contact" class="nav-link">
-                    <p>Emails</p>
-                </a>
-            </li>
-
-            <li class="nav-item">
-                <a asp-page="/Admin/Changelogs" class="nav-link">
-                    <p>Changelogs</p>
-                </a>
-            </li>
-
-            <li class="nav-item">
-                <a asp-page="/Admin/AdminLogs" class="nav-link">
-                    <p>Logs</p>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a asp-page="/Admin/Bulletin/Index" class="nav-link">
-                    <p>Bulletins</p>
-                </a>
-            </li>
-        </ul>
-      </nav>
-      <!-- /.sidebar-menu -->
-    </div>
-    <!-- /.sidebar -->
-  </aside>
-
-  <!-- Content Wrapper. Contains page content -->
-  <div class="content-wrapper">
-    <!-- Content Header (Page header) -->
-    <section class="content-header">
-      <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-md-3 col-sm-12 imageHeading">
-            <img class="adminImage" src="~/img/admin_logo.png" alt="Forest Churches Logo" />
-          </div>
-          <div class="col-md-9 col-sm-12 textHeading">
-          </div>
-        </div>
-      </div><!-- /.container-fluid -->
-    </section>
-
-    <!-- Main content -->
-    <section class="content">
-        @RenderBody()
-      </div>
-      <!-- /.card -->
-
-    </section>
-    <!-- /.content -->
-  </div>
-  <!-- /.content-wrapper -->
-
-  <footer class="main-footer">
-    <div class="float-right d-none d-sm-block">
-      <b>Version</b> 3.2.0
-    </div>
-    <strong>Copyright &copy; 2025 <a href="@url">Forest Churches</a>.</strong>
-  </footer>
-
-  <!-- Control Sidebar -->
-  <aside class="control-sidebar control-sidebar-dark">
-    <!-- Control sidebar content goes here -->
-  </aside>
-  <!-- /.control-sidebar -->
-</div>
-<!-- ./wrapper -->
-
-    <!-- jQuery -->
-    <script src="~/lib/jquery/dist/jquery.min.js" asp-append-version="true"></script>
-    <!-- Bootstrap 4 -->
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- AdminLTE App -->
-    <script src="~/js//adminlte.min.js" asp-integrity="true"></script>
-    @RenderSection("Scripts", required: false)
-</body>
-</html>
-
-
-<script nonce="@HttpContextAccessor.HttpContext?.Items["CSP-Script-Nonce"]">
-    document.addEventListener("DOMContentLoaded", function () {
-        setTimeout(() => {
-            let msg = document.querySelector("#status-message");
-            if (msg) {
-                msg.style.opacity = "0";
-                setTimeout(() => msg.remove(), 500);
+<div class="fc-container fc-admin">
+    <nav class="fc-admin__side" aria-label="@Localizer["FC_SITE_ADMIN"]">
+        <ul class="fc-sidenav">
+            @foreach (var (section, href, key) in sections)
+            {
+                <li><a href="@href" class="@(IsIn(section) ? "active" : "")" aria-current="@Current(section)">@Localizer[key]</a></li>
             }
-        }, 3000); // Auto-hide after 3 seconds
-    });
-</script>
+        </ul>
+    </nav>
+
+    <div class="fc-admin__main">
+        @RenderBody()
+    </div>
+</div>
+
+@section Scripts {
+    @RenderSection("Scripts", required: false)
+}
+@if (IsSectionDefined("Styles")) { IgnoreSection("Styles"); }

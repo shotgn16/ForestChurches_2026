@@ -1,6 +1,7 @@
 using ForestChurches.Components.Users;
 using ForestChurches.Data;
 using ForestChurches.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -8,6 +9,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ForestChurches.Pages.Admin.Church
 {
+    // Previously had no [Authorize], so the page and its POST handler were reachable without signing in.
+    [Authorize(Policy = "Admin.Read")]
     public class EditModel : PageModel
     {
         private readonly ForestChurchesContext _context;
@@ -45,7 +48,7 @@ namespace ForestChurches.Pages.Admin.Church
 
                 if (Church == null)
                 {
-                    StatusMessage = "Error: Church not found.";
+                    StatusMessage = "Error: that church no longer exists.";
                     return Page();
                 }
 
@@ -75,7 +78,9 @@ namespace ForestChurches.Pages.Admin.Church
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, $"An error occurred while retrieving ({_Encoder.Unprotect<string>(id, "fc.data.admin.church")}).");
+                // Don't unprotect again here: an invalid or expired id is the usual cause and would throw a second time.
+                _logger.LogError(ex, "An error occurred while loading a church for editing.");
+                StatusMessage = "Error: that link is invalid or has expired. Please open the church again from the list.";
             }
 
             return Page();
@@ -88,7 +93,8 @@ namespace ForestChurches.Pages.Admin.Church
             {
                 if (!ModelState.IsValid)
                 {
-                    StatusMessage = "Error: Invalid model state.";
+                    StatusMessage = "Error: please check the highlighted fields.";
+                    Church = await _context.ChurchInformation.FirstOrDefaultAsync(c => c.ID == SaveChangesModel.ID);
                     return Page();
                 }
 
@@ -98,19 +104,14 @@ namespace ForestChurches.Pages.Admin.Church
                     return Page();
                 }
 
-                var user = await _userManager.GetUserAsync(User);
-                if (user == null)
-                {
-                    StatusMessage = "Error: Unable to retrieve user information.";
-                    return Page();
-                }
-
+                // Update the church being edited (its ID is posted with the form). This used to update the
+                // signed-in admin's own church instead of the one on screen.
                 var church = await _context.ChurchInformation
-                    .FirstOrDefaultAsync(c => c.ChurchAccountId == user.Id);
+                    .FirstOrDefaultAsync(c => c.ID == SaveChangesModel.ID);
                 if (church == null)
                 {
-                    StatusMessage = "Error: Church information is not found.";
-                    return Page();
+                    StatusMessage = "Error: that church no longer exists.";
+                    return RedirectToPage("./Index");
                 }
 
                 // Log the current state of the church object
@@ -171,7 +172,7 @@ namespace ForestChurches.Pages.Admin.Church
 
                 await _context.SaveChangesAsync();
 
-                StatusMessage = $"Your Church ({SaveChangesModel.Name}) was successfully updated!";
+                StatusMessage = $"Saved: {SaveChangesModel.Name} was updated.";
             }
             catch (Exception ex)
             {

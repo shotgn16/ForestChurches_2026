@@ -1,106 +1,113 @@
-﻿@page
+@page
 @model ForestChurches.Pages.Admin.Church.EditModel
-@inject ForestChurches.Components.Security.Encoder Encoder;
+@using ForestChurches.Components.Ui
 @{
     Layout = "_Admin";
-    ViewData["Title"] = "Edit Church | Administration";
+    ViewData["Title"] = Localizer["FC_ADM_EDIT_CHURCH"];
+    var m = Model.SaveChangesModel;
+    var facilities = new (string Field, string LabelKey, bool On)[]
+    {
+        ("WheelchairAccess", "NEARME_FACILITY_WHEELCHAIR_ACCESS", m?.WheelchairAccess == true),
+        ("Parking", "NEARME_FACILITY_PARKING", m?.Parking == true),
+        ("HearingAidSupport", "NEARME_FACILITY_HEARING_AID_SUPPORT", m?.HearingAidSupport == true),
+        ("Refreshments", "NEARME_FACILITY_REFRESHMENTS", m?.Refreshments == true),
+        ("Childcare", "NEARME_FACILITY_CHILDRENS_MINISTRY", m?.Childcare == true),
+        ("Restrooms", "NEARME_FACILITY_RESTROOMS", m?.Restrooms == true),
+        ("Wifi", "NEARME_FACILITY_WIFI", m?.Wifi == true),
+        ("Kitchen", "NEARME_FACILITY_KITCHEN", m?.Kitchen == true),
+        ("MeetingHall", "NEARME_FACILITY_COMMUNITY_HALL", m?.MeetingHall == true),
+        ("WorshipHall", "NEARME_FACILITY_WORSHIP_HALL", m?.WorshipHall == true),
+        ("OutdoorSpaces", "NEARME_FACILITY_OUTDOOR_SPACE", m?.OutdoorSpaces == true),
+    };
 }
-<style nonce="@HttpContextAccessor.HttpContext?.Items["CSP-Style-Nonce"]">
-    .checkbox-list {
-        padding-left: calc(0.8rem + 0.5vw);
-    }
 
-    #imgLogo {
-        max-width: 100px;
-    }
-</style>
-<partial name="_StatusMessage" model="Model.StatusMessage" />
-
-<!-- Profile Image -->
-<div class="card card-primary card-outline">
-    <div class="card-body box-profile">
-        <div class="text-center">
-            <img id="imgLogo" src="@Encoder.HtmlEncode("https://imgur.com/oLC9RcU")" />
-        </div>
-
-        <h3 class="profile-username text-center">@Encoder.HtmlEncode(Model.Church?.Name)</h3>
-
-        <div class="tab-pane active" id="settings">
-            <form class="form-horizontal" asp-page-handler="UpdateChurch" method="post" id="editForm">
-                <!-- AntiforgeryToken -->
-                @Html.AntiForgeryToken()
-
-                <div class="form-floating full-width">
-                    <label asp-for="SaveChangesModel.Name"></label>
-                    <input asp-for="SaveChangesModel.Name" aria-required="true" class="form-control" id="churchName" type="text" placeholder="Church Name" />
-                    <span asp-validation-for="SaveChangesModel.Name" class="text-danger"></span>
-                </div>
-
-                <div class="form-floating full-width">
-                    <label asp-for="SaveChangesModel.Description"></label>
-                    <textarea asp-for="SaveChangesModel.Description" class="form-control" id="churchDescription" placeholder="Church Description" rows="5"></textarea>
-                    <span asp-validation-for="SaveChangesModel.Description" class="text-danger"></span>
-                </div>
-
-                <div class="form-floating half-width">
-                    <label asp-for="SaveChangesModel.Denomination"></label>
-                    <input asp-for="SaveChangesModel.Denomination" class="form-control" id="denomination" type="text" placeholder="Denomination" />
-                    <span asp-validation-for="SaveChangesModel.Denomination" class="text-danger"></span>
-                </div>
-
-                <div class="form-floating half-width">
-                    <label asp-for="SaveChangesModel.Congregation">Congregation Size</label>
-                    <input asp-for="SaveChangesModel.Congregation" class="form-control" id="congregationSize" type="text" placeholder="Number of Congregants" />
-                    <span asp-validation-for="SaveChangesModel.Congregation" class="text-danger"></span>
-                </div>
-
-                <div class="form-floating half-width">
-                    <label asp-for="SaveChangesModel.Address"></label>
-                    <input id="addressInput" asp-for="SaveChangesModel.Address" class="form-control" type="text" placeholder="Church Address" />
-                    <span asp-validation-for="SaveChangesModel.Address" class="text-danger"></span>
-                </div>
-
-                <div class="form-floating half-width">
-                    <label asp-for="SaveChangesModel.Phone">Phone</label>
-                    <input asp-for="SaveChangesModel.Phone" class="form-control" id="phone" type="tel" placeholder="Church Phone" />
-                    <span asp-validation-for="SaveChangesModel.Phone" class="text-danger"></span>
-                </div>
-
-                <div class="form-floating full-width">
-                    <label asp-for="SaveChangesModel.Churchsuite">ChurchSuite (Optional)</label>
-                    <input asp-for="SaveChangesModel.Churchsuite" class="form-control" id="churchsuite" type="text" placeholder="Churchsuite link" />
-                    <span asp-validation-for="SaveChangesModel.Churchsuite" class="text-danger"></span>
-                </div>
-
-                <div class="form-floating half-width">
-                    <label asp-for="SaveChangesModel.Website">Website</label>
-                    <input asp-for="SaveChangesModel.Website" class="form-control" id="website" type="text" placeholder="Church Website" />
-                    <span asp-validation-for="SaveChangesModel.Website" class="text-danger"></span>
-                </div>
-
-                <div class="form-group half-width">
-                    <label class="form-check-label listLabel">Facilities</label>
-                    <div class="checkbox-list">
-                        <label><input class="form-check-input" type="checkbox" asp-for="SaveChangesModel.Restrooms" /> Restrooms</label><br />
-                        <label><input class="form-check-input" type="checkbox" asp-for="SaveChangesModel.WheelchairAccess" /> Wheelchair Access</label><br />
-                        <label><input class="form-check-input" type="checkbox" asp-for="SaveChangesModel.Wifi" /> Free WiFi</label><br />
-                        <label><input class="form-check-input" type="checkbox" asp-for="SaveChangesModel.Refreshments" /> Refreshments</label><br />
-                        <label><input class="form-check-input" type="checkbox" asp-for="SaveChangesModel.Parking" value="true" /> Parking</label><br />
-                        <label><input class="form-check-input" type="checkbox" asp-for="SaveChangesModel.Childcare" /> Childrens Provision</label><br />
-                        <label><input class="form-check-input" type="checkbox" asp-for="SaveChangesModel.HearingAidSupport" /> Hearing Aid Support</label><br />
-                        <label><input class="form-check-input" type="checkbox" asp-for="SaveChangesModel.Kitchen" /> Kitchen</label><br />
-                        <label><input class="form-check-input" type="checkbox" asp-for="SaveChangesModel.MeetingHall" /> Community Space</label><br />
-                        <label><input class="form-check-input" type="checkbox" asp-for="SaveChangesModel.OutdoorSpaces" /> Outdoor Spaces</label><br />
-                        <label><input class="form-check-input" type="checkbox" asp-for="SaveChangesModel.WorshipHall" /> Worship Hall</label><br />
-                    </div>
-                </div>
-
-                <input type="hidden" asp-for="SaveChangesModel.ID" />
-                <button type="submit" class="btn btn-primary w-100">Update Information</button>
-            </form>
-        </div>
+<div class="fc-page-head">
+    <div>
+        <a asp-page="./Index" class="fc-small" style="font-weight: 700">← @Localizer["FC_ADM_CHURCHES"]</a>
+        <h1 style="margin-top: 6px">@(m == null ? Localizer["FC_ADM_EDIT_CHURCH"].Value : FcText.PlainText(m.Name))</h1>
     </div>
 </div>
+
+<partial name="_StatusMessage" model="Model.StatusMessage" />
+
+@if (m != null)
+{
+    <form asp-page-handler="UpdateChurch" method="post" id="editForm" class="fc-stack fc-stack--lg">
+        <input type="hidden" asp-for="SaveChangesModel.ID" />
+        <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+
+        <section class="fc-card" aria-labelledby="det-h">
+            <h2 id="det-h" class="fc-card__title">@Localizer["FC_DETAILS"]</h2>
+            <div class="fc-grid">
+                <div class="fc-field fc-span-all">
+                    <label class="fc-label" asp-for="SaveChangesModel.Name">@Localizer["FC_CHURCH_NAME"]</label>
+                    <input class="fc-input" asp-for="SaveChangesModel.Name" value="@FcText.PlainText(m.Name)" aria-required="true" />
+                    <span asp-validation-for="SaveChangesModel.Name" class="text-danger"></span>
+                </div>
+                <div class="fc-field fc-span-all">
+                    <label class="fc-label" for="SaveChangesModel_Description">@Localizer["FC_DESCRIPTION"]</label>
+                    <textarea class="fc-textarea" id="SaveChangesModel_Description" name="SaveChangesModel.Description" maxlength="1000" rows="5">@FcText.PlainText(m.Description)</textarea>
+                    <span asp-validation-for="SaveChangesModel.Description" class="text-danger"></span>
+                </div>
+                <div class="fc-field">
+                    <label class="fc-label" asp-for="SaveChangesModel.Denomination">@Localizer["LABEL_DENOMINATION"]</label>
+                    <input class="fc-input" asp-for="SaveChangesModel.Denomination" />
+                    <span asp-validation-for="SaveChangesModel.Denomination" class="text-danger"></span>
+                </div>
+                <div class="fc-field">
+                    <label class="fc-label" asp-for="SaveChangesModel.Congregation">@Localizer["TAG_SIZE_CONGREGATION"]</label>
+                    <input class="fc-input" asp-for="SaveChangesModel.Congregation" />
+                    <span asp-validation-for="SaveChangesModel.Congregation" class="text-danger"></span>
+                </div>
+                <div class="fc-field">
+                    <label class="fc-label" asp-for="SaveChangesModel.Address">@Localizer["TAG_ADDRESS"]</label>
+                    <input class="fc-input" asp-for="SaveChangesModel.Address" value="@FcText.PlainText(m.Address)" />
+                    <span asp-validation-for="SaveChangesModel.Address" class="text-danger"></span>
+                </div>
+                <div class="fc-field">
+                    <label class="fc-label" asp-for="SaveChangesModel.Phone">@Localizer["TAG_PHONE"]</label>
+                    <input class="fc-input" asp-for="SaveChangesModel.Phone" type="tel" />
+                    <span asp-validation-for="SaveChangesModel.Phone" class="text-danger"></span>
+                </div>
+                <div class="fc-field">
+                    <label class="fc-label" asp-for="SaveChangesModel.Website">@Localizer["TAG_WEBSITE"]</label>
+                    <input class="fc-input" asp-for="SaveChangesModel.Website" type="url" />
+                    <span asp-validation-for="SaveChangesModel.Website" class="text-danger"></span>
+                </div>
+                <div class="fc-field">
+                    <label class="fc-label" asp-for="SaveChangesModel.Churchsuite">@Localizer["TAG_CHURCHSUITE"] <span class="fc-opt">— @Localizer["FC_OPTIONAL"]</span></label>
+                    <input class="fc-input" asp-for="SaveChangesModel.Churchsuite" type="url" />
+                    <span asp-validation-for="SaveChangesModel.Churchsuite" class="text-danger"></span>
+                </div>
+            </div>
+        </section>
+
+        <section class="fc-card" aria-labelledby="fac-h">
+            <h2 id="fac-h" class="fc-card__title">@Localizer["TAG_FACILITIES"]</h2>
+            <div class="fc-switches">
+                @foreach (var (field, labelKey, on) in facilities)
+                {
+                    <label class="fc-switch">
+                        <span>@Localizer[labelKey]</span>
+                        <input type="checkbox" role="switch" name="SaveChangesModel.@field" value="true" checked="@on" />
+                    </label>
+                }
+            </div>
+        </section>
+
+        <div class="fc-btn-row" style="justify-content: flex-end">
+            <a asp-page="./Index" class="fc-btn fc-btn--quiet">@Localizer["FC_CANCEL"]</a>
+            <button type="submit" class="fc-btn fc-btn--primary">@Localizer["FC_SAVE_CHANGES"]</button>
+        </div>
+    </form>
+}
+else
+{
+    <div class="fc-card fc-empty">
+        <h2 class="fc-h3">@Localizer["FC_ADM_CHURCH_NOT_FOUND"]</h2>
+        <p class="fc-muted" style="margin-top: 8px"><a asp-page="./Index">@Localizer["FC_ADM_BACK_TO_CHURCHES"]</a></p>
+    </div>
+}
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />

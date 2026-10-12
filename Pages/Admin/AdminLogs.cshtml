@@ -1,65 +1,80 @@
-﻿@page
-@using ForestChurches.Components.Logging
+@page
 @model ForestChurches.Pages.Admin.AdminLogsModel
-@inject LogRetriver _logRetriver
 @{
     Layout = "_Admin";
+    ViewData["Title"] = Localizer["FC_ADM_LOGS"];
     var cspNonce = HttpContext.Items["CSP-Script-Nonce"]?.ToString() ?? string.Empty;
+    var logs = Model.Logs?.ToList() ?? new List<ForestChurches.Models.LogEntry>();
 }
-<head>
-    <link rel="stylesheet" integrity="sha256-teON4y0UnyJj2Gol8NtuY0GOKW9cQvAE8a0Ve1Bi25Y=" href="~/plugins/fontawesome-free/css/all.min.css">
-</head>
 
-<div id="adminLogsRoot" data-current-page="@Model.CurrentPage" data-total-pages="@Model.TotalPages" data-search="@Model.SearchQuery">
+<div class="fc-page-head">
+    <div>
+        <h1>@Localizer["FC_ADM_LOGS"]</h1>
+        <p>@Localizer["FC_ADM_LOGS_LEAD"]</p>
+    </div>
+</div>
+
+@* admin-logs.js relies on these element ids. *@
+<div id="adminLogsRoot" class="fc-stack fc-stack--lg" data-current-page="@Model.CurrentPage" data-total-pages="@Model.TotalPages" data-search="@Model.SearchQuery">
     @Html.AntiForgeryToken()
-    <div class="mb-2 d-flex gap-2 flex-wrap">
-        <input id="searchInput" type="search" class="form-control" placeholder="Search logs..." value="@Model.SearchQuery" style="max-width: 200px;" />
-        <button id="searchBtn" class="btn btn-primary">Search</button>
-    </div>
 
-    <div class="mb-3 d-flex gap-2 flex-wrap align-items-end">
-        <div>
-            <label for="fromDate" class="form-label">From Date/Time:</label>
-            <input id="fromDate" type="datetime-local" class="form-control" />
+    <section class="fc-card fc-stack">
+        <div class="fc-inline-form">
+            <div class="fc-field">
+                <label class="fc-label" for="searchInput">@Localizer["FC_ADM_SEARCH_LOGS"]</label>
+                <input id="searchInput" type="search" class="fc-input" value="@Model.SearchQuery" />
+            </div>
+            <button id="searchBtn" type="button" class="fc-btn fc-btn--primary">@Localizer["FC_ADM_SEARCH"]</button>
         </div>
-        <div>
-            <label for="toDate" class="form-label">To Date/Time:</label>
-            <input id="toDate" type="datetime-local" class="form-control" />
+        <div class="fc-inline-form">
+            <div class="fc-field" style="flex-basis: 200px">
+                <label class="fc-label" for="fromDate">@Localizer["FC_ADM_FROM"]</label>
+                <input id="fromDate" type="datetime-local" class="fc-input" />
+            </div>
+            <div class="fc-field" style="flex-basis: 200px">
+                <label class="fc-label" for="toDate">@Localizer["FC_ADM_TO"]</label>
+                <input id="toDate" type="datetime-local" class="fc-input" />
+            </div>
+            <button id="downloadBtn" type="button" class="fc-btn fc-btn--quiet" data-busy="@Localizer["FC_ADM_DOWNLOADING"]">@Localizer["FC_ADM_DOWNLOAD_LOGS"]</button>
         </div>
-        <button id="downloadBtn" class="btn btn-success">Download Logs</button>
-    </div>
+    </section>
 
-    <div style="overflow-x:auto; overflow-y:scroll; height: 650px;">
-        <table class="table table-bordered table-striped">
-            <thead>
-                <tr>
-                    <th class="sticky-header">Timestamp</th>
-                    <th class="sticky-header">Level</th>
-                    <th class="sticky-header">Exception</th>
-                    <th class="sticky-header">RenderedMessage</th>
-                </tr>
-            </thead>
-            <tbody id="logsTableBody">
-                @foreach (var log in Model.Logs)
-                {
-                    <tr style="color: @(log.Level == "Debug" ? "darkgray" : log.Level == "Warning" ? "orange" : log.Level == "Error" ? "red" : "black");">
-                        <td>@Html.Encode(log.Timestamp)</td>
-                        <td>@Html.Encode(log.Level)</td>
-                        <td>@Html.Encode(log.Exception)</td>
-                        <td>@Html.Encode(log.Message)</td>
+    <section class="fc-card fc-card--flush" aria-labelledby="logs-h">
+        <div class="fc-card__head">
+            <h2 id="logs-h" class="fc-h3">@Localizer["FC_ADM_RECENT_ENTRIES"]</h2>
+            <span class="fc-small fc-muted">@Localizer["FC_ADM_LOGS_CLICK_HINT"]</span>
+        </div>
+        <div class="fc-logs">
+            <table class="fc-table fc-table--admin">
+                <thead>
+                    <tr>
+                        <th scope="col" style="width: 170px">@Localizer["FC_ADM_TIME"]</th>
+                        <th scope="col" style="width: 110px">@Localizer["FC_ADM_LEVEL"]</th>
+                        <th scope="col">@Localizer["FC_ADM_EXCEPTION"]</th>
+                        <th scope="col">@Localizer["FC_ADM_MESSAGE"]</th>
                     </tr>
-                }
-            </tbody>
-        </table>
-    </div>
-
-    <div class="d-flex justify-content-between align-items-center mt-2">
-        <div>
-            <button id="prevBtn" class="btn btn-secondary">Previous</button>
-            <button id="nextBtn" class="btn btn-secondary">Next</button>
+                </thead>
+                <tbody id="logsTableBody">
+                    @foreach (var log in logs)
+                    {
+                        <tr class="fc-log--@((log.Level ?? "information").ToLowerInvariant())">
+                            <td class="fc-nowrap">@log.Timestamp</td>
+                            <td>@log.Level</td>
+                            <td>@log.Exception</td>
+                            <td>@log.Message</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
         </div>
-        <div>Page <span id="currentPage">@Model.CurrentPage</span> of <span id="totalPages">@Model.TotalPages</span></div>
-    </div>
+        <div class="fc-card__foot fc-row fc-row--between">
+            <div class="fc-btn-row">
+                <button id="prevBtn" type="button" class="fc-btn fc-btn--quiet fc-btn--sm" disabled="@(Model.CurrentPage <= 1)">← @Localizer["FC_ADM_PREVIOUS"]</button>
+                <button id="nextBtn" type="button" class="fc-btn fc-btn--quiet fc-btn--sm" disabled="@(Model.CurrentPage >= Model.TotalPages)">@Localizer["FC_ADM_NEXT"] →</button>
+            </div>
+            <span class="fc-small fc-muted">@Localizer["FC_ADM_PAGE"] <span id="currentPage">@Model.CurrentPage</span> / <span id="totalPages">@Model.TotalPages</span></span>
+        </div>
+    </section>
 </div>
 
 @section Scripts {

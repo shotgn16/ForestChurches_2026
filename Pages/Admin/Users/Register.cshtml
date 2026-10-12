@@ -1,85 +1,84 @@
-﻿@page
+@page
 @model ForestChurches.Pages.Admin.Users.RegisterModel
-@inject ForestChurches.Components.Security.Encoder Encoder;
+@inject ForestChurches.Components.Security.Encoder Encoder
 @{
     Layout = "_Admin";
-    ViewData["Title"] = "New User | Administration";
+    ViewData["Title"] = Localizer["FC_ADM_CREATE_USER"];
+    var assigned = Model.Input?.Roles ?? new List<string>();
+    var roles = (Model.Roles ?? new List<ForestChurches.Components.Roles.ChurchRoles>()).Where(r => !string.IsNullOrEmpty(r.Name)).ToList();
 }
+
+<div class="fc-page-head">
+    <div>
+        <a asp-page="./Index" class="fc-small" style="font-weight: 700">← @Localizer["FC_ADM_USERS"]</a>
+        <h1 style="margin-top: 6px">@Localizer["FC_ADM_CREATE_USER"]</h1>
+        <p>@Localizer["FC_ADM_CREATE_USER_LEAD"]</p>
+    </div>
+</div>
 
 <partial name="_StatusMessage" model="Model.StatusMessage" />
 
-<div class="card card-primary">
-    <div class="card-header">
-        <h3 class="card-title">Register a New User...</h3>
+<section class="fc-card">
+    <form id="registerForm" asp-page-handler="RegisterUser" enctype="multipart/form-data" method="post" class="fc-stack fc-stack--lg">
+        <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
 
-        <div class="card-tools">
-            <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
-                <i class="fas fa-minus"></i>
-            </button>
+        <div class="fc-field" style="max-width: 520px">
+            <label class="fc-label" asp-for="Input.Email">@Localizer["LOGIN_EMAIL_LABEL"]</label>
+            <input class="fc-input" asp-for="Input.Email" type="email" autocomplete="off" aria-required="true" />
+            <span asp-validation-for="Input.Email" class="text-danger"></span>
         </div>
-    </div>
-    <div class="card-body">
-        <form id="registerForm" asp-page-handler="RegisterUser" enctype="multipart/form-data" method="post">
-            <!-- AntiforgeryToken -->
-            @Html.AntiForgeryToken()
-            <h2 id="title">Register a new user...</h2>
 
-            <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
-            <!-- Email -->
-            <div class="form-floating mb-3">
-                <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com" required>
-                <label asp-for="Input.Email">Email</label>
-                <span asp-validation-for="Input.Email" class="text-danger"></span>
-            </div>
-            <!-- Password -->
-            <div class="form-floating mb-3">
-                <input asp-for="Input.Password" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password" required>
-                <label asp-for="Input.Password">Password</label>
+        <div class="fc-grid">
+            <div class="fc-field">
+                <label class="fc-label" asp-for="Input.Password">@Localizer["LOGIN_PASSWORD_LABEL"]</label>
+                <div class="fc-pw">
+                    <input class="fc-input" asp-for="Input.Password" autocomplete="new-password" aria-required="true" aria-describedby="pw-rules" />
+                    <button type="button" class="fc-pw__toggle" data-fc-pw-toggle aria-controls="Input_Password" aria-pressed="false" data-show="@Localizer["FC_SHOW"]" data-hide="@Localizer["FC_HIDE"]">@Localizer["FC_SHOW"]</button>
+                </div>
                 <span asp-validation-for="Input.Password" class="text-danger"></span>
             </div>
-            <div class="form-floating mb-3">
-                <input asp-for="Input.ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" placeholder="confirm password" required>
-                <label asp-for="Input.ConfirmPassword">Confirm Password</label>
+            <div class="fc-field">
+                <label class="fc-label" asp-for="Input.ConfirmPassword">@Localizer["FC_CONFIRM_PASSWORD"]</label>
+                <input class="fc-input" asp-for="Input.ConfirmPassword" autocomplete="new-password" aria-required="true" />
                 <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
             </div>
+        </div>
+        <p class="fc-hint" id="pw-rules" style="margin-top: -12px">@Localizer["FC_PASSWORD_RULES"]</p>
 
-            <!-- Users Roles -->
-            <div class="form-group row">
-                <div class="col-sm-12">
-                    <label>Roles</label>
-                    <!-- Users Roles -->
-                    <div class="form-group row">
-                        <div class="col-sm-12">
-                            @if (Model.Roles != null)
-                            {
-                                foreach (var role in Model.Roles)
-                                {
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" name="Input.Roles" value="@Encoder.Protect(role.Name, "fc.data.admin.users")" @(Model.Input.Roles.Contains(role.Name) ? "checked" : "")>
-                                        <label class="form-check-label">@Encoder.HtmlEncode(role.Name)</label>
-                                    </div>
-                                }
-                            }
-                            else
-                            {
-                                <p>No roles available.</p>
-                            }
-                        </div>
-                    </div>
+        <fieldset class="fc-stack" style="border: 0; padding: 0; margin: 0">
+            <legend class="fc-label" style="margin-bottom: 4px">@Localizer["FC_ADM_ROLES"]</legend>
+            @if (roles.Count == 0)
+            {
+                <p class="fc-muted">@Localizer["FC_ADM_NO_ROLES"]</p>
+            }
+            else
+            {
+                <div class="fc-checks">
+                    @foreach (var role in roles)
+                    {
+                        var roleId = "role-" + role.Id;
+                        <label class="fc-check" for="@roleId">
+                            <input id="@roleId" type="checkbox" name="Input.Roles" value="@Encoder.Protect(role.Name, "fc.data.admin.users")" checked="@assigned.Contains(role.Name ?? string.Empty)" />
+                            @role.Name
+                        </label>
+                    }
                 </div>
-            </div>
+            }
+        </fieldset>
 
-            <!-- Profle Image -->
-            <div class="form-group">
-                <label asp-for="Input.Image"></label>
-                <input asp-for="Input.Image" type="file" class="form-control" />
-                <span asp-validation-for="Input.Image" class="text-danger"></span>
-            </div>
+        <div class="fc-field" style="max-width: 520px">
+            <label class="fc-label" for="Input_Image">@Localizer["FC_ADM_PROFILE_IMAGE"] <span class="fc-opt">— @Localizer["FC_OPTIONAL"]</span></label>
+            <input asp-for="Input.Image" type="file" accept="image/png, image/jpeg" />
+            <span asp-validation-for="Input.Image" class="text-danger"></span>
+        </div>
 
-            <button type="submit" class="btn btn-primary">Register</button>
-        </form>
-    </div>
-    <!-- /.card-body -->
-</div>
+        <div class="fc-btn-row" style="justify-content: flex-end">
+            <a asp-page="./Index" class="fc-btn fc-btn--quiet">@Localizer["FC_CANCEL"]</a>
+            <button type="submit" class="fc-btn fc-btn--primary">@Localizer["FC_ADM_CREATE_USER"]</button>
+        </div>
+    </form>
+</section>
 
-<script src="~/plugins/dropzone/min/dropzone.min.js" integrity="sha256-uCdT6FLkY6+68Xzm4f9O0usHnJPdKv0Q0rsoXvLchP4="></script>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

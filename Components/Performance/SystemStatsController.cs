@@ -1,11 +1,13 @@
 ﻿using ForestChurches.Areas.Identity.Data;
 using ForestChurches.Data;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ForestChurches.Components.Performance
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(Policy = "Admin.Read")] // admin dashboard only; previously callable anonymously
     public class SystemStatsController : ControllerBase
     {
         private readonly IProcessUsageService _processUsageService;
@@ -26,7 +28,7 @@ namespace ForestChurches.Components.Performance
         {
             try
             {
-                _logger.LogInformation("Fetching system stats...");
+                _logger.LogDebug("Fetching system stats...");
 
                 var stats = new
                 {
@@ -37,7 +39,7 @@ namespace ForestChurches.Components.Performance
                     WhitelistCount = _context.WhitelistedUsers.Count(i => i.Status == "Pending")
                 };
 
-                _logger.LogInformation("System stats fetched successfully: {@Stats}", stats);
+                _logger.LogDebug("System stats fetched successfully: {@Stats}", stats);
 
                 return Ok(stats);
             }

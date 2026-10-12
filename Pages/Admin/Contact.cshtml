@@ -1,47 +1,51 @@
-﻿@page
+@page
 @model ForestChurches.Pages.Admin.ContactModel
-@inject ForestChurches.Components.Security.Encoder _urlEncoder;
+@inject ForestChurches.Components.Security.Encoder Encoder
 @{
     Layout = "_Admin";
+    ViewData["Title"] = Localizer["FC_ADM_EMAILS"];
 }
-<head>
-    <link rel="stylesheet" integrity="sha256-teON4y0UnyJj2Gol8NtuY0GOKW9cQvAE8a0Ve1Bi25Y=" href="~/plugins/fontawesome-free/css/all.min.css">
-</head>
-<partial name="_StatusMessage" model="Model.StatusMessage" />
 
-<div class="card">
-    <div class="card-header">
-        <h3>Send Emails (info@forestchurches.co.uk)</h3>
-    </div>
-    <div class="card-body row">
-        <div class="col-12">
-            <form method="post">
-                <!-- AntiforgeryToken -->
-                @Html.AntiForgeryToken()
-
-                <div class="form-group">
-                    <label asp-for="Input.Name">Name</label>
-                    <input type="text" asp-for="Input.Name" class="form-control" />
-                </div>
-
-                <div class="form-group">
-                    <label for="selectedUser">Recipient</label>
-                    <select asp-for="Input.ClientEmail" class="form-control" id="selectedUser" required>
-                        <option value="">Please select a recipient...</option>
-                        @foreach (var user in Model.UserList)
-                        {
-                            <option value="@_urlEncoder.Protect(user.Value, "fc.data.admin.contact")">@_urlEncoder.HtmlEncode(user.Text)</option>
-                        }
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label asp-for="Input.Message">Message</label>
-                    <textarea asp-for="Input.Message" placeholder="We are contacting you to inform you...." class="form-control" rows="4"></textarea>
-                </div>
-
-                <button type="submit" class="w-100 btn btn-lg btn-primary">Send Message</button>
-            </form>
-        </div>
+<div class="fc-page-head">
+    <div>
+        <h1>@Localizer["FC_ADM_EMAILS"]</h1>
+        <p>@Localizer["FC_ADM_EMAILS_LEAD"]</p>
     </div>
 </div>
+
+<partial name="_StatusMessage" model="Model.StatusMessage" />
+
+<section class="fc-card" style="max-width: 760px">
+    <form method="post" class="fc-stack fc-stack--lg">
+        <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+
+        <div class="fc-field">
+            <label class="fc-label" for="selectedUser">@Localizer["FC_ADM_RECIPIENT"]</label>
+            <select class="fc-select" name="Input.ClientEmail" id="selectedUser" required>
+                <option value="">@Localizer["FC_ADM_CHOOSE_RECIPIENT"]</option>
+                @foreach (var user in Model.UserList ?? new List<Microsoft.AspNetCore.Mvc.Rendering.SelectListItem>())
+                {
+                    <option value="@Encoder.Protect(user.Value, "fc.data.admin.contact")">@(user.Value == "All" ? Localizer["FC_ADM_ALL_USERS"].Value : user.Text)</option>
+                }
+            </select>
+        </div>
+
+        <div class="fc-field">
+            <label class="fc-label" asp-for="Input.Name">@Localizer["FC_ADM_SIGN_OFF_AS"]</label>
+            <input class="fc-input" type="text" asp-for="Input.Name" autocomplete="name" aria-describedby="name-hint" />
+            <span class="fc-hint" id="name-hint">@Localizer["FC_ADM_SIGN_OFF_HINT"]</span>
+        </div>
+
+        <div class="fc-field">
+            <label class="fc-label" asp-for="Input.Message">@Localizer["FC_ADM_MESSAGE"]</label>
+            <textarea class="fc-textarea" asp-for="Input.Message" rows="8" required></textarea>
+            <span asp-validation-for="Input.Message" class="text-danger"></span>
+        </div>
+
+        <p class="fc-hint">@Localizer["FC_ADM_EMAIL_FROM_HINT"]</p>
+
+        <div class="fc-btn-row" style="justify-content: flex-end">
+            <button type="submit" class="fc-btn fc-btn--primary">@Localizer["FC_ADM_SEND_MESSAGE"]</button>
+        </div>
+    </form>
+</section>

@@ -61,5 +61,30 @@ namespace ForestChurches.Components.Ui
             var cut = text.LastIndexOf(' ', maxLength);
             return text[..(cut > 40 ? cut : maxLength)].TrimEnd(',', '.', ';', ' ') + "…";
         }
+
+        private static readonly TimeZoneInfo? UkZone = FindUkZone();
+
+        private static TimeZoneInfo? FindUkZone()
+        {
+            foreach (var id in new[] { "Europe/London", "GMT Standard Time" })
+            {
+                try { return TimeZoneInfo.FindSystemTimeZoneById(id); }
+                catch (TimeZoneNotFoundException) { }
+                catch (InvalidTimeZoneException) { }
+            }
+            return null;
+        }
+
+        /// <summary>Shows a stored UTC time in UK time (GMT/BST), e.g. "3 Oct 2026, 14:05".</summary>
+        public static string UkDateTime(DateTime utc, string format = "d MMM yyyy, HH:mm")
+        {
+            if (utc == default) return "—";
+            var value = DateTime.SpecifyKind(utc, utc.Kind == DateTimeKind.Unspecified ? DateTimeKind.Utc : utc.Kind).ToUniversalTime();
+            return (UkZone == null ? value : TimeZoneInfo.ConvertTimeFromUtc(value, UkZone)).ToString(format);
+        }
+
+        /// <summary>Formats a nullable UTC time in UK time, or "—" when missing.</summary>
+        public static string UkDateTime(DateTime? utc, string format = "d MMM yyyy, HH:mm") =>
+            utc.HasValue ? UkDateTime(utc.Value, format) : "—";
     }
 }

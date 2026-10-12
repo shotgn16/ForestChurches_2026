@@ -1,139 +1,109 @@
-﻿@page
+@page
 @model ForestChurches.Pages.Admin.Events.EditModel
-@inject ForestChurches.Components.Security.Encoder Encoder;
-@inject ForestChurches.Components.Storage.IBlobUrlService BlobUrlService;
+@using ForestChurches.Components.Ui
+@inject ForestChurches.Components.Security.Encoder Encoder
 @{
     Layout = "_Admin";
+    ViewData["Title"] = Localizer["FC_ADM_EDIT_EVENT"];
+    var repeatOptions = new (string Value, string Key)[]
+    {
+        ("None", "FC_REPEAT_NONE"), ("Daily", "FC_REPEAT_DAILY"), ("Weekly", "FC_REPEAT_WEEKLY"),
+        ("Every 2 weeks", "FC_REPEAT_2W"), ("Every 3 weeks", "FC_REPEAT_3W"),
+        ("Monthly", "FC_REPEAT_MONTHLY"), ("Every 2 months", "FC_REPEAT_2M"),
+    };
 }
-<partial name="_StatusMessage" model="Model.StatusMessage" />
-<style nonce="@HttpContextAccessor.HttpContext?.Items["CSP-Style-Nonce"]">
-    .slider {
-        font-size: calc(0.2rem + 1.0vw);
-    }
 
-    .frequencyLabel {
-        margin-bottom: calc(1.0rem + 1.0vw);
-    }
-
-    #eventImage {
-        max-width: 100px;
-    }
-</style>
-
-<!-- Profile Image -->
-<div class="card card-primary card-outline">
-    <div class="card-body box-profile">
-        <div class="text-center">
-            @if (Encoder.HtmlEncode(Model.currentEvent?.ImageArray) != null)
-            {
-                <img id="eventImage" src="data:image;base64,@System.Convert.ToBase64String(Model.currentEvent.ImageArray)" />
-            }
-            else if (Model.currentEvent is null || Model.currentEvent.ImageArray is null)
-            {
-                // IMGUR-1
-                <img id="eventImage" src=@BlobUrlService.GetReadSasUrl("IMGUR-1.png", TimeSpan.FromDays(1)) />
-            }
-        </div>
-
-        <h3 class="profile-username text-center">@Encoder.HtmlEncode(Model.currentEvent.Name)</h3>
-
-        <p class="text-muted text-center">@Encoder.HtmlEncode(Model.currentEvent.Name)</p>
-
-        <div class="tab-pane active" id="settings">
-            <form id="editForm" asp-page-handler="UpdateEvent" enctype="multipart/form-data" method="post">
-                <!-- AntiforgeryToken -->
-                @Html.AntiForgeryToken()
-
-                <!-- Event Name -->
-                <div class="form-floating mb-3">
-                    <label asp-for="Input.Name">Event Name</label>
-                    <input type="text" asp-for="Input.Name" class="form-control" autocomplete="on" aria-required="true" required>
-                    <span asp-validation-for="Input.Name" class="text-danger"></span>
-                </div>
-
-                <!-- Event Description -->
-                <div class="form-floating mb-3">
-                    <label asp-for="Input.Description">Event Description</label>
-                    <input type="text" asp-for="Input.Description" class="form-control" autocomplete="on" aria-required="true" required>
-                    <span asp-validation-for="Input.Description" class="text-danger"></span>
-                </div>
-
-                <!-- Event Location -->
-                <div class="form-floating mb-3">
-                    <label asp-for="Input.Address">Where will the event be?</label>
-                    <input type="text" asp-for="Input.Address" class="form-control" autocomplete="on" aria-required="true" required>
-                    <span asp-validation-for="Input.Address" class="text-danger"></span>
-                </div>
-
-                <!-- Event Date -->
-                <div class="form-floating mb-3">
-                    <label asp-for="Input.Date">When will the event be?</label>
-                    <input type="date" asp-for="Input.Date" class="form-control" autocomplete="on" aria-required="true" required>
-                    <span asp-validation-for="Input.Date" class="text-danger"></span>
-                </div>
-
-                <!-- Event Start Time -->
-                <div class="form-floating mb-3">
-                    <label asp-for="Input.StartTime">When will it start?</label>
-                    <input type="time" asp-for="Input.StartTime" class="form-control" autocomplete="on" aria-required="true" required>
-                    <span asp-validation-for="Input.StartTime" class="text-danger"></span>
-                </div>
-
-                <!-- Event End Time -->
-                <div class="form-floating mb-3">
-                    <label asp-for="Input.EndTime">When will it finish?</label>
-                    <input type="time" asp-for="Input.EndTime" class="form-control" autocomplete="on" aria-required="true" required>
-                    <span asp-validation-for="Input.EndTime" class="text-danger"></span>
-                </div>
-
-                <!-- Event Link -->
-                <div class="form-floating mb-3">
-                    <label asp-for="Input.Link">Any relevant links?</label>
-                    <input type="text" asp-for="Input.Link" class="form-control" autocomplete="on" aria-required="true" value="None" />
-                    <span asp-validation-for="Input.Link" class="text-danger"></span>
-                </div>
-
-                <div class="form-group">
-                    <label for="selectedUser">User</label>
-                    <select asp-for="SelectedUsername" class="form-control" id="selectedUser" required>
-                        <option value="">Select a user</option>
-                        @foreach (var user in Model.UserList)
-                        {
-                            <option value="@Encoder.Protect(user.Value, "fc.data.admin.events")">@Encoder.HtmlEncode(user.Text)</option>
-                        }
-                    </select>
-                </div>
-
-                <!-- Event Repeats -->
-                <div class="form-group">
-                    <label asp-for="Input.Repeats">How often does your event repeat?</label>
-                    <select asp-for="Input.Repeats" class="form-control" id="repeatEvent">
-                        <option value="None">None</option>
-                        <option value="Daily">Daily</option>
-                        <option value="Weekly">Weekly</option>
-                        <option value="Every 2 weeks">Every 2 weeks</option>
-                        <option value="Every 3 weeks">Every 3 weeks</option>
-                        <option value="Monthly">Monthly</option>
-                        <option value="Every 2 months">Every 2 months</option>
-                    </select>
-                    <span asp-validation-for="Input.Repeats" class="text-danger"></span>
-                </div>
-
-                <!-- Event Photo -->
-                <div class="form-group">
-                    <label asp-for="Input.Image"></label>
-                    <input asp-for="Input.Image" type="file" class="form-control" />
-                    <span asp-validation-for="Input.Image" class="text-danger"></span>
-                </div>
-
-                <input type="hidden" name="id" value="@Encoder.Protect(Model.currentEvent.ID, "fc.data.admin.events")" />
-
-                <button id="submitEvent" type="submit" class="btn btn-lg btn-primary">Submit</button>
-            </form>
-        </div>
+<div class="fc-page-head">
+    <div>
+        <a asp-page="./Index" class="fc-small" style="font-weight: 700">← @Localizer["FC_ADM_EVENTS"]</a>
+        <h1 style="margin-top: 6px">@Localizer["FC_ADM_EDIT_EVENT"]</h1>
     </div>
 </div>
 
-@section scripts {
-    <script src="~/plugins/dropzone/min/dropzone.min.js" integrity="sha256-uCdT6FLkY6+68Xzm4f9O0usHnJPdKv0Q0rsoXvLchP4="></script>
+<partial name="_StatusMessage" model="Model.StatusMessage" />
+
+@if (Model.currentEvent == null)
+{
+    <div class="fc-card fc-empty">
+        <h2 class="fc-h3">@Localizer["FC_ADM_EVENT_NOT_FOUND"]</h2>
+        <p class="fc-muted" style="margin-top: 8px"><a asp-page="./Index">@Localizer["FC_ADM_BACK_TO_EVENTS"]</a></p>
+    </div>
+}
+else
+{
+<section class="fc-card">
+    <form id="editForm" asp-page-handler="UpdateEvent" enctype="multipart/form-data" method="post" class="fc-stack fc-stack--lg">
+        <input type="hidden" name="id" value="@Encoder.Protect(Model.currentEvent.ID, "fc.data.admin.events")" />
+        <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+        <div class="fc-grid">
+            <div class="fc-field fc-span-all">
+                <label class="fc-label" asp-for="Input.Name">@Localizer["FC_EVENT_NAME"]</label>
+                <input class="fc-input" type="text" asp-for="Input.Name" value="@FcText.PlainText(Model.Input?.Name)" aria-required="true" />
+                <span asp-validation-for="Input.Name" class="text-danger"></span>
+            </div>
+            <div class="fc-field">
+                <label class="fc-label" for="selectedUser">@Localizer["FC_ADM_EVENT_OWNER"]</label>
+                <select class="fc-select" name="SelectedUsername" id="selectedUser" required aria-describedby="owner-hint">
+                    <option value="">@Localizer["FC_ADM_CHOOSE_ACCOUNT"]</option>
+                    @foreach (var user in Model.UserList ?? new List<Microsoft.AspNetCore.Mvc.Rendering.SelectListItem>())
+                    {
+                        <option value="@Encoder.Protect(user.Value, "fc.data.admin.events")" selected="@(user.Value == Model.SelectedUsername)">@user.Text</option>
+                    }
+                </select>
+                <span class="fc-hint" id="owner-hint">@Localizer["FC_ADM_EVENT_OWNER_HINT"]</span>
+            </div>
+            <div class="fc-field">
+                <label class="fc-label" for="repeatEvent">@Localizer["FC_REPEATS"]</label>
+                <select class="fc-select" asp-for="Input.Repeats" id="repeatEvent">
+                    @foreach (var (value, key) in repeatOptions)
+                    {
+                        <option value="@value">@Localizer[key]</option>
+                    }
+                </select>
+            </div>
+            <div class="fc-field">
+                <label class="fc-label" asp-for="Input.Date">@Localizer["NEARME_DATE_LABEL"]</label>
+                <input class="fc-input" type="date" asp-for="Input.Date" aria-required="true" />
+                <span asp-validation-for="Input.Date" class="text-danger"></span>
+            </div>
+            <div class="fc-field">
+                <label class="fc-label" asp-for="Input.StartTime">@Localizer["FC_STARTS"]</label>
+                <input class="fc-input" type="time" asp-for="Input.StartTime" aria-required="true" />
+                <span asp-validation-for="Input.StartTime" class="text-danger"></span>
+            </div>
+            <div class="fc-field">
+                <label class="fc-label" asp-for="Input.EndTime">@Localizer["FC_ENDS"]</label>
+                <input class="fc-input" type="time" asp-for="Input.EndTime" aria-required="true" />
+                <span asp-validation-for="Input.EndTime" class="text-danger"></span>
+            </div>
+            <div class="fc-field fc-span-all">
+                <label class="fc-label" asp-for="Input.Address">@Localizer["NEARME_LOCATION_LABEL"]</label>
+                <input class="fc-input" type="text" asp-for="Input.Address" value="@FcText.PlainText(Model.Input?.Address)" aria-required="true" />
+                <span asp-validation-for="Input.Address" class="text-danger"></span>
+            </div>
+            <div class="fc-field fc-span-all">
+                <label class="fc-label" for="Input_Description">@Localizer["FC_DESCRIPTION"]</label>
+                <textarea class="fc-textarea" id="Input_Description" name="Input.Description" rows="4" aria-required="true">@FcText.PlainText(Model.Input?.Description)</textarea>
+                <span asp-validation-for="Input.Description" class="text-danger"></span>
+            </div>
+            <div class="fc-field">
+                <label class="fc-label" asp-for="Input.Link">@Localizer["FC_EVENT_LINK"] <span class="fc-opt">— @Localizer["FC_OPTIONAL"]</span></label>
+                <input class="fc-input" type="text" asp-for="Input.Link" value="@(string.IsNullOrWhiteSpace(Model.Input?.Link) ? "None" : Model.Input.Link)" />
+                <span asp-validation-for="Input.Link" class="text-danger"></span>
+            </div>
+            <div class="fc-field">
+                <label class="fc-label" for="Input_Image">@Localizer["FC_EVENT_IMAGE"] <span class="fc-opt">— @Localizer["FC_ADM_KEEP_IMAGE_HINT"]</span></label>
+                <input asp-for="Input.Image" type="file" accept="image/png, image/jpeg" />
+            </div>
+        </div>
+        <div class="fc-btn-row" style="justify-content: flex-end">
+            <a asp-page="./Index" class="fc-btn fc-btn--quiet">@Localizer["FC_CANCEL"]</a>
+            <button id="submitEvent" type="submit" class="fc-btn fc-btn--primary">@Localizer["FC_SAVE_CHANGES"]</button>
+        </div>
+    </form>
+</section>
+}
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
 }

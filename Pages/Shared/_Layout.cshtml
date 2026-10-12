@@ -44,7 +44,7 @@
             <div class="fc-container fc-adminbar__inner">
                 <a class="fc-adminbar__brand" asp-area="" asp-page="/Index">
                     <span>@brand</span>
-                    <span class="fc-adminbar__tag">@Localizer["FC_CHURCH_ADMIN"]</span>
+                    <span class="fc-adminbar__tag">@(ViewData["FcShellTag"] as string ?? Localizer["FC_CHURCH_ADMIN"].Value)</span>
                 </a>
                 <div class="fc-adminbar__links">
                     @RenderSection("AdminBarLinks", required: false)

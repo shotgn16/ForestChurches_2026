@@ -78,7 +78,7 @@ namespace ForestChurches.Pages.Admin.Users
             catch (Exception ex)
             {
                 _logger.LogError(ex, "An error occurred while loading user information.");
-                StatusMessage = "An error occurred while loading user information. Please try again later.";
+                StatusMessage = "Error: the user couldn't be loaded. Please try again later.";
             }
 
             return Page();
@@ -129,6 +129,12 @@ namespace ForestChurches.Pages.Admin.Users
                     }
                 }
 
+                // With no roles, the "Email confirmed" switch decides; assigning a role always confirms the account (above).
+                if (Input.Roles == null || Input.Roles.Count == 0)
+                {
+                    user.EmailConfirmed = Input.IsActive;
+                }
+
                 user.Email = Input.Email ?? string.Empty;
                 user.PhoneNumber = Input.Phone ?? string.Empty;
 
@@ -138,12 +144,12 @@ namespace ForestChurches.Pages.Admin.Users
                 }
 
                 await _userManager.UpdateAsync(user);
-                StatusMessage = $"User '{user.Email}' successfully updated.";
+                StatusMessage = $"Saved: {user.Email} was updated.";
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "An error occurred while updating user information.");
-                StatusMessage = "An error occurred while updating user information. Please try again later.";
+                StatusMessage = "Error: the user couldn't be updated. Please try again later.";
             }
 
             return RedirectToPage("./Index");

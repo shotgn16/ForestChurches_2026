@@ -102,11 +102,10 @@ namespace ForestChurches.Pages.Events.Edit
                         processedImage = await _ImageRepository.ConvertToByteArray(Input.Image);
                     }
 
-                    else if (Input.Image == null)
+                    else
                     {
-                        // IMGUR-1
-                        var sasUrl = _blobUrlService.GetReadSasUrl("IMGUR-1.png", TimeSpan.FromDays(1));
-                        processedImage = await _ImageRepository.ConvertToByteArrayFromUrl(sasUrl);
+                        // No new picture: keep the event's current image (it used to be replaced with the default).
+                        processedImage = null;
                     }
 
                     await _eventController.UpdateEventAsync(user, Input, processedImage).ConfigureAwait(true);

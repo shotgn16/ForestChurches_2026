@@ -1,83 +1,102 @@
 @page
 @model ForestChurches.Areas.Admin.Pages.Bulletin.IndexModel
+@using ForestChurches.Components.Ui
 @{
     Layout = "_Admin";
-    ViewData["Title"] = "Manage Bulletins";
+    ViewData["Title"] = Localizer["FC_NAV_BULLETINS"];
+    var bulletins = (Model.Bulletins ?? new List<ForestChurches.Models.Bulletin>()).OrderByDescending(b => b.BulletinDate).ToList();
+    var now = DateTime.Now;
 }
 
-<div class="card">
-    <div class="card-header">
-        <h3 class="card-title">Bulletins</h3>
-        <div class="card-tools">
-            <a class="btn btn-primary" href="/Admin/Bulletin/Edit">Create / Edit Bulletin</a>
-        </div>
+<div class="fc-page-head">
+    <div>
+        <h1>@Localizer["FC_NAV_BULLETINS"]</h1>
+        <p>@Localizer["FC_ADM_BULLETINS_LEAD"]</p>
     </div>
-    <div class="card-body">
-<p>
-    <a class="btn btn-primary" href="/Admin/Bulletin/Edit">Create / Edit Bulletin</a>
-</p>
-@if (Model.Bulletins?.Any() ?? false)
-{
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Date</th>
-                <th>Title</th>
-                <th>Active</th>
-                <th>Banner</th>
-                <th>Expires</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-        @foreach (var b in Model.Bulletins)
-        {
-            <tr>
-                <td>@b.BulletinDate.ToString("yyyy-MM-dd")</td>
-                <td>@b.Title</td>
-                <td>
-                    @if (b.IsActive)
-                    {
-                        <span class="badge bg-success">Active</span>
-                    }
-                    else
-                    {
-                        <span class="badge bg-secondary">Inactive</span>
-                    }
-                </td>
-                <td>
-                    <form method="post" asp-page-handler="ToggleBanner" asp-route-id="@b.Id">
-                        @Html.AntiForgeryToken()
-                        <button type="submit" class="btn btn-sm @(b.BannerVisible ? "btn-warning" : "btn-outline-secondary")">@(b.BannerVisible ? "Hide" : "Show")</button>
-                    </form>
-                </td>
-                <td>
-                    <form method="post" asp-page-handler="SetExpiry" asp-route-id="@b.Id" class="d-inline-flex">
-                        @Html.AntiForgeryToken()
-                        <input type="datetime-local" name="expiresAt" value="@(b.BannerExpiresAt?.ToString("yyyy-MM-ddTHH:mm") ?? string.Empty)" class="form-control form-control-sm" />
-                        <button type="submit" class="btn btn-sm btn-primary ms-2">Set</button>
-                    </form>
-                </td>
-                <td class="text-end">
-                    <a class="btn btn-sm btn-secondary" asp-page="/Admin/Bulletin/Edit" asp-route-id="@b.Id">Edit</a>
-                    <form method="post" asp-page-handler="SetActive" asp-route-id="@b.Id" style="display:inline-block;margin-left:8px;">
-                        @Html.AntiForgeryToken()
-                        <button type="submit" class="btn btn-sm btn-success">Make Active</button>
-                    </form>
-                    <form method="post" asp-page-handler="Delete" asp-route-id="@b.Id" style="display:inline-block;margin-left:8px;">
-                        @Html.AntiForgeryToken()
-                        <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Delete this bulletin?');">Delete</button>
-                    </form>
-                </td>
-            </tr>
-        }
-        </tbody>
-    </table>
-}
-else
-{
-    <p>No bulletins found.</p>
-}
+    <div class="fc-btn-row">
+        <a asp-area="" asp-page="/Bulletin/Index" class="fc-btn fc-btn--quiet" target="_blank">@Localizer["FC_VIEW_PUBLIC_PAGE"] ↗</a>
+        <a asp-page="./Edit" asp-route-id="" class="fc-btn fc-btn--primary">+ @Localizer["FC_ADM_NEW_BULLETIN"]</a>
+    </div>
+</div>
 
-</div>
-</div>
+<partial name="/Pages/_StatusMessage.cshtml" model="Model.StatusMessage" />
+
+<section class="fc-card fc-card--flush" aria-labelledby="bulletins-h">
+    <div class="fc-card__head">
+        <h2 id="bulletins-h" class="fc-h3">@Localizer["FC_ADM_ALL_BULLETINS"]</h2>
+    </div>
+    @if (bulletins.Count == 0)
+    {
+        <p class="fc-muted" style="padding: 0 22px 22px">@Localizer["FC_ADM_NO_BULLETINS"]</p>
+    }
+    else
+    {
+        <div class="fc-table-wrap">
+            <table class="fc-table fc-table--admin fc-table--stack">
+                <thead>
+                    <tr>
+                        <th scope="col">@Localizer["FC_ADM_BULLETIN"]</th>
+                        <th scope="col">@Localizer["FC_ADM_STATUS"]</th>
+                        <th scope="col">@Localizer["FC_ADM_SITE_BANNER"]</th>
+                        <th scope="col"><span class="fc-sr-only">@Localizer["FC_ADM_ACTIONS"]</span></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var b in bulletins)
+                    {
+                        var expiryId = "expires-" + b.Id;
+                        var bannerExpired = b.BannerExpiresAt.HasValue && b.BannerExpiresAt.Value < now;
+                        <tr>
+                            <td>
+                                <strong>@b.Title</strong>
+                                <span class="fc-small fc-muted" style="display: block">@b.BulletinDate.ToString("ddd d MMM yyyy") · @(b.Type == "Bulletin" ? Localizer["FC_ADM_TYPE_BULLETIN"] : b.Type == "Message" ? Localizer["FC_ADM_TYPE_MESSAGE"] : Localizer["FC_ADM_TYPE_ANNOUNCEMENT"])</span>
+                                @if (!string.IsNullOrWhiteSpace(b.PdfFilename))
+                                {
+                                    <a class="fc-tiny" href="/uploads/bulletins/@Uri.EscapeDataString(b.PdfFilename)" target="_blank" rel="noopener">PDF ↗</a>
+                                }
+                            </td>
+                            <td data-label="@Localizer["FC_ADM_STATUS"]">
+                                @if (b.IsActive)
+                                {
+                                    <span class="fc-badge fc-badge--ok">@Localizer["FC_ADM_LIVE"]</span>
+                                }
+                                else
+                                {
+                                    <form method="post" asp-page-handler="SetActive" asp-route-id="@b.Id">
+                                        <button type="submit" class="fc-btn fc-btn--quiet fc-btn--sm">@Localizer["FC_ADM_MAKE_LIVE"]<span class="fc-sr-only"> @b.Title</span></button>
+                                    </form>
+                                }
+                            </td>
+                            <td data-label="@Localizer["FC_ADM_SITE_BANNER"]">
+                                <div class="fc-stack" style="gap: 8px">
+                                    <form method="post" asp-page-handler="ToggleBanner" asp-route-id="@b.Id" class="fc-row" style="gap: 8px">
+                                        @if (b.BannerVisible)
+                                        {
+                                            <span class="fc-badge @(bannerExpired ? "fc-badge--warn" : "fc-badge--moss")">@(bannerExpired ? Localizer["FC_ADM_BANNER_EXPIRED"] : Localizer["FC_ADM_BANNER_SHOWN"])</span>
+                                        }
+                                        <button type="submit" class="fc-btn fc-btn--quiet fc-btn--sm">@(b.BannerVisible ? Localizer["FC_ADM_HIDE_BANNER"] : Localizer["FC_ADM_SHOW_BANNER"])<span class="fc-sr-only"> @b.Title</span></button>
+                                    </form>
+                                    <form method="post" asp-page-handler="SetExpiry" asp-route-id="@b.Id" class="fc-inline-form" style="gap: 6px">
+                                        <div class="fc-field" style="flex: 0 1 220px; gap: 2px">
+                                            <label class="fc-tiny fc-muted" for="@expiryId">@Localizer["FC_ADM_BANNER_UNTIL"]</label>
+                                            <input id="@expiryId" type="datetime-local" name="expiresAt" value="@(b.BannerExpiresAt?.ToString("yyyy-MM-ddTHH:mm") ?? string.Empty)" class="fc-input" style="min-height: 38px; padding-top: 4px; padding-bottom: 4px" />
+                                        </div>
+                                        <button type="submit" class="fc-btn fc-btn--quiet fc-btn--sm">@Localizer["FC_ADM_SET"]</button>
+                                    </form>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="fc-actions">
+                                    <a asp-page="./Edit" asp-route-id="@b.Id" class="fc-btn fc-btn--quiet fc-btn--sm">@Localizer["FC_EDIT"]<span class="fc-sr-only"> @b.Title</span></a>
+                                    <form method="post" asp-page-handler="Delete" asp-route-id="@b.Id" data-fc-confirm="@Localizer["FC_ADM_CONFIRM_DELETE_BULLETIN", b.Title]">
+                                        <button type="submit" class="fc-btn fc-btn--danger-outline fc-btn--sm">@Localizer["FC_DELETE"]<span class="fc-sr-only"> @b.Title</span></button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+</section>

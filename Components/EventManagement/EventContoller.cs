@@ -142,6 +142,7 @@ namespace ForestChurches.Components.AutoEvents
                 var currentChurch = _context.ChurchInformation.Where(a => a.ChurchAccountId == User.Id).FirstOrDefault();
 
                 _context.Events.Where(a => a.ID == input.ID).ExecuteUpdate(setters => setters
+                    .SetProperty(p => p.Name, input.Name)
                     .SetProperty(p => p.User, User.Email)
                     .SetProperty(p => p.Church, currentChurch.Name)
                     .SetProperty(p => p.Repeats, input.Repeats)
@@ -150,9 +151,15 @@ namespace ForestChurches.Components.AutoEvents
                     .SetProperty(p => p.EndTime, input.EndTime)
                     .SetProperty(p => p.Date, input.Date)
                     .SetProperty(p => p.Description, input.Description)
-                    .SetProperty(p => p.ImageArray, Image)
                     .SetProperty(p => p.Link, input.Link)
                 );
+
+                // Only replace the picture when a new one was supplied; editing other details keeps the current image.
+                if (Image != null && Image.Length > 0)
+                {
+                    _context.Events.Where(a => a.ID == input.ID).ExecuteUpdate(setters => setters
+                        .SetProperty(p => p.ImageArray, Image));
+                }
 
                 _context.SaveChanges();
             }

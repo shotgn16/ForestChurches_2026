@@ -1,144 +1,109 @@
-﻿@page
-@using Newtonsoft.Json
+@page
 @model ForestChurches.Pages.Admin.Church.IndexModel
-@inject ForestChurches.Components.Security.Encoder Encoder;
+@using ForestChurches.Components.Ui
+@inject ForestChurches.Components.Security.Encoder Encoder
 @{
     Layout = "_Admin";
-    ViewData["Title"] = "Churches | Administration";
+    ViewData["Title"] = Localizer["FC_ADM_CHURCHES"];
+    var churches = (Model.Churches ?? new List<ForestChurches.Models.ChurchInformation>())
+        .OrderBy(c => c.Status == "Open" ? 0 : c.Status == "Closed" ? 1 : 2)
+        .ThenBy(c => c.Name, StringComparer.OrdinalIgnoreCase).ToList();
+    var owners = (Model.ChurchUsers ?? new List<ForestChurches.Components.Users.ChurchAccount>()).Where(u => u.Id != null).GroupBy(u => u.Id).ToDictionary(g => g.Key, g => g.First().UserName ?? g.First().Email ?? string.Empty);
+
+    // Facility flags in the same order and wording as the public search filters.
+    (bool On, string Key)[] Facilities(ForestChurches.Models.ChurchInformation c) => new[]
+    {
+        (c.WheelchairAccess, "NEARME_FACILITY_WHEELCHAIR_ACCESS"), (c.Parking, "NEARME_FACILITY_PARKING"),
+        (c.HearingAidSupport, "NEARME_FACILITY_HEARING_AID_SUPPORT"), (c.Refreshments, "NEARME_FACILITY_REFRESHMENTS"),
+        (c.Childcare, "NEARME_FACILITY_CHILDRENS_MINISTRY"), (c.Restrooms, "NEARME_FACILITY_RESTROOMS"),
+        (c.Wifi, "NEARME_FACILITY_WIFI"), (c.Kitchen, "NEARME_FACILITY_KITCHEN"),
+        (c.MeetingHall, "NEARME_FACILITY_COMMUNITY_HALL"), (c.WorshipHall, "NEARME_FACILITY_WORSHIP_HALL"),
+        (c.OutdoorSpaces, "NEARME_FACILITY_OUTDOOR_SPACE"),
+    };
 }
-<style nonce="@HttpContextAccessor.HttpContext?.Items["CSP-Style-Nonce"]">
-    #openChurch {
-        color: green;
-        font-weight: bold;
-    }
 
-    #closedChurch {
-        color: red;
-        font-weight: bold;
-    }
-
-    #notCreated {
-        color: orangered;
-        font-weight: bold;
-    }
-</style>
-
-<partial name="_StatusMessage" model="Model.StatusMessage" />
-<div class="card">
-    <div class="card-header">
-        <h3 class="card-title">Registered Churches</h3>
+<div class="fc-page-head">
+    <div>
+        <h1>@Localizer["FC_ADM_CHURCHES"]</h1>
+        <p>@Localizer["FC_ADM_CHURCHES_LEAD"]</p>
     </div>
-    <!-- /.card-header -->
-    <div class="card-body">
-        <div class="table-responsive">
-            <table id="example1" class="table table-bordered table-hover">
-                <thead>
-                    <tr>
-                        <th>Status</th>
-                        <th>User</th>
-                        <th>Name</th>
-                        <th>Denomination</th>
-                        <th>Congregation</th>
-                        <th>Address</th>
-                        <th>Phone</th>
-                        <th>Churchsuite</th>
-                        <th>Website</th>
-                        <th>Parking</th>
-                        <th>Refreshments</th>
-                        <th>Restrooms</th>
-                        <th>Wheelchair Access</th>
-                        <th>WiFi</th>
-                        <th>Childrens Provision</th>
-                        <th>Hearing Aid Support</th>
-                        <th>Kitchen</th>
-                        <th>Community Space</th>
-                        <th>Outdoor Spaces</th>
-                        <th>Worship Hall</th>
-                        <th>Edit</th>
-                        <th>Delete</th>
-                        <th>Download</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @if (Model.Churches.Count >= 1)
-                    {
-                        @foreach (var church in Model.Churches)
-                        {
-                            <tr data-widget="expandable-table" aria-expanded="false">
-                                <td>
-                                    @if (Encoder.HtmlEncode(church.Status) == "Open")
-                                    {
-                                        <span id="openChurch">Open</span>
-                                    }
-                                    else if (Encoder.HtmlEncode(church.Status) == "Closed")
-                                    {
-                                        <span id="closedChurch">Closed</span>
-                                    }
-
-                                    else if (Encoder.HtmlEncode(church.Status) == "NotCreated")
-                                    {
-                                        <span id="notCreated">Not Created</span>
-                                    }
-                                </td>
-                                <td>@Model.ChurchUsers.Where(b => b.Id == church.ChurchAccountId).FirstOrDefault()</td>
-                                <td>@church.Name</td>
-                                <td>@church.Denomination</td>
-                                <td>@Encoder.HtmlEncode(church.Congregation)</td>
-                                <td>@church.Address</td>
-                                <td>@church.Phone</td>
-                                <td><a href="@church.Churchsuite">@church.Churchsuite</a></td>
-                                <td><a href="@church.Website">@church.Website</a></td>
-                                <td>@Encoder.HtmlEncode(church.Parking)</td>
-                                <td>@Encoder.HtmlEncode(church.Refreshments)</td>
-                                <td>@Encoder.HtmlEncode(church.Restrooms)</td>
-                                <td>@Encoder.HtmlEncode(church.WheelchairAccess)</td>
-                                <td>@Encoder.HtmlEncode(church.Wifi)</td>
-                                <td>@Encoder.HtmlEncode(church.Childcare)</td>
-                                <td>@Encoder.HtmlEncode(church.HearingAidSupport)</td>
-                                <td>@Encoder.HtmlEncode(church.Kitchen)</td>
-                                <td>@Encoder.HtmlEncode(church.MeetingHall)</td>
-                                <td>@Encoder.HtmlEncode(church.OutdoorSpaces)</td>
-                                <td>@Encoder.HtmlEncode(church.WorshipHall)</td>
-                                <td>
-                                    <form method="post" asp-page-handler="EditUser">
-                                        <!-- AntiforgeryToken -->
-                                        @Html.AntiForgeryToken()
-                                        <a asp-page="Edit" asp-route-id="@Encoder.Protect(@church.ID, "fc.data.admin.church")" class="btn btn-primary">Edit</a>
-                                    </form>
-                                </td>
-                                <td>
-                                    <form method="post" asp-page-handler="DeleteChurch">
-                                        <!-- AntiforgeryToken -->
-                                        @Html.AntiForgeryToken()
-                                        <input type="hidden" name="value" value="@Encoder.Protect(@church.ID, "fc.data.admin.church")" />
-                                        <button class="btn btn-danger" type="submit" onclick="return confirmAction('Are you sure you want to delete the church', '@Encoder.HtmlEncode(church.Name)')">Delete</button>
-                                    </form>
-                                </td>
-                                <td>
-                                    <form method="post" asp-page-handler="DownloadChurch">
-                                        <!-- AntiforgeryToken -->
-                                        @Html.AntiForgeryToken()
-                                        <input type="hidden" name="value" value="@Encoder.Protect(@church.ID, "fc.data.admin.church")" />
-                                        <button class="btn btn-success" type="submit">Download</button>
-                                    </form>
-                                </td>
-                            </tr>
-                            <tr class="expandable-body">
-                                <td colspan="17">
-                                    <p><strong>Description:</strong> @church.Description</p>
-                                </td>
-                            </tr>
-                        }
-                    }
-                </tbody>
-            </table>
-        </div>
-
-        <br />
-    </div>
+    <a asp-page="/Admin/Invite" class="fc-btn fc-btn--primary">+ @Localizer["FC_ADM_INVITE_CHURCH"]</a>
 </div>
 
-@section Scripts {
-    <script src="~/js/confirmAction.js" integrity="sha256-13abFd38m2wExaGaZ4Rbp/RfbBi3xlkvuyUIkSavT/4="></script>
-}
+<partial name="_StatusMessage" model="Model.StatusMessage" />
 
+<section class="fc-card fc-card--flush" aria-labelledby="churches-h">
+    <div class="fc-card__head">
+        <h2 id="churches-h" class="fc-h3">@Localizer["FC_ADM_REGISTERED_CHURCHES"]</h2>
+        <span class="fc-small fc-muted">@Localizer["FC_ADM_N_CHURCHES", churches.Count]</span>
+    </div>
+    @if (churches.Count == 0)
+    {
+        <p class="fc-muted" style="padding: 0 22px 22px">@Localizer["FC_ADM_NO_CHURCHES"]</p>
+    }
+    <ul class="fc-admin-list">
+        @foreach (var church in churches)
+        {
+            var protectedId = Encoder.Protect(church.ID, "fc.data.admin.church");
+            var name = FcText.PlainText(church.Name);
+            var facilities = Facilities(church).Where(f => f.On).ToList();
+            var owner = church.ChurchAccountId != null && owners.TryGetValue(church.ChurchAccountId, out var o) ? o : null;
+            <li>
+                <div class="fc-admin-list__main">
+                    <div class="fc-row" style="gap: 10px">
+                        <strong style="font-size: 18px">@name</strong>
+                        @switch (church.Status)
+                        {
+                            case "Open":
+                                <span class="fc-badge fc-badge--ok">@Localizer["FC_ADM_STATUS_OPEN"]</span>
+                                break;
+                            case "Closed":
+                                <span class="fc-badge fc-badge--warn">@Localizer["FC_ADM_STATUS_CLOSED"]</span>
+                                break;
+                            default:
+                                <span class="fc-badge fc-badge--danger">@Localizer["FC_ADM_STATUS_NOT_SET_UP"]</span>
+                                break;
+                        }
+                    </div>
+                    <span class="fc-small fc-muted">
+                        @FcText.PlainText(church.Denomination) · @Localizer["FC_ADM_CONGREGATION_N", FcText.PlainText(church.Congregation)]
+                        @if (owner != null) { <text> · </text><span class="fc-break">@owner</span> }
+                    </span>
+                    <span class="fc-small">@FcText.PlainText(church.Address)@(string.IsNullOrWhiteSpace(church.Phone) ? "" : " · " + church.Phone)</span>
+                    <span class="fc-small fc-row" style="gap: 4px 14px">
+                        @if (church.Website != null) { <a href="@church.Website" rel="noopener" target="_blank" class="fc-break">@church.Website.Host</a> }
+                        @if (church.Churchsuite != null) { <a href="@church.Churchsuite" rel="noopener" target="_blank" class="fc-break">ChurchSuite: @church.Churchsuite.Host</a> }
+                    </span>
+                    @if (facilities.Count > 0)
+                    {
+                        <span class="fc-tags" aria-label="@Localizer["TAG_FACILITIES"]">
+                            @foreach (var f in facilities) { <span class="fc-tag">@Localizer[f.Key]</span> }
+                        </span>
+                    }
+                    @if (!string.IsNullOrWhiteSpace(church.Description))
+                    {
+                        <details>
+                            <summary>@Localizer["FC_DESCRIPTION"]</summary>
+                            <p>@FcText.PlainText(church.Description)</p>
+                        </details>
+                    }
+                </div>
+                <div class="fc-btn-row">
+                    @if (church.Status == "Open")
+                    {
+                        <a asp-area="" asp-page="/Church" asp-route-id="@Encoder.Protect(church.ID, "fc.data.church.information")" class="fc-btn fc-btn--quiet fc-btn--sm" target="_blank">@Localizer["FC_VIEW_PUBLIC_PAGE"] ↗<span class="fc-sr-only"> @name</span></a>
+                    }
+                    <a asp-page="Edit" asp-route-id="@protectedId" class="fc-btn fc-btn--quiet fc-btn--sm">@Localizer["FC_EDIT"]<span class="fc-sr-only"> @name</span></a>
+                    <form method="post" asp-page-handler="DownloadChurch">
+                        <input type="hidden" name="value" value="@protectedId" />
+                        <button class="fc-btn fc-btn--quiet fc-btn--sm" type="submit">@Localizer["FC_ADM_DOWNLOAD"]<span class="fc-sr-only"> @name</span></button>
+                    </form>
+                    <form method="post" asp-page-handler="DeleteChurch" data-fc-confirm="@Localizer["FC_ADM_CONFIRM_RESET_CHURCH", name]">
+                        <input type="hidden" name="value" value="@protectedId" />
+                        <button class="fc-btn fc-btn--danger-outline fc-btn--sm" type="submit">@Localizer["FC_ADM_RESET_LISTING"]<span class="fc-sr-only"> @name</span></button>
+                    </form>
+                </div>
+            </li>
+        }
+    </ul>
+</section>

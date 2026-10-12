@@ -1,145 +1,130 @@
-﻿@page
+@page
 @model ForestChurches.Pages.Admin.Users.IndexModel
-@inject ForestChurches.Components.Security.Encoder Encoder;
-@inject ForestChurches.Components.Storage.IBlobUrlService BlobUrlService;
+@inject ForestChurches.Components.Security.Encoder Encoder
+@inject ForestChurches.Components.Storage.IBlobUrlService BlobUrlService
 @{
     Layout = "_Admin";
-    ViewData["Title"] = "Users | Administration";
+    ViewData["Title"] = Localizer["FC_ADM_USERS"];
+    var users = Model.Users ?? new List<ForestChurches.Components.Users.ChurchAccount>();
+    var roles = Model.UserRoles ?? new Dictionary<string, List<string>>();
+    var defaultAvatar = BlobUrlService.GetReadSasUrl("IMGUR-1.png", TimeSpan.FromHours(1));
+    const string superAdmin = nameof(ForestChurches.Components.Roles.Roles.SuperAdmin);
+    const string admin = nameof(ForestChurches.Components.Roles.Roles.Admin);
+    const string church = nameof(ForestChurches.Components.Roles.Roles.AuthorizedChurch);
 }
+
+<div class="fc-page-head">
+    <div>
+        <h1>@Localizer["FC_ADM_USERS"]</h1>
+        <p>@Localizer["FC_ADM_USERS_LEAD"]</p>
+    </div>
+</div>
+
 <partial name="_StatusMessage" model="Model.StatusMessage" />
 
-<style nonce="@HttpContextAccessor.HttpContext?.Items["CSP-Style-Nonce"]">
-    #userPending {
-        color: darkorange;
-        font-weight: bold;
-    }
+<section class="fc-card" aria-labelledby="new-user-h">
+    <h2 id="new-user-h" class="fc-h3" style="margin-bottom: 12px">@Localizer["FC_ADM_CREATE_USER"]</h2>
+    <form id="createUserForm" method="get" asp-page="/Admin/Users/Register" class="fc-inline-form">
+        <div class="fc-field">
+            <label class="fc-label" for="usernameInput">@Localizer["LOGIN_EMAIL_LABEL"]</label>
+            <input id="usernameInput" type="email" class="fc-input" name="username" autocomplete="off" required />
+        </div>
+        <button class="fc-btn fc-btn--primary" type="submit">@Localizer["FC_ADM_CONTINUE"]</button>
+    </form>
+</section>
 
-    #userApproved {
-        color: forestgreen;
-        font-weight: bold;
-    }
-
-    #userAdmin {
-        color: purple;
-        font-weight: bold;
-    }
-
-    #userSuperAdmin {
-        color: dodgerblue;
-        font-weight: bold;
-    }
-</style>
-
-<div class="card">
-    <div class="card-header">
-        <h3 class="card-title">Registered Users</h3>
+<section class="fc-card fc-card--flush" aria-labelledby="users-h">
+    <div class="fc-card__head">
+        <h2 id="users-h" class="fc-h3">@Localizer["FC_ADM_REGISTERED_USERS"]</h2>
+        <span class="fc-small fc-muted">@Localizer["FC_ADM_N_USERS", users.Count]</span>
     </div>
-    <!-- /.card-header -->
-    <div class="card-body">
-        <form id="createUserForm" method="get" asp-page="/Admin/Users/Register">
-            <!-- AntiforgeryToken -->
-            @Html.AntiForgeryToken()
-
-            <div class="input-group mb-3">
-                <input id="usernameInput" type="text" class="form-control" placeholder="Username" name="username" required>
-                <div class="input-group-append">
-                    <button class="btn btn-primary" type="submit">Create User</button>
-                </div>
-            </div>
-        </form>
-        <div class="table-responsive">
-            <table id="example1" class="table table-bordered table-striped">
+    @if (users.Count == 0)
+    {
+        <p class="fc-muted" style="padding: 0 22px 22px">@Localizer["FC_ADM_NO_USERS"]</p>
+    }
+    else
+    {
+        <div class="fc-table-wrap">
+            <table class="fc-table fc-table--admin fc-table--stack">
                 <thead>
                     <tr>
-                        <th>Status</th>
-                        <th>Profile</th>
-                        <th>Username/Email</th>
-                        <th>Phone</th>
-                        <th>Role</th>
-                        <th>Confirmed Account</th>
-                        <th>Edit</th>
-                        <th>Delete</th>
-                        <th>Download</th>
+                        <th scope="col">@Localizer["FC_ADM_USER"]</th>
+                        <th scope="col">@Localizer["FC_ADM_STATUS"]</th>
+                        <th scope="col">@Localizer["FC_ADM_ROLES"]</th>
+                        <th scope="col">@Localizer["FC_ADM_EMAIL_CONFIRMED"]</th>
+                        <th scope="col"><span class="fc-sr-only">@Localizer["FC_ADM_ACTIONS"]</span></th>
                     </tr>
                 </thead>
                 <tbody>
-                    @if (Model.Users.Count >= 1)
+                    @foreach (var user in users)
                     {
-                        @foreach (var user in Model.Users)
-                        {
-                            <tr>
-                                <td>
-                                    @if (!Model.UserRoles[user.Id].Any())
-                                    {
-                                        <span id="userPending">Pending Confirmation</span>
-                                    }
-                                    else if (Model.UserRoles[user.Id].Contains(Components.Roles.Roles.AuthorizedChurch.ToString()))
-                                    {
-                                        <span id="userApproved">Approved</span>
-                                    }
-                                    else if (Model.UserRoles[user.Id].Contains(Components.Roles.Roles.Admin.ToString()))
-                                    {
-                                        <span id="userAdmin">Administrator</span>
-                                    }
-                                    else if (Model.UserRoles[user.Id].Contains(Components.Roles.Roles.SuperAdmin.ToString()))
-                                    {
-                                        <span id="userSuperAdmin">Developer (MUST NEVER BE DELETED)</span>
-                                    }
-                                </td>
-                                @{ 
-                                    var defaultSrc = BlobUrlService.GetReadSasUrl("IMGUR-1.png", TimeSpan.FromDays(7));
-                                    var userImgSrc = defaultSrc;
-                                    if (!string.IsNullOrEmpty(user.ImageBlobName))
-                                    {
-                                        userImgSrc = BlobUrlService.GetReadSasUrl(user.ImageBlobName, TimeSpan.FromDays(7));
-                                    }
-                                    else if (user.ImageArray != null && user.ImageArray.Length > 1)
-                                    {
-                                        userImgSrc = "data:image;base64," + System.Convert.ToBase64String(user.ImageArray);
-                                    }
+                        var userRoles = roles.TryGetValue(user.Id, out var r) ? r : new List<string>();
+                        var protectedId = Encoder.Protect(user.Id, "fc.data.admin.users");
+                        var name = user.UserName ?? user.Email ?? string.Empty;
+                        var avatar = !string.IsNullOrEmpty(user.ImageBlobName)
+                            ? BlobUrlService.GetReadSasUrl(user.ImageBlobName, TimeSpan.FromHours(1))
+                            : user.ImageArray is { Length: > 1 } ? "data:image;base64," + Convert.ToBase64String(user.ImageArray) : defaultAvatar;
+                        <tr>
+                            <td>
+                                <div class="fc-who">
+                                    <img class="fc-avatar" src="@avatar" alt="" width="40" height="40" loading="lazy" />
+                                    <div>
+                                        <strong>@name</strong>
+                                        @if (!string.IsNullOrWhiteSpace(user.PhoneNumber))
+                                        {
+                                            <span class="fc-small fc-muted">@user.PhoneNumber</span>
+                                        }
+                                    </div>
+                                </div>
+                            </td>
+                            <td data-label="@Localizer["FC_ADM_STATUS"]">
+                                @if (userRoles.Contains(superAdmin))
+                                {
+                                    <span class="fc-badge fc-badge--cs">@Localizer["FC_ADM_ROLE_DEVELOPER"]</span>
                                 }
-                                <td><img width="25%" src="@userImgSrc" /></td>
-                                <td>@Encoder.HtmlEncode(user.UserName ?? string.Empty)</td>
-                                <td>@(user.PhoneNumber ?? string.Empty)</td>
-                                <td>@Encoder.HtmlEncode((string.Join(", ", Model.UserRoles[user.Id])) ?? string.Empty)</td>
-                                <td>@Encoder.HtmlEncode((user.EmailConfirmed ? "true" : "false"))</td>
-                                <td>
-                                    <form method="post" asp-page-handler="EditUser">
-                                        <!-- AntiforgeryToken -->
-                                        @Html.AntiForgeryToken()
-                                        <a asp-page="Edit" asp-route-id="@Encoder.Protect(user.Id, "fc.data.admin.users")" class="btn btn-primary">Edit</a>
-                                    </form>
-                                </td>
-                                <td>
-                                    <form method="post" asp-page-handler="DeleteUser">
-                                        <!-- AntiforgeryToken -->
-                                        @Html.AntiForgeryToken()
-                                        <input type="hidden" name="value" value="@Encoder.Protect(user.Id, "fc.data.admin.users")" />
-                                        <button class="btn btn-danger" type="submit" onclick="return confirmAction('Are you sure you want to delete the user', '@Encoder.HtmlEncode(user.UserName)')">Delete</button>
-                                    </form>
-                                </td>
-                                <td>
+                                else if (userRoles.Contains(admin))
+                                {
+                                    <span class="fc-badge fc-badge--moss">@Localizer["FC_ADM_ROLE_ADMIN"]</span>
+                                }
+                                else if (userRoles.Contains(church))
+                                {
+                                    <span class="fc-badge fc-badge--ok">@Localizer["FC_ADM_ROLE_APPROVED"]</span>
+                                }
+                                else
+                                {
+                                    <span class="fc-badge fc-badge--warn">@Localizer["FC_ADM_ROLE_PENDING"]</span>
+                                }
+                            </td>
+                            <td data-label="@Localizer["FC_ADM_ROLES"]">
+                                @if (userRoles.Count == 0)
+                                {
+                                    <span class="fc-muted">—</span>
+                                }
+                                <span class="fc-tags">
+                                    @foreach (var role in userRoles) { <span class="fc-tag">@role</span> }
+                                </span>
+                            </td>
+                            <td data-label="@Localizer["FC_ADM_EMAIL_CONFIRMED"]">@(user.EmailConfirmed ? Localizer["FC_YES"] : Localizer["FC_NO"])</td>
+                            <td>
+                                <div class="fc-actions">
+                                    <a asp-page="Edit" asp-route-id="@protectedId" class="fc-btn fc-btn--quiet fc-btn--sm">@Localizer["FC_EDIT"]<span class="fc-sr-only"> @name</span></a>
                                     <form method="post" asp-page-handler="DownloadUser">
-                                        <!-- AntiforgeryToken -->
-                                        @Html.AntiForgeryToken()
-                                        <input type="hidden" name="value" value="@Encoder.Protect(user.Id, "fc.data.admin.users")" />
-                                        <button class="btn btn-success" type="submit">Download</button>
+                                        <input type="hidden" name="value" value="@protectedId" />
+                                        <button class="fc-btn fc-btn--quiet fc-btn--sm" type="submit">@Localizer["FC_ADM_DOWNLOAD"]<span class="fc-sr-only"> @name</span></button>
                                     </form>
-                                </td>
-                            </tr>
-                        }
+                                    @if (!userRoles.Contains(superAdmin))
+                                    {
+                                        <form method="post" asp-page-handler="DeleteUser" data-fc-confirm="@Localizer["FC_ADM_CONFIRM_DELETE_USER", name]">
+                                            <input type="hidden" name="value" value="@protectedId" />
+                                            <button class="fc-btn fc-btn--danger-outline fc-btn--sm" type="submit">@Localizer["FC_DELETE"]<span class="fc-sr-only"> @name</span></button>
+                                        </form>
+                                    }
+                                </div>
+                            </td>
+                        </tr>
                     }
                 </tbody>
             </table>
         </div>
-
-        <br />
-        <!-- TODO: Create User Botton Here -->
-    </div>
-    <!-- /.card-body -->
-</div>
-
-@section scripts {
-    <script src="~/js/confirmAction.js" integrity="sha256-13abFd38m2wExaGaZ4Rbp/RfbBi3xlkvuyUIkSavT/4="></script>
-    <script src="~/js/user.js" integrity="sha256-E0RSKKTE1pVFVTFJI09QTSvT1GoyJPyDenFwqLKVDuY="></script>
-}
+    }
+</section>

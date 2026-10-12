@@ -65,6 +65,7 @@ namespace ForestChurches.Pages.Admin
 
                     _mailSender.SendEmailInviteUser(email, _url);
                     _context.SaveChanges();
+                    StatusMessage = $"Sent: {email} has been invited. The link lasts 24 hours.";
                 }
             }
 
@@ -88,8 +89,12 @@ namespace ForestChurches.Pages.Admin
                         .Where(a => a.Email == _Encoder.Unprotect<string>(email, "fc.data.admin.invite"))
                         .FirstOrDefault();
 
-                    _context.WhitelistedUsers.Remove(_selectedUser);
-                    _context.SaveChanges();
+                    if (_selectedUser != null)
+                    {
+                        _context.WhitelistedUsers.Remove(_selectedUser);
+                        _context.SaveChanges();
+                        StatusMessage = $"Saved: {_selectedUser.Email} was removed from the invite list.";
+                    }
                 }
             }
 
@@ -111,6 +116,7 @@ namespace ForestChurches.Pages.Admin
                 {
                     _url = _register.GenerateUrl(HttpContext.Request, _Encoder.Unprotect<string>(email, "fc.data.admin.invite"));
                     _mailSender.SendEmailInviteUser(_Encoder.Unprotect<string>(email, "fc.data.admin.invite"), _url);
+                    StatusMessage = $"Sent: the invitation was emailed again (valid for another 24 hours) to {_Encoder.Unprotect<string>(email, "fc.data.admin.invite")}.";
                 }
             }
 

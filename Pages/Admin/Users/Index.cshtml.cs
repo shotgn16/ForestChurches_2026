@@ -81,7 +81,7 @@ namespace ForestChurches.Pages.Admin.Users
                     if (userToDelete == null)
                     {
                         _logger.LogError($"User ({value}) not found...");
-                        StatusMessage = $"User ({_Encoder.Unprotect<string>(value, "fc.data.admin.users")}) not found...";
+                        StatusMessage = "Error: that user no longer exists.";
                         return RedirectToPage();
                     }
 
@@ -89,14 +89,14 @@ namespace ForestChurches.Pages.Admin.Users
                     await _context.SaveChangesAsync();
 
                     _logger.LogInformation($"User ({value}) successfully deleted");
-                    StatusMessage = $"User ({_Encoder.Unprotect<string>(value, "fc.data.admin.users")}) successfully deleted";
+                    StatusMessage = $"User {userToDelete.UserName} was deleted.";
                 }
             }
 
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error deleting user...");
-                StatusMessage = "Error deleting user... " + ex;
+                StatusMessage = "Error: the user could not be deleted. Details have been logged.";
             }
 
             return RedirectToPage();
@@ -119,7 +119,7 @@ namespace ForestChurches.Pages.Admin.Users
                 if (userToDownload == null)
                 {
                     _logger.LogError($"User ({userId}) not found...");
-                    StatusMessage = $"Error! We we're unable to load the UserID ({value})";
+                    StatusMessage = "Error: that user no longer exists.";
                     return RedirectToPage();
                 }
 
@@ -147,7 +147,7 @@ namespace ForestChurches.Pages.Admin.Users
             catch (Exception ex)
             {
                 _logger.LogError($"Error downloading user: {ex.Message}");
-                StatusMessage = $"Error! We are unable to download the user";
+                StatusMessage = "Error: the user's data could not be downloaded.";
             }
 
             return RedirectToPage();

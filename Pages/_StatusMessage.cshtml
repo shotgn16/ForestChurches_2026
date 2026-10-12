@@ -3,9 +3,10 @@
 @if (!String.IsNullOrEmpty(Model))
 {
     var kind = "ok"; var bootstrapKind = "success";
-    if (Model.StartsWith("Error") || Model.StartsWith("Password")) { kind = "danger"; bootstrapKind = "danger"; }
-    else if (Model.StartsWith("Warning")) { kind = "warn"; bootstrapKind = "warning"; }
-    else if (Model.StartsWith("Info")) { kind = "info"; bootstrapKind = "info"; }
+    bool Starts(string word) => Model.StartsWith(word, StringComparison.OrdinalIgnoreCase);
+    if (Starts("Error") || Starts("Password") || Starts("Invalid")) { kind = "danger"; bootstrapKind = "danger"; }
+    else if (Starts("Warning")) { kind = "warn"; bootstrapKind = "warning"; }
+    else if (Starts("Info")) { kind = "info"; bootstrapKind = "info"; }
 
     @* Messages can contain user-entered text (e.g. a church name), so encode before adding line breaks. *@
     <div id="statusMessage" class="fc-alert fc-alert--@kind alert alert-@bootstrapKind" role="status">

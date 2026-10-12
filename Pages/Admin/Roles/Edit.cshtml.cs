@@ -37,13 +37,25 @@ namespace ForestChurches.Pages.Admin.Roles
 
         public IActionResult OnGet(string roleId)
         {
+            string unprotectedRoleId;
+            try
+            {
+                unprotectedRoleId = _Encoder.Unprotect<string>(roleId, "fc.data.admin.role");
+            }
+            catch (Exception)
+            {
+                StatusMessage = "Error: that link is invalid or has expired.";
+                return RedirectToPage("./Index");
+            }
+
             Role = _roleManager.Roles
                 .Include(r => r.RolePermissions)
-                .FirstOrDefault(r => r.Id == _Encoder.Unprotect<string>(roleId, "fc.data.admin.role"));
+                .FirstOrDefault(r => r.Id == unprotectedRoleId);
 
             if (Role == null)
             {
-                return NotFound($"Unable to load role with ID '{_Encoder.Unprotect<string>(roleId, "fc.data.admin.role")}'...");
+                StatusMessage = "Error: that role no longer exists.";
+                return RedirectToPage("./Index");
             }
 
             // Fetch all permissions
@@ -60,14 +72,14 @@ namespace ForestChurches.Pages.Admin.Roles
             var role = await _roleManager.FindByIdAsync(unprotectedRoleId);
             if (role == null)
             {
-                StatusMessage = "Error: Role not found!";
-                return Page();
+                StatusMessage = "Error: that role no longer exists.";
+                return RedirectToPage("./Index");
             }
 
             if (!ModelState.IsValid)
             {
-                StatusMessage = "Error: Invalid input model!";
-                return Page();
+                StatusMessage = "Error: the permissions couldn't be read. Please try again.";
+                return RedirectToPage(new { roleId });
             }
 
             // Clear existing permissions
@@ -76,14 +88,14 @@ namespace ForestChurches.Pages.Admin.Roles
 
             // Add new permissions
             var newRolePermissions = new List<RolePermission>();
-            foreach (var protectedPermissionId in SelectedPermissions)
+            foreach (var protectedPermissionId in SelectedPermissions ?? Array.Empty<string>())
             {
                 var unprotectedPermissionId = _Encoder.Unprotect<string>(protectedPermissionId, "fc.data.admin.role");
                 var permission = _context.Permissions.Find(unprotectedPermissionId);
                 if (permission == null)
                 {
-                    StatusMessage = $"Error: Permission with ID '{unprotectedPermissionId}' not found!";
-                    return Page();
+                    StatusMessage = $"Error: permission '{unprotectedPermissionId}' wasn't found.";
+                    return RedirectToPage(new { roleId });
                 }
 
                 var rolePermission = new RolePermission
@@ -97,7 +109,7 @@ namespace ForestChurches.Pages.Admin.Roles
             _context.RolePermissions.AddRange(newRolePermissions);
             await _context.SaveChangesAsync();
 
-            StatusMessage = $"Role ({role.Name}) successfully updated!";
+            StatusMessage = $"Saved: permissions for {role.Name} were updated.";
             return RedirectToPage("./Index");
         }
     }

@@ -1,184 +1,138 @@
-﻿@page
-@inject IHttpContextAccessor httpContext;
-@inject ForestChurches.Components.Security.Encoder Encoder;
+@page
 @model ForestChurches.Pages.Admin.IndexModel
+@using ForestChurches.Components.Ui
+@inject ForestChurches.Components.Security.Encoder Encoder
 @{
     Layout = "_Admin";
-    var baseUrl = $"https://{httpContext.HttpContext.Request.Host.Value}";
+    ViewData["Title"] = Localizer["FC_ADM_DASHBOARD"];
+
+    var churches = Model.registeredChurches ?? new List<ForestChurches.Models.ChurchInformation>();
+    var events = Model.registeredEvents ?? new List<ForestChurches.Models.EventsModel>();
+    var today = DateOnly.FromDateTime(DateTime.Today);
+    var openCount = churches.Count(c => string.Equals(c.Status, "Open", StringComparison.OrdinalIgnoreCase));
+    var upcoming = events.Where(e => e.Date >= today).OrderBy(e => e.Date).ThenBy(e => e.StartTime).ToList();
+    var newestJoined = DateTime.TryParse(Model.newestUser?.CreatedDate, out var joined) ? joined.ToString("d MMM yyyy") : null;
 }
 
-<div class="row">
-    <div class="col-md-6">
-        <!-- Info Box -->
-        <div class="small-box bg-gradient-success">
-            <div class="inner">
-                <h3>@Encoder.HtmlEncode(Model.registeredChurches.Count().ToString())</h3>
-                <p>Registered Churches</p>
-            </div>
-            <div class="icon">
-                <i class="fas fa-user-plus"></i>
-            </div>
-        </div>
+<div class="fc-page-head">
+    <div>
+        <h1>@Localizer["FC_ADM_DASHBOARD"]</h1>
+        <p>@Localizer["FC_ADM_DASHBOARD_LEAD"]</p>
     </div>
-    <!-- /.col -->
-    <div class="col-md-6">
-        <!-- Info Box -->
-        <div class="small-box bg-gradient-info">
-            <div class="inner">
-                <h3>@Encoder.HtmlEncode(Model.registeredEvents.Count().ToString())</h3>
-                <p>Listed Events</p>
-            </div>
-            <div class="icon">
-                <i class="fas fa-calendar-alt"></i>
-            </div>
-        </div>
-    </div>
-
-    <!-- Whitelist Count -->
-    <div class="col-md-6">
-        <!-- Info Box -->
-        <div class="small-box bg-gradient-danger">
-            <div class="inner">
-                <h3>@Encoder.HtmlEncode(Model.WhitelistCount.ToString())</h3>
-                <p>Pending Invites</p>
-            </div>
-            <div class="icon">
-                <i class="fa-solid fa-envelope"></i>
-            </div>
-        </div>
-    </div>
-
-    <!-- Newest Registration -->
-    <div class="col-md-6">
-        <!-- Info Box -->
-        <div class="small-box bg-gradient-danger">
-            <div class="inner">
-                <h3>@Encoder.HtmlEncode(Model.WhitelistCount.ToString())</h3>
-                <p>Newest Member</p>
-            </div>
-            <div class="icon">
-                <i class="fa-solid fa-clipboard"></i>
-            </div>
-        </div>
-    </div>
-
-    <!-- Database Size [Col-3] -->
-    <div class="col-lg-3 col-6">
-        <!-- small box -->
-        <div class="small-box bg-secondary">
-            <div class="inner">
-                <h3>@Encoder.HtmlEncode(Model.DatabaseSize.ToString()) MB</h3>
-
-                <p>Database Size</p>
-            </div>
-            <div class="icon">
-                <i class="fa-solid fa-database"></i>
-            </div>
-        </div>
-    </div>
-
-    <!-- Log Database Size [Col-3] -->
-    <div class="col-lg-3 col-6">
-        <div class="small-box bg-secondary">
-            <div class="inner">
-                <h3>@Encoder.HtmlEncode(Model.LogDatabaseSize.ToString()) MB</h3>
-
-                <p>Log Size</p>
-            </div>
-            <div class="icon">
-                <i class="fa-solid fa-gears"></i>
-            </div>
-        </div>
-    </div>
-
-    <!-- CPU Usage [Col-3] -->
-    <div class="col-lg-3 col-6">
-        <!-- small box -->
-        <div class="small-box bg-secondary">
-            <div class="inner">
-                <h3 id="cpuUsage">Loading...</h3>
-
-                <p>CPU Usage</p>
-            </div>
-            <div class="icon">
-                <i class="fa-solid fa-microchip"></i>
-            </div>
-        </div>
-    </div>
-
-    <!-- Memory Usage [Col-3] -->
-    <div class="col-lg-3 col-6">
-        <!-- small box -->
-        <div class="small-box bg-secondary">
-            <div class="inner">
-                <h3 id="memoryUsage">Loading...</h3>
-
-                <p>Memory Usage</p>
-            </div>
-            <div class="icon">
-                <i class="fa-solid fa-memory"></i>
-            </div>
-        </div>
+    <div class="fc-btn-row">
+        <a asp-page="/Admin/Invite" class="fc-btn fc-btn--quiet">@Localizer["FC_ADM_INVITE_CHURCH"]</a>
+        <a asp-page="/Admin/Events/Create" class="fc-btn fc-btn--primary">+ @Localizer["FC_ADD_EVENT"]</a>
     </div>
 </div>
 
+<section aria-labelledby="site-h" class="fc-stack">
+    <h2 id="site-h" class="fc-h3">@Localizer["FC_ADM_SITE_AT_A_GLANCE"]</h2>
+    <div class="fc-stats">
+        <a asp-page="/Admin/Church/Index" class="fc-stat fc-stat--dark" style="text-decoration: none">
+            <span class="fc-stat__label">@Localizer["FC_ADM_CHURCHES"]</span>
+            <span class="fc-stat__value">@churches.Count</span>
+            <span class="fc-stat__note">@Localizer["FC_ADM_N_LISTED", openCount]</span>
+        </a>
+        <a asp-page="/Admin/Events/Index" class="fc-stat" style="text-decoration: none">
+            <span class="fc-stat__label">@Localizer["FC_ADM_EVENTS"]</span>
+            <span class="fc-stat__value">@events.Count</span>
+            <span class="fc-stat__note">@Localizer["FC_ADM_N_UPCOMING", upcoming.Count]</span>
+        </a>
+        <a asp-page="/Admin/Invite" class="fc-stat" style="text-decoration: none">
+            <span class="fc-stat__label">@Localizer["FC_ADM_PENDING_INVITES"]</span>
+            <span class="fc-stat__value">@Model.WhitelistCount</span>
+            <span class="fc-stat__note">@Localizer["FC_ADM_AWAITING_SIGNUP"]</span>
+        </a>
+        <div class="fc-stat">
+            <span class="fc-stat__label">@Localizer["FC_ADM_NEWEST_MEMBER"]</span>
+            <span class="fc-stat__value fc-stat__value--sm">@(Model.newestUser?.UserName ?? "—")</span>
+            @if (newestJoined != null)
+            {
+                <span class="fc-stat__note">@Localizer["FC_ADM_JOINED", newestJoined]</span>
+            }
+        </div>
+    </div>
+</section>
+
+<section aria-labelledby="health-h" class="fc-stack">
+    <h2 id="health-h" class="fc-h3">@Localizer["FC_ADM_SYSTEM_HEALTH"]</h2>
+    @* Live figures are refreshed by /js/admin-dashboard.js from /api/SystemStats. *@
+    <div class="fc-stats" id="fc-system-stats" data-endpoint="@Url.Content("~/api/SystemStats")">
+        <div class="fc-stat">
+            <span class="fc-stat__label">@Localizer["FC_ADM_CPU"]</span>
+            <span class="fc-stat__value" id="cpuUsage" aria-live="polite">…</span>
+            <div class="fc-meter" aria-hidden="true"><span id="cpuMeter"></span></div>
+        </div>
+        <div class="fc-stat">
+            <span class="fc-stat__label">@Localizer["FC_ADM_MEMORY"]</span>
+            <span class="fc-stat__value" id="memoryUsage" aria-live="polite">…</span>
+        </div>
+        <div class="fc-stat">
+            <span class="fc-stat__label">@Localizer["FC_ADM_DATABASE"]</span>
+            <span class="fc-stat__value" id="databaseSize">@Model.DatabaseSize.ToString("0.##") MB</span>
+        </div>
+        <div class="fc-stat">
+            <span class="fc-stat__label">@Localizer["FC_ADM_LOG_DATABASE"]</span>
+            <span class="fc-stat__value" id="logDatabaseSize">@Model.LogDatabaseSize.ToString("0.##") MB</span>
+        </div>
+    </div>
+    <p class="fc-hint" id="fc-stats-error" hidden>@Localizer["FC_ADM_STATS_UNAVAILABLE"]</p>
+</section>
+
+<div class="fc-grid" style="align-items: start">
+    <section class="fc-card fc-card--flush" aria-labelledby="recent-churches-h">
+        <div class="fc-card__head">
+            <h2 id="recent-churches-h" class="fc-h3">@Localizer["FC_ADM_RECENT_CHURCHES"]</h2>
+            <a asp-page="/Admin/Church/Index" class="fc-small">@Localizer["FC_ADM_VIEW_ALL"]</a>
+        </div>
+        @if (churches.Count == 0)
+        {
+            <p class="fc-muted" style="padding: 0 22px 20px">@Localizer["FC_ADM_NO_CHURCHES"]</p>
+        }
+        <ul class="fc-admin-list">
+            @foreach (var church in churches.Take(5))
+            {
+                var open = string.Equals(church.Status, "Open", StringComparison.OrdinalIgnoreCase);
+                <li style="padding-top: 12px; padding-bottom: 12px; align-items: center">
+                    <div class="fc-admin-list__main" style="gap: 2px">
+                        <strong>@FcText.PlainText(church.Name)</strong>
+                        <span class="fc-small fc-muted">@FcText.PlainText(church.Denomination)</span>
+                    </div>
+                    <span class="fc-badge @(open ? "fc-badge--ok" : "fc-badge--warn")">@(open ? Localizer["FC_ADM_STATUS_OPEN"] : Localizer["FC_ADM_STATUS_CLOSED"])</span>
+                </li>
+            }
+        </ul>
+    </section>
+
+    <section class="fc-card fc-card--flush" aria-labelledby="next-events-h">
+        <div class="fc-card__head">
+            <h2 id="next-events-h" class="fc-h3">@Localizer["FC_UPCOMING_EVENTS"]</h2>
+            <a asp-page="/Admin/Events/Index" class="fc-small">@Localizer["FC_ADM_VIEW_ALL"]</a>
+        </div>
+        @if (upcoming.Count == 0)
+        {
+            <p class="fc-muted" style="padding: 0 22px 20px">@Localizer["FC_ADM_NO_UPCOMING"]</p>
+        }
+        <ul class="fc-admin-list">
+            @foreach (var e in upcoming.Take(5))
+            {
+                <li style="padding-top: 12px; padding-bottom: 12px; align-items: center">
+                    <div class="fc-date" aria-hidden="true">
+                        <span class="fc-date__mon">@e.Date.ToString("MMM")</span>
+                        <span class="fc-date__day">@e.Date.Day</span>
+                    </div>
+                    <div class="fc-admin-list__main" style="gap: 2px">
+                        <strong>@FcText.PlainText(e.Name)</strong>
+                        <span class="fc-small fc-muted">@e.Date.ToString("dddd d MMMM") · @FcText.TimeRange(e.StartTime, e.EndTime) · @FcText.PlainText(e.Church)</span>
+                    </div>
+                </li>
+            }
+        </ul>
+    </section>
+</div>
+
 @Html.AntiForgeryToken()
+
 @section Scripts {
-    <script nonce="@HttpContextAccessor.HttpContext?.Items["CSP-Script-Nonce"]">
-        const baseUrl = '@baseUrl';
-        const token = document.querySelector('input[name="__RequestVerificationToken"]').value;
-
-        async function fetchSystemStats() {
-            try {
-                const response = await fetch(`${baseUrl}/api/SystemStats`, {
-                    method: 'GET',
-                    headers: {
-                        'RequestVerificationToken': token
-                    }
-                });
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                const data = await response.json();
-                console.log('System Stats:', data); // Log the data for debugging
-
-                const validatedData = validateAndFormatData(data);
-                if (validatedData) {
-                    document.getElementById('cpuUsage').innerText = sanitize(validatedData.cpuUsage.toFixed(2)) + "%";
-                    document.getElementById('memoryUsage').innerText = sanitize(validatedData.memoryUsage.toFixed(2)) + " MB";
-                } else {
-                    console.error('Invalid data format:', data);
-                }
-            } catch (error) {
-                console.error('Error fetching system stats:', error);
-            }
-        }
-
-        function validateAndFormatData(data) {
-            if (typeof data.cpuUsage !== 'number' || typeof data.memoryUsage !== 'number' ||
-                typeof data.databaseSize !== 'number' || typeof data.logDatabaseSize !== 'number' ||
-                typeof data.whitelistCount !== 'number') {
-                return null;
-            }
-
-            // Format data if necessary
-            data.cpuUsage = parseFloat(data.cpuUsage.toFixed(2));
-            data.memoryUsage = parseFloat(data.memoryUsage.toFixed(2));
-            data.whitelistCount = parseInt(data.whitelistCount, 10);
-
-            return data;
-        }
-
-        function sanitize(input) {
-            const element = document.createElement('div');
-            element.innerText = input;
-            return element.innerHTML;
-        }
-
-        // Fetch system stats every 5 seconds
-        setInterval(fetchSystemStats, 3000);
-
-        // Initial fetch
-        fetchSystemStats();
-    </script>
+    <script src="~/js/admin-dashboard.js" asp-append-version="true"></script>
 }

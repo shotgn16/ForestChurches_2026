@@ -54,6 +54,12 @@ namespace ForestChurches.Areas.Admin.Pages.Bulletin
         {
             if (!ModelState.IsValid) return Page();
 
+            if (PdfUpload != null && !string.Equals(Path.GetExtension(PdfUpload.FileName), ".pdf", StringComparison.OrdinalIgnoreCase))
+            {
+                ModelState.AddModelError(nameof(PdfUpload), "Please choose a PDF file.");
+                return Page();
+            }
+
             if (PdfUpload != null)
             {
                 var uploads = Path.Combine(_env.WebRootPath ?? "wwwroot", "uploads", "bulletins");
@@ -71,8 +77,9 @@ namespace ForestChurches.Areas.Admin.Pages.Bulletin
             ActiveBulletin.CreatedAt = ActiveBulletin.CreatedAt == default ? DateTime.UtcNow : ActiveBulletin.CreatedAt;
 
             await _service.CreateOrUpdateAsync(ActiveBulletin);
-            StatusMessage = "Bulletin saved.";
-            return RedirectToPage("/Admin/Bulletin/Index");
+            StatusMessage = $"Saved: {ActiveBulletin.Title} was saved.";
+            // "/Admin/Bulletin/Index" doesn't exist inside the Admin area, so that redirect threw after saving.
+            return RedirectToPage("./Index");
         }
     }
 }

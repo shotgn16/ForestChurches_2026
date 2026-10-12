@@ -20,11 +20,8 @@
 
     function createRowPair(log) {
         const tr = document.createElement('tr');
-        let color = 'black';
-        if (log.Level === 'Debug') color = 'darkgray';
-        if (log.Level === 'Warning') color = 'orange';
-        if (log.Level === 'Error') color = 'red';
-        tr.style.color = color;
+        // Level colours come from forest.css (fc-log--*) so they work in light and dark themes.
+        tr.className = 'fc-log--' + String(getField(log, ['Level', 'level']) || 'information').toLowerCase();
 
         const ts = document.createElement('td'); ts.innerHTML = sanitizeText(getField(log, ['Timestamp','timestamp','TimeStamp']) || ''); tr.appendChild(ts);
         const lvl = document.createElement('td'); lvl.innerHTML = sanitizeText(getField(log, ['Level','level']) || ''); tr.appendChild(lvl);
@@ -234,7 +231,8 @@
 
         try {
             downloadBtn.disabled = true;
-            downloadBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Downloading...';
+            downloadBtn.dataset.label = downloadBtn.dataset.label || downloadBtn.textContent;
+            downloadBtn.textContent = downloadBtn.getAttribute('data-busy') || 'Downloading…';
 
             const form = new FormData();
             form.append('fromDate', fromDate);
@@ -272,7 +270,7 @@
             alert('An error occurred while downloading logs: ' + e.message);
         } finally {
             downloadBtn.disabled = false;
-            downloadBtn.innerHTML = 'Download Logs';
+            downloadBtn.textContent = downloadBtn.dataset.label || 'Download logs';
         }
     }
 

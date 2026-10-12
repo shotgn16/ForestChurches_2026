@@ -1,93 +1,120 @@
-@page
+@page "{id:int?}"
 @model ForestChurches.Areas.Admin.Pages.Bulletin.EditModel
 @{
     Layout = "_Admin";
-    ViewData["Title"] = "Edit Bulletin";
+    var b = Model.ActiveBulletin ?? new ForestChurches.Models.Bulletin();
+    var isNew = b.Id == 0;
+    ViewData["Title"] = isNew ? Localizer["FC_ADM_NEW_BULLETIN"] : Localizer["FC_ADM_EDIT_BULLETIN"];
+    var isFull = string.Equals(b.Type, "Bulletin", StringComparison.OrdinalIgnoreCase);
+    var types = new (string Value, string Key)[]
+    {
+        ("Announcement", "FC_ADM_TYPE_ANNOUNCEMENT"), ("Message", "FC_ADM_TYPE_MESSAGE"), ("Bulletin", "FC_ADM_TYPE_BULLETIN"),
+    };
 }
 
-<div class="card">
-    <div class="card-header">
-        <h3 class="card-title">Edit Bulletin</h3>
-    </div>
-    <div class="card-body">
-<form method="post" enctype="multipart/form-data">
-    @Html.AntiForgeryToken()
-        <div class="form-group">
-            <label>Type</label>
-            <select asp-for="ActiveBulletin.Type" class="form-control">
-                <option value="Bulletin">Bulletin (full pew sheet)</option>
-                <option value="Announcement">Announcement</option>
-                <option value="Message">Message</option>
-            </select>
-        </div>
-
-    <div class="form-group">
-        <label>Title</label>
-        <input asp-for="ActiveBulletin.Title" class="form-control" />
-    </div>
-
-    @* If Announcement/Message, show simplified fields: Description and Links *@
-    @if (string.Equals(Model.ActiveBulletin?.Type, "Announcement", System.StringComparison.OrdinalIgnoreCase) || string.Equals(Model.ActiveBulletin?.Type, "Message", System.StringComparison.OrdinalIgnoreCase))
-    {
-        <div class="form-group">
-            <label>Description</label>
-            <textarea asp-for="ActiveBulletin.PastoralNote" class="form-control" rows="6"></textarea>
-            <span class="form-text text-muted">Short description or announcement body.</span>
-        </div>
-
-        <div class="form-group">
-            <label>Links (one per line or JSON array)</label>
-            <textarea asp-for="ActiveBulletin.NoticesList" class="form-control" rows="3"></textarea>
-            <span class="form-text text-muted">Use newline separated URLs or JSON array for multiple links.</span>
-        </div>
-    }
-    else
-    {
-        @* Full bulletin fields *@
-        <div class="form-group">
-            <label>Parish Name</label>
-            <input asp-for="ActiveBulletin.ParishName" class="form-control" />
-        </div>
-        <div class="form-group">
-            <label>Bulletin Date</label>
-            <input asp-for="ActiveBulletin.BulletinDate" type="date" class="form-control" />
-        </div>
-        <div class="form-group">
-            <label>Sunday Name</label>
-            <input asp-for="ActiveBulletin.SundayName" class="form-control" />
-        </div>
-        <div class="form-group">
-            <label>Collect Prayer</label>
-            <textarea asp-for="ActiveBulletin.CollectPrayer" class="form-control"></textarea>
-        </div>
-        <div class="form-group">
-            <label>First Reading</label>
-            <input asp-for="ActiveBulletin.FirstReading" class="form-control" />
-        </div>
-        <div class="form-group">
-            <label>Gospel Reading</label>
-            <input asp-for="ActiveBulletin.GospelReading" class="form-control" />
-        </div>
-        <div class="form-group">
-            <label>Hymns (JSON array or newline separated)</label>
-            <textarea asp-for="ActiveBulletin.HymnsList" class="form-control"></textarea>
-        </div>
-        <div class="form-group">
-            <label>Pastoral Note</label>
-            <textarea asp-for="ActiveBulletin.PastoralNote" class="form-control"></textarea>
-        </div>
-        <div class="form-group">
-            <label>Notices (JSON array or newline separated)</label>
-            <textarea asp-for="ActiveBulletin.NoticesList" class="form-control"></textarea>
-        </div>
-    }
-
-    <div class="form-group">
-        <label>Upload PDF</label>
-        <input asp-for="PdfUpload" type="file" accept="application/pdf" class="form-control" />
-    </div>
-        <button type="submit" class="btn btn-primary">Save</button>
-        <a class="btn btn-secondary" href="/Admin/Bulletin/Index">Cancel</a>
-    </form>
+<div class="fc-page-head">
+    <div>
+        <a asp-page="./Index" asp-route-id="" class="fc-small" style="font-weight: 700">← @Localizer["FC_NAV_BULLETINS"]</a>
+        <h1 style="margin-top: 6px">@(isNew ? Localizer["FC_ADM_NEW_BULLETIN"] : Localizer["FC_ADM_EDIT_BULLETIN"])</h1>
     </div>
 </div>
+
+<partial name="/Pages/_StatusMessage.cshtml" model="Model.StatusMessage" />
+
+<form method="post" enctype="multipart/form-data" class="fc-stack fc-stack--lg">
+    <div asp-validation-summary="All" class="text-danger" role="alert"></div>
+
+    @* Keep the fields this form doesn't edit, so saving doesn't reset them. *@
+    <input type="hidden" asp-for="ActiveBulletin.Id" />
+    <input type="hidden" asp-for="ActiveBulletin.CreatedAt" />
+    <input type="hidden" asp-for="ActiveBulletin.IsActive" />
+    <input type="hidden" asp-for="ActiveBulletin.BannerVisible" />
+    <input type="hidden" asp-for="ActiveBulletin.BannerExpiresAt" />
+    <input type="hidden" asp-for="ActiveBulletin.PdfFilename" />
+
+    <section class="fc-card fc-stack fc-stack--lg" aria-labelledby="basics-h">
+        <h2 id="basics-h" class="fc-card__title">@Localizer["FC_DETAILS"]</h2>
+        <div class="fc-grid">
+            <div class="fc-field">
+                <label class="fc-label" asp-for="ActiveBulletin.Type">@Localizer["FC_ADM_BULLETIN_TYPE"]</label>
+                <select class="fc-select" asp-for="ActiveBulletin.Type" data-fc-type-switch>
+                    @foreach (var (value, key) in types)
+                    {
+                        <option value="@value">@Localizer[key]</option>
+                    }
+                </select>
+            </div>
+            <div class="fc-field">
+                <label class="fc-label" asp-for="ActiveBulletin.BulletinDate">@Localizer["NEARME_DATE_LABEL"]</label>
+                <input class="fc-input" asp-for="ActiveBulletin.BulletinDate" type="date" value="@b.BulletinDate.ToString("yyyy-MM-dd")" />
+            </div>
+            <div class="fc-field fc-span-all">
+                <label class="fc-label" asp-for="ActiveBulletin.Title">@Localizer["FC_ADM_BULLETIN_TITLE"]</label>
+                <input class="fc-input" asp-for="ActiveBulletin.Title" aria-required="true" />
+                <span asp-validation-for="ActiveBulletin.Title" class="text-danger"></span>
+            </div>
+            <div class="fc-field fc-span-all">
+                <label class="fc-label" asp-for="ActiveBulletin.PastoralNote">@Localizer["FC_ADM_BULLETIN_MESSAGE"]</label>
+                <textarea class="fc-textarea" asp-for="ActiveBulletin.PastoralNote" rows="6"></textarea>
+            </div>
+            <div class="fc-field fc-span-all">
+                <label class="fc-label" asp-for="ActiveBulletin.NoticesList">@Localizer["FC_ADM_BULLETIN_NOTICES"]</label>
+                <textarea class="fc-textarea" asp-for="ActiveBulletin.NoticesList" rows="5" aria-describedby="notices-hint"></textarea>
+                <span class="fc-hint" id="notices-hint">@Localizer["FC_ADM_ONE_PER_LINE"]</span>
+            </div>
+        </div>
+    </section>
+
+    <section class="fc-card fc-stack fc-stack--lg" aria-labelledby="service-h" data-fc-show-for="Bulletin" hidden="@(!isFull)">
+        <div>
+            <h2 id="service-h" class="fc-card__title" style="margin-bottom: 4px !important">@Localizer["FC_ADM_PEW_SHEET"]</h2>
+            <p class="fc-small fc-muted">@Localizer["FC_ADM_PEW_SHEET_HINT"]</p>
+        </div>
+        <div class="fc-grid">
+            <div class="fc-field">
+                <label class="fc-label" asp-for="ActiveBulletin.ParishName">@Localizer["FC_ADM_PARISH"]</label>
+                <input class="fc-input" asp-for="ActiveBulletin.ParishName" />
+                <span asp-validation-for="ActiveBulletin.ParishName" class="text-danger"></span>
+            </div>
+            <div class="fc-field">
+                <label class="fc-label" asp-for="ActiveBulletin.SundayName">@Localizer["FC_ADM_SUNDAY_NAME"]</label>
+                <input class="fc-input" asp-for="ActiveBulletin.SundayName" />
+            </div>
+            <div class="fc-field">
+                <label class="fc-label" asp-for="ActiveBulletin.FirstReading">@Localizer["FC_FIRST_READING"]</label>
+                <input class="fc-input" asp-for="ActiveBulletin.FirstReading" />
+            </div>
+            <div class="fc-field">
+                <label class="fc-label" asp-for="ActiveBulletin.GospelReading">@Localizer["FC_GOSPEL"]</label>
+                <input class="fc-input" asp-for="ActiveBulletin.GospelReading" />
+            </div>
+            <div class="fc-field fc-span-all">
+                <label class="fc-label" asp-for="ActiveBulletin.HymnsList">@Localizer["FC_HYMNS"]</label>
+                <textarea class="fc-textarea" asp-for="ActiveBulletin.HymnsList" rows="5" aria-describedby="hymns-hint"></textarea>
+                <span class="fc-hint" id="hymns-hint">@Localizer["FC_ADM_ONE_PER_LINE"]</span>
+            </div>
+            <div class="fc-field fc-span-all">
+                <label class="fc-label" asp-for="ActiveBulletin.CollectPrayer">@Localizer["FC_THE_COLLECT"]</label>
+                <textarea class="fc-textarea" asp-for="ActiveBulletin.CollectPrayer" rows="4"></textarea>
+            </div>
+        </div>
+    </section>
+
+    <section class="fc-card fc-stack" aria-labelledby="pdf-h">
+        <h2 id="pdf-h" class="fc-card__title">@Localizer["FC_ADM_PDF"] <span class="fc-opt" style="font-size: 16px">— @Localizer["FC_OPTIONAL"]</span></h2>
+        @if (!string.IsNullOrWhiteSpace(b.PdfFilename))
+        {
+            <p class="fc-small">@Localizer["FC_ADM_CURRENT_PDF"] <a href="/uploads/bulletins/@Uri.EscapeDataString(b.PdfFilename)" target="_blank" rel="noopener">@b.PdfFilename ↗</a></p>
+        }
+        <div class="fc-field" style="max-width: 520px">
+            <label class="fc-label" asp-for="PdfUpload">@(string.IsNullOrWhiteSpace(b.PdfFilename) ? Localizer["FC_ADM_UPLOAD_PDF"] : Localizer["FC_ADM_REPLACE_PDF"])</label>
+            <input asp-for="PdfUpload" type="file" accept="application/pdf" />
+            <span asp-validation-for="PdfUpload" class="text-danger"></span>
+        </div>
+    </section>
+
+    <div class="fc-btn-row" style="justify-content: flex-end">
+        <a asp-page="./Index" asp-route-id="" class="fc-btn fc-btn--quiet">@Localizer["FC_CANCEL"]</a>
+        <button type="submit" class="fc-btn fc-btn--primary">@Localizer["FC_SAVE_CHANGES"]</button>
+    </div>
+</form>

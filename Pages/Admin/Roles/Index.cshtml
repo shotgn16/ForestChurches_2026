@@ -1,73 +1,86 @@
-﻿@page
+@page
 @model ForestChurches.Pages.Admin.Roles.IndexModel
-@inject ForestChurches.Components.Security.Encoder Encoder;
+@inject ForestChurches.Components.Security.Encoder Encoder
 @{
     Layout = "_Admin";
+    ViewData["Title"] = Localizer["FC_ADM_ROLES"];
+    var roles = Model.Roles ?? new List<ForestChurches.Components.Roles.ChurchRoles>();
 }
+
+<div class="fc-page-head">
+    <div>
+        <h1>@Localizer["FC_ADM_ROLES"]</h1>
+        <p>@Localizer["FC_ADM_ROLES_LEAD"]</p>
+    </div>
+</div>
+
 <partial name="_StatusMessage" model="Model.StatusMessage" />
 
-<div class="card">
-    <div class="card-header">
-        <h3 class="card-title">Manage Roles</h3>
+<section class="fc-card" aria-labelledby="new-role-h">
+    <h2 id="new-role-h" class="fc-h3" style="margin-bottom: 12px">@Localizer["FC_ADM_CREATE_ROLE"]</h2>
+    <form method="post" asp-page-handler="CreateRole" class="fc-inline-form">
+        <div class="fc-field">
+            <label class="fc-label" for="roleName">@Localizer["FC_ADM_ROLE_NAME"]</label>
+            <input id="roleName" type="text" class="fc-input" name="roleName" maxlength="256" required />
+        </div>
+        <button class="fc-btn fc-btn--primary" type="submit">@Localizer["FC_ADM_CREATE_ROLE"]</button>
+    </form>
+</section>
+
+<section class="fc-card fc-card--flush" aria-labelledby="roles-h">
+    <div class="fc-card__head">
+        <h2 id="roles-h" class="fc-h3">@Localizer["FC_ADM_ALL_ROLES"]</h2>
     </div>
-    <div class="card-body">
-        <form method="post" asp-page-handler="CreateRole">
-            @Html.AntiForgeryToken()
-
-            <div class="input-group mb-3">
-                <input type="text" class="form-control" placeholder="Role Name" name="roleName" required>
-                <div class="input-group-append">
-                    <button class="btn btn-primary" type="submit">Create Role</button>
-                </div>
-            </div>
-        </form>
-        <div class="table-responsive">
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Role Name</th>
-                    <th>Role ID</th>
-                    <th>Permissions</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                @if (Model.Roles != null)
-                {
-                    foreach (var role in Model.Roles)
+    @if (roles.Count == 0)
+    {
+        <p class="fc-muted" style="padding: 0 22px 22px">@Localizer["FC_ADM_NO_ROLES"]</p>
+    }
+    else
+    {
+        <div class="fc-table-wrap">
+            <table class="fc-table fc-table--admin fc-table--stack">
+                <thead>
+                    <tr>
+                        <th scope="col">@Localizer["FC_ADM_ROLE"]</th>
+                        <th scope="col">@Localizer["FC_ADM_PERMISSIONS"]</th>
+                        <th scope="col"><span class="fc-sr-only">@Localizer["FC_ADM_ACTIONS"]</span></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var role in roles)
                     {
+                        var protectedId = Encoder.Protect(role.Id, "fc.data.admin.role");
+                        var permissions = role.RolePermissions ?? new List<ForestChurches.Models.RolePermission>();
                         <tr>
-                            <td>@Encoder.HtmlEncode(role.Name)</td>
-                            <td>@Encoder.HtmlEncode(role.Id)</td>
                             <td>
-                                    @if (role.RolePermissions != null && role.RolePermissions.Count > 0)
-                                    {
-                                        foreach (var permission in role.RolePermissions)
-                                        {
-                                            <span>@Encoder.HtmlEncode(permission.PermissionName)</span>
-                                            <br />
-                                        }
-                                    }
-
-                                    else if (role.RolePermissions.Count == 0)
-                                    {
-                                        <span>No permissions</span>
-                                    }
+                                <strong>@role.Name</strong>
+                                <span class="fc-tiny fc-muted fc-break" style="display: block">@role.Id</span>
                             </td>
-
+                            <td data-label="@Localizer["FC_ADM_PERMISSIONS"]">
+                                @if (permissions.Count == 0)
+                                {
+                                    <span class="fc-muted">@Localizer["FC_ADM_NO_PERMISSIONS"]</span>
+                                }
+                                else
+                                {
+                                    <span class="fc-tags">
+                                        @foreach (var permission in permissions.OrderBy(p => p.PermissionName)) { <span class="fc-tag">@permission.PermissionName</span> }
+                                    </span>
+                                }
+                            </td>
                             <td>
-                                <form method="post" asp-page-handler="DeleteRole">
-                                    @Html.AntiForgeryToken()
-                                        <input type="hidden" name="value" value="@Encoder.Protect(role.Id, "fc.data.admin.role")" />
-                                    <button class="btn btn-danger" onclick="return confirmDelete('@role.Name')"  type="submit">Delete</button>
-                                </form>
-                                <a asp-page="Edit" asp-route-roleId="@Encoder.Protect(role.Id, "fc.data.admin.role")" class="btn btn-primary">Edit</a>
+                                <div class="fc-actions">
+                                    <a asp-page="Edit" asp-route-roleId="@protectedId" class="fc-btn fc-btn--quiet fc-btn--sm">@Localizer["FC_ADM_EDIT_PERMISSIONS"]<span class="fc-sr-only"> @role.Name</span></a>
+                                    <form method="post" asp-page-handler="DeleteRole" data-fc-confirm="@Localizer["FC_ADM_CONFIRM_DELETE_ROLE", role.Name ?? string.Empty]">
+                                        <input type="hidden" name="value" value="@protectedId" />
+                                        <button class="fc-btn fc-btn--danger-outline fc-btn--sm" type="submit">@Localizer["FC_DELETE"]<span class="fc-sr-only"> @role.Name</span></button>
+                                    </form>
+                                </div>
                             </td>
                         </tr>
                     }
-                }
-            </tbody>
-        </table>
+                </tbody>
+            </table>
         </div>
-    </div>
-</div>
+    }
+</section>

@@ -54,6 +54,18 @@
             });
         });
 
+        // Show/hide parts of a form by a select's value:
+        // <select data-fc-type-switch> plus <div data-fc-show-for="Bulletin,Other">. Hidden fields still post.
+        document.querySelectorAll('select[data-fc-type-switch]').forEach(function (sel) {
+            function apply() {
+                document.querySelectorAll('[data-fc-show-for]').forEach(function (el) {
+                    el.hidden = el.getAttribute('data-fc-show-for').split(',').indexOf(sel.value) < 0;
+                });
+            }
+            sel.addEventListener('change', apply);
+            apply();
+        });
+
         // Print buttons: <button data-fc-print>
         document.querySelectorAll('[data-fc-print]').forEach(function (btn) {
             btn.addEventListener('click', function () { window.print(); });

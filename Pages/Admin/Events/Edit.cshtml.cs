@@ -65,7 +65,7 @@ namespace ForestChurches.Pages.Admin.Events
                     User = currentEvent.User ?? string.Empty,
                     Address = currentEvent.Address ?? string.Empty,
                     StartTime = currentEvent.StartTime != default ? currentEvent.StartTime : TimeOnly.MinValue,
-                    EndTime = currentEvent.EndTime != default ? currentEvent.StartTime : TimeOnly.MaxValue,
+                    EndTime = currentEvent.EndTime != default ? currentEvent.EndTime : currentEvent.StartTime, // was copying the start time into the end time
                     Church = currentEvent.Church ?? string.Empty,
                     Link = currentEvent.Link ?? string.Empty,
                     Repeats = currentEvent.Repeats ?? string.Empty,
@@ -94,14 +94,20 @@ namespace ForestChurches.Pages.Admin.Events
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> OnPostUpdateEvent(string id)
         {
-            byte[] processedImage = new byte[5];
+            byte[] processedImage = null;
             try
             {
+                // These are filled in by the server, not the form.
+                ModelState.Remove("Input.SelectedUsername");
+                ModelState.Remove("Input.User");
+                ModelState.Remove("Input.Church");
+                ModelState.Remove("Input.Image");
+
                 if (!ModelState.IsValid)
                 {
                     LogModelErrors();
-                    StatusMessage = "Invalid input, please try again...";
-                    return Page();
+                    StatusMessage = "Error: please check the event details and try again.";
+                    return RedirectToPage(new { id });
                 }
 
                 // Decode the selected username
@@ -112,21 +118,16 @@ namespace ForestChurches.Pages.Admin.Events
                 {
                     processedImage = await _ImageRepository.ConvertToByteArray(Input.Image);
                 }
-                else
-                {
-                    // IMGUR-1
-                    var sasUrl = _blobUrlService.GetReadSasUrl("IMGUR-1.png", TimeSpan.FromDays(1));
-                    processedImage = await _ImageRepository.ConvertToByteArrayFromUrl(sasUrl); ;
-                }
 
                 Input.ID = _Encoder.Unprotect<string>(id, "fc.data.admin.events");
                 await _eventController.UpdateEventAsync(user, Input, processedImage).ConfigureAwait(true);
 
-                StatusMessage = $"Event ({Input.Name}) successfully updated...";
+                StatusMessage = $"Saved: {Input.Name} was updated.";
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex.Message, ex);
+                _logger.LogError(ex, "Error updating event");
+                StatusMessage = "Error: the event couldn't be updated.";
             }
 
             return RedirectToPage("./Index");

@@ -83,7 +83,7 @@ namespace ForestChurches.Pages.Admin
                     {
                         _mailSender.SendEmailAdminContactRequest(user.UserName, user.Email, Input.Message, Input.Name);
                     }
-                    StatusMessage = "Your message has been sent to all users successfully!";
+                    StatusMessage = "Sent: your message was emailed to every user.";
                 }
                 else
                 {
@@ -96,7 +96,7 @@ namespace ForestChurches.Pages.Admin
                     }
 
                     await _mailSender.SendEmailAdminContactRequest(recipient.UserName, recipient.Email, Input.Message, Input.Name);
-                    StatusMessage = "Your message has been sent successfully!";
+                    StatusMessage = $"Sent: your message was emailed to {recipient.UserName}.";
                 }
             }
             catch (Exception ex)
@@ -106,7 +106,8 @@ namespace ForestChurches.Pages.Admin
                 return Page();
             }
 
-            return Page();
+            // Redirect after a successful send so refreshing the page can't send the email twice.
+            return RedirectToPage();
         }
     }
 }

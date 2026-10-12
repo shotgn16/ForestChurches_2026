@@ -1,50 +1,55 @@
-﻿@page
-@using ForestChurches.Models
+@page
 @model ForestChurches.Pages.Admin.Roles.EditModel
-@inject ForestChurches.Components.Security.Encoder Encoder;
+@inject ForestChurches.Components.Security.Encoder Encoder
 @{
     Layout = "_Admin";
+    ViewData["Title"] = Localizer["FC_ADM_EDIT_PERMISSIONS"];
+    var permissions = (Model.AllPermissions ?? new List<ForestChurches.Models.Permission>()).Where(p => !string.IsNullOrEmpty(p.Id)).OrderBy(p => p.Name).ToList();
+    var granted = Model.Role?.RolePermissions?.Select(rp => rp.PermissionId).ToHashSet() ?? new HashSet<string>();
 }
-<partial name="_StatusMessage" model="Model.StatusMessage" />
 
-<div class="card">
-    <div class="card-header">
-        <h3 class="card-title">Manage Roles | <strong>@Model.Role.Name</strong></h3>
-    </div>
-    <div class="card-body">
-        <form method="post">
-            <!-- AntiforgeryToken -->
-            @Html.AntiForgeryToken()
-
-            <input type="hidden" name="roleId" value="@Encoder.Protect(Model.Role.Id, "fc.data.admin.role")" />
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Permission</th>
-                        <th>Allowed/Disallowed</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @if (Model.AllPermissions != null)
-                    {
-                        foreach (var permission in Model.AllPermissions)
-                        {
-                            <tr>
-                                <td>@permission.Name</td> <!-- Updated to display permission name -->
-                                <td>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="@Encoder.Protect(permission.Id, "fc.data.admin.role")" name="selectedPermissions" id="@permission.Id" checked="@(Model.Role.RolePermissions?.Any(rp => rp.PermissionId == permission.Id) ?? false)">
-                                        <label class="form-check-label" for="@permission.Id"></label> <!-- Updated to use Permission Id for the label 'for' attribute -->
-                                    </div>
-                                </td>
-                                
-                            </tr>
-                        }
-                    }
-                </tbody>
-            </table>
-
-            <button type="submit">Save</button>
-        </form>
+<div class="fc-page-head">
+    <div>
+        <a asp-page="./Index" class="fc-small" style="font-weight: 700">← @Localizer["FC_ADM_ROLES"]</a>
+        <h1 style="margin-top: 6px">@Model.Role?.Name</h1>
+        <p>@Localizer["FC_ADM_PERMISSIONS_LEAD"]</p>
     </div>
 </div>
+
+<partial name="_StatusMessage" model="Model.StatusMessage" />
+
+@if (Model.Role != null)
+{
+    <section class="fc-card">
+        <form method="post" class="fc-stack fc-stack--lg">
+            <input type="hidden" name="roleId" value="@Encoder.Protect(Model.Role.Id, "fc.data.admin.role")" />
+            <fieldset style="border: 0; padding: 0; margin: 0">
+                <legend class="fc-label" style="margin-bottom: 8px">@Localizer["FC_ADM_PERMISSIONS"]</legend>
+                @if (permissions.Count == 0)
+                {
+                    <p class="fc-muted">@Localizer["FC_ADM_NO_PERMISSIONS"]</p>
+                }
+                <div class="fc-switches">
+                    @foreach (var permission in permissions)
+                    {
+                        var inputId = "perm-" + permission.Id;
+                        <label class="fc-switch" for="@inputId">
+                            <span>
+                                @permission.Name
+                                @if (!string.IsNullOrWhiteSpace(permission.Description))
+                                {
+                                    <span class="fc-tiny fc-muted" style="display: block; font-weight: 400">@permission.Description</span>
+                                }
+                            </span>
+                            <input type="checkbox" id="@inputId" name="selectedPermissions" value="@Encoder.Protect(permission.Id, "fc.data.admin.role")" checked="@granted.Contains(permission.Id)" />
+                        </label>
+                    }
+                </div>
+            </fieldset>
+            <div class="fc-btn-row" style="justify-content: flex-end">
+                <a asp-page="./Index" class="fc-btn fc-btn--quiet">@Localizer["FC_CANCEL"]</a>
+                <button type="submit" class="fc-btn fc-btn--primary">@Localizer["FC_SAVE_CHANGES"]</button>
+            </div>
+        </form>
+    </section>
+}

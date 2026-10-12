@@ -1,92 +1,101 @@
-﻿@page
+@page
 @model ForestChurches.Pages.Admin.InviteModel
-@inject ForestChurches.Components.Security.Encoder Encoder;
+@inject ForestChurches.Components.Security.Encoder Encoder
 @{
     Layout = "_Admin";
+    ViewData["Title"] = Localizer["FC_ADM_INVITES"];
+    var invites = (Model.invites ?? new List<ForestChurches.Models.WhitelistedUsers>())
+        .OrderBy(i => i.Status == "Pending" ? 0 : 1).ThenByDescending(i => i.ExpiryDate).ToList();
+    var now = DateTime.UtcNow;
 }
-<head>
-    <link rel="stylesheet" href="~/js/toastr.min.css" integrity="sha256-ENFZrbVzylNbgnXx0n3I1g//2WeO47XxoPe0vkp3NC8=" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" integrity="sha256-teON4y0UnyJj2Gol8NtuY0GOKW9cQvAE8a0Ve1Bi25Y=" href="~/plugins/fontawesome-free/css/all.min.css">
-</head>
 
-<div class="card">
-    <div class="card-header">
-        <h3>Whitelist Email Addresses</h3>
+<div class="fc-page-head">
+    <div>
+        <h1>@Localizer["FC_ADM_INVITES"]</h1>
+        <p>@Localizer["FC_ADM_INVITES_LEAD"]</p>
     </div>
+</div>
 
-    <div class="card-body">
-        <partial name="_StatusMessage" model="Model.StatusMessage" />
-        <form id="registrationInvite" method="post" asp-page-handler="AddWhitelistedUser">
-            <!-- AntiforgeryToken -->
-            @Html.AntiForgeryToken()
+<partial name="_StatusMessage" model="Model.StatusMessage" />
 
-            <div class="input-group mb-3">
-                <input id="emailInput" type="text" class="form-control" placeholder="Email" name="email" required>
-                 <div class="input-group-append">
-                    <button class="btn btn-primary" type="submit">Whitelist User</button>
-                 </div>
-            </div>
-        </form>
+<section class="fc-card" aria-labelledby="invite-h">
+    <h2 id="invite-h" class="fc-h3" style="margin-bottom: 12px">@Localizer["FC_ADM_INVITE_CHURCH"]</h2>
+    <form id="registrationInvite" method="post" asp-page-handler="AddWhitelistedUser" class="fc-inline-form">
+        <div class="fc-field">
+            <label class="fc-label" for="emailInput">@Localizer["LOGIN_EMAIL_LABEL"]</label>
+            <input id="emailInput" type="email" class="fc-input" name="email" autocomplete="off" aria-describedby="invite-hint" required />
+        </div>
+        <button class="fc-btn fc-btn--primary" type="submit">@Localizer["FC_ADM_SEND_INVITE"]</button>
+    </form>
+    <p class="fc-hint" id="invite-hint" style="margin-top: 10px">@Localizer["FC_ADM_INVITE_HINT"]</p>
+</section>
 
-        <div class="table-responsive">
-            <table id="InviteTable" class="table table-bordered table-striped">
+<section class="fc-card fc-card--flush" aria-labelledby="invites-h">
+    <div class="fc-card__head">
+        <h2 id="invites-h" class="fc-h3">@Localizer["FC_ADM_INVITE_LIST"]</h2>
+        <span class="fc-small fc-muted">@Localizer["FC_ADM_N_INVITES", invites.Count]</span>
+    </div>
+    @if (invites.Count == 0)
+    {
+        <p class="fc-muted" style="padding: 0 22px 22px">@Localizer["FC_ADM_NO_INVITES"]</p>
+    }
+    else
+    {
+        <div class="fc-table-wrap">
+            <table class="fc-table fc-table--admin fc-table--stack">
                 <thead>
                     <tr>
-                        <th>ID</th>
-                        <th>Status</th>
-                        <th>Email</th>
-                        <th>Invite Expiry</th>
-                        <th>RegistrationDate</th>
-                        <th>Delete</th>
-                        <th>Resend</th>
+                        <th scope="col">@Localizer["LOGIN_EMAIL_LABEL"]</th>
+                        <th scope="col">@Localizer["FC_ADM_STATUS"]</th>
+                        <th scope="col">@Localizer["FC_ADM_LINK_EXPIRES"]</th>
+                        <th scope="col">@Localizer["FC_ADM_REGISTERED"]</th>
+                        <th scope="col"><span class="fc-sr-only">@Localizer["FC_ADM_ACTIONS"]</span></th>
                     </tr>
                 </thead>
                 <tbody>
-                    @if (Model.invites.Count >= 1)
+                    @foreach (var invite in invites)
                     {
-                        @foreach (var invite in Model.invites)
-                        {
-                            <tr>
-                                <td>@Encoder.HtmlEncode(invite.ID)</td>
-                                <td>@Encoder.HtmlEncode(invite.Status)</td>
-                                <td>@Encoder.HtmlEncode(invite.Email)</td>
-                                <td>@Encoder.HtmlEncode(invite.ExpiryDate)</td>
-                                <td>@Encoder.HtmlEncode(invite.DateOfRegistration)</td>
-                                <td>
-                                    <form method="post" asp-page-handler="RemoveWhitelistedUser">
-                                        <!-- AntiforgeryToken -->
-                                        @Html.AntiForgeryToken()
-
-                                        <input type="hidden" name="email" value="@Encoder.Protect(invite.Email, "fc.data.admin.invite")" />
-                                        <button class="btn btn-danger" type="submit">Delete</button>
-                                    </form>
-                                </td>
-                                <td>
-                                    @if (invite.Status == "Pending") {
+                        var protectedEmail = Encoder.Protect(invite.Email, "fc.data.admin.invite");
+                        var pending = invite.Status == "Pending";
+                        var expired = pending && invite.ExpiryDate < now;
+                        var registered = invite.DateOfRegistration > DateTime.MinValue.AddYears(1);
+                        <tr>
+                            <td class="fc-break"><strong>@invite.Email</strong></td>
+                            <td data-label="@Localizer["FC_ADM_STATUS"]">
+                                @if (!pending)
+                                {
+                                    <span class="fc-badge fc-badge--ok">@Localizer["FC_ADM_INVITE_COMPLETE"]</span>
+                                }
+                                else if (expired)
+                                {
+                                    <span class="fc-badge fc-badge--danger">@Localizer["FC_ADM_INVITE_EXPIRED"]</span>
+                                }
+                                else
+                                {
+                                    <span class="fc-badge fc-badge--warn">@Localizer["FC_ADM_INVITE_PENDING"]</span>
+                                }
+                            </td>
+                            <td data-label="@Localizer["FC_ADM_LINK_EXPIRES"]" class="fc-nowrap">@(pending ? ForestChurches.Components.Ui.FcText.UkDateTime(invite.ExpiryDate) : "—")</td>
+                            <td data-label="@Localizer["FC_ADM_REGISTERED"]" class="fc-nowrap">@(registered ? ForestChurches.Components.Ui.FcText.UkDateTime(invite.DateOfRegistration, "d MMM yyyy") : "—")</td>
+                            <td>
+                                <div class="fc-actions">
+                                    @if (pending)
+                                    {
                                         <form method="post" asp-page-handler="ResendInvite">
-                                            <!-- AntiforgeryToken -->
-                                            @Html.AntiForgeryToken()
-
-                                            <input type="hidden" name="email" value="@Encoder.Protect(invite.Email, "fc.data.admin.invite")" />
-                                            <button class="btn btn-primary" type="submit">Resend Register Invite</button>
+                                            <input type="hidden" name="email" value="@protectedEmail" />
+                                            <button class="fc-btn fc-btn--quiet fc-btn--sm" type="submit">@Localizer["FC_ADM_RESEND"]<span class="fc-sr-only"> @invite.Email</span></button>
                                         </form>
                                     }
-
-                                    else if (invite.Status == "Completed") {
-                                        <p>Registration Complete</p>
-                                    }
-                                </td>
-                            </tr>
-                        }
+                                    <form method="post" asp-page-handler="RemoveWhitelistedUser" data-fc-confirm="@Localizer["FC_ADM_CONFIRM_REMOVE_INVITE", invite.Email]">
+                                        <input type="hidden" name="email" value="@protectedEmail" />
+                                        <button class="fc-btn fc-btn--danger-outline fc-btn--sm" type="submit">@Localizer["FC_ADM_REMOVE"]<span class="fc-sr-only"> @invite.Email</span></button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
                     }
                 </tbody>
             </table>
         </div>
-
-    </div>
-</div>
-
-@section scripts {
-    <script src="~/js/32ff283d61.js" integrity="sha256-evmo5cYqZcNqcrajWANz/dV3fnm432TOBqs/UDh7+UE="></script>
-    <script src="~/js/toastr.min.js" integrity="sha256-3blsJd4Hli/7wCQ+bmgXfOdK7p/ZUMtPXY08jmxSSgk=" referrerpolicy="no-referrer"></script>
-}
+    }
+</section>

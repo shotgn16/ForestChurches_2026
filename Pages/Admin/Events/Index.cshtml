@@ -1,120 +1,111 @@
-﻿@page
+@page
 @model ForestChurches.Pages.Admin.Events.IndexModel
-@inject ForestChurches.Components.Security.Encoder _Encoder;
+@using ForestChurches.Components.Ui
+@inject ForestChurches.Components.Security.Encoder Encoder
+@inject ForestChurches.Components.Storage.IBlobUrlService BlobUrlService
 @{
     Layout = "_Admin";
+    ViewData["Title"] = Localizer["FC_ADM_EVENTS"];
+    var today = DateOnly.FromDateTime(DateTime.Today);
+    var all = Model.Events ?? new List<ForestChurches.Models.EventsModel>();
+    var groups = new (string Id, string TitleKey, List<ForestChurches.Models.EventsModel> Items)[]
+    {
+        ("upcoming", "FC_UPCOMING_EVENTS", all.Where(e => e.Date >= today).OrderBy(e => e.Date).ThenBy(e => e.StartTime).ToList()),
+        ("past", "FC_ADM_PAST_EVENTS", all.Where(e => e.Date < today).OrderByDescending(e => e.Date).ThenBy(e => e.StartTime).ToList()),
+    };
+
+    string? Thumb(ForestChurches.Models.EventsModel e)
+    {
+        if (!string.IsNullOrEmpty(e.ImageBlobName)) return BlobUrlService.GetReadSasUrl(e.ImageBlobName, TimeSpan.FromHours(1));
+        return e.ImageArray is { Length: > 1 } ? "data:image;base64," + Convert.ToBase64String(e.ImageArray) : null;
+    }
+
+    static bool HasLink(string? link) => Uri.TryCreate(link, UriKind.Absolute, out var u) && (u.Scheme == "http" || u.Scheme == "https");
 }
-<partial name="_StatusMessage" model="Model.StatusMessage" />
-<style nonce="@HttpContextAccessor.HttpContext?.Items["CSP-Style-Nonce"]">
-    img {
-        width: 100%;
-    }
 
-    /* Prevent the ChurchSuite logo from inheriting the global img rule */
-    .churchsuite-img {
-        all: unset;
-        display: inline-block;
-        height: 52px;
-        width: auto;
-    }
-
-    #eventLink {
-        word-wrap: anywhere;
-    }
-</style>
-
-<div class="card">
-    <div class="card-header">
-        <h3 class="card-title">Registered Events</h3>
+<div class="fc-page-head">
+    <div>
+        <h1>@Localizer["FC_ADM_EVENTS"]</h1>
+        <p>@Localizer["FC_ADM_EVENTS_LEAD"]</p>
     </div>
-    <!-- /.card-header -->
-    <div class="card-body">
-        <form id="createUserForm" method="get" asp-page="/Admin/Events/Create">
-            <!-- AntiforgeryToken -->
-            @Html.AntiForgeryToken()
-            <!-- Add Seperator Line -->
-            <div class="input-group mb-3">
-                <input id="nameInput" type="text" class="form-control" placeholder="Event Name" name="eventName" required>
-                <div class="input-group-append">
-                    <button class="btn btn-primary" type="submit">Create Event</button>
-                </div>
-            </div>
-        </form>
-        <div class="table-responsive">
-            <table id="example1" class="table table-bordered table-striped">
-                <thead>
-                    <tr>
-                        <th>Profile</th>
-                        <th>Name</th>
-                        <th>Description</th>
-                        <th>Address</th>
-                        <th>Date</th>
-                        <th>Time</th>
-                        <th>Repeats</th>
-                        <th>Church</th>
-                        <th>User</th>
-                        <th>Link</th>
-                        <th>Edit</th>
-                        <th>Delete</th>
-                        <th>Download</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @if (Model.Events.GetType() != null && Model.Events.Count >= 1)
-                    {
-                        @foreach (var ChurchEvent in Model.Events)
+    <a asp-page="/Admin/Events/Create" class="fc-btn fc-btn--primary">+ @Localizer["FC_ADD_EVENT"]</a>
+</div>
+
+<partial name="_StatusMessage" model="Model.StatusMessage" />
+
+@foreach (var (id, titleKey, items) in groups)
+{
+    <section class="fc-card fc-card--flush" aria-labelledby="@id-h">
+        <div class="fc-card__head">
+            <h2 id="@id-h" class="fc-h3">@Localizer[titleKey]</h2>
+            <span class="fc-small fc-muted">@Localizer["FC_EVENT_COUNT", items.Count]</span>
+        </div>
+        @if (items.Count == 0)
+        {
+            <p class="fc-muted" style="padding: 0 22px 22px">@Localizer["FC_ADM_NO_EVENTS"]</p>
+        }
+        else
+        {
+            <div class="fc-table-wrap">
+                <table class="fc-table fc-table--admin fc-table--stack">
+                    <thead>
+                        <tr>
+                            <th scope="col">@Localizer["FC_EVENT_NAME"]</th>
+                            <th scope="col">@Localizer["FC_ADM_WHEN"]</th>
+                            <th scope="col">@Localizer["FC_ADM_CHURCH"]</th>
+                            <th scope="col"><span class="fc-sr-only">@Localizer["FC_ADM_ACTIONS"]</span></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var e in items)
                         {
+                            var protectedId = Encoder.Protect(e.ID, "fc.data.admin.events");
+                            var name = FcText.PlainText(e.Name);
+                            var thumb = Thumb(e);
+                            var repeats = string.IsNullOrWhiteSpace(e.Repeats) || e.Repeats is "None" or "No" ? null : FcText.PlainText(e.Repeats);
                             <tr>
-                                <td><img width="100px" src="data:image;base64,@System.Convert.ToBase64String(ChurchEvent.ImageArray)" /></td>
-                                <td>@ChurchEvent.Name</td>
-                                <td>@ChurchEvent.Description</td>
-                                <td>@ChurchEvent.Address</td>
-                                <td>@ChurchEvent.Date</td>
-                                <td>@ChurchEvent.StartTime - @ChurchEvent.EndTime</td>
-                                <td>@ChurchEvent.Repeats</td>
-                                <td>@ChurchEvent.Church</td>
-                                <td>@ChurchEvent.User</td>
-                                <td id="eventLink" class="textarea"><a href="@ChurchEvent.Link ?? string.empty">@ChurchEvent.Link</a></td>
                                 <td>
-                                    <form method="post">
-                                        <!-- AntiforgeryToken -->
-                                        @Html.AntiForgeryToken()
-                                        <input type="hidden" name="userName" value="@_Encoder.Protect(@ChurchEvent.ID, "fc.data.admin.events")" />
-                                        <a asp-page="Edit" asp-route-id="@_Encoder.Protect(@ChurchEvent.ID, "fc.data.admin.events")" class="btn btn-primary">Edit</a>
-                                    </form>
+                                    <div class="fc-who">
+                                        @if (thumb != null)
+                                        {
+                                            <img class="fc-thumb" src="@thumb" alt="" width="64" height="48" loading="lazy" />
+                                        }
+                                        <div style="min-width: 0">
+                                            <strong>@name</strong>
+                                            <span class="fc-tiny fc-muted" style="display: block">@FcText.Excerpt(e.Address, 80)</span>
+                                            @if (HasLink(e.Link))
+                                            {
+                                                <a href="@e.Link" class="fc-tiny fc-break" rel="noopener" target="_blank">@(new Uri(e.Link).Host)</a>
+                                            }
+                                        </div>
+                                    </div>
+                                </td>
+                                <td data-label="@Localizer["FC_ADM_WHEN"]">
+                                    <span class="fc-nowrap">@e.Date.ToString("ddd d MMM yyyy")</span>
+                                    <span class="fc-small fc-muted" style="display: block">@FcText.TimeRange(e.StartTime, e.EndTime)@(repeats == null ? "" : " · " + repeats)</span>
+                                </td>
+                                <td data-label="@Localizer["FC_ADM_CHURCH"]">
+                                    @FcText.PlainText(e.Church)
+                                    <span class="fc-tiny fc-muted fc-break" style="display: block">@e.User</span>
                                 </td>
                                 <td>
-                                    <form method="post" asp-page-handler="DeleteEvent">
-                                        <!-- AntiforgeryToken -->
-                                        @Html.AntiForgeryToken()
-                                        <input type="hidden" name="value" value="@_Encoder.Protect(@ChurchEvent.ID, "fc.data.admin.events")" />
-                                        <button class="btn btn-danger" type="submit" onclick="return confirmAction('Are you sure you want to delete the following event', '@_Encoder.HtmlEncode(ChurchEvent.Name)')">Delete</button>
-                                    </form>
-                                </td>
-                                <td>
-                                    <form method="post" asp-page-handler="DownloadEvent">
-                                        <!-- AntiforgeryToken -->
-                                        @Html.AntiForgeryToken()
-                                        <input type="hidden" name="value" value="@_Encoder.Protect(@ChurchEvent.ID, "fc.data.admin.events")" />
-                                        <button class="btn btn-success" type="submit">Download</button>
-                                    </form>
+                                    <div class="fc-actions">
+                                        <a asp-page="Edit" asp-route-id="@protectedId" class="fc-btn fc-btn--quiet fc-btn--sm">@Localizer["FC_EDIT"]<span class="fc-sr-only"> @name</span></a>
+                                        <form method="post" asp-page-handler="DownloadEvent">
+                                            <input type="hidden" name="value" value="@protectedId" />
+                                            <button class="fc-btn fc-btn--quiet fc-btn--sm" type="submit">@Localizer["FC_ADM_DOWNLOAD"]<span class="fc-sr-only"> @name</span></button>
+                                        </form>
+                                        <form method="post" asp-page-handler="DeleteEvent" data-fc-confirm="@Localizer["FC_CONFIRM_DELETE_EVENT", name]">
+                                            <input type="hidden" name="value" value="@protectedId" />
+                                            <button class="fc-btn fc-btn--danger-outline fc-btn--sm" type="submit">@Localizer["FC_DELETE"]<span class="fc-sr-only"> @name</span></button>
+                                        </form>
+                                    </div>
                                 </td>
                             </tr>
                         }
-                    }
-                </tbody>
-            </table>
-        </div>
-
-        <br />
-        <!-- TODO: Create User Botton Here -->
-    </div>
-    <!-- /.card-body -->
-</div>
-
-@section Scripts {
-    <script src="~/js/confirmAction.js" integrity="sha256-13abFd38m2wExaGaZ4Rbp/RfbBi3xlkvuyUIkSavT/4="></script>
+                    </tbody>
+                </table>
+            </div>
+        }
+    </section>
 }
-
-@* Bulletin notify for admin events page *@
-@await Html.PartialAsync("_BulletinNotify")

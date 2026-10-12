@@ -1,5 +1,6 @@
 using ForestChurches.Data;
 using ForestChurches.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
@@ -9,6 +10,8 @@ using System.Linq;
 
 namespace ForestChurches.Pages.Admin.Church
 {
+    // Previously had no [Authorize]: the church list and its reset/download handlers were public.
+    [Authorize(Policy = "Admin.Read")]
     public class IndexModel : PageModel
     {
         private ForestChurchesContext _context;
@@ -56,7 +59,7 @@ namespace ForestChurches.Pages.Admin.Church
                     if (churchToReset == null)
                     {
                         _logger.LogError($"Church ({_Encoder.Unprotect<string>(value, "fc.data.admin.church")}) not found...");
-                        StatusMessage = $"Error! We we're unable to load the ChurchID ({value})";
+                        StatusMessage = "Error: that church no longer exists.";
                         return RedirectToPage();
                     }
 
@@ -78,13 +81,13 @@ namespace ForestChurches.Pages.Admin.Church
                     _context.ChurchInformation.Update(churchToReset);
                     await _context.SaveChangesAsync().ConfigureAwait(true);
 
-                    StatusMessage = $"Success! The Church ({value}) was successfully reset";
+                    StatusMessage = $"Saved: the listing was reset to defaults and hidden from search.";
                 }
             }
             catch (Exception ex)
             {
                 _logger.LogError($"Error resetting church: {ex.Message}");
-                StatusMessage = $"Error! We are unable to reset the church to default";
+                StatusMessage = "Error: the church couldn't be reset.";
             }
 
             return RedirectToPage();
