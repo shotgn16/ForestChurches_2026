@@ -1,23 +1,24 @@
-﻿@page
+@page
 @model LogoutModel
 @{
-    ViewData["Title"] = "Log out";
+    ViewData["Title"] = Localizer["NAV_LOGOUT"];
+    var signedIn = User.Identity?.IsAuthenticated ?? false;
 }
-
-<header>
-    <h1>@ViewData["Title"]</h1>
-    @{
-        if (User.Identity?.IsAuthenticated ?? false)
+<div class="fc-auth__form" style="flex: 1 0 auto; padding-top: 64px; padding-bottom: 64px">
+    <div class="fc-auth__box fc-auth__box--card">
+        <span class="fc-icon-tile fc-icon-tile--ok" aria-hidden="true"><svg class="fc-icon" style="width: 26px; height: 26px" viewBox="0 0 24 24"><path d="M5 12l5 5 9-10"></path></svg></span>
+        <h1 style="font-size: 30px">@(signedIn ? Localizer["NAV_LOGOUT"] : Localizer["FC_SIGNED_OUT"])</h1>
+        @if (signedIn)
         {
-            <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/", new { area = "" })" method="post">
-                <button type="submit" class="nav-link btn btn-link text-dark">Click here to Logout</button>
-                <!-- AntiforgeryToken -->
-                @Html.AntiForgeryToken()
+            <p class="fc-muted">@Localizer["FC_SIGN_OUT_CONFIRM"]</p>
+            <form asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/Index", new { area = "" })" method="post">
+                <button type="submit" class="fc-btn fc-btn--primary fc-btn--block">@Localizer["NAV_LOGOUT"]</button>
             </form>
         }
         else
         {
-            <p>You have successfully logged out of the application.</p>
+            <p class="fc-muted">@Localizer["FC_SIGNED_OUT_TEXT"]</p>
+            <a asp-area="" asp-page="/Index" class="fc-btn fc-btn--primary">@Localizer["FC_BACK_TO_SITE"]</a>
         }
-    }
-</header>
+    </div>
+</div>

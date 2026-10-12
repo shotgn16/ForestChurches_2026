@@ -1,43 +1,20 @@
-﻿@page
+@page
 @model RegisterConfirmationModel
 @{
-    ViewData["Title"] = "Register confirmation";
+    ViewData["Title"] = Localizer["FC_CHECK_INBOX"];
 }
-<head>
-    <link rel="stylesheet" href="~/css2/profile.css" asp-append-version="true" />
-    <link rel="stylesheet" integrity="sha256-EpEWU9eO/22A4h2K+m4PqmuwZfX72coUGoOLZLyncBA=" href="~/css2/Footer.css" asp-append-version="true" />
-</head>
-<style nonce="@HttpContextAccessor.HttpContext?.Items["CSP-Style-Nonce"]">
-    .h1, h1 {
-        text-align: center;
-    }
-
-    section {
-        padding-top: calc(10.0rem + 1.0vw);
-        text-align: center;
-        top: 50%;
-        bottom: 50%;
-        inline-size: fit-content;
-        vertical-align: central;
-    }
-</style>
-
-<section>
-    <img alt="Task completed" src="~/img/check.png" />
-    <h1>@ViewData["Title"]</h1>
-    @{
-        if (@Model.DisplayConfirmAccountLink)
+<div class="fc-auth__form" style="flex: 1 0 auto; padding-top: 64px; padding-bottom: 64px">
+    <div class="fc-auth__box fc-auth__box--card">
+        <span class="fc-icon-tile fc-icon-tile--ok" aria-hidden="true"><svg class="fc-icon" style="width: 26px; height: 26px" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"></rect><path d="M3 7l9 6 9-6"></path></svg></span>
+        <h1 style="font-size: 30px">@Localizer["FC_CHECK_INBOX"]</h1>
+        @if (Model.DisplayConfirmAccountLink)
         {
-            <p>
-                This app does not currently have a real email sender registered, see <a href="https://aka.ms/aspaccountconf">these docs</a> for how to configure a real email sender.
-                Normally this would be emailed: <a id="confirm-link" href="@Model.EmailConfirmationUrl">Click here to confirm your account</a>
-            </p>
+            <p class="fc-muted">@Localizer["FC_CONFIRM_LINK_DEV"]</p>
+            <a id="confirm-link" href="@Model.EmailConfirmationUrl" class="fc-btn fc-btn--primary">@Localizer["FC_CONFIRM_ACCOUNT"]</a>
         }
         else
         {
-            <p>
-                Please check your email to confirm your account.
-            </p>
+            <p class="fc-muted">@Localizer["FC_CONFIRM_EMAIL_SENT"]</p>
         }
-    }
-</section>
+    </div>
+</div>

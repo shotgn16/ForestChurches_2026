@@ -1,12 +1,19 @@
-﻿@page
+@page
 @model DownloadPersonalDataModel
 @{
-    ViewData["Title"] = "Download Your Data";
+    ViewData["Title"] = Localizer["FC_DOWNLOAD_YOUR_DATA"];
     ViewData["ActivePage"] = ManageNavPages.PersonalData;
 }
 
-<h3>@Html.Encode(ViewData["Title"])</h3>
-
-@section Scripts {
-    <partial name="_ValidationScriptsPartial" />
-}
+<div class="fc-page-head">
+    <div>
+        <h1>@Localizer["FC_DOWNLOAD_YOUR_DATA"]</h1>
+        <p>@Localizer["FC_DOWNLOAD_YOUR_DATA_TEXT"]</p>
+    </div>
+</div>
+<section class="fc-card">
+    <form method="post" class="fc-btn-row">
+        <button class="fc-btn fc-btn--primary" type="submit">@Localizer["FC_DOWNLOAD"]</button>
+        <a asp-page="./PersonalData" class="fc-btn fc-btn--quiet">@Localizer["FC_CANCEL"]</a>
+    </form>
+</section>

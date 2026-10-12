@@ -1,66 +1,41 @@
-﻿@page
+@page
 @model ExternalLoginModel
-@inject Microsoft.Extensions.Localization.IStringLocalizer<Program> Localizer;
 @{
     ViewData["Title"] = Localizer["RegisterTitle"];
 }
 
-@* Bulletin notify for External Login page *@
-
-<head>
-    <link rel="stylesheet" href="~/css2/Login.css" asp-append-version="true" />
-</head>
-
-<body class="container text-center">
-    <form asp-page-handler="Confirmation" asp-route-returnUrl="@Model.ReturnUrl" asp-route-token="@Model.Token" method="post" class="form-signin mx-auto" style="max-width:420px;margin-top:2rem;">
-        @Html.AntiForgeryToken()
-
-        <img class="mb-4" src="~/img/logo.png" alt="Forest Churches" width="300" height="200" />
-
-        <h1 class="h3 mb-3 font-weight-normal">@Localizer["RegisterWith", Model.ProviderDisplayName]</h1>
-        <p class="text-muted">You've authenticated with <strong>@Model.ProviderDisplayName</strong>. Enter the email you want to use for this site to complete registration.</p>
-
-        <div asp-validation-summary="ModelOnly" class="text-danger mb-2"></div>
-
-        <div class="mb-3">
-            <label asp-for="Input.Email" class="sr-only">Email address</label>
-            <input asp-for="Input.Email" type="email" autocomplete="on" class="form-control" placeholder="Email address" required autofocus />
-            <span asp-validation-for="Input.Email" class="text-danger"></span>
+<div class="fc-auth__form" style="flex: 1 0 auto; padding-top: 64px; padding-bottom: 64px">
+    <div class="fc-auth__box fc-auth__box--card">
+        <div class="fc-stack" style="gap: 6px">
+            <h1 style="font-size: 30px">@Localizer["RegisterWith"] @Model.ProviderDisplayName</h1>
+            <p class="fc-muted">@Localizer["FC_EXTERNAL_LEAD", Model.ProviderDisplayName ?? "ChurchSuite"]</p>
         </div>
-
-        <div class="mb-3">
-            <label asp-for="Input.Password" class="sr-only">Password</label>
-            <input asp-for="Input.Password" type="password" autocomplete="new-password" class="form-control" placeholder="Password (min 12 chars, include a non-alphanumeric character)" required />
-            <small class="form-text text-muted">Password must be at least 12 characters and include at least one non-alphanumeric character (e.g. !@@#$%).</small>
-            <span asp-validation-for="Input.Password" class="text-danger"></span>
-        </div>
-
-        <div class="mb-3">
-            <label asp-for="Input.ConfirmPassword" class="sr-only">Confirm password</label>
-            <input asp-for="Input.ConfirmPassword" type="password" autocomplete="new-password" class="form-control" placeholder="Confirm password" required />
-            <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
-        </div>
-
-        <div class="form-container d-flex gap-2">
-            <button id="external-register" type="submit" class="half-width w-100 btn btn-lg btn-success btn-block">Register</button>
-            <a id="link-churchsuite" class="btn btn-outline-secondary half-width w-100" href="javascript:void(0);">Sign in with ChurchSuite</a>
-        </div>
-
-        <p class="mt-3">
-            <a asp-page="./Login">Back to login</a>
-        </p>
-    </form>
-</body>
+        <form asp-page-handler="Confirmation" asp-route-returnUrl="@Model.ReturnUrl" asp-route-token="@Model.Token" method="post" class="fc-stack">
+            <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+            <div class="fc-field">
+                <label class="fc-label" asp-for="Input.Email">@Localizer["LOGIN_EMAIL_LABEL"]</label>
+                <input class="fc-input" asp-for="Input.Email" type="email" autocomplete="email" required autofocus />
+                <span asp-validation-for="Input.Email" class="text-danger"></span>
+            </div>
+            <div class="fc-field">
+                <label class="fc-label" asp-for="Input.Password">@Localizer["LOGIN_PASSWORD_LABEL"]</label>
+                <input class="fc-input" asp-for="Input.Password" type="password" autocomplete="new-password" required aria-describedby="ext-pw-hint" />
+                <span id="ext-pw-hint" class="fc-hint">@Localizer["FC_PASSWORD_RULES"]</span>
+                <span asp-validation-for="Input.Password" class="text-danger"></span>
+            </div>
+            <div class="fc-field">
+                <label class="fc-label" asp-for="Input.ConfirmPassword">@Localizer["FC_CONFIRM_PASSWORD"]</label>
+                <input class="fc-input" asp-for="Input.ConfirmPassword" type="password" autocomplete="new-password" required />
+                <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+            </div>
+            <button id="external-register" type="submit" class="fc-btn fc-btn--primary fc-btn--lg fc-btn--block">@Localizer["FC_CREATE_ACCOUNT"]</button>
+        </form>
+        <div class="fc-or">@Localizer["FC_OR"]</div>
+        <a id="link-churchsuite" class="fc-btn fc-btn--outline fc-btn--block" href="/churchsuite/login-pkce?redirect_uri=@Uri.EscapeDataString(Model.ReturnUrl ?? "/")">@Localizer["FC_SIGN_IN_WITH", "ChurchSuite"]</a>
+        <a asp-page="./Login" class="fc-small" style="font-weight: 700">← @Localizer["FC_BACK_TO_LOGIN"]</a>
+    </div>
+</div>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
-    <script>
-        // When user clicks 'Sign in with ChurchSuite', initiate PKCE flow
-        document.getElementById('link-churchsuite').addEventListener('click', function (e) {
-            e.preventDefault();
-            // Redirect to PKCE login endpoint with return URL
-            var returnUrl = document.querySelector('input[name="ReturnUrl"]')?.value || '/';
-            window.location.href = '/churchsuite/login-pkce?redirect_uri=' + encodeURIComponent(returnUrl);
-        });
-    </script>
 }

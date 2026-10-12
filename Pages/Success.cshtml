@@ -1,18 +1,14 @@
-﻿@page
+@page
 @model ForestChurches.Pages.SuccessModel
-@inject ForestChurches.Components.Security.Encoder Encoder;
 @{
-    ViewData["Title"] = Encoder.HtmlEncode(Model.SuccessInfo.SuccessTitle); // Set the page title
+    ViewData["Title"] = Model.SuccessInfo?.SuccessTitle;
 }
 
-<style nonce="@HttpContextAccessor.HttpContext?.Items["CSP-Style-Nonce"]">
-    main {
-        background-color: #00AD6A;
-    }
-</style>
-
-<div class="success-container">
-    <h1 class="success-title">@Encoder.UrlEncode(Model.SuccessInfo.SuccessTitle)</h1>
-    <p class="success-message">@Encoder.UrlEncode(Model.SuccessInfo.SuccessMessage)</p>
-    <a asp-page="./Index" class="back-to-home">@Localizer["SUCCESS_BACK_TO_HOME"]</a>
+<div class="fc-auth__form" style="flex: 1 0 auto; padding-top: 64px; padding-bottom: 64px">
+    <div class="fc-auth__box fc-auth__box--card" role="status">
+        <span class="fc-icon-tile fc-icon-tile--ok" aria-hidden="true"><svg class="fc-icon" style="width: 28px; height: 28px" viewBox="0 0 24 24"><path d="M5 12l5 5 9-10"></path></svg></span>
+        <h1 style="font-size: 30px">@Model.SuccessInfo?.SuccessTitle</h1>
+        <p class="fc-lead" style="font-size: 17px">@Model.SuccessInfo?.SuccessMessage</p>
+        <a asp-page="/Index" class="fc-btn fc-btn--primary">@Localizer["SUCCESS_BACK_TO_HOME"]</a>
+    </div>
 </div>

@@ -1,39 +1,14 @@
-﻿@page
+@page
 @model ConfirmEmailChangeModel
-@inject ForestChurches.Components.Security.Encoder Encoder;
 @{
-    ViewData["Title"] = "Confirm email change";
+    var failed = (Model?.StatusMessage ?? string.Empty).Contains("Error", StringComparison.OrdinalIgnoreCase);
+    ViewData["Title"] = failed ? Localizer["FC_CONFIRM_FAILED"] : Localizer["FC_EMAIL_CHANGED"];
 }
-<head>
-    <link rel="stylesheet" href="~/css2/profile.css" asp-append-version="true" />
-    <link rel="stylesheet" integrity="sha256-EpEWU9eO/22A4h2K+m4PqmuwZfX72coUGoOLZLyncBA=" href="~/css2/Footer.css" asp-append-version="true" />
-</head>
-
-<style nonce="@HttpContextAccessor.HttpContext?.Items["CSP-Style-Nonce"]">
-    .h1, h1 {
-    text-align: center;
-    }
-
-    section {
-    padding-top: calc(10.0rem + 1.0vw);
-    text-align: center;
-    top: 50%;
-    bottom: 50%;
-    inline-size: fit-content;
-    vertical-align: central;
-    }
-</style>
-
-<section>
-    @{
-        if (Model.StatusMessage.Contains("Error")) {
-                <img alt="Forest Churches" src="~/img/cross.png" />
-        }
-
-        else if (!Model.StatusMessage.Contains("Error")) {
-            <img alt="Forest Churches" src="~/img/check.png" />
-        }
-    }
-    <h1>@Encoder.HtmlEncode(ViewData["Title"].ToString())</h1>
-    <partial name="_StatusMessage" model="Model.StatusMessage" />
-</section>
+<div class="fc-auth__form" style="flex: 1 0 auto; padding-top: 64px; padding-bottom: 64px">
+    <div class="fc-auth__box fc-auth__box--card">
+        <span class="fc-icon-tile @(failed ? "" : "fc-icon-tile--ok")" aria-hidden="true"><svg class="fc-icon" style="width: 26px; height: 26px" viewBox="0 0 24 24"><path d="@(failed ? "M6 6l12 12M18 6L6 18" : "M5 12l5 5 9-10")"></path></svg></span>
+        <h1 style="font-size: 30px">@(failed ? Localizer["FC_CONFIRM_FAILED"] : Localizer["FC_EMAIL_CHANGED"])</h1>
+        <partial name="_StatusMessage" model="Model.StatusMessage" />
+        <a asp-page="./Manage/Index" class="fc-btn fc-btn--primary">@Localizer["NAV_LABEL_PROFILE"]</a>
+    </div>
+</div>

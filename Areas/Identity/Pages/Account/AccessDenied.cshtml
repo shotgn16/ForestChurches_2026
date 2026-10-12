@@ -1,11 +1,16 @@
-﻿@page
+@page
 @model AccessDeniedModel
 @{
-    ViewData["Title"] = "Access denied";
+    ViewData["Title"] = Localizer["FC_ACCESS_DENIED"];
 }
-<div class="container-fluid accessDenied">
-    <h1 class="title">@Html.Encode(ViewData["Title"])!</h1>
-    <p class="message">You do not have access to this resource.</p>
-    <p class="submessage">Please login and try again...<br />If the issue continues, please use reach out to us using our <a href="">Contact Us</a> page</p>
-    <a asp-page="../Index" class="btn btn-success back-to-home">Back to Home</a>
+<div class="fc-auth__form" style="flex: 1 0 auto; padding-top: 64px; padding-bottom: 64px">
+    <div class="fc-auth__box fc-auth__box--card">
+        <span class="fc-icon-tile" aria-hidden="true"><svg class="fc-icon" style="width: 26px; height: 26px" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"></path></svg></span>
+        <h1 style="font-size: 30px">@Localizer["FC_ACCESS_DENIED"]</h1>
+        <p class="fc-muted">@Localizer["FC_ACCESS_DENIED_TEXT"]</p>
+        <div class="fc-btn-row">
+            <a asp-page="./Login" class="fc-btn fc-btn--primary">@Localizer["FC_SIGN_IN"]</a>
+            <a asp-area="" asp-page="/Contact" class="fc-btn fc-btn--quiet">@Localizer["NAV_CONTACT"]</a>
+        </div>
+    </div>
 </div>

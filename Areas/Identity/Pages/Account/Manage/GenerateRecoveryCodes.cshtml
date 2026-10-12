@@ -1,29 +1,26 @@
-﻿@page
+@page
 @model GenerateRecoveryCodesModel
 @{
-    ViewData["Title"] = "Generate two-factor authentication (2FA) recovery codes";
+    ViewData["Title"] = Localizer["FC_NEW_RECOVERY_CODES"];
     ViewData["ActivePage"] = ManageNavPages.TwoFactorAuthentication;
 }
 
+<div class="fc-page-head">
+    <div>
+        <a asp-page="./TwoFactorAuthentication" class="fc-small" style="font-weight: 700">← @Localizer["TITLE_TWO_FACTOR_AUTHENTICATION"]</a>
+        <h1 style="margin-top: 6px">@Localizer["FC_NEW_RECOVERY_CODES"]</h1>
+    </div>
+</div>
+
 <partial name="_StatusMessage" for="StatusMessage" />
-<h3>@ViewData["Title"]</h3>
-<div class="alert alert-warning" role="alert">
-    <p>
-        <span class="glyphicon glyphicon-warning-sign"></span>
-        <strong>Put these codes in a safe place.</strong>
-    </p>
-    <p>
-        If you lose your device and don't have the recovery codes you will lose access to your account.
-    </p>
-    <p>
-        Generating new recovery codes does not change the keys used in authenticator apps. If you wish to change the key
-        used in an authenticator app you should <a asp-page="./ResetAuthenticator">reset your authenticator keys.</a>
-    </p>
-</div>
-<div>
-    <form method="post">
-        <button class="btn btn-danger" type="submit">Generate Recovery Codes</button>
-        <!-- AntiforgeryToken -->
-        @Html.AntiForgeryToken()
+
+<section class="fc-card fc-stack" style="gap: 14px">
+    <div class="fc-alert fc-alert--warn" role="alert">
+        <strong>@Localizer["FC_CODES_SAFE_PLACE"]</strong>
+        <p style="margin-top: 6px">@Localizer["FC_CODES_LOSE_DEVICE"]</p>
+        <p style="margin-top: 6px">@Localizer["FC_CODES_KEYS_UNCHANGED"] <a asp-page="./ResetAuthenticator">@Localizer["BTN_RESET_AUTHENTICATOR_APP"]</a>.</p>
+    </div>
+    <form method="post" class="fc-btn-row" data-fc-confirm="@Localizer["FC_CONFIRM_NEW_CODES"]">
+        <button class="fc-btn fc-btn--primary" type="submit">@Localizer["FC_NEW_RECOVERY_CODES"]</button>
     </form>
-</div>
+</section>

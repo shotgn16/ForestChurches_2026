@@ -1,96 +1,60 @@
-﻿@page
+@page
 @model RegisterModel
-@inject ForestChurches.Components.Security.Encoder Encoder
 @{
-    ViewData["Title"] = "Register";
+    ViewData["Title"] = Localizer["FC_CREATE_ACCOUNT"];
+    var error = TempData["ErrorMessage"] as string ?? ViewData["ErrorMessage"] as string ?? Request.Query["error"].FirstOrDefault();
 }
-<head>
-    <link rel="stylesheet" href="~/css2/Login.css" asp-append-version="true" />
-</head>
 
-<style nonce="@HttpContextAccessor.HttpContext?.Items["CSP-Style-Nonce"]">
-    .mb-3, .h3, h3 { color: white; }
-    footer { position: fixed; }
-    #churchsuite-button {
-        background-color: #24264F;
-        border-color: #24264F;
-        color: white;
-        transition: background-color 0.2s, border-color 0.2s;
-    }
-    #churchsuite-button:hover {
-        background-color: #1a1835;
-        border-color: #1a1835;
-    }
-    #churchsuite-button:focus {
-        background-color: #24264F;
-        border-color: #24264F;
-        box-shadow: 0 0 0 0.2rem rgba(36, 38, 79, 0.25);
-    }
-
-    .form-signin {
-        padding: 0px;
-        margin-top: 0;
-    }
-</style>
-
-<body class="container-fluid text-center">
-    @{
-        var error = TempData["ErrorMessage"] as string ?? ViewData["ErrorMessage"] as string ?? Request.Query["error"].FirstOrDefault();
-    }
-    @if (!string.IsNullOrEmpty(error))
-    {
-        <div class="alert alert-warning" role="alert">@error</div>
-    }
-
-    <partial name="_StatusMessage" model="Model.StatusMessage" />
-
-    @if (Model.isTokenValid)
-    {
-        <img class="mb-4" src="~/img/logo.png" alt="" width="300" height="200">
-        <h1 class="h3 mb-3 font-weight-normal">Create your account</h1>
-
-        <p style="margin-bottom:1.5rem; font-size:0.875rem; color:rgba(255,255,255,0.8); text-align:center;">Register with email:</p>
-
-        <!-- Main registration form -->
-        <form id="register-form" method="post" enctype="multipart/form-data" class="form-signin" asp-route-returnUrl="@Encoder.HtmlEncode(Model.ReturnUrl ?? "/")">
-            @Html.AntiForgeryToken()
-
-            <div asp-validation-summary="All" class="text-danger"></div>
-
-            <!-- Email (Pre-filled, readonly) -->
-            <label asp-for="Input.Email" class="sr-only">Email address</label>
-            <input asp-for="Input.Email" type="email" autocomplete="on" class="form-control" placeholder="Email address" required readonly />
-            <span asp-validation-for="Input.Email" class="text-danger"></span>
-
-
-            <!-- Password -->
-            <label asp-for="Input.Password" class="sr-only">Password</label>
-            <input asp-for="Input.Password" type="password" autocomplete="new-password" class="form-control" placeholder="Create a password (min 12 chars, include a non-alphanumeric character)" required />
-            <span asp-validation-for="Input.Password" class="text-danger"></span>
-
-            <!-- Confirm Password -->
-            <label asp-for="Input.ConfirmPassword" class="sr-only">Confirm password</label>
-            <input asp-for="Input.ConfirmPassword" type="password" autocomplete="new-password" class="form-control" placeholder="Confirm your password" required />
-            <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
-
-            <div class="form-container">
-                <div class="half-width custom-file">
-                    <label id="fancy-upload-button" for="upload-btn">Choose Profile Picture (Click Me)</label>
-                    <input asp-for="Input.Image" id="upload-btn" type="file" class="custom-file-input" accept="image/png, image/jpeg" hidden />
-                </div>
-                <button id="registerSubmit" type="submit" class="half-width w-100 btn btn-lg btn-success">Sign Up</button>
-            </div>
-        </form>
-    }
-    else
-    {
-        <img class="mb-4" src="~/img/logo.png" alt="" width="300" height="200">
-        <h1 class="h3 mb-3 font-weight-normal">Create your account</h1>
-        <div class="alert alert-danger">
-            <p>This link is no longer valid!</p>
+<div class="fc-auth__form" style="flex: 1 0 auto; padding-top: 64px; padding-bottom: 64px">
+    <div class="fc-auth__box fc-auth__box--card">
+        <span class="fc-icon-tile" aria-hidden="true"><svg class="fc-icon" style="width: 26px; height: 26px" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"></circle><path d="M4 21a8 8 0 0 1 16 0"></path></svg></span>
+        <div class="fc-stack" style="gap: 6px">
+            <h1 style="font-size: 30px">@Localizer["FC_CREATE_ACCOUNT"]</h1>
+            <p class="fc-muted">@Localizer["FC_CREATE_ACCOUNT_LEAD"]</p>
         </div>
-    }
-</body>
+
+        @if (!string.IsNullOrEmpty(error))
+        {
+            <div class="fc-alert fc-alert--warn" role="alert">@error</div>
+        }
+        <partial name="_StatusMessage" model="Model.StatusMessage" />
+
+        @if (Model.isTokenValid)
+        {
+            <form id="register-form" method="post" enctype="multipart/form-data" asp-route-returnUrl="@(Model.ReturnUrl ?? "/")" class="fc-stack">
+                <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+                <div class="fc-field">
+                    <label class="fc-label" asp-for="Input.Email">@Localizer["LOGIN_EMAIL_LABEL"]</label>
+                    <input class="fc-input" asp-for="Input.Email" type="email" autocomplete="username" required readonly aria-describedby="email-hint" />
+                    <span id="email-hint" class="fc-hint">@Localizer["FC_INVITE_EMAIL_HINT"]</span>
+                    <span asp-validation-for="Input.Email" class="text-danger"></span>
+                </div>
+                <div class="fc-field">
+                    <label class="fc-label" asp-for="Input.Password">@Localizer["LOGIN_PASSWORD_LABEL"]</label>
+                    <input class="fc-input" asp-for="Input.Password" type="password" autocomplete="new-password" required aria-describedby="reg-pw-hint" />
+                    <span id="reg-pw-hint" class="fc-hint">@Localizer["FC_PASSWORD_RULES"]</span>
+                    <span asp-validation-for="Input.Password" class="text-danger"></span>
+                </div>
+                <div class="fc-field">
+                    <label class="fc-label" asp-for="Input.ConfirmPassword">@Localizer["FC_CONFIRM_PASSWORD"]</label>
+                    <input class="fc-input" asp-for="Input.ConfirmPassword" type="password" autocomplete="new-password" required />
+                    <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+                </div>
+                <div class="fc-field">
+                    <label class="fc-label" for="upload-btn">@Localizer["FC_LOGO_TITLE"] <span class="fc-opt">— @Localizer["FC_OPTIONAL"]</span></label>
+                    <input asp-for="Input.Image" id="upload-btn" type="file" accept="image/png, image/jpeg" />
+                    <span class="fc-hint">@Localizer["FC_LOGO_HINT"]</span>
+                </div>
+                <button id="registerSubmit" type="submit" class="fc-btn fc-btn--primary fc-btn--lg fc-btn--block">@Localizer["FC_CREATE_ACCOUNT"]</button>
+            </form>
+        }
+        else
+        {
+            <div class="fc-alert fc-alert--danger" role="alert">@Localizer["FC_INVITE_INVALID"]</div>
+            <a asp-area="" asp-page="/Contact" class="fc-btn fc-btn--primary">@Localizer["FC_ASK_FOR_INVITE"]</a>
+        }
+    </div>
+</div>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />

@@ -1,58 +1,39 @@
 @page
 @model EmailModel
-@inject ForestChurches.Components.Security.Encoder Encoder;
-@inject ForestChurches.Components.Storage.IBlobUrlService BlobUrlService;
 @{
-    ViewData["Title"] = "Manage Email";
-    ViewData["ActivePage"] = ManageNavPages.Email;
-
-    // IMGUR-1
-    string src = "";
-
-    @if (Model.Currentuser != null && Model.Currentuser.ImageArray != null && Model.Currentuser.ImageArray.Length > 1)
-    {
-        src = "data:image;base64," + System.Convert.ToBase64String(Model.Currentuser.ImageArray);
-    }
-
-    else 
-    {
-        src = BlobUrlService.GetReadSasUrl("IMGUR-1.png", TimeSpan.FromDays(7));
-    }
+    ViewData["Title"] = Localizer["FC_EMAIL_SIGN_IN"];
+    ViewData["ActivePage"] = ManageNavPages.Index;
 }
-<partial name="_StatusMessage" for="@Model.StatusMessage" />
 
-<section>
-    <h1>Update your email</h1><br>
-    <form id="email-form indexForm" method="post">
-        <div asp-validation-summary="All" class="text-danger" role="alert"></div>
-        @if (Model.IsEmailConfirmed)
-        {
-            <div class="form-floating mb-3 input-group">
-                <input asp-for="Email" class="form-control" placeholder="Please enter your email..." disabled />
-                <div class="input-group-append">
-                    <span class="h-100 input-group-text text-success font-weight-bold">✓</span>
-                </div>
-                <label asp-for="Email" class="form-label"></label>
-            </div>
-        }
-        else
-        {
-            <div class="form-floating mb-3">
-                <input asp-for="Email" class="form-control" placeholder="Please enter your email." disabled />
-                <label asp-for="Email" class="form-label"></label>
-                <button id="email-verification" type="submit" asp-page-handler="SendVerificationEmail" class="btn btn-link">Send verification email</button>
-            </div>
-        }
-        <div class="form-floating mb-3">
-            <input asp-for="Input.NewEmail" class="form-control" autocomplete="email" aria-required="true" placeholder="Please enter a new email..." />
-            <label asp-for="Input.NewEmail" class="form-label"></label>
+<div class="fc-page-head">
+    <div>
+        <h1>@Localizer["FC_EMAIL_SIGN_IN"]</h1>
+    </div>
+</div>
+
+<partial name="_StatusMessage" for="StatusMessage" />
+
+<section class="fc-card">
+    <form id="email-form" method="post" class="fc-stack" style="max-width: 560px">
+        <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+        <div class="fc-field">
+            <label class="fc-label" asp-for="Email">@Localizer["FC_CURRENT_EMAIL"]</label>
+            <input class="fc-input" asp-for="Email" readonly />
+            @if (Model.IsEmailConfirmed)
+            {
+                <span class="fc-badge fc-badge--ok" style="align-self: flex-start">✓ @Localizer["FC_CONFIRMED"]</span>
+            }
+            else
+            {
+                <button id="email-verification" type="submit" asp-page-handler="SendVerificationEmail" class="fc-link-btn" style="align-self: flex-start">@Localizer["FC_SEND_VERIFICATION"]</button>
+            }
+        </div>
+        <div class="fc-field">
+            <label class="fc-label" asp-for="Input.NewEmail">@Localizer["FC_NEW_EMAIL"]</label>
+            <input class="fc-input" asp-for="Input.NewEmail" autocomplete="email" aria-required="true" />
             <span asp-validation-for="Input.NewEmail" class="text-danger"></span>
         </div>
-
-        <!-- AntiforgeryToken -->
-        @Html.AntiForgeryToken()
-
-        <button id="change-email-button" type="submit" asp-page-handler="ChangeEmail" class="w-100 btn btn-lg btn-success">Save Changes</button>
+        <div><button id="change-email-button" type="submit" asp-page-handler="ChangeEmail" class="fc-btn fc-btn--primary">@Localizer["FC_SAVE_CHANGES"]</button></div>
     </form>
 </section>
 

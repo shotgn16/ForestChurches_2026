@@ -607,7 +607,7 @@
     <value>Time</value>
   </data>
   <data name="NOTE_LABEL" xml:space="preserve">
-    <value>Date</value>
+    <value>Service</value>
   </data>
   <data name="DELETE_ENTRY_LABEL" xml:space="preserve">
     <value>Delete Entry</value>
@@ -739,7 +739,7 @@
     <value>Update your church information from your ChurchSuite account.</value>
   </data>
   <data name="TAG_SELECT_IMAGE" xml:space="preserve">
-    <value>Choose File (Click Me)</value>
+    <value>Choose an image</value>
   </data>
   <data name="TAG_CLOSED_INFO" xml:space="preserve">
     <value>Please only use this button Mark Church as Closed if your church is closed for long-term maintenance or your church has shutdown and is no longer open to visitors or holding any regular service. Please note that your church WILL NOT appear in a nearby search when your status is set to closed.</value>

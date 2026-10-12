@@ -106,11 +106,23 @@
                                 <div class="fc-btn-row" style="margin-top: 4px">
                                     <a class="fc-btn fc-btn--primary" asp-page="/Church" asp-route-id="@protectedId">@Localizer["FC_VIEW_CHURCH"]</a>
                                     <a class="fc-btn fc-btn--outline" href="https://www.google.com/maps/dir/?api=1&destination=@Uri.EscapeDataString(church.Address ?? string.Empty)" target="_blank" rel="noopener">@Localizer["FC_DIRECTIONS"]<span class="fc-sr-only"> (@Localizer["FC_OPENS_NEW_TAB"])</span></a>
+                                    <form method="post" asp-page="/Church" asp-page-handler="DownloadInformation" asp-route-id="@protectedId">
+                                        <button type="submit" class="fc-link-btn">@Localizer["FC_DOWNLOAD_DETAILS"]<span class="fc-sr-only"> – @FcText.PlainText(church.Name)</span></button>
+                                    </form>
+                                    <a class="fc-link-btn" asp-page="/Church" asp-route-id="@protectedId" asp-fragment="save">@Localizer["FC_EMAIL_ME_DETAILS"]<span class="fc-sr-only"> – @FcText.PlainText(church.Name)</span></a>
                                 </div>
                             </div>
                         </article>
                     }
                 </div>
+                @if (Model.PlaceCoordinates.Count > 0)
+                {
+                    <div class="fc-results__map">
+                        <div id="fc-results-map" class="fc-map fc-map--tall" role="img" aria-label="@Localizer["FC_RESULTS_MAP"]"
+                             data-points="@System.Text.Json.JsonSerializer.Serialize(places.Where(p => Model.PlaceCoordinates.ContainsKey(p.ID)).Select(p => new { lat = Model.PlaceCoordinates[p.ID].Lat, lng = Model.PlaceCoordinates[p.ID].Lng, name = FcText.PlainText(p.Name) }))"
+                             data-home="@(Model.SearchCoordinates is { } home ? System.Text.Json.JsonSerializer.Serialize(new { lat = home.Lat, lng = home.Lng }) : "")"></div>
+                    </div>
+                }
             </div>
         }
     </section>
@@ -188,3 +200,17 @@
         }
     </div>
 </section>
+
+@section Head {
+    @if (Model.PlaceCoordinates.Count > 0)
+    {
+        <link href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" rel="stylesheet" crossorigin="anonymous" />
+    }
+}
+@section Scripts {
+    @if (Model.PlaceCoordinates.Count > 0)
+    {
+        <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin="anonymous"></script>
+        <script src="~/js/results-map.js" asp-append-version="true"></script>
+    }
+}

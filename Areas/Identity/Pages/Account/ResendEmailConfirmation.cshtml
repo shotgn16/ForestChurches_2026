@@ -1,29 +1,25 @@
-﻿@page
+@page
 @model ResendEmailConfirmationModel
-@using Microsoft.Extensions.Localization
-@inject IStringLocalizer<Program> Localizer
 @{
-    ViewData["Title"] = Localizer["RESEND_EMAIL_CONFIRMATION_TITLE"];
+    ViewData["Title"] = Localizer["FC_RESEND_CONFIRMATION"];
 }
-<head>
-    <link rel="stylesheet"  href="~/css2/Login.css" asp-append-version="true" />
-</head>
-
-<body class="container-fluid text-center">
-    <form method="post" class="form-signin">
-        <!-- AntiforgeryToken -->
-        @Html.AntiForgeryToken()
-
-        <img class="mb-4" src="~/img/logo.png" alt="" width="300" height="200">
-        <h1 class="h3 mb-3 font-weight-normal text-light">@Localizer["RESEND_EMAIL_CONFIRMATION_HEADING"]</h1>
-            <input asp-for="Input.Email" class="form-control" aria-required="true" placeholder="@Localizer["RESEND_EMAIL_CONFIRMATION_PLACEHOLDER"]" required autofocus />
-            <span asp-validation-for="Input.Email" class="text-danger"></span>
-
-         <div class="form-container">
-            <button type="submit" class="w-100 btn btn-lg btn-success">@Localizer["RESEND_EMAIL_CONFIRMATION_BUTTON"]</button>
-        </div>
-    </form>
-</body>
+<div class="fc-auth__form" style="flex: 1 0 auto; padding-top: 64px; padding-bottom: 64px">
+    <div class="fc-auth__box fc-auth__box--card">
+        <span class="fc-icon-tile" aria-hidden="true"><svg class="fc-icon" style="width: 26px; height: 26px" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"></rect><path d="M3 7l9 6 9-6"></path></svg></span>
+        <h1 style="font-size: 30px">@Localizer["FC_RESEND_CONFIRMATION"]</h1>
+        <p class="fc-muted">@Localizer["FC_RESEND_CONFIRMATION_TEXT"]</p>
+        <form method="post" class="fc-stack">
+            <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+            <div class="fc-field">
+                <label class="fc-label" asp-for="Input.Email">@Localizer["LOGIN_EMAIL_LABEL"]</label>
+                <input class="fc-input" asp-for="Input.Email" type="email" autocomplete="email" aria-required="true" required autofocus />
+                <span asp-validation-for="Input.Email" class="text-danger"></span>
+            </div>
+            <button type="submit" class="fc-btn fc-btn--primary fc-btn--lg fc-btn--block">@Localizer["FC_RESEND_CONFIRMATION_BUTTON"]</button>
+        </form>
+        <a asp-page="./Login" class="fc-small" style="font-weight: 700">← @Localizer["FC_BACK_TO_LOGIN"]</a>
+    </div>
+</div>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />

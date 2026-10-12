@@ -73,10 +73,13 @@ internal partial class Program
 
             builder.Services.Configure<RequestLocalizationOptions>(options =>
             {
-                var supportedCultures = new[] { "en", "fa", "th", "uk", "fr", "de", "cs" };
-                options.SetDefaultCulture("en")
-                    .AddSupportedCultures(supportedCultures)
-                    .AddSupportedUICultures(supportedCultures);
+                // UI text comes from the neutral "en" resources, but dates and numbers are formatted the
+                // British way (en-GB: 18/06/2026, 24-hour times) rather than the US default for "en".
+                var supportedUiCultures = new[] { "en", "fa", "th", "uk", "fr", "de", "cs" };
+                var supportedCultures = new[] { "en-GB", "fa", "th", "uk", "fr", "de", "cs" };
+                options.DefaultRequestCulture = new Microsoft.AspNetCore.Localization.RequestCulture(culture: "en-GB", uiCulture: "en");
+                options.AddSupportedCultures(supportedCultures)
+                    .AddSupportedUICultures(supportedUiCultures);
 
                 // Prioritize QueryString -> Cookie -> AcceptLanguageHeader
                 options.RequestCultureProviders = new IRequestCultureProvider[]

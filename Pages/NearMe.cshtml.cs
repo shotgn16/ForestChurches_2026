@@ -94,6 +94,10 @@ namespace ForestChurches.Pages
         // Distance (in miles) from the searched location, keyed by church ID.
         internal Dictionary<string, double> PlaceDistanceMiles { get; } = new();
 
+        // Coordinates of each result (keyed by church ID) and of the searched location, for the results map.
+        internal Dictionary<string, (double Lat, double Lng)> PlaceCoordinates { get; } = new();
+        internal (double Lat, double Lng)? SearchCoordinates { get; set; }
+
         public NearMeModel(
             GoogleInterface GoogleInterface,
             FileInterface fileInterface,
@@ -163,14 +167,10 @@ namespace ForestChurches.Pages
                     }
                 }
 
-                if (errors.Count > 0)
-                {
-                    TempData["Message"] = "Validation errors: " + string.Join("; ", errors.Take(5));
-                }
-                else
-                {
-                    TempData["Message"] = "ModelState is invalid. Check server logs for details.";
-                }
+                // Show visitors a plain message rather than raw validation keys.
+                TempData["Message"] = string.IsNullOrWhiteSpace(Postcode)
+                    ? "Please enter a postcode or town to search."
+                    : "Please check your search and try again.";
 
                 return Page();
             }
@@ -236,13 +236,26 @@ namespace ForestChurches.Pages
                 var orderedChurches = new List<(ChurchInformation Church, double Distance)>();
                 double maxDistanceKm = effectiveMaxDistance * 1.60934;
 
+                SearchCoordinates = (latitude, longitude);
                 foreach (var church in candidateChurches)
                 {
-                    double[] churchCoordinates = await _googleAPI.ConvertToCoordinates(church.Address);
+                    double[] churchCoordinates;
+                    try
+                    {
+                        churchCoordinates = await _googleAPI.ConvertToCoordinates(church.Address);
+                    }
+                    catch (Exception ex)
+                    {
+                        // One church with a bad address shouldn't break the whole search.
+                        _logger.LogWarning(ex, "Unable to geocode church {ChurchId}", church.ID);
+                        continue;
+                    }
+
                     double distance = HavarsineDistance(latitude, longitude, churchCoordinates[0], churchCoordinates[1]);
                     if (distance <= maxDistanceKm)
                     {
                         orderedChurches.Add((church, distance));
+                        PlaceCoordinates[church.ID] = (churchCoordinates[0], churchCoordinates[1]);
                     }
                 }
 
@@ -273,13 +286,9 @@ namespace ForestChurches.Pages
             await LoadLookupsAsync();
             if (!ModelState.IsValid)
             {
-                // ensure church names available for re-render
-                ChurchNames = await _context.ChurchInformation
-                    .Where(c => c.Status == "Open")
-                    .Select(c => c.Name)
-                    .Distinct()
-                    .OrderBy(n => n)
-                    .ToListAsync();
+                TempData["Message"] = string.IsNullOrWhiteSpace(Postcode)
+                    ? "Please enter a postcode or town to search for events."
+                    : "Please check your search and try again.";
                 return Page();
             }
 
@@ -288,7 +297,17 @@ namespace ForestChurches.Pages
                 var postcode = Postcode?.ToUpper() ?? string.Empty;
                 ViewData["postcode"] = postcode;
 
-                double[] userCoordinates = await _googleAPI.ConvertToCoordinates(postcode);
+                double[] userCoordinates;
+                try
+                {
+                    userCoordinates = await ResolveCoordinatesAsync(postcode).ConfigureAwait(true);
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogWarning(ex, "Failed to resolve coordinates from input '{Input}'", postcode);
+                    TempData["Message"] = "Unable to interpret the provided address/postcode. Try a shorter postcode or a more specific address.";
+                    return Page();
+                }
                 double userLatitude = userCoordinates[0];
                 double userLongitude = userCoordinates[1];
 

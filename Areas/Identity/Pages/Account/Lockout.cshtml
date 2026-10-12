@@ -1,10 +1,16 @@
-﻿@page
+@page
 @model LockoutModel
 @{
-    ViewData["Title"] = "Locked out";
+    ViewData["Title"] = Localizer["FC_LOCKED_OUT"];
 }
-
-<header>
-    <h1 class="text-danger">@ViewData["Title"]</h1>
-    <p class="text-danger">This account has been locked out, please try again later.</p>
-</header>
+<div class="fc-auth__form" style="flex: 1 0 auto; padding-top: 64px; padding-bottom: 64px">
+    <div class="fc-auth__box fc-auth__box--card">
+        <span class="fc-icon-tile" aria-hidden="true"><svg class="fc-icon" style="width: 26px; height: 26px" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2"></rect><path d="M8 11V7a4 4 0 0 1 8 0v4"></path></svg></span>
+        <h1 style="font-size: 30px">@Localizer["FC_LOCKED_OUT"]</h1>
+        <p class="fc-muted">@Localizer["FC_LOCKED_OUT_TEXT"]</p>
+        <div class="fc-btn-row">
+            <a asp-page="./ForgotPassword" class="fc-btn fc-btn--primary">@Localizer["FC_RESET_PASSWORD"]</a>
+            <a asp-area="" asp-page="/Index" class="fc-btn fc-btn--quiet">@Localizer["FC_BACK_TO_SITE"]</a>
+        </div>
+    </div>
+</div>

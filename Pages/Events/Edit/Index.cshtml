@@ -1,5 +1,6 @@
 @page
 @model ForestChurches.Pages.Events.Edit.IndexModel
+@using ForestChurches.Components.Ui
 @{
     Layout = "/Areas/Identity/Pages/Account/Manage/_Layout.cshtml";
     ViewData["ActivePage"] = "Events";
@@ -27,7 +28,7 @@
         <div class="fc-grid">
             <div class="fc-field fc-span-all">
                 <label class="fc-label" asp-for="Input.Name">@Localizer["FC_EVENT_NAME"]</label>
-                <input class="fc-input" type="text" asp-for="Input.Name" aria-required="true" />
+                <input class="fc-input" type="text" asp-for="Input.Name" value="@FcText.PlainText(Model.Input?.Name)" aria-required="true" />
                 <span asp-validation-for="Input.Name" class="text-danger"></span>
             </div>
             <div class="fc-field">
@@ -57,12 +58,13 @@
             </div>
             <div class="fc-field fc-span-all">
                 <label class="fc-label" asp-for="Input.Address">@Localizer["NEARME_LOCATION_LABEL"]</label>
-                <input class="fc-input" type="text" asp-for="Input.Address" aria-required="true" autocomplete="street-address" />
+                <input class="fc-input" type="text" asp-for="Input.Address" value="@FcText.PlainText(Model.Input?.Address)" aria-required="true" autocomplete="street-address" />
                 <span asp-validation-for="Input.Address" class="text-danger"></span>
             </div>
             <div class="fc-field fc-span-all">
                 <label class="fc-label" asp-for="Input.Description">@Localizer["FC_DESCRIPTION"]</label>
-                <textarea class="fc-textarea" asp-for="Input.Description" rows="4" aria-required="true"></textarea>
+                @* Shown as plain text so ChurchSuite markup doesn't appear as tags while editing. *@
+                <textarea class="fc-textarea" id="Input_Description" name="Input.Description" rows="4" aria-required="true">@FcText.PlainText(Model.Input?.Description)</textarea>
                 <span asp-validation-for="Input.Description" class="text-danger"></span>
             </div>
             <div class="fc-field">

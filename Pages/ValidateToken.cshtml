@@ -1,54 +1,22 @@
-﻿@page
+@page
 @model ForestChurches.Pages.ValidateTokenModel
 @{
     ViewData["Title"] = Localizer["TOKEN_VALIDATION_PAGE_TITLE"];
+    var ok = Model.IsValidating || Model.IsTokenValid;
 }
-<head>
-    <link rel="stylesheet" href="~/css2/profile.css" asp-append-version="true" />
-</head>
-<style nonce="@HttpContextAccessor.HttpContext?.Items["CSP-Style-Nonce"]">
-    h1 {
-        text-align: center;
-        padding-top: calc(1.0rem + 1.0vw);
-    }
 
-    section {
-        padding-top: calc(10.0rem + 1.0vw);
-        text-align: center;
-        top: 50%;
-        bottom: 50%;
-        inline-size: fit-content;
-        vertical-align: central;
-        color: white;
-    }
-
-    img {
-        max-width: calc(4.0rem + 1.0vw);
-    }
-
-    #subtitle {
-        color: lightgrey;
-    }
-</style>
-
-
-<section>
-    <img alt="Invalid Token" src="~/img/cross.png" />
-    <h1>@Localizer["TOKEN_VALIDATION_PAGE_TITLE"]</h1>
-
-    @if (Model.IsValidating)
-    {
-        <p>@Localizer["TOKEN_VALIDATION_VALID_REDIRECTING"];</p>
-    }
-    else if (Model.IsTokenValid)
-    {
-        <p>@Localizer["TOKEN_VALIDATION_VALID_REDIRECTING"];</p>
-    }
-    else
-    {
-        <p>@Localizer["TOKEN_VALIDATION_INVALID_EXPIRED"];</p>
-        <p id="subtitle"><a href="@Request.Scheme://@Request.Host">here</a></p>
-    }
-
-</section>
-
+<div class="fc-auth__form" style="flex: 1 0 auto; padding-top: 64px; padding-bottom: 64px">
+    <div class="fc-auth__box fc-auth__box--card" role="status">
+        <span class="fc-icon-tile @(ok ? "fc-icon-tile--ok" : "")" aria-hidden="true"><svg class="fc-icon" style="width: 28px; height: 28px" viewBox="0 0 24 24"><path d="@(ok ? "M5 12l5 5 9-10" : "M6 6l12 12M18 6L6 18")"></path></svg></span>
+        <h1 style="font-size: 30px">@Localizer["TOKEN_VALIDATION_PAGE_TITLE"]</h1>
+        @if (ok)
+        {
+            <p class="fc-muted">@Localizer["TOKEN_VALIDATION_VALID_REDIRECTING"]</p>
+        }
+        else
+        {
+            <p class="fc-muted">@Localizer["TOKEN_VALIDATION_INVALID_EXPIRED"]</p>
+            <a asp-page="/Index" class="fc-btn fc-btn--primary">@Localizer["FC_BACK_TO_SITE"]</a>
+        }
+    </div>
+</div>

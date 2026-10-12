@@ -10,15 +10,20 @@
     var isSiteAdmin = User?.Identity?.IsAuthenticated == true &&
         (User.IsInRole(ForestChurches.Components.Roles.Roles.Admin.ToString()) || User.IsInRole(ForestChurches.Components.Roles.Roles.SuperAdmin.ToString()));
     var pageTitle = ViewData["Title"]?.ToString();
+    var uiLanguage = System.Globalization.CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+    var textDirection = uiLanguage == "fa" ? "rtl" : "ltr";
+    var savedTheme = Context.Request.Cookies["fc-theme"];
+    var theme = savedTheme is "dark" or "light" ? savedTheme : null;
     var brand = Localizer["NAV_BRAND"].Value;
 }
 <!DOCTYPE html>
-<html lang="@System.Globalization.CultureInfo.CurrentUICulture.TwoLetterISOLanguageName">
+<html lang="@uiLanguage" dir="@textDirection" data-theme="@theme">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@(string.IsNullOrWhiteSpace(pageTitle) ? brand : $"{pageTitle} – {brand}")</title>
-    <meta name="theme-color" content="#1F3D2B" />
+    <meta name="theme-color" content="#1F3D2B" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#111814" media="(prefers-color-scheme: dark)" />
     <link rel="icon" href="~/favicon.ico" type="image/x-icon" asp-append-version="true" />
 
     <script src="~/js/jquery-3.7.1.min.js"></script>
@@ -43,6 +48,7 @@
                 </a>
                 <div class="fc-adminbar__links">
                     @RenderSection("AdminBarLinks", required: false)
+                    <partial name="_ThemeToggle" />
                     <span class="fc-adminbar__user">@User?.Identity?.Name</span>
                     <form asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/Index", new { area = "" })" method="post">
                         @Html.AntiForgeryToken()
@@ -77,6 +83,7 @@
                         }
                     </ul>
                     <div class="fc-nav__actions">
+                        <partial name="_ThemeToggle" />
                         <partial name="_LanguageSwitcher" />
                         <partial name="_LoginPartial" />
                     </div>

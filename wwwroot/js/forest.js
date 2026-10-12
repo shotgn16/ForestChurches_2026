@@ -40,6 +40,25 @@
             });
         });
 
+        // Light / dark toggle. Saves the choice in a cookie (read by the server on the next page) and localStorage.
+        document.querySelectorAll('[data-fc-theme-toggle]').forEach(function (btn) {
+            btn.addEventListener('click', function () {
+                var root = document.documentElement;
+                var current = root.getAttribute('data-theme') ||
+                    (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+                var next = current === 'dark' ? 'light' : 'dark';
+                root.setAttribute('data-theme', next);
+                document.cookie = 'fc-theme=' + next + '; path=/; max-age=31536000; samesite=lax';
+                try { window.localStorage.setItem('fc-theme', next); } catch (e) { /* storage blocked */ }
+                document.dispatchEvent(new CustomEvent('fc:themechange', { detail: next }));
+            });
+        });
+
+        // Print buttons: <button data-fc-print>
+        document.querySelectorAll('[data-fc-print]').forEach(function (btn) {
+            btn.addEventListener('click', function () { window.print(); });
+        });
+
         // Tabs: <div data-fc-tabs> with [role=tab][aria-controls] buttons and [role=tabpanel] panels
         document.querySelectorAll('[data-fc-tabs]').forEach(function (root) {
             var tabs = Array.prototype.slice.call(root.querySelectorAll('[role="tab"]'));
@@ -92,6 +111,16 @@
                     alert('Location permission was declined. Please type your postcode instead.');
                 });
             });
+        });
+    });
+
+    // QR codes (authenticator setup): <div data-fc-qr="otpauth://..."> rendered once qrcode.js has loaded.
+    window.addEventListener('load', function () {
+        if (typeof window.QRCode === 'undefined') { return; }
+        document.querySelectorAll('[data-fc-qr]').forEach(function (el) {
+            var text = el.getAttribute('data-fc-qr');
+            if (!text) { return; }
+            new window.QRCode(el, { text: text, width: 168, height: 168, colorDark: '#1F3D2B', colorLight: '#ffffff', correctLevel: window.QRCode.CorrectLevel.M });
         });
     });
 })();

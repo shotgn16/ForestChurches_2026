@@ -1,43 +1,26 @@
-﻿@page
+@page
 @model PrivacyModel
 @{
-    ViewData["Title"] = @Localizer["PRIVACY_PAGE_TITLE"];
+    ViewData["Title"] = Localizer["PRIVACY_PAGE_TITLE"];
 }
-<style nonce="@HttpContextAccessor.HttpContext?.Items["CSP-Style-Nonce"]">
-    h1 {
-        padding-top: calc(2.0rem + 2.5vw);
-    }
-    .privacy-content {
-        color: white;
-        padding: 5%;    
-        padding-bottom: calc(2.0rem + 1.5vw);
-    }
-    main {
-        background-color: #00AD6A;
-    }
-</style>
 
-
-<div class="container-fluid privacy-content">
-    <h1>@Localizer["PRIVACY_PAGE_TITLE"]</h1>
-
-    <p>@Localizer["PRIVACY_EFFECTIVE_DATE"]</p>
-    <p>@Localizer["PRIVACY_INTRO_TEXT"]</p>
+<article class="fc-container fc-container--narrow fc-section fc-prose" style="padding-top: 64px; padding-bottom: 72px">
+    <p class="fc-eyebrow">@Localizer["FC_LEGAL"]</p>
+    <h1 class="fc-display">@Localizer["PRIVACY_PAGE_TITLE"]</h1>
+    <p class="fc-muted">@Localizer["PRIVACY_EFFECTIVE_DATE"]</p>
+    <p class="fc-lead">@Localizer["PRIVACY_INTRO_TEXT"]</p>
 
     <h2>@Localizer["PRIVACY_SECTION1_TITLE"]</h2>
-    <p><strong>@Localizer["PRIVACY_SECTION1_SUBTITLE1"]</strong></p>
+    <h3>@Localizer["PRIVACY_SECTION1_SUBTITLE1"]</h3>
     <p>@Localizer["PRIVACY_SECTION1_TEXT1"]</p>
-
     <ul>
         <li>@Localizer["PRIVACY_SECTION1_ITEM1"]</li>
         <li>@Localizer["PRIVACY_SECTION1_ITEM2"]</li>
         <li>@Localizer["PRIVACY_SECTION1_ITEM3"]</li>
         <li>@Localizer["PRIVACY_SECTION1_ITEM4"]</li>
     </ul>
-
-    <p><strong>@Localizer["PRIVACY_SECTION1_SUBTITLE2"]</strong></p>
+    <h3>@Localizer["PRIVACY_SECTION1_SUBTITLE2"]</h3>
     <p>@Localizer["PRIVACY_SECTION1_TEXT2"]</p>
-
     <ul>
         <li>@Localizer["PRIVACY_SECTION1_ITEM5"]</li>
         <li>@Localizer["PRIVACY_SECTION1_ITEM6"]</li>
@@ -47,7 +30,6 @@
 
     <h2>@Localizer["PRIVACY_SECTION2_TITLE"]</h2>
     <p>@Localizer["PRIVACY_SECTION2_TEXT"]</p>
-
     <ul>
         <li>@Localizer["PRIVACY_SECTION2_ITEM1"]</li>
         <li>@Localizer["PRIVACY_SECTION2_ITEM2"]</li>
@@ -59,30 +41,22 @@
     </ul>
 
     <p>@Localizer["PRIVACY_SECTION3_INTRO_TEXT"]</p>
-
     <ul>
         <li><strong>@Localizer["PRIVACY_SECTION3_SUBTITLE1"]</strong> @Localizer["PRIVACY_SECTION3_TEXT1"]</li>
-        <br>
         <li><strong>@Localizer["PRIVACY_SECTION3_SUBTITLE2"]</strong> @Localizer["PRIVACY_SECTION3_TEXT2"]</li>
     </ul>
 
-    <p><strong>@Localizer["PRIVACY_SECTION4_TITLE"]</strong></p>
+    <h2>@Localizer["PRIVACY_SECTION4_TITLE"]</h2>
     <p>@Localizer["PRIVACY_SECTION4_TEXT"]</p>
-
-    <p><strong>@Localizer["PRIVACY_SECTION5_TITLE"]</strong></p>
+    <h2>@Localizer["PRIVACY_SECTION5_TITLE"]</h2>
     <p>@Localizer["PRIVACY_SECTION5_TEXT"]</p>
-
-    <p><strong>@Localizer["PRIVACY_SECTION6_TITLE"]</strong></p>
+    <h2>@Localizer["PRIVACY_SECTION6_TITLE"]</h2>
     <p>@Localizer["PRIVACY_SECTION6_TEXT"]</p>
-
-    <p><strong>@Localizer["PRIVACY_SECTION7_TITLE"]</strong></p>
+    <h2>@Localizer["PRIVACY_SECTION7_TITLE"]</h2>
     <p>@Localizer["PRIVACY_SECTION7_TEXT"]</p>
-
-    <p><strong>@Localizer["PRIVACY_SECTION8_TITLE"]</strong></p>
+    <h2>@Localizer["PRIVACY_SECTION8_TITLE"]</h2>
     <p>@Localizer["PRIVACY_SECTION8_TEXT"]</p>
-
-    <p><strong>@Localizer["PRIVACY_CONTACT_TITLE"]</strong></p>
+    <h2>@Localizer["PRIVACY_CONTACT_TITLE"]</h2>
     <p>@Localizer["PRIVACY_CONTACT_TEXT"] <a asp-page="/Contact">@Localizer["PRIVACY_CONTACT_LINK"]</a></p>
-
-    <p><strong>@Localizer["PRIVACY_ACKNOWLEDGMENT"]</strong></p>
-</div>
+    <p class="fc-panel" style="margin-top: 24px"><strong>@Localizer["PRIVACY_ACKNOWLEDGMENT"]</strong></p>
+</article>

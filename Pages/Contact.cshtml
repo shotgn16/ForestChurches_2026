@@ -7,8 +7,16 @@
     string? churchName = null;
     if (!string.IsNullOrEmpty(Model.Input?.Cid))
     {
-        var churchId = Encoder.Unprotect<string>(Model.Input.Cid, "fc.data.contact");
-        churchName = context.ChurchInformation.Where(a => a.ID == churchId).Select(a => a.Name).FirstOrDefault();
+        try
+        {
+            var churchId = Encoder.Unprotect<string>(Model.Input.Cid, "fc.data.contact");
+            churchName = context.ChurchInformation.Where(a => a.ID == churchId).Select(a => a.Name).FirstOrDefault();
+        }
+        catch (System.Security.Cryptography.CryptographicException)
+        {
+            // An expired or edited link: fall back to the general contact form instead of crashing.
+            churchName = null;
+        }
     }
     var toChurch = !string.IsNullOrEmpty(churchName);
 }

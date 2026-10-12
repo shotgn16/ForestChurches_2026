@@ -1,25 +1,32 @@
-﻿@page
+@page
 @model ShowRecoveryCodesModel
 @{
-    ViewData["Title"] = "Recovery codes";
+    ViewData["Title"] = Localizer["FC_RECOVERY_CODES"];
     ViewData["ActivePage"] = "TwoFactorAuthentication";
 }
 
-<partial name="_StatusMessage" for="StatusMessage" />
-<h3>@ViewData["Title"]</h3>
-<div class="alert alert-warning" role="alert">
-    <p>
-        <strong>Put these codes in a safe place.</strong>
-    </p>
-    <p>
-        If you lose your device and don't have the recovery codes you will lose access to your account.
-    </p>
-</div>
-<div class="row">
-    <div class="col-md-12">
-        @for (var row = 0; row < Model.RecoveryCodes.Length; row += 2)
-        {
-            <code class="recovery-code">@Model.RecoveryCodes[row]</code><text>&nbsp;</text><code class="recovery-code">@Model.RecoveryCodes[row + 1]</code><br />
-        }
+<div class="fc-page-head">
+    <div>
+        <a asp-page="./TwoFactorAuthentication" class="fc-small" style="font-weight: 700">← @Localizer["TITLE_TWO_FACTOR_AUTHENTICATION"]</a>
+        <h1 style="margin-top: 6px">@Localizer["FC_RECOVERY_CODES"]</h1>
     </div>
 </div>
+
+<partial name="_StatusMessage" for="StatusMessage" />
+
+<section class="fc-card fc-stack" style="gap: 16px">
+    <div class="fc-alert fc-alert--warn" role="alert">
+        <strong>@Localizer["FC_CODES_SAFE_PLACE"]</strong>
+        <p style="margin-top: 6px">@Localizer["FC_CODES_LOSE_DEVICE"]</p>
+    </div>
+    <ul class="fc-codes" aria-label="@Localizer["FC_RECOVERY_CODES"]">
+        @foreach (var code in Model.RecoveryCodes ?? Array.Empty<string>())
+        {
+            <li>@code</li>
+        }
+    </ul>
+    <div class="fc-btn-row fc-no-print">
+        <button type="button" class="fc-btn fc-btn--outline" data-fc-print>@Localizer["FC_PRINT"]</button>
+        <a asp-page="./TwoFactorAuthentication" class="fc-btn fc-btn--primary">@Localizer["FC_DONE"]</a>
+    </div>
+</section>

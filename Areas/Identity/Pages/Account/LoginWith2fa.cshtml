@@ -1,47 +1,29 @@
-﻿@page
+@page
 @model LoginWith2faModel
 @{
-    ViewData["Title"] = "Two-factor authentication";
+    ViewData["Title"] = Localizer["TITLE_TWO_FACTOR_AUTHENTICATION"];
 }
-<style nonce="@HttpContextAccessor.HttpContext?.Items["CSP-Style-Nonce"]">
-    .content-container {
-        max-width: 80vw;
-        padding-top: calc(4rem + 10vw);
-        color: white;
-    }
-</style>
-
-<div class="container-fluid content-container">
-    <h1>Two-Factor Authentication</h1>
-    <hr />
-    <p>Your login is protected with an authenticator app. Enter your authenticator code below.</p>
-
-    <form method="post" asp-route-returnUrl="@Model.ReturnUrl">
-        <!-- AntiforgeryToken -->
-        @Html.AntiForgeryToken()
-
-        <input asp-for="RememberMe" type="hidden" />
-        <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
-        <div class="form-floating mb-3">
-            <input asp-for="Input.TwoFactorCode" class="form-control" autocomplete="off" />
-            <label asp-for="Input.TwoFactorCode" class="form-label"></label>
-            <span asp-validation-for="Input.TwoFactorCode" class="text-danger"></span>
-        </div>
-        <div class="checkbox mb-3">
-            <label id="checkboxLabel" asp-for="Input.RememberMachine" class="form-label">
+<div class="fc-auth__form" style="flex: 1 0 auto; padding-top: 64px; padding-bottom: 64px">
+    <div class="fc-auth__box fc-auth__box--card">
+        <span class="fc-icon-tile" aria-hidden="true"><svg class="fc-icon" style="width: 26px; height: 26px" viewBox="0 0 24 24"><circle cx="8" cy="15" r="4"></circle><path d="M11 12l9-9M17 6l3 3"></path></svg></span>
+        <h1 style="font-size: 30px">@Localizer["TITLE_TWO_FACTOR_AUTHENTICATION"]</h1>
+        <p class="fc-muted">@Localizer["FC_2FA_LOGIN_TEXT"]</p>
+        <form method="post" asp-route-returnUrl="@Model.ReturnUrl" class="fc-stack">
+            <input asp-for="RememberMe" type="hidden" />
+            <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+            <div class="fc-field">
+                <label class="fc-label" asp-for="Input.TwoFactorCode">@Localizer["FC_AUTH_CODE"]</label>
+                <input class="fc-input" asp-for="Input.TwoFactorCode" autocomplete="one-time-code" inputmode="numeric" autofocus />
+                <span asp-validation-for="Input.TwoFactorCode" class="text-danger"></span>
+            </div>
+            <label class="fc-check">
                 <input asp-for="Input.RememberMachine" />
-                @Html.DisplayNameFor(m => m.Input.RememberMachine)
+                @Localizer["FC_REMEMBER_DEVICE"]
             </label>
-        </div>
-        <div>
-            <button type="submit" class="w-100 btn btn-lg btn-success">Log in</button>
-
-            <p id="text">
-                Don't have access to your authenticator device? You can
-                <a id="recovery-code-login" asp-page="./LoginWithRecoveryCode" asp-route-returnUrl="@Model.ReturnUrl">log in with a recovery code</a>
-            </p>
-        </div>
-    </form>
+            <button type="submit" class="fc-btn fc-btn--primary fc-btn--lg fc-btn--block">@Localizer["FC_SIGN_IN"]</button>
+        </form>
+        <p class="fc-small fc-muted">@Localizer["FC_NO_DEVICE"] <a id="recovery-code-login" asp-page="./LoginWithRecoveryCode" asp-route-returnUrl="@Model.ReturnUrl" style="font-weight: 700">@Localizer["FC_USE_RECOVERY_CODE"]</a></p>
+    </div>
 </div>
 
 @section Scripts {

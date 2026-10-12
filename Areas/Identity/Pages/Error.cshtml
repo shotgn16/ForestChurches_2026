@@ -1,136 +1,26 @@
-﻿@page
+@page
 @model ErrorModel
 @{
-    ViewData["Title"] = "Error";
+    ViewData["Title"] = Localizer["ERROR_PAGE_TITLE"];
+    var title = ViewData["error_title"]?.ToString();
 }
 
-<head>
-    <link href="~/css2/error.css" integrity="sha256-yiZYepIwU9N56cqrhArTEqBqq7ce2LNk3MZn8MahOpQ=" rel="stylesheet" />
-</head>
-
-<div class="container">
-    <div class="error">
-        @if (@ViewData["error_title"] == null)
+<div class="fc-auth__form" style="flex: 1 0 auto; padding-top: 64px; padding-bottom: 64px">
+    <div class="fc-auth__box fc-auth__box--card">
+        <span class="fc-icon-tile" aria-hidden="true"><svg class="fc-icon" style="width: 26px; height: 26px" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v6M12 16.5h.01"></path></svg></span>
+        <h1 style="font-size: 30px">@(string.IsNullOrWhiteSpace(title) ? Localizer["FC_ERROR_TITLE"].Value : title)</h1>
+        <p class="fc-muted">@Localizer["FC_ERROR_TEXT"]</p>
+        <div class="fc-btn-row">
+            <a asp-area="" asp-page="/Index" class="fc-btn fc-btn--primary">@Localizer["FC_BACK_TO_SITE"]</a>
+            <a asp-area="" asp-page="/Contact" class="fc-btn fc-btn--quiet">@Localizer["NAV_CONTACT"]</a>
+        </div>
+        @if (!string.IsNullOrWhiteSpace(Model.ExceptionMessage) || !string.IsNullOrWhiteSpace(Model.RequestId))
         {
-            <h1 style="font-size: calc(1.075rem + 0.5vw);">500</h1>
-            <h2>error</h2>
+            <details class="fc-small fc-muted">
+                <summary style="cursor: pointer; font-weight: 700">@Localizer["FC_TECHNICAL_DETAILS"]</summary>
+                <p style="margin-top: 8px"><strong>@Localizer["ERROR_LABEL_MESSAGE"]</strong> @Model.ExceptionMessage</p>
+                <p><strong>@Localizer["ERROR_LABEL_ID"]</strong> <code>@Model.RequestId</code></p>
+            </details>
         }
-        else if (@ViewData["error_title"] != null)
-        {
-            <h1>@ViewData["error_title"]</h1>
-        }
-        <p>
-            <strong>Message:</strong> @Model.ExceptionMessage
-            <br>
-            <strong>ID:</strong> @Model.RequestId
-        </p>
-    </div>
-    <div class="stack-container">
-        <div class="card-container">
-            <div class="perspec" style="--spreaddist: 125px; --scaledist: .75; --vertdist: -25px;">
-                <div class="card">
-                    <div class="writing">
-                        <div class="topbar">
-                            <div class="red"></div>
-                            <div class="yellow"></div>
-                            <div class="green"></div>
-                        </div>
-                        <div class="code">
-                            <ul>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="card-container">
-            <div class="perspec" style="--spreaddist: 100px; --scaledist: .8; --vertdist: -20px;">
-                <div class="card">
-                    <div class="writing">
-                        <div class="topbar">
-                            <div class="red"></div>
-                            <div class="yellow"></div>
-                            <div class="green"></div>
-                        </div>
-                        <div class="code">
-                            <ul>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="card-container">
-            <div class="perspec" style="--spreaddist:75px; --scaledist: .85; --vertdist: -15px;">
-                <div class="card">
-                    <div class="writing">
-                        <div class="topbar">
-                            <div class="red"></div>
-                            <div class="yellow"></div>
-                            <div class="green"></div>
-                        </div>
-                        <div class="code">
-                            <ul>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="card-container">
-            <div class="perspec" style="--spreaddist: 50px; --scaledist: .9; --vertdist: -10px;">
-                <div class="card">
-                    <div class="writing">
-                        <div class="topbar">
-                            <div class="red"></div>
-                            <div class="yellow"></div>
-                            <div class="green"></div>
-                        </div>
-                        <div class="code">
-                            <ul>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="card-container">
-            <div class="perspec" style="--spreaddist: 25px; --scaledist: .95; --vertdist: -5px;">
-                <div class="card">
-                    <div class="writing">
-                        <div class="topbar">
-                            <div class="red"></div>
-                            <div class="yellow"></div>
-                            <div class="green"></div>
-                        </div>
-                        <div class="code">
-                            <ul>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="card-container">
-            <div class="perspec" style="--spreaddist: 0px; --scaledist: 1; --vertdist: 0px;">
-                <div class="card">
-                    <div class="writing">
-                        <div class="topbar">
-                            <div class="red"></div>
-                            <div class="yellow"></div>
-                            <div class="green"></div>
-                        </div>
-                        <div class="code">
-                            <ul>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
     </div>
 </div>
-
-@section Scripts {
-    <script src="~/js/errorPage.js" integrity="sha256-Srf/MiIydchEpcpsQZkKo3jFQbUbkKRmgnlVtB1jUSQ=" crossorigin="anonymous"></script>
-}

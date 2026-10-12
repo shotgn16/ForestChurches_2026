@@ -86,6 +86,11 @@
 </section>
 
 <div class="fc-container">
+    @if (!string.IsNullOrEmpty(Model.StatusMessage))
+    {
+        var failed = Model.StatusMessage.StartsWith("Error", StringComparison.OrdinalIgnoreCase);
+        <div class="fc-alert @(failed ? "fc-alert--danger" : "fc-alert--ok")" role="status" style="margin-top: 24px">@Model.StatusMessage</div>
+    }
     <section class="fc-keyfacts" aria-label="@Localizer["FC_KEY_FACTS"]">
         <div class="fc-keyfacts__main">
             <span class="fc-keyfacts__label">@Localizer["FC_NEXT_SERVICE"]</span>
@@ -196,7 +201,12 @@
 
             <section class="fc-card fc-card--flush" aria-labelledby="map-h">
                 <h2 id="map-h" class="fc-card__title" style="padding: 20px 24px 0">@Localizer["FC_FIND_US"]</h2>
-                <div id="fc-church-map" class="fc-map" role="img" aria-label="@Localizer["FC_MAP_OF", FcText.PlainText(church.Address)]"></div>
+                @if (Model.HasLocation)
+                {
+                    <div id="fc-church-map" class="fc-map" role="img" aria-label="@Localizer["FC_MAP_OF", FcText.PlainText(church.Address)]"
+                         data-lat="@Model.Latitude.ToString(CultureInfo.InvariantCulture)" data-lng="@Model.Longitude.ToString(CultureInfo.InvariantCulture)"
+                         data-name="@FcText.PlainText(church.Name)"></div>
+                }
                 <div style="padding: 14px 24px 20px" class="fc-stack">
                     <p class="fc-small">@FcText.PlainText(church.Address)</p>
                     @if (hasPhone)
@@ -230,6 +240,26 @@
                     <button type="submit" class="fc-btn fc-btn--primary">@Localizer["CONTACT_SUBMIT_BUTTON"]</button>
                 </form>
             </section>
+
+            <section id="save" class="fc-card fc-stack" aria-labelledby="save-h" style="padding: 24px; gap: 14px">
+                <div>
+                    <h2 id="save-h" class="fc-card__title" style="margin-bottom: 4px !important">@Localizer["FC_SAVE_DETAILS"]</h2>
+                    <p class="fc-small fc-muted">@Localizer["FC_SAVE_DETAILS_TEXT"]</p>
+                </div>
+                <form method="post" asp-page-handler="SendInformation" asp-route-id="@Model.ProtectedId" class="fc-stack" style="gap: 10px">
+                    <div class="fc-field">
+                        <label class="fc-label" for="save-email">@Localizer["FC_YOUR_EMAIL"]</label>
+                        <input class="fc-input" id="save-email" name="email" type="email" autocomplete="email" value="@Model.SignedInEmail" required />
+                    </div>
+                    <button type="submit" class="fc-btn fc-btn--outline">@Localizer["FC_EMAIL_ME_DETAILS"]</button>
+                </form>
+                <form method="post" asp-page-handler="DownloadInformation" asp-route-id="@Model.ProtectedId">
+                    <button type="submit" class="fc-link-btn">
+                        <svg class="fc-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"></path></svg>
+                        @Localizer["FC_DOWNLOAD_DETAILS"]
+                    </button>
+                </form>
+            </section>
         </aside>
     </div>
 </div>
@@ -243,19 +273,19 @@
     <script nonce="@HttpContextAccessor.HttpContext?.Items["CSP-Script-Nonce"]">
         document.addEventListener("DOMContentLoaded", function () {
             var el = document.getElementById("fc-church-map");
-            if (!el || typeof L === "undefined") { return; }
-            var lat = @Model.Latitude.ToString(CultureInfo.InvariantCulture);
-            var lng = @Model.Longitude.ToString(CultureInfo.InvariantCulture);
-            var map = L.map(el, { scrollWheelZoom: false }).setView([lat, lng], 15);
-            L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-                attribution: "&copy; OpenStreetMap contributors",
-                maxZoom: 18
-            }).addTo(map);
-            var popup = document.createElement("div");
-            var strong = document.createElement("strong");
-            strong.textContent = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(FcText.PlainText(church.Name)));
-            popup.appendChild(strong);
-            L.marker([lat, lng]).addTo(map).bindPopup(popup);
+            if (el && typeof L !== "undefined") {
+                var lat = parseFloat(el.getAttribute("data-lat"));
+                var lng = parseFloat(el.getAttribute("data-lng"));
+                var map = L.map(el, { scrollWheelZoom: false }).setView([lat, lng], 15);
+                L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+                    attribution: "&copy; OpenStreetMap contributors",
+                    maxZoom: 18
+                }).addTo(map);
+                // A vector marker: Leaflet's default PNG icons are blocked by the site's image CSP.
+                L.circleMarker([lat, lng], { radius: 10, color: (getComputedStyle(document.documentElement).getPropertyValue("--fc-surface").trim() || "#ffffff"), weight: 3, fillColor: (getComputedStyle(document.documentElement).getPropertyValue("--fc-primary").trim() || "#1F3D2B"), fillOpacity: 1 })
+                    .addTo(map)
+                    .bindTooltip(el.getAttribute("data-name") || "", { direction: "top", offset: [0, -8] });
+            }
 
             // "Back" returns to the previous page (e.g. search results) when it was on this site.
             var back = document.querySelector("[data-fc-back]");

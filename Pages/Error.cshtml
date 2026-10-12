@@ -1,171 +1,26 @@
-﻿@page
+@page
 @model ErrorModel
 @{
     ViewData["Title"] = Localizer["ERROR_PAGE_TITLE"];
+    var title = ViewData["error_title"]?.ToString();
 }
-<head><link href="~/css2/error.css" integrity="sha256-yiZYepIwU9N56cqrhArTEqBqq7ce2LNk3MZn8MahOpQ=" rel="stylesheet" /></head>
-<style nonce="@HttpContextAccessor.HttpContext?.Items["CSP-Style-Nonce"]">
-    #perspec1 {
-        --spreaddist: 125px;
-        --scaledist: .75;
-        --vertdist: -25px;
-    }
 
-    #perspec2 {
-        --spreaddist: 100px;
-        --scaledist: .8;
-        --vertdist: -20px;
-    }
-
-    #perspec3 {
-        --spreaddist: 75px;
-        --scaledist: .85;
-        --vertdist: -15px;
-    }
-
-    #perspec4 {
-        --spreaddist: 50px;
-        --scaledist: .9;
-        --vertdist: -10px;
-    }
-
-    #perspec5 {
-        --spreaddist: 25px;
-        --scaledist: .95;
-        --vertdist: -5px;
-    }
-
-    #perspec6 {
-        --spreaddist: 0px;
-        --scaledist: 1;
-        --vertdist: 0px;
-    }
-    main {
-        background-color: #00AD6A;
-    }
-</style>
-
-<div class="container">
-    <div class="error">
-        @if (@ViewData["error_title"] == null)
+<div class="fc-auth__form" style="flex: 1 0 auto; padding-top: 64px; padding-bottom: 64px">
+    <div class="fc-auth__box fc-auth__box--card">
+        <span class="fc-icon-tile" aria-hidden="true"><svg class="fc-icon" style="width: 26px; height: 26px" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v6M12 16.5h.01"></path></svg></span>
+        <h1 style="font-size: 30px">@(string.IsNullOrWhiteSpace(title) ? Localizer["FC_ERROR_TITLE"].Value : title)</h1>
+        <p class="fc-muted">@Localizer["FC_ERROR_TEXT"]</p>
+        <div class="fc-btn-row">
+            <a asp-page="/Index" class="fc-btn fc-btn--primary">@Localizer["FC_BACK_TO_SITE"]</a>
+            <a asp-page="/Contact" class="fc-btn fc-btn--quiet">@Localizer["NAV_CONTACT"]</a>
+        </div>
+        @if (!string.IsNullOrWhiteSpace(Model.ExceptionMessage) || !string.IsNullOrWhiteSpace(Model.RequestId))
         {
-            <h1 style="font-size: calc(1.075rem + 0.5vw);">500</h1>
-            <h2>@Localizer["ERROR_PAGE_TITLE"]</h2>
+            <details class="fc-small fc-muted">
+                <summary style="cursor: pointer; font-weight: 700">@Localizer["FC_TECHNICAL_DETAILS"]</summary>
+                <p style="margin-top: 8px"><strong>@Localizer["ERROR_LABEL_MESSAGE"]</strong> @Model.ExceptionMessage</p>
+                <p><strong>@Localizer["ERROR_LABEL_ID"]</strong> <code>@Model.RequestId</code></p>
+            </details>
         }
-        else if (@ViewData["error_title"] != null) 
-        {
-            <h1>@Html.Encode(ViewData["error_title"].ToString())</h1>
-        }
-        <p>
-            <strong>@Localizer["ERROR_LABEL_MESSAGE"]</strong> @Model.ExceptionMessage
-            <br>
-            <strong>@Localizer["ERROR_LABEL_ID"]</strong> @Model.RequestId
-        </p>
-    </div>
-    <div class="stack-container">
-        <div class="card-container">
-            <div class="perspec" id="perspec1">
-                <div class="card">
-                    <div class="writing">
-                        <div class="topbar">
-                            <div class="red"></div>
-                            <div class="yellow"></div>
-                            <div class="green"></div>
-                        </div>
-                        <div class="code">
-                            <ul>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="card-container">
-            <div class="perspec" id="perspec2">
-                <div class="card">
-                    <div class="writing">
-                        <div class="topbar">
-                            <div class="red"></div>
-                            <div class="yellow"></div>
-                            <div class="green"></div>
-                        </div>
-                        <div class="code">
-                            <ul>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="card-container">
-            <div class="perspec" id="perspec3">
-                <div class="card">
-                    <div class="writing">
-                        <div class="topbar">
-                            <div class="red"></div>
-                            <div class="yellow"></div>
-                            <div class="green"></div>
-                        </div>
-                        <div class="code">
-                            <ul>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="card-container">
-            <div class="perspec" id="perspec4">
-                <div class="card">
-                    <div class="writing">
-                        <div class="topbar">
-                            <div class="red"></div>
-                            <div class="yellow"></div>
-                            <div class="green"></div>
-                        </div>
-                        <div class="code">
-                            <ul>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="card-container">
-            <div class="perspec" id="perspec5">
-                <div class="card">
-                    <div class="writing">
-                        <div class="topbar">
-                            <div class="red"></div>
-                            <div class="yellow"></div>
-                            <div class="green"></div>
-                        </div>
-                        <div class="code">
-                            <ul>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="card-container">
-            <div class="perspec" id="perspec6">
-                <div class="card">
-                    <div class="writing">
-                        <div class="topbar">
-                            <div class="red"></div>
-                            <div class="yellow"></div>
-                            <div class="green"></div>
-                        </div>
-                        <div class="code">
-                            <ul>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
     </div>
 </div>
-
-<script src="~/js/errorPage.js" integrity="sha256-Srf/MiIydchEpcpsQZkKo3jFQbUbkKRmgnlVtB1jUSQ=" crossorigin="anonymous"></script>

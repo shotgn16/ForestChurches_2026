@@ -1,27 +1,26 @@
-﻿@page
+@page
 @model Disable2faModel
 @{
-    ViewData["Title"] = "Disable two-factor authentication (2FA)";
+    ViewData["Title"] = Localizer["FC_TURN_OFF_2FA"];
     ViewData["ActivePage"] = ManageNavPages.TwoFactorAuthentication;
 }
 
+<div class="fc-page-head">
+    <div>
+        <a asp-page="./TwoFactorAuthentication" class="fc-small" style="font-weight: 700">← @Localizer["TITLE_TWO_FACTOR_AUTHENTICATION"]</a>
+        <h1 style="margin-top: 6px">@Localizer["FC_TURN_OFF_2FA"]</h1>
+    </div>
+</div>
+
 <partial name="_StatusMessage" for="StatusMessage" />
-<h3>@Html.Encode(ViewData["Title"])</h3>
 
-<div class="alert alert-warning" role="alert">
-    <p>
-        <strong>This action only disables 2FA.</strong>
-    </p>
-    <p>
-        Disabling 2FA does not change the keys used in authenticator apps. If you wish to change the key
-        used in an authenticator app you should <a asp-page="./ResetAuthenticator">reset your authenticator keys.</a>
-    </p>
-</div>
-
-<div>
-    <form method="post">
-        <button class="btn btn-danger" type="submit">Disable 2FA</button>
-        <!-- AntiforgeryToken -->
-        @Html.AntiForgeryToken()
+<section class="fc-card fc-card--danger fc-stack" style="gap: 14px">
+    <div class="fc-alert fc-alert--warn" role="alert">
+        <strong>@Localizer["FC_TURN_OFF_2FA_WARN"]</strong>
+        <p style="margin-top: 6px">@Localizer["FC_TURN_OFF_2FA_TEXT"] <a asp-page="./ResetAuthenticator">@Localizer["BTN_RESET_AUTHENTICATOR_APP"]</a>.</p>
+    </div>
+    <form method="post" class="fc-btn-row">
+        <a asp-page="./TwoFactorAuthentication" class="fc-btn fc-btn--quiet">@Localizer["FC_CANCEL"]</a>
+        <button class="fc-btn fc-btn--danger" type="submit">@Localizer["BTN_DISABLE_2FA"]</button>
     </form>
-</div>
+</section>

@@ -1,38 +1,26 @@
-﻿@page
+@page
 @model ResetAuthenticatorModel
 @{
-    ViewData["Title"] = "Reset authenticator key";
+    ViewData["Title"] = Localizer["BTN_RESET_AUTHENTICATOR_APP"];
     ViewData["ActivePage"] = ManageNavPages.TwoFactorAuthentication;
 }
-<head>
-    <link rel="stylesheet" href="~/css2/profile.css" asp-append-version="true" />
-</head>
 
-<style nonce="@HttpContextAccessor.HttpContext?.Items["CSP-Style-Nonce"]">
-    section {
-        color: white;
-        padding-top: calc(5.375rem + 1.0vw);
-    }
-</style>
+<div class="fc-page-head">
+    <div>
+        <a asp-page="./TwoFactorAuthentication" class="fc-small" style="font-weight: 700">← @Localizer["TITLE_TWO_FACTOR_AUTHENTICATION"]</a>
+        <h1 style="margin-top: 6px">@Localizer["BTN_RESET_AUTHENTICATOR_APP"]</h1>
+    </div>
+</div>
 
 <partial name="_StatusMessage" for="StatusMessage" />
-<section>
-    <h3>@ViewData["Title"]</h3>
-    <div class="alert alert-warning" role="alert">
-        <p>
-            <span class="glyphicon glyphicon-warning-sign"></span>
-            <strong>If you reset your authenticator key your authenticator app will not work until you reconfigure it.</strong>
-        </p>
-        <p>
-            This process disables 2FA until you verify your authenticator app.
-            If you do not complete your authenticator app configuration you may lose access to your account.
-        </p>
+
+<section class="fc-card fc-card--danger fc-stack" style="gap: 14px">
+    <div class="fc-alert fc-alert--warn" role="alert">
+        <strong>@Localizer["FC_RESET_AUTH_WARN"]</strong>
+        <p style="margin-top: 6px">@Localizer["FC_RESET_AUTH_TEXT"]</p>
     </div>
-    <div>
-        <form id="reset-authenticator-form" method="post">
-            <button id="reset-authenticator-button" class="btn btn-danger" type="submit">Reset authenticator key</button>
-            <!-- AntiforgeryToken -->
-            @Html.AntiForgeryToken()
-        </form>
-    </div>
+    <form id="reset-authenticator-form" method="post" class="fc-btn-row">
+        <a asp-page="./TwoFactorAuthentication" class="fc-btn fc-btn--quiet">@Localizer["FC_CANCEL"]</a>
+        <button id="reset-authenticator-button" class="fc-btn fc-btn--danger" type="submit">@Localizer["BTN_RESET_AUTHENTICATOR_APP"]</button>
+    </form>
 </section>

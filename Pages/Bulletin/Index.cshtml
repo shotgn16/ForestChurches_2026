@@ -26,15 +26,15 @@
     var hasReadings = !string.IsNullOrWhiteSpace(b?.FirstReading) || !string.IsNullOrWhiteSpace(b?.GospelReading);
 }
 
-<section style="background: var(--fc-ink); color: var(--fc-ground)">
+<section style="background: var(--fc-band); color: var(--fc-on-band)">
     <div class="fc-container fc-container--narrow fc-stack" style="padding-top: 56px; padding-bottom: 48px; gap: 14px">
-        <p style="font-size: 15px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: #CFD8C2">
+        <p style="font-size: 15px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--fc-on-band-muted)">
             @(b?.ParishName ?? Localizer["FC_BULLETIN_DEFAULT_PARISH"].Value)@(string.IsNullOrWhiteSpace(b?.SundayName) ? "" : " · " + b!.SundayName)
         </p>
         <h1 style="color: #fff; font-size: clamp(34px, 5vw, 52px)">@(b?.Title ?? Localizer["FC_BULLETIN_DEFAULT_TITLE"].Value)</h1>
         @if (b != null)
         {
-            <p style="font-size: 18px; color: #E4E8DC">@b.BulletinDate.ToString("dddd d MMMM yyyy")</p>
+            <p style="font-size: 18px; color: var(--fc-on-band-muted)">@b.BulletinDate.ToString("dddd d MMMM yyyy")</p>
             <div class="fc-btn-row fc-no-print" style="margin-top: 8px">
                 @if (!string.IsNullOrWhiteSpace(b.PdfFilename))
                 {
@@ -151,11 +151,3 @@
         </div>
     }
 </div>
-
-@section Scripts {
-    <script nonce="@HttpContextAccessor.HttpContext?.Items["CSP-Script-Nonce"]">
-        document.querySelectorAll("[data-fc-print]").forEach(function (btn) {
-            btn.addEventListener("click", function () { window.print(); });
-        });
-    </script>
-}
