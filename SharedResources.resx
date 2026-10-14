@@ -1501,7 +1501,7 @@
     <value>On</value>
   </data>
   <data name="FC_OFF_RECOMMENDED" xml:space="preserve">
-    <value>Off — recommended</value>
+    <value>Off — we recommend turning it on</value>
   </data>
   <data name="FC_RECOVERY_CODES" xml:space="preserve">
     <value>Recovery codes</value>
