@@ -2514,4 +2514,124 @@
   <data name="FC_ADM_PAST_EVENTS" xml:space="preserve">
     <value>Minulé události</value>
   </data>
+  <data name="FC_ADM_EMAIL_DELIVERY" xml:space="preserve">
+    <value>Doručování e-mailů</value>
+  </data>
+  <data name="FC_ADM_EMAIL_DELIVERY_LEAD" xml:space="preserve">
+    <value>Zkontrolujte, zda e-mailová aplikace každý e-mail přijala a zda byl odeslán.</value>
+  </data>
+  <data name="FC_ADM_EMAIL_DELIVERY_LINK" xml:space="preserve">
+    <value>Zkontrolovat doručení</value>
+  </data>
+  <data name="FC_ADM_REFRESH" xml:space="preserve">
+    <value>Obnovit</value>
+  </data>
+  <data name="FC_ADM_EMAIL_SERVICE" xml:space="preserve">
+    <value>E-mailová aplikace (api.forestchurches.co.uk)</value>
+  </data>
+  <data name="FC_ADM_EMAIL_SERVICE_OK" xml:space="preserve">
+    <value>Funguje</value>
+  </data>
+  <data name="FC_ADM_EMAIL_SERVICE_PROBLEM" xml:space="preserve">
+    <value>Problém</value>
+  </data>
+  <data name="FC_ADM_EMAIL_RESPONSE" xml:space="preserve">
+    <value>Odezva</value>
+  </data>
+  <data name="FC_ADM_EMAIL_NO_ANSWER" xml:space="preserve">
+    <value>Bez odpovědi</value>
+  </data>
+  <data name="FC_ADM_EMAIL_QUEUE" xml:space="preserve">
+    <value>Čeká ve frontě</value>
+  </data>
+  <data name="FC_ADM_EMAIL_QUEUE_HINT" xml:space="preserve">
+    <value>Odesílá se každých 5 minut</value>
+  </data>
+  <data name="FC_ADM_EMAIL_LAST_RUN" xml:space="preserve">
+    <value>Poslední odeslání</value>
+  </data>
+  <data name="FC_ADM_EMAIL_APP_TOTALS" xml:space="preserve">
+    <value>Celkem v e-mailové aplikaci</value>
+  </data>
+  <data name="FC_ADM_EMAIL_SENT_FAILED" xml:space="preserve">
+    <value>odesláno / selhalo</value>
+  </data>
+  <data name="FC_ADM_EMAIL_CHECKED_AT" xml:space="preserve">
+    <value>Zkontrolováno v {0}</value>
+  </data>
+  <data name="FC_ADM_RECENT_EMAILS" xml:space="preserve">
+    <value>Nedávné e-maily</value>
+  </data>
+  <data name="FC_ADM_EMAIL_TRACKING_SINCE" xml:space="preserve">
+    <value>Sledováno od {0} (seznam se po restartu webu vymaže).</value>
+  </data>
+  <data name="FC_ADM_EMAIL_CHECK_ALL" xml:space="preserve">
+    <value>Zkontrolovat nedokončené ({0})</value>
+  </data>
+  <data name="FC_ADM_NO_EMAILS" xml:space="preserve">
+    <value>Od spuštění webu nebyly odeslány žádné e-maily.</value>
+  </data>
+  <data name="FC_ADM_EMAIL" xml:space="preserve">
+    <value>E-mail</value>
+  </data>
+  <data name="FC_ADM_EMAIL_ATTEMPTS" xml:space="preserve">
+    <value>Pokusy: {0}</value>
+  </data>
+  <data name="FC_ADM_EMAIL_CHECKED" xml:space="preserve">
+    <value>zkontrolováno {0}</value>
+  </data>
+  <data name="FC_ADM_EMAIL_SENT_AT" xml:space="preserve">
+    <value>Odesláno {0}</value>
+  </data>
+  <data name="FC_ADM_EMAIL_CHECK" xml:space="preserve">
+    <value>Zkontrolovat</value>
+  </data>
+  <data name="FC_ADM_EMAIL_MEANINGS" xml:space="preserve">
+    <value>Co znamenají stavy</value>
+  </data>
+  <data name="FC_ADM_EMAIL_SENDING" xml:space="preserve">
+    <value>Předává se</value>
+  </data>
+  <data name="FC_ADM_EMAIL_SENDING_TEXT" xml:space="preserve">
+    <value>Web stále předává e-mail e-mailové aplikaci (zkouší to až třikrát).</value>
+  </data>
+  <data name="FC_ADM_EMAIL_RECEIVED" xml:space="preserve">
+    <value>Přijato</value>
+  </data>
+  <data name="FC_ADM_EMAIL_RECEIVED_TEXT" xml:space="preserve">
+    <value>E-mailová aplikace potvrdila přijetí. Tlačítkem Zkontrolovat zjistíte, zda byl odeslán.</value>
+  </data>
+  <data name="FC_ADM_EMAIL_WAITING" xml:space="preserve">
+    <value>Čeká na odeslání</value>
+  </data>
+  <data name="FC_ADM_EMAIL_WAITING_TEXT" xml:space="preserve">
+    <value>E-mail je ve frontě e-mailové aplikace. Odesílá se každých 5 minut a neúspěšné pokusy se dvakrát opakují.</value>
+  </data>
+  <data name="FC_ADM_EMAIL_SENT" xml:space="preserve">
+    <value>Odesláno</value>
+  </data>
+  <data name="FC_ADM_EMAIL_SENT_TEXT" xml:space="preserve">
+    <value>E-mailová aplikace předala e-mail poštovnímu serveru. Pokud stále nedorazil, ať příjemce zkontroluje spam.</value>
+  </data>
+  <data name="FC_ADM_EMAIL_NOT_RECEIVED" xml:space="preserve">
+    <value>Nepřijato</value>
+  </data>
+  <data name="FC_ADM_EMAIL_NOT_RECEIVED_TEXT" xml:space="preserve">
+    <value>Všechny 3 pokusy o spojení s e-mailovou aplikací selhaly, takže e-mail nikdy nedostala. Důvod je uveden pod stavem; aplikace možná neběží.</value>
+  </data>
+  <data name="FC_ADM_EMAIL_SEND_FAILED" xml:space="preserve">
+    <value>Nelze odeslat</value>
+  </data>
+  <data name="FC_ADM_EMAIL_SEND_FAILED_TEXT" xml:space="preserve">
+    <value>E-mailová aplikace e-mail přijala, ale poštovní server ho třikrát odmítl (např. chybná adresa nebo šablona). Chyba je uvedena pod stavem.</value>
+  </data>
+  <data name="FC_ADM_EMAIL_NO_RECORD" xml:space="preserve">
+    <value>Bez záznamu</value>
+  </data>
+  <data name="FC_ADM_EMAIL_NO_RECORD_TEXT" xml:space="preserve">
+    <value>E-mailová aplikace tento e-mail nezná. Mohla se mezitím restartovat (frontu drží v paměti), nebo jde o starší verzi bez kontrol doručení.</value>
+  </data>
+  <data name="FC_ADM_EMAIL_MEMORY_NOTE" xml:space="preserve">
+    <value>Seznam uchovává posledních 500 e-mailů a po restartu webu se vymaže. Každý krok se také zapisuje do protokolů s ID e-mailu, takže starší záznamy najdete v Protokolech.</value>
+  </data>
 </root>

@@ -2514,4 +2514,124 @@
   <data name="FC_ADM_PAST_EVENTS" xml:space="preserve">
     <value>Vergangene Veranstaltungen</value>
   </data>
+  <data name="FC_ADM_EMAIL_DELIVERY" xml:space="preserve">
+    <value>E-Mail-Zustellung</value>
+  </data>
+  <data name="FC_ADM_EMAIL_DELIVERY_LEAD" xml:space="preserve">
+    <value>Prüfen Sie, ob die E-Mail-App jede E-Mail erhalten und ob sie sie verschickt hat.</value>
+  </data>
+  <data name="FC_ADM_EMAIL_DELIVERY_LINK" xml:space="preserve">
+    <value>Zustellung prüfen</value>
+  </data>
+  <data name="FC_ADM_REFRESH" xml:space="preserve">
+    <value>Aktualisieren</value>
+  </data>
+  <data name="FC_ADM_EMAIL_SERVICE" xml:space="preserve">
+    <value>E-Mail-App (api.forestchurches.co.uk)</value>
+  </data>
+  <data name="FC_ADM_EMAIL_SERVICE_OK" xml:space="preserve">
+    <value>In Betrieb</value>
+  </data>
+  <data name="FC_ADM_EMAIL_SERVICE_PROBLEM" xml:space="preserve">
+    <value>Problem</value>
+  </data>
+  <data name="FC_ADM_EMAIL_RESPONSE" xml:space="preserve">
+    <value>Antwortzeit</value>
+  </data>
+  <data name="FC_ADM_EMAIL_NO_ANSWER" xml:space="preserve">
+    <value>Keine Antwort</value>
+  </data>
+  <data name="FC_ADM_EMAIL_QUEUE" xml:space="preserve">
+    <value>In der Warteschlange</value>
+  </data>
+  <data name="FC_ADM_EMAIL_QUEUE_HINT" xml:space="preserve">
+    <value>Versand alle 5 Minuten</value>
+  </data>
+  <data name="FC_ADM_EMAIL_LAST_RUN" xml:space="preserve">
+    <value>Letzter Versandlauf</value>
+  </data>
+  <data name="FC_ADM_EMAIL_APP_TOTALS" xml:space="preserve">
+    <value>Summen der E-Mail-App</value>
+  </data>
+  <data name="FC_ADM_EMAIL_SENT_FAILED" xml:space="preserve">
+    <value>gesendet / fehlgeschlagen</value>
+  </data>
+  <data name="FC_ADM_EMAIL_CHECKED_AT" xml:space="preserve">
+    <value>Geprüft um {0}</value>
+  </data>
+  <data name="FC_ADM_RECENT_EMAILS" xml:space="preserve">
+    <value>Letzte E-Mails</value>
+  </data>
+  <data name="FC_ADM_EMAIL_TRACKING_SINCE" xml:space="preserve">
+    <value>Erfasst seit {0} (die Liste beginnt nach einem Neustart der Website neu).</value>
+  </data>
+  <data name="FC_ADM_EMAIL_CHECK_ALL" xml:space="preserve">
+    <value>Offene prüfen ({0})</value>
+  </data>
+  <data name="FC_ADM_NO_EMAILS" xml:space="preserve">
+    <value>Seit dem Start der Website wurden keine E-Mails versendet.</value>
+  </data>
+  <data name="FC_ADM_EMAIL" xml:space="preserve">
+    <value>E-Mail</value>
+  </data>
+  <data name="FC_ADM_EMAIL_ATTEMPTS" xml:space="preserve">
+    <value>Versuche: {0}</value>
+  </data>
+  <data name="FC_ADM_EMAIL_CHECKED" xml:space="preserve">
+    <value>geprüft {0}</value>
+  </data>
+  <data name="FC_ADM_EMAIL_SENT_AT" xml:space="preserve">
+    <value>Gesendet {0}</value>
+  </data>
+  <data name="FC_ADM_EMAIL_CHECK" xml:space="preserve">
+    <value>Prüfen</value>
+  </data>
+  <data name="FC_ADM_EMAIL_MEANINGS" xml:space="preserve">
+    <value>Was die Status bedeuten</value>
+  </data>
+  <data name="FC_ADM_EMAIL_SENDING" xml:space="preserve">
+    <value>Wird übergeben</value>
+  </data>
+  <data name="FC_ADM_EMAIL_SENDING_TEXT" xml:space="preserve">
+    <value>Die Website übergibt die E-Mail noch an die E-Mail-App (bis zu 3 Versuche).</value>
+  </data>
+  <data name="FC_ADM_EMAIL_RECEIVED" xml:space="preserve">
+    <value>Empfangen</value>
+  </data>
+  <data name="FC_ADM_EMAIL_RECEIVED_TEXT" xml:space="preserve">
+    <value>Die E-Mail-App hat den Empfang bestätigt. Mit „Prüfen“ sehen Sie, ob sie verschickt wurde.</value>
+  </data>
+  <data name="FC_ADM_EMAIL_WAITING" xml:space="preserve">
+    <value>Wartet auf Versand</value>
+  </data>
+  <data name="FC_ADM_EMAIL_WAITING_TEXT" xml:space="preserve">
+    <value>Die E-Mail steht in der Warteschlange. Versand alle 5 Minuten; Fehlschläge werden zweimal wiederholt.</value>
+  </data>
+  <data name="FC_ADM_EMAIL_SENT" xml:space="preserve">
+    <value>Gesendet</value>
+  </data>
+  <data name="FC_ADM_EMAIL_SENT_TEXT" xml:space="preserve">
+    <value>Die E-Mail-App hat die E-Mail an den Mailserver übergeben. Kommt sie nicht an, sollte der Empfänger im Spam-Ordner nachsehen.</value>
+  </data>
+  <data name="FC_ADM_EMAIL_NOT_RECEIVED" xml:space="preserve">
+    <value>Nicht empfangen</value>
+  </data>
+  <data name="FC_ADM_EMAIL_NOT_RECEIVED_TEXT" xml:space="preserve">
+    <value>Alle 3 Versuche, die E-Mail-App zu erreichen, sind fehlgeschlagen; sie hat die E-Mail nie erhalten. Der Grund steht unter dem Status – evtl. ist die App ausgefallen.</value>
+  </data>
+  <data name="FC_ADM_EMAIL_SEND_FAILED" xml:space="preserve">
+    <value>Versand fehlgeschlagen</value>
+  </data>
+  <data name="FC_ADM_EMAIL_SEND_FAILED_TEXT" xml:space="preserve">
+    <value>Die E-Mail-App hat sie erhalten, aber der Mailserver hat sie 3-mal abgelehnt (z. B. falsche Adresse oder Vorlage). Der Fehler steht unter dem Status.</value>
+  </data>
+  <data name="FC_ADM_EMAIL_NO_RECORD" xml:space="preserve">
+    <value>Kein Eintrag</value>
+  </data>
+  <data name="FC_ADM_EMAIL_NO_RECORD_TEXT" xml:space="preserve">
+    <value>Die E-Mail-App kennt diese E-Mail nicht. Sie wurde evtl. neu gestartet (die Warteschlange liegt im Arbeitsspeicher) oder ist eine ältere Version ohne Zustellprüfung.</value>
+  </data>
+  <data name="FC_ADM_EMAIL_MEMORY_NOTE" xml:space="preserve">
+    <value>Die Liste enthält die neuesten 500 E-Mails und wird beim Neustart der Website geleert. Jeder Schritt wird zusätzlich mit der E-Mail-ID protokolliert – ältere Einträge finden Sie unter „Protokolle“.</value>
+  </data>
 </root>

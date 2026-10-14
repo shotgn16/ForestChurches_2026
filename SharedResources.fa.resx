@@ -2514,4 +2514,124 @@
   <data name="FC_ADM_PAST_EVENTS" xml:space="preserve">
     <value>رویدادهای گذشته</value>
   </data>
+  <data name="FC_ADM_EMAIL_DELIVERY" xml:space="preserve">
+    <value>تحویل ایمیل</value>
+  </data>
+  <data name="FC_ADM_EMAIL_DELIVERY_LEAD" xml:space="preserve">
+    <value>بررسی کنید که برنامهٔ ایمیل هر ایمیل را دریافت کرده و آیا آن را فرستاده است.</value>
+  </data>
+  <data name="FC_ADM_EMAIL_DELIVERY_LINK" xml:space="preserve">
+    <value>بررسی تحویل</value>
+  </data>
+  <data name="FC_ADM_REFRESH" xml:space="preserve">
+    <value>تازه‌سازی</value>
+  </data>
+  <data name="FC_ADM_EMAIL_SERVICE" xml:space="preserve">
+    <value>برنامهٔ ایمیل (api.forestchurches.co.uk)</value>
+  </data>
+  <data name="FC_ADM_EMAIL_SERVICE_OK" xml:space="preserve">
+    <value>در حال کار</value>
+  </data>
+  <data name="FC_ADM_EMAIL_SERVICE_PROBLEM" xml:space="preserve">
+    <value>مشکل</value>
+  </data>
+  <data name="FC_ADM_EMAIL_RESPONSE" xml:space="preserve">
+    <value>پاسخ</value>
+  </data>
+  <data name="FC_ADM_EMAIL_NO_ANSWER" xml:space="preserve">
+    <value>بدون پاسخ</value>
+  </data>
+  <data name="FC_ADM_EMAIL_QUEUE" xml:space="preserve">
+    <value>در صف انتظار</value>
+  </data>
+  <data name="FC_ADM_EMAIL_QUEUE_HINT" xml:space="preserve">
+    <value>هر ۵ دقیقه فرستاده می‌شود</value>
+  </data>
+  <data name="FC_ADM_EMAIL_LAST_RUN" xml:space="preserve">
+    <value>آخرین نوبت ارسال</value>
+  </data>
+  <data name="FC_ADM_EMAIL_APP_TOTALS" xml:space="preserve">
+    <value>آمار برنامهٔ ایمیل</value>
+  </data>
+  <data name="FC_ADM_EMAIL_SENT_FAILED" xml:space="preserve">
+    <value>فرستاده / ناموفق</value>
+  </data>
+  <data name="FC_ADM_EMAIL_CHECKED_AT" xml:space="preserve">
+    <value>بررسی‌شده در {0}</value>
+  </data>
+  <data name="FC_ADM_RECENT_EMAILS" xml:space="preserve">
+    <value>ایمیل‌های اخیر</value>
+  </data>
+  <data name="FC_ADM_EMAIL_TRACKING_SINCE" xml:space="preserve">
+    <value>ثبت از {0} (با راه‌اندازی دوبارهٔ سایت، فهرست از نو شروع می‌شود).</value>
+  </data>
+  <data name="FC_ADM_EMAIL_CHECK_ALL" xml:space="preserve">
+    <value>بررسی موارد ناتمام ({0})</value>
+  </data>
+  <data name="FC_ADM_NO_EMAILS" xml:space="preserve">
+    <value>از زمان راه‌اندازی سایت ایمیلی فرستاده نشده است.</value>
+  </data>
+  <data name="FC_ADM_EMAIL" xml:space="preserve">
+    <value>ایمیل</value>
+  </data>
+  <data name="FC_ADM_EMAIL_ATTEMPTS" xml:space="preserve">
+    <value>تلاش‌ها: {0}</value>
+  </data>
+  <data name="FC_ADM_EMAIL_CHECKED" xml:space="preserve">
+    <value>بررسی در {0}</value>
+  </data>
+  <data name="FC_ADM_EMAIL_SENT_AT" xml:space="preserve">
+    <value>فرستاده‌شده {0}</value>
+  </data>
+  <data name="FC_ADM_EMAIL_CHECK" xml:space="preserve">
+    <value>بررسی</value>
+  </data>
+  <data name="FC_ADM_EMAIL_MEANINGS" xml:space="preserve">
+    <value>معنی وضعیت‌ها</value>
+  </data>
+  <data name="FC_ADM_EMAIL_SENDING" xml:space="preserve">
+    <value>در حال تحویل</value>
+  </data>
+  <data name="FC_ADM_EMAIL_SENDING_TEXT" xml:space="preserve">
+    <value>سایت هنوز در حال فرستادن ایمیل به برنامهٔ ایمیل است (تا ۳ بار تلاش می‌کند).</value>
+  </data>
+  <data name="FC_ADM_EMAIL_RECEIVED" xml:space="preserve">
+    <value>دریافت شد</value>
+  </data>
+  <data name="FC_ADM_EMAIL_RECEIVED_TEXT" xml:space="preserve">
+    <value>برنامهٔ ایمیل دریافت را تأیید کرد. با «بررسی» ببینید که فرستاده شده یا نه.</value>
+  </data>
+  <data name="FC_ADM_EMAIL_WAITING" xml:space="preserve">
+    <value>در انتظار ارسال</value>
+  </data>
+  <data name="FC_ADM_EMAIL_WAITING_TEXT" xml:space="preserve">
+    <value>ایمیل در صف برنامهٔ ایمیل است. ایمیل‌ها هر ۵ دقیقه فرستاده می‌شوند و ارسال ناموفق دو بار تکرار می‌شود.</value>
+  </data>
+  <data name="FC_ADM_EMAIL_SENT" xml:space="preserve">
+    <value>فرستاده شد</value>
+  </data>
+  <data name="FC_ADM_EMAIL_SENT_TEXT" xml:space="preserve">
+    <value>برنامهٔ ایمیل، ایمیل را به سرور ایمیل تحویل داد. اگر هنوز نرسیده، گیرنده پوشهٔ هرزنامه را بررسی کند.</value>
+  </data>
+  <data name="FC_ADM_EMAIL_NOT_RECEIVED" xml:space="preserve">
+    <value>دریافت نشد</value>
+  </data>
+  <data name="FC_ADM_EMAIL_NOT_RECEIVED_TEXT" xml:space="preserve">
+    <value>هر ۳ تلاش برای رسیدن به برنامهٔ ایمیل ناموفق بود و ایمیل هرگز دریافت نشد. دلیل زیر وضعیت آمده است؛ شاید برنامهٔ ایمیل از کار افتاده باشد.</value>
+  </data>
+  <data name="FC_ADM_EMAIL_SEND_FAILED" xml:space="preserve">
+    <value>ارسال نشد</value>
+  </data>
+  <data name="FC_ADM_EMAIL_SEND_FAILED_TEXT" xml:space="preserve">
+    <value>برنامهٔ ایمیل آن را دریافت کرد اما سرور ایمیل ۳ بار آن را نپذیرفت (مثلاً نشانی یا قالب نادرست). خطا زیر وضعیت آمده است.</value>
+  </data>
+  <data name="FC_ADM_EMAIL_NO_RECORD" xml:space="preserve">
+    <value>بدون سابقه</value>
+  </data>
+  <data name="FC_ADM_EMAIL_NO_RECORD_TEXT" xml:space="preserve">
+    <value>برنامهٔ ایمیل این ایمیل را نمی‌شناسد. شاید از آن زمان دوباره راه‌اندازی شده باشد (صف در حافظه نگه داشته می‌شود) یا نسخهٔ قدیمی‌تری بدون بررسی تحویل باشد.</value>
+  </data>
+  <data name="FC_ADM_EMAIL_MEMORY_NOTE" xml:space="preserve">
+    <value>این فهرست ۵۰۰ ایمیل آخر را نگه می‌دارد و با راه‌اندازی دوبارهٔ سایت پاک می‌شود. هر مرحله با شناسهٔ ایمیل در گزارش‌ها هم ثبت می‌شود؛ برای موارد قدیمی‌تر به «گزارش‌ها» بروید.</value>
+  </data>
 </root>

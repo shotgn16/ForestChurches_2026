@@ -16,15 +16,18 @@ namespace ForestChurches.Components.Email
         private readonly ILogger<MailRepository> _logger;
 
         private readonly JwtTokenGenerator jwt;
+        private readonly EmailDeliveryTracker _tracker;
 
         public MailRepository(
             IConfiguration configuration,
             Configuration.Configuration configurationClass,
             IHttpClientFactory httpClientFactory,
             ILogger<MailRepository> logger,
-            JwtTokenGenerator jwtTokenGenerator)
+            JwtTokenGenerator jwtTokenGenerator,
+            EmailDeliveryTracker tracker)
         {
             jwt = jwtTokenGenerator;
+            _tracker = tracker;
             _configuration = configuration;
             _configurationClass = configurationClass;
             _httpClientFactory = httpClientFactory;
@@ -32,18 +35,25 @@ namespace ForestChurches.Components.Email
         }
 
         /// <summary>
-        /// Builds an EmailMessage payload and POSTs it to the remote EmailManagement API using RestSharp.
-        /// Assumptions:
-        /// - EmailManagement expects POST /Email with EmailMessage JSON:
-        ///   { To, Subject, Body, Template, Data }
-        /// - Template should be a path available to the receiving app (or use shared template names).
+        /// Builds an EmailMessage payload and POSTs it to the email app (EmailManagement) using RestSharp.
+        /// - EmailManagement expects POST /Email with EmailMessage JSON: { Id, To, Subject, Body, Template, Data }
+        /// - Every email gets a tracking ID (EmailId). It's sent to the email app, written on every log line
+        ///   about this email, and recorded in EmailDeliveryTracker so admins can check it under
+        ///   Admin → Email delivery. A 2xx reply means the email app has received and queued the email.
         /// </summary>
         public async Task StartEmailAsync(string recipientEmail, Dictionary<string, string> userData, string subject, string templatePath)
         {
+            var emailId = Guid.NewGuid().ToString("N");
+            _tracker.Start(emailId, recipientEmail, subject, templatePath);
+
+            using var logScope = _logger.BeginScope(new Dictionary<string, object> { ["EmailId"] = emailId });
+            _logger.LogInformation("Email {EmailId} created: To={Recipient}, Subject={Subject}, Template={Template}", emailId, recipientEmail, subject, templatePath);
+
             try
             {
                 var payload = new
                 {
+                    Id = emailId,
                     To = recipientEmail,
                     Subject = subject,
                     Body = string.Empty,
@@ -51,37 +61,10 @@ namespace ForestChurches.Components.Email
                     Data = userData ?? new Dictionary<string, string>()
                 };
 
-                // Prefer an explicitly configured HTTPS base URL. Fail fast if it's present but not HTTPS.
-                var baseUrl = _configuration["EmailApi:BaseUrl"] ?? string.Empty;
+                var baseUrl = EmailApiEndpoint.Resolve(_configuration, _configurationClass);
+                var baseUri = new Uri(baseUrl);
 
-                if (!string.IsNullOrWhiteSpace(baseUrl))
-                {
-                    if (!baseUrl.StartsWith("https://", StringComparison.OrdinalIgnoreCase))
-                    {
-                        throw new InvalidOperationException("EmailApi:BaseUrl must start with 'https://'. Configure a secure HTTPS URL.");
-                    }
-                }
-                else if (_configurationClass?.Client != null)
-                {
-                    if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Production")
-                    {
-                        baseUrl = _configurationClass.Client.GetSecret("app-email-url")?.Value?.Value;
-                    }
-                    else if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Development")
-                    {
-                        baseUrl = "https://localhost:7291";
-                    }
-                }
-
-                if (string.IsNullOrWhiteSpace(baseUrl))
-                {
-                    throw new InvalidOperationException("EmailApi:BaseUrl is not configured.");
-                }
-
-                // Ensure trailing slash handled by RestSharp when baseUri provided
-                var baseUri = new Uri(baseUrl.TrimEnd('/') + "/");
-
-                // Create RestSharp client and request. Disable automatic redirects to avoid losing Authorization header.
+                // Disable automatic redirects to avoid losing the Authorization header.
                 var client = new RestClient(new RestClientOptions(baseUri)
                 {
                     FollowRedirects = false
@@ -90,159 +73,137 @@ namespace ForestChurches.Components.Email
                 var request = new RestRequest("Email", Method.Post)
                     .AddJsonBody(payload);
 
-                // Hard limit for the request in milliseconds (35s)
+                // Hard limit for the request (35s)
                 request.Timeout = TimeSpan.FromSeconds(35);
 
-                // Bearer token: prefer config, fall back to KeyVault via configurationClass
                 var token = jwt.GenerateToken();
 
-                // debug: do not log token contents; only presence/length
-                _logger.LogInformation("Generated token present={HasToken} length={Len} for Recipient={Recipient}", !string.IsNullOrWhiteSpace(token), token?.Length ?? 0, recipientEmail);
+                // Never log the token itself; only whether one exists.
+                _logger.LogDebug("Email {EmailId}: token present={HasToken} length={Len}", emailId, !string.IsNullOrWhiteSpace(token), token?.Length ?? 0);
 
                 if (!string.IsNullOrWhiteSpace(token))
                 {
                     request.AddHeader("Authorization", $"Bearer {token}");
                 }
 
-                // Retry logic with exponential backoff for transient failures
+                // Retry with growing timeouts for transient failures
                 int maxRetries = 3;
                 int[] timeoutSeconds = { 30, 40, 50 };
                 Exception lastException = null;
 
                 for (int attempt = 0; attempt < maxRetries; attempt++)
                 {
+                    _tracker.Update(emailId, r => r.Attempts = attempt + 1);
+                    var timer = System.Diagnostics.Stopwatch.StartNew();
                     try
                     {
                         int timeoutSecs = timeoutSeconds[attempt];
-                        _logger.LogInformation("Email API attempt {Attempt}/{MaxAttempts} with {TimeoutSecs}s timeout. Recipient: {Recipient}", 
-                            attempt + 1, maxRetries, timeoutSecs, recipientEmail);
+                        _logger.LogInformation("Email {EmailId}: posting to email app {BaseUrl}, attempt {Attempt}/{MaxAttempts}, timeout {TimeoutSecs}s",
+                            emailId, baseUri.Host, attempt + 1, maxRetries, timeoutSecs);
 
-                        // Create a fresh cancellation token for this attempt
                         using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(timeoutSecs));
 
                         var response = await client.ExecuteAsync(request, cts.Token).ConfigureAwait(false);
 
                         if (response == null)
                         {
-                            _logger.LogError("Email API returned no response (null). Recipient: {Recipient}", recipientEmail);
                             throw new InvalidOperationException("Email API returned no response.");
                         }
 
-                        if (!response.IsSuccessful)
-                                {
-                                    var respBody = response.Content ?? "(none)";
+                        _tracker.Update(emailId, r => r.LastHttpStatus = (int)response.StatusCode == 0 ? null : (int)response.StatusCode);
 
-                                    // Log WWW-Authenticate challenges (if any) and redirect target (Location) to diagnose 401/403 or redirect behaviour
-                                    var wwwAuthHeader = response.Headers?.FirstOrDefault(h => string.Equals(h.Name, "WWW-Authenticate", StringComparison.OrdinalIgnoreCase))?.Value?.ToString() ?? "(none)";
-                                    var locationHeader = response.Headers?.FirstOrDefault(h => string.Equals(h.Name, "Location", StringComparison.OrdinalIgnoreCase))?.Value?.ToString() ?? "(none)";
+                        // Follow a single redirect by hand so the Authorization header is kept.
+                        var statusCodeInt = (int)response.StatusCode;
+                        var locationHeader = response.Headers?.FirstOrDefault(h => string.Equals(h.Name, "Location", StringComparison.OrdinalIgnoreCase))?.Value?.ToString();
+                        if (statusCodeInt >= 300 && statusCodeInt < 400 && !string.IsNullOrWhiteSpace(locationHeader))
+                        {
+                            var redirectUri = Uri.TryCreate(locationHeader, UriKind.Absolute, out var abs) ? abs : new Uri(baseUri, locationHeader);
+                            _logger.LogInformation("Email {EmailId}: email app redirected {Status} to {Location}; re-posting with the token", emailId, response.StatusCode, redirectUri);
 
-                                    _logger.LogError("Email API returned {Status}. Body: {Body}. WWW-Authenticate: {WwwAuth}. Location: {Location}", response.StatusCode, respBody, wwwAuthHeader, locationHeader);
-
-                                    // If the server returned a redirect (3xx) and provided a Location, handle a single
-                                    // manual redirect by re-sending the POST and preserving the Authorization header.
-                                    var statusCodeInt = (int)response.StatusCode;
-                                    if (statusCodeInt >= 300 && statusCodeInt < 400 && !string.Equals(locationHeader, "(none)", StringComparison.OrdinalIgnoreCase))
-                                    {
-                                        try
-                                        {
-                                            // Resolve relative Location against the original baseUri if needed
-                                            var redirectUri = Uri.TryCreate(locationHeader, UriKind.Absolute, out var abs) ? abs : new Uri(new Uri(baseUrl.TrimEnd('/') + "/"), locationHeader);
-
-                                            _logger.LogInformation("Email API returned redirect {Status} to {Location}. Attempting manual POST to preserve Authorization header.", response.StatusCode, redirectUri);
-
-                                            var redirectClient = new RestClient(new RestClientOptions(redirectUri)
-                                            {
-                                                FollowRedirects = false
-                                            });
-
-                                            var redirectRequest = new RestRequest()
-                                                .AddJsonBody(payload);
-
-                                            redirectRequest.Timeout = TimeSpan.FromSeconds(timeoutSecs);
-
-                                            if (!string.IsNullOrWhiteSpace(token))
-                                            {
-                                                redirectRequest.AddHeader("Authorization", $"Bearer {token}");
-                                            }
-
-                                            var redirectResponse = await redirectClient.ExecuteAsync(redirectRequest, cts.Token).ConfigureAwait(false);
-
-                                            if (redirectResponse == null)
-                                            {
-                                                _logger.LogError("Email API redirect returned no response (null). Recipient: {Recipient}", recipientEmail);
-                                                throw new InvalidOperationException("Email API returned no response on redirect.");
-                                            }
-
-                                            if (!redirectResponse.IsSuccessful)
-                                            {
-                                                var rBody = redirectResponse.Content ?? "(none)";
-                                                var rWwwAuth = redirectResponse.Headers?.FirstOrDefault(h => string.Equals(h.Name, "WWW-Authenticate", StringComparison.OrdinalIgnoreCase))?.Value?.ToString() ?? "(none)";
-                                                var rLocation = redirectResponse.Headers?.FirstOrDefault(h => string.Equals(h.Name, "Location", StringComparison.OrdinalIgnoreCase))?.Value?.ToString() ?? "(none)";
-
-                                                _logger.LogError("Email API redirect attempt returned {Status}. Body: {Body}. WWW-Authenticate: {WwwAuth}. Location: {Location}", redirectResponse.StatusCode, rBody, rWwwAuth, rLocation);
-
-                                                if (redirectResponse.ErrorException != null)
-                                                {
-                                                    throw new InvalidOperationException("Failed to POST to Email API on redirect", redirectResponse.ErrorException);
-                                                }
-
-                                                throw new InvalidOperationException($"Email API redirect returned {(int)redirectResponse.StatusCode} {redirectResponse.StatusDescription}: {rBody}");
-                                            }
-
-                                            _logger.LogInformation("Enqueued email via Email API (redirect): To={To}, Subject={Subject}", recipientEmail, subject);
-                                            return; // success via redirect
-                                        }
-                                        catch (Exception ex)
-                                        {
-                                            _logger.LogError(ex, "Failed to follow redirect for Email API POST to {Location}", locationHeader);
-                                            throw;
-                                        }
-                                    }
-
-                                    // Preserve original error if available
-                                    if (response.ErrorException != null)
-                                    {
-                                        throw new InvalidOperationException("Failed to POST to Email API", response.ErrorException);
-                                    }
-
-                                    throw new InvalidOperationException($"Email API returned {(int)response.StatusCode} {response.StatusDescription}: {respBody}");
-                                }
-                                else
-                                {
-                                    _logger.LogInformation("Enqueued email via Email API: To={To}, Subject={Subject}", recipientEmail, subject);
-                                    return; // success
-                                }
-                            }
-                            catch (OperationCanceledException ocex)
+                            var redirectClient = new RestClient(new RestClientOptions(redirectUri) { FollowRedirects = false });
+                            var redirectRequest = new RestRequest().AddJsonBody(payload);
+                            redirectRequest.Timeout = TimeSpan.FromSeconds(timeoutSecs);
+                            if (!string.IsNullOrWhiteSpace(token))
                             {
-                                lastException = ocex;
-                                _logger.LogWarning("Email API attempt {Attempt} timed out. {Message}", attempt + 1, ocex.Message);
-                                if (attempt == maxRetries - 1)
-                                {
-                                    _logger.LogError("Email API failed after {MaxRetries} attempts due to timeout. Recipient: {Recipient}", maxRetries, recipientEmail);
-                                    throw new InvalidOperationException($"Email API failed after {maxRetries} timeout attempts", ocex);
-                                }
-                                // Continue to next retry
+                                redirectRequest.AddHeader("Authorization", $"Bearer {token}");
                             }
-                            catch (Exception ex)
-                            {
-                                lastException = ex;
-                                _logger.LogWarning("Email API attempt {Attempt} failed with error: {Message}", attempt + 1, ex.Message);
-                                if (attempt == maxRetries - 1)
-                                {
-                                    _logger.LogError(ex, "Email API failed after {MaxRetries} attempts. Recipient: {Recipient}", maxRetries, recipientEmail);
-                                    throw;
-                                }
-                                // Continue to next retry
-                            }
+
+                            response = await redirectClient.ExecuteAsync(redirectRequest, cts.Token).ConfigureAwait(false)
+                                ?? throw new InvalidOperationException("Email API returned no response on redirect.");
+                            _tracker.Update(emailId, r => r.LastHttpStatus = (int)response.StatusCode == 0 ? null : (int)response.StatusCode);
                         }
 
-                        // Should not reach here, but fallback just in case
-                        throw new InvalidOperationException("Email API retry logic exhausted", lastException);
+                        if (!response.IsSuccessful)
+                        {
+                            var respBody = response.Content ?? "(none)";
+                            if (respBody.Length > 500) respBody = respBody[..500] + "…";
+                            var wwwAuthHeader = response.Headers?.FirstOrDefault(h => string.Equals(h.Name, "WWW-Authenticate", StringComparison.OrdinalIgnoreCase))?.Value?.ToString() ?? "(none)";
+
+                            _logger.LogError("Email {EmailId}: email app did NOT accept the email. HTTP {Status} after {ElapsedMs}ms. Body: {Body}. WWW-Authenticate: {WwwAuth}. Transport error: {TransportError}",
+                                emailId, (int)response.StatusCode, timer.ElapsedMilliseconds, respBody, wwwAuthHeader, response.ErrorMessage ?? "(none)");
+
+                            if (response.ErrorException != null)
+                            {
+                                throw new InvalidOperationException("Failed to POST to Email API", response.ErrorException);
+                            }
+
+                            throw new InvalidOperationException($"Email API returned {(int)response.StatusCode} {response.StatusDescription}: {respBody}");
+                        }
+
+                        // Received. Newer email app versions reply with { id, status, receivedUtc, queueLength }.
+                        string remoteStatus = null;
+                        int? queueLength = null;
+                        try
+                        {
+                            if (!string.IsNullOrWhiteSpace(response.Content) && response.Content.TrimStart().StartsWith("{"))
+                            {
+                                using var doc = JsonDocument.Parse(response.Content);
+                                if (doc.RootElement.TryGetProperty("status", out var st)) remoteStatus = st.GetString();
+                                if (doc.RootElement.TryGetProperty("queueLength", out var ql) && ql.TryGetInt32(out var q)) queueLength = q;
+                            }
+                        }
+                        catch (JsonException)
+                        {
+                            // Older email app versions reply with an empty 200; that's still a successful hand-over.
+                        }
+
+                        _tracker.Update(emailId, r =>
+                        {
+                            r.Stage = EmailHandOverStage.Accepted;
+                            r.AcceptedUtc = DateTime.UtcNow;
+                            r.LastError = null;
+                            r.RemoteStatus = remoteStatus;
+                            r.RemoteCheckedUtc = remoteStatus == null ? null : DateTime.UtcNow;
+                        });
+
+                        _logger.LogInformation("Email {EmailId} RECEIVED by email app: HTTP {Status} in {ElapsedMs}ms on attempt {Attempt}. To={Recipient}, Subject={Subject}, RemoteStatus={RemoteStatus}, QueueLength={QueueLength}",
+                            emailId, (int)response.StatusCode, timer.ElapsedMilliseconds, attempt + 1, recipientEmail, subject, remoteStatus ?? "(not reported)", queueLength);
+                        return;
+                    }
+                    catch (OperationCanceledException ocex)
+                    {
+                        lastException = ocex;
+                        _tracker.Update(emailId, r => r.LastError = "Timed out waiting for the email app.");
+                        _logger.LogWarning("Email {EmailId}: attempt {Attempt} timed out after {ElapsedMs}ms", emailId, attempt + 1, timer.ElapsedMilliseconds);
+                    }
+                    catch (Exception ex)
+                    {
+                        lastException = ex;
+                        _tracker.Update(emailId, r => r.LastError = ex.Message);
+                        _logger.LogWarning("Email {EmailId}: attempt {Attempt} failed after {ElapsedMs}ms: {Message}", emailId, attempt + 1, timer.ElapsedMilliseconds, ex.Message);
+                    }
+                }
+
+                throw new InvalidOperationException($"Email API failed after {maxRetries} attempts", lastException);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Failed to send email to Email API for {Recipient}. All retry attempts exhausted.", recipientEmail);
+                _tracker.Update(emailId, r =>
+                {
+                    r.Stage = EmailHandOverStage.Failed;
+                    r.LastError ??= ex.Message;
+                });
+                _logger.LogError(ex, "Email {EmailId} NOT RECEIVED by email app. To={Recipient}, Subject={Subject}. All attempts failed.", emailId, recipientEmail, subject);
                 throw;
             }
         }

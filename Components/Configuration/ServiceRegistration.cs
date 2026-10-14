@@ -54,6 +54,8 @@ namespace ForestChurches.Components.Configuration
             // Mail service registration
             Services.AddTransient<ISmtpClient, SmtpClient>();
             Services.AddTransient<iEmail, MailRepository>();
+            Services.AddSingleton<EmailDeliveryTracker>();   // recent email hand-overs, shown in Admin → Email delivery
+            Services.AddScoped<EmailServiceMonitor>();       // checks the email app's health and per-email status
 
             // User, Role & Permission service registration
             Services.AddTransient<UserInterface, UsersController>();

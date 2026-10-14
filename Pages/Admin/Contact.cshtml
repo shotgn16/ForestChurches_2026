@@ -42,7 +42,7 @@
             <span asp-validation-for="Input.Message" class="text-danger"></span>
         </div>
 
-        <p class="fc-hint">@Localizer["FC_ADM_EMAIL_FROM_HINT"]</p>
+        <p class="fc-hint">@Localizer["FC_ADM_EMAIL_FROM_HINT"] <a asp-page="/Admin/EmailDelivery">@Localizer["FC_ADM_EMAIL_DELIVERY_LINK"]</a></p>
 
         <div class="fc-btn-row" style="justify-content: flex-end">
             <button type="submit" class="fc-btn fc-btn--primary">@Localizer["FC_ADM_SEND_MESSAGE"]</button>

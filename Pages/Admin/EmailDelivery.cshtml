@@ -1,0 +1,172 @@
+@page
+@model ForestChurches.Pages.Admin.EmailDeliveryModel
+@using ForestChurches.Components.Email
+@using ForestChurches.Components.Ui
+@{
+    Layout = "_Admin";
+    ViewData["Title"] = Localizer["FC_ADM_EMAIL_DELIVERY"];
+    var health = Model.Health;
+    var healthOk = health is { Reachable: true, Authorised: true, Error: null };
+    var unfinished = Model.Emails.Count(e => e.Stage == EmailHandOverStage.Accepted && !e.IsFinal);
+
+    // One combined status per email: did the email app receive it, and has it gone out?
+    (string Key, string Badge) StatusOf(EmailDeliveryRecord e)
+    {
+        if (e.Stage == EmailHandOverStage.Sending) return ("FC_ADM_EMAIL_SENDING", "fc-badge--moss");
+        if (e.Stage == EmailHandOverStage.Failed) return ("FC_ADM_EMAIL_NOT_RECEIVED", "fc-badge--danger");
+        return e.RemoteStatus switch
+        {
+            "Sent" => ("FC_ADM_EMAIL_SENT", "fc-badge--ok"),
+            "Failed" => ("FC_ADM_EMAIL_SEND_FAILED", "fc-badge--danger"),
+            "Queued" or "Sending" or "Retrying" => ("FC_ADM_EMAIL_WAITING", "fc-badge--warn"),
+            "Unknown" => ("FC_ADM_EMAIL_NO_RECORD", "fc-badge--warn"),
+            _ => ("FC_ADM_EMAIL_RECEIVED", "fc-badge--moss"),
+        };
+    }
+}
+
+<div class="fc-page-head">
+    <div>
+        <h1>@Localizer["FC_ADM_EMAIL_DELIVERY"]</h1>
+        <p>@Localizer["FC_ADM_EMAIL_DELIVERY_LEAD"]</p>
+    </div>
+    <a asp-page="/Admin/EmailDelivery" class="fc-btn fc-btn--quiet">@Localizer["FC_ADM_REFRESH"]</a>
+</div>
+
+<partial name="_StatusMessage" model="Model.StatusMessage" />
+
+<section class="fc-card fc-stack" aria-labelledby="service-h">
+    <div class="fc-row fc-row--between">
+        <h2 id="service-h" class="fc-h3">@Localizer["FC_ADM_EMAIL_SERVICE"]</h2>
+        @if (health != null)
+        {
+            <span class="fc-badge @(healthOk ? "fc-badge--ok" : "fc-badge--danger")">@(healthOk ? Localizer["FC_ADM_EMAIL_SERVICE_OK"] : Localizer["FC_ADM_EMAIL_SERVICE_PROBLEM"])</span>
+        }
+    </div>
+    @if (health != null)
+    {
+        @if (health.Error != null)
+        {
+            <p class="fc-small" role="status">@health.Error</p>
+        }
+        <div class="fc-stats">
+            <div class="fc-stat">
+                <span class="fc-stat__label">@Localizer["FC_ADM_EMAIL_RESPONSE"]</span>
+                <span class="fc-stat__value fc-stat__value--sm">@(health.Reachable ? $"{health.ResponseMs} ms" : "—")</span>
+                <span class="fc-stat__note">@(health.HttpStatus is int code ? $"HTTP {code}" : Localizer["FC_ADM_EMAIL_NO_ANSWER"].Value)</span>
+            </div>
+            <div class="fc-stat">
+                <span class="fc-stat__label">@Localizer["FC_ADM_EMAIL_QUEUE"]</span>
+                <span class="fc-stat__value">@(health.QueueLength?.ToString() ?? "—")</span>
+                <span class="fc-stat__note">@Localizer["FC_ADM_EMAIL_QUEUE_HINT"]</span>
+            </div>
+            <div class="fc-stat">
+                <span class="fc-stat__label">@Localizer["FC_ADM_EMAIL_LAST_RUN"]</span>
+                <span class="fc-stat__value fc-stat__value--sm">@(health.LastSendRunUtc is DateTime run ? FcText.UkDateTime(run, "d MMM, HH:mm") : "—")</span>
+            </div>
+            <div class="fc-stat">
+                <span class="fc-stat__label">@Localizer["FC_ADM_EMAIL_APP_TOTALS"]</span>
+                <span class="fc-stat__value fc-stat__value--sm">@(health.SupportsStatus ? $"{health.Sent} / {health.Failed}" : "—")</span>
+                <span class="fc-stat__note">@Localizer["FC_ADM_EMAIL_SENT_FAILED"]</span>
+            </div>
+        </div>
+        <p class="fc-tiny fc-muted">@Localizer["FC_ADM_EMAIL_CHECKED_AT", FcText.UkDateTime(health.CheckedUtc, "HH:mm:ss")]</p>
+    }
+</section>
+
+<section id="emails" class="fc-card fc-card--flush" aria-labelledby="emails-h">
+    <div class="fc-card__head">
+        <div>
+            <h2 id="emails-h" class="fc-h3">@Localizer["FC_ADM_RECENT_EMAILS"]</h2>
+            <p class="fc-tiny fc-muted" style="margin-top: 4px">@Localizer["FC_ADM_EMAIL_TRACKING_SINCE", FcText.UkDateTime(Model.TrackingSinceUtc)]</p>
+        </div>
+        <form method="post" asp-page-handler="CheckAll">
+            <button type="submit" class="fc-btn fc-btn--primary fc-btn--sm" disabled="@(unfinished == 0)">@Localizer["FC_ADM_EMAIL_CHECK_ALL", unfinished]</button>
+        </form>
+    </div>
+    @if (Model.Emails.Count == 0)
+    {
+        <p class="fc-muted" style="padding: 0 22px 22px">@Localizer["FC_ADM_NO_EMAILS"]</p>
+    }
+    else
+    {
+        <div class="fc-table-wrap">
+            <table class="fc-table fc-table--admin fc-table--stack">
+                <thead>
+                    <tr>
+                        <th scope="col">@Localizer["FC_ADM_EMAIL"]</th>
+                        <th scope="col">@Localizer["FC_ADM_STATUS"]</th>
+                        <th scope="col">@Localizer["FC_ADM_TIME"]</th>
+                        <th scope="col"><span class="fc-sr-only">@Localizer["FC_ADM_ACTIONS"]</span></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var e in Model.Emails)
+                    {
+                        var (key, badge) = StatusOf(e);
+                        var detail = e.Stage == EmailHandOverStage.Failed ? e.LastError : e.RemoteError;
+                        <tr>
+                            <td>
+                                <strong class="fc-break">@e.Subject</strong>
+                                <span class="fc-small fc-muted fc-break" style="display: block">@e.Recipient</span>
+                                <span class="fc-tiny fc-muted" style="display: block">ID <code>@e.Id</code></span>
+                            </td>
+                            <td data-label="@Localizer["FC_ADM_STATUS"]">
+                                <span class="fc-badge @badge">@Localizer[key]</span>
+                                <span class="fc-tiny fc-muted" style="display: block; margin-top: 4px">
+                                    @Localizer["FC_ADM_EMAIL_ATTEMPTS", e.Attempts]@(e.LastHttpStatus is int s ? $" · HTTP {s}" : "")@(e.RemoteCheckedUtc is DateTime c ? " · " + Localizer["FC_ADM_EMAIL_CHECKED", FcText.UkDateTime(c, "HH:mm")].Value : "")
+                                </span>
+                                @if (!string.IsNullOrWhiteSpace(detail))
+                                {
+                                    <span class="fc-tiny fc-break" style="display: block; color: var(--fc-danger)">@detail</span>
+                                }
+                            </td>
+                            <td data-label="@Localizer["FC_ADM_TIME"]" class="fc-nowrap">
+                                @FcText.UkDateTime(e.CreatedUtc, "d MMM, HH:mm:ss")
+                                @if (e.RemoteSentUtc is DateTime sent)
+                                {
+                                    <span class="fc-tiny fc-muted" style="display: block">@Localizer["FC_ADM_EMAIL_SENT_AT", FcText.UkDateTime(sent, "d MMM, HH:mm")]</span>
+                                }
+                            </td>
+                            <td>
+                                <div class="fc-actions">
+                                    @if (e.Stage == EmailHandOverStage.Accepted)
+                                    {
+                                        <form method="post" asp-page-handler="CheckEmail">
+                                            <input type="hidden" name="id" value="@e.Id" />
+                                            <button type="submit" class="fc-btn fc-btn--quiet fc-btn--sm">@Localizer["FC_ADM_EMAIL_CHECK"]<span class="fc-sr-only"> @e.Subject, @e.Recipient</span></button>
+                                        </form>
+                                    }
+                                    <a asp-page="/Admin/AdminLogs" asp-route-searchQuery="@e.Id" class="fc-btn fc-btn--quiet fc-btn--sm">@Localizer["FC_ADM_LOGS"]</a>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+</section>
+
+<section class="fc-card fc-stack" aria-labelledby="meaning-h">
+    <h2 id="meaning-h" class="fc-h3">@Localizer["FC_ADM_EMAIL_MEANINGS"]</h2>
+    <dl class="fc-stack" style="margin: 0; gap: 10px">
+        @foreach (var (key, badge, textKey) in new[]
+        {
+            ("FC_ADM_EMAIL_SENDING", "fc-badge--moss", "FC_ADM_EMAIL_SENDING_TEXT"),
+            ("FC_ADM_EMAIL_RECEIVED", "fc-badge--moss", "FC_ADM_EMAIL_RECEIVED_TEXT"),
+            ("FC_ADM_EMAIL_WAITING", "fc-badge--warn", "FC_ADM_EMAIL_WAITING_TEXT"),
+            ("FC_ADM_EMAIL_SENT", "fc-badge--ok", "FC_ADM_EMAIL_SENT_TEXT"),
+            ("FC_ADM_EMAIL_NOT_RECEIVED", "fc-badge--danger", "FC_ADM_EMAIL_NOT_RECEIVED_TEXT"),
+            ("FC_ADM_EMAIL_SEND_FAILED", "fc-badge--danger", "FC_ADM_EMAIL_SEND_FAILED_TEXT"),
+            ("FC_ADM_EMAIL_NO_RECORD", "fc-badge--warn", "FC_ADM_EMAIL_NO_RECORD_TEXT"),
+        })
+        {
+            <div class="fc-row" style="gap: 12px; align-items: baseline">
+                <dt style="flex: 0 0 190px"><span class="fc-badge @badge">@Localizer[key]</span></dt>
+                <dd class="fc-small" style="margin: 0; flex: 1 1 260px">@Localizer[textKey]</dd>
+            </div>
+        }
+    </dl>
+    <p class="fc-tiny fc-muted">@Localizer["FC_ADM_EMAIL_MEMORY_NOTE"]</p>
+</section>

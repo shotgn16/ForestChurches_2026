@@ -2514,4 +2514,124 @@
   <data name="FC_ADM_PAST_EVENTS" xml:space="preserve">
     <value>Past events</value>
   </data>
+  <data name="FC_ADM_EMAIL_DELIVERY" xml:space="preserve">
+    <value>Email delivery</value>
+  </data>
+  <data name="FC_ADM_EMAIL_DELIVERY_LEAD" xml:space="preserve">
+    <value>Check that the email app received each email and whether it has been sent.</value>
+  </data>
+  <data name="FC_ADM_EMAIL_DELIVERY_LINK" xml:space="preserve">
+    <value>Check delivery</value>
+  </data>
+  <data name="FC_ADM_REFRESH" xml:space="preserve">
+    <value>Refresh</value>
+  </data>
+  <data name="FC_ADM_EMAIL_SERVICE" xml:space="preserve">
+    <value>Email app (api.forestchurches.co.uk)</value>
+  </data>
+  <data name="FC_ADM_EMAIL_SERVICE_OK" xml:space="preserve">
+    <value>Working</value>
+  </data>
+  <data name="FC_ADM_EMAIL_SERVICE_PROBLEM" xml:space="preserve">
+    <value>Problem</value>
+  </data>
+  <data name="FC_ADM_EMAIL_RESPONSE" xml:space="preserve">
+    <value>Response</value>
+  </data>
+  <data name="FC_ADM_EMAIL_NO_ANSWER" xml:space="preserve">
+    <value>No answer</value>
+  </data>
+  <data name="FC_ADM_EMAIL_QUEUE" xml:space="preserve">
+    <value>Waiting in queue</value>
+  </data>
+  <data name="FC_ADM_EMAIL_QUEUE_HINT" xml:space="preserve">
+    <value>Sent every 5 minutes</value>
+  </data>
+  <data name="FC_ADM_EMAIL_LAST_RUN" xml:space="preserve">
+    <value>Last send run</value>
+  </data>
+  <data name="FC_ADM_EMAIL_APP_TOTALS" xml:space="preserve">
+    <value>Email app totals</value>
+  </data>
+  <data name="FC_ADM_EMAIL_SENT_FAILED" xml:space="preserve">
+    <value>sent / failed</value>
+  </data>
+  <data name="FC_ADM_EMAIL_CHECKED_AT" xml:space="preserve">
+    <value>Checked at {0}</value>
+  </data>
+  <data name="FC_ADM_RECENT_EMAILS" xml:space="preserve">
+    <value>Recent emails</value>
+  </data>
+  <data name="FC_ADM_EMAIL_TRACKING_SINCE" xml:space="preserve">
+    <value>Tracking since {0} (the list starts again when the site restarts).</value>
+  </data>
+  <data name="FC_ADM_EMAIL_CHECK_ALL" xml:space="preserve">
+    <value>Check unfinished ({0})</value>
+  </data>
+  <data name="FC_ADM_NO_EMAILS" xml:space="preserve">
+    <value>No emails have been sent since the site started.</value>
+  </data>
+  <data name="FC_ADM_EMAIL" xml:space="preserve">
+    <value>Email</value>
+  </data>
+  <data name="FC_ADM_EMAIL_ATTEMPTS" xml:space="preserve">
+    <value>Attempts: {0}</value>
+  </data>
+  <data name="FC_ADM_EMAIL_CHECKED" xml:space="preserve">
+    <value>checked {0}</value>
+  </data>
+  <data name="FC_ADM_EMAIL_SENT_AT" xml:space="preserve">
+    <value>Sent {0}</value>
+  </data>
+  <data name="FC_ADM_EMAIL_CHECK" xml:space="preserve">
+    <value>Check</value>
+  </data>
+  <data name="FC_ADM_EMAIL_MEANINGS" xml:space="preserve">
+    <value>What the statuses mean</value>
+  </data>
+  <data name="FC_ADM_EMAIL_SENDING" xml:space="preserve">
+    <value>Handing over</value>
+  </data>
+  <data name="FC_ADM_EMAIL_SENDING_TEXT" xml:space="preserve">
+    <value>This site is still posting the email to the email app (it tries up to 3 times).</value>
+  </data>
+  <data name="FC_ADM_EMAIL_RECEIVED" xml:space="preserve">
+    <value>Received</value>
+  </data>
+  <data name="FC_ADM_EMAIL_RECEIVED_TEXT" xml:space="preserve">
+    <value>The email app confirmed it received the email. Use Check to see whether it has gone out.</value>
+  </data>
+  <data name="FC_ADM_EMAIL_WAITING" xml:space="preserve">
+    <value>Waiting to send</value>
+  </data>
+  <data name="FC_ADM_EMAIL_WAITING_TEXT" xml:space="preserve">
+    <value>The email app has it queued. Emails go out every 5 minutes, and failed sends are retried twice.</value>
+  </data>
+  <data name="FC_ADM_EMAIL_SENT" xml:space="preserve">
+    <value>Sent</value>
+  </data>
+  <data name="FC_ADM_EMAIL_SENT_TEXT" xml:space="preserve">
+    <value>The email app handed the email to the mail server. If it still hasn't arrived, ask the recipient to check their spam folder.</value>
+  </data>
+  <data name="FC_ADM_EMAIL_NOT_RECEIVED" xml:space="preserve">
+    <value>Not received</value>
+  </data>
+  <data name="FC_ADM_EMAIL_NOT_RECEIVED_TEXT" xml:space="preserve">
+    <value>All 3 attempts to reach the email app failed, so it never got the email. The reason is shown under the status; the email app may be down.</value>
+  </data>
+  <data name="FC_ADM_EMAIL_SEND_FAILED" xml:space="preserve">
+    <value>Couldn't send</value>
+  </data>
+  <data name="FC_ADM_EMAIL_SEND_FAILED_TEXT" xml:space="preserve">
+    <value>The email app received it but the mail server refused it 3 times (for example a bad address or template). The error is shown under the status.</value>
+  </data>
+  <data name="FC_ADM_EMAIL_NO_RECORD" xml:space="preserve">
+    <value>No record</value>
+  </data>
+  <data name="FC_ADM_EMAIL_NO_RECORD_TEXT" xml:space="preserve">
+    <value>The email app doesn't know this email. It may have restarted since (its queue is kept in memory), or it's an older version without delivery checks.</value>
+  </data>
+  <data name="FC_ADM_EMAIL_MEMORY_NOTE" xml:space="preserve">
+    <value>This list keeps the newest 500 emails and resets when the site restarts. Every step is also written to the logs with the email's ID, so use Logs to look further back.</value>
+  </data>
 </root>

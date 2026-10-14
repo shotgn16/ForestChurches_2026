@@ -2514,4 +2514,124 @@
   <data name="FC_ADM_PAST_EVENTS" xml:space="preserve">
     <value>กิจกรรมที่ผ่านมา</value>
   </data>
+  <data name="FC_ADM_EMAIL_DELIVERY" xml:space="preserve">
+    <value>การส่งอีเมล</value>
+  </data>
+  <data name="FC_ADM_EMAIL_DELIVERY_LEAD" xml:space="preserve">
+    <value>ตรวจสอบว่าแอปอีเมลได้รับอีเมลแต่ละฉบับแล้วหรือไม่ และส่งออกไปแล้วหรือยัง</value>
+  </data>
+  <data name="FC_ADM_EMAIL_DELIVERY_LINK" xml:space="preserve">
+    <value>ตรวจสอบการส่ง</value>
+  </data>
+  <data name="FC_ADM_REFRESH" xml:space="preserve">
+    <value>รีเฟรช</value>
+  </data>
+  <data name="FC_ADM_EMAIL_SERVICE" xml:space="preserve">
+    <value>แอปอีเมล (api.forestchurches.co.uk)</value>
+  </data>
+  <data name="FC_ADM_EMAIL_SERVICE_OK" xml:space="preserve">
+    <value>ทำงานปกติ</value>
+  </data>
+  <data name="FC_ADM_EMAIL_SERVICE_PROBLEM" xml:space="preserve">
+    <value>มีปัญหา</value>
+  </data>
+  <data name="FC_ADM_EMAIL_RESPONSE" xml:space="preserve">
+    <value>การตอบสนอง</value>
+  </data>
+  <data name="FC_ADM_EMAIL_NO_ANSWER" xml:space="preserve">
+    <value>ไม่มีการตอบกลับ</value>
+  </data>
+  <data name="FC_ADM_EMAIL_QUEUE" xml:space="preserve">
+    <value>รอในคิว</value>
+  </data>
+  <data name="FC_ADM_EMAIL_QUEUE_HINT" xml:space="preserve">
+    <value>ส่งทุก 5 นาที</value>
+  </data>
+  <data name="FC_ADM_EMAIL_LAST_RUN" xml:space="preserve">
+    <value>รอบส่งล่าสุด</value>
+  </data>
+  <data name="FC_ADM_EMAIL_APP_TOTALS" xml:space="preserve">
+    <value>ยอดรวมของแอปอีเมล</value>
+  </data>
+  <data name="FC_ADM_EMAIL_SENT_FAILED" xml:space="preserve">
+    <value>ส่งแล้ว / ล้มเหลว</value>
+  </data>
+  <data name="FC_ADM_EMAIL_CHECKED_AT" xml:space="preserve">
+    <value>ตรวจสอบเมื่อ {0}</value>
+  </data>
+  <data name="FC_ADM_RECENT_EMAILS" xml:space="preserve">
+    <value>อีเมลล่าสุด</value>
+  </data>
+  <data name="FC_ADM_EMAIL_TRACKING_SINCE" xml:space="preserve">
+    <value>ติดตามตั้งแต่ {0} (รายการจะเริ่มใหม่เมื่อเว็บไซต์รีสตาร์ต)</value>
+  </data>
+  <data name="FC_ADM_EMAIL_CHECK_ALL" xml:space="preserve">
+    <value>ตรวจสอบที่ยังไม่เสร็จ ({0})</value>
+  </data>
+  <data name="FC_ADM_NO_EMAILS" xml:space="preserve">
+    <value>ยังไม่มีการส่งอีเมลตั้งแต่เว็บไซต์เริ่มทำงาน</value>
+  </data>
+  <data name="FC_ADM_EMAIL" xml:space="preserve">
+    <value>อีเมล</value>
+  </data>
+  <data name="FC_ADM_EMAIL_ATTEMPTS" xml:space="preserve">
+    <value>จำนวนครั้ง: {0}</value>
+  </data>
+  <data name="FC_ADM_EMAIL_CHECKED" xml:space="preserve">
+    <value>ตรวจสอบเมื่อ {0}</value>
+  </data>
+  <data name="FC_ADM_EMAIL_SENT_AT" xml:space="preserve">
+    <value>ส่งเมื่อ {0}</value>
+  </data>
+  <data name="FC_ADM_EMAIL_CHECK" xml:space="preserve">
+    <value>ตรวจสอบ</value>
+  </data>
+  <data name="FC_ADM_EMAIL_MEANINGS" xml:space="preserve">
+    <value>ความหมายของสถานะ</value>
+  </data>
+  <data name="FC_ADM_EMAIL_SENDING" xml:space="preserve">
+    <value>กำลังส่งต่อ</value>
+  </data>
+  <data name="FC_ADM_EMAIL_SENDING_TEXT" xml:space="preserve">
+    <value>เว็บไซต์กำลังส่งอีเมลให้แอปอีเมล (ลองได้สูงสุด 3 ครั้ง)</value>
+  </data>
+  <data name="FC_ADM_EMAIL_RECEIVED" xml:space="preserve">
+    <value>ได้รับแล้ว</value>
+  </data>
+  <data name="FC_ADM_EMAIL_RECEIVED_TEXT" xml:space="preserve">
+    <value>แอปอีเมลยืนยันว่าได้รับแล้ว กด "ตรวจสอบ" เพื่อดูว่าส่งออกไปแล้วหรือยัง</value>
+  </data>
+  <data name="FC_ADM_EMAIL_WAITING" xml:space="preserve">
+    <value>รอส่ง</value>
+  </data>
+  <data name="FC_ADM_EMAIL_WAITING_TEXT" xml:space="preserve">
+    <value>อีเมลอยู่ในคิวของแอปอีเมล ส่งทุก 5 นาที และจะลองส่งใหม่อีก 2 ครั้งหากล้มเหลว</value>
+  </data>
+  <data name="FC_ADM_EMAIL_SENT" xml:space="preserve">
+    <value>ส่งแล้ว</value>
+  </data>
+  <data name="FC_ADM_EMAIL_SENT_TEXT" xml:space="preserve">
+    <value>แอปอีเมลส่งต่อให้เซิร์ฟเวอร์อีเมลแล้ว หากยังไม่ได้รับ ให้ผู้รับตรวจสอบโฟลเดอร์สแปม</value>
+  </data>
+  <data name="FC_ADM_EMAIL_NOT_RECEIVED" xml:space="preserve">
+    <value>ไม่ได้รับ</value>
+  </data>
+  <data name="FC_ADM_EMAIL_NOT_RECEIVED_TEXT" xml:space="preserve">
+    <value>พยายามติดต่อแอปอีเมลครบ 3 ครั้งแต่ล้มเหลว แอปจึงไม่ได้รับอีเมล สาเหตุแสดงใต้สถานะ แอปอีเมลอาจหยุดทำงาน</value>
+  </data>
+  <data name="FC_ADM_EMAIL_SEND_FAILED" xml:space="preserve">
+    <value>ส่งไม่สำเร็จ</value>
+  </data>
+  <data name="FC_ADM_EMAIL_SEND_FAILED_TEXT" xml:space="preserve">
+    <value>แอปอีเมลได้รับแล้ว แต่เซิร์ฟเวอร์อีเมลปฏิเสธ 3 ครั้ง (เช่น ที่อยู่หรือเทมเพลตไม่ถูกต้อง) ข้อผิดพลาดแสดงใต้สถานะ</value>
+  </data>
+  <data name="FC_ADM_EMAIL_NO_RECORD" xml:space="preserve">
+    <value>ไม่มีบันทึก</value>
+  </data>
+  <data name="FC_ADM_EMAIL_NO_RECORD_TEXT" xml:space="preserve">
+    <value>แอปอีเมลไม่รู้จักอีเมลนี้ อาจรีสตาร์ตไปแล้ว (คิวเก็บในหน่วยความจำ) หรือเป็นเวอร์ชันเก่าที่ไม่มีการตรวจสอบการส่ง</value>
+  </data>
+  <data name="FC_ADM_EMAIL_MEMORY_NOTE" xml:space="preserve">
+    <value>รายการนี้เก็บอีเมลล่าสุด 500 ฉบับ และเริ่มใหม่เมื่อเว็บไซต์รีสตาร์ต ทุกขั้นตอนถูกบันทึกพร้อมรหัสอีเมลด้วย ดูย้อนหลังได้ที่หน้าบันทึก</value>
+  </data>
 </root>
