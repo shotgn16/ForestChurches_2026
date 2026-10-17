@@ -41,9 +41,9 @@ namespace ForestChurches.Components.Email
                 {
                     { "{event_link}", GenerateEmailLink(token) },
                     { "{eventName}", deletedEvent.Name },
-                    { "{eventDate}", deletedEvent.Date.ToString() },
-                    { "{eventStart}", deletedEvent.StartTime.ToString() },
-                    { "{eventEnd}", deletedEvent.EndTime.ToString() }
+                    { "{eventDate}", EmailDate(deletedEvent.Date) },
+                    { "{eventStart}", EmailTime(deletedEvent.StartTime) },
+                    { "{eventEnd}", EmailTime(deletedEvent.EndTime) }
                 };
 
                 EnsureImagePlaceholders(UserData, "./templates/event_deleted.html");
@@ -68,9 +68,9 @@ namespace ForestChurches.Components.Email
                         { "{event_name}", addedEvent.Name },
                         { "{event_description}", addedEvent.Description },
                         { "{event_location}", addedEvent.Address },
-                        { "{event_date}", addedEvent.Date.ToString() },
-                        { "{event_startTime}", addedEvent.StartTime.ToString() },
-                        { "{event_endTime}", addedEvent.EndTime.ToString() },
+                        { "{event_date}", EmailDate(addedEvent.Date) },
+                        { "{event_startTime}", EmailTime(addedEvent.StartTime) },
+                        { "{event_endTime}", EmailTime(addedEvent.EndTime) },
                         { "{event_repeats}", repeats },
                         { "{event_link}", GenerateEmailLink(token)  }
                     };
@@ -94,9 +94,9 @@ namespace ForestChurches.Components.Email
 
                 UserData = new Dictionary<string, string> {
                         { "{eventName}", eventItem.Name },
-                        { "{eventDate}", eventItem.Date.ToString() },
-                        { "{eventStart}", eventItem.StartTime.ToString() },
-                        { "{eventEnd}", eventItem.EndTime.ToString() },
+                        { "{eventDate}", EmailDate(eventItem.Date) },
+                        { "{eventStart}", EmailTime(eventItem.StartTime) },
+                        { "{eventEnd}", EmailTime(eventItem.EndTime) },
                         { "{event_link}", GenerateEmailLink(token) }
                     };
 
@@ -298,7 +298,7 @@ namespace ForestChurches.Components.Email
                 UserData = new Dictionary<string, string>
                 {
                     { "{contact_us_page}", $"{request.Scheme}://{request.Host.Value}/Contact" },
-                    { "{password_reset_expires}", DateTime.Now.AddHours(2).ToString("yyyy-MM-dd HH:mm:ss") },
+                    { "{password_reset_expires}", EmailDateTime(DateTime.UtcNow.AddHours(2)) },
                     { "{password_reset_link}", emailLink },
 
                     { "{IMAGE-1}", _blobUrlService.GetReadSasUrl("IMAGE-1.png", TimeSpan.FromDays(7)) ?? string.Empty },
@@ -351,6 +351,27 @@ namespace ForestChurches.Components.Email
                 _logger.LogError(ex.ToString());
                 throw;
             }
+        }
+
+        // EMAIL FORMATTING
+        // Dates and times in emails use UK formats, whatever culture the server runs under:
+        // "Saturday 17 October 2026" and 24-hour "09:30", matching the website.
+        private static readonly System.Globalization.CultureInfo EmailCulture = System.Globalization.CultureInfo.GetCultureInfo("en-GB");
+
+        private static string EmailDate(DateOnly date) => date.ToString("dddd d MMMM yyyy", EmailCulture);
+
+        private static string EmailTime(TimeOnly time) => time.ToString("HH:mm", EmailCulture);
+
+        private static string EmailDateTime(DateTime utc)
+        {
+            var local = utc;
+            try
+            {
+                var zone = TimeZoneInfo.FindSystemTimeZoneById("Europe/London");
+                local = TimeZoneInfo.ConvertTimeFromUtc(DateTime.SpecifyKind(utc, DateTimeKind.Utc), zone);
+            }
+            catch (Exception) { /* time zone data missing: show UTC rather than fail */ }
+            return local.ToString("dddd d MMMM yyyy 'at' HH:mm", EmailCulture);
         }
 
         // TOKEN MANAGEMENT
