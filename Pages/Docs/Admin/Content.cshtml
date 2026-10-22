@@ -1,0 +1,102 @@
+@page
+@using ForestChurches.Pages.Docs
+@using Microsoft.AspNetCore.Authorization
+@attribute [Authorize(Policy = "Admin.Read")]
+@{
+    ViewData["Title"] = "Churches, events, bulletins and emails – Website administrator guide";
+}
+
+<header>
+    <p class="fc-eyebrow">Website administrator guide</p>
+    <h1>Churches, events, bulletins and emails</h1>
+    <p class="docs-lead">Looking after the content of the site: church listings, events from every church, the weekly bulletin and site banner, and emailing users.</p>
+    <div class="docs-meta"><span>Where: Site admin → Churches, Events, Bulletins, Emails</span></div>
+</header>
+
+<h2>Churches</h2>
+<p><strong>Site admin → Churches</strong> lists every church listing (one per account), open ones first. Each card shows the church's status, description and facilities.</p>
+<partial name="_Fig" model='new DocFig("admin-churches", "The Churches page listing church cards with status badges and actions", "Site admin → Churches.")' />
+<div class="docs-table-wrap">
+    <table class="docs-table">
+        <thead><tr><th>Status</th><th>Stored as</th><th>Meaning</th></tr></thead>
+        <tbody>
+            <tr><td><span class="docs-badge docs-badge--ok">Listed</span></td><td><code>Open</code></td><td>Appears in search, on the home page and has a public page.</td></tr>
+            <tr><td><span class="docs-badge docs-badge--warn">Hidden</span></td><td><code>Closed</code></td><td>The church marked itself as closed. Hidden everywhere.</td></tr>
+            <tr><td><span class="docs-badge">Not set up</span></td><td><code>NotCreated</code></td><td>Reset by an admin. Hidden everywhere until the church selects <strong>Reopen church</strong>.</td></tr>
+        </tbody>
+    </table>
+</div>
+<p>Actions:</p>
+<ul>
+    <li><strong>View public page</strong> (listed churches only).</li>
+    <li><strong>Edit</strong>: change the church's name, description, denomination, attendance, address, phone, website, ChurchSuite address and facilities, then <strong>Save changes</strong>. Use this to fix something on a church's behalf; tell the church you've done it. Status, service times and logo can only be changed by the church.</li>
+    <li><strong>Download</strong>: a JSON file of the church's details, facilities and service times.</li>
+    <li><strong>Reset listing</strong>: replaces the listing with placeholders (<em>Default Church Name</em>, <em>Default Address</em> and so on), turns several facilities back on, and sets the status to <em>Not set up</em> so it's hidden. Use it for spam or badly wrong listings. The account, events and service times aren't touched. It can't be undone, so <strong>Download</strong> first.</li>
+</ul>
+<partial name="_Fig" model='new DocFig("admin-church-edit", "Editing a church as an administrator", "Churches → Edit.", true)' />
+<div class="docs-callout docs-callout--note">
+    <span class="docs-callout__title">Addresses drive search</span>
+    <p>Distance searches geocode each church's address with Google every time someone searches. A wrong or vague address puts the church in the wrong place or drops it from results. If a church is "missing" from Near me, check its address first.</p>
+</div>
+
+<h2>Events</h2>
+<p><strong>Site admin → Events</strong> lists every event from every church, including events brought in from ChurchSuite, with when it is and which church it belongs to.</p>
+<partial name="_Fig" model='new DocFig("admin-events", "The Events page in Site admin listing events from every church", "Site admin → Events.")' />
+<ul>
+    <li><strong>Add an event</strong> (needs <code>EventManagement.Write</code>): choose which church account the event belongs to, then fill in the same fields a church would. If you don't add an image, a default image (<code>IMGUR-2.png</code> from blob storage) is used. The church gets an <em>Event Created</em> email.</li>
+    <li><strong>Edit</strong> (needs <code>EventManagement.Edit</code>): change any event.</li>
+    <li><strong>Download</strong>: a JSON file of the event.</li>
+    <li><strong>Delete</strong>: removes the event straight away. The church isn't emailed when you delete from Site admin.</li>
+</ul>
+<p>Old events aren't removed automatically on this version of the site (see <a asp-page="/Docs/Admin/BackgroundJobs" asp-fragment="the-event-clean-up-jobs">the event clean-up jobs</a>), so tidy up finished one-off events here every few weeks.</p>
+
+<h2>Bulletins</h2>
+<p><strong>Site admin → Bulletins</strong> is where the team writes the bulletin shown on the public <strong>Bulletin</strong> page, and controls the green banner shown under the menu on every page.</p>
+<partial name="_Fig" model='new DocFig("church-bulletins", "The Bulletins page listing bulletins with Live and Banner status", "Site admin → Bulletins.")' />
+
+<h3>Writing a bulletin</h3>
+<ol class="docs-steps">
+    <li>Select <strong>New bulletin</strong>.</li>
+    <li>Choose a <strong>Type</strong>:
+        <ul>
+            <li><strong>Weekly bulletin (pew sheet)</strong>: the full weekly sheet with readings, hymns and the collect;</li>
+            <li><strong>Announcement</strong> or <strong>Message</strong>: a shorter one-off notice.</li>
+        </ul>
+    </li>
+    <li>Fill in the <strong>Date</strong>, <strong>Title</strong>, <strong>Message or pastoral note</strong>, and <strong>Notices or links</strong> (one per line).</li>
+    <li>For a weekly bulletin, fill in the <strong>Pew sheet</strong> section: <strong>Parish or benefice</strong>, <strong>Sunday or service name</strong>, <strong>First reading</strong>, <strong>Gospel</strong>, <strong>Hymns</strong> and <strong>The Collect</strong>.</li>
+    <li>Optionally upload a <strong>PDF version</strong> (PDF files only).</li>
+    <li>Select <strong>Save changes</strong>.</li>
+</ol>
+<partial name="_Fig" model='new DocFig("admin-bulletin-edit", "The bulletin editor with details and pew sheet sections", "New bulletin.", true)' />
+
+<h3>Making it live and showing the banner</h3>
+<ul>
+    <li><strong>Make live</strong>: this bulletin becomes the one on the public Bulletin page. Only one bulletin is live at a time; the previous one stops being live.</li>
+    <li><strong>Show banner</strong>: shows the green "Read it" banner on every page. Showing a banner also makes that bulletin live and hides any other banner. <strong>Hide banner</strong> turns it off.</li>
+    <li><strong>Show banner until</strong> + <strong>Set</strong>: the banner disappears automatically after this date and time (shown as <em>Banner expired</em>). Leave it empty to show it until you hide it.</li>
+    <li><strong>Delete</strong> removes a bulletin.</li>
+</ul>
+<p>The live bulletin is also available as JSON at <code>/api/Bulletin</code> (public, used by the site itself).</p>
+<div class="docs-callout docs-callout--warn">
+    <span class="docs-callout__title">Bulletin PDFs are stored on the web server's disk</span>
+    <p>Uploaded PDFs are saved in <code>wwwroot/uploads/bulletins</code> inside the running container, not in blob storage. A redeploy or container restart can lose them. Keep your own copy and re-upload if the download link stops working. See <a asp-page="/Docs/Admin/KnownIssues">Known issues</a>.</p>
+</div>
+<p>Church accounts can see <strong>Bulletins</strong> in their menu but get "access denied", because the page needs <code>Admin.Read</code>.</p>
+
+<h2>Emailing users</h2>
+<p><strong>Site admin → Emails</strong> (SuperAdmin only) sends a message to one user or everyone.</p>
+<partial name="_Fig" model='new DocFig("admin-emails", "The Emails page with recipient, sign-off and message fields", "Site admin → Emails.", true)' />
+<ol class="docs-steps">
+    <li>In <strong>Send to</strong>, choose one user, or <strong>All users</strong>.</li>
+    <li>In <strong>Sign off as</strong>, type the name to show at the end of the email.</li>
+    <li>Write the <strong>Message</strong> and select <strong>Send message</strong>.</li>
+</ol>
+<p>Each recipient gets a separate email from <em>info@forestchurches.co.uk</em> with the subject <em>Forest Church Administration Team</em>. "All users" includes admin accounts and accounts that haven't confirmed their email. Use <strong>Check delivery</strong> to follow them on <a asp-page="/Docs/Admin/Monitoring" asp-fragment="email-delivery">Email delivery</a>; emails go out in batches every 5 minutes.</p>
+
+<h2>Messages from the public</h2>
+<p>When a visitor uses <strong>Contact Us</strong> without choosing a church, the message goes to the address in the Key Vault secret <code>Email-Target</code> (the team inbox). Messages from a church's page go to that church account's email. Both use the subject <em>Forest Churches Contact Form</em> and include the sender's name, email and message. Nothing is stored on the site apart from the log entry for the email.</p>
+<div class="docs-callout docs-callout--note">
+    <span class="docs-callout__title">The contact form always says "sent"</span>
+    <p>The visitor sees <em>Success! Your message was sent!</em> even when something went wrong. If someone says they wrote and nobody replied, check Email delivery and Logs.</p>
+</div>

@@ -1,0 +1,106 @@
+@page
+@using ForestChurches.Pages.Docs
+@{
+    ViewData["Title"] = "Getting started – Church administrator guide";
+}
+
+<header>
+    <p class="fc-eyebrow">Church administrator guide</p>
+    <h1>Getting started</h1>
+    <p class="docs-lead">How churches join Forest Churches, creating your account, signing in, and finding your way around Church admin.</p>
+    <div class="docs-meta"><span>For: the person (or people) who look after a church's listing</span><span>Account type: AuthorizedChurch</span></div>
+</header>
+
+<h2>What you can do as a church administrator</h2>
+<p>Each church on Forest Churches has one administrator account. Signed in, you can:</p>
+<div class="docs-cards">
+    <div class="docs-card"><h4>Keep your page up to date</h4><p>Name, description, address, contact details, denomination, facilities, service times and logo.</p></div>
+    <div class="docs-card"><h4>List events</h4><p>Add, change and remove events, or bring them in from ChurchSuite.</p></div>
+    <div class="docs-card"><h4>Open or close your listing</h4><p>Hide your church from search while it's closed, and bring it back when it reopens.</p></div>
+    <div class="docs-card"><h4>Look after your account</h4><p>Change your password, turn on two-factor authentication, download or delete your data.</p></div>
+</div>
+<p>Messages that visitors send from your church page are emailed to the address you sign in with.</p>
+
+<h2>How churches join</h2>
+<p>Forest Churches is invitation-only, so only genuine churches can create accounts.</p>
+<ol class="docs-steps">
+    <li><strong>Ask for an invitation.</strong> Use <a asp-page="/Contact">Contact Us</a> (or email info@forestchurches.co.uk) with your church's name and the email address you want to sign in with. A shared church office address is a good choice.</li>
+    <li><strong>Watch for the invitation email</strong> with the subject <em>You're Invited</em>. It contains a <strong>registration link</strong>. You must create your account within <strong>24 hours</strong> of the invitation being sent; after that, ask us to resend it.</li>
+    <li><strong>Create your account</strong> (below).</li>
+    <li><strong>Confirm your email address</strong> using the link in the <em>Confirm your account</em> email.</li>
+    <li><strong>Sign in and fill in your church's page.</strong></li>
+</ol>
+
+<h2>Creating your account</h2>
+<ol class="docs-steps">
+    <li>Select the registration link in your invitation email. It opens the <strong>Create account</strong> page.</li>
+    <li>Check the <strong>Email</strong> box shows the address the invitation was sent to. It has to match exactly.</li>
+    <li>Choose a <strong>Password</strong> and type it again in <strong>Confirm password</strong>.</li>
+    <li>Optionally add a <strong>Logo or photo</strong> (PNG or JPEG; a square image works best). You can change this later.</li>
+    <li>Select <strong>Create account</strong>.</li>
+</ol>
+
+<partial name="_Fig" model='new DocFig("account-register", "The Create account page with email, password, confirm password and optional logo fields", "Create account. Use the email address the invitation was sent to.", true)' />
+
+<h3>Password rules</h3>
+<p>Your password must have:</p>
+<ul>
+    <li>at least <strong>12 characters</strong>;</li>
+    <li>an <strong>upper-case</strong> and a <strong>lower-case</strong> letter;</li>
+    <li>a <strong>number</strong>;</li>
+    <li>a <strong>symbol</strong> (for example <code>!</code>, <code>#</code> or <code>?</code>).</li>
+</ul>
+<p>A short sentence with a number and a symbol is easy to remember and hard to guess, for example <code>Bells-ring-at-9.30!</code>.</p>
+
+<h3>Confirming your email address</h3>
+<p>After you select <strong>Create account</strong>, we send a <em>Confirm your account</em> email. Select the link inside it. Until you do, you can't sign in. The link is valid for <strong>2 hours</strong>; if it expires, go to <strong>Church login</strong> and select <strong>Resend Confirmation Email</strong>.</p>
+<p>Confirming your email also gives your account its church administrator permissions.</p>
+
+<div class="docs-callout docs-callout--warn">
+    <span class="docs-callout__title">Your church is listed straight away</span>
+    <p>When your account is created, a starter church page is made for you with placeholder details (for example the name <em>Default Church</em> and the address <em>TBA</em>), and it's set to <strong>Open</strong>, so it can appear in searches immediately. Fill in your real details as soon as you sign in. See <a asp-page="/Docs/Churches/Profile">Your church's page</a>.</p>
+</div>
+
+<h3>"Email is already registered or the registration has expired"</h3>
+<p>This means either an account already exists for that email address, or the 24-hour registration window has passed. If you've already registered, sign in instead (or use <strong>Forgot Password</strong>). Otherwise, ask us to resend your invitation.</p>
+
+<h2>Signing in</h2>
+<ol class="docs-steps">
+    <li>Select <strong>Church login</strong> at the top right of any page.</li>
+    <li>Enter your <strong>Email</strong> and <strong>Password</strong>. Select <strong>Show</strong> to check what you've typed.</li>
+    <li>Tick <strong>Keep me signed in</strong> only on a device that only you use.</li>
+    <li>Select <strong>Sign in</strong>. If you've turned on two-factor authentication, enter the code from your authenticator app.</li>
+</ol>
+
+<partial name="_Fig" model='new DocFig("account-login", "The Church login page with email and password fields", "Church login.")' />
+
+<h3>Forgotten your password</h3>
+<ol class="docs-steps">
+    <li>On the <strong>Church login</strong> page, select <strong>Forgot Password</strong>.</li>
+    <li>Enter your email address and send the request.</li>
+    <li>Open the <em>Reset Password</em> email and select the link. For security, the link stops working after <strong>2 hours</strong>.</li>
+    <li>Enter your email address and a new password that follows the password rules.</li>
+</ol>
+<p>For your security we never say whether an email address has an account. If no email arrives within a few minutes, check your junk or spam folder, then contact us.</p>
+
+<h2>Finding your way around Church admin</h2>
+<p>Once signed in you'll see <strong>Church admin</strong> pages with your church's name and status at the top left (<em>● Open · listed in search</em> or <em>● Closed · hidden from search</em>), and a menu down the side:</p>
+<div class="docs-table-wrap">
+    <table class="docs-table">
+        <thead><tr><th>Menu item</th><th>What it's for</th><th>Guide</th></tr></thead>
+        <tbody>
+            <tr><td>My Church</td><td>Your church's public details, facilities, service times, logo and open/closed status.</td><td><a asp-page="/Docs/Churches/Profile">Your church's page</a></td></tr>
+            <tr><td>My Events</td><td>Your events: add, edit, delete, or sync from ChurchSuite.</td><td><a asp-page="/Docs/Churches/Events">Events</a></td></tr>
+            <tr><td>ChurchSuite</td><td>Connect your ChurchSuite account.</td><td><a asp-page="/Docs/Churches/ChurchSuite">Connecting ChurchSuite</a></td></tr>
+            <tr><td>Bulletins</td><td>The weekly bulletin. Publishing bulletins is currently done by the Forest Churches team; church accounts see an access-denied page here.</td><td><a asp-page="/Docs/Churches/Account" asp-fragment="bulletins">Bulletins</a></td></tr>
+            <tr><td>Profile</td><td>Your own sign-in details (separate from the church's public details).</td><td rowspan="4"><a asp-page="/Docs/Churches/Account">Your account and data</a></td></tr>
+            <tr><td>Change Password</td><td>Change your password.</td></tr>
+            <tr><td>Two-Factor Authentication</td><td>Add an extra sign-in step using an authenticator app.</td></tr>
+            <tr><td>My Data</td><td>Download your data or delete your account.</td></tr>
+            <tr><td>Help</td><td>This guide.</td><td></td></tr>
+        </tbody>
+    </table>
+</div>
+<p>Along the top bar, <strong>View public page ↗</strong> opens your church's page as visitors see it (shown while your church is open), and <strong>Back to site</strong> returns to the public website. Your email address and <strong>Logout</strong> are on the right.</p>
+
+<partial name="_Fig" model='new DocFig("church-profile", "Church admin showing the side menu and the My Church page", "Church admin, open on My Church.", true)' />

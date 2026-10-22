@@ -1,0 +1,99 @@
+@page
+@using ForestChurches.Pages.Docs
+@{
+    ViewData["Title"] = "Your church's page – Church administrator guide";
+}
+
+<header>
+    <p class="fc-eyebrow">Church administrator guide</p>
+    <h1>Your church's page</h1>
+    <p class="docs-lead">Editing your church's details and facilities, service times, logo, and opening or closing your listing.</p>
+    <div class="docs-meta"><span>Where: Church admin → My Church</span></div>
+</header>
+
+<h2>Editing your church's details</h2>
+<p>Go to <strong>My Church</strong>. Everything in the <strong>Details</strong> and <strong>Facilities</strong> sections appears on your public church page and is used by the search.</p>
+
+<partial name="_Fig" model='new DocFig("church-profile", "The My Church page with details, facilities, service times, logo and danger zone sections", "My Church: details, facilities, service times, logo and status.", true)' />
+
+<div class="docs-table-wrap">
+    <table class="docs-table">
+        <thead><tr><th>Field</th><th>What to put</th></tr></thead>
+        <tbody>
+            <tr><td>Church name</td><td>Your church's name as people know it. Up to 30 characters.</td></tr>
+            <tr><td>About your church</td><td>A short, welcoming description shown at the top of your page and in search results. Up to 1,000 characters; two or three sentences works best.</td></tr>
+            <tr><td>Denomination</td><td>For example Anglican, Methodist, Baptist. Visitors can filter by this, so use the usual name.</td></tr>
+            <tr><td>Typical Sunday attendance</td><td>A rough figure or range, for example <code>20-50</code>. Shown on your page as "… on a Sunday".</td></tr>
+            <tr><td>Address</td><td>The church's full postal address, including the postcode. <strong>This is what distance searches are measured from</strong>, so it must be an address Google Maps can find. <strong>Use my current location</strong> fills it in from where you are now; only use it when you're at the church.</td></tr>
+            <tr><td>Phone Number</td><td>A number visitors can call.</td></tr>
+            <tr><td>Website</td><td>Your website's full address, starting <code>https://</code>.</td></tr>
+            <tr><td>ChurchSuite address</td><td>Optional. The web address of your ChurchSuite account (for example <code>https://login.churchsuite.com/?account=yourchurch</code>). It's shown as a <strong>ChurchSuite</strong> button on your page.</td></tr>
+        </tbody>
+    </table>
+</div>
+<p>When you've finished, select <strong>Update Information</strong>. To throw away changes you haven't saved, select <strong>Discard changes</strong>.</p>
+
+<h2>Facilities</h2>
+<p>Turn on each facility your church offers. Visitors see these under <strong>What to expect</strong> on your page, and can filter the search by them, so only turn on what's genuinely available:</p>
+<div class="docs-table-wrap">
+    <table class="docs-table">
+        <thead><tr><th>Switch</th><th>Turn it on if…</th></tr></thead>
+        <tbody>
+            <tr><td>Wheelchair Access</td><td>There's step-free access into the building (shown to visitors as "Step-free").</td></tr>
+            <tr><td>Parking</td><td>There's parking at or right next to the church.</td></tr>
+            <tr><td>Hearing Aid Support</td><td>You have a hearing loop (shown as "Hearing loop").</td></tr>
+            <tr><td>Restrooms</td><td>There are toilets visitors can use.</td></tr>
+            <tr><td>Refreshments</td><td>You usually serve tea, coffee or similar.</td></tr>
+            <tr><td>Children's Ministry</td><td>You have children's activities or a crèche (shown as "Children's activities").</td></tr>
+            <tr><td>Wi-Fi</td><td>Visitors can use Wi-Fi.</td></tr>
+            <tr><td>Kitchen</td><td>You have a kitchen.</td></tr>
+            <tr><td>Community Hall</td><td>You have a hall available for community use.</td></tr>
+            <tr><td>Worship Hall</td><td>You have a dedicated church building or worship hall.</td></tr>
+            <tr><td>Outdoor Space</td><td>You have a garden, churchyard or other outdoor space.</td></tr>
+        </tbody>
+    </table>
+</div>
+<div class="docs-callout docs-callout--tip">
+    <span class="docs-callout__title">Check your facilities after you first sign in</span>
+    <p>New accounts start with every facility switched on. Turn off anything you don't offer, otherwise visitors filtering for it will be sent to you.</p>
+</div>
+
+<h2>Service times</h2>
+<p>Service times are listed under <strong>Sunday Services</strong> on your page, and the next one is shown in search results.</p>
+<h3>Adding a service</h3>
+<ol class="docs-steps">
+    <li>In <strong>Your Church Service Times</strong>, enter the <strong>Time</strong> (24-hour, for example <code>09:30</code>).</li>
+    <li>Enter the <strong>Service name</strong>, for example <em>Morning Communion</em> or <em>Evening Praise</em>.</li>
+    <li>Select <strong>+ Add Service</strong>.</li>
+</ol>
+<p>If the same time and name are already listed, you'll see "Your service already exists" and nothing is added.</p>
+<h3>Removing a service</h3>
+<p>Select <strong>Remove</strong> next to the service. It's removed straight away.</p>
+<p>To change a service, remove it and add it again with the new details.</p>
+
+<h2>Logo or photo</h2>
+<ol class="docs-steps">
+    <li>In <strong>Logo or photo</strong>, select <strong>Choose an image</strong> and pick a PNG or JPEG file. A square image works best; it's shown in a small circle or square.</li>
+    <li>Select <strong>Upload Logo</strong>.</li>
+</ol>
+<p>Your image appears on your church page, in search results and in Church admin. Uploading a new one replaces the old one on your page.</p>
+
+<h2>Seeing what visitors see</h2>
+<p>While your church is open, select <strong>View public page ↗</strong> in the top bar. It opens your church page exactly as visitors see it. Check it after any change.</p>
+
+<h2>Closing or reopening your church</h2>
+<p>The <strong>Danger zone</strong> at the bottom of <strong>My Church</strong> lets you take your church out of the search.</p>
+<ul>
+    <li>Only use <strong>Mark church as closed…</strong> if the church is closed long-term (for example for major building work) or has closed for good.</li>
+    <li>While closed, your church <strong>doesn't appear in searches</strong>, and its events don't appear in event searches or on the home page.</li>
+    <li>Your details, service times and events are kept, so nothing needs re-entering when you reopen.</li>
+    <li>To come back, select <strong>Reopen church</strong> in the same place.</li>
+</ul>
+<p>The status at the top left of Church admin shows which state you're in: <em>● Open · listed in search</em> or <em>● Closed · hidden from search</em>.</p>
+
+<h2>Updating your details from ChurchSuite</h2>
+<p>If you've connected ChurchSuite (see <a asp-page="/Docs/Churches/ChurchSuite">Connecting ChurchSuite</a>), the <strong>Sync from ChurchSuite</strong> box on <strong>My Church</strong> has a <strong>Sync now</strong> button. It copies details from your ChurchSuite account into Forest Churches.</p>
+<div class="docs-callout docs-callout--warn">
+    <span class="docs-callout__title">Sync now can change your sign-in email</span>
+    <p><strong>Sync now</strong> replaces your church name and website with the ones in ChurchSuite, and also sets <strong>the email address you sign in with</strong> to your ChurchSuite account's email. If those are different, you'll need to sign in with the ChurchSuite email afterwards, and visitor messages will go there too. Check your ChurchSuite account details before syncing.</p>
+</div>

@@ -1,0 +1,8 @@
+@* A screenshot with a caption. Clicking it opens the full-size image. *@
+@model ForestChurches.Pages.Docs.DocFig
+<figure class="docs-fig @(Model.Short ? "docs-fig--short" : "")">
+    <a href="~/img/docs/screens/@(Model.File).png" target="_blank" rel="noopener" title="Open full size">
+        <img src="~/img/docs/screens/@(Model.File).png" alt="@Model.Alt" loading="lazy" />
+    </a>
+    <figcaption>@Model.Caption</figcaption>
+</figure>

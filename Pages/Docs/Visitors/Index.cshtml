@@ -1,0 +1,135 @@
+@page
+@using ForestChurches.Pages.Docs
+@{
+    ViewData["Title"] = "Finding churches and events – Help";
+}
+
+<header>
+    <p class="fc-eyebrow">Visitor guide</p>
+    <h1>Finding churches and events</h1>
+    <p class="docs-lead">How to search for a church near you, read a church's page, get in touch, and find out what's on across the Forest of Dean.</p>
+    <div class="docs-meta"><span>For: anyone using the website</span><span>No account needed</span></div>
+</header>
+
+<h2>Welcome to Forest Churches</h2>
+<p>Forest Churches brings together service times, events and contact details for church communities across the Forest of Dean and Wye Valley. Each church keeps its own page up to date, so what you see comes from the church itself.</p>
+<p>You don't need an account to use any of the public site. Accounts are only for the people who look after a church's page (see the <a asp-page="/Docs/Churches/Index">church administrator guide</a>).</p>
+
+<h3>Finding your way around</h3>
+<p>The menu at the top of every page has:</p>
+<div class="docs-table-wrap">
+    <table class="docs-table">
+        <thead><tr><th>Menu item</th><th>What it does</th></tr></thead>
+        <tbody>
+            <tr><td>Find a church</td><td>The home page, with the church search and the next few events across the Forest.</td></tr>
+            <tr><td>Bulletin</td><td>The current weekly bulletin (pew sheet) or announcement. See <a asp-page="/Docs/Visitors/More" asp-fragment="the-weekly-bulletin">The weekly bulletin</a>.</td></tr>
+            <tr><td>About Us</td><td>Who runs the site and why.</td></tr>
+            <tr><td>Contact Us</td><td>Send a message to the Forest Churches team.</td></tr>
+            <tr><td>Sun / moon button</td><td>Switches between light and dark mode.</td></tr>
+            <tr><td>Language (globe)</td><td>Changes the language of the site's menus and labels.</td></tr>
+            <tr><td>Church login</td><td>Sign-in for church administrators only.</td></tr>
+        </tbody>
+    </table>
+</div>
+<p>If there's a current bulletin, a thin banner under the menu says <strong>New bulletin</strong> with a <strong>Read it</strong> link.</p>
+
+<partial name="_Fig" model='new DocFig("public-home", "The Forest Churches home page with the church search box over a photo of the Forest of Dean", "The home page. The search box is the quickest way to find a church.", true)' />
+
+<h2>Searching for a church</h2>
+<ol class="docs-steps">
+    <li>Go to <strong>Find a church</strong> (the home page).</li>
+    <li>In <strong>Postcode or town</strong>, type a postcode (for example <code>GL16 8AA</code>), a town, or a full address.</li>
+    <li>Choose how far to look in <strong>Within</strong>: 2, 5, 10, 20 or 50 miles. The default is 5 miles.</li>
+    <li>Select <strong>Search</strong>.</li>
+</ol>
+<p>The results page lists every church within that distance, nearest first, with a map showing where each one is.</p>
+
+<h3>Using your location instead of a postcode</h3>
+<p>Select <strong>Use My Location</strong>. Your browser will ask whether the site can use your location; if you allow it, your approximate address is filled into the box for you. Then select <strong>Search</strong>. If you'd rather not share your location, just type a postcode.</p>
+
+<h3>Filtering the results</h3>
+<p>Select <strong>More filters</strong> to narrow the search:</p>
+<ul>
+    <li><strong>Must have</strong>: tick any facilities you need. Only churches that offer <em>every</em> facility you've ticked are shown, so tick only what really matters to you. The choices are Wheelchair Access, Parking, Hearing Aid Support, Refreshments, Children's Ministry, Restrooms, Wi-Fi, Kitchen, Community Hall, Worship Hall and Outdoor Space.</li>
+    <li><strong>Denomination</strong>: pick one, or leave it on <strong>Any Denomination</strong>.</li>
+</ul>
+<p>Select <strong>Hide filters</strong> to fold them away again. Filters are off unless you tick them.</p>
+
+<partial name="_Fig" model='new DocFig("public-filters-open", "The search box with More filters open, showing facility buttons and a denomination list", "More filters: tick the facilities you need and, optionally, a denomination.")' />
+
+<h3>Reading the results</h3>
+<p>Each result shows:</p>
+<ul>
+    <li>the church's name and its distance from where you searched, in miles;</li>
+    <li>its denomination and address;</li>
+    <li>the next service time, when the church has added its service times;</li>
+    <li>a short description and some of its facilities (for example Step-free, Parking, Hearing loop).</li>
+</ul>
+<p>Under each church are four actions:</p>
+<div class="docs-table-wrap">
+    <table class="docs-table">
+        <tbody>
+            <tr><td>View church</td><td>Opens the church's own page.</td></tr>
+            <tr><td>Directions</td><td>Opens Google Maps directions to the church in a new tab.</td></tr>
+            <tr><td>Download details</td><td>Downloads a small text file with the church's details and service times to keep.</td></tr>
+            <tr><td>Email me the details</td><td>Takes you to the <strong>Save these details</strong> box on the church's page, where you can have the details emailed to you.</td></tr>
+        </tbody>
+    </table>
+</div>
+
+<partial name="_Fig" model='new DocFig("public-nearme-church-results", "Search results listing three churches with distances, a map, and buttons for each church", "Search results: nearest first, with distance, next service and quick actions.", true)' />
+
+<div class="docs-callout docs-callout--note">
+    <span class="docs-callout__title">Why isn't a church showing?</span>
+    <p>Distances are measured in a straight line from the place you searched to the church's address. A church won't appear if it's further away than the distance you chose, if it doesn't have every facility you ticked, or if the church has marked itself as closed. Try a larger distance or fewer filters.</p>
+</div>
+
+<h2>A church's page</h2>
+<p>Select <strong>View church</strong> on a result (or a church name anywhere on the site) to open its page. Near the top you'll find:</p>
+<ul>
+    <li>the church's name, address, denomination and typical Sunday attendance;</li>
+    <li>whether it's <strong>Open</strong>, and its <strong>Next service</strong>;</li>
+    <li>buttons for <strong>Directions</strong>, <strong>Send Message</strong>, the church's <strong>Website</strong>, and <strong>ChurchSuite</strong> (if the church uses ChurchSuite).</li>
+</ul>
+<p>Further down are:</p>
+<ul>
+    <li><strong>About us</strong>: the church's own description;</li>
+    <li><strong>Sunday Services</strong>: each service time and what it is;</li>
+    <li><strong>Upcoming events</strong>: events the church has listed (select <strong>Read more</strong> for the full description);</li>
+    <li><strong>What to expect</strong>: the facilities the church offers;</li>
+    <li><strong>Find us</strong>: the address, phone number and a map;</li>
+    <li><strong>Send Message</strong> and <strong>Save these details</strong> (below).</li>
+</ul>
+
+<partial name="_Fig" model='new DocFig("public-church-page", "A church page showing the church name, next service, about us, service times, events, facilities and a message form", "A church page. Everything here is kept up to date by the church.", true)' />
+
+<h3>Contacting a church</h3>
+<ol class="docs-steps">
+    <li>On the church's page, select <strong>Send Message</strong> (or scroll to the <strong>Send Message</strong> box).</li>
+    <li>Fill in <strong>Your name</strong>, <strong>Your email</strong>, <strong>Subject</strong> and <strong>Your Message</strong>.</li>
+    <li>Select <strong>Send Message</strong>.</li>
+</ol>
+<p>Your message is emailed straight to the church's administrator, including your name and email address so they can reply to you directly. Forest Churches doesn't keep a copy of the message on the website.</p>
+
+<h3>Saving a church's details</h3>
+<p>In the <strong>Save these details</strong> box you can:</p>
+<ul>
+    <li><strong>Download details</strong>: a plain text file with the church's status, name, description, denomination, congregation size, website, address, phone, main facilities and service times.</li>
+    <li><strong>Email me the details</strong>: enter your email address and the same details are emailed to you, with a link to message the church. That link works for 24 hours.</li>
+</ul>
+<p>Your email address is only used to send that one email.</p>
+
+<h2>Finding events</h2>
+<p>The home page shows the next four upcoming events across the Forest under <strong>What's on across the Forest</strong>. To search for events:</p>
+<ol class="docs-steps">
+    <li>Select <strong>Find events</strong> on the home page, or scroll to <strong>Events near me</strong> on the search results page.</li>
+    <li>Enter a <strong>Postcode</strong>.</li>
+    <li>Optionally choose a <strong>Church</strong>, a <strong>Start Date</strong> and an <strong>End Date</strong>.</li>
+    <li>Select <strong>Find events</strong> (or <strong>Use My Location</strong>).</li>
+</ol>
+<p>You'll see events within 5 miles of the postcode, nearest first. Each shows the date, time, church and address; select <strong>Read more</strong> to see the full description. If an event repeats (for example <em>Weekly</em>), that's shown next to the time.</p>
+
+<partial name="_Fig" model='new DocFig("public-nearme-event-results", "Event search with postcode, church and date filters, and a list of upcoming events", "Events near me: filter by church and dates.", true)' />
+
+<h3>Why an event might disappear</h3>
+<p>Churches remove events once they've happened, and they can change or cancel an event at any time. If something you were looking at has gone, check the church's own page or send the church a message.</p>

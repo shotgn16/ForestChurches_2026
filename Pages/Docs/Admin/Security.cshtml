@@ -1,0 +1,321 @@
+@page
+@using ForestChurches.Pages.Docs
+@using Microsoft.AspNetCore.Authorization
+@attribute [Authorize(Policy = "Admin.Read")]
+@{
+    ViewData["Title"] = "Security, keys and data – Website administrator guide";
+}
+
+<header>
+    <p class="fc-eyebrow">Website administrator guide · Technical reference</p>
+    <h1>Security, keys and data</h1>
+    <p class="docs-lead">How Forest Churches is secured: where secrets and keys are kept, what is encrypted and how, what personal data is held, where it lives, who processes it, and the security issues that need fixing.</p>
+    <div class="docs-meta"><span>Restricted page</span><span>Secret <em>names</em> only; never put secret values in documentation, tickets or chat.</span></div>
+</header>
+
+<div class="docs-callout docs-callout--danger">
+    <span class="docs-callout__title">Act on these first</span>
+    <p>The public ForestChurches repository contains live credentials, including the Azure service principal secret that unlocks Key Vault. Until that secret is rotated, assume every secret in Key Vault is known to others. See <a href="#security-findings">Security findings</a> and <a href="#rotating-secrets">Rotating secrets</a>.</p>
+</div>
+
+<h2>Overview</h2>
+<div class="docs-table-wrap">
+    <table class="docs-table">
+        <thead><tr><th>Area</th><th>How it's done</th></tr></thead>
+        <tbody>
+            <tr><td>Transport</td><td>HTTPS everywhere; HTTP redirects to HTTPS; HSTS for one year with <code>includeSubDomains; preload</code>. Email app calls are HTTPS-only (enforced). SMTP uses STARTTLS when offered.</td></tr>
+            <tr><td>Secrets</td><td>Azure Key Vault <code>projectgreenblock</code>, read with a service principal (<code>EnvironmentCredential</code>).</td></tr>
+            <tr><td>Passwords</td><td>ASP.NET Core Identity hashing (PBKDF2, HMAC-SHA512, 100,000 iterations, random salt). 12+ characters with mixed character types.</td></tr>
+            <tr><td>Sessions and tokens</td><td>ASP.NET Core Data Protection, keys stored in blob storage and wrapped by a Key Vault key, rotated every 7 days.</td></tr>
+            <tr><td>Authorisation</td><td>Permission-based policies backed by the <code>RolePermissions</code> table; a few role-name checks for SuperAdmin.</td></tr>
+            <tr><td>CSRF</td><td>Antiforgery tokens on every state-changing request (with documented exceptions).</td></tr>
+            <tr><td>IDs in URLs</td><td>Protected with purpose-specific Data Protection protectors (<code>Encoder</code>).</td></tr>
+            <tr><td>API between apps</td><td>Short-lived (10-minute) HS256 JWTs.</td></tr>
+            <tr><td>Admin tools</td><td>Site admin behind permissions; Hangfire behind Basic auth; ELMAH SuperAdmin only.</td></tr>
+        </tbody>
+    </table>
+</div>
+
+<h2>Authentication</h2>
+<p>Sign-up, sign-in, two-factor authentication, cookie settings and email tokens are covered in <a asp-page="/Docs/Admin/Registration">Whitelisting, sign-up and sign-in</a>. In short: invitation-only registration, confirmed email required, 12-character passwords, optional TOTP two-factor with 10 recovery codes, Secure/HttpOnly cookies, and no account lockout.</p>
+
+<h2 id="authorisation">Authorisation</h2>
+<ul>
+    <li>Every permission (<code>Admin.Read</code>, <code>UserManagement.Read</code>, …) is a named policy. <code>PermissionAuthorizationHandler</code> grants it if any of the user's current roles has that permission in <code>RolePermissions</code>.</li>
+    <li>Site admin pages use <code>[Authorize(Policy = "…")]</code> on the page model; this guide's admin pages use <code>@@attribute [Authorize(Policy = "Admin.Read")]</code>.</li>
+    <li>Role-name checks: Emails (<code>[Authorize(Roles = "SuperAdmin")]</code>), user edit/delete (<code>IsInRole("SuperAdmin")</code>), ELMAH.</li>
+    <li>Church admin pages need a signed-in user; event pages need <code>UserEvents.*</code>. Church data is always looked up from the signed-in user, not from IDs in the request.</li>
+    <li>Public APIs: <code>/api/Bulletin</code> and <code>/health</code> are anonymous; <code>/api/SystemStats</code> needs <code>Admin.Read</code>.</li>
+</ul>
+<p>Full permission list: <a asp-page="/Docs/Admin/People" asp-fragment="every-permission">Every permission</a>.</p>
+
+<h2>Where secrets are kept</h2>
+<p>Production secrets live in <strong>Azure Key Vault <code>projectgreenblock</code></strong>. Both apps connect with Azure's <code>EnvironmentCredential</code>, which reads four environment variables set on the host:</p>
+<div class="docs-table-wrap">
+    <table class="docs-table">
+        <thead><tr><th>Environment variable</th><th>Set on</th><th>What it is</th></tr></thead>
+        <tbody>
+            <tr><td><code>KEY_VAULT_URL</code></td><td>Container App, Plesk</td><td>Vault address.</td></tr>
+            <tr><td><code>AZURE_TENANT_ID</code></td><td>Container App, Plesk</td><td>Microsoft Entra tenant.</td></tr>
+            <tr><td><code>AZURE_CLIENT_ID</code></td><td>Container App, Plesk</td><td>The app registration (service principal) allowed to read the vault.</td></tr>
+            <tr><td><code>AZURE_CLIENT_SECRET</code></td><td>Container App, Plesk</td><td>That service principal's client secret: <strong>the master key to everything</strong>. Store it as a Container Apps secret, never in code or <code>launchSettings.json</code>.</td></tr>
+        </tbody>
+    </table>
+</div>
+
+<h3 id="secrets-inventory">Secrets inventory</h3>
+<div class="docs-table-wrap">
+    <table class="docs-table">
+        <thead><tr><th>Key Vault secret</th><th>Used by</th><th>Purpose</th><th>Read</th></tr></thead>
+        <tbody>
+            <tr><td><code>db-connection-live</code></td><td>ForestChurches</td><td>MySQL connection string (app data, Hangfire, logs).</td><td>Start-up</td></tr>
+            <tr><td><code>blob-connection-string</code></td><td>ForestChurches</td><td>Azure Storage connection string (images, Data Protection keys).</td><td>Start-up</td></tr>
+            <tr><td><code>blob-container-name</code>, <code>blob-file-name</code></td><td>ForestChurches</td><td>Container and file of the Data Protection key ring.</td><td>Start-up</td></tr>
+            <tr><td><code>data-key</code></td><td>ForestChurches</td><td>Key Vault <em>key</em> identifier (URI) used to wrap the Data Protection key ring.</td><td>Start-up</td></tr>
+            <tr><td><code>storage-account-name</code>, <code>storage-account-key</code>, <code>storage-container-name</code></td><td>ForestChurches</td><td>Image container and the account key used to sign read-only SAS links.</td><td>Start-up</td></tr>
+            <tr><td><code>jwt-token-securityKey</code>, <code>jwt-token-issuer</code>, <code>jwt-token-audience</code></td><td>Both</td><td>Signing JWTs for the email app (must match the email app's hard-coded validation values).</td><td>Start-up / per token</td></tr>
+            <tr><td><code>sys-admin-username</code>, <code>sys-admin-password</code></td><td>ForestChurches</td><td>Hangfire dashboard Basic-auth login, and the first SuperAdmin account created by the seeder.</td><td>Start-up</td></tr>
+            <tr><td><code>lokikey</code></td><td>ForestChurches</td><td>Grafana Cloud Loki password/token (the login ID is in code).</td><td>Start-up</td></tr>
+            <tr><td><code>seq-key</code>, <code>seq-link</code></td><td>ForestChurches</td><td>Seq logging (read but not currently used by the web app).</td><td>Start-up</td></tr>
+            <tr><td><code>google-api-key</code>, <code>google-api-fields-more</code></td><td>ForestChurches</td><td>Google Geocoding/Places API key and Places field mask.</td><td>Per request</td></tr>
+            <tr><td><code>Email-Target</code></td><td>ForestChurches</td><td>Team inbox for general Contact Us messages.</td><td>Per message</td></tr>
+            <tr><td><code>app-email-url</code></td><td>Both</td><td>The email app's base URL (fallback for the web app; used by the email app to call itself).</td><td>Per use</td></tr>
+            <tr><td><code>smtp-auth-username</code>, <code>smtp-auth-password</code></td><td>EmailManagement</td><td>IONOS mailbox credentials.</td><td>Per send</td></tr>
+            <tr><td><code>seq-email-key</code>, <code>seq-link</code></td><td>EmailManagement</td><td>Seq logging.</td><td>Start-up</td></tr>
+        </tbody>
+    </table>
+</div>
+<p>Other secrets outside Key Vault:</p>
+<ul>
+    <li><strong>GitHub Actions secrets</strong> for the deployment workflow (Azure login credentials; <code>GITHUB_TOKEN</code> for GHCR).</li>
+    <li><strong>ChurchSuite OAuth</strong> site-wide client secret, if configured (env var or configuration).</li>
+    <li>The email app's <strong>JWT validation key</strong>, hard-coded in its <code>Program.cs</code> (see <a asp-page="/Docs/Admin/Email" asp-fragment="authentication-between-the-apps">Authentication between the apps</a>).</li>
+    <li>The <strong>Grafana Loki login ID</strong>, hard-coded in <code>LoggingConfiguration</code> (an identifier, not a password).</li>
+    <li>Development: <code>appsettings.Development.json</code> connection string and the local <code>DataProtectionKeys</code> folder.</li>
+</ul>
+
+<h2>Keys and encryption</h2>
+<h3>The key hierarchy</h3>
+<figure class="docs-diagram">
+    <svg viewBox="0 0 940 360" role="img" aria-labelledby="key-t key-d">
+        <title id="key-t">Key hierarchy</title>
+        <desc id="key-d">The service principal credentials in environment variables unlock Azure Key Vault. Key Vault holds the secrets and the data-key, which wraps the Data Protection key ring stored as XML in blob storage. The key ring protects authentication cookies, antiforgery tokens, Identity tokens for email confirmation and password reset, the callback tokens in email links, and the protected IDs used in pages.</desc>
+        <defs>
+            <marker id="key-ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="dg-arrowhead" /></marker>
+        </defs>
+        <rect class="dg-box dg-box--warn" x="16" y="140" width="200" height="80" rx="10" />
+        <text class="dg-title" x="116" y="170" text-anchor="middle">Service principal</text>
+        <text class="dg-text" x="116" y="190" text-anchor="middle">AZURE_CLIENT_ID / SECRET</text>
+        <text class="dg-text" x="116" y="206" text-anchor="middle">(env vars on host)</text>
+
+        <rect class="dg-box dg-box--store" x="270" y="40" width="200" height="110" rx="10" />
+        <text class="dg-title" x="370" y="68" text-anchor="middle">Key Vault secrets</text>
+        <text class="dg-text" x="370" y="90" text-anchor="middle">DB, storage, SMTP, JWT,</text>
+        <text class="dg-text" x="370" y="106" text-anchor="middle">Google, Loki, Hangfire …</text>
+        <text class="dg-text" x="370" y="128" text-anchor="middle">(see inventory)</text>
+        <rect class="dg-box dg-box--store" x="270" y="200" width="200" height="90" rx="10" />
+        <text class="dg-title" x="370" y="228" text-anchor="middle">Key Vault key</text>
+        <text class="dg-text" x="370" y="250" text-anchor="middle">"data-key" (RSA)</text>
+        <text class="dg-text" x="370" y="268" text-anchor="middle">wraps / unwraps</text>
+
+        <rect class="dg-box dg-box--main" x="520" y="200" width="200" height="90" rx="10" />
+        <text class="dg-title dg-title--on-main" x="620" y="226" text-anchor="middle">Data Protection</text>
+        <text class="dg-text dg-text--on-main" x="620" y="246" text-anchor="middle">key ring XML in blob</text>
+        <text class="dg-text dg-text--on-main" x="620" y="262" text-anchor="middle">new key every 7 days</text>
+        <text class="dg-text dg-text--on-main" x="620" y="278" text-anchor="middle">"ForestChurches-App"</text>
+
+        <rect class="dg-box" x="760" y="20" width="166" height="44" rx="8" /><text class="dg-text" x="843" y="47" text-anchor="middle">Sign-in cookies</text>
+        <rect class="dg-box" x="760" y="76" width="166" height="44" rx="8" /><text class="dg-text" x="843" y="103" text-anchor="middle">Antiforgery tokens</text>
+        <rect class="dg-box" x="760" y="132" width="166" height="44" rx="8" /><text class="dg-text" x="843" y="159" text-anchor="middle">Confirm / reset codes</text>
+        <rect class="dg-box" x="760" y="188" width="166" height="44" rx="8" /><text class="dg-text" x="843" y="215" text-anchor="middle">Email link tokens</text>
+        <rect class="dg-box" x="760" y="244" width="166" height="44" rx="8" /><text class="dg-text" x="843" y="271" text-anchor="middle">Protected IDs (fc.data.*)</text>
+        <rect class="dg-box" x="760" y="300" width="166" height="44" rx="8" /><text class="dg-text" x="843" y="327" text-anchor="middle">Session cookie</text>
+
+        <path class="dg-line" d="M216,170 C240,170 240,95 268,95" marker-end="url(#key-ah)" />
+        <path class="dg-line" d="M216,190 C240,190 240,245 268,245" marker-end="url(#key-ah)" />
+        <path class="dg-line" d="M470,245 L518,245" marker-end="url(#key-ah)" />
+        <path class="dg-line" d="M720,230 C740,230 740,42 758,42" marker-end="url(#key-ah)" />
+        <path class="dg-line" d="M720,234 C744,234 744,98 758,98" marker-end="url(#key-ah)" />
+        <path class="dg-line" d="M720,238 C748,238 748,154 758,154" marker-end="url(#key-ah)" />
+        <path class="dg-line" d="M720,242 L758,210" marker-end="url(#key-ah)" />
+        <path class="dg-line" d="M720,258 L758,266" marker-end="url(#key-ah)" />
+        <path class="dg-line" d="M720,270 C748,270 748,322 758,322" marker-end="url(#key-ah)" />
+    </svg>
+    <figcaption>Everything ultimately depends on the service principal credentials, so those are the most sensitive values in the system.</figcaption>
+</figure>
+
+<h3>ASP.NET Core Data Protection</h3>
+<ul>
+    <li>Application name <code>ForestChurches-App</code>, so every instance shares one key ring.</li>
+    <li>Production: key ring XML persisted to Azure Blob Storage (<code>blob-container-name</code> / <code>blob-file-name</code>) and each key encrypted ("wrapped") with the Key Vault key in <code>data-key</code>. If the Key Vault protector can't be configured, the app logs a warning and keeps the ring in blob storage <strong>unwrapped</strong>.</li>
+    <li>Development: keys in the local <code>DataProtectionKeys</code> folder (unencrypted).</li>
+    <li>A new key is created every 7 days; old keys stay available to decrypt older data until they expire (default retention).</li>
+    <li>Payloads are encrypted with AES-256-CBC and authenticated with HMAC-SHA256 (Data Protection defaults).</li>
+</ul>
+<p>Losing or replacing the key ring signs everyone out and breaks every outstanding email link and protected ID. Don't delete the blob or disable old versions of <code>data-key</code>.</p>
+
+<h3>Encryption summary</h3>
+<div class="docs-table-wrap">
+    <table class="docs-table">
+        <thead><tr><th>Data</th><th>In transit</th><th>At rest</th></tr></thead>
+        <tbody>
+            <tr><td>Browser ↔ website</td><td>TLS (HTTPS, HSTS)</td><td>–</td></tr>
+            <tr><td>Website ↔ email app</td><td>TLS, JWT</td><td>Email content held in the email app's memory until sent.</td></tr>
+            <tr><td>Email app ↔ IONOS</td><td>STARTTLS when available (not enforced)</td><td>IONOS mailbox.</td></tr>
+            <tr><td>Website ↔ database</td><td>Depends on <code>SslMode</code> in the connection string (check it's <code>Required</code> or stricter)</td><td>Depends on the database host's disk encryption.</td></tr>
+            <tr><td>Passwords</td><td>–</td><td>PBKDF2-HMAC-SHA512 hash.</td></tr>
+            <tr><td>Authenticator keys, recovery codes</td><td>–</td><td><strong>Plain text</strong> in <code>AspNetUserTokens</code> (Identity default).</td></tr>
+            <tr><td>ChurchSuite access/refresh tokens</td><td>–</td><td><strong>Plain text</strong> in <code>ChurchSuiteCredentials</code>.</td></tr>
+            <tr><td>Images, key ring (blob)</td><td>TLS</td><td>Azure Storage service-side encryption (on by default); key ring additionally wrapped by Key Vault.</td></tr>
+            <tr><td>Secrets</td><td>TLS</td><td>Key Vault (HSM-backed encryption).</td></tr>
+            <tr><td>Logs</td><td>TLS to Grafana; database as above</td><td>Plain text in <code>applicationlogs</code> and Grafana Cloud.</td></tr>
+        </tbody>
+    </table>
+</div>
+
+<h2>Web protections</h2>
+<div class="docs-table-wrap">
+    <table class="docs-table">
+        <thead><tr><th>Protection</th><th>Status</th></tr></thead>
+        <tbody>
+            <tr><td>HTTPS redirect + HSTS (1 year, preload)</td><td><span class="docs-badge docs-badge--ok">On</span></td></tr>
+            <tr><td>Remove <code>Server</code> / <code>X-Powered-By</code></td><td><span class="docs-badge docs-badge--ok">On</span></td></tr>
+            <tr><td>Antiforgery on POST/PUT/DELETE</td><td><span class="docs-badge docs-badge--ok">On</span> except login, register, logout, external login and <code>/api</code></td></tr>
+            <tr><td>Blocked file extensions (<code>.json .config .env .ini .exe .pfx .cs .dll</code> …)</td><td><span class="docs-badge docs-badge--ok">On</span> for anything not served as a static file</td></tr>
+            <tr><td>Content-Security-Policy</td><td><span class="docs-badge docs-badge--warn">Off</span> A nonce-based <code>CSPNonceMiddleware</code> exists but isn't registered. The docs and redesign scripts avoid inline script so it can be turned on.</td></tr>
+            <tr><td><code>X-Frame-Options</code> / <code>frame-ancestors</code></td><td><span class="docs-badge docs-badge--warn">Off</span> (clickjacking)</td></tr>
+            <tr><td><code>X-Content-Type-Options: nosniff</code>, <code>Referrer-Policy</code></td><td><span class="docs-badge docs-badge--warn">Off</span></td></tr>
+            <tr><td>CORS policy for <code>https://forestchurches.co.uk</code></td><td><span class="docs-badge docs-badge--warn">Defined, not applied</span> (<code>UseCors</code> isn't called; same-origin rules apply)</td></tr>
+            <tr><td>Account lockout</td><td><span class="docs-badge docs-badge--warn">Off</span></td></tr>
+            <tr><td>Rate limiting (login, contact forms)</td><td><span class="docs-badge docs-badge--warn">None</span></td></tr>
+        </tbody>
+    </table>
+</div>
+
+<h3>Cookies</h3>
+<div class="docs-table-wrap">
+    <table class="docs-table">
+        <thead><tr><th>Cookie</th><th>Purpose</th><th>Lifetime</th></tr></thead>
+        <tbody>
+            <tr><td><code>.AspNetCore.Identity.Application</code></td><td>Sign-in</td><td>Session, or 14 days with <em>Keep me signed in</em></td></tr>
+            <tr><td><code>Identity.TwoFactorRememberMe</code>, <code>Identity.TwoFactorUserId</code>, <code>Identity.External</code></td><td>Two-factor and external sign-in steps</td><td>Short / as set by Identity</td></tr>
+            <tr><td><code>X-CSRF-TOKEN-COOKIE</code></td><td>Antiforgery</td><td>Session</td></tr>
+            <tr><td><code>.AspNetCore.Session</code></td><td>Server session (ChurchSuite PKCE)</td><td>Session; 30 min idle on the server</td></tr>
+            <tr><td><code>.AspNetCore.Culture</code></td><td>Language choice</td><td>1 month</td></tr>
+            <tr><td><code>fc-theme</code> (+ localStorage)</td><td>Light/dark choice</td><td>1 year</td></tr>
+        </tbody>
+    </table>
+</div>
+<p>All are essential or preference cookies; there are no analytics or advertising cookies. Visitors' browsers also contact OpenStreetMap (map tiles) and unpkg (Leaflet), which see the visitor's IP address.</p>
+
+<h2 id="data-inventory">Data inventory</h2>
+<div class="docs-table-wrap">
+    <table class="docs-table">
+        <thead><tr><th>Data</th><th>About</th><th>Stored in</th><th>Kept for</th></tr></thead>
+        <tbody>
+            <tr><td>Account: email, username, phone, password hash, 2FA key and recovery codes, profile image, created date</td><td>Church administrators, site admins</td><td>Database (<code>AspNetUsers</code>, <code>AspNetUserTokens</code>), blob (image)</td><td>Until the account is deleted.</td></tr>
+            <tr><td>Church listing: name, address, phone, website, description, facilities, service times, logo</td><td>Churches (may include a person's phone or address)</td><td>Database, blob</td><td>Until the account is deleted (service times too).</td></tr>
+            <tr><td>Events, including owner's email</td><td>Churches</td><td>Database, blob (images)</td><td>Until deleted by the church or an admin. Not removed when the account is deleted.</td></tr>
+            <tr><td>Invitations: email, status, dates</td><td>Invited churches</td><td>Database (<code>WhitelistedUsers</code>)</td><td>Indefinitely, until removed.</td></tr>
+            <tr><td>ChurchSuite tokens and account details</td><td>Churches</td><td>Database (<code>ChurchSuiteCredentials</code>)</td><td>Indefinitely; not removed with the account.</td></tr>
+            <tr><td>Contact-form messages: name, email, message</td><td>Visitors</td><td>Not saved in the database. In the email app's memory until sent; in the recipient's mailbox; recipient and subject in logs.</td><td>Logs: indefinitely (database) / per Grafana plan.</td></tr>
+            <tr><td>Search postcodes/addresses, "Use my location" coordinates</td><td>Visitors</td><td>Not stored; sent to Google for geocoding.</td><td>–</td></tr>
+            <tr><td>Email delivery records: ID, recipient, subject, status</td><td>Anyone emailed</td><td>Website memory (newest 500); email app memory (14 days); logs</td><td>Until restart / 14 days; logs indefinitely.</td></tr>
+            <tr><td>Application logs: messages with email addresses, user IDs, request paths, errors</td><td>Everyone</td><td><code>applicationlogs</code>, Grafana Cloud, email app log files and Seq</td><td><code>applicationlogs</code> never pruned.</td></tr>
+            <tr><td>ELMAH error records (request details, possibly headers and cookies)</td><td>Everyone</td><td>XML files in the container</td><td>Until the container is replaced.</td></tr>
+            <tr><td>Bulletins and PDFs</td><td>Public content</td><td>Database; PDFs on container disk</td><td>Until deleted / container replaced.</td></tr>
+            <tr><td>Hangfire job data</td><td>–</td><td>Database</td><td>Finished jobs expire (default 1 day).</td></tr>
+        </tbody>
+    </table>
+</div>
+<p>Users can download their own data (a PDF of their account fields and authenticator key) and delete their account from Church admin → My Data. Requests for anything else (event history, logs) have to be handled by a developer.</p>
+
+<h2>Where data is located</h2>
+<div class="docs-table-wrap">
+    <table class="docs-table">
+        <thead><tr><th>System</th><th>Provider</th><th>Location to confirm</th></tr></thead>
+        <tbody>
+            <tr><td>Web app (Container App <code>forestchurches</code>, resource group <code>myResourceGroup</code>)</td><td>Microsoft Azure</td><td>The resource group's region in the Azure portal.</td></tr>
+            <tr><td>Key Vault <code>projectgreenblock</code>, storage <code>greenblockstorageaccount</code></td><td>Microsoft Azure</td><td>Each resource's region and its redundancy setting (LRS/GRS).</td></tr>
+            <tr><td>MySQL/MariaDB database</td><td>Whoever hosts the server in <code>db-connection-live</code></td><td>The server's host and region.</td></tr>
+            <tr><td>Email app</td><td>Plesk server</td><td>The server's hosting provider and data centre.</td></tr>
+            <tr><td>Mailbox and SMTP</td><td>IONOS</td><td>IONOS account region (UK/EU).</td></tr>
+            <tr><td>Logs</td><td>Grafana Labs (Grafana Cloud, <code>logs-prod-035</code>)</td><td>The stack's region in the Grafana Cloud portal.</td></tr>
+            <tr><td>Container images and source</td><td>GitHub (GHCR)</td><td>United States.</td></tr>
+        </tbody>
+    </table>
+</div>
+<p>This guide doesn't state regions it can't verify from the code; record the confirmed regions here (and in the privacy policy) after checking each portal.</p>
+
+<h2>Third parties that process data</h2>
+<div class="docs-table-wrap">
+    <table class="docs-table">
+        <thead><tr><th>Provider</th><th>What they receive</th></tr></thead>
+        <tbody>
+            <tr><td>Microsoft Azure</td><td>Everything the web app handles (hosting), secrets, images.</td></tr>
+            <tr><td>Database host</td><td>All stored data.</td></tr>
+            <tr><td>Plesk host / IONOS</td><td>Every outgoing email's recipient and content.</td></tr>
+            <tr><td>Google (Maps Platform)</td><td>Search text, church addresses, visitors' coordinates for reverse geocoding.</td></tr>
+            <tr><td>Grafana Labs</td><td>Application logs.</td></tr>
+            <tr><td>ChurchSuite</td><td>OAuth requests for churches that connect.</td></tr>
+            <tr><td>OpenStreetMap, unpkg</td><td>Visitors' IP addresses and the map area viewed.</td></tr>
+            <tr><td>GitHub</td><td>Source code (public), container images.</td></tr>
+        </tbody>
+    </table>
+</div>
+
+<h2 id="security-findings">Security findings</h2>
+<p>Found while writing this guide (October 2026, branch <code>redesign/forest-floor</code> at <code>defd5b2</code>; EmailManagement <code>feature/delivery-status</code>). Ordered by severity.</p>
+<div class="docs-table-wrap">
+    <table class="docs-table">
+        <thead><tr><th>#</th><th>Severity</th><th>Finding</th><th>Action</th></tr></thead>
+        <tbody>
+            <tr><td>1</td><td><span class="docs-badge docs-badge--danger">Critical</span></td><td>The <strong>public</strong> repo's <code>Properties/launchSettings.json</code> contains a value for <code>AZURE_CLIENT_SECRET</code>, together with the tenant ID, client ID and Key Vault URL. With these, anyone can read Key Vault and so every production secret.</td><td>Rotate the service principal secret now; then rotate every Key Vault secret (DB, storage keys, SMTP, JWT, Google, Loki, Hangfire); remove the values from the file and from git history; consider making the repo private.</td></tr>
+            <tr><td>2</td><td><span class="docs-badge docs-badge--danger">Critical</span></td><td><code>.github/workflows/deploy.yml</code> refers to a GitHub secret whose <em>name</em> is the client secret value, so the value is visible in the workflow file.</td><td>Rename to e.g. <code>AZURE_CREDENTIALS</code> after rotating (#1).</td></tr>
+            <tr><td>3</td><td><span class="docs-badge docs-badge--danger">High</span></td><td>EmailManagement's JWT validation key is hard-coded, so anyone with that repo can send email as info@forestchurches.co.uk.</td><td>Load issuer, audience and key from Key Vault; rotate.</td></tr>
+            <tr><td>4</td><td><span class="docs-badge docs-badge--danger">High</span></td><td><code>/Church?handler=GoogleMapsApiKey</code> returns the server's Google API key to anyone.</td><td>Remove the handler (maps use OpenStreetMap); restrict the key by API and by server IP in Google Cloud; rotate.</td></tr>
+            <tr><td>5</td><td><span class="docs-badge docs-badge--danger">High</span></td><td>ChurchSuite endpoints trust a <code>user_id</code> query parameter without sign-in, and redirect to an unchecked <code>redirect_uri</code>.</td><td>Require sign-in, use the current user, allow only local return URLs.</td></tr>
+            <tr><td>6</td><td><span class="docs-badge docs-badge--warn">Medium</span></td><td><code>/logsHub</code> (SignalR) has no authorisation, so anyone can connect and receive live log entries (email addresses, errors).</td><td>Add <code>[Authorize(Policy = "Admin.Read")]</code> to <code>LogsHub</code>.</td></tr>
+            <tr><td>7</td><td><span class="docs-badge docs-badge--warn">Medium</span></td><td>Committed secrets for development: <code>appsettings.Development.json</code> database password (LAN server) and <code>DataProtectionKeys/*.xml</code>.</td><td>Change that password; delete the files from the repo and add them to <code>.gitignore</code>; use user-secrets.</td></tr>
+            <tr><td>8</td><td><span class="docs-badge docs-badge--warn">Medium</span></td><td>No account lockout or rate limiting, so passwords can be guessed without limit.</td><td>Enable <code>lockoutOnFailure: true</code> with Identity lockout options; add ASP.NET Core rate limiting on login and contact forms.</td></tr>
+            <tr><td>9</td><td><span class="docs-badge docs-badge--warn">Medium</span></td><td>Contact-form values are inserted into email HTML without encoding (HTML injection from <em>info@forestchurches.co.uk</em>).</td><td>HTML-encode all user-supplied values in <code>MailSender</code>.</td></tr>
+            <tr><td>10</td><td><span class="docs-badge docs-badge--warn">Medium</span></td><td>No CSP, <code>X-Frame-Options</code>, <code>nosniff</code> or <code>Referrer-Policy</code> headers.</td><td>Register the existing CSP middleware and add the headers.</td></tr>
+            <tr><td>11</td><td><span class="docs-badge docs-badge--warn">Medium</span></td><td>The email app reads whatever template path it's given from disk and emails the result.</td><td>Accept a template <em>name</em> and map it to files in <code>./templates</code> only.</td></tr>
+            <tr><td>12</td><td><span class="docs-badge docs-badge--warn">Medium</span></td><td>ChurchSuite tokens, authenticator keys and recovery codes are stored in plain text.</td><td>Encrypt with Data Protection (ChurchSuite) and enable Identity <code>ProtectPersonalData</code> or hashed recovery codes.</td></tr>
+            <tr><td>13</td><td><span class="docs-badge">Low</span></td><td>Swagger is public in production on the email app.</td><td>Set <code>EnableSwaggerInProduction</code> to false.</td></tr>
+            <tr><td>14</td><td><span class="docs-badge">Low</span></td><td>The Hangfire dashboard password is the same secret as the initial SuperAdmin password.</td><td>Use separate secrets, or authorise the dashboard with the site's own sign-in (<code>Admin.Read</code>).</td></tr>
+            <tr><td>15</td><td><span class="docs-badge">Low</span></td><td>The external-login page logs every whitelisted email address at Information level; the Loki login ID is in code.</td><td>Remove that log line; move the ID to configuration.</td></tr>
+            <tr><td>16</td><td><span class="docs-badge">Low</span></td><td>Church open/close status is changed by a GET request (no antiforgery).</td><td>Change to POST.</td></tr>
+            <tr><td>17</td><td><span class="docs-badge">Low</span></td><td>SMTP uses <code>StartTlsWhenAvailable</code> (could fall back to plain text).</td><td>Use <code>SecureSocketOptions.StartTls</code>.</td></tr>
+        </tbody>
+    </table>
+</div>
+
+<h2 id="rotating-secrets">Rotating secrets</h2>
+<p>Most secrets are read once at start-up, so after changing one in Key Vault, <strong>restart the app</strong> (create a new Container Apps revision, or restart the Plesk app).</p>
+<div class="docs-table-wrap">
+    <table class="docs-table">
+        <thead><tr><th>Secret</th><th>How to rotate</th></tr></thead>
+        <tbody>
+            <tr><td>Service principal (<code>AZURE_CLIENT_SECRET</code>)</td><td>Entra ID → App registrations → the app → Certificates &amp; secrets → New client secret. Update the Container App secret/env var, the Plesk env var and the GitHub Actions secret used by <code>azure/login</code>. Restart both apps. Delete the old secret.</td></tr>
+            <tr><td><code>db-connection-live</code></td><td>Change the database user's password, update the secret, restart.</td></tr>
+            <tr><td>Storage keys (<code>blob-connection-string</code>, <code>storage-account-key</code>)</td><td>Rotate the <em>secondary</em> key, switch the secrets to it, restart, then rotate the primary. Existing image links (30-minute SAS) stop working, which is harmless.</td></tr>
+            <tr><td><code>data-key</code></td><td>Create a new key version in Key Vault and update the identifier. <strong>Keep old versions enabled</strong>; they're needed to unwrap older keys in the ring.</td></tr>
+            <tr><td>JWT (<code>jwt-token-*</code>)</td><td>Generate a long random key (32+ bytes). Today: update Key Vault <em>and</em> the email app's <code>Program.cs</code>, deploy the email app and restart both together. After fixing #3, Key Vault only.</td></tr>
+            <tr><td><code>smtp-auth-password</code></td><td>Change the mailbox password at IONOS and update the secret. Read on every send, so no restart.</td></tr>
+            <tr><td><code>sys-admin-password</code></td><td>Update the secret and restart: changes the Hangfire login. It does <strong>not</strong> change the SuperAdmin account's password (change that in Church admin → Change Password).</td></tr>
+            <tr><td><code>google-api-key</code></td><td>Create a new restricted key in Google Cloud, update the secret, delete the old key.</td></tr>
+            <tr><td><code>lokikey</code></td><td>Create a new Grafana Cloud access policy token with logs:write, update the secret, restart, revoke the old token.</td></tr>
+        </tbody>
+    </table>
+</div>
+
+<h2>If you suspect a breach</h2>
+<ol class="docs-steps">
+    <li>Rotate the service principal secret first, then the secret you think is affected (or all of them).</li>
+    <li>Check Key Vault's activity log and the storage account's logs for unexpected access.</li>
+    <li>In Site admin → Users, look for unexpected accounts or roles; on Roles, check no permissions were added.</li>
+    <li>Search Logs and Grafana for unusual sign-ins, admin actions and errors.</li>
+    <li>To sign everyone out, rotate the Data Protection key ring (this also breaks outstanding email links).</li>
+    <li>If personal data may have been exposed, the data controller must consider reporting to the ICO within 72 hours.</li>
+</ol>

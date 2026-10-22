@@ -1,0 +1,74 @@
+@page
+@using ForestChurches.Pages.Docs
+@{
+    ViewData["Title"] = "Connecting ChurchSuite – Church administrator guide";
+}
+
+<header>
+    <p class="fc-eyebrow">Church administrator guide</p>
+    <h1>Connecting ChurchSuite</h1>
+    <p class="docs-lead">Link your church's ChurchSuite account so your details and events can be copied into Forest Churches.</p>
+    <div class="docs-meta"><span>Where: Church admin → ChurchSuite</span><span>Optional</span></div>
+</header>
+
+<h2>Why connect ChurchSuite</h2>
+<p>If your church already keeps its calendar in <a href="https://churchsuite.com" target="_blank" rel="noopener">ChurchSuite</a>, connecting it means you don't have to type events twice. Once connected you can:</p>
+<ul>
+    <li>bring in your upcoming ChurchSuite events with one button (<strong>My Events → Sync from ChurchSuite</strong>);</li>
+    <li>copy your church's name, description, phone number, address and website from ChurchSuite (<strong>My Church → Sync now</strong>).</li>
+</ul>
+<p>You don't need ChurchSuite to use Forest Churches.</p>
+
+<h2>Before you start</h2>
+<p>You'll need someone who can sign in to your church's ChurchSuite account and use its <strong>developer console</strong> to create an "OAuth app". This only has to be done once.</p>
+
+<h2>Setting up the connection</h2>
+<h3>1. Create an app in ChurchSuite</h3>
+<ol class="docs-steps">
+    <li>In the ChurchSuite developer console, create a new <strong>OAuth app</strong>.</li>
+    <li>Set it up as a <strong>public client</strong> that uses <strong>PKCE</strong> (no client secret).</li>
+    <li>Set the app's <strong>Redirect URI</strong> to exactly:<br /><code>https://forestchurches.co.uk/ChurchSuite/Callback</code><br />It must match exactly, including <code>https://</code> and the capital letters.</li>
+    <li>Save the app and copy its <strong>Client ID</strong>.</li>
+</ol>
+
+<h3>2. Connect it to Forest Churches</h3>
+<ol class="docs-steps">
+    <li>In Church admin, select <strong>ChurchSuite</strong>.</li>
+    <li>Paste the Client ID into <strong>ChurchSuite Client ID</strong>.</li>
+    <li>Select <strong>Save &amp; Authorize with ChurchSuite</strong>.</li>
+    <li>You're taken to ChurchSuite. Sign in if asked, and approve access for Forest Churches.</li>
+    <li>You're brought back to Forest Churches. The ChurchSuite page now shows that you're connected.</li>
+</ol>
+
+<partial name="_Fig" model='new DocFig("church-churchsuite", "The ChurchSuite page with instructions and a box for the ChurchSuite Client ID", "Church admin → ChurchSuite, before connecting.", true)' />
+
+<div class="docs-callout docs-callout--warn">
+    <span class="docs-callout__title">Connecting updates your church page</span>
+    <p>As soon as you approve access, Forest Churches copies your church name, description, phone number, address and website from your ChurchSuite account into your listing, and sets your <strong>ChurchSuite</strong> button to open your ChurchSuite account. Check <strong>My Church</strong> afterwards and correct anything that should be different on Forest Churches.</p>
+</div>
+
+<h3>What access Forest Churches has</h3>
+<p>When you approve, ChurchSuite gives Forest Churches a key to read your account information and calendar on your behalf (ChurchSuite calls this <em>full access</em>, with <em>offline access</em> so the key can be renewed without asking you each time). Forest Churches only uses it to read your account profile and your calendar events. The key is stored with your account on the Forest Churches server.</p>
+
+<h2>Using the connection</h2>
+<ul>
+    <li><strong>Events</strong>: on <strong>My Events</strong>, select <strong>Sync from ChurchSuite</strong> to bring in events from the next 7 days. See <a asp-page="/Docs/Churches/Events" asp-fragment="bringing-in-events-from-churchsuite">Bringing in events from ChurchSuite</a>.</li>
+    <li><strong>Church details</strong>: on <strong>My Church</strong>, select <strong>Sync now</strong> under <strong>Sync from ChurchSuite</strong>. This changes your church name and website, <em>and your sign-in email address</em>, to match ChurchSuite. See <a asp-page="/Docs/Churches/Profile" asp-fragment="updating-your-details-from-churchsuite">Updating your details from ChurchSuite</a>.</li>
+</ul>
+<p>Nothing is copied automatically after the first connection; it only happens when you press one of those buttons.</p>
+
+<h2>If something goes wrong</h2>
+<div class="docs-table-wrap">
+    <table class="docs-table">
+        <thead><tr><th>Message</th><th>What to do</th></tr></thead>
+        <tbody>
+            <tr><td>Token exchange failed … redirect URI</td><td>The Redirect URI in your ChurchSuite app doesn't exactly match <code>https://forestchurches.co.uk/ChurchSuite/Callback</code>, or the app isn't set up as a public (PKCE) client. Fix it in ChurchSuite and try again.</td></tr>
+            <tr><td>Authorization failed: missing PKCE verifier</td><td>The connection took too long or was started in a different browser. Start again from <strong>Save &amp; Authorize with ChurchSuite</strong>, in one browser tab, without long pauses.</td></tr>
+            <tr><td>no client id configured for your account</td><td>Paste your Client ID into the ChurchSuite page and select <strong>Save &amp; Authorize with ChurchSuite</strong>.</td></tr>
+            <tr><td>Your authorization with ChurchSuite has expired</td><td>Approve access again when you're taken to ChurchSuite.</td></tr>
+        </tbody>
+    </table>
+</div>
+
+<h2>Removing the connection</h2>
+<p>To stop Forest Churches reading your ChurchSuite account, remove or revoke the app in your ChurchSuite developer console. Then <a asp-page="/Contact">contact us</a> and ask for the stored ChurchSuite connection to be deleted from your account. Events you've already brought in stay on Forest Churches until you delete them.</p>

@@ -1,0 +1,143 @@
+@page
+@using ForestChurches.Pages.Docs
+@using Microsoft.AspNetCore.Authorization
+@attribute [Authorize(Policy = "Admin.Read")]
+@{
+    ViewData["Title"] = "Users, roles and invitations – Website administrator guide";
+}
+
+<header>
+    <p class="fc-eyebrow">Website administrator guide</p>
+    <h1>Users, roles and invitations</h1>
+    <p class="docs-lead">Inviting churches, managing accounts, and controlling what each account can do.</p>
+    <div class="docs-meta"><span>Where: Site admin → Invitations, Users, Roles</span></div>
+</header>
+
+<h2>Inviting a church</h2>
+<p>Only email addresses on the invitation list (the <em>whitelist</em>) can create a church account. To invite a church:</p>
+<ol class="docs-steps">
+    <li>Go to <strong>Site admin → Invitations</strong> (or <strong>Invite a church</strong> on the Dashboard or Churches page).</li>
+    <li>Type the email address the church will sign in with into <strong>Email</strong>. Check it carefully: the church must register with exactly this address, <strong>including upper and lower case</strong>.</li>
+    <li>Select <strong>Send invitation</strong>.</li>
+</ol>
+<p>The church receives a <em>You're Invited</em> email with a registration link. The link (and the invitation) lasts <strong>24 hours</strong>.</p>
+<partial name="_Fig" model='new DocFig("admin-whitelist", "The Invitations page with an email box and a list of invited addresses and their status", "Site admin → Invitations.")' />
+
+<h3>The invitation list</h3>
+<p><strong>Invited email addresses</strong> lists every invitation:</p>
+<div class="docs-table-wrap">
+    <table class="docs-table">
+        <thead><tr><th>Status</th><th>Meaning</th><th>What to do</th></tr></thead>
+        <tbody>
+            <tr><td><span class="docs-badge docs-badge--warn">Waiting</span></td><td>Invited; hasn't registered; link still valid.</td><td>Nothing, or chase the church.</td></tr>
+            <tr><td><span class="docs-badge docs-badge--danger">Link expired</span></td><td>24 hours passed without registering.</td><td><strong>Resend link</strong>.</td></tr>
+            <tr><td><span class="docs-badge docs-badge--ok">Registered</span></td><td>The account was created from this invitation. The <strong>Registered</strong> column shows when.</td><td>Nothing.</td></tr>
+        </tbody>
+    </table>
+</div>
+<ul>
+    <li><strong>Resend link</strong> emails the invitation again and moves the expiry to 24 hours from now.</li>
+    <li><strong>Remove</strong> deletes the invitation. The address can no longer register. It doesn't delete an account that was already created.</li>
+</ul>
+<div class="docs-callout docs-callout--note">
+    <span class="docs-callout__title">Don't invite the same address twice</span>
+    <p><strong>Send invitation</strong> doesn't check for an existing invitation, so inviting an address again adds a second row. Use <strong>Resend link</strong> instead. If you already have duplicates, remove the extra rows. How invitations are checked is explained in <a asp-page="/Docs/Admin/Registration">Whitelisting, sign-up and sign-in</a>.</p>
+</div>
+
+<h2>Users</h2>
+<p><strong>Site admin → Users</strong> lists every account with its status, roles and whether its email is confirmed.</p>
+<partial name="_Fig" model='new DocFig("admin-users", "The Users page listing accounts with their status, roles and actions", "Site admin → Users.")' />
+<div class="docs-table-wrap">
+    <table class="docs-table">
+        <thead><tr><th>Status shown</th><th>Means</th></tr></thead>
+        <tbody>
+            <tr><td>Developer</td><td>Has the <code>SuperAdmin</code> role.</td></tr>
+            <tr><td>Administrator</td><td>Has the <code>Admin</code> role.</td></tr>
+            <tr><td>Approved church</td><td>Has the <code>AuthorizedChurch</code> role.</td></tr>
+            <tr><td>Waiting for approval</td><td>Has no role: usually the church hasn't confirmed its email yet.</td></tr>
+        </tbody>
+    </table>
+</div>
+<p>Viewing the list needs <code>UserManagement.Read</code>. The actions on each row:</p>
+<ul>
+    <li><strong>Edit</strong>: change the account (needs <code>UserManagement.Edit</code> <em>and</em> the SuperAdmin role).</li>
+    <li><strong>Download</strong>: a JSON file of the account's username, email, phone, email-confirmed flag, profile image and roles.</li>
+    <li><strong>Delete</strong>: permanently delete the account (SuperAdmin only). See below.</li>
+</ul>
+
+<h3>Editing a user</h3>
+<p>The <strong>Edit user</strong> page lets a SuperAdmin change:</p>
+<ul>
+    <li><strong>Email</strong> and <strong>Phone</strong>. Changing the email changes the address the person signs in with and where their emails go. They aren't sent a confirmation, so tell them. Their existing events stay linked to the old address and disappear from their My Events page (see <a asp-page="/Docs/Admin/KnownIssues" asp-fragment="events">Known issues</a>).</li>
+    <li><strong>Roles</strong>. Ticking any role also marks the account as confirmed ("Giving someone a role also confirms their account"). To approve a church that can't confirm its email, tick <strong>AuthorizedChurch</strong>.</li>
+    <li><strong>Email confirmed</strong> (only used when no roles are ticked): untick to stop the account signing in.</li>
+    <li><strong>New password</strong>: sets a new password immediately. Leave it empty to keep the current one. This bypasses the password rules, so choose a strong one and ask the person to change it.</li>
+</ul>
+<partial name="_Fig" model='new DocFig("admin-user-edit", "The Edit user page with email, phone, roles and new password fields", "Edit user.", true)' />
+<p>Role changes apply to permission checks straight away. Things that check the role name (such as the <strong>Admin</strong> menu link) update when the person next signs in.</p>
+
+<h3>Creating a user directly</h3>
+<p>Use this for admin accounts, or to set up a church without the invitation process. It needs <code>UserManagement.Write</code>.</p>
+<ol class="docs-steps">
+    <li>On <strong>Users</strong>, type an email under <strong>Create a user</strong> and select <strong>Continue</strong>.</li>
+    <li>Enter a <strong>Password</strong> (it must follow the password rules) and confirm it.</li>
+    <li>Tick the <strong>Roles</strong> the account should have.</li>
+    <li>Optionally add a <strong>Profile picture</strong>, then select <strong>Create a user</strong>.</li>
+</ol>
+<p>The account is confirmed straight away, gets a church listing like any other account, and the person receives a <em>Thanks for Registering</em> email. Send them the password separately and ask them to change it.</p>
+<partial name="_Fig" model='new DocFig("admin-user-register", "The Create a user page", "Create a user.", true)' />
+
+<h3>Deleting a user</h3>
+<p>Only a SuperAdmin can delete a user. Deleting:</p>
+<ul>
+    <li>removes the login, its roles and two-factor settings;</li>
+    <li>removes the church listing and its service times (they're deleted along with the account);</li>
+    <li><strong>doesn't</strong> remove the church's events, its stored ChurchSuite connection, or its invitation row. Delete the church's events on <strong>Events</strong> first, and remove the invitation if they shouldn't be able to register again.</li>
+</ul>
+<p>It can't be undone. If a church just needs to be hidden, set it to Closed instead (Churches → Edit, or ask the church).</p>
+
+<h2>Helping someone who can't sign in</h2>
+<ol class="docs-steps">
+    <li><strong>Find the account</strong> on Users. If it isn't there, they never registered: check Invitations and resend the link.</li>
+    <li><strong>Email confirmed = No?</strong> Ask them to use <em>Resend Confirmation Email</em> on the login page, or edit the account and tick <strong>AuthorizedChurch</strong> to confirm it.</li>
+    <li><strong>Forgotten password?</strong> Ask them to use <em>Forgot Password</em> (link valid 2 hours). If emails aren't arriving, check <a asp-page="/Docs/Admin/Monitoring" asp-fragment="email-delivery">Email delivery</a>; as a last resort set a <strong>New password</strong> on Edit user.</li>
+    <li><strong>Lost their authenticator?</strong> They can use a recovery code. If they have none, there's no button to switch off someone else's two-factor authentication in Site admin; a developer has to clear <code>TwoFactorEnabled</code> for that user in the database (<code>AspNetUsers</code>) after confirming who they are.</li>
+    <li><strong>Wrong email address?</strong> Edit the user and correct the email.</li>
+</ol>
+<p>There's no account lockout, so repeated wrong passwords don't lock anyone out.</p>
+
+<h2>Roles and permissions</h2>
+<p>A role is a named set of permissions. <strong>Site admin → Roles</strong> lists every role with its permissions.</p>
+<partial name="_Fig" model='new DocFig("admin-roles", "The Roles page listing roles with their permissions", "Site admin → Roles.")' />
+<ul>
+    <li><strong>Create role</strong>: type a <strong>Role name</strong> and create it (needs <code>RoleManagement.Write</code>). It starts with no permissions.</li>
+    <li><strong>Edit permissions</strong>: tick the permissions the role should have and select <strong>Save changes</strong> (needs <code>RoleManagement.Write</code>).</li>
+    <li><strong>Delete</strong>: only possible when no user has the role.</li>
+</ul>
+<partial name="_Fig" model='new DocFig("admin-role-edit", "Editing the permissions of a role with tick boxes", "Edit permissions.", true)' />
+
+<h3>Every permission</h3>
+<div class="docs-table-wrap">
+    <table class="docs-table">
+        <thead><tr><th>Permission</th><th>Allows</th></tr></thead>
+        <tbody>
+            <tr><td><code>Admin.Read</code></td><td>Open Site admin: Dashboard, Invitations (including sending invitations), Churches (including edit and reset), Bulletins, Email delivery, Logs, Changelog, this guide, and the <code>/api/SystemStats</code> endpoint.</td></tr>
+            <tr><td><code>UserManagement.Read</code></td><td>See the Users list and download users.</td></tr>
+            <tr><td><code>UserManagement.Write</code></td><td>Create users directly.</td></tr>
+            <tr><td><code>UserManagement.Edit</code></td><td>Edit users (also needs the SuperAdmin role).</td></tr>
+            <tr><td><code>RoleManagement.Read</code></td><td>See roles.</td></tr>
+            <tr><td><code>RoleManagement.Write</code></td><td>Create, delete and edit roles.</td></tr>
+            <tr><td><code>EventManagement.Read</code></td><td>See all events in Site admin, download and delete them.</td></tr>
+            <tr><td><code>EventManagement.Write</code></td><td>Add an event for any church.</td></tr>
+            <tr><td><code>EventManagement.Edit</code></td><td>Edit any event.</td></tr>
+            <tr><td><code>UserEvents.View</code> / <code>.Add</code> / <code>.Edit</code></td><td>A church managing its own events in Church admin.</td></tr>
+            <tr><td><code>User.View</code></td><td>Defined but not currently used by any page.</td></tr>
+        </tbody>
+    </table>
+</div>
+<p>Two things check the role name instead of a permission: <strong>Emails</strong> (SuperAdmin only) and deleting or editing users (SuperAdmin only). ELMAH (<code>/elmah</code>) is SuperAdmin only too.</p>
+<div class="docs-callout docs-callout--warn">
+    <span class="docs-callout__title">Admin.Read is powerful</span>
+    <p>Anyone with <code>Admin.Read</code> can invite new churches, edit or reset any church listing and read the application logs (which contain email addresses). Give the Admin role only to trusted people.</p>
+</div>
+<p>How permissions are checked behind the scenes is described in <a asp-page="/Docs/Admin/Security" asp-fragment="authorisation">Security → Authorisation</a>.</p>

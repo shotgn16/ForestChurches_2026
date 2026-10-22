@@ -16,6 +16,8 @@
     <li><a id="change-password" class="@Cls(ManageNavPages.ChangePassword)" aria-current="@Current(ManageNavPages.ChangePassword)" asp-area="Identity" asp-page="/Account/Manage/ChangePassword">@Localizer["NAV_LABEL_PASSWORD"]</a></li>
     <li><a id="two-factor" class="@Cls(ManageNavPages.TwoFactorAuthentication)" aria-current="@Current(ManageNavPages.TwoFactorAuthentication)" asp-area="Identity" asp-page="/Account/Manage/TwoFactorAuthentication">@Localizer["NAV_LABEL_2FA"]</a></li>
     <li><a id="personal-data" class="@Cls(ManageNavPages.PersonalData)" aria-current="@Current(ManageNavPages.PersonalData)" asp-area="Identity" asp-page="/Account/Manage/PersonalData">@Localizer["NAV_LABEL_PERSONAL_DATA"]</a></li>
+    <li class="fc-sidenav__sep" role="presentation"></li>
+    <li><a id="help" asp-area="" asp-page="/Docs/Churches/Index">@Localizer["FC_NAV_HELP"]</a></li>
     @if (isSiteAdmin)
     {
         <li class="fc-sidenav__sep" role="presentation"></li>

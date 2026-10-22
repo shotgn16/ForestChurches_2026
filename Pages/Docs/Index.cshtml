@@ -1,0 +1,78 @@
+@page
+@using ForestChurches.Pages.Docs
+@{
+    ViewData["Title"] = "Help and documentation";
+    ViewData["DocsNoToc"] = "true";
+    var isSiteAdmin = User?.Identity?.IsAuthenticated == true &&
+        (User.IsInRole(ForestChurches.Components.Roles.Roles.Admin.ToString()) || User.IsInRole(ForestChurches.Components.Roles.Roles.SuperAdmin.ToString()));
+}
+
+<header>
+    <p class="fc-eyebrow">Help</p>
+    <h1>Help and documentation</h1>
+    <p class="docs-lead">Guides for everyone who uses Forest Churches: visitors looking for a church, the people who look after a church's listing, and the team who run the website.</p>
+</header>
+
+<div class="docs-guides">
+    <a class="docs-guide" asp-page="/Docs/Visitors/Index">
+        <span class="docs-guide__who">Visitors</span>
+        <h2>Visitor guide</h2>
+        <p>Finding a church or event near you, reading a church's page, the weekly bulletin, languages and dark mode.</p>
+        <ul>
+            @foreach (var p in DocsNav.Visitors.Pages) { <li>@p.Title</li> }
+        </ul>
+        <span class="docs-guide__go">Open the visitor guide →</span>
+    </a>
+
+    <a class="docs-guide" asp-page="/Docs/Churches/Index">
+        <span class="docs-guide__who">Churches</span>
+        <h2>Church administrator guide</h2>
+        <p>Joining, signing in, keeping your church's page and events up to date, ChurchSuite, and looking after your account.</p>
+        <ul>
+            @foreach (var p in DocsNav.Churches.Pages) { <li>@p.Title</li> }
+        </ul>
+        <span class="docs-guide__go">Open the church guide →</span>
+    </a>
+
+    @if (isSiteAdmin)
+    {
+        <a class="docs-guide" asp-page="/Docs/Admin/Index">
+            <span class="docs-guide__who">Site administrators</span>
+            <h2>Website administrator guide</h2>
+            <p>Running the site day to day, and how everything works underneath: architecture, Hangfire, whitelisting, email, security, keys and data.</p>
+            <ul>
+                @foreach (var p in DocsNav.Admin.Pages.Take(5)) { <li>@p.Title</li> }
+                <li>…and @(DocsNav.Admin.Pages.Count - 5) more</li>
+            </ul>
+            <span class="docs-guide__go">Open the administrator guide →</span>
+        </a>
+    }
+    else
+    {
+        <div class="docs-guide docs-guide--locked">
+            <span class="docs-guide__who">Site administrators</span>
+            <h2>Website administrator guide</h2>
+            <p>How the website is run and how it works, including security. This guide is only available to Forest Churches site administrators.</p>
+            <span class="docs-guide__go">
+                @if (User?.Identity?.IsAuthenticated == true)
+                {
+                    <span class="docs-badge docs-badge--warn">Site administrators only</span>
+                }
+                else
+                {
+                    <a asp-area="Identity" asp-page="/Account/Login" asp-route-returnUrl="/Docs/Admin">Sign in to read it →</a>
+                }
+            </span>
+        </div>
+    }
+</div>
+
+<h2>Quick answers</h2>
+<div class="docs-cards">
+    <div class="docs-card"><h4>Find a church near me</h4><p>Use <strong>Near me</strong> and enter a postcode. <a asp-page="/Docs/Visitors/Index" asp-fragment="searching-for-a-church">How it works</a></p></div>
+    <div class="docs-card"><h4>Get my church listed</h4><p>Churches join by invitation; <a asp-page="/Contact">contact us</a>. <a asp-page="/Docs/Churches/Index" asp-fragment="how-churches-join">How joining works</a></p></div>
+    <div class="docs-card"><h4>Add an event</h4><p>Church admin → My Events → Add New Event. <a asp-page="/Docs/Churches/Events" asp-fragment="adding-an-event">Step by step</a></p></div>
+    <div class="docs-card"><h4>Forgotten password</h4><p>Church login → Forgot Password. <a asp-page="/Docs/Churches/Index" asp-fragment="forgotten-your-password">What to do</a></p></div>
+</div>
+
+<p>Can't find what you need? <a asp-page="/Contact">Contact us</a> or email <a href="mailto:info@forestchurches.co.uk">info@forestchurches.co.uk</a>.</p>

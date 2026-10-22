@@ -1,0 +1,89 @@
+@page
+@using ForestChurches.Pages.Docs
+@using Microsoft.AspNetCore.Authorization
+@attribute [Authorize(Policy = "Admin.Read")]
+@{
+    ViewData["Title"] = "Known issues – Website administrator guide";
+}
+
+<header>
+    <p class="fc-eyebrow">Website administrator guide · Technical reference</p>
+    <h1>Known issues</h1>
+    <p class="docs-lead">Behaviour that differs from what the site says, limitations, and bugs found while writing this guide, with workarounds and suggested fixes.</p>
+    <div class="docs-meta"><span>Reviewed: October 2026 (ForestChurches <code>redesign/forest-floor</code> at <code>defd5b2</code>, EmailManagement <code>feature/delivery-status</code>)</span></div>
+</header>
+
+<p>Security issues are listed separately, in order of severity, under <a asp-page="/Docs/Admin/Security" asp-fragment="security-findings">Security findings</a>. Fix those first.</p>
+
+<h2>Events</h2>
+<div class="docs-table-wrap">
+    <table class="docs-table">
+        <thead><tr><th>Issue</th><th>Effect</th><th>Workaround / fix</th></tr></thead>
+        <tbody>
+            <tr><td>No automatic clean-up of finished events</td><td>The recurring Hangfire jobs were removed and never worked. The church Events page and FAQ still say one-off events are removed about 24 hours after they finish. Old recurring jobs may still be in Hangfire's tables and run hourly.</td><td>Delete the four old recurring jobs at <code>/hangfire</code>; tidy events by hand; rebuild the clean-up as one self-contained job (see <a asp-page="/Docs/Admin/BackgroundJobs" asp-fragment="adding-a-job-properly">Adding a job properly</a>); then correct the page text.</td></tr>
+            <tr><td>Event search shows past events</td><td>Events near me can list events that have already happened.</td><td>Delete finished events; filter <code>Date &gt;= today</code> in the search.</td></tr>
+            <tr><td>"Repeats" is a label only</td><td>No future dates are generated for repeating events.</td><td>Explained in the church guide. Implement recurrence if needed.</td></tr>
+            <tr><td>Events are linked by church <em>name</em> and owner <em>email</em></td><td>Renaming a church (including by ChurchSuite sync) or changing a user's email hides their existing events from My Events, the church page and the home page.</td><td>After a rename, opening each event and saving it again re-links it (saving sets the church name from the owner's current listing). After an email change, update <code>Events.User</code> in the database. Long-term, link events by <code>ChurchAccountId</code>.</td></tr>
+            <tr><td>Replacing an event's image</td><td>Editing an event with a new image updates the stored image bytes but not the blob name, so places that show the blob image keep showing the old one.</td><td>Delete and re-add the event; fix <code>UpdateEventAsync</code> to upload to blob storage.</td></tr>
+            <tr><td>ChurchSuite sync is manual and only 7 days ahead</td><td>The Events page says ChurchSuite events "sync automatically".</td><td>Church guide explains this. Add a scheduled sync or correct the text.</td></tr>
+            <tr><td>ChurchSuite sync doesn't remove deleted events</td><td>Events cancelled in ChurchSuite stay listed.</td><td>Delete by hand.</td></tr>
+        </tbody>
+    </table>
+</div>
+
+<h2>Accounts and registration</h2>
+<div class="docs-table-wrap">
+    <table class="docs-table">
+        <thead><tr><th>Issue</th><th>Effect</th><th>Workaround / fix</th></tr></thead>
+        <tbody>
+            <tr><td>New listings are public immediately</td><td>Listings are created as Open with placeholder details (<em>Default Church</em>, <em>TBA</em>, every facility on) before the email is even confirmed.</td><td>Create as Closed, or only list churches with confirmed accounts and a real address.</td></tr>
+            <tr><td>Invitation email match is case-sensitive</td><td>Registering as <em>Office&#64;…</em> when invited as <em>office&#64;…</em> fails.</td><td>Tell churches to use the exact address; compare case-insensitively in <code>Register</code>.</td></tr>
+            <tr><td>Duplicate invitations</td><td>Sending an invitation twice adds a second row; only the first is checked.</td><td>Use Resend link; check for an existing row before adding.</td></tr>
+            <tr><td>Deleting a user leaves data behind</td><td>Events, ChurchSuite credentials and the invitation row remain.</td><td>Delete them first; add cascade or clean-up on delete.</td></tr>
+            <tr><td>No admin tools for 2FA reset or ChurchSuite disconnect</td><td>Needs database access.</td><td>Add actions to Users → Edit.</td></tr>
+            <tr><td>Setting a password on Users → Edit skips the password rules</td><td>Weak passwords can be set by admins.</td><td>Validate with the password validator, or use <code>ResetPasswordAsync</code>.</td></tr>
+            <tr><td>"Download your data" description</td><td>Says "everything we hold about you and your church" but the PDF contains only the account's personal fields and authenticator key.</td><td>Include church, events and invitation data, or change the wording.</td></tr>
+            <tr><td>Church open/close uses a GET request</td><td>A link could change a church's status if an admin clicks it while signed in.</td><td>Change to a POST form.</td></tr>
+            <tr><td>Bulletins in the church menu</td><td>Church accounts see <strong>Bulletins</strong> but get access denied.</td><td>Hide the link for non-admins.</td></tr>
+        </tbody>
+    </table>
+</div>
+
+<h2>Email</h2>
+<div class="docs-table-wrap">
+    <table class="docs-table">
+        <thead><tr><th>Issue</th><th>Effect</th><th>Workaround / fix</th></tr></thead>
+        <tbody>
+            <tr><td>Email queue and status are in memory</td><td>Restarting the email app loses unsent emails; restarting the website clears Email delivery.</td><td>Check the queue is empty before restarting; persist the queue (database or Azure Queue) in future.</td></tr>
+            <tr><td>Send loops pile up in the email app</td><td><code>EmailScheduler</code> starts another never-ending send loop every 5 minutes.</td><td>Restart periodically; fix by removing <code>EmailScheduler</code> (the hosted service already loops) or making the trigger send once.</td></tr>
+            <tr><td><code>{event_link}</code> replacement in the email app does nothing</td><td>The LINQ <code>Select</code> result is discarded. Links still work because the website already puts them in <code>Data</code>.</td><td>Remove the dead code.</td></tr>
+            <tr><td>Contact form always reports success</td><td>Visitors are told the message was sent even when it failed.</td><td>Show the error message instead of overwriting it.</td></tr>
+            <tr><td>"Do you still need this?" email isn't sent</td><td>It was only sent by the old clean-up job.</td><td>Part of rebuilding the clean-up.</td></tr>
+        </tbody>
+    </table>
+</div>
+
+<h2>Storage, logging and hosting</h2>
+<div class="docs-table-wrap">
+    <table class="docs-table">
+        <thead><tr><th>Issue</th><th>Effect</th><th>Workaround / fix</th></tr></thead>
+        <tbody>
+            <tr><td>Bulletin PDFs and ELMAH logs are on the container's disk</td><td>Lost when the container is replaced (each deploy, scale or restart onto new hardware).</td><td>Re-upload PDFs; store them in blob storage; mount Azure Files or use a database log for ELMAH.</td></tr>
+            <tr><td>Session is in memory</td><td>With more than one replica, the ChurchSuite connection can fail ("missing PKCE verifier").</td><td>Run one replica or use a distributed cache (Redis/SQL) for session.</td></tr>
+            <tr><td><code>applicationlogs</code> is never pruned</td><td>The table (and the database) grows forever.</td><td>Delete old rows on a schedule (a Hangfire job is a good fit).</td></tr>
+            <tr><td>Log level overrides aren't applied</td><td>Microsoft/System Information logs are recorded, adding noise and volume.</td><td>Use <code>ReadFrom.Configuration</code> or <code>MinimumLevel.Override</code> in <code>LoggingConfiguration</code>.</td></tr>
+            <tr><td>Dashboard "Log database" figure</td><td>Runs a query that returns the schema name rather than a size, so it shows 0 or fails.</td><td>Query the size of the <code>applicationlogs</code> table.</td></tr>
+            <tr><td>Logs page tries <code>/logs/sse</code></td><td>The endpoint doesn't exist; the page falls back to SignalR after a failed request.</td><td>Remove the SSE code.</td></tr>
+            <tr><td>Seq secrets read but unused (website)</td><td>Start-up fails if <code>seq-key</code>/<code>seq-link</code> are missing even though Seq isn't used.</td><td>Remove the reads or add the Seq sink.</td></tr>
+            <tr><td>No automated tests</td><td>The deploy workflow's test step checks nothing.</td><td>Add a test project for permissions, registration and email hand-over.</td></tr>
+            <tr><td><code>docker-compose.yml</code> out of date</td><td>Wrong ports and variable names.</td><td>Update before using.</td></tr>
+            <tr><td>Image tag is always <code>live</code></td><td>No record of which build is running.</td><td>Also tag images with the commit SHA.</td></tr>
+        </tbody>
+    </table>
+</div>
+
+<h2>Documentation</h2>
+<ul>
+    <li>The older HelpNDoc guide (<code>Docs/HelpNDoc</code>) and <code>docs/churchsuite_setup.html</code> pre-date this guide; the HelpNDoc guide says event clean-up runs automatically. This in-site guide (<code>/docs</code>) replaces them.</li>
+    <li>When you change behaviour described here, update the matching page in <code>Pages/Docs</code>. Pages and their order are listed in <code>Pages/Docs/DocsNav.cs</code>; screenshots are in <code>wwwroot/img/docs/screens</code>.</li>
+</ul>

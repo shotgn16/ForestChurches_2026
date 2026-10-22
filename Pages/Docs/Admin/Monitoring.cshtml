@@ -1,0 +1,112 @@
+@page
+@using ForestChurches.Pages.Docs
+@using Microsoft.AspNetCore.Authorization
+@attribute [Authorize(Policy = "Admin.Read")]
+@{
+    ViewData["Title"] = "Monitoring and logs – Website administrator guide";
+}
+
+<header>
+    <p class="fc-eyebrow">Website administrator guide</p>
+    <h1>Monitoring and logs</h1>
+    <p class="docs-lead">Checking the site is healthy, following an email from start to finish, and finding out what went wrong.</p>
+    <div class="docs-meta"><span>Where: Site admin → Dashboard, Email delivery, Logs; /hangfire; /elmah; Grafana</span></div>
+</header>
+
+<h2>The dashboard</h2>
+<p><strong>Site admin → Dashboard</strong> is the first page you see.</p>
+<partial name="_Fig" model='new DocFig("admin-dashboard", "The dashboard with At a glance counts and System health figures", "Dashboard.")' />
+<div class="docs-table-wrap">
+    <table class="docs-table">
+        <thead><tr><th>Section</th><th>Shows</th></tr></thead>
+        <tbody>
+            <tr><td>At a glance</td><td><strong>Churches</strong> (and how many are listed), <strong>Events</strong>, <strong>Pending invitations</strong> (waiting to sign up), and the <strong>Newest member</strong>.</td></tr>
+            <tr><td>System health</td><td><strong>CPU</strong>: the web app's own share of the server's processors over a half-second sample. <strong>Memory</strong>: the web app's working set in MB. <strong>Database</strong>: the size of the <code>forestchurches</code> database in MB. <strong>Log database</strong>: intended to show the log table's size (it currently shows the same query and may read 0). The figures refresh every 10 seconds from <code>/api/SystemStats</code>; if that fails you'll see "Live figures aren't available right now."</td></tr>
+            <tr><td>Recently added churches</td><td>The newest listings with their status.</td></tr>
+            <tr><td>Upcoming events</td><td>The next events across all churches.</td></tr>
+        </tbody>
+    </table>
+</div>
+<p>The dashboard is also available in dark mode, like the rest of the site.</p>
+<partial name="_Fig" model='new DocFig("admin-dashboard-dark", "The dashboard in dark mode", "Dashboard in dark mode.", true)' />
+
+<h2>Email delivery</h2>
+<p>Emails pass through two systems: this website hands each email to the separate email app (<code>api.forestchurches.co.uk</code>), which queues it and sends it every 5 minutes. <strong>Site admin → Email delivery</strong> shows both halves. How it works in detail is in <a asp-page="/Docs/Admin/Email">The EmailManagement app</a>.</p>
+<partial name="_Fig" model='new DocFig("admin-email-delivery", "The Email delivery page showing the email app status and a list of recent emails with statuses", "Site admin → Email delivery.")' />
+
+<h3>The email app panel</h3>
+<ul>
+    <li><strong>Email app</strong>: <em>Working</em> if the app answered its health check, otherwise <em>Problem</em>, with the HTTP <strong>Response</strong> or <em>No answer</em>.</li>
+    <li><strong>Waiting in queue</strong>: emails the app is holding for the next send run (every 5 minutes).</li>
+    <li><strong>Last send run</strong>: when the app last emptied its queue. If this is more than about 10 minutes ago, the app's sending loop has stopped; restart it.</li>
+    <li><strong>Email app totals</strong>: sent / failed since the email app last restarted.</li>
+</ul>
+
+<h3>Recent emails and their statuses</h3>
+<p>The list shows the newest emails this website has handed over, with recipient, subject, status and time. Select <strong>Check</strong> on one email, or <strong>Check unfinished</strong> for all, to ask the email app for the latest status. <strong>Logs</strong> opens the log search for that email's ID.</p>
+<div class="docs-table-wrap">
+    <table class="docs-table">
+        <thead><tr><th>Status</th><th>Meaning</th><th>What to do</th></tr></thead>
+        <tbody>
+            <tr><td><span class="docs-badge">Handing over</span></td><td>This site is still posting the email to the email app (up to 3 attempts, 30–50 seconds each).</td><td>Wait a minute and refresh.</td></tr>
+            <tr><td><span class="docs-badge">Received</span></td><td>The email app confirmed it has the email.</td><td>Use <strong>Check</strong> to see if it has gone out.</td></tr>
+            <tr><td><span class="docs-badge docs-badge--warn">Waiting to send</span></td><td>Queued in the email app; goes out within 5 minutes. A failed send is retried on the next run (3 tries in total).</td><td>Wait.</td></tr>
+            <tr><td><span class="docs-badge docs-badge--ok">Sent</span></td><td>The email app handed it to the mail server (IONOS).</td><td>If it hasn't arrived, ask the recipient to check spam.</td></tr>
+            <tr><td><span class="docs-badge docs-badge--danger">Not received</span></td><td>All 3 attempts to reach the email app failed; it never got the email. The reason is shown.</td><td>Check the email app is running, then ask the person to repeat what triggered the email.</td></tr>
+            <tr><td><span class="docs-badge docs-badge--danger">Couldn't send</span></td><td>The email app got it but the mail server refused it 3 times (bad address, missing template, SMTP sign-in failure). The error is shown.</td><td>Read the error; check SMTP credentials and the address.</td></tr>
+            <tr><td><span class="docs-badge docs-badge--warn">No record</span></td><td>The email app doesn't know this ID: it has restarted since (its queue and records are kept in memory) or the record is older than 14 days.</td><td>If it was never sent, it's lost; repeat the action.</td></tr>
+        </tbody>
+    </table>
+</div>
+<div class="docs-callout docs-callout--note">
+    <span class="docs-callout__title">This list is temporary</span>
+    <p>The website keeps the newest 500 emails in memory and forgets them when it restarts. Every step is also written to the logs with the email's ID (<code>EmailId</code>), so search Logs for older emails.</p>
+</div>
+
+<h2>Logs</h2>
+<p><strong>Site admin → Logs</strong> shows the application log, newest first, 50 entries per page. New entries appear at the top as they happen.</p>
+<partial name="_Fig" model='new DocFig("admin-logs", "The Logs page with a search box, date range download and a table of log entries", "Site admin → Logs.")' />
+<ul>
+    <li><strong>Search the logs</strong>: type any text (an email address, an email ID, an error message) and select <strong>Search</strong>.</li>
+    <li>Select a row to see its full details, including the exception and structured properties.</li>
+    <li><strong>Download logs</strong>: choose <strong>From</strong> and <strong>To</strong> dates (and optionally a search) to download a CSV with Id, Timestamp, Level, Exception, Message, Template and Properties.</li>
+</ul>
+<h3>Where log entries go</h3>
+<p>The site uses Serilog. Every entry is written to two places:</p>
+<div class="docs-table-wrap">
+    <table class="docs-table">
+        <thead><tr><th>Destination</th><th>Details</th><th>Used by</th></tr></thead>
+        <tbody>
+            <tr><td>Database table <code>applicationlogs</code></td><td>In the main MySQL/MariaDB database. Created automatically. No automatic clean-up: it grows until someone deletes old rows.</td><td>Site admin → Logs, CSV download.</td></tr>
+            <tr><td>Grafana Cloud Loki</td><td><code>logs-prod-035.grafana.net</code>, label <code>ForestChurches=web_app</code>, request path as a label. Retention follows the Grafana Cloud plan.</td><td>Searching across long periods, dashboards and alerts in Grafana.</td></tr>
+        </tbody>
+    </table>
+</div>
+<p>The live "new entries" feed works by a background service (<code>LogWatcherService</code>) that reads new rows from <code>applicationlogs</code> every 2 seconds and pushes them to open Logs pages over SignalR (<code>/logsHub</code>).</p>
+<p>The minimum level is <em>Information</em>. Logs contain email addresses, user IDs, request paths and error details, so treat them as personal data (see <a asp-page="/Docs/Admin/Security" asp-fragment="data-inventory">Data inventory</a>).</p>
+
+<h2>Other places to look</h2>
+<div class="docs-table-wrap">
+    <table class="docs-table">
+        <thead><tr><th>Tool</th><th>Use it for</th></tr></thead>
+        <tbody>
+            <tr><td>ELMAH, <code>/elmah</code> (SuperAdmin)</td><td>Unhandled exceptions with full request details, stored as XML files in the container's <code>logs</code> folder (lost on redeploy).</td></tr>
+            <tr><td>Hangfire, <code>/hangfire</code></td><td>Background jobs, servers and recurring jobs. See <a asp-page="/Docs/Admin/BackgroundJobs">Hangfire</a>.</td></tr>
+            <tr><td><code>/health</code></td><td>Uptime monitoring. Returns JSON with <code>status</code> <em>ok</em>/<em>degraded</em> and whether the database is reachable.</td></tr>
+            <tr><td>Email app logs</td><td>The email app writes its own log files and EventLog on the Plesk server. Search for the email's ID.</td></tr>
+            <tr><td>Azure Container Apps log stream</td><td>Start-up failures before Serilog is running (for example Key Vault access errors).</td></tr>
+            <tr><td>Support data zip</td><td>If the site crashes during start-up, it zips diagnostic data as <code>support/SupportData-*.zip</code>; these are the only <code>.zip</code> downloads the site allows.</td></tr>
+        </tbody>
+    </table>
+</div>
+
+<h2>A routine health check</h2>
+<p>Once a week:</p>
+<ol class="docs-steps">
+    <li>Open the <strong>Dashboard</strong>: figures loading, memory not climbing week on week.</li>
+    <li>Open <strong>Email delivery</strong>: email app <em>Working</em>, last send run within 10 minutes, nothing stuck in <em>Not received</em> or <em>Couldn't send</em>.</li>
+    <li>Open <strong>Logs</strong> and search for <code>Error</code>: look for anything new or repeating.</li>
+    <li>Open <strong>/hangfire</strong>: no failed jobs, and no unexpected recurring jobs (see <a asp-page="/Docs/Admin/BackgroundJobs" asp-fragment="the-event-clean-up-jobs">the event clean-up jobs</a>).</li>
+    <li>On <strong>Invitations</strong>, resend or remove expired invitations.</li>
+    <li>On <strong>Events</strong>, delete finished one-off events.</li>
+</ol>

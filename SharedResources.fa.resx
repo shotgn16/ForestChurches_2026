@@ -1050,6 +1050,9 @@
   <data name="FC_FAQ" xml:space="preserve">
     <value>پرسش‌های متداول</value>
   </data>
+  <data name="FC_NAV_HELP" xml:space="preserve">
+    <value>راهنما</value>
+  </data>
   <data name="FC_CHURCH_ADMIN" xml:space="preserve">
     <value>مدیریت کلیسا</value>
   </data>

@@ -1,0 +1,134 @@
+@page
+@using ForestChurches.Pages.Docs
+@using Microsoft.AspNetCore.Authorization
+@attribute [Authorize(Policy = "Admin.Read")]
+@{
+    ViewData["Title"] = "Configuration, deployment and runbooks – Website administrator guide";
+}
+
+<header>
+    <p class="fc-eyebrow">Website administrator guide · Technical reference</p>
+    <h1>Configuration, deployment and runbooks</h1>
+    <p class="docs-lead">How both apps are configured, how they're built and deployed, how to run them locally, and step-by-step fixes for common problems.</p>
+    <div class="docs-meta"><span>Code: <code>appsettings*.json</code>, <code>Dockerfile</code>, <code>.github/workflows/deploy.yml</code>, <code>docker-compose.yml</code></span></div>
+</header>
+
+<h2>Configuration</h2>
+<p>ForestChurches reads configuration in this order (later wins): <code>appsettings.json</code> → <code>appsettings.{Environment}.json</code> (skipped in Production) → environment variables → Key Vault secrets (read directly by name in code, see the <a asp-page="/Docs/Admin/Security" asp-fragment="secrets-inventory">secrets inventory</a>).</p>
+<h3>Environment variables (Container App)</h3>
+<div class="docs-table-wrap">
+    <table class="docs-table">
+        <thead><tr><th>Variable</th><th>Required</th><th>Notes</th></tr></thead>
+        <tbody>
+            <tr><td><code>ASPNETCORE_ENVIRONMENT</code></td><td>Yes</td><td>Must be exactly <code>Production</code> in production; the code checks the variable itself, and if it's missing no connection string is loaded and the app can't start. <code>Development</code> uses <code>ConnectionStrings:Development</code> and local key storage.</td></tr>
+            <tr><td><code>KEY_VAULT_URL</code>, <code>AZURE_TENANT_ID</code>, <code>AZURE_CLIENT_ID</code>, <code>AZURE_CLIENT_SECRET</code></td><td>Yes</td><td>Key Vault access. Store the client secret as a Container Apps <em>secret</em> and reference it.</td></tr>
+            <tr><td><code>ASPNETCORE_URLS</code></td><td>Set in the image</td><td><code>http://+:8080</code>; the Container App's ingress target port must be 8080. TLS ends at Container Apps ingress.</td></tr>
+            <tr><td><code>EmailApi__BaseUrl</code></td><td>Optional</td><td>Overrides <code>EmailApi:BaseUrl</code> (<code>https://api.forestchurches.co.uk</code>). Must be HTTPS.</td></tr>
+            <tr><td><code>CHURCHSUITE_OAUTH_CLIENT_ID</code>, <code>_CLIENT_SECRET</code>, <code>_CALLBACK_URL</code></td><td>Optional</td><td>Turns on "Sign in with ChurchSuite".</td></tr>
+            <tr><td><code>ImageMigration__Enabled</code></td><td>Optional</td><td><code>true</code> runs the one-off image migration at start-up.</td></tr>
+        </tbody>
+    </table>
+</div>
+<h3>appsettings.json</h3>
+<div class="docs-table-wrap">
+    <table class="docs-table">
+        <thead><tr><th>Key</th><th>Value / meaning</th></tr></thead>
+        <tbody>
+            <tr><td><code>Serilog:MinimumLevel</code></td><td>Default <code>Information</code>; Microsoft/System <code>Warning</code> (the overrides aren't applied by the current logging set-up, so the effective level is Information everywhere).</td></tr>
+            <tr><td><code>EmailApi:BaseUrl</code></td><td><code>https://api.forestchurches.co.uk</code></td></tr>
+            <tr><td><code>ConnectionStrings:Development</code></td><td>In <code>appsettings.Development.json</code>, for local work only.</td></tr>
+        </tbody>
+    </table>
+</div>
+
+<h2>Deployment</h2>
+<h3>The website</h3>
+<p>Deployment is automatic from the <code>live</code> branch via <code>.github/workflows/deploy.yml</code>:</p>
+<ol class="docs-steps">
+    <li>A push to <code>live</code> starts the workflow on <code>ubuntu-latest</code>.</li>
+    <li><code>dotnet test --configuration Release</code> (there's no test project at the moment, so this only checks it builds).</li>
+    <li>Log in to GHCR with <code>GITHUB_TOKEN</code>; build the <code>Dockerfile</code> (two-stage: .NET 8 SDK → ASP.NET 8 runtime); push <code>ghcr.io/&lt;owner&gt;/forest_churches:live</code>.</li>
+    <li><code>azure/login</code> with the Azure credentials secret.</li>
+    <li><code>azure/container-apps-deploy-action</code> deploys that image to Container App <code>forestchurches</code> in resource group <code>myResourceGroup</code>, creating a new revision.</li>
+    <li>On start-up the new revision applies database migrations and runs the seeder.</li>
+</ol>
+<div class="docs-callout docs-callout--note">
+    <span class="docs-callout__title">Releasing a change</span>
+    <ol>
+        <li>Merge into your main working branch and test locally.</li>
+        <li>Merge into <code>live</code> and push.</li>
+        <li>Watch the Actions run, then check <code>/health</code>, sign in, and look at Logs and Email delivery.</li>
+    </ol>
+</div>
+<p>Every build is tagged <code>live</code>, so images aren't versioned. To roll back, re-activate the previous <strong>revision</strong> in the Container App's <em>Revisions</em> blade (or revert the commit on <code>live</code> and push). Migrations aren't rolled back automatically; a migration that drops data needs a database backup to undo.</p>
+<p>The image is built with <code>COPY . ./</code>, so files such as <code>appsettings.Development.json</code> end up in it. Keep secrets out of the repository.</p>
+
+<h3>The email app</h3>
+<p>EmailManagement is published to the Plesk server (no workflow in the repo). Publish with <code>dotnet publish -c Release</code> (the <code>templates</code> folder is copied to the output) and upload, or use Plesk's .NET / Docker support with the repo's <code>Dockerfile</code> (ports 8080/8081). Set the four Key Vault environment variables on the server. After deploying, check <code>/swagger</code> responds and that Site admin → Email delivery shows <em>Working</em>.</p>
+<p>Restarting the email app <strong>loses any emails still in its queue</strong>. Check <em>Waiting in queue</em> is 0 before restarting.</p>
+
+<h2>Database migrations</h2>
+<ul>
+    <li>Migrations live in <code>Migrations/</code> and are applied automatically on start-up if any are pending.</li>
+    <li>Create one locally with <code>dotnet ef migrations add &lt;Name&gt;</code> against a development database.</li>
+    <li>The <code>bulletins</code> table and its newer columns are also created by raw SQL in the seeder (<code>CREATE TABLE IF NOT EXISTS</code>, <code>ALTER TABLE … ADD COLUMN IF NOT EXISTS</code>), which MariaDB supports but MySQL 8 doesn't for <code>ADD COLUMN IF NOT EXISTS</code>.</li>
+    <li>Hangfire, the Serilog sink and the seeder create their own tables.</li>
+    <li>Back up the database before deploying anything that includes a migration.</li>
+</ul>
+
+<h2>Running locally</h2>
+<ol class="docs-steps">
+    <li>Install the .NET 8 SDK and have a MySQL/MariaDB database you can use.</li>
+    <li>Set <code>ConnectionStrings:Development</code> with <code>dotnet user-secrets</code> rather than in <code>appsettings.Development.json</code>.</li>
+    <li>Set <code>ASPNETCORE_ENVIRONMENT=Development</code> and the four Key Vault variables for a <strong>development</strong> vault or service principal (the app reads some secrets from Key Vault even in Development).</li>
+    <li>Run <code>dotnet run</code>. Data Protection keys go to <code>./DataProtectionKeys</code> (don't commit them).</li>
+    <li>For email, run EmailManagement locally on <code>https://localhost:7291</code> (the Development fallback), or point <code>EmailApi:BaseUrl</code> at a test instance.</li>
+</ol>
+<p><code>docker-compose.yml</code> is out of date (it maps container port 80, uses environment variable names the apps don't read, and points at an old folder name for the email app), so fix it before relying on it.</p>
+
+<h2 id="runbooks">Runbooks</h2>
+
+<h3>The site won't start / shows an error page for everyone</h3>
+<ol class="docs-steps">
+    <li>Open the Container App's <strong>Log stream</strong> or console logs; start-up errors happen before Serilog is running.</li>
+    <li><em>Key Vault errors</em> (401/403, "EnvironmentCredential authentication unavailable"): check the four <code>AZURE_*</code>/<code>KEY_VAULT_URL</code> variables, whether the client secret has expired, and the service principal's access policy / RBAC on the vault.</li>
+    <li><em>"Production connection string not found"</em> or database timeouts: check <code>ASPNETCORE_ENVIRONMENT</code>, the <code>db-connection-live</code> secret, and that the database server allows connections from the Container App's outbound IP.</li>
+    <li><em>Migration errors</em>: fix the migration or apply it manually, then restart.</li>
+    <li>If the previous revision worked, re-activate it while you investigate.</li>
+</ol>
+
+<h3>Everyone has been signed out / "invalid or expired link" everywhere</h3>
+<ol class="docs-steps">
+    <li>Check the Data Protection key ring blob still exists in the storage account.</li>
+    <li>Check the start-up log for "Failed to configure Key Vault protector" or blob errors.</li>
+    <li>Check the <code>data-key</code> Key Vault key and its older versions are enabled and the service principal can <em>wrap/unwrap</em> with it.</li>
+    <li>If the ring was lost, users simply sign in again; resend any outstanding invitations.</li>
+</ol>
+
+<h3>Emails aren't arriving</h3>
+<p>Follow <a asp-page="/Docs/Admin/Email" asp-fragment="troubleshooting-email">Troubleshooting email</a>. Quick checks: Site admin → Email delivery (email app <em>Working</em>? last send run recent?), the email app's logs on Plesk, and the SMTP credentials.</p>
+
+<h3>Distance search returns nothing or wrong distances</h3>
+<ol class="docs-steps">
+    <li>Search Logs for <code>geocode</code> or Google errors: <code>REQUEST_DENIED</code> (key invalid or restricted), <code>OVER_QUERY_LIMIT</code> (quota/billing).</li>
+    <li>Check the <code>google-api-key</code> secret and the key's restrictions and billing in Google Cloud.</li>
+    <li>For one church, check its address on Churches → Edit.</li>
+</ol>
+
+<h3>Images don't load</h3>
+<ol class="docs-steps">
+    <li>Images use 30-minute signed (SAS) links; a page left open longer shows broken images until refreshed.</li>
+    <li>Check <code>storage-account-name</code>, <code>storage-account-key</code> and <code>storage-container-name</code> match the storage account (after a key rotation, restart).</li>
+</ol>
+
+<h3>Bulletin PDF link is broken</h3>
+<p>The PDF was lost when the container was replaced. Edit the bulletin and upload the PDF again.</p>
+
+<h3>The dashboard's live figures don't load</h3>
+<p>Check <code>/api/SystemStats</code> in the browser while signed in as an admin. A 401/403 means the account lacks <code>Admin.Read</code>; a 500 is in Logs (often the database size query).</p>
+
+<h3>The Logs page doesn't update live</h3>
+<p>The page tries a server-sent-events endpoint (<code>/logs/sse</code>, which doesn't exist) and then SignalR on <code>/logsHub</code>. If SignalR can't connect (for example a proxy blocking WebSockets), refresh the page to see new entries.</p>
+
+<h3>Someone needs to get into the SuperAdmin account</h3>
+<p>Use <em>Forgot Password</em> on the SuperAdmin email. If email is broken, another SuperAdmin can set a new password on Users → Edit. As a last resort, delete the SuperAdmin user in the database and restart: the seeder recreates it from <code>sys-admin-username</code> / <code>sys-admin-password</code> (it would also get a new <em>Default Church</em>, and the old one's events would be orphaned).</p>
