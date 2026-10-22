@@ -1,0 +1,63 @@
+@page "/docs"
+@model ForestChurches.Pages.Docs.DocsPublicModel
+@{
+    ViewData["Title"] = "Forest Churches help & documentation";
+    ViewData["DocsPage"] = "home";
+    ViewData["DocsLead"] = "Step-by-step guides for everyone who uses Forest Churches, and a full technical reference for the people who run it.";
+    var signedIn = User?.Identity?.IsAuthenticated == true;
+    var isSiteAdmin = signedIn && (User!.IsInRole("Admin") || User.IsInRole("SuperAdmin"));
+    var isSuperAdmin = signedIn && User!.IsInRole("SuperAdmin");
+}
+
+<div class="fcd-cards">
+    <a class="fcd-card" href="/docs/visitors">
+        <span class="fc-eyebrow">Anyone</span>
+        <h2>Visitors</h2>
+        <p>Find a church near you, read its service times and events, send it a message, read the bulletin, change the language or switch to dark mode. No account needed.</p>
+        <span class="fcd-card__go">Read the visitor guide →</span>
+    </a>
+    <a class="fcd-card" href="/docs/church-admins">
+        <span class="fc-eyebrow">Church accounts</span>
+        <h2>Church administrators</h2>
+        <p>Join by invitation, keep your church page up to date, add services and events, connect ChurchSuite, and keep your account secure.</p>
+        <span class="fcd-card__go">Read the church admin guide →</span>
+    </a>
+    <a class="fcd-card" href="/docs/site-admins">
+        <span class="fc-eyebrow">Admin &amp; SuperAdmin</span>
+        <h2>Website administrators</h2>
+        <p>Run the site day to day: invitations, users, roles, churches, events, bulletins, emails, email delivery and logs.</p>
+        <span class="fcd-card__go">@(isSiteAdmin ? "Read the admin guide →" : "Sign in as an administrator to read →")</span>
+    </a>
+    <a class="fcd-card fcd-card--dark" href="/docs/system">
+        <span class="fc-eyebrow">SuperAdmin</span>
+        <h2>System reference</h2>
+        <p>How everything works underneath: architecture, Hangfire, whitelisting, the EmailManagement API, security, key storage, data location, processing and encryption.</p>
+        <span class="fcd-card__go">@(isSuperAdmin ? "Open the system reference →" : "SuperAdmin sign-in required →")</span>
+    </a>
+</div>
+
+<section class="fcd-section">
+    <h2>Which guide do I need?</h2>
+    <div class="fcd-table-wrap">
+        <table class="fcd-table">
+            <thead><tr><th>You are…</th><th>Your account</th><th>Start with</th></tr></thead>
+            <tbody>
+                <tr><td>Looking for a church, a service or an event</td><td>None needed</td><td><a href="/docs/visitors">Visitor guide</a></td></tr>
+                <tr><td>Looking after one church's page on the site</td><td>A church account (the <code>AuthorizedChurch</code> role)</td><td><a href="/docs/church-admins">Church administrator guide</a></td></tr>
+                <tr><td>Running the website: invitations, users, content, emails</td><td><code>Admin</code> or <code>SuperAdmin</code></td><td><a href="/docs/site-admins">Website administrator guide</a></td></tr>
+                <tr><td>Responsible for hosting, security, keys or data protection</td><td><code>SuperAdmin</code></td><td><a href="/docs/system">System reference</a></td></tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="fcd-note">
+        <span class="fcd-note__title">Who can read what</span>
+        <p>The visitor and church administrator guides are public, so churches can read them before they're invited. The website administrator guide needs an account with the <code>Admin.Read</code> permission (the same check as Site admin). The system reference describes security settings and where keys live, so it's restricted to <code>SuperAdmin</code> accounts.</p>
+    </div>
+</section>
+
+<section class="fcd-section">
+    <h2>About these docs</h2>
+    <p>Every screenshot in these guides was taken from the current "Forest Floor" design, using made-up example churches (Woodside Chapel, Oakridge Methodist, Riverbend Baptist Church), example email addresses ending in <code>.example</code>, and no real data. The maps appear blank in the screenshots because they were taken without internet access to the map tiles; on the live site they show OpenStreetMap.</p>
+    <p>The behaviour described was checked against the source code of the <code>redesign/forest-floor</code> branch of ForestChurches_2026 and the <code>feature/delivery-status</code> branch of EmailManagement-ForestChurches. Where the code does something surprising, or something that differs from what users might expect, the guide says so.</p>
+    <p>The guides are written in English. The rest of the site is available in seven languages; see <a href="/docs/visitors#language">Changing the language</a>.</p>
+</section>

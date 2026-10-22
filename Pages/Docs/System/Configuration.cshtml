@@ -1,0 +1,128 @@
+@page "/docs/system/configuration"
+@model ForestChurches.Pages.Docs.DocsSystemModel
+@{
+    ViewData["Title"] = "Configuration & secrets";
+    ViewData["DocsPage"] = "system-config";
+    ViewData["DocsEyebrow"] = "System reference · SuperAdmin";
+    ViewData["DocsAudience"] = "SuperAdmin / system administrators";
+    ViewData["DocsLead"] = "Every setting both apps read: environment variables, Key Vault secret names, and appsettings keys. Names and purposes only; this page never shows values.";
+}
+
+<nav class="fcd-toc" aria-label="On this page">
+    <strong>On this page</strong>
+    <ol>
+        <li><a href="#order">Where settings come from</a></li>
+        <li><a href="#env">Environment variables</a></li>
+        <li><a href="#secrets">Key Vault secrets</a></li>
+        <li><a href="#appsettings">appsettings keys</a></li>
+        <li><a href="#rotate">Rotating a secret</a></li>
+        <li><a href="#newenv">Setting up a new environment</a></li>
+    </ol>
+</nav>
+
+<section class="fcd-section" id="order">
+    <h2>Where settings come from</h2>
+    <p>The website builds its configuration from <code>appsettings.json</code>, <code>appsettings.{Environment}.json</code>, environment variables and then Azure Key Vault (later sources win). Most code doesn't use that merged configuration for secrets, though: it reads them straight from Key Vault with <code>SecretClient.GetSecret("name")</code>. In practice:</p>
+    <ul>
+        <li><strong>Environment variables</strong> say which environment this is and how to reach Key Vault.</li>
+        <li><strong>Key Vault</strong> holds everything secret, and some non-secret values like container names.</li>
+        <li><strong>appsettings</strong> holds a few switches and the email app's address.</li>
+    </ul>
+    <p>The environment matters: <code>ASPNETCORE_ENVIRONMENT=Development</code> uses <code>ConnectionStrings:Development</code> from appsettings and file-system Data Protection keys; <code>Production</code> uses <code>db-connection-live</code> and Blob/Key Vault keys. Any other value leaves the connection string empty, and the site won't work.</p>
+</section>
+
+<section class="fcd-section" id="env">
+    <h2>Environment variables</h2>
+    <div class="fcd-table-wrap">
+        <table class="fcd-table">
+            <thead><tr><th>Variable</th><th>Website</th><th>Email app</th><th>Purpose</th></tr></thead>
+            <tbody>
+                <tr><td><code>ASPNETCORE_ENVIRONMENT</code></td><td class="fcd-yes">✓</td><td class="fcd-yes">✓</td><td><code>Production</code> or <code>Development</code>. The email app also uses it to choose its own send URL.</td></tr>
+                <tr><td><code>KEY_VAULT_URL</code></td><td class="fcd-yes">✓</td><td class="fcd-yes">✓</td><td>Vault URI, e.g. <code>https://&lt;name&gt;.vault.azure.net/</code>. Required; start-up fails without it.</td></tr>
+                <tr><td><code>AZURE_TENANT_ID</code>, <code>AZURE_CLIENT_ID</code>, <code>AZURE_CLIENT_SECRET</code></td><td class="fcd-yes">✓</td><td class="fcd-yes">✓</td><td>Service principal used by <code>EnvironmentCredential</code> for Key Vault and the Data Protection key wrap. The email app checks they're all set at start-up.</td></tr>
+                <tr><td><code>CHURCHSUITE_OAUTH_CLIENT_ID</code></td><td class="fcd-yes">✓</td><td class="fcd-no">–</td><td>Optional. Turns on the site-wide "Sign in with ChurchSuite" scheme. Falls back to <code>ChurchSuite:OAuth:ClientId</code>.</td></tr>
+                <tr><td><code>CHURCHSUITE_OAUTH_CLIENT_SECRET</code></td><td class="fcd-yes">✓</td><td class="fcd-no">–</td><td>Optional. Fallback <code>ChurchSuite:OAuth:ClientSecret</code>.</td></tr>
+                <tr><td><code>CHURCHSUITE_OAUTH_CALLBACK_URL</code></td><td class="fcd-yes">✓</td><td class="fcd-no">–</td><td>Optional. Fallback <code>ChurchSuite:OAuth:CallbackUrl</code>.</td></tr>
+            </tbody>
+        </table>
+    </div>
+    <p>In Azure Container Apps, set these under the container app's <em>Environment variables</em>, storing <code>AZURE_CLIENT_SECRET</code> as a Container Apps secret reference rather than plain text. On Plesk (email app), set them in the site's ASP.NET Core / IIS environment settings.</p>
+</section>
+
+<section class="fcd-section" id="secrets">
+    <h2>Key Vault secrets</h2>
+    <p>Secret names are case-insensitive in Key Vault. "Read" says when the value is read: at start-up (restart needed after changing it) or on use (picked up immediately).</p>
+    <div class="fcd-table-wrap">
+        <table class="fcd-table">
+            <thead><tr><th>Secret</th><th>Used by</th><th>Read</th><th>What it is</th></tr></thead>
+            <tbody>
+                <tr><td><code>db-connection-live</code></td><td>Website</td><td>Start-up</td><td>MySQL/MariaDB connection string for Production. Also used by Hangfire, the Serilog MariaDB sink and the log viewer.</td></tr>
+                <tr><td><code>sys-admin-username</code></td><td>Website</td><td>Start-up</td><td>Email of the seeded SuperAdmin; Hangfire dashboard username.</td></tr>
+                <tr><td><code>sys-admin-password</code></td><td>Website</td><td>Start-up</td><td>Initial SuperAdmin password; Hangfire dashboard password.</td></tr>
+                <tr><td><code>blob-connection-string</code></td><td>Website</td><td>Start-up</td><td>Azure Storage connection string (images and the Data Protection key ring).</td></tr>
+                <tr><td><code>blob-container-name</code></td><td>Website</td><td>Start-up</td><td>Container that holds the Data Protection key ring (created if missing).</td></tr>
+                <tr><td><code>blob-file-name</code></td><td>Website</td><td>Start-up</td><td>Blob name of the key ring XML.</td></tr>
+                <tr><td><code>data-key</code></td><td>Website</td><td>Start-up</td><td>Full identifier URL of the Key Vault <em>key</em> that wraps Data Protection keys.</td></tr>
+                <tr><td><code>storage-account-name</code></td><td>Website</td><td>Start-up</td><td>Storage account name, for signing image SAS URLs.</td></tr>
+                <tr><td><code>storage-account-key</code></td><td>Website</td><td>Start-up</td><td>Storage account key, for signing SAS URLs. Rotating it invalidates outstanding SAS links.</td></tr>
+                <tr><td><code>storage-container-name</code></td><td>Website</td><td>Start-up</td><td>Container for church, profile and event images.</td></tr>
+                <tr><td><code>jwt-token-securityKey</code></td><td>Both</td><td>Website: start-up and per email. Email app: per send run.</td><td>HMAC key for website → email app JWTs. Must equal the key hardcoded in the email app (see <a href="/docs/system/security#jwt">Security</a>).</td></tr>
+                <tr><td><code>jwt-token-issuer</code></td><td>Website</td><td>Per email</td><td>JWT issuer. Must be <code>ForestChurches</code> to match the email app.</td></tr>
+                <tr><td><code>jwt-token-audience</code></td><td>Website</td><td>Per email</td><td>JWT audience. Must be <code>F0rest_Ch3rches</code> to match the email app.</td></tr>
+                <tr><td><code>app-email-url</code></td><td>Both</td><td>Website: on use. Email app: start-up</td><td>Email app base URL. The website uses it only if <code>EmailApi:BaseUrl</code> is empty; the email app uses it to call its own <code>/Email/send</code>.</td></tr>
+                <tr><td><code>Email-Target</code></td><td>Website</td><td>On use</td><td>Mailbox that receives the public Contact us form.</td></tr>
+                <tr><td><code>google-api-key</code></td><td>Website</td><td>On use</td><td>Google Geocoding and Places API key. Also handed to browsers by the Church page.</td></tr>
+                <tr><td><code>google-api-fields-more</code></td><td>Website</td><td>On use</td><td>Field mask for the Places text-search request.</td></tr>
+                <tr><td><code>lokikey</code></td><td>Website</td><td>Start-up</td><td>Grafana Cloud Loki API token (user <code>1773779</code>).</td></tr>
+                <tr><td><code>seq-key</code>, <code>seq-link</code></td><td>Website</td><td>Start-up</td><td>Read and passed to logging, but the website has no Seq sink. They must still exist or start-up fails.</td></tr>
+                <tr><td><code>seq-email-key</code></td><td>Email app</td><td>Start-up</td><td>Seq API key for the email app's logs (with <code>seq-link</code>).</td></tr>
+                <tr><td><code>smtp-auth-username</code>, <code>smtp-auth-password</code></td><td>Email app</td><td>Every email</td><td>IONOS mailbox login for <code>smtp.ionos.co.uk:587</code>.</td></tr>
+            </tbody>
+        </table>
+    </div>
+    <p>The <code>data-key</code> entry is a <strong>key</strong>, not a secret: create an RSA key in the vault, then store its identifier URL as the <code>data-key</code> secret.</p>
+</section>
+
+<section class="fcd-section" id="appsettings">
+    <h2>appsettings keys</h2>
+    <div class="fcd-table-wrap">
+        <table class="fcd-table">
+            <thead><tr><th>Key</th><th>App</th><th>Default / current</th><th>Effect</th></tr></thead>
+            <tbody>
+                <tr><td><code>EmailApi:BaseUrl</code></td><td>Website</td><td><code>https://api.forestchurches.co.uk</code></td><td>Where emails are posted. Must start with <code>https://</code>.</td></tr>
+                <tr><td><code>ConnectionStrings:Development</code></td><td>Website</td><td>In <code>appsettings.Development.json</code></td><td>Database for Development.</td></tr>
+                <tr><td><code>ImageMigration:Enabled</code></td><td>Website</td><td><code>false</code></td><td>One-off copy of legacy image bytes into Blob Storage at start-up. See <a href="/docs/system/jobs#migration">Jobs</a>.</td></tr>
+                <tr><td><code>Serilog:MinimumLevel</code></td><td>Both</td><td>Website: Information (Microsoft/System: Warning)</td><td>Log level.</td></tr>
+                <tr><td><code>BlobStorage:ConnectionString</code>, <code>BlobStorage:Container</code></td><td>Website</td><td>Not set</td><td>An older registration; the Key Vault-based registration in <code>Program.cs</code> replaces it, so these have no effect.</td></tr>
+                <tr><td><code>ChurchSuite:OAuth:*</code></td><td>Website</td><td>Not set</td><td>Fallbacks for the <code>CHURCHSUITE_OAUTH_*</code> variables.</td></tr>
+                <tr><td><code>Keyvault:*</code>, <code>Keys:Google</code></td><td>Website</td><td>In Development file</td><td>Not read by code. Remove them; the Google key there should be rotated.</td></tr>
+                <tr><td><code>EnableSwaggerInProduction</code></td><td>Email app</td><td><code>true</code></td><td>Serves Swagger UI publicly. Set to <code>false</code>.</td></tr>
+                <tr><td><code>EmailService:BaseUrl</code></td><td>Email app</td><td><code>https://api.forestchurches.co.uk</code></td><td>Not read by code.</td></tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+
+<section class="fcd-section" id="rotate">
+    <h2>Rotating a secret</h2>
+    <ol class="fc-steps">
+        <li><span class="fc-steps__title">Add a new version</span><span>In Key Vault, open the secret and add a new version. Leave the old one enabled until you've finished.</span></li>
+        <li><span class="fc-steps__title">Update anything paired with it</span><span>SMTP: change the mailbox password at IONOS first. Storage key: regenerate it in the storage account. JWT key: change the email app's code at the same time.</span></li>
+        <li><span class="fc-steps__title">Restart if it's read at start-up</span><span>Container Apps: create a new revision or restart. Plesk: restart the email app's application pool.</span></li>
+        <li><span class="fc-steps__title">Check</span><span>Site admin → Email delivery should show the email app as healthy; send a test email; open a church page with an image.</span></li>
+        <li><span class="fc-steps__title">Disable the old version</span><span>Once everything works.</span></li>
+    </ol>
+    <div class="fcd-note"><p><code>sys-admin-password</code> only sets the password when the SuperAdmin account is first created. After rotating it, change the account's password in the site too; the Hangfire dashboard picks up the new value after a restart.</p></div>
+</section>
+
+<section class="fcd-section" id="newenv">
+    <h2>Setting up a new environment</h2>
+    <ol>
+        <li>Create a MySQL 8 / MariaDB database and a user with rights to create tables (EF migrations, Hangfire and the Serilog sink create their own tables).</li>
+        <li>Create a storage account with two private containers (images; key ring).</li>
+        <li>Create a Key Vault, an RSA key for <code>data-key</code>, every secret in the table above, and an app registration with access to them.</li>
+        <li>Set the environment variables on the host and deploy.</li>
+        <li>On first start the site applies migrations, creates the <code>bulletins</code> table, seeds permissions, roles and the SuperAdmin.</li>
+        <li>Sign in as the SuperAdmin, change the password, and edit the placeholder "Default Church" listing (or close it).</li>
+    </ol>
+</section>

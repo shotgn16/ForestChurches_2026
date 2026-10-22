@@ -1,0 +1,189 @@
+@page "/docs/system/email"
+@model ForestChurches.Pages.Docs.DocsSystemModel
+@{
+    ViewData["Title"] = "EmailManagement API";
+    ViewData["DocsPage"] = "system-email";
+    ViewData["DocsEyebrow"] = "System reference · SuperAdmin";
+    ViewData["DocsAudience"] = "SuperAdmin / system administrators";
+    ViewData["DocsLead"] = "How an email gets from a button press on the website to someone's inbox: the hand-over, the queue, the send run, retries, status tracking and templates.";
+}
+
+<nav class="fcd-toc" aria-label="On this page">
+    <strong>On this page</strong>
+    <ol>
+        <li><a href="#flow">End-to-end flow</a></li>
+        <li><a href="#website">Website side: hand-over and tracking</a></li>
+        <li><a href="#api">Email app API</a></li>
+        <li><a href="#queue">Queue, send runs and retries</a></li>
+        <li><a href="#statuses">Statuses</a></li>
+        <li><a href="#templates">Templates and placeholders</a></li>
+        <li><a href="#hosting">Hosting and configuration</a></li>
+        <li><a href="#troubleshooting">Troubleshooting</a></li>
+        <li><a href="#limits">Limitations</a></li>
+    </ol>
+</nav>
+
+<section class="fcd-section" id="flow">
+    <h2>End-to-end flow</h2>
+    <figure class="fcd-diagram">
+        <svg viewBox="0 0 960 300" role="img" aria-labelledby="em-t">
+            <title id="em-t">Email flow from website to inbox</title>
+            <defs><marker id="ah4" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" class="arrow" /></marker></defs>
+            <rect x="10" y="40" width="200" height="120" rx="12" class="box--dark" />
+            <text x="110" y="70" text-anchor="middle" class="t t--on-dark">Website</text>
+            <text x="110" y="92" text-anchor="middle" class="s s--on-dark">MailSender fills Data</text>
+            <text x="110" y="110" text-anchor="middle" class="s s--on-dark">MailRepository: JWT + EmailId</text>
+            <text x="110" y="128" text-anchor="middle" class="s s--on-dark">EmailDeliveryTracker</text>
+            <rect x="290" y="40" width="200" height="120" rx="12" class="box--moss" />
+            <text x="390" y="70" text-anchor="middle" class="t">POST /Email</text>
+            <text x="390" y="92" text-anchor="middle" class="s">validate JWT</text>
+            <text x="390" y="110" text-anchor="middle" class="s">status record: Queued</text>
+            <text x="390" y="128" text-anchor="middle" class="s">ConcurrentQueue</text>
+            <rect x="570" y="40" width="200" height="120" rx="12" class="box--moss" />
+            <text x="670" y="70" text-anchor="middle" class="t">POST /Email/send</text>
+            <text x="670" y="92" text-anchor="middle" class="s">every 5 min (self-call)</text>
+            <text x="670" y="110" text-anchor="middle" class="s">read template, fill</text>
+            <text x="670" y="128" text-anchor="middle" class="s">Sending → Sent / Retrying</text>
+            <rect x="830" y="60" width="120" height="80" rx="12" class="box" />
+            <text x="890" y="95" text-anchor="middle" class="t">IONOS</text>
+            <text x="890" y="115" text-anchor="middle" class="s">SMTP :587</text>
+            <line x1="210" y1="100" x2="286" y2="100" class="line" marker-end="url(#ah4)" />
+            <text x="248" y="90" text-anchor="middle" class="lbl">HTTPS</text>
+            <line x1="490" y1="100" x2="566" y2="100" class="line" marker-end="url(#ah4)" />
+            <text x="528" y="90" text-anchor="middle" class="lbl">queue</text>
+            <line x1="770" y1="100" x2="826" y2="100" class="line" marker-end="url(#ah4)" />
+            <path d="M670 160 C 670 230, 110 230, 110 164" class="line line--warn" marker-end="url(#ah4)" fill="none" />
+            <text x="390" y="250" text-anchor="middle" class="lbl">Site admin → Email delivery asks GET /Email/health and GET /Email/{id}/status</text>
+        </svg>
+        <figcaption>The website hands each email over immediately; the email app sends in batches every 5 minutes.</figcaption>
+    </figure>
+    <p>So an email normally arrives within about 5 minutes. The website never talks to SMTP itself.</p>
+</section>
+
+<section class="fcd-section" id="website">
+    <h2>Website side: hand-over and tracking</h2>
+    <ol>
+        <li>A feature calls a <code>MailSender</code> method (for example <code>SendEmailInviteUser</code>). It builds the <code>Data</code> dictionary of placeholders, adds any callback-token links, picks the subject and template path, and calls <code>MailRepository.StartEmailAsync</code> <strong>without waiting</strong> for it. The page carries on regardless of what happens next.</li>
+        <li><code>MailRepository</code> gives the email a tracking ID (<code>EmailId</code>, a GUID), writes it into a log scope so every log line carries it, records it in <code>EmailDeliveryTracker</code> as <em>Sending</em>, and creates a 10-minute JWT.</li>
+        <li>It POSTs <code>{ Id, To, Subject, Body, Template, Data }</code> to <code>{EmailApi:BaseUrl}/Email</code>. Up to <strong>3 attempts</strong>, with timeouts of 30, 40 and 50 seconds. A 3xx redirect is followed manually so the <code>Authorization</code> header isn't lost.</li>
+        <li>A 2xx reply marks the email <em>Accepted</em> with the email app's status and queue length. If all attempts fail, it's <em>Failed</em> (not received) and an error is logged with the HTTP status, body and <code>WWW-Authenticate</code> header.</li>
+        <li><code>EmailServiceMonitor</code> powers Site admin → Email delivery: <code>GET /Email/health</code> (6 s timeout) on page load, <code>GET /Email/{id}/status</code> (10 s) when you check one email, and "check unfinished" for up to 50 records.</li>
+    </ol>
+    <p>The tracker keeps the newest 500 emails in memory and is cleared when the website restarts.</p>
+</section>
+
+<section class="fcd-section" id="api">
+    <h2>Email app API</h2>
+    <p>Every endpoint requires <code>Authorization: Bearer &lt;JWT&gt;</code> (HS256, issuer <code>ForestChurches</code>, audience <code>F0rest_Ch3rches</code>, unexpired).</p>
+    <div class="fcd-table-wrap">
+        <table class="fcd-table">
+            <thead><tr><th>Endpoint</th><th>Does</th><th>Returns</th></tr></thead>
+            <tbody>
+                <tr><td><code>POST /Email</code></td><td>Validates there's a recipient, assigns an ID if none was given, creates a status record (Queued) and adds the message to the in-memory queue. Doesn't send.</td><td><code>{ id, status, receivedUtc, queueLength }</code>; 400 if <code>To</code> is missing</td></tr>
+                <tr><td><code>POST /Email/send</code></td><td>Takes everything off the queue and tries to send each one now.</td><td><code>{ sent, retrying, failed, queueLength }</code></td></tr>
+                <tr><td><code>GET /Email/{id}/status</code></td><td>Looks up one email's record.</td><td><code>{ id, status, attempts, receivedUtc, lastAttemptUtc, sentUtc, error }</code>; 404 with status Unknown if not found</td></tr>
+                <tr><td><code>GET /Email/health</code></td><td>Liveness and counters.</td><td><code>{ status, serverTimeUtc, startedUtc, lastSendRunUtc, queueLength, queued, retrying, sent, failed }</code></td></tr>
+                <tr><td><code>/swagger</code></td><td>Interactive API docs (public while <code>EnableSwaggerInProduction</code> is true).</td><td></td></tr>
+            </tbody>
+        </table>
+    </div>
+    <p>Message body (<code>EmailMessage</code>): <code>Id</code> (optional, the website's EmailId), <code>To</code>, <code>Subject</code>, <code>Body</code> (unused), <code>Template</code> (file path relative to the email app's working directory, e.g. <code>./templates/confirm_email.html</code>), <code>Data</code> (placeholder → value).</p>
+</section>
+
+<section class="fcd-section" id="queue">
+    <h2>Queue, send runs and retries</h2>
+    <ul>
+        <li><strong>Send runs</strong>: <code>EmailSenderHostedService</code> loops every 5 minutes. Each time it signs a JWT with Key Vault's <code>jwt-token-securityKey</code> and calls the app's own <code>/Email/send</code> at <code>{app-email-url}/Email/send</code> (in Development, <code>https://localhost:7291/Email/send</code>).</li>
+        <li><strong>Sending one email</strong>: read the template file, replace each <code>Data</code> key with its value (plain text replace, no HTML encoding), then connect to <code>smtp.ionos.co.uk:587</code> (STARTTLS when available), sign in with <code>smtp-auth-username</code>/<code>-password</code> (read from Key Vault on every email) and send as <em>Forest Churches &lt;info@forestchurches.co.uk&gt;</em>. One SMTP connection per email.</li>
+        <li><strong>Retries</strong>: if sending throws, the email goes back on the queue as <em>Retrying</em> and is tried in the next run. After 3 attempts in total it's <em>Failed</em> with the error message saved.</li>
+        <li><strong>Persistence</strong>: none. The queue and status records live in memory, so <strong>a restart of the email app loses any queued emails</strong>. The status store keeps records for 14 days, at most 5,000.</li>
+    </ul>
+    <div class="fcd-note fcd-note--warn">
+        <span class="fcd-note__title">Scheduler bug</span>
+        <p>A second service, <code>EmailScheduler</code>, fires every 5 minutes and calls <code>EmailSenderHostedService.TriggerEmailSendingAsync</code>, which runs the same <em>endless</em> loop again. Each tick starts another loop that never ends, so after an hour there are about a dozen loops each calling <code>/Email/send</code> every 5 minutes. Sending is still correct because the queue is drained atomically, but log volume and Key Vault calls grow until the app restarts. Fix: remove <code>EmailScheduler</code> (the hosted service already runs the loop).</p>
+    </div>
+</section>
+
+<section class="fcd-section" id="statuses">
+    <h2>Statuses</h2>
+    <div class="fcd-table-wrap">
+        <table class="fcd-table">
+            <thead><tr><th>Where</th><th>Status</th><th>Meaning</th></tr></thead>
+            <tbody>
+                <tr><td rowspan="3">Website hand-over</td><td>Sending</td><td>Being posted to the email app (including retries).</td></tr>
+                <tr><td>Accepted</td><td>The email app replied 2xx and queued it.</td></tr>
+                <tr><td>Failed</td><td>The email app never received it. Nothing will retry; repeat the action on the site.</td></tr>
+                <tr><td rowspan="6">Email app</td><td>Queued</td><td>Waiting for the next send run (up to 5 minutes).</td></tr>
+                <tr><td>Sending</td><td>In the current send run.</td></tr>
+                <tr><td>Retrying</td><td>Last attempt failed; will try in the next run.</td></tr>
+                <tr><td>Sent</td><td>IONOS accepted it. Delivery to the inbox (spam filters, bounces) isn't tracked after this.</td></tr>
+                <tr><td>Failed</td><td>3 attempts failed; <code>error</code> says why.</td></tr>
+                <tr><td>Unknown</td><td>No record: wrong ID, older than 14 days, or the email app restarted.</td></tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+
+<section class="fcd-section" id="templates">
+    <h2>Templates and placeholders</h2>
+    <p>Templates are HTML files in the email app's <code>templates/</code> folder, copied to the publish output. On the <code>feature/delivery-status</code> branch they're redesigned to match the Forest Floor site, use no images, and keep their colours in Outlook's dark mode. The website still sends <code>{IMAGE-1}</code>…<code>{IMAGE-7}</code> SAS URLs for some emails; the new templates simply don't use them.</p>
+    <div class="fcd-table-wrap">
+        <table class="fcd-table">
+            <thead><tr><th>Template</th><th>Subject</th><th>Sent by</th><th>Placeholders</th></tr></thead>
+            <tbody>
+                <tr><td><code>registration_invite.html</code></td><td>You're Invited</td><td>Admin → Invitations</td><td><code>{email}</code>, <code>{registration_link}</code></td></tr>
+                <tr><td><code>confirm_email.html</code></td><td>Confirm your account</td><td>Registration</td><td><code>{confirm_email_link}</code></td></tr>
+                <tr><td><code>confirm_emailchange.html</code></td><td>Confirm New Email</td><td>Manage → Email</td><td><code>{confirm_email_link}</code></td></tr>
+                <tr><td><code>registration_complete.html</code></td><td>Thanks for Registering</td><td>Admin → Create a user</td><td><code>{username}</code>, <code>{website_home_page_link}</code>, <code>{church_profile_link}</code>, <code>{user_events_link}</code></td></tr>
+                <tr><td><code>password_reset.html</code></td><td>Reset Password</td><td>Forgot password</td><td><code>{password_reset_link}</code>, <code>{password_reset_expires}</code>, <code>{contact_us_page}</code></td></tr>
+                <tr><td><code>event_created.html</code></td><td>Event Created</td><td>Adding an event</td><td><code>{event_name}</code>, <code>{event_description}</code>, <code>{event_location}</code>, <code>{event_date}</code>, <code>{event_startTime}</code>, <code>{event_endTime}</code>, <code>{event_repeats}</code>, <code>{event_link}</code></td></tr>
+                <tr><td><code>event_deleted.html</code></td><td>Event Deleted</td><td>Deleting an event</td><td><code>{eventName}</code>, <code>{eventDate}</code>, <code>{eventStart}</code>, <code>{eventEnd}</code>, <code>{event_link}</code></td></tr>
+                <tr><td><code>confirm_repeated_event.html</code></td><td>Do you still need this?</td><td>Event clean-up job</td><td>As Event Deleted</td></tr>
+                <tr><td><code>church_information.html</code></td><td>Your Requested Information</td><td>Download details on a church page</td><td><code>{username}</code>, <code>{church_name}</code>, <code>{church_address}</code>, <code>{church_phone}</code>, <code>{church_website}</code>, <code>{church_wheelchairEntrance}</code>, <code>{serviceTimes}</code>, <code>{contact_form_designated_church_id}</code></td></tr>
+                <tr><td><code>admin_email.html</code></td><td>Forest Churches Contact Form</td><td>Contact us / church message form</td><td><code>{template_title}</code>, <code>{template_content}</code>, <code>{template_button_name}</code></td></tr>
+                <tr><td><code>contact_request.html</code></td><td>Forest Church Administration Team</td><td>Admin → Emails</td><td><code>{admin_name}</code>, <code>{username}</code>, <code>{paragraph}</code></td></tr>
+            </tbody>
+        </table>
+    </div>
+    <p>To change wording, edit the template in the email app and redeploy it. To add a placeholder, add the key in the matching <code>MailSender</code> method on the website and use it in the template. A placeholder with no value is left in the email as literal text.</p>
+    <div class="fcd-note fcd-note--warn"><p>Values are inserted as raw HTML. Anything a visitor typed (contact form name and message, admin email paragraph) can therefore include HTML. HTML-encode user input in <code>MailSender</code> before sending.</p></div>
+</section>
+
+<section class="fcd-section" id="hosting">
+    <h2>Hosting and configuration</h2>
+    <ul>
+        <li>Hosted on Plesk (IIS) at <code>https://api.forestchurches.co.uk</code>. A Dockerfile exists (ports 8080/8081) but isn't used for production.</li>
+        <li>Needs <code>ASPNETCORE_ENVIRONMENT</code>, <code>KEY_VAULT_URL</code> and the three <code>AZURE_*</code> variables. Secrets: <code>seq-email-key</code>, <code>seq-link</code>, <code>app-email-url</code>, <code>jwt-token-securityKey</code>, <code>smtp-auth-username</code>, <code>smtp-auth-password</code>.</li>
+        <li>Logs: daily files <code>logs/EmailManagement-yyyyMMdd.log</code>, Seq, and the Windows Event Log (source <em>EmailManagement</em>). If start-up fails it writes <code>support/SupportData-*.zip</code> and exits with code 1.</li>
+        <li>The app must be able to reach itself at <code>app-email-url</code>; if that URL is wrong, emails queue but never send.</li>
+    </ul>
+</section>
+
+<section class="fcd-section" id="troubleshooting">
+    <h2>Troubleshooting</h2>
+    <div class="fcd-table-wrap">
+        <table class="fcd-table">
+            <thead><tr><th>Symptom</th><th>Likely cause</th><th>Check</th></tr></thead>
+            <tbody>
+                <tr><td>Email delivery shows <em>Failed</em> (not received) with HTTP 401</td><td>JWT mismatch: key, issuer or audience differ between Key Vault and the email app</td><td><code>WWW-Authenticate</code> in the website log (search the EmailId in Loki)</td></tr>
+                <tr><td>Failed with a timeout or connection error</td><td>Email app down or URL wrong</td><td><code>https://api.forestchurches.co.uk/swagger</code> loads? Plesk app pool running?</td></tr>
+                <tr><td>Accepted, but stays Queued for more than 10 minutes</td><td>Send runs not reaching <code>/Email/send</code></td><td>Health: <code>lastSendRunUtc</code>; email app log for "Failed to send emails"; <code>app-email-url</code></td></tr>
+                <tr><td>Retrying / Failed with an SMTP error</td><td>IONOS password changed, mailbox locked, or sending limit</td><td>The <code>error</code> text; sign in to IONOS webmail</td></tr>
+                <tr><td>Failed with "Could not find file"</td><td>Templates missing from the publish folder or working directory differs</td><td><code>templates/</code> next to <code>EmailManagement.dll</code> and the site's working directory</td></tr>
+                <tr><td>Sent, but the person didn't get it</td><td>Spam filtering or typo in the address</td><td>Ask them to check spam; check SPF/DKIM/DMARC for forestchurches.co.uk at IONOS</td></tr>
+                <tr><td>Status Unknown</td><td>Email app restarted or record too old</td><td>Health: <code>startedUtc</code></td></tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+
+<section class="fcd-section" id="limits">
+    <h2>Limitations</h2>
+    <ul>
+        <li>In-memory queue: a restart loses unsent email, and the app can't be scaled to more than one instance.</li>
+        <li>Up to 5 minutes' delay on every email, including password resets.</li>
+        <li>The JWT signing key is hardcoded in the email app (see <a href="/docs/system/security#jwt">Security</a>).</li>
+        <li><code>ReceiveEmail</code> generates a callback token and tries to replace <code>{event_link}</code>, but that code has no effect (the result is discarded). The links that work are the ones the website puts in <code>Data</code>.</li>
+        <li>The recipient display name is always "Recipient Name".</li>
+    </ul>
+</section>

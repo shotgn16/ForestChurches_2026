@@ -1,0 +1,104 @@
+@page "/docs/system/integrations"
+@model ForestChurches.Pages.Docs.DocsSystemModel
+@{
+    ViewData["Title"] = "Integrations";
+    ViewData["DocsPage"] = "system-integrations";
+    ViewData["DocsEyebrow"] = "System reference · SuperAdmin";
+    ViewData["DocsAudience"] = "SuperAdmin / system administrators";
+    ViewData["DocsLead"] = "The outside services the website talks to (ChurchSuite, Google, OpenStreetMap, Azure Blob Storage), plus how bulletins are stored and served.";
+}
+
+<nav class="fcd-toc" aria-label="On this page">
+    <strong>On this page</strong>
+    <ol>
+        <li><a href="#churchsuite">ChurchSuite</a></li>
+        <li><a href="#google">Google Maps Platform</a></li>
+        <li><a href="#maps">OpenStreetMap and Leaflet</a></li>
+        <li><a href="#blob">Azure Blob Storage and image URLs</a></li>
+        <li><a href="#bulletins">Bulletins</a></li>
+        <li><a href="#cdn">Browser-side libraries</a></li>
+    </ol>
+</nav>
+
+<section class="fcd-section" id="churchsuite">
+    <h2>ChurchSuite</h2>
+    <p>ChurchSuite is church-management software. The integration lets a church import upcoming events from its ChurchSuite calendar. There are two separate OAuth set-ups in the code:</p>
+    <div class="fcd-table-wrap">
+        <table class="fcd-table">
+            <thead><tr><th></th><th>Per-church connection (used by Manage → ChurchSuite)</th><th>Site-wide "Sign in with ChurchSuite"</th></tr></thead>
+            <tbody>
+                <tr><td>Turned on by</td><td>The church entering its own ChurchSuite <strong>Client ID</strong> (stored in <code>AspNetUsers.ClientId</code>)</td><td><code>CHURCHSUITE_OAUTH_CLIENT_ID</code> (+ secret, callback URL) on the host</td></tr>
+                <tr><td>Starts at</td><td><code>/churchsuite/authorize?user_id=…</code> or <code>/ChurchSuite/Authorize</code></td><td>The external-login button on the sign-in page</td></tr>
+                <tr><td>Endpoints</td><td><code>login.churchsuite.com/oauth2/authorize</code> and <code>/oauth2/token</code>, PKCE (S256), scopes <code>full_access offline_access</code></td><td><code>oauth.churchsuite.com/oauth/authorize</code>, <code>/oauth/token</code>, <code>/oauth/me</code>, PKCE enabled by reflection</td></tr>
+                <tr><td>Returns to</td><td><code>/signin-churchsuite</code> or <code>/ChurchSuite/Callback</code></td><td>The configured callback path</td></tr>
+                <tr><td>Result</td><td>Access + refresh tokens saved in <code>ChurchSuiteCredentials</code></td><td>Signs in an existing linked user, or sends a new one to <code>ExternalLogin</code> (whitelist required); tokens also saved</td></tr>
+            </tbody>
+        </table>
+    </div>
+    <h3>Event sync</h3>
+    <ol>
+        <li>A church admin selects <span class="ui">Sync from ChurchSuite</span> on My Events (<code>/Events?handler=SyncEvents</code>). It's manual; nothing syncs on a schedule.</li>
+        <li><code>ChurchSuiteEventSyncService</code> gets the user's credential, refreshing the token through <code>/oauth2/token</code> if it has expired, and checks it by fetching the account profile (<code>api.churchsuite.com/v2/account</code>).</li>
+        <li>It fetches <code>api.churchsuite.com/v2/calendar/events</code> for <strong>now to now + 7 days</strong> and keeps only events starting in that window.</li>
+        <li>Each event is mapped to an <code>Events</code> row (church name and owner email from the user), its image is downloaded and uploaded to Blob Storage, and the row is inserted or, if an event with the same ID exists, updated.</li>
+        <li>The page reports how many events were imported.</li>
+    </ol>
+    <p>Registration also has optional fields to pre-fill a church from ChurchSuite with an account ID and API key; the key is saved to <code>ChurchInformation.ChurchSuiteApiKey</code>.</p>
+    <div class="fcd-note fcd-note--danger">
+        <span class="fcd-note__title">Fix before relying on this</span>
+        <ul>
+            <li>The authorise routes take <code>user_id</code> from the query string without checking the signed-in user, and the callback signs the browser in as that user. This allows account takeover. See <a href="/docs/system/security#gaps">Security gaps</a>. Make the routes <code>[Authorize]</code> and use the signed-in user's ID only.</li>
+            <li>Tokens and API keys are stored unencrypted.</li>
+            <li><code>ChurchSuiteOAuthOptions</code> is defined but never bound to configuration.</li>
+            <li>"Remove" under Registered logins unlinks the sign-in but leaves the token row, so sync keeps working until the token is revoked in ChurchSuite.</li>
+        </ul>
+    </div>
+</section>
+
+<section class="fcd-section" id="google">
+    <h2>Google Maps Platform</h2>
+    <p>One key (<code>google-api-key</code>) is used server-side for:</p>
+    <div class="fcd-table-wrap">
+        <table class="fcd-table">
+            <thead><tr><th>API</th><th>Call</th><th>Used for</th></tr></thead>
+            <tbody>
+                <tr><td>Geocoding API</td><td><code>maps.googleapis.com/maps/api/geocode/json</code></td><td>Turning the searched postcode/address, and each open church's address, into coordinates; reverse geocoding</td></tr>
+                <tr><td>Places API (New)</td><td><code>places.googleapis.com/v1/places:searchText</code> with field mask <code>google-api-fields-more</code></td><td>"Churches nearby" text search</td></tr>
+                <tr><td>Places API (legacy)</td><td><code>maps.googleapis.com/maps/api/place/details/json</code></td><td>Place details</td></tr>
+            </tbody>
+        </table>
+    </div>
+    <p><strong>Cost</strong>: a church search geocodes the visitor's location and then <em>every open church's address</em> on every search, with no caching, so Geocoding requests grow with (searches × churches). Store latitude/longitude on <code>ChurchInformation</code> when a listing is saved to cut this to almost nothing.</p>
+    <p><strong>Key exposure</strong>: <code>/Church?handler=GoogleMapsApiKey</code> returns the key to any browser. In Google Cloud Console, restrict it to the APIs above, and either restrict by IP (server use) and create a separate referrer-restricted browser key, or remove that handler. "Get directions" links simply open <code>google.com/maps/dir/</code> and don't use the key.</p>
+</section>
+
+<section class="fcd-section" id="maps">
+    <h2>OpenStreetMap and Leaflet</h2>
+    <p>The church page map uses Leaflet (loaded from unpkg) with OpenStreetMap tiles from <code>*.tile.openstreetmap.org</code>, fetched directly by the visitor's browser. OSM's tile usage policy expects light use with attribution, which the map shows. For heavy traffic use a commercial tile provider.</p>
+</section>
+
+<section class="fcd-section" id="blob">
+    <h2>Azure Blob Storage and image URLs</h2>
+    <ul>
+        <li>Images (church logos, profile pictures, event images, site images like <code>IMAGE-1.png</code>) are uploaded by <code>BlobStorageService</code> to the private container named by <code>storage-container-name</code>, under generated names, with their content type.</li>
+        <li>Pages never link to the container directly. The <code>&lt;img blob-name="…"&gt;</code> tag helper (<code>ImageSasTagHelper</code>) and <code>BlobUrlService</code> create a <strong>read-only SAS URL</strong> signed with the storage account key, valid for 30 minutes by default (1 to 7 days for some email and seed images).</li>
+        <li>A page left open longer than the SAS lifetime shows broken images until it's reloaded.</li>
+        <li>Rotating <code>storage-account-key</code> invalidates every outstanding SAS URL immediately.</li>
+        <li>Deleting or replacing an image doesn't delete the old blob. Clean up occasionally or add a lifecycle rule.</li>
+    </ul>
+</section>
+
+<section class="fcd-section" id="bulletins">
+    <h2>Bulletins</h2>
+    <ul>
+        <li>Managed at <code>/Admin/Bulletin</code> (Areas/Admin), which requires <code>Admin.Read</code>, so both Admin and SuperAdmin can create and edit bulletins.</li>
+        <li>Stored in the <code>bulletins</code> table. An uploaded PDF must have a <code>.pdf</code> extension (contents aren't checked) and is saved as <code>wwwroot/uploads/bulletins/{GUID}.pdf</code>.</li>
+        <li>The public page <code>/Bulletin</code> and <code>GET /api/Bulletin</code> show the latest-dated live bulletin; the API returns its fields and a full <code>pdfUrl</code>.</li>
+        <li>PDFs are on the container's local disk; see the persistence warning on <a href="/docs/system/data#stores">Data</a>.</li>
+    </ul>
+</section>
+
+<section class="fcd-section" id="cdn">
+    <h2>Browser-side libraries</h2>
+    <p>Loaded from CDNs by visitors' browsers: Font Awesome (kit and <code>ka-f.fontawesome.com</code>), Leaflet (unpkg), cdnjs libraries, Lineicons, and SignalR for the admin log view. Some script tags carry Subresource Integrity hashes. If a CDN is blocked or down, icons or maps won't appear but the site still works.</p>
+</section>

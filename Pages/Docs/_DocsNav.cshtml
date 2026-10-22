@@ -1,0 +1,52 @@
+@{
+    var active = ViewData["DocsPage"] as string ?? string.Empty;
+    string? Current(string key) => string.Equals(active, key, StringComparison.OrdinalIgnoreCase) ? "page" : null;
+    var signedIn = User?.Identity?.IsAuthenticated == true;
+    var isSiteAdmin = signedIn && (User!.IsInRole("Admin") || User.IsInRole("SuperAdmin"));
+    var isSuperAdmin = signedIn && User!.IsInRole("SuperAdmin");
+
+    var systemPages = new (string Key, string Href, string Label)[]
+    {
+        ("system", "/docs/system", "Architecture & hosting"),
+        ("system-accounts", "/docs/system/accounts", "Accounts, roles & whitelisting"),
+        ("system-security", "/docs/system/security", "Security controls"),
+        ("system-config", "/docs/system/configuration", "Configuration, secrets & keys"),
+        ("system-data", "/docs/system/data", "Data, storage & encryption"),
+        ("system-email", "/docs/system/email", "Email & the EmailManagement API"),
+        ("system-jobs", "/docs/system/jobs", "Hangfire & background services"),
+        ("system-integrations", "/docs/system/integrations", "ChurchSuite, maps & bulletins"),
+        ("system-logging", "/docs/system/logging", "Logging & monitoring"),
+        ("system-operations", "/docs/system/operations", "Operations & known issues"),
+    };
+}
+<details open>
+    <summary>Documentation menu</summary>
+    <p class="fcd__group">Start here</p>
+    <ul class="fc-sidenav">
+        <li><a href="/docs" aria-current="@Current("home")">Documentation home</a></li>
+    </ul>
+
+    <p class="fcd__group">Guides</p>
+    <ul class="fc-sidenav">
+        <li><a href="/docs/visitors" aria-current="@Current("visitors")">Visitors</a></li>
+        <li><a href="/docs/church-admins" aria-current="@Current("church-admins")">Church administrators</a></li>
+        <li><a href="/docs/site-admins" aria-current="@Current("site-admins")">Website administrators @if (!isSiteAdmin) { <span class="fcd__lock">🔒 admin</span> }</a></li>
+    </ul>
+
+    <p class="fcd__group">System reference</p>
+    @if (isSuperAdmin)
+    {
+        <ul class="fc-sidenav">
+            @foreach (var (key, href, label) in systemPages)
+            {
+                <li><a href="@href" aria-current="@Current(key)">@label</a></li>
+            }
+        </ul>
+    }
+    else
+    {
+        <p class="fc-small fc-muted" style="padding: 0 14px; line-height: 1.5">
+            How the system works, security, keys and data handling. Visible to SuperAdmin accounts after signing in.
+        </p>
+    }
+</details>

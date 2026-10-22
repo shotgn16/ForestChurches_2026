@@ -1,0 +1,43 @@
+@* Documentation shell: the normal public site layout, with a docs sidebar and a content column.
+   Pages set ViewData["Title"], ViewData["DocsPage"] (for the active nav item), ViewData["DocsEyebrow"]
+   and ViewData["DocsLead"]. *@
+@{
+    Layout = "/Pages/Shared/_Layout.cshtml";
+}
+
+@section Head {
+    <link rel="stylesheet" href="~/css/docs.css" asp-append-version="true" />
+    <meta name="description" content="@(ViewData["DocsLead"] ?? "Forest Churches help and documentation")" />
+}
+
+<div class="fc-container fcd">
+    <div class="fcd__layout">
+        <aside class="fcd__side" aria-label="Documentation">
+            <partial name="/Pages/Docs/_DocsNav.cshtml" />
+        </aside>
+
+        <article class="fcd__main">
+            <header class="fcd__head">
+                <span class="fc-eyebrow">@(ViewData["DocsEyebrow"] ?? "Help & documentation")</span>
+                <h1>@ViewData["Title"]</h1>
+                @if (ViewData["DocsLead"] is string lead)
+                {
+                    <p class="fc-lead">@lead</p>
+                }
+                @if (ViewData["DocsAudience"] is string audience)
+                {
+                    <div class="fcd__meta">
+                        <span class="fc-badge fc-badge--moss">For: @audience</span>
+                        <span class="fc-badge fc-badge--ok">Matches the Forest Floor design (October 2026)</span>
+                    </div>
+                }
+            </header>
+
+            @RenderBody()
+        </article>
+    </div>
+</div>
+
+@section Scripts {
+    @RenderSection("Scripts", required: false)
+}

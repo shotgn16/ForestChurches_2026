@@ -1,0 +1,311 @@
+@page "/docs/site-admins"
+@model ForestChurches.Pages.Docs.DocsSiteAdminModel
+@{
+    ViewData["Title"] = "Website administrator guide";
+    ViewData["DocsPage"] = "site-admins";
+    ViewData["DocsEyebrow"] = "Guide · Website administrators";
+    ViewData["DocsAudience"] = "Admin and SuperAdmin accounts";
+    ViewData["DocsLead"] = "Running Forest Churches day to day: bringing churches on board, managing users and roles, looking after listings, events and bulletins, and checking that emails are going out.";
+}
+
+<nav class="fcd-toc" aria-label="On this page">
+    <strong>On this page</strong>
+    <ol>
+        <li><a href="#access">Account levels and what they can open</a></li>
+        <li><a href="#opening">Opening Site admin</a></li>
+        <li><a href="#dashboard">Dashboard</a></li>
+        <li><a href="#onboarding">Bringing a new church on board</a></li>
+        <li><a href="#invitations">Invitations (the whitelist)</a></li>
+        <li><a href="#users">Users</a></li>
+        <li><a href="#roles">Roles and permissions</a></li>
+        <li><a href="#churches">Churches</a></li>
+        <li><a href="#events">Events</a></li>
+        <li><a href="#bulletins">Bulletins</a></li>
+        <li><a href="#emails">Sending emails</a></li>
+        <li><a href="#delivery">Email delivery</a></li>
+        <li><a href="#logs">Logs</a></li>
+        <li><a href="#tools">Other tools: Hangfire, Elmah, health</a></li>
+        <li><a href="#practice">Good practice</a></li>
+        <li><a href="#help">Troubleshooting</a></li>
+    </ol>
+</nav>
+
+<section class="fcd-section" id="access">
+    <h2>Account levels and what they can open</h2>
+    <p>Every page checks a <strong>permission</strong>. Roles are bundles of permissions. The three built-in roles are created automatically when the site starts, with these permissions:</p>
+    <ul>
+        <li><strong>SuperAdmin</strong> (shown as <em>Developer</em> in Users): every permission.</li>
+        <li><strong>Admin</strong> (shown as <em>Administrator</em>): only <code>Admin.Read</code>.</li>
+        <li><strong>AuthorizedChurch</strong> (shown as <em>Approved church</em>): <code>UserEvents.View</code>, <code>UserEvents.Add</code>, <code>UserEvents.Edit</code>.</li>
+        <li>No role (shown as <em>Waiting for approval</em>): signed in, but no admin or events pages.</li>
+    </ul>
+    <div class="fcd-table-wrap">
+        <table class="fcd-table">
+            <thead><tr><th>Site admin page</th><th>Needs</th><th>Admin</th><th>SuperAdmin</th></tr></thead>
+            <tbody>
+                <tr><td>Dashboard, Invitations, Churches (incl. edit and reset), Bulletins, Email delivery, Logs, Changelog</td><td><code>Admin.Read</code></td><td class="fcd-yes">Yes</td><td class="fcd-yes">Yes</td></tr>
+                <tr><td>Users (list, download)</td><td><code>UserManagement.Read</code></td><td class="fcd-no">No</td><td class="fcd-yes">Yes</td></tr>
+                <tr><td>Create a user</td><td><code>UserManagement.Write</code></td><td class="fcd-no">No</td><td class="fcd-yes">Yes</td></tr>
+                <tr><td>Edit a user, delete a user</td><td><code>UserManagement.Edit</code> <em>and</em> the SuperAdmin role</td><td class="fcd-no">No</td><td class="fcd-yes">Yes</td></tr>
+                <tr><td>Roles list / edit permissions</td><td><code>RoleManagement.Read</code> / <code>RoleManagement.Write</code></td><td class="fcd-no">No</td><td class="fcd-yes">Yes</td></tr>
+                <tr><td>Events list / add / edit</td><td><code>EventManagement.Read</code> / <code>.Write</code> / <code>.Edit</code></td><td class="fcd-no">No</td><td class="fcd-yes">Yes</td></tr>
+                <tr><td>Emails (send to users)</td><td>The SuperAdmin role</td><td class="fcd-no">No</td><td class="fcd-yes">Yes</td></tr>
+                <tr><td>Church admin: My Events</td><td><code>UserEvents.View</code> (Add/Edit for those actions)</td><td class="fcd-no">No</td><td class="fcd-yes">Yes</td></tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="fcd-note"><p>The Site admin menu shows every item to Admin accounts, but the pages they don't have permission for show "Access denied". Give an Admin account more permissions in <a href="#roles">Roles</a> if needed. <code>User.View</code> exists but no page uses it yet.</p></div>
+</section>
+
+<section class="fcd-section" id="opening">
+    <h2>Opening Site admin</h2>
+    <ol>
+        <li>Sign in with <span class="ui">Church login</span>.</li>
+        <li>Select <span class="ui">Admin</span> in the header, or <span class="ui">Site admin →</span> at the bottom of the Church admin menu.</li>
+    </ol>
+    <p>The dark top bar shows a <span class="fc-badge fc-badge--glass" style="background:var(--fc-band);color:var(--fc-on-band)">Site admin</span> tag, links to <span class="ui">Church admin</span> and <span class="ui">Back to site</span>, the light/dark switch, your email and <span class="ui">Logout</span>. The left-hand menu has Dashboard, Users, Roles, Invitations, Churches, Events, Bulletins, Emails, Email delivery, Logs and Changelog.</p>
+    <p>After each action a message at the top confirms what happened: green for success, red for an error, amber for a warning.</p>
+</section>
+
+<section class="fcd-section" id="dashboard">
+    <h2>Dashboard</h2>
+    <ul>
+        <li><strong>At a glance</strong>: <span class="ui">Churches</span> (total, and how many are listed in search), <span class="ui">Events</span> (total and upcoming), <span class="ui">Pending invitations</span> and <span class="ui">Newest member</span>.</li>
+        <li><strong>System health</strong>: the website's <span class="ui">CPU</span> and <span class="ui">Memory</span> (refreshed every 10 seconds while the tab is visible) and the size of the <span class="ui">Database</span> and <span class="ui">Log database</span> in MB. "Live figures aren't available right now" means the stats endpoint couldn't be reached; the rest of the page still works.</li>
+        <li><strong>Recently added churches</strong> and <strong>Upcoming events</strong>, each with <span class="ui">View all</span>.</li>
+        <li>Shortcuts: <span class="ui">Invite a church</span> and <span class="ui">+ Add an event</span>.</li>
+    </ul>
+    <figure class="fcd-shot">
+        <img src="~/img/docs/admin-dashboard.png" alt="The Site admin dashboard with At a glance figures, System health, recently added churches and upcoming events" loading="lazy" />
+        <figcaption>The dashboard (CPU and memory read "—" in the screenshot because there was no live server behind it).</figcaption>
+    </figure>
+</section>
+
+<section class="fcd-section" id="onboarding">
+    <h2>Bringing a new church on board</h2>
+    <ol class="fc-steps" style="margin-bottom:18px">
+        <li><span class="fc-steps__title">Invite</span><span>In <span class="ui">Invitations</span>, enter the contact's email and select <span class="ui">Send invitation</span>.</span></li>
+        <li><span class="fc-steps__title">They register</span><span>They open the link within 24 hours and create an account with that same address.</span></li>
+        <li><span class="fc-steps__title">They confirm</span><span>They follow the confirmation email within 2 hours. This automatically gives them the AuthorizedChurch role.</span></li>
+        <li><span class="fc-steps__title">Check the listing</span><span>In <span class="ui">Churches</span>, check the details and use <span class="ui">View public page ↗</span>.</span></li>
+    </ol>
+    <div class="fcd-note fcd-note--warn"><p>A new church starts as <em>Default Church</em>, address <em>TBA</em>, every facility on, status <em>Open</em>. It's live from the moment they register. Encourage them to complete <span class="ui">My Church</span> straight away, or edit it for them in <a href="#churches">Churches</a>.</p></div>
+    <p>If the confirmation email doesn't arrive, they can use <span class="ui">Resend Confirmation Email</span> on the login page, or you can tick a role for them in <a href="#users">Users → Edit</a>, which confirms the account immediately.</p>
+</section>
+
+<section class="fcd-section" id="invitations">
+    <h2>Invitations (the whitelist)</h2>
+    <p>Only email addresses on this list can register. To invite, enter the address under <span class="ui">Invite a church</span> and select <span class="ui">Send invitation</span>. They receive a <em>You're Invited</em> email with a link that lasts 24 hours.</p>
+    <p>The list shows each address with its status:</p>
+    <ul>
+        <li><span class="fc-badge fc-badge--warn">Waiting</span>: invited, not registered yet. <span class="ui">Link expires</span> shows when.</li>
+        <li><span class="fc-badge fc-badge--danger">Link expired</span>: the 24 hours have passed. Select <span class="ui">Resend link</span> to email a new 24-hour link.</li>
+        <li><span class="fc-badge fc-badge--ok">Registered</span>: they've created their account; <span class="ui">Registered</span> shows when.</li>
+    </ul>
+    <p><span class="ui">Remove</span> deletes the invitation after you confirm, and the address can no longer register.</p>
+    <figure class="fcd-shot">
+        <img src="~/img/docs/admin-invitations.png" alt="The Invitations page with an invite form and a list of invited addresses" loading="lazy" />
+        <figcaption>Invitations.</figcaption>
+    </figure>
+    <div class="fcd-note"><p>An address that has already registered can't use another invitation. Don't invite the same address twice: remove the old entry first, or use <span class="ui">Resend link</span>.</p></div>
+</section>
+
+<section class="fcd-section" id="users">
+    <h2>Users</h2>
+    <p><span class="ui">Users</span> lists every account with its picture, email, phone, status (<em>Developer</em>, <em>Administrator</em>, <em>Approved church</em> or <em>Waiting for approval</em>), roles and whether the email is confirmed. Each row has <span class="ui">Edit</span>, <span class="ui">Download</span> and <span class="ui">Delete</span>.</p>
+    <figure class="fcd-shot">
+        <img src="~/img/docs/admin-users.png" alt="The Users page listing accounts with status badges and actions" loading="lazy" />
+        <figcaption>Users.</figcaption>
+    </figure>
+    <h3>Creating a user directly</h3>
+    <p>For another administrator, or anyone who needs an account without an invitation:</p>
+    <ol>
+        <li>Under <span class="ui">Create a user</span>, enter their email and select <span class="ui">Continue</span>.</li>
+        <li>Enter and confirm a password (12+ characters, upper and lower case, a number and a symbol).</li>
+        <li>Tick their <span class="ui">Roles</span>, optionally add a <span class="ui">Profile picture</span>, and select <span class="ui">Create a user</span>.</li>
+    </ol>
+    <p>The account is confirmed immediately, an empty church listing is created for it, and the person gets a <em>Thanks for Registering</em> email. Share the password with them securely and ask them to change it.</p>
+    <h3>Editing a user (SuperAdmin)</h3>
+    <ul>
+        <li><span class="ui">Email</span> and <span class="ui">Phone</span>.</li>
+        <li><span class="ui">Roles</span>: giving someone any role also confirms their account.</li>
+        <li><span class="ui">Email confirmed</span>: only used when the user has no roles.</li>
+        <li><span class="ui">New password</span>: sets a password for them. Leave it empty to keep their current one.</li>
+    </ul>
+    <figure class="fcd-shot fcd-shot--half">
+        <img src="~/img/docs/admin-user-edit.png" alt="The Edit user page with email, phone, roles, email confirmed switch and new password" loading="lazy" />
+        <figcaption>Edit user.</figcaption>
+    </figure>
+    <h3>Downloading and deleting</h3>
+    <p><span class="ui">Download</span> saves the account's username, email, phone, confirmation status, roles and stored picture as JSON, which is useful for data-access requests. <span class="ui">Delete</span> (SuperAdmin only) permanently removes the account and its church listing after you confirm. The account's events aren't linked to it in the database, so delete them in <a href="#events">Events</a> too. Never delete a SuperAdmin (<em>Developer</em>) account.</p>
+</section>
+
+<section class="fcd-section" id="roles">
+    <h2>Roles and permissions</h2>
+    <p><span class="ui">Roles</span> lists each role and its permissions.</p>
+    <ul>
+        <li><span class="ui">Create role</span>: enter a <span class="ui">Role name</span>.</li>
+        <li><span class="ui">Edit permissions</span>: switch permissions on or off, then <span class="ui">Save changes</span>. Changes apply on the user's next request; they don't need to sign in again.</li>
+        <li><span class="ui">Delete</span>: only possible when no user has the role.</li>
+    </ul>
+    <div class="fcd-shots">
+        <figure class="fcd-shot"><img src="~/img/docs/admin-roles.png" alt="The Roles page listing three roles with their permissions" loading="lazy" /><figcaption>Roles.</figcaption></figure>
+        <figure class="fcd-shot"><img src="~/img/docs/admin-role-edit.png" alt="Editing the permissions of the AuthorizedChurch role with switches" loading="lazy" /><figcaption>Edit permissions.</figcaption></figure>
+    </div>
+    <div class="fcd-note fcd-note--warn"><p>Don't rename or delete <code>SuperAdmin</code>, <code>Admin</code> or <code>AuthorizedChurch</code>. The site checks for them by name: email confirmation grants <code>AuthorizedChurch</code>, menus check <code>Admin</code>/<code>SuperAdmin</code>, and several pages require <code>SuperAdmin</code>. The roles are only seeded with permissions when they don't exist yet, so if you change their permissions your changes are kept across restarts.</p></div>
+</section>
+
+<section class="fcd-section" id="churches">
+    <h2>Churches</h2>
+    <p><span class="ui">Churches</span> shows every listing with its status, denomination, congregation, owning account, address, phone, website, ChurchSuite link, facilities and (expandable) description. Statuses: <span class="fc-badge fc-badge--ok">Listed</span> (open, in search), <span class="fc-badge fc-badge--warn">Hidden</span> (closed by the church), <span class="fc-badge fc-badge--danger">Not set up</span> (reset).</p>
+    <ul>
+        <li><span class="ui">View public page ↗</span>: opens the church page.</li>
+        <li><span class="ui">Edit</span>: change any detail or facility, then <span class="ui">Save changes</span>. Service times and the logo are managed by the church in My Church.</li>
+        <li><span class="ui">Download</span>: the church's details and service times as JSON.</li>
+        <li><span class="ui">Reset listing</span>: after you confirm, replaces the details with defaults and sets the status to <em>Not set up</em>, which hides it from search. The account isn't deleted.</li>
+    </ul>
+    <figure class="fcd-shot">
+        <img src="~/img/docs/admin-churches.png" alt="The Churches page listing church cards with status badges and actions" loading="lazy" />
+        <figcaption>Churches.</figcaption>
+    </figure>
+</section>
+
+<section class="fcd-section" id="events">
+    <h2>Events</h2>
+    <p><span class="ui">Events</span> lists every church's events under <span class="ui">Upcoming events</span> and <span class="ui">Past events</span>, with name, location, when, repeat pattern, church and owning account.</p>
+    <ul>
+        <li><span class="ui">+ Add an event</span>: choose the <span class="ui">Church account</span>; the event is listed under that account's church and its owner gets an <em>Event Created</em> email. Other fields work as in the <a href="/docs/church-admins#events">church guide</a>. If you don't upload an image, a default one is used.</li>
+        <li><span class="ui">Edit</span>: leave the image empty to keep the current picture.</li>
+        <li><span class="ui">Download</span>: the event as JSON. <span class="ui">Delete</span>: removes it after you confirm (no email is sent).</li>
+    </ul>
+    <figure class="fcd-shot">
+        <img src="~/img/docs/admin-events.png" alt="The Events page with upcoming and past events" loading="lazy" />
+        <figcaption>Events.</figcaption>
+    </figure>
+    <div class="fcd-note fcd-note--warn"><p><strong>Past events aren't removed automatically at the moment.</strong> This version of the site no longer schedules the clean-up jobs. Even where an older schedule survives in Hangfire, the delete step fails before removing anything. Past events stay listed until someone deletes them, so check <span class="ui">Past events</span> regularly. SuperAdmins: see <a href="/docs/system/jobs#cleanup">Hangfire &amp; background services</a>.</p></div>
+</section>
+
+<section class="fcd-section" id="bulletins">
+    <h2>Bulletins</h2>
+    <h3>Creating or editing</h3>
+    <ol>
+        <li>Open <span class="ui">Bulletins</span> and select <span class="ui">+ New bulletin</span>, or <span class="ui">Edit</span>.</li>
+        <li>Choose the <span class="ui">Type</span>: <em>Announcement</em>, <em>Message</em>, or <em>Weekly bulletin (pew sheet)</em>, which adds the <span class="ui">Pew sheet</span> card (<span class="ui">Parish or benefice</span>, <span class="ui">Sunday or service name</span>, <span class="ui">First reading</span>, <span class="ui">Gospel</span>, <span class="ui">Hymns</span>, <span class="ui">The Collect</span>).</li>
+        <li>Set the <span class="ui">Date</span> and <span class="ui">Title</span>; fill in <span class="ui">Message or pastoral note</span> and <span class="ui">Notices or links</span> (one per line; hymns too).</li>
+        <li>Optionally upload a <span class="ui">PDF version</span>. A new upload replaces the old one.</li>
+        <li>Select <span class="ui">Save changes</span>.</li>
+    </ol>
+    <figure class="fcd-shot">
+        <img src="~/img/docs/admin-bulletin-edit.png" alt="The Edit bulletin form with Details, Pew sheet and PDF version cards" loading="lazy" />
+        <figcaption>Edit bulletin.</figcaption>
+    </figure>
+    <h3>Making it live and showing the banner</h3>
+    <ul>
+        <li><span class="ui">Make live</span>: makes that bulletin the one on the public <span class="ui">Bulletin</span> page (only one is live; it shows a <span class="fc-badge fc-badge--ok">Live</span> badge).</li>
+        <li><span class="ui">Show banner</span> / <span class="ui">Hide banner</span>: the "New bulletin" strip under the site header. Showing it on one bulletin hides it on all others and makes that bulletin live.</li>
+        <li><span class="ui">Show banner until</span>: pick a date and time and select <span class="ui">Set</span>; the banner hides itself after that. Leave it empty to keep it up.</li>
+        <li><span class="ui">Delete</span>: removes a bulletin (its PDF file stays on the server).</li>
+    </ul>
+    <figure class="fcd-shot">
+        <img src="~/img/docs/admin-bulletins.png" alt="The Bulletins list with Live badge and banner controls" loading="lazy" />
+        <figcaption>Bulletins.</figcaption>
+    </figure>
+    <div class="fcd-note"><p>A new bulletin is saved as live, without switching the others off, and the public page shows the live bulletin with the <strong>latest date</strong>. If you're drafting ahead with a future date, select <span class="ui">Make live</span> on the bulletin you want visitors to see now; that switches every other bulletin off.</p></div>
+</section>
+
+<section class="fcd-section" id="emails">
+    <h2>Sending emails (SuperAdmin)</h2>
+    <ol>
+        <li>Open <span class="ui">Emails</span> and choose who to <span class="ui">Send to</span>: one user, or <span class="ui">All users</span>.</li>
+        <li>Enter your name in <span class="ui">Sign off as</span>, write the <span class="ui">Message</span>, and select <span class="ui">Send message</span>.</li>
+    </ol>
+    <p>Each recipient gets an email titled <em>Forest Church Administration Team</em> from info@@forestchurches.co.uk. "All users" sends one email per account, including administrators. The green message means the emails were handed to the email app; use <span class="ui">Check delivery</span> to confirm they went out.</p>
+    <figure class="fcd-shot fcd-shot--half">
+        <img src="~/img/docs/admin-emails.png" alt="The Emails page with Send to, Sign off as and Message fields" loading="lazy" />
+        <figcaption>Emails.</figcaption>
+    </figure>
+</section>
+
+<section class="fcd-section" id="delivery">
+    <h2>Email delivery</h2>
+    <p>The website doesn't send email itself. It hands every email (invitations, confirmations, password resets, event emails, church details, contact messages, your messages) to the separate <strong>email app</strong> at <code>api.forestchurches.co.uk</code>, which queues them and sends a batch every 5 minutes. This page shows whether each hand-over worked and what happened next.</p>
+    <figure class="fcd-shot">
+        <img src="~/img/docs/admin-email-delivery.png" alt="The Email delivery page with the email app health card, a list of recent emails and their statuses, and a status key" loading="lazy" />
+        <figcaption>Email delivery.</figcaption>
+    </figure>
+    <h3>The Email app card</h3>
+    <p>Shows <span class="fc-badge fc-badge--ok">Working</span> or <span class="fc-badge fc-badge--danger">Problem</span>, the response time, how many emails are <span class="ui">Waiting in queue</span>, the <span class="ui">Last send run</span>, and its sent/failed totals. A problem message explains the cause: unreachable, rejected the site's sign-in token, or an older email app without delivery checks. <span class="ui">Refresh</span> re-checks.</p>
+    <h3>What the statuses mean</h3>
+    <div class="fcd-table-wrap">
+        <table class="fcd-table">
+            <thead><tr><th>Status</th><th>Meaning</th><th>What to do</th></tr></thead>
+            <tbody>
+                <tr><td>Handing over</td><td>The website is still posting it to the email app (up to 3 attempts).</td><td>Wait a minute and refresh.</td></tr>
+                <tr><td>Received</td><td>The email app confirmed it has it.</td><td>Select <span class="ui">Check</span> after 5 minutes.</td></tr>
+                <tr><td>Waiting to send</td><td>Queued, or retrying after a failed send.</td><td>It goes out on the next run (every 5 minutes).</td></tr>
+                <tr><td>Sent</td><td>Handed to the mail server.</td><td>If it hasn't arrived, the recipient should check spam.</td></tr>
+                <tr><td>Not received</td><td>All 3 hand-over attempts failed; the email app never got it.</td><td>Fix the email app (see the card), then ask the person to repeat what they did.</td></tr>
+                <tr><td>Couldn't send</td><td>The email app had it but the mail server refused it 3 times.</td><td>Read the error: usually a bad address or a template problem.</td></tr>
+                <tr><td>No record</td><td>The email app doesn't know it, usually because it restarted (its queue is in memory).</td><td>Ask the person to repeat what they did.</td></tr>
+            </tbody>
+        </table>
+    </div>
+    <p>Actions: <span class="ui">Check</span> asks the email app about one email; <span class="ui">Check unfinished</span> checks every received-but-not-finished email (up to 50); <span class="ui">Logs</span> opens the log lines for that email's tracking ID.</p>
+    <div class="fcd-note"><p>The list holds the newest 500 emails since the website last started (it's kept in memory). For older emails, search <a href="#logs">Logs</a> for the recipient's address or the tracking ID.</p></div>
+</section>
+
+<section class="fcd-section" id="logs">
+    <h2>Logs</h2>
+    <p><span class="ui">Logs</span> shows the website's log entries, newest first, 50 per page. New entries appear at the top while the page is open.</p>
+    <ul>
+        <li><span class="ui">Search the logs</span>: an email address, tracking ID or error text, then <span class="ui">Search</span>. It matches the message, exception and level.</li>
+        <li>Select a row to see its full details; <span class="ui">Previous</span> / <span class="ui">Next</span> to page.</li>
+        <li><span class="ui">Download logs</span>: choose <span class="ui">From</span> and <span class="ui">To</span> dates and download a CSV (it respects the search text).</li>
+    </ul>
+    <p>Rows are coloured grey for debug, amber for warnings and red for errors.</p>
+    <div class="fcd-note fcd-note--warn"><p>If searching or downloading shows an error, it's a known issue: the search looks for <code>Level</code>, <code>Url</code> and <code>Action</code> columns that the log table may not have. Browsing the unfiltered list still works, and SuperAdmins can search the same logs in Grafana Loki. See <a href="/docs/system/logging">Logging &amp; monitoring</a>.</p></div>
+    <figure class="fcd-shot">
+        <img src="~/img/docs/admin-logs.png" alt="The Logs page with search, date range download and a coloured table of entries" loading="lazy" />
+        <figcaption>Logs.</figcaption>
+    </figure>
+    <p><span class="ui">Changelog</span> lists what changed in each release.</p>
+</section>
+
+<section class="fcd-section" id="tools">
+    <h2>Other tools: Hangfire, Elmah, health</h2>
+    <ul>
+        <li><strong>/hangfire</strong>: the background-job dashboard. It has its own username and password (the system administrator's), separate from site accounts. See <a href="/docs/system/jobs">Hangfire &amp; background services</a>.</li>
+        <li><strong>/elmah</strong>: the error log viewer, for signed-in SuperAdmins.</li>
+        <li><strong>/health</strong>: returns <code>ok</code> when the website can reach its database, or <code>degraded</code> (HTTP 503) when it can't. Useful for uptime monitors.</li>
+    </ul>
+</section>
+
+<section class="fcd-section" id="practice">
+    <h2>Good practice</h2>
+    <ul>
+        <li>Turn on two-factor authentication for every administrator account. The site doesn't lock accounts after wrong passwords, so 2FA is the main protection.</li>
+        <li>Give people the lowest role they need. Most church contacts only need <code>AuthorizedChurch</code>.</li>
+        <li>Remove invitations that are no longer needed.</li>
+        <li>Check <span class="ui">Email delivery</span> after any change to hosting, email or keys.</li>
+        <li>Review <span class="ui">Past events</span> and new "Default Church" listings regularly, as automatic clean-up isn't working.</li>
+        <li>Downloads (users, churches, events, logs) contain personal data. Store them securely and delete them when done.</li>
+    </ul>
+</section>
+
+<section class="fcd-section" id="help">
+    <h2>Troubleshooting</h2>
+    <div class="fcd-table-wrap">
+        <table class="fcd-table">
+            <thead><tr><th>Problem</th><th>Check</th></tr></thead>
+            <tbody>
+                <tr><td>A church can't open My Events</td><td>In Users, the account needs the AuthorizedChurch role. Ticking it also confirms the account.</td></tr>
+                <tr><td>A church never got the invitation</td><td>Email delivery, then <span class="ui">Resend link</span>.</td></tr>
+                <tr><td>"Email is already registered or the registration has expired"</td><td>The invitation expired or was used. Resend it, or remove and re-add the address.</td></tr>
+                <tr><td>A church doesn't appear in search</td><td>It must be <em>Listed</em>, and its address must include a postcode Google can find.</td></tr>
+                <tr><td>"Access denied" on a Site admin page</td><td>The account's role lacks that permission (see the table above).</td></tr>
+                <tr><td>Email app card shows a problem</td><td>Unreachable: is the email app running? Token rejected: both apps must share the same JWT signing key, issuer and audience. Older version: deploy the latest EmailManagement.</td></tr>
+                <tr><td>Past events not disappearing</td><td>Expected in this version; delete them by hand.</td></tr>
+            </tbody>
+        </table>
+    </div>
+</section>

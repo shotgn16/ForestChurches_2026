@@ -1,0 +1,167 @@
+@page "/docs/system/accounts"
+@model ForestChurches.Pages.Docs.DocsSystemModel
+@{
+    ViewData["Title"] = "Accounts, roles & whitelisting";
+    ViewData["DocsPage"] = "system-accounts";
+    ViewData["DocsEyebrow"] = "System reference · SuperAdmin";
+    ViewData["DocsAudience"] = "SuperAdmin / system administrators";
+    ViewData["DocsLead"] = "How sign-in works, how roles and permissions are checked, and exactly what happens from the moment a church is invited to the moment it can manage its page.";
+}
+
+<nav class="fcd-toc" aria-label="On this page">
+    <strong>On this page</strong>
+    <ol>
+        <li><a href="#identity">ASP.NET Core Identity set-up</a></li>
+        <li><a href="#permissions">Roles and permissions</a></li>
+        <li><a href="#superadmin">The seeded SuperAdmin account</a></li>
+        <li><a href="#whitelist">Whitelisting and registration, step by step</a></li>
+        <li><a href="#ids">Encrypted IDs in URLs and forms</a></li>
+        <li><a href="#deletion">Deleting accounts</a></li>
+    </ol>
+</nav>
+
+<section class="fcd-section" id="identity">
+    <h2>ASP.NET Core Identity set-up</h2>
+    <ul>
+        <li>User type <code>ChurchAccount</code> extends <code>IdentityUser&lt;string&gt;</code> with <code>CreatedDate</code>, <code>ImageArray</code> (legacy picture bytes), <code>ImageBlobName</code>, <code>Role</code> (a display copy of the role name), <code>ClientId</code> (ChurchSuite) and a one-to-one <code>ChurchInformation</code>. Role type <code>ChurchRoles</code> adds <code>RolePermissions</code>.</li>
+        <li><code>AddDefaultIdentity</code> with <code>RequireConfirmedAccount = true</code>: an account can't sign in until its email is confirmed. The default UI's conventions require sign-in for every <code>Account/Manage</code> page.</li>
+        <li>Passwords: at least 12 characters with a digit, a lower-case letter, an upper-case letter and a symbol. Hashing is Identity's default (PBKDF2 with a per-user salt, Identity v3 format).</li>
+        <li>Token lifetime: <code>DataProtectionTokenProviderOptions.TokenLifespan = 2 hours</code>. This covers email-confirmation, password-reset and change-email tokens.</li>
+        <li><strong>Lockout is not applied</strong>: sign-in calls use <code>lockoutOnFailure: false</code>, so repeated wrong passwords never lock an account.</li>
+        <li>Authentication cookie: Identity defaults (14-day lifetime) with <code>SlidingExpiration = false</code>, <code>Secure</code> always and <code>SameSite=None</code>. "Keep me signed in" makes it persistent; otherwise it's a session cookie.</li>
+        <li>Two-factor authentication: Identity's TOTP authenticator with recovery codes, optional per user.</li>
+    </ul>
+</section>
+
+<section class="fcd-section" id="permissions">
+    <h2>Roles and permissions</h2>
+    <p>Authorisation is permission-based. The tables involved:</p>
+    <div class="fcd-table-wrap">
+        <table class="fcd-table">
+            <thead><tr><th>Table</th><th>Holds</th></tr></thead>
+            <tbody>
+                <tr><td><code>AspNetRoles</code></td><td>Roles (<code>ChurchRoles</code>), GUID string IDs.</td></tr>
+                <tr><td><code>AspNetUserRoles</code></td><td>Which users have which roles.</td></tr>
+                <tr><td><code>Permissions</code></td><td>One row per permission name (<code>Id</code>, <code>Name</code>, <code>Description</code>).</td></tr>
+                <tr><td><code>RolePermissions</code></td><td>Join table (<code>RoleId</code>, <code>PermissionId</code>, <code>PermissionName</code>).</td></tr>
+            </tbody>
+        </table>
+    </div>
+    <h3>How a check works</h3>
+    <ol>
+        <li>A page declares a policy, for example <code>[Authorize(Policy = "Admin.Read")]</code>.</li>
+        <li>Each policy (defined in <code>PolicyConfiguration.AddPolicies</code>) carries a <code>CustomAuthorizeAttribute</code> requirement with the permission name.</li>
+        <li><code>PermissionAuthorizationHandler</code> loads the signed-in user, gets their role names, and asks the database whether any <code>RolePermissions</code> row links one of those roles to that permission name (case-insensitive).</li>
+        <li>If yes, the requirement succeeds. The check runs on every request, so permission changes apply immediately.</li>
+    </ol>
+    <h3>The permission list</h3>
+    <p>Permissions are constants in <code>Components/Permissions/AppPermissions.cs</code>. At start-up the seeder finds them by reflection and inserts any that are missing.</p>
+    <div class="fcd-table-wrap">
+        <table class="fcd-table">
+            <thead><tr><th>Permission</th><th>Used by</th><th>SuperAdmin</th><th>Admin</th><th>AuthorizedChurch</th></tr></thead>
+            <tbody>
+                <tr><td><code>Admin.Read</code></td><td>Dashboard, Invitations, Churches, Bulletins, Email delivery, Logs, Changelog, <code>/api/SystemStats</code></td><td class="fcd-yes">✓</td><td class="fcd-yes">✓</td><td class="fcd-no">–</td></tr>
+                <tr><td><code>UserManagement.Read / .Write / .Edit</code></td><td>Users list / create / edit</td><td class="fcd-yes">✓</td><td class="fcd-no">–</td><td class="fcd-no">–</td></tr>
+                <tr><td><code>RoleManagement.Read / .Write</code></td><td>Roles list / edit permissions</td><td class="fcd-yes">✓</td><td class="fcd-no">–</td><td class="fcd-no">–</td></tr>
+                <tr><td><code>EventManagement.Read / .Write / .Edit</code></td><td>Admin events list / create / edit</td><td class="fcd-yes">✓</td><td class="fcd-no">–</td><td class="fcd-no">–</td></tr>
+                <tr><td><code>UserEvents.View / .Add / .Edit</code></td><td>Church admin: My Events / add / edit</td><td class="fcd-yes">✓</td><td class="fcd-no">–</td><td class="fcd-yes">✓</td></tr>
+                <tr><td><code>User.View</code></td><td>Defined, not used by any page</td><td class="fcd-yes">✓</td><td class="fcd-no">–</td><td class="fcd-no">–</td></tr>
+            </tbody>
+        </table>
+    </div>
+    <p>The default grants are only written when a built-in role is first created; later edits in Site admin → Roles persist. Some pages also check role <em>names</em> directly: Emails (<code>Roles = "SuperAdmin"</code>), editing and deleting users (SuperAdmin), Elmah (SuperAdmin), menus (Admin/SuperAdmin/AuthorizedChurch) and email confirmation (adds <code>AuthorizedChurch</code>). New permissions need code: a constant, a policy in <code>PolicyConfiguration</code>, and an <code>[Authorize]</code> attribute.</p>
+</section>
+
+<section class="fcd-section" id="superadmin">
+    <h2>The seeded SuperAdmin account</h2>
+    <p>At start-up, if no user exists with the email in the <code>sys-admin-username</code> secret, the seeder creates one with password <code>sys-admin-password</code>, confirms it, and gives it the SuperAdmin role and a placeholder "Default Church" listing. That listing is <strong>Open</strong>, with a made-up address, phone and service times, so it can appear in public search results until you close or edit it. The same username and password protect the Hangfire dashboard. Changing the password in Key Vault doesn't change the existing account's password; change it in the app as well.</p>
+</section>
+
+<section class="fcd-section" id="whitelist">
+    <h2>Whitelisting and registration, step by step</h2>
+    <figure class="fcd-diagram">
+        <svg viewBox="0 0 960 300" role="img" aria-labelledby="reg-t">
+            <title id="reg-t">Invitation and registration flow</title>
+            <defs><marker id="ah2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" class="arrow" /></marker></defs>
+            <rect x="10" y="40" width="170" height="110" rx="12" class="box--bark" />
+            <text x="95" y="68" text-anchor="middle" class="t">1. Invite</text>
+            <text x="95" y="90" text-anchor="middle" class="s">Admin → Invitations</text>
+            <text x="95" y="108" text-anchor="middle" class="s">WhitelistedUsers row</text>
+            <text x="95" y="126" text-anchor="middle" class="s">Status Pending, +24 h</text>
+            <rect x="200" y="40" width="170" height="110" rx="12" class="box" />
+            <text x="285" y="68" text-anchor="middle" class="t">2. Invite email</text>
+            <text x="285" y="90" text-anchor="middle" class="s">"You're Invited"</text>
+            <text x="285" y="108" text-anchor="middle" class="s">/ValidateToken?token=…</text>
+            <text x="285" y="126" text-anchor="middle" class="s">→ /Identity/Account/register</text>
+            <rect x="390" y="40" width="170" height="110" rx="12" class="box" />
+            <text x="475" y="68" text-anchor="middle" class="t">3. Register</text>
+            <text x="475" y="90" text-anchor="middle" class="s">email on whitelist,</text>
+            <text x="475" y="108" text-anchor="middle" class="s">Pending, not expired</text>
+            <text x="475" y="126" text-anchor="middle" class="s">user + church created</text>
+            <rect x="580" y="40" width="170" height="110" rx="12" class="box" />
+            <text x="665" y="68" text-anchor="middle" class="t">4. Confirm email</text>
+            <text x="665" y="90" text-anchor="middle" class="s">"Confirm your account"</text>
+            <text x="665" y="108" text-anchor="middle" class="s">encrypted userId + code</text>
+            <text x="665" y="126" text-anchor="middle" class="s">valid 2 hours</text>
+            <rect x="770" y="40" width="180" height="110" rx="12" class="box--dark" />
+            <text x="860" y="68" text-anchor="middle" class="t t--on-dark">5. Church account</text>
+            <text x="860" y="90" text-anchor="middle" class="s s--on-dark">EmailConfirmed = true</text>
+            <text x="860" y="108" text-anchor="middle" class="s s--on-dark">role AuthorizedChurch</text>
+            <text x="860" y="126" text-anchor="middle" class="s s--on-dark">can sign in</text>
+            <line x1="180" y1="95" x2="196" y2="95" class="line" marker-end="url(#ah2)" />
+            <line x1="370" y1="95" x2="386" y2="95" class="line" marker-end="url(#ah2)" />
+            <line x1="560" y1="95" x2="576" y2="95" class="line" marker-end="url(#ah2)" />
+            <line x1="750" y1="95" x2="766" y2="95" class="line" marker-end="url(#ah2)" />
+            <text x="475" y="190" text-anchor="middle" class="lbl">At step 3 the invitation is marked Completed (DateOfRegistration set), so it can't be reused.</text>
+            <text x="475" y="212" text-anchor="middle" class="lbl">Resend link (admin) re-sends step 2 and pushes ExpiryDate to now + 24 h.</text>
+            <text x="475" y="234" text-anchor="middle" class="lbl">Admin → Users → Edit with any role ticked skips step 4 (EmailConfirmed = true).</text>
+        </svg>
+        <figcaption>From invitation to a working church account.</figcaption>
+    </figure>
+    <h3>1. Invite</h3>
+    <p><code>Pages/Admin/Invite.cshtml.cs</code> → <code>OnPostAddWhitelistedUser</code> adds a <code>WhitelistedUsers</code> row: new GUID <code>ID</code>, <code>Email</code>, <code>Status = "Pending"</code>, <code>DateOfRegistration = DateTime.MinValue</code>, <code>ExpiryDate = UtcNow + 24h</code>. <code>RegistrationGenerate.GenerateUrl</code> sets the expiry again and builds <code>/Identity/Account/register?email=…</code>.</p>
+    <h3>2. The invitation email</h3>
+    <p><code>MailSender.SendEmailInviteUser</code> wraps that URL in a <strong>callback token</strong> (see <a href="/docs/system/security#tokens">callback tokens</a>) valid for 24 hours, so the email links to <code>/ValidateToken?token=…</code>, which checks the token and redirects to the registration page. The registration URL itself contains only the email address.</p>
+    <h3>3. Registration (<code>Areas/Identity/Pages/Account/Register.cshtml.cs</code>)</h3>
+    <ol>
+        <li>Allowed only if the address is in <code>WhitelistedUsers</code> and its row is <code>Pending</code> and not past <code>ExpiryDate</code>. The comparison is exact, so invite addresses in lower case.</li>
+        <li>The password is validated, the user is created (picture from the upload, or the default image), and a <code>ChurchInformation</code> row is created: name "Default Church", status <strong>Open</strong>, address "TBA", all facilities true. If optional ChurchSuite fields were posted, it tries to pre-fill from ChurchSuite.</li>
+        <li>If creating the church fails, the new user is deleted again.</li>
+        <li>An email-confirmation token is generated; <code>userId</code> and <code>code</code> are each encrypted with the <code>fc.data.url.email</code> protector and put in the confirmation link.</li>
+        <li>The whitelist row is marked <code>Completed</code> with the registration time, and the "Confirm your account" email is sent.</li>
+    </ol>
+    <h3>4–5. Confirmation (<code>ConfirmEmail.cshtml.cs</code>)</h3>
+    <p>Decrypts the parameters, calls <code>ConfirmEmailAsync</code>, and on success adds the <code>AuthorizedChurch</code> role and sets the user's <code>Role</code> column. There is no separate manual approval step.</p>
+    <h3>Other ways an account is created</h3>
+    <ul>
+        <li><strong>Site admin → Users → Create a user</strong>: no whitelist; confirmed immediately; chosen roles; empty church listing; "Thanks for Registering" email.</li>
+        <li><strong>Sign in with ChurchSuite</strong> (only if the ChurchSuite OAuth scheme is configured): new users go to <code>ExternalLogin</code>, which also requires the email to be on the whitelist.</li>
+        <li><strong>The seeded SuperAdmin</strong>.</li>
+    </ul>
+    <div class="fcd-note fcd-note--warn">
+        <span class="fcd-note__title">Things to know about the whitelist</span>
+        <ul>
+            <li>The registration page doesn't need the token; it only needs a whitelisted, pending address. Someone who knows an invited address could register first. They still couldn't confirm without access to the mailbox, but the invitation would be used up. Fix by removing the user and re-inviting.</li>
+            <li><code>RegistrationGenerate.GenerateUrl</code> computes an HMAC of the email with a random key and discards it; it doesn't secure anything.</li>
+            <li>The ChurchSuite external-login path logs the whole whitelist at Information level.</li>
+        </ul>
+    </div>
+</section>
+
+<section class="fcd-section" id="ids">
+    <h2>Encrypted IDs in URLs and forms</h2>
+    <p>IDs that appear in links and hidden form fields (church, event, user, role, invitation and service-time IDs) are encrypted with ASP.NET Data Protection by <code>Components/Security/Encoder.cs</code>. Each use has its own <em>purpose string</em>, so a value encrypted for one purpose can't be replayed for another:</p>
+    <p><code>fc.data.contact</code>, <code>fc.data.user.events</code>, <code>fc.data.admin.events</code>, <code>fc.data.url.email</code>, <code>fc.data.url.change</code>, <code>fc.data.manage.church</code>, <code>fc.data.manage.email</code>, <code>fc.data.mail.confirm</code>, <code>fc.data.login.external</code>, <code>fc.data.admin.church</code>, <code>fc.data.admin.contact</code>, <code>fc.data.admin.invite</code>, <code>fc.data.admin.role</code>, <code>fc.data.admin.users</code>, <code>fc.data.church.information</code>, <code>fc.data.google</code>.</p>
+    <p>Because these depend on the Data Protection key ring, links stop working if the keys are lost or rotated out (keys last 7 days by default before a new one is used; old keys are kept for decryption). That's why an old church link can show "Church not found".</p>
+    <div class="fcd-note"><p>Encrypting an ID hides it, but authorisation still matters. For example, church-admin event edits load the event by decrypted ID; the decrypted value comes from a link the site generated for that user, but the handler doesn't re-check ownership.</p></div>
+</section>
+
+<section class="fcd-section" id="deletion">
+    <h2>Deleting accounts</h2>
+    <ul>
+        <li>Deleting a user (by the user in My Data, or by a SuperAdmin) cascades to its <code>ChurchInformation</code> and that church's <code>ServiceTimes</code>, its roles, logins, claims and tokens.</li>
+        <li><code>Events</code> aren't linked by foreign key (they store the owner's email and church name as text), so they remain and must be deleted separately.</li>
+        <li><code>ChurchSuiteCredentials</code> rows store the user ID as text with no foreign key, so they also remain.</li>
+        <li>The user's uploaded images remain in Blob Storage.</li>
+    </ul>
+</section>

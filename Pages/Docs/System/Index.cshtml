@@ -1,0 +1,168 @@
+@page "/docs/system"
+@model ForestChurches.Pages.Docs.DocsSystemModel
+@{
+    ViewData["Title"] = "Architecture & hosting";
+    ViewData["DocsPage"] = "system";
+    ViewData["DocsEyebrow"] = "System reference · SuperAdmin";
+    ViewData["DocsAudience"] = "SuperAdmin / system administrators";
+    ViewData["DocsLead"] = "How Forest Churches is put together: the two applications, the services they depend on, how a request flows, and where each part runs.";
+}
+
+<div class="fcd-note fcd-note--danger">
+    <span class="fcd-note__title">Restricted page</span>
+    <p>This reference names configuration keys, hosts and security settings. It never shows secret values. Don't copy it anywhere public. Findings that need action are collected on <a href="/docs/system/operations#issues">Operations &amp; known issues</a>.</p>
+</div>
+
+<section class="fcd-section" id="overview">
+    <h2>The two applications</h2>
+    <div class="fcd-table-wrap">
+        <table class="fcd-table">
+            <thead><tr><th></th><th>ForestChurches (the website)</th><th>EmailManagement (the email app)</th></tr></thead>
+            <tbody>
+                <tr><td>Repository</td><td><code>shotgn16/ForestChurches_2026</code>, branch <code>redesign/forest-floor</code></td><td><code>shotgn16/EmailManagement-ForestChurches</code>, branch <code>feature/delivery-status</code></td></tr>
+                <tr><td>Type</td><td>ASP.NET Core 8 Razor Pages app with a few MVC/API controllers</td><td>ASP.NET Core 8 Web API (controllers + Swagger)</td></tr>
+                <tr><td>Address</td><td><code>https://forestchurches.co.uk</code></td><td><code>https://api.forestchurches.co.uk</code></td></tr>
+                <tr><td>Job</td><td>Public site, church admin, site admin, accounts, events, bulletins, ChurchSuite sync</td><td>Receives emails from the website, queues them, fills HTML templates and sends them over SMTP</td></tr>
+                <tr><td>Data</td><td>MySQL/MariaDB (EF Core + Pomelo), Azure Blob Storage</td><td>In memory only (queue and status records)</td></tr>
+                <tr><td>Secrets</td><td>Azure Key Vault via <code>EnvironmentCredential</code></td><td>The same Key Vault via <code>EnvironmentCredential</code></td></tr>
+                <tr><td>Logging</td><td>Serilog → Grafana Loki and a MariaDB <code>applicationlogs</code> table; Elmah XML files</td><td>Serilog → daily file and Seq; Windows Event Log</td></tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+
+<section class="fcd-section" id="diagram">
+    <h2>How the pieces connect</h2>
+    <figure class="fcd-diagram">
+        <svg viewBox="0 0 960 520" role="img" aria-labelledby="arch-t arch-d">
+            <title id="arch-t">Forest Churches architecture</title>
+            <desc id="arch-d">Browsers connect to the website over HTTPS. The website uses MySQL, Azure Blob Storage, Azure Key Vault, Google Maps APIs, ChurchSuite, OpenStreetMap tiles in the browser, and Grafana Loki. It posts emails with a JWT to the email app, which uses Key Vault and sends via IONOS SMTP.</desc>
+            <defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="arrow" /></marker></defs>
+
+            <rect x="20" y="210" width="150" height="80" rx="12" class="box" />
+            <text x="95" y="244" text-anchor="middle" class="t">Browsers</text>
+            <text x="95" y="264" text-anchor="middle" class="s">visitors · churches · admins</text>
+
+            <rect x="250" y="150" width="250" height="200" rx="14" class="box--dark" />
+            <text x="375" y="185" text-anchor="middle" class="t t--on-dark">ForestChurches website</text>
+            <text x="375" y="207" text-anchor="middle" class="s s--on-dark">forestchurches.co.uk · .NET 8</text>
+            <text x="375" y="240" text-anchor="middle" class="s s--on-dark">Razor Pages · Identity · roles/permissions</text>
+            <text x="375" y="260" text-anchor="middle" class="s s--on-dark">Hangfire server + /hangfire</text>
+            <text x="375" y="280" text-anchor="middle" class="s s--on-dark">LogWatcher → SignalR /logsHub</text>
+            <text x="375" y="300" text-anchor="middle" class="s s--on-dark">Data Protection · CSRF · HSTS</text>
+            <text x="375" y="320" text-anchor="middle" class="s s--on-dark">Docker image → Azure Container Apps</text>
+
+            <rect x="250" y="410" width="250" height="90" rx="14" class="box--bark" />
+            <text x="375" y="442" text-anchor="middle" class="t">EmailManagement API</text>
+            <text x="375" y="462" text-anchor="middle" class="s">api.forestchurches.co.uk</text>
+            <text x="375" y="481" text-anchor="middle" class="s">in-memory queue · sends every 5 min</text>
+
+            <rect x="610" y="20" width="160" height="58" rx="10" class="box--moss" /><text x="690" y="45" text-anchor="middle" class="t">MySQL / MariaDB</text><text x="690" y="63" text-anchor="middle" class="s">app data · Hangfire · logs</text>
+            <rect x="790" y="20" width="160" height="58" rx="10" class="box--moss" /><text x="870" y="45" text-anchor="middle" class="t">Azure Blob Storage</text><text x="870" y="63" text-anchor="middle" class="s">images · DP key ring</text>
+            <rect x="610" y="100" width="160" height="58" rx="10" class="box--moss" /><text x="690" y="125" text-anchor="middle" class="t">Azure Key Vault</text><text x="690" y="143" text-anchor="middle" class="s">secrets · DP wrap key</text>
+            <rect x="790" y="100" width="160" height="58" rx="10" class="box" /><text x="870" y="125" text-anchor="middle" class="t">Google Maps APIs</text><text x="870" y="143" text-anchor="middle" class="s">geocoding · places</text>
+            <rect x="610" y="180" width="160" height="58" rx="10" class="box" /><text x="690" y="205" text-anchor="middle" class="t">ChurchSuite</text><text x="690" y="223" text-anchor="middle" class="s">OAuth (PKCE) · events</text>
+            <rect x="790" y="180" width="160" height="58" rx="10" class="box" /><text x="870" y="205" text-anchor="middle" class="t">Grafana Loki</text><text x="870" y="223" text-anchor="middle" class="s">central logs</text>
+            <rect x="610" y="430" width="160" height="58" rx="10" class="box" /><text x="690" y="455" text-anchor="middle" class="t">IONOS SMTP</text><text x="690" y="473" text-anchor="middle" class="s">smtp.ionos.co.uk:587</text>
+            <rect x="790" y="430" width="160" height="58" rx="10" class="box" /><text x="870" y="455" text-anchor="middle" class="t">Seq</text><text x="870" y="473" text-anchor="middle" class="s">email app logs</text>
+            <rect x="20" y="40" width="150" height="58" rx="10" class="box" /><text x="95" y="65" text-anchor="middle" class="t">OpenStreetMap</text><text x="95" y="83" text-anchor="middle" class="s">map tiles (browser)</text>
+
+            <line x1="170" y1="250" x2="246" y2="250" class="line" marker-end="url(#ah)" /><text x="208" y="242" text-anchor="middle" class="lbl">HTTPS</text>
+            <line x1="95" y1="210" x2="95" y2="102" class="line line--warn" marker-end="url(#ah)" />
+            <line x1="500" y1="185" x2="606" y2="52" class="line" marker-end="url(#ah)" />
+            <line x1="500" y1="195" x2="786" y2="62" class="line" marker-end="url(#ah)" />
+            <line x1="500" y1="210" x2="606" y2="130" class="line" marker-end="url(#ah)" />
+            <line x1="500" y1="225" x2="786" y2="135" class="line" marker-end="url(#ah)" />
+            <line x1="500" y1="245" x2="606" y2="210" class="line" marker-end="url(#ah)" />
+            <line x1="500" y1="265" x2="786" y2="215" class="line" marker-end="url(#ah)" />
+            <line x1="375" y1="350" x2="375" y2="406" class="line" marker-end="url(#ah)" /><text x="385" y="383" class="lbl">POST /Email + JWT</text>
+            <line x1="500" y1="455" x2="606" y2="458" class="line" marker-end="url(#ah)" />
+            <line x1="500" y1="470" x2="786" y2="475" class="line" marker-end="url(#ah)" />
+            <line x1="500" y1="430" x2="606" y2="150" class="line line--warn" marker-end="url(#ah)" />
+        </svg>
+        <figcaption>Solid lines: server-side calls. Dashed: the browser loading map tiles directly, and the email app reading its secrets from the same Key Vault.</figcaption>
+    </figure>
+</section>
+
+<section class="fcd-section" id="startup">
+    <h2>What happens when the website starts</h2>
+    <p>From <code>Program.cs</code>, in order:</p>
+    <ol>
+        <li>Loads <code>appsettings.json</code> (plus <code>appsettings.{Environment}.json</code> outside Production) and environment variables.</li>
+        <li>Registers sessions (30-minute idle timeout, Secure cookie), localisation (7 languages, default <code>en-GB</code> formatting with English text), Razor Pages and controllers.</li>
+        <li>Connects to Azure Key Vault (<code>KEY_VAULT_URL</code> in Production, <code>Keyvault:Url</code> otherwise) using <code>EnvironmentCredential</code>, and adds the vault as a configuration source.</li>
+        <li>Chooses the database connection string: <code>ConnectionStrings:Development</code> in Development, the <code>db-connection-live</code> secret in Production.</li>
+        <li>Configures Serilog (Loki + MariaDB), EF Core with MySQL, Identity, permission policies and the password policy.</li>
+        <li>Sets Identity token lifetime to 2 hours and configures the anti-forgery cookie/header names.</li>
+        <li>Configures ASP.NET Data Protection: keys in Blob Storage, wrapped with a Key Vault key in Production; a local <code>DataProtectionKeys</code> folder in Development. See <a href="/docs/system/data#encryption">encryption</a>.</li>
+        <li>Configures cookies, CORS, HSTS, Elmah, Hangfire (MySQL storage, up to 20 workers), application services, SignalR and the image-migration hosted service.</li>
+        <li>Ensures the Blob container exists and registers the blob URL and upload services.</li>
+        <li>Reads the JWT settings and, if ChurchSuite OAuth settings are present, registers the <code>ChurchSuite</code> OAuth scheme; always registers JWT bearer authentication.</li>
+        <li>Builds the request pipeline (next section), maps Razor Pages, controllers and <code>/logsHub</code>.</li>
+        <li>Applies any pending EF Core migrations, then runs the seeder: ensures the <code>bulletins</code> table and columns, adds missing permissions, creates the three built-in roles if missing, and creates the SuperAdmin account if missing.</li>
+    </ol>
+    <p>If anything throws during start-up, the exception is written to <code>logs/Error-yyyyMMdd.log</code> and the <code>logs</code> folder is zipped to <code>support/SupportData-yyyyMd.zip</code>, then the process exits.</p>
+</section>
+
+<section class="fcd-section" id="pipeline">
+    <h2>The request pipeline</h2>
+    <p>Each request passes through these steps in this order:</p>
+    <div class="fcd-table-wrap">
+        <table class="fcd-table">
+            <thead><tr><th>#</th><th>Step</th><th>What it does</th></tr></thead>
+            <tbody>
+                <tr><td>1</td><td>Exception handler + HSTS</td><td>Outside Development only: errors go to <code>/Error</code>; HSTS header sent.</td></tr>
+                <tr><td>2</td><td>Header clean-up</td><td>Removes <code>Server</code> and <code>X-Powered-By</code>; adds <code>Strict-Transport-Security: max-age=31536000; includeSubDomains; preload</code>.</td></tr>
+                <tr><td>3</td><td>HTTPS redirection</td><td>Redirects HTTP to HTTPS.</td></tr>
+                <tr><td>4</td><td>Serilog request logging</td><td>One log line per request.</td></tr>
+                <tr><td>5</td><td>Static files</td><td>Serves <code>wwwroot</code> (registered twice; harmless).</td></tr>
+                <tr><td>6</td><td>Routing, culture cookie</td><td><code>?culture=xx</code> sets the culture cookie for a month.</td></tr>
+                <tr><td>7</td><td>Request localisation, session</td><td>Query string → cookie → browser language.</td></tr>
+                <tr><td>8</td><td>Authentication, authorisation, Elmah</td><td>Cookie sign-in (Identity), optional ChurchSuite OAuth, JWT bearer.</td></tr>
+                <tr><td>9</td><td>File-type filter</td><td>Blocks requests for paths with a dot unless the extension is in an allow-list (css, js, images, fonts). Runs after static files, so it only affects paths that weren't served as files.</td></tr>
+                <tr><td>10</td><td>Anti-forgery</td><td>Validates the CSRF token on every POST/PUT/DELETE except Login, Register, Logout, ExternalLogin, <code>/api/*</code> and <code>/dist/*</code>.</td></tr>
+                <tr><td>11</td><td>Hangfire dashboard</td><td><code>/hangfire</code>, HTTP Basic auth.</td></tr>
+                <tr><td>12</td><td>Endpoints</td><td>Razor Pages, MVC controllers, <code>/logsHub</code>.</td></tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+
+<section class="fcd-section" id="map">
+    <h2>Where things live in the code</h2>
+    <div class="fcd-table-wrap">
+        <table class="fcd-table">
+            <thead><tr><th>Folder</th><th>Contents</th></tr></thead>
+            <tbody>
+                <tr><td><code>Pages/</code></td><td>Public pages (Index, NearMe, Church, Contact, Bulletin, FAQ, About, Privacy), <code>Events/</code> (church events), <code>Admin/</code> (site admin), <code>ChurchSuite/</code> (OAuth callback), <code>Docs/</code> (these docs).</td></tr>
+                <tr><td><code>Areas/Identity/</code></td><td>Sign-in, registration, password reset and the church-admin account pages (<code>Account/Manage</code>); <code>Data/ForestChurchesContext.cs</code> is the EF Core context.</td></tr>
+                <tr><td><code>Areas/Admin/Pages/Bulletin</code></td><td>Bulletin admin.</td></tr>
+                <tr><td><code>Components/</code></td><td>Services: Configuration (Key Vault, seeding, policies), Email, EventManagement, Http (Google, ChurchSuite), Logging, Permissions, Roles, Security (encoder, JWT, CSP), Storage (Blob), UserRegistration (whitelist), Ui (text helpers).</td></tr>
+                <tr><td><code>Controllers/</code></td><td><code>/health</code>, <code>/api/Bulletin</code>, ChurchSuite OAuth controllers; <code>/api/SystemStats</code> lives in <code>Components/Performance</code>.</td></tr>
+                <tr><td><code>Models/</code>, <code>Migrations/</code></td><td>Entities and EF Core migrations.</td></tr>
+                <tr><td><code>templates/</code></td><td>Copies of the email templates (the email app uses its own copies).</td></tr>
+                <tr><td><code>SharedResources.*.resx</code></td><td>UI text in en, cs, de, fa, fr, th, uk.</td></tr>
+                <tr><td><code>wwwroot/css/forest.css</code>, <code>wwwroot/js/forest.js</code></td><td>The Forest Floor design system.</td></tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+
+<section class="fcd-section" id="hosting">
+    <h2>Hosting and deployment</h2>
+    <h3>Website</h3>
+    <ul>
+        <li><code>Dockerfile</code>: multi-stage .NET 8 build; the runtime image listens on port <strong>8080</strong> over HTTP. TLS is expected to be terminated in front of it.</li>
+        <li><code>.github/workflows/deploy.yml</code>: on a push to the <code>live</code> branch, runs <code>dotnet test</code>, builds and pushes <code>ghcr.io/&lt;owner&gt;/forest_churches:live</code>, signs in to Azure and deploys to the Azure Container App <code>forestchurches</code> in resource group <code>myResourceGroup</code>.</li>
+        <li>Required environment variables in production: <code>ASPNETCORE_ENVIRONMENT=Production</code>, <code>KEY_VAULT_URL</code>, <code>AZURE_TENANT_ID</code>, <code>AZURE_CLIENT_ID</code>, <code>AZURE_CLIENT_SECRET</code>. Optional: <code>CHURCHSUITE_OAUTH_*</code>. See <a href="/docs/system/configuration">Configuration</a>.</li>
+        <li><code>docker-compose.yml</code> is a local-development helper that builds both apps side by side.</li>
+    </ul>
+    <h3>Email app</h3>
+    <ul>
+        <li>Its own <code>Dockerfile</code> (ports 8080/8081). The recent commits target a Plesk server (Passenger), and start-up errors are written to the console so Plesk shows them.</li>
+        <li>Needs the same Key Vault variables: <code>KEY_VAULT_URL</code>, <code>AZURE_TENANT_ID</code>, <code>AZURE_CLIENT_ID</code>, <code>AZURE_CLIENT_SECRET</code>. Templates are copied into the publish output.</li>
+        <li><code>EnableSwaggerInProduction</code> is <code>true</code> in <code>appsettings.json</code>, so <code>/swagger</code> is public in production.</li>
+    </ul>
+    <h3>Database</h3>
+    <p>MySQL 8 / MariaDB, reached through the connection string in <code>db-connection-live</code>. EF Core applies migrations automatically at start-up. Hangfire creates its own <code>Hangfire*</code> tables in the same database, and Serilog creates <code>applicationlogs</code>.</p>
+</section>
