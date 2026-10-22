@@ -142,7 +142,8 @@
                 <tr><td>Data Protection keys</td><td>Wrapped (encrypted) with the Key Vault RSA key in Production; stored in Blob Storage, itself encrypted by Azure.</td></tr>
                 <tr><td>Key Vault secrets</td><td>Encrypted by Key Vault (HSM-backed keys).</td></tr>
                 <tr><td>Blob Storage (images, key ring)</td><td>Azure Storage Service Encryption (AES-256, Microsoft-managed keys). Containers are private; images are served with read-only SAS URLs that expire.</td></tr>
-                <tr><td>Database</td><td>Depends on the database host. The application doesn't encrypt any columns: church data, emails, <strong>ChurchSuite access/refresh tokens and API keys are stored in plain text</strong>.</td></tr>
+                <tr><td>Database</td><td>Depends on the database host. Most columns (church data, emails, events) are stored as plain text.</td></tr>
+                <tr><td>ChurchSuite tokens and API keys</td><td>Encrypted by the app with Data Protection (<code>ProtectedColumn</code>, purpose <code>fc.data.db.column.v1</code>): <code>AccessToken</code>, <code>RefreshToken</code>, <code>TempCodeVerifier</code> and <code>ChurchInformation.ChurchSuiteApiKey</code> are stored as <code>dp1:</code> + ciphertext. Older plain-text values are still read and are encrypted the next time the row is saved. If the Data Protection key ring is lost, these can't be decrypted: churches reconnect ChurchSuite.</td></tr>
                 <tr><td>2FA authenticator keys</td><td>Plain text in <code>AspNetUserTokens</code> (Identity default).</td></tr>
                 <tr><td>Container disk, logs, Loki, Seq</td><td>Platform defaults; not encrypted by the app.</td></tr>
             </tbody>

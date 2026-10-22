@@ -33,6 +33,11 @@ namespace ForestChurches.Components.Configuration
                 options.Password.RequireLowercase = true;
                 options.Password.RequiredLength = 12;
                 options.Password.RequireUppercase = true;
+
+                // Lock an account for 15 minutes after 5 wrong passwords or 2FA codes in a row.
+                options.Lockout.AllowedForNewUsers = true;
+                options.Lockout.MaxFailedAccessAttempts = 5;
+                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(15);
             });
         }
     }

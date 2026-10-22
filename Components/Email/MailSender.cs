@@ -40,7 +40,7 @@ namespace ForestChurches.Components.Email
                 UserData = new Dictionary<string, string>
                 {
                     { "{event_link}", GenerateEmailLink(token) },
-                    { "{eventName}", deletedEvent.Name },
+                    { "{eventName}", Html(deletedEvent.Name) },
                     { "{eventDate}", EmailDate(deletedEvent.Date) },
                     { "{eventStart}", EmailTime(deletedEvent.StartTime) },
                     { "{eventEnd}", EmailTime(deletedEvent.EndTime) }
@@ -65,13 +65,13 @@ namespace ForestChurches.Components.Email
                 var token = GenerateUniqueToken(email, DateTime.UtcNow.AddDays(1), redirectUrl);
 
                 UserData = new Dictionary<string, string> {
-                        { "{event_name}", addedEvent.Name },
-                        { "{event_description}", addedEvent.Description },
-                        { "{event_location}", addedEvent.Address },
+                        { "{event_name}", Html(addedEvent.Name) },
+                        { "{event_description}", HtmlMultiline(addedEvent.Description) },
+                        { "{event_location}", Html(addedEvent.Address) },
                         { "{event_date}", EmailDate(addedEvent.Date) },
                         { "{event_startTime}", EmailTime(addedEvent.StartTime) },
                         { "{event_endTime}", EmailTime(addedEvent.EndTime) },
-                        { "{event_repeats}", repeats },
+                        { "{event_repeats}", Html(repeats) },
                         { "{event_link}", GenerateEmailLink(token)  }
                     };
 
@@ -93,7 +93,7 @@ namespace ForestChurches.Components.Email
                 var token = GenerateUniqueToken(email, DateTime.UtcNow.AddDays(1), redirectUrl);
 
                 UserData = new Dictionary<string, string> {
-                        { "{eventName}", eventItem.Name },
+                        { "{eventName}", Html(eventItem.Name) },
                         { "{eventDate}", EmailDate(eventItem.Date) },
                         { "{eventStart}", EmailTime(eventItem.StartTime) },
                         { "{eventEnd}", EmailTime(eventItem.EndTime) },
@@ -118,7 +118,7 @@ namespace ForestChurches.Components.Email
                 UserData = new Dictionary<string, string>
                 {
                         { "{template_title}", "Forest Churches Contact Form" },
-                        { "{template_content}", $"Name: {un} <br /><br /> Email: {senderEmail} <br /><br /> Message: {msg}" },
+                        { "{template_content}", $"Name: {Html(un)} <br /><br /> Email: {Html(senderEmail)} <br /><br /> Message: {HtmlMultiline(msg)}" },
                         { "{template_button_name}", "View Messages" }
                     };
 
@@ -139,9 +139,9 @@ namespace ForestChurches.Components.Email
             {
                 UserData = new Dictionary<string, string>
                 {
-                    { "{admin_name}", senderName },
-                    { "{username}", recipientUsername },
-                    { "{paragraph}", msg }
+                    { "{admin_name}", Html(senderName) },
+                    { "{username}", Html(recipientUsername) },
+                    { "{paragraph}", HtmlMultiline(msg) }
                 };
 
                 EnsureImagePlaceholders(UserData, "./templates/contact_request.html");
@@ -163,11 +163,11 @@ namespace ForestChurches.Components.Email
 
                 UserData = new Dictionary<string, string>
                 {
-                    { "{username}", recipientEmail },
-                    { "{church_name}", church.Name ?? "Not available" },
-                    { "{church_address}", church.Address ?? "Not available" },
-                    { "{church_phone}", church.Phone ?? "Not available" },
-                    { "{church_website}", church.Website.ToString() ?? "Not available" },
+                    { "{username}", Html(recipientEmail) },
+                    { "{church_name}", Html(church.Name ?? "Not available") },
+                    { "{church_address}", Html(church.Address ?? "Not available") },
+                    { "{church_phone}", Html(church.Phone ?? "Not available") },
+                    { "{church_website}", Html(church.Website?.ToString() ?? "Not available") },
                     { "{church_wheelchairEntrance}", church.WheelchairAccess == null ? "Not available" : (church.WheelchairAccess ? "Available" : "Unavailable") },
                     { "{serviceTimes}", serviceTimes },
                     { "{contact_form_designated_church_id}", emailLink },
@@ -261,7 +261,7 @@ namespace ForestChurches.Components.Email
 
                 UserData = new Dictionary<string, string>
                 {
-                    { "{username}", un },
+                    { "{username}", Html(un) },
                     { "{website_home_page_link}", $"{request.Scheme}://{request.Host.Value}/" },
                     { "{church_profile_link}", $"{request.Scheme}://{request.Host.Value}/Identity/Account/Manage/ChurchProfile" },
                     { "{user_events_link}", $"{request.Scheme}://{request.Host.Value}/Events" },
@@ -329,7 +329,7 @@ namespace ForestChurches.Components.Email
 
                 UserData = new Dictionary<string, string>
                 {
-                    { "{email}", invitedEmail },
+                    { "{email}", Html(invitedEmail) },
                     { "{registration_link}", emailLink },
 
                     { "{IMAGE-1}", _blobUrlService.GetReadSasUrl("IMAGE-1.png", TimeSpan.FromDays(7)) ?? string.Empty },
@@ -482,6 +482,13 @@ namespace ForestChurches.Components.Email
                 data[$"{{IMAGE-{i}}}"] = url;
             }
         }
+
+        /// <summary>HTML-encodes text that came from a person (forms, church details) before it goes into an email template.</summary>
+        private static string Html(string? value) => System.Net.WebUtility.HtmlEncode(value ?? string.Empty);
+
+        /// <summary>HTML-encodes multi-line text and keeps its line breaks.</summary>
+        private static string HtmlMultiline(string? value) =>
+            Html(value).Replace("\r\n", "\n").Replace("\n", "<br />");
 
         private string GenerateUniqueToken(string email, DateTime expires, string redirectUrl)
         {

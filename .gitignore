@@ -361,3 +361,9 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+# Secrets and local runtime data: never commit these
+/DataProtectionKeys/
+/support/
+/logs/
+*.pfx
+.env

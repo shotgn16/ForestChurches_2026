@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ForestChurches.Pages.ChurchSuite
 {
+    [Microsoft.AspNetCore.Authorization.Authorize]
     public class AuthorizeModel : PageModel
     {
         private readonly UserManager<ChurchAccount> _userManager;
@@ -23,10 +24,21 @@ namespace ForestChurches.Pages.ChurchSuite
 
         public IActionResult OnGet(string user_id, string redirect_uri)
         {
-            // Validate parameters
-            if (string.IsNullOrWhiteSpace(user_id))
+            // Security: always act for the signed-in user. A user_id in the query string is
+            // accepted only for backwards compatibility and must match them.
+            var signedInUserId = _userManager.GetUserId(User);
+            if (string.IsNullOrWhiteSpace(signedInUserId))
             {
-                return BadRequest("user_id is required");
+                return Challenge();
+            }
+            if (!string.IsNullOrWhiteSpace(user_id) && !string.Equals(user_id, signedInUserId, StringComparison.Ordinal))
+            {
+                return Forbid();
+            }
+            user_id = signedInUserId;
+            if (!string.IsNullOrWhiteSpace(redirect_uri) && !Url.IsLocalUrl(redirect_uri))
+            {
+                redirect_uri = null;
             }
 
             // Lookup user and ensure client id exists

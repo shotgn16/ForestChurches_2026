@@ -94,7 +94,7 @@
     <h2>Queue, send runs and retries</h2>
     <ul>
         <li><strong>Send runs</strong>: <code>EmailSenderHostedService</code> loops every 5 minutes. Each time it signs a JWT with Key Vault's <code>jwt-token-securityKey</code> and calls the app's own <code>/Email/send</code> at <code>{app-email-url}/Email/send</code> (in Development, <code>https://localhost:7291/Email/send</code>).</li>
-        <li><strong>Sending one email</strong>: read the template file, replace each <code>Data</code> key with its value (plain text replace, no HTML encoding), then connect to <code>smtp.ionos.co.uk:587</code> (STARTTLS when available), sign in with <code>smtp-auth-username</code>/<code>-password</code> (read from Key Vault on every email) and send as <em>Forest Churches &lt;info@forestchurches.co.uk&gt;</em>. One SMTP connection per email.</li>
+        <li><strong>Sending one email</strong>: read the template file, replace each <code>Data</code> key with its value (a plain text replace; the website has already HTML-encoded anything people typed), then connect to <code>smtp.ionos.co.uk:587</code> (STARTTLS when available), sign in with <code>smtp-auth-username</code>/<code>-password</code> (read from Key Vault on every email) and send as <em>Forest Churches &lt;info@forestchurches.co.uk&gt;</em>. One SMTP connection per email.</li>
         <li><strong>Retries</strong>: if sending throws, the email goes back on the queue as <em>Retrying</em> and is tried in the next run. After 3 attempts in total it's <em>Failed</em> with the error message saved.</li>
         <li><strong>Persistence</strong>: none. The queue and status records live in memory, so <strong>a restart of the email app loses any queued emails</strong>. The status store keeps records for 14 days, at most 5,000.</li>
     </ul>
@@ -146,7 +146,7 @@
         </table>
     </div>
     <p>To change wording, edit the template in the email app and redeploy it. To add a placeholder, add the key in the matching <code>MailSender</code> method on the website and use it in the template. A placeholder with no value is left in the email as literal text.</p>
-    <div class="fcd-note fcd-note--warn"><p>Values are inserted as raw HTML. Anything a visitor typed (contact form name and message, admin email paragraph) can therefore include HTML. HTML-encode user input in <code>MailSender</code> before sending.</p></div>
+    <div class="fcd-note"><p>The email app inserts values as they are, so <code>MailSender</code> HTML-encodes every value that came from a person (names, messages, church and event details) with <code>Html()</code> / <code>HtmlMultiline()</code>. When adding a placeholder, encode its value the same way unless it's a link or markup the site built itself.</p></div>
 </section>
 
 <section class="fcd-section" id="hosting">
@@ -182,7 +182,7 @@
     <ul>
         <li>In-memory queue: a restart loses unsent email, and the app can't be scaled to more than one instance.</li>
         <li>Up to 5 minutes' delay on every email, including password resets.</li>
-        <li>The JWT signing key is hardcoded in the email app (see <a href="/docs/system/security#jwt">Security</a>).</li>
+        <li>The JWT settings are read once at start-up, so rotating the key needs a restart of both apps (see <a href="/docs/system/security#jwt">Security</a>).</li>
         <li><code>ReceiveEmail</code> generates a callback token and tries to replace <code>{event_link}</code>, but that code has no effect (the result is discarded). The links that work are the ones the website puts in <code>Data</code>.</li>
         <li>The recipient display name is always "Recipient Name".</li>
     </ul>

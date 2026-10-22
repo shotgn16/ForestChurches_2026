@@ -119,7 +119,7 @@
         <li><code>LogWatcherService</code> polls the <code>applicationlogs</code> table every 2 seconds for rows newer than the last ID it saw (100 at a time), using a direct MySQL connection.</li>
         <li>Each new row is sent to every client connected to the SignalR hub <code>/logsHub</code> (event <code>NewLog</code>) and to the in-process <code>SseManager</code>.</li>
         <li>Site admin → Logs (<code>wwwroot/js/admin-logs.js</code>) connects to <code>/logsHub</code> so new entries appear live.</li>
-        <li>The hub has no authorisation, so anyone who connects receives the stream. Add <code>[Authorize(Policy = "Admin.Read")]</code> to <code>Hubs/LogsHub.cs</code>.</li>
+        <li>The hub requires <code>Admin.Read</code>, so only site administrators can connect.</li>
         <li>Cost: one small query every 2 seconds per website instance, even when nobody is watching.</li>
     </ul>
 </section>

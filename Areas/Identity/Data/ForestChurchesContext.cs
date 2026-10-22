@@ -89,6 +89,13 @@ public class ForestChurchesContext : IdentityDbContext<ChurchAccount, ChurchRole
             .HasIndex(c => new { c.UserId, c.Subdomain })
             .IsUnique();
 
+        // Third-party credentials are encrypted at rest (see Components/Security/ProtectedColumn.cs).
+        // The columns are longtext, so the longer ciphertext fits without a migration.
+        builder.Entity<ChurchSuiteCredential>().Property(c => c.AccessToken).HasConversion(ForestChurches.Components.Security.ProtectedColumn.Converter);
+        builder.Entity<ChurchSuiteCredential>().Property(c => c.RefreshToken).HasConversion(ForestChurches.Components.Security.ProtectedColumn.Converter);
+        builder.Entity<ChurchSuiteCredential>().Property(c => c.TempCodeVerifier).HasConversion(ForestChurches.Components.Security.ProtectedColumn.Converter);
+        builder.Entity<ChurchInformation>().Property(c => c.ChurchSuiteApiKey).HasConversion(ForestChurches.Components.Security.ProtectedColumn.Converter);
+
         builder.Entity<Models.LogEntry>()
             .HasKey(pk => pk.Id);
 

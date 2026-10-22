@@ -105,7 +105,7 @@
         <span class="fcd-note__title">If the key ring is lost or changed</span>
         <p>Everyone is signed out, all outstanding invitation/confirmation/reset links stop working, and old encrypted church/event links show "not found". No stored data is lost, because database data isn't encrypted with these keys. If the Key Vault protector can't be configured, the site logs a warning and continues with unwrapped keys in Blob Storage, so check the start-up log for <em>"DataProtection: Configured Azure Key Vault protector."</em></p>
     </div>
-    <div class="fcd-note fcd-note--warn"><p>The repository contains a <code>DataProtectionKeys/</code> folder with development key files. Those keys must never be used in production. If the repository is public, treat them as exposed.</p></div>
+    <div class="fcd-note fcd-note--warn"><p>Development key files in <code>DataProtectionKeys/</code> are now ignored by Git and were removed from the repository, but they remain in its history. They were only ever development keys; production keys live in Blob Storage.</p></div>
 </section>
 
 <section class="fcd-section" id="tokens">
@@ -131,11 +131,11 @@
     <h2>Website ↔ email app authentication (JWT)</h2>
     <ul>
         <li>For each email, the website's <code>JwtTokenGenerator</code> creates an HMAC-SHA256 JWT valid for 10 minutes, signed with Key Vault secret <code>jwt-token-securityKey</code>, issuer <code>jwt-token-issuer</code>, audience <code>jwt-token-audience</code>.</li>
-        <li>The email app validates issuer <code>ForestChurches</code>, audience <code>F0rest_Ch3rches</code>, lifetime and signature. The signing key it checks against is <strong>hardcoded in the email app's <code>Program.cs</code></strong>, not read from Key Vault. Sending only works while the Key Vault value and the hardcoded value are identical, and the key is visible to anyone who can read that repository.</li>
+        <li>The email app validates issuer, audience, lifetime and signature using the <em>same</em> Key Vault secrets (<code>jwt-token-securityKey</code>, and <code>jwt-token-issuer</code>/<code>jwt-token-audience</code>, which default to <code>ForestChurches</code>/<code>F0rest_Ch3rches</code> if absent), loaded once at start-up by <code>JwtSettings</code>. After rotating the key, restart both apps.</li>
         <li>The email app calls its own <code>POST /Email/send</code> endpoint with a JWT it signs itself using the Key Vault value.</li>
         <li>The website also registers a JWT bearer scheme with the same settings, but no website endpoint uses it.</li>
     </ul>
-    <div class="fcd-note fcd-note--warn"><p>To fix: make the email app read the signing key, issuer and audience from Key Vault, then rotate <code>jwt-token-securityKey</code> (the current value is in Git history).</p></div>
+    <div class="fcd-note fcd-note--warn"><p>The signing key used to be hardcoded in the email app, so the old value is in Git history. Rotate <code>jwt-token-securityKey</code> once both apps are deployed with this change.</p></div>
 </section>
 
 <section class="fcd-section" id="cookies">
@@ -163,8 +163,8 @@
         <li><strong>CSRF</strong>: Razor Pages validate antiforgery tokens on form posts. A custom middleware also validates every POST/PUT/DELETE except <code>/Identity/Account/Login</code>, <code>Register</code>, <code>Logout</code>, <code>ExternalLogin</code>, <code>/dist</code> and <code>/api</code>. (Those Identity pages still get Razor Pages' own validation.)</li>
         <li><strong>File-extension blocker</strong>: requests whose path contains a dot and whose extension isn't an allowed static type (css, js, images, fonts) get 403. It runs after <code>UseStaticFiles</code>, so it only affects requests that didn't match a file in <code>wwwroot</code>; files in <code>wwwroot</code> (including uploaded bulletin PDFs) are served regardless.</li>
         <li><strong>CORS</strong>: a policy for <code>https://forestchurches.co.uk</code> is defined but not applied (<code>UseCors</code> isn't called), so cross-origin browser requests get no CORS headers.</li>
-        <li><strong>Content Security Policy</strong>: <code>CSPNonceMiddleware</code> exists but isn't registered, so <strong>no CSP header is sent</strong>.</li>
-        <li><strong>Rate limiting</strong>: none. Sign-in, the contact form and search aren't throttled, and lockout is off.</li>
+        <li><strong>Content Security Policy</strong>: <code>CSPNonceMiddleware</code> sends a strict policy on every response. Scripts may come only from this site, unpkg and cdnjs, or be inline scripts carrying the request's nonce (<code>&lt;script nonce="@@Context.Items["CSP-Script-Nonce"]"&gt;</code>). Inline event handlers (<code>onclick="…"</code>) and <code>eval</code> are blocked. Images may come from this site, Azure Blob Storage and OpenStreetMap tiles. Framing is limited to this site and plugins are blocked. It also sends <code>X-Content-Type-Options: nosniff</code>, <code>Referrer-Policy: strict-origin-when-cross-origin</code> and <code>X-Frame-Options: SAMEORIGIN</code>. <code>/hangfire</code> and <code>/elmah</code> are exempt from the CSP (their own inline scripts) but keep the other headers. When adding a page script or a new CDN, add the nonce or the host in <code>CSPNonceMiddleware.BuildCsp</code>; check the browser console for "Refused to…" messages.</li>
+        <li><strong>Rate limiting</strong>: none. The contact form and search aren't throttled. Sign-in is protected by account lockout (5 attempts, 15 minutes) but not by IP.</li>
         <li><strong>Uploads</strong>: images go to Blob Storage under generated names; bulletin PDFs go to <code>wwwroot/uploads/bulletins</code>. Admin-only.</li>
     </ul>
 </section>
@@ -187,8 +187,10 @@
                 <tr><td><code>/health</code></td><td>Anyone</td><td>Returns <code>ok</code>/<code>degraded</code> and database status only</td></tr>
                 <tr><td><code>/api/Bulletin</code></td><td>Anyone (GET)</td><td>Current bulletin as JSON</td></tr>
                 <tr><td><code>/api/SystemStats</code></td><td><code>Admin.Read</code></td><td>Dashboard figures</td></tr>
-                <tr><td><code>/logsHub</code></td><td><strong>Anyone</strong></td><td>SignalR hub broadcasting live log entries. See gaps.</td></tr>
-                <tr><td><code>/churchsuite/login-pkce</code>, <code>/churchsuite/authorize</code>, <code>/churchsuite/check-auth</code>, <code>/ChurchSuite/Authorize</code>, <code>/ChurchSuite/Callback</code>, <code>/signin-churchsuite</code>, <code>/oauth-debug</code></td><td><strong>Anyone</strong></td><td>ChurchSuite OAuth. See gaps.</td></tr>
+                <tr><td><code>/logsHub</code></td><td><code>Admin.Read</code></td><td>SignalR hub broadcasting live log entries to Site admin → Logs.</td></tr>
+                <tr><td><code>/churchsuite/login-pkce</code>, <code>/signin-churchsuite</code></td><td>Anyone</td><td>Sign in with ChurchSuite. New users still need a whitelisted address.</td></tr>
+                <tr><td><code>/churchsuite/authorize</code>, <code>/churchsuite/check-auth</code>, <code>/ChurchSuite/Authorize</code>, <code>/ChurchSuite/Callback</code></td><td>Signed in</td><td>Connect ChurchSuite to <em>your own</em> account. A <code>user_id</code> that isn't yours is refused.</td></tr>
+                <tr><td><code>/oauth-debug</code></td><td>Development only</td><td>Returns 404 in Production.</td></tr>
                 <tr><td>Email app <code>/Email</code>, <code>/Email/send</code>, <code>/Email/health</code>, <code>/Email/{id}/status</code></td><td>Valid JWT</td><td></td></tr>
                 <tr><td>Email app <code>/swagger</code></td><td>Anyone</td><td>Enabled in production by <code>EnableSwaggerInProduction=true</code></td></tr>
             </tbody>
@@ -197,19 +199,25 @@
 </section>
 
 <section class="fcd-section" id="gaps">
-    <h2>Security gaps to fix</h2>
-    <p>Ordered by severity. Each one is also on the <a href="/docs/system/operations#issues">known-issues list</a> with what to change.</p>
+    <h2>Security gaps</h2>
+    <h3>Fixed (October 2026)</h3>
+    <ul>
+        <li><strong>ChurchSuite account takeover</strong>: the connect routes (<code>/churchsuite/authorize</code>, <code>check-auth</code>, <code>/ChurchSuite/Authorize</code>, <code>Callback</code>) now require sign-in and act only for the signed-in user. A user ID from the query string, session or OAuth challenge must match them and is never used to sign anyone in. Redirects after ChurchSuite are limited to this site.</li>
+        <li><strong>Live log feed</strong>: <code>/logsHub</code> requires <code>Admin.Read</code>.</li>
+        <li><strong>Secrets in the repository</strong>: removed from the current files (Azure client secret, database password, Google key, the email app's JWT key, development Data Protection keys, an unused <code>map.js</code> that embedded the Google key). Development secrets now come from <code>dotnet user-secrets</code>; <code>deploy.yml</code> reads <code>AZURE_CREDENTIALS</code>. They're still in Git history, so <strong>they must be rotated</strong> (see <a href="/docs/system/operations#rotate-exposed">rotating the exposed secrets</a>).</li>
+        <li><strong>ChurchSuite tokens and API keys</strong> are encrypted at rest (see <a href="/docs/system/data#encryption">Data &amp; encryption</a>).</li>
+        <li><strong>Account lockout</strong>: 5 attempts, 15 minutes. Sign-in also now honours 2FA.</li>
+        <li><strong>Content Security Policy</strong> is sent on every page.</li>
+        <li><strong>Google key</strong> is no longer returned to browsers.</li>
+        <li><strong>Email content</strong>: everything people type is HTML-encoded before it goes into an email.</li>
+        <li><code>/oauth-debug</code> is Development-only.</li>
+    </ul>
+    <h3>Still open</h3>
     <ol>
-        <li><strong>ChurchSuite sign-in can be pointed at any account.</strong> <code>/churchsuite/authorize?user_id=…</code> accepts a user ID without checking who is signed in and stores it in the session. When the OAuth callback (<code>/signin-churchsuite</code>) completes and nobody is signed in, it signs the browser in <em>as that user ID</em>. Anyone who learns a user's ID and has any ChurchSuite login could sign in as that user, including a SuperAdmin. The same pattern exists in <code>/ChurchSuite/Authorize</code> and <code>Callback</code>. Until fixed, consider disabling these routes.</li>
-        <li><strong>Live logs are broadcast without sign-in.</strong> <code>/logsHub</code> has no <code>[Authorize]</code>, and <code>LogWatcherService</code> pushes every new log row (which can include email addresses and request details) to all connected clients.</li>
-        <li><strong>Secrets in the repository</strong>: an <code>AZURE_CLIENT_SECRET</code> in <code>Properties/launchSettings.json</code>, a Google API key in <code>appsettings.Development.json</code>, a GitHub Actions secret <em>name</em> in <code>deploy.yml</code> that looks like a client secret value, the email app's hardcoded JWT key, plus <code>DataProtectionKeys/</code> and support zips. Rotate all of these and remove them from history.</li>
-        <li><strong>Plain-text third-party credentials in the database</strong>: ChurchSuite access and refresh tokens (<code>ChurchSuiteCredentials</code>) and per-church <code>ChurchSuiteApiKey</code> (<code>ChurchInformation</code>). Encrypt with Data Protection or move to Key Vault.</li>
-        <li><strong>The Google API key is handed to any visitor</strong> by <code>/Church?handler=GoogleMapsApiKey</code>. Restrict the key by HTTP referrer and API in Google Cloud, or use a separate browser key.</li>
-        <li><strong>No account lockout and no rate limiting</strong> on sign-in, so passwords can be guessed without limit (the 12-character policy helps).</li>
-        <li><strong>No Content Security Policy</strong> (middleware not registered). The contact-form message is inserted into the email HTML without encoding.</li>
+        <li><strong>Rotate the exposed secrets and purge Git history.</strong> Until then, anyone with a copy of the repository has working credentials.</li>
         <li><strong>Registration needs only a whitelisted address</strong>, not the token. See <a href="/docs/system/accounts#whitelist">Accounts</a>.</li>
+        <li><strong>No IP rate limiting</strong> on sign-in, the contact form or search.</li>
         <li><strong>Email app</strong>: Swagger UI is public; SMTP uses STARTTLS <em>when available</em>, so it would fall back to plain text if the server didn't offer TLS; the <code>Template</code> field is a file path chosen by the caller (only a valid-JWT caller, so low risk).</li>
-        <li><strong>Open redirect potential</strong>: <code>redirect_uri</code> on the ChurchSuite routes is used for redirects without checking it's a local URL.</li>
-        <li><code>/oauth-debug</code> returns the caller's own claims. It reveals nothing about other users but should be removed from production.</li>
+        <li><strong>Restrict the Google API key</strong> in Google Cloud to the Geocoding and Places APIs and the site's outbound IP.</li>
     </ol>
 </section>

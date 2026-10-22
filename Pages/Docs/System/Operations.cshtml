@@ -13,7 +13,7 @@
     <ol>
         <li><a href="#deploy-web">Deploying the website</a></li>
         <li><a href="#deploy-email">Deploying the email app</a></li>
-        <li><a href="#runbooks">Runbooks</a></li>
+        <li><a href="#runbooks">Runbooks</a> (including <a href="#rotate-exposed">rotating the exposed secrets</a>)</li>
         <li><a href="#routine">Routine checks</a></li>
         <li><a href="#issues">Known issues</a></li>
     </ol>
@@ -30,7 +30,7 @@
     <div class="fcd-note fcd-note--warn">
         <ul>
             <li>The remote branch is named <code>Live</code> (capital L) but the workflow listens for <code>live</code>. GitHub branch filters are case-sensitive, so pushes to <code>Live</code> don't trigger it. Rename one to match.</li>
-            <li>The Azure login step reads a secret whose <em>name</em> looks like a client-secret value. Store the service principal JSON as a secret called <code>AZURE_CREDENTIALS</code> and reference that.</li>
+            <li>The Azure login step reads the repository secret <code>AZURE_CREDENTIALS</code> (service principal JSON). Create it before the first deployment of this version.</li>
             <li>Every image is tagged <code>live</code>, so there's no way to roll back by tag. Also tag with the commit SHA. In the meantime, roll back by re-activating the previous revision in Container Apps → Revisions.</li>
             <li>Migrations run automatically on start-up. A migration that fails is logged but the site still starts, possibly against an unexpected schema.</li>
         </ul>
@@ -70,6 +70,7 @@
 
     <h3>Someone is locked out of SuperAdmin</h3>
     <ol>
+        <li>If they saw "This account has been locked out", wait 15 minutes (5 wrong attempts lock it). A SuperAdmin can unlock sooner by setting <code>LockoutEnd</code> to NULL and <code>AccessFailedCount</code> to 0 for that row in <code>AspNetUsers</code>.</li>
         <li>Use Forgot password on the sign-in page for that email.</li>
         <li>If email isn't working, another SuperAdmin can set them a role or delete and recreate the user.</li>
         <li>If no SuperAdmin can sign in: delete the seeded SuperAdmin's row from <code>AspNetUsers</code> (its church listing goes with it) and restart. The seeder recreates it from <code>sys-admin-username</code>/<code>-password</code>.</li>
@@ -96,6 +97,17 @@
 
     <h3>Clear out past events</h3>
     <p>Until clean-up is fixed (<a href="/docs/system/jobs#cleanup">Jobs</a>), use Site admin → Events → Past events, or in the database: <code>DELETE FROM Events WHERE Repeats = 'None' AND Date &lt; CURDATE() - INTERVAL 1 DAY;</code></p>
+
+    <h3 id="rotate-exposed">Rotate the exposed secrets</h3>
+    <p>These values were committed to Git, so treat them as known to anyone with a copy of the repository. Do this once the security fixes are deployed.</p>
+    <ol>
+        <li><strong>Azure client secret</strong>: Entra ID → App registrations → the Key Vault app → Certificates &amp; secrets → <em>New client secret</em>. Put it in <code>AZURE_CLIENT_SECRET</code> on the Container App and on Plesk, restart both apps, then <strong>delete the old secret</strong>. Developers store theirs with <code>dotnet user-secrets</code>.</li>
+        <li><strong>GitHub Actions</strong>: create a service-principal JSON (<code>az ad sp create-for-rbac --sdk-auth</code>, scoped to the resource group) and save it as the repository secret <code>AZURE_CREDENTIALS</code>.</li>
+        <li><strong>JWT key</strong>: generate a new random value (for example 64 characters from a password manager) and add it as a new version of <code>jwt-token-securityKey</code>. Restart the website and the email app together, then send a test email.</li>
+        <li><strong>Google key</strong>: Google Cloud Console → APIs &amp; Services → Credentials → create a new key, restrict it to Geocoding API and Places API (and the site's outbound IP), save it as <code>google-api-key</code>, then delete the old key.</li>
+        <li><strong>Development database password</strong>: change the password of the <code>database</code> user on the development MySQL server and update developers' user-secrets.</li>
+        <li><strong>Purge history</strong>: with everyone's work pushed, run <code>git filter-repo</code> (or BFG) to remove <code>Properties/launchSettings.json</code> secret lines, <code>appsettings.Development.json</code> secrets, <code>DataProtectionKeys/</code>, <code>support/</code>, <code>wwwroot/js/map.js</code> and the email app's old <code>Program.cs</code> key from every branch, force-push, and have everyone re-clone. Rotation matters more than the purge: a purged secret may already have been copied.</li>
+    </ol>
 </section>
 
 <section class="fcd-section" id="routine">
@@ -115,36 +127,43 @@
 
 <section class="fcd-section" id="issues">
     <h2>Known issues</h2>
-    <p>Found while writing this documentation against <code>redesign/forest-floor</code> and <code>feature/delivery-status</code>. Ordered by priority.</p>
+    <p>Found while writing this documentation against <code>redesign/forest-floor</code> and <code>feature/delivery-status</code>, and updated after the October 2026 security fixes.</p>
+    <h3>Fixed in October 2026</h3>
+    <ul>
+        <li><span class="fc-badge fc-badge--ok">Fixed</span> ChurchSuite connect/callback routes could sign the browser in as any user ID (account takeover).</li>
+        <li><span class="fc-badge fc-badge--ok">Fixed</span> Secrets removed from the repository files (rotation still needed, row 1 below).</li>
+        <li><span class="fc-badge fc-badge--ok">Fixed</span> Live log stream (<code>/logsHub</code>) open to anyone.</li>
+        <li><span class="fc-badge fc-badge--ok">Fixed</span> Email app JWT key hardcoded; it now comes from Key Vault.</li>
+        <li><span class="fc-badge fc-badge--ok">Fixed</span> ChurchSuite tokens and API keys stored in plain text.</li>
+        <li><span class="fc-badge fc-badge--ok">Fixed</span> No account lockout; sign-in also skipped 2FA.</li>
+        <li><span class="fc-badge fc-badge--ok">Fixed</span> No Content Security Policy.</li>
+        <li><span class="fc-badge fc-badge--ok">Fixed</span> Google API key returned to any browser.</li>
+        <li><span class="fc-badge fc-badge--ok">Fixed</span> User input inserted into email HTML unencoded.</li>
+        <li><span class="fc-badge fc-badge--ok">Fixed</span> Open redirects after ChurchSuite; <code>/oauth-debug</code> in production.</li>
+    </ul>
+    <h3>Still open</h3>
     <div class="fcd-table-wrap">
         <table class="fcd-table">
             <thead><tr><th>#</th><th>Severity</th><th>Issue</th><th>Where</th><th>Fix</th></tr></thead>
             <tbody>
-                <tr><td>1</td><td><span class="fc-badge fc-badge--danger">Critical</span></td><td>ChurchSuite authorise/callback trust a <code>user_id</code> from the query string and sign the browser in as that user: account takeover.</td><td><code>Controllers/ChurchsuiteController.cs</code>, <code>Controllers/OAuthCallbackController.cs</code>, <code>Pages/ChurchSuite/*</code>, <code>Program.cs</code> OnTicketReceived</td><td>Require sign-in; use only the signed-in user's ID; never sign in from a stored ID; validate <code>redirect_uri</code> is local.</td></tr>
-                <tr><td>2</td><td><span class="fc-badge fc-badge--danger">Critical</span></td><td>Secrets committed to Git (Azure client secret, Google key, JWT key, DP keys, support zips).</td><td><code>Properties/launchSettings.json</code>, <code>appsettings.Development.json</code>, email app <code>Program.cs</code>, <code>DataProtectionKeys/</code>, <code>support/</code>, <code>deploy.yml</code></td><td>Rotate every one, remove from the repo and history, add to <code>.gitignore</code>.</td></tr>
-                <tr><td>3</td><td><span class="fc-badge fc-badge--danger">High</span></td><td>Live log stream open to anyone.</td><td><code>Hubs/LogsHub.cs</code></td><td><code>[Authorize(Policy = "Admin.Read")]</code></td></tr>
-                <tr><td>4</td><td><span class="fc-badge fc-badge--danger">High</span></td><td>Email app JWT key hardcoded; must match Key Vault by hand.</td><td>Email app <code>Program.cs</code></td><td>Read key/issuer/audience from Key Vault; rotate.</td></tr>
-                <tr><td>5</td><td><span class="fc-badge fc-badge--warn">Medium</span></td><td>ChurchSuite tokens and API keys stored in plain text.</td><td><code>ChurchSuiteCredentials</code>, <code>ChurchInformation</code></td><td>Encrypt with Data Protection.</td></tr>
-                <tr><td>6</td><td><span class="fc-badge fc-badge--warn">Medium</span></td><td>No lockout or rate limiting on sign-in.</td><td><code>Login.cshtml.cs</code></td><td><code>lockoutOnFailure: true</code>; add ASP.NET rate limiting.</td></tr>
-                <tr><td>7</td><td><span class="fc-badge fc-badge--warn">Medium</span></td><td>No Content Security Policy sent.</td><td><code>CSPNonceMiddleware</code> not registered</td><td>Register it (after testing pages with the policy).</td></tr>
-                <tr><td>8</td><td><span class="fc-badge fc-badge--warn">Medium</span></td><td>Google API key returned to any browser; unrestricted key costs money.</td><td><code>Church.cshtml.cs</code> <code>OnGetGoogleMapsApiKey</code></td><td>Restrict key; separate browser key or remove handler.</td></tr>
-                <tr><td>9</td><td><span class="fc-badge fc-badge--warn">Medium</span></td><td>User input inserted into email HTML unencoded (contact form, admin email).</td><td><code>MailSender</code></td><td><code>HtmlEncoder.Default.Encode</code> values.</td></tr>
-                <tr><td>10</td><td><span class="fc-badge fc-badge--warn">Medium</span></td><td>Event clean-up not scheduled and broken (null list, inverted date test).</td><td><code>EventContoller.cs</code>, <code>Program.cs</code></td><td>See <a href="/docs/system/jobs#cleanup">Jobs</a>.</td></tr>
-                <tr><td>11</td><td><span class="fc-badge fc-badge--warn">Medium</span></td><td>Email app <code>EmailScheduler</code> starts an extra endless loop every 5 minutes.</td><td>Email app <code>Classes/EmailScheduler.cs</code></td><td>Remove <code>EmailScheduler</code>.</td></tr>
-                <tr><td>12</td><td><span class="fc-badge fc-badge--warn">Medium</span></td><td>Email queue in memory: restart loses emails.</td><td>Email app <code>EmailController</code></td><td>Persist the queue (database table or Azure Queue).</td></tr>
-                <tr><td>13</td><td><span class="fc-badge fc-badge--warn">Medium</span></td><td>Bulletin PDFs, Elmah and log files on non-persistent container disk.</td><td><code>wwwroot/uploads/bulletins</code>, <code>logs/</code></td><td>Mount Azure Files or use Blob Storage.</td></tr>
-                <tr><td>14</td><td><span class="fc-badge fc-badge--warn">Medium</span></td><td>Deploy workflow listens for <code>live</code>, branch is <code>Live</code>.</td><td><code>deploy.yml</code></td><td>Match the names.</td></tr>
-                <tr><td>15</td><td><span class="fc-badge fc-badge--moss">Low</span></td><td>Registration needs only a whitelisted address, not the token; whitelist match is case-sensitive.</td><td><code>Register.cshtml.cs</code></td><td>Require and validate the token on the register page; compare emails case-insensitively.</td></tr>
-                <tr><td>16</td><td><span class="fc-badge fc-badge--moss">Low</span></td><td>Email app Swagger public; SMTP may fall back to plain text.</td><td>Email app <code>appsettings.json</code>, <code>EmailSender.cs</code></td><td><code>EnableSwaggerInProduction=false</code>; <code>SecureSocketOptions.StartTls</code>.</td></tr>
-                <tr><td>17</td><td><span class="fc-badge fc-badge--moss">Low</span></td><td>Contact us always shows Success even if the email failed.</td><td><code>Contact.cshtml.cs</code></td><td>Show the outcome from the hand-over.</td></tr>
-                <tr><td>18</td><td><span class="fc-badge fc-badge--moss">Low</span></td><td>Log search/download query columns that don't exist.</td><td><code>LogRetriver.cs</code></td><td>Use <code>LogLevel</code>/<code>MessageTemplate</code>; drop Url/Action.</td></tr>
-                <tr><td>19</td><td><span class="fc-badge fc-badge--moss">Low</span></td><td>New and seeded churches go live immediately as "Default Church" with placeholder details.</td><td><code>Register.cshtml.cs</code>, <code>UsersController.SeedSuperAdminAsync</code></td><td>Create new listings as Closed until edited.</td></tr>
-                <tr><td>20</td><td><span class="fc-badge fc-badge--moss">Low</span></td><td>"Bulletins" menu item shown to church users, who then get Access denied.</td><td>Site navigation</td><td>Show only with <code>Admin.Read</code>.</td></tr>
-                <tr><td>21</td><td><span class="fc-badge fc-badge--moss">Low</span></td><td>Church search geocodes every church on every search.</td><td><code>NearMe.cshtml.cs</code></td><td>Store coordinates on the listing.</td></tr>
-                <tr><td>22</td><td><span class="fc-badge fc-badge--moss">Low</span></td><td>Deleting an account leaves events, ChurchSuite tokens and blobs.</td><td>Account deletion</td><td>Delete related data in the same operation.</td></tr>
-                <tr><td>23</td><td><span class="fc-badge fc-badge--moss">Low</span></td><td>Seq secrets read but unused by the website; <code>/oauth-debug</code>, <code>/callback/{token}</code> and an unused postcode validator remain.</td><td>Various</td><td>Remove dead code and settings.</td></tr>
+                <tr><td>1</td><td><span class="fc-badge fc-badge--danger">Critical</span></td><td>Secrets that were committed (Azure client secret, database password, Google key, email JWT key) still work and are in Git history.</td><td>Azure, Google Cloud, database host, Key Vault; Git history</td><td>Follow <a href="#rotate-exposed">Rotate the exposed secrets</a>, then purge history.</td></tr>
+                <tr><td>2</td><td><span class="fc-badge fc-badge--warn">Medium</span></td><td>Event clean-up not scheduled and broken (null list, inverted date test).</td><td><code>EventContoller.cs</code>, <code>Program.cs</code></td><td>See <a href="/docs/system/jobs#cleanup">Jobs</a>.</td></tr>
+                <tr><td>3</td><td><span class="fc-badge fc-badge--warn">Medium</span></td><td>Email app <code>EmailScheduler</code> starts an extra endless loop every 5 minutes.</td><td>Email app <code>Classes/EmailScheduler.cs</code></td><td>Remove <code>EmailScheduler</code>.</td></tr>
+                <tr><td>4</td><td><span class="fc-badge fc-badge--warn">Medium</span></td><td>Email queue in memory: restart loses emails.</td><td>Email app <code>EmailController</code></td><td>Persist the queue (database table or Azure Queue).</td></tr>
+                <tr><td>5</td><td><span class="fc-badge fc-badge--warn">Medium</span></td><td>Bulletin PDFs, Elmah and log files on non-persistent container disk.</td><td><code>wwwroot/uploads/bulletins</code>, <code>logs/</code></td><td>Mount Azure Files or use Blob Storage.</td></tr>
+                <tr><td>6</td><td><span class="fc-badge fc-badge--warn">Medium</span></td><td>Deploy workflow listens for <code>live</code>, branch is <code>Live</code>.</td><td><code>deploy.yml</code></td><td>Match the names.</td></tr>
+                <tr><td>7</td><td><span class="fc-badge fc-badge--moss">Low</span></td><td>No IP rate limiting on sign-in, the contact form or search (account lockout is on).</td><td><code>Program.cs</code></td><td>Add ASP.NET Core rate limiting.</td></tr>
+                <tr><td>8</td><td><span class="fc-badge fc-badge--moss">Low</span></td><td>Registration needs only a whitelisted address, not the token; whitelist match is case-sensitive.</td><td><code>Register.cshtml.cs</code></td><td>Require and validate the token on the register page; compare emails case-insensitively.</td></tr>
+                <tr><td>9</td><td><span class="fc-badge fc-badge--moss">Low</span></td><td>Email app Swagger public; SMTP may fall back to plain text.</td><td>Email app <code>appsettings.json</code>, <code>EmailSender.cs</code></td><td><code>EnableSwaggerInProduction=false</code>; <code>SecureSocketOptions.StartTls</code>.</td></tr>
+                <tr><td>10</td><td><span class="fc-badge fc-badge--moss">Low</span></td><td>Contact us always shows Success even if the email failed.</td><td><code>Contact.cshtml.cs</code></td><td>Show the outcome from the hand-over.</td></tr>
+                <tr><td>11</td><td><span class="fc-badge fc-badge--moss">Low</span></td><td>Log search/download query columns that don't exist.</td><td><code>LogRetriver.cs</code></td><td>Use <code>LogLevel</code>/<code>MessageTemplate</code>; drop Url/Action.</td></tr>
+                <tr><td>12</td><td><span class="fc-badge fc-badge--moss">Low</span></td><td>New and seeded churches go live immediately as "Default Church" with placeholder details.</td><td><code>Register.cshtml.cs</code>, <code>UsersController.SeedSuperAdminAsync</code></td><td>Create new listings as Closed until edited.</td></tr>
+                <tr><td>13</td><td><span class="fc-badge fc-badge--moss">Low</span></td><td>"Bulletins" menu item shown to church users, who then get Access denied.</td><td>Site navigation</td><td>Show only with <code>Admin.Read</code>.</td></tr>
+                <tr><td>14</td><td><span class="fc-badge fc-badge--moss">Low</span></td><td>Church search geocodes every church on every search.</td><td><code>NearMe.cshtml.cs</code></td><td>Store coordinates on the listing.</td></tr>
+                <tr><td>15</td><td><span class="fc-badge fc-badge--moss">Low</span></td><td>Deleting an account leaves events, ChurchSuite tokens and blobs.</td><td>Account deletion</td><td>Delete related data in the same operation.</td></tr>
+                <tr><td>16</td><td><span class="fc-badge fc-badge--moss">Low</span></td><td>Seq secrets read but unused by the website; <code>/callback/{token}</code> and an unused postcode validator remain.</td><td>Various</td><td>Remove dead code and settings.</td></tr>
             </tbody>
         </table>
     </div>
-    <p>The older HelpNDoc guides in <code>Docs/</code> describe automatic event clean-up, manual approval of new churches and account lockout, none of which match the current code. This documentation replaces them.</p>
+    <p>The older HelpNDoc guides in <code>Docs/</code> describe automatic event clean-up and manual approval of new churches, which don't match the current code. This documentation replaces them.</p>
 </section>

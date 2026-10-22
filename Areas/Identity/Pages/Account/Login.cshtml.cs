@@ -107,41 +107,16 @@ namespace ForestChurches.Areas.Identity.Pages.Account
 
             if (ModelState.IsValid)
             {
-                // This doesn't count login failures towards account lockout
-                // To enable password failures to trigger account lockout, set lockoutOnFailure: true
-                // If users may sign in with their email but the underlying UserName is different,
-                // resolve the user by email first and use their UserName for PasswordSignInAsync.
-                var username = Input.Email;
+                // Users sign in with their email; resolve it to the account first.
+                // PasswordSignInAsync(user, ...) checks the password, counts failures towards
+                // lockout (5 attempts, 15 minutes; see PolicyConfiguration) and sends users with
+                // two-factor authentication on to the 2FA step instead of signing them straight in.
                 var user = await _signInManager.UserManager.FindByEmailAsync(Input.Email);
-                if (user != null)
-                {
-                    username = user.UserName;
-                }
 
-                _logger.LogInformation("Attempting sign-in for username '{Username}' (email: {Email}). User found: {Found}", username, Input?.Email, user != null);
+                Microsoft.AspNetCore.Identity.SignInResult result = user != null
+                    ? await _signInManager.PasswordSignInAsync(user, Input.Password, Input.RememberMe, lockoutOnFailure: true)
+                    : await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: true);
 
-                Microsoft.AspNetCore.Identity.SignInResult result;
-
-                if (user != null)
-                {       
-                    // Use CheckPasswordSignInAsync when we have the user object. This avoids issues when
-                    // the supplied identifier is an email but the store uses a different UserName.
-                    var passwordValid = await _signInManager.UserManager.CheckPasswordAsync(user, Input.Password);
-                    _logger.LogInformation("Password check for {Email}: {Valid}", Input?.Email, passwordValid);
-
-                    result = await _signInManager.CheckPasswordSignInAsync(user, Input.Password, lockoutOnFailure: false);
-
-                    // If password valid and sign-in succeeded, explicitly sign in the user (preserves claims/principal creation).
-                    if (result.Succeeded)
-                    {
-                        await _signInManager.SignInAsync(user, Input.RememberMe);
-                    }
-                }
-                else
-                {
-                    // Fall back to the original behavior using the input as username
-                    result = await _signInManager.PasswordSignInAsync(username, Input.Password, Input.RememberMe, lockoutOnFailure: false);
-                }
                 if (result.Succeeded)
                 {
                     return LocalRedirect(returnUrl);

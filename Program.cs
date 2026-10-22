@@ -1,3 +1,4 @@
+using ForestChurches.Components.Security.Token;
 using Azure.Identity;
 using Azure.Storage.Blobs;
 using ElmahCore;
@@ -45,8 +46,28 @@ internal partial class Program
             configBuilder.AddJsonFile($"appsettings.{environment}.json", optional: true, reloadOnChange: true);
         }
 
+        if (string.Equals(environment, "Development", StringComparison.OrdinalIgnoreCase))
+        {
+            // Developer secrets (database password, Azure client secret) live in .NET user-secrets,
+            // outside the repository: dotnet user-secrets set "ConnectionStrings:Development" "..."
+            configBuilder.AddUserSecrets<Program>(optional: true);
+        }
+
         configBuilder.AddEnvironmentVariables();
         var config = configBuilder.Build();
+
+        if (string.Equals(environment, "Development", StringComparison.OrdinalIgnoreCase))
+        {
+            // EnvironmentCredential only reads environment variables, so copy any Azure/Key Vault
+            // values kept in user-secrets into the process environment when they aren't already set.
+            foreach (var name in new[] { "KEY_VAULT_URL", "AZURE_TENANT_ID", "AZURE_CLIENT_ID", "AZURE_CLIENT_SECRET" })
+            {
+                if (string.IsNullOrEmpty(Environment.GetEnvironmentVariable(name)) && !string.IsNullOrEmpty(config[name]))
+                {
+                    Environment.SetEnvironmentVariable(name, config[name]);
+                }
+            }
+        }
 
         try
         {
@@ -119,7 +140,7 @@ internal partial class Program
             if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Development")
             {
                 connectionString = config["ConnectionStrings:Development"] ??
-                    throw new InvalidOperationException("Cannot load connection string for development environment");
+                    throw new InvalidOperationException("Cannot load connection string for development environment. Set it with: dotnet user-secrets set \"ConnectionStrings:Development\" \"<connection string>\"");
             }
             else if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Production")
             {
@@ -381,6 +402,10 @@ internal partial class Program
                         {
                             var principal = context.Principal;
                             var incomingRedirect = context.Properties?.RedirectUri ?? "/";
+                            if (!incomingRedirect.StartsWith("/") || incomingRedirect.StartsWith("//") || incomingRedirect.StartsWith("/\\"))
+                            {
+                                incomingRedirect = "/"; // never redirect off-site
+                            }
 
                             string accessToken = null;
                             string refreshToken = null;
@@ -405,10 +430,16 @@ internal partial class Program
                                 context.Properties.Items.TryGetValue("redirect_uri", out redirectUriFromChallenge);
                             }
 
+                            // Security: only link tokens to the user who is actually signed in. A user ID
+                            // carried in the challenge must match them and is never used to sign anyone in.
                             var authenticatedUser = await userManager.GetUserAsync(context.HttpContext.User);
-                            if (authenticatedUser == null && !string.IsNullOrEmpty(userIdFromChallenge))
+                            if (!string.IsNullOrEmpty(userIdFromChallenge) &&
+                                (authenticatedUser == null || !string.Equals(authenticatedUser.Id, userIdFromChallenge, StringComparison.Ordinal)))
                             {
-                                authenticatedUser = await userManager.FindByIdAsync(userIdFromChallenge);
+                                Log.Warning("[OnTicketReceived] Rejected ChurchSuite sign-in: challenge user does not match the signed-in user");
+                                context.HandleResponse();
+                                context.Response.Redirect("/Identity/Account/Login?error=Please+sign+in+to+connect+ChurchSuite");
+                                return;
                             }
 
                             if (authenticatedUser != null)
@@ -462,7 +493,7 @@ internal partial class Program
                                     Log.Error(ex, "[OnTicketReceived] Error saving credentials for user {UserId}", authenticatedUser.Id);
                                 }
 
-                                await signInManager.SignInAsync(authenticatedUser, isPersistent: true);
+                                await signInManager.RefreshSignInAsync(authenticatedUser);
                                 context.HandleResponse();
                                 context.Response.Redirect(incomingRedirect);
                                 return;
@@ -540,6 +571,10 @@ internal partial class Program
 
             var app = builder.Build();
 
+            // Encrypt ChurchSuite tokens and API keys in the database with the site's Data Protection keys.
+            ForestChurches.Components.Security.ProtectedColumn.Initialise(
+                app.Services.GetRequiredService<Microsoft.AspNetCore.DataProtection.IDataProtectionProvider>());
+
             if (!app.Environment.IsDevelopment())
             {
                 app.UseExceptionHandler("/Error");
@@ -552,6 +587,16 @@ internal partial class Program
                 context.Response.Headers.Remove("X-Powered-By");
                 context.Response.Headers.Add("Strict-Transport-Security", "max-age=31536000; includeSubDomains; preload");
                 await next();
+            });
+
+            // Content Security Policy, nosniff, referrer and framing headers on every response.
+            app.UseContentSecurityPolicy(options =>
+            {
+                if (app.Environment.IsDevelopment())
+                {
+                    // Visual Studio / dotnet watch browser refresh uses a local WebSocket.
+                    options.AdditionalConnectSources.AddRange(new[] { "ws://localhost:*", "wss://localhost:*", "http://localhost:*", "https://localhost:*" });
+                }
             });
 
             app.UseHttpsRedirection();
