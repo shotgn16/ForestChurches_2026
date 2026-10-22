@@ -1,0 +1,112 @@
+/* =========================================================================
+   Forest Churches documentation (/docs)
+   Builds on forest.css: uses its tokens only, so light/dark mode and the
+   "forest floor" look carry over automatically.
+   ========================================================================= */
+
+.fcd { padding-top: 36px; padding-bottom: 72px; }
+.fcd__layout { display: grid; grid-template-columns: 260px minmax(0, 1fr); gap: 40px; align-items: start; }
+@media (max-width: 960px) { .fcd__layout { grid-template-columns: minmax(0, 1fr); gap: 20px; } }
+
+/* ---------- Sidebar ---------- */
+.fcd__side { position: sticky; top: 20px; max-height: calc(100vh - 40px); overflow-y: auto; padding-right: 4px; }
+@media (max-width: 960px) { .fcd__side { position: static; max-height: none; } }
+.fcd__side details > summary { display: none; }
+@media (max-width: 960px) {
+    .fcd__side details { background: var(--fc-surface); border: 1px solid var(--fc-line); border-radius: var(--fc-radius); padding: 6px 10px; }
+    .fcd__side details > summary { display: block; cursor: pointer; font-weight: 700; padding: 8px 4px; color: var(--fc-ink); }
+}
+.fcd__group { margin: 18px 0 6px; padding: 0 14px; font-size: 12px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--fc-bark); }
+.fcd__group:first-child { margin-top: 0; }
+.fcd__side .fc-sidenav { font-size: 15px; }
+.fcd__side .fc-sidenav a { padding: 8px 14px; }
+.fcd__lock { font-size: 11px; font-weight: 700; color: var(--fc-muted); margin-left: 6px; }
+.fcd__side .fc-sidenav a[aria-current="page"] .fcd__lock { color: var(--fc-on-primary); }
+
+/* ---------- Main column ---------- */
+.fcd__main { min-width: 0; }
+.fcd__head { margin-bottom: 28px; }
+.fcd__head h1 { font-size: 40px; margin: 6px 0 10px; }
+.fcd__head .fc-lead { max-width: 760px; }
+.fcd__meta { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+
+.fcd-section { background: var(--fc-surface); border: 1px solid var(--fc-line); border-radius: var(--fc-radius-lg); padding: 28px 30px; margin-bottom: 22px; scroll-margin-top: 96px; }
+@media (max-width: 600px) { .fcd-section { padding: 20px 18px; } }
+.fcd-section > h2:first-child { margin-top: 0; }
+.fcd-section h2 { font-size: 26px; }
+.fcd-section h3 { scroll-margin-top: 96px; }
+.fcd-section ol { margin: 0 0 14px; padding-left: 22px; line-height: 1.7; color: var(--fc-ink-2); }
+.fcd-section ol li { margin-bottom: 6px; }
+.fcd-section code { font-size: .92em; background: var(--fc-surface-2); border: 1px solid var(--fc-line-2); border-radius: 6px; padding: 1px 6px; word-break: break-word; }
+.fcd-section pre { background: var(--fc-surface-2); border: 1px solid var(--fc-line); border-radius: var(--fc-radius); padding: 14px 16px; overflow-x: auto; font-size: 14px; line-height: 1.55; color: var(--fc-ink); margin: 0 0 16px; }
+.fcd-section pre code { background: none; border: 0; padding: 0; word-break: normal; }
+.fcd-section kbd { font-family: var(--fc-sans); font-size: .9em; font-weight: 700; background: var(--fc-surface-2); border: 1px solid var(--fc-line-3); border-bottom-width: 2px; border-radius: 6px; padding: 1px 7px; }
+.fcd-section .ui { font-weight: 700; color: var(--fc-ink); }
+
+/* On this page */
+.fcd-toc { background: var(--fc-surface-2); border: 1px solid var(--fc-line); border-radius: var(--fc-radius-lg); padding: 18px 22px; margin-bottom: 22px; }
+.fcd-toc strong { display: block; margin-bottom: 8px; color: var(--fc-ink); }
+.fcd-toc ol { margin: 0; padding-left: 20px; columns: 2 240px; column-gap: 28px; line-height: 1.8; }
+.fcd-toc a { color: var(--fc-ink-2); }
+
+/* Screenshots */
+.fcd-shot { margin: 18px 0 22px; }
+.fcd-shot img { display: block; width: 100%; height: auto; border: 1px solid var(--fc-line-3); border-radius: var(--fc-radius); box-shadow: 0 6px 18px rgba(31, 61, 43, .08); background: var(--fc-ground); }
+.fcd-shot--phone { max-width: 300px; }
+.fcd-shot--half { max-width: 640px; }
+.fcd-shot figcaption { margin-top: 8px; font-size: 14px; color: var(--fc-muted); line-height: 1.5; }
+.fcd-shots { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 18px; align-items: start; }
+
+/* Callouts */
+.fcd-note { border-left: 4px solid var(--fc-moss); background: var(--fc-moss-soft); border-radius: 0 var(--fc-radius) var(--fc-radius) 0; padding: 14px 18px; margin: 0 0 16px; color: var(--fc-ink-2); line-height: 1.65; }
+.fcd-note p:last-child, .fcd-note ul:last-child { margin-bottom: 0; }
+.fcd-note--warn { border-left-color: var(--fc-bark); background: var(--fc-warn-soft); }
+.fcd-note--danger { border-left-color: var(--fc-danger); background: var(--fc-danger-soft); }
+.fcd-note__title { display: block; font-weight: 700; color: var(--fc-ink); margin-bottom: 4px; }
+
+/* Reference tables */
+.fcd-table-wrap { overflow-x: auto; margin: 0 0 18px; border: 1px solid var(--fc-line); border-radius: var(--fc-radius); }
+.fcd-table { width: 100%; border-collapse: collapse; font-size: 15px; }
+.fcd-table th { text-align: left; background: var(--fc-surface-2); color: var(--fc-ink); font-size: 13px; letter-spacing: .04em; text-transform: uppercase; padding: 10px 12px; border-bottom: 1px solid var(--fc-line); white-space: nowrap; }
+.fcd-table td { padding: 10px 12px; border-bottom: 1px solid var(--fc-line-2); vertical-align: top; color: var(--fc-ink-2); line-height: 1.55; }
+.fcd-table tr:last-child td { border-bottom: 0; }
+.fcd-yes { color: var(--fc-ok); font-weight: 700; }
+.fcd-no { color: var(--fc-muted); }
+
+/* Audience cards on /docs */
+.fcd-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 18px; margin-bottom: 26px; }
+.fcd-card { display: flex; flex-direction: column; gap: 10px; text-decoration: none; background: var(--fc-surface); border: 1px solid var(--fc-line); border-radius: var(--fc-radius-lg); padding: 24px; color: var(--fc-ink-2); transition: box-shadow .2s, border-color .2s; }
+.fcd-card:hover { box-shadow: var(--fc-shadow); border-color: var(--fc-moss-line); color: var(--fc-ink-2); }
+.fcd-card h2 { font-size: 22px; margin: 0; color: var(--fc-ink); }
+.fcd-card p { margin: 0; line-height: 1.6; }
+.fcd-card__go { margin-top: auto; font-weight: 700; color: var(--fc-bark); }
+.fcd-card--dark { background: var(--fc-band); border-color: var(--fc-band); color: var(--fc-on-band-muted); }
+.fcd-card--dark h2 { color: var(--fc-on-band); }
+.fcd-card--dark:hover { color: var(--fc-on-band-muted); }
+.fcd-card--dark .fcd-card__go { color: var(--fc-on-band); }
+
+/* Diagrams (inline SVG, coloured from tokens so they work in dark mode) */
+.fcd-diagram { margin: 16px 0 22px; padding: 16px; background: var(--fc-ground); border: 1px solid var(--fc-line); border-radius: var(--fc-radius); overflow-x: auto; }
+.fcd-diagram svg { display: block; width: 100%; min-width: 640px; height: auto; font-family: var(--fc-sans); }
+.fcd-diagram figcaption { margin-top: 10px; font-size: 14px; color: var(--fc-muted); }
+.fcd-diagram .box { fill: var(--fc-surface); stroke: var(--fc-line-3); stroke-width: 1.5; }
+.fcd-diagram .box--dark { fill: var(--fc-band); stroke: var(--fc-band); }
+.fcd-diagram .box--moss { fill: var(--fc-moss-soft); stroke: var(--fc-moss-line); stroke-width: 1.5; }
+.fcd-diagram .box--bark { fill: var(--fc-bark-soft); stroke: var(--fc-bark); stroke-width: 1.5; }
+.fcd-diagram .zone { fill: none; stroke: var(--fc-moss-line); stroke-width: 1.5; stroke-dasharray: 6 5; }
+.fcd-diagram .t { fill: var(--fc-ink); font-size: 14px; font-weight: 700; }
+.fcd-diagram .s { fill: var(--fc-muted); font-size: 12px; }
+.fcd-diagram .t--on-dark { fill: var(--fc-on-band); }
+.fcd-diagram .s--on-dark { fill: var(--fc-on-band-muted); }
+.fcd-diagram .z { fill: var(--fc-bark); font-size: 11px; font-weight: 700; letter-spacing: .1em; }
+.fcd-diagram .line { stroke: var(--fc-moss); stroke-width: 1.8; fill: none; }
+.fcd-diagram .line--warn { stroke: var(--fc-bark); stroke-dasharray: 5 4; }
+.fcd-diagram .arrow { fill: var(--fc-moss); }
+.fcd-diagram .lbl { fill: var(--fc-ink-2); font-size: 11.5px; }
+
+/* Print: just the content */
+@media print {
+    .fc-header, .fc-footer, .fc-banner, .fcd__side, .fc-skip { display: none !important; }
+    .fcd__layout { display: block; }
+    .fcd-section { break-inside: avoid-page; border: 0; padding: 0 0 12px; }
+}

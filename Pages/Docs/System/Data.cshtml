@@ -1,0 +1,168 @@
+@page "/docs/system/data"
+@model ForestChurches.Pages.Docs.DocsSystemModel
+@{
+    ViewData["Title"] = "Data, storage & encryption";
+    ViewData["DocsPage"] = "system-data";
+    ViewData["DocsEyebrow"] = "System reference · SuperAdmin";
+    ViewData["DocsAudience"] = "SuperAdmin / system administrators";
+    ViewData["DocsLead"] = "What data the system holds, where each piece is stored, how it's processed, how long it's kept, and what is and isn't encrypted.";
+}
+
+<nav class="fcd-toc" aria-label="On this page">
+    <strong>On this page</strong>
+    <ol>
+        <li><a href="#stores">Where data lives</a></li>
+        <li><a href="#tables">Database tables</a></li>
+        <li><a href="#personal">Personal data inventory</a></li>
+        <li><a href="#processing">How data is processed and shared</a></li>
+        <li><a href="#retention">Retention and deletion</a></li>
+        <li><a href="#encryption">Encryption</a></li>
+        <li><a href="#subject">Handling data requests</a></li>
+        <li><a href="#backup">Backups</a></li>
+    </ol>
+</nav>
+
+<section class="fcd-section" id="stores">
+    <h2>Where data lives</h2>
+    <div class="fcd-table-wrap">
+        <table class="fcd-table">
+            <thead><tr><th>Store</th><th>Holds</th><th>Location</th></tr></thead>
+            <tbody>
+                <tr><td>MySQL / MariaDB database</td><td>Accounts, churches, events, invitations, roles, ChurchSuite tokens, bulletins, application logs, Hangfire job data</td><td>The server named in <code>db-connection-live</code></td></tr>
+                <tr><td>Azure Blob Storage: images container (<code>storage-container-name</code>)</td><td>Church logos, profile pictures, event images, email/site images</td><td>The storage account's Azure region</td></tr>
+                <tr><td>Azure Blob Storage: key-ring container (<code>blob-container-name</code>)</td><td>Data Protection key ring (one XML blob, keys wrapped by Key Vault)</td><td>Same account</td></tr>
+                <tr><td>Azure Key Vault</td><td>Secrets and the <code>data-key</code> RSA key</td><td>The vault's Azure region</td></tr>
+                <tr><td>Website container file system</td><td><code>wwwroot/uploads/bulletins/*.pdf</code>, Elmah XML error files and daily logs in <code>logs/</code>, start-up support zips in <code>support/</code></td><td>Inside the running container. <strong>Not persistent</strong>: lost when a new revision is deployed unless a volume is mounted.</td></tr>
+                <tr><td>Website memory</td><td>Sessions, Email delivery tracker (latest 500)</td><td>Lost on restart</td></tr>
+                <tr><td>Email app memory</td><td>Email queue (full message content), delivery status records (14 days / 5,000)</td><td>Plesk host; lost on restart</td></tr>
+                <tr><td>Email app file system</td><td>Daily log files, support zips</td><td>Plesk host</td></tr>
+                <tr><td>Grafana Cloud Loki</td><td>Website logs</td><td>Grafana Cloud stack <code>logs-prod-035</code></td></tr>
+                <tr><td>Seq</td><td>Email app logs</td><td>The server at <code>seq-link</code></td></tr>
+                <tr><td>IONOS mail</td><td>Sent emails pass through and may be kept in the sending mailbox</td><td>IONOS</td></tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="fcd-note fcd-note--warn"><p>Bulletin PDFs uploaded through Site admin are stored on the container's disk. Unless the container app mounts persistent storage at <code>/app/wwwroot/uploads</code>, they disappear on the next deployment while the database still points at them. Mount an Azure Files volume or move them to Blob Storage.</p></div>
+</section>
+
+<section class="fcd-section" id="tables">
+    <h2>Database tables</h2>
+    <p>Tables are created by EF Core migrations at start-up (pending migrations are applied automatically), except <code>bulletins</code> (created by the seeder with <code>CREATE TABLE IF NOT EXISTS</code>), <code>applicationlogs</code> (created by the Serilog sink) and <code>Hangfire*</code> (created by Hangfire).</p>
+    <div class="fcd-table-wrap">
+        <table class="fcd-table">
+            <thead><tr><th>Table</th><th>Contents</th><th>Links</th></tr></thead>
+            <tbody>
+                <tr><td><code>AspNetUsers</code></td><td>Account: email, username, password hash, security stamp, phone, 2FA flags, authenticator key (via <code>AspNetUserTokens</code>), <code>CreatedDate</code>, <code>ImageBlobName</code>, legacy <code>ImageArray</code>, <code>Role</code>, <code>ClientId</code></td><td>1–1 <code>ChurchInformation</code> (cascade delete)</td></tr>
+                <tr><td><code>AspNetRoles</code>, <code>AspNetUserRoles</code>, <code>AspNetUserLogins</code>, <code>AspNetUserTokens</code>, <code>AspNetUserClaims</code>, <code>AspNetRoleClaims</code></td><td>Standard Identity tables</td><td>Cascade with user/role</td></tr>
+                <tr><td><code>Permissions</code>, <code>RolePermissions</code></td><td>Permission catalogue and grants</td><td>RolePermissions → roles, permissions</td></tr>
+                <tr><td><code>ChurchInformation</code></td><td>Church listing: name, description, status (Open/Closed), denomination, congregation size, address, phone, website, ChurchSuite URL, 11 facility flags, <code>ChurchSuiteSubdomain</code>, <code>ChurchSuiteApiKey</code></td><td><code>ChurchAccountId</code> (unique)</td></tr>
+                <tr><td><code>ServiceTimes</code></td><td>Time and note per service</td><td>→ ChurchInformation (cascade)</td></tr>
+                <tr><td><code>Events</code></td><td>Name, date, start/end, description, address, link, repeats label, owner email (<code>User</code>), church name (<code>Church</code>), image blob name or legacy bytes</td><td>None (text only)</td></tr>
+                <tr><td><code>WhitelistedUsers</code></td><td>Invited email, status (Pending/Completed), registration date, expiry</td><td>None</td></tr>
+                <tr><td><code>ChurchSuiteCredentials</code></td><td>User ID, subdomain, access token, refresh token, expiry, account ID, client ID, temporary PKCE verifier, timestamps</td><td>Unique (UserId, Subdomain); no foreign key</td></tr>
+                <tr><td><code>bulletins</code></td><td>Title, parish, date, Sunday name, readings, notes, hymns, notices, type, PDF filename, live flag, banner flag/expiry</td><td>None</td></tr>
+                <tr><td><code>applicationlogs</code></td><td>Serilog events: timestamp, level, message, template, exception, properties</td><td>None</td></tr>
+                <tr><td><code>system_logs</code></td><td>Mapped by EF for an older log format; not written by current code</td><td>None</td></tr>
+                <tr><td><code>Hangfire*</code></td><td>Jobs, queues, servers, counters, locks</td><td>Hangfire-managed</td></tr>
+                <tr><td><code>__EFMigrationsHistory</code></td><td>Applied migrations</td><td></td></tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+
+<section class="fcd-section" id="personal">
+    <h2>Personal data inventory</h2>
+    <div class="fcd-table-wrap">
+        <table class="fcd-table">
+            <thead><tr><th>Whose</th><th>What</th><th>Where</th><th>Why</th></tr></thead>
+            <tbody>
+                <tr><td>Church admins</td><td>Email, password hash, optional phone, profile picture, 2FA secret, sign-in provider keys</td><td>Database, Blob</td><td>Account and sign-in</td></tr>
+                <tr><td>Church admins</td><td>Church contact details (often a person's phone or email), service times, events</td><td>Database</td><td>Published on the public site on purpose</td></tr>
+                <tr><td>Invited people</td><td>Email address</td><td><code>WhitelistedUsers</code></td><td>Invitation</td></tr>
+                <tr><td>Visitors using Contact us or a church's form</td><td>Name, email, message</td><td>Not stored in the database; sent by email; may appear in logs</td><td>To deliver the message</td></tr>
+                <tr><td>Visitors using Download details</td><td>Their email address</td><td>Not stored; sent by email; logged</td><td>To send the church details</td></tr>
+                <tr><td>Visitors searching</td><td>Postcode/address typed</td><td>Sent to Google for geocoding; request paths in logs</td><td>To find nearby churches</td></tr>
+                <tr><td>Everyone</td><td>IP address, user agent, request path</td><td>Request logs (Loki, <code>applicationlogs</code>), hosting platform logs</td><td>Security and troubleshooting</td></tr>
+                <tr><td>Email recipients</td><td>Address, subject, delivery status</td><td>Website memory, email app memory and logs, Seq, Loki</td><td>Delivery tracking</td></tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+
+<section class="fcd-section" id="processing">
+    <h2>How data is processed and shared</h2>
+    <ul>
+        <li><strong>Google</strong> (Geocoding, Places): addresses and postcodes from searches and church listings are sent to Google. Church search geocodes each open church's address on every search; nothing is cached.</li>
+        <li><strong>OpenStreetMap tiles</strong>: the visitor's browser loads map tiles directly from OSM, which sees the visitor's IP.</li>
+        <li><strong>ChurchSuite</strong>: if a church connects ChurchSuite, the site calls ChurchSuite's API with that church's tokens to read account details and the next 7 days of calendar events, which are copied into <code>Events</code>.</li>
+        <li><strong>Email app and IONOS</strong>: every email's recipient, subject and filled-in content is sent to the email app, then to IONOS SMTP.</li>
+        <li><strong>Grafana Cloud and Seq</strong>: log events, which can include email addresses, user IDs and request paths.</li>
+        <li><strong>Microsoft Azure</strong>: hosting, storage and Key Vault.</li>
+        <li><strong>Browser CDNs</strong>: Font Awesome, unpkg (Leaflet), cdnjs and others load scripts/styles directly in the visitor's browser.</li>
+    </ul>
+    <p>There's no analytics, advertising or tracking, and data isn't sold or shared beyond the processors above.</p>
+</section>
+
+<section class="fcd-section" id="retention">
+    <h2>Retention and deletion</h2>
+    <div class="fcd-table-wrap">
+        <table class="fcd-table">
+            <thead><tr><th>Data</th><th>Kept until</th></tr></thead>
+            <tbody>
+                <tr><td>Accounts and church listings</td><td>Deleted by the user (My Data) or a SuperAdmin. No automatic expiry for inactive accounts.</td></tr>
+                <tr><td>Events</td><td>Deleted manually. Automatic clean-up isn't working (see <a href="/docs/system/jobs#cleanup">Jobs</a>). Not deleted with the account.</td></tr>
+                <tr><td>Invitations</td><td>Kept indefinitely (Completed or expired rows stay) until an admin deletes them.</td></tr>
+                <tr><td>ChurchSuite tokens</td><td>Kept until the row is deleted in the database. Removing the login or deleting the account doesn't delete them.</td></tr>
+                <tr><td>Images in Blob Storage</td><td>Kept indefinitely; replaced images and deleted accounts leave blobs behind.</td></tr>
+                <tr><td><code>applicationlogs</code></td><td>No automatic clean-up; grows forever. Purge periodically.</td></tr>
+                <tr><td>Grafana Loki logs</td><td>Your Grafana Cloud plan's retention.</td></tr>
+                <tr><td>Hangfire job history</td><td>Succeeded jobs expire after Hangfire's default (24 hours); checked hourly.</td></tr>
+                <tr><td>Email status records</td><td>14 days or the latest 5,000 (email app); latest 500 (website); both reset on restart.</td></tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+
+<section class="fcd-section" id="encryption">
+    <h2>Encryption</h2>
+    <h3>In transit</h3>
+    <ul>
+        <li>Browser ↔ website: HTTPS with HSTS (TLS terminated by Azure Container Apps' ingress).</li>
+        <li>Website ↔ Key Vault, Blob Storage, Google, ChurchSuite, Grafana: HTTPS.</li>
+        <li>Website ↔ email app: HTTPS (<code>EmailApi:BaseUrl</code> must be <code>https://</code>).</li>
+        <li>Email app ↔ IONOS: SMTP with STARTTLS when offered (MailKit <code>StartTlsWhenAvailable</code>). Change to <code>StartTls</code> to refuse an unencrypted connection.</li>
+        <li>Website ↔ database: whatever the connection string specifies. Check it includes <code>SslMode=Required</code> (or stricter) if the database isn't on a private network.</li>
+    </ul>
+    <h3>At rest</h3>
+    <div class="fcd-table-wrap">
+        <table class="fcd-table">
+            <thead><tr><th>Data</th><th>Protection</th></tr></thead>
+            <tbody>
+                <tr><td>Passwords</td><td>Identity v3 hashes: PBKDF2 with HMAC-SHA512, 128-bit salt, 100,000 iterations (.NET 8 default). Not reversible.</td></tr>
+                <tr><td>Data Protection keys</td><td>Wrapped (encrypted) with the Key Vault RSA key in Production; stored in Blob Storage, itself encrypted by Azure.</td></tr>
+                <tr><td>Key Vault secrets</td><td>Encrypted by Key Vault (HSM-backed keys).</td></tr>
+                <tr><td>Blob Storage (images, key ring)</td><td>Azure Storage Service Encryption (AES-256, Microsoft-managed keys). Containers are private; images are served with read-only SAS URLs that expire.</td></tr>
+                <tr><td>Database</td><td>Depends on the database host. The application doesn't encrypt any columns: church data, emails, <strong>ChurchSuite access/refresh tokens and API keys are stored in plain text</strong>.</td></tr>
+                <tr><td>2FA authenticator keys</td><td>Plain text in <code>AspNetUserTokens</code> (Identity default).</td></tr>
+                <tr><td>Container disk, logs, Loki, Seq</td><td>Platform defaults; not encrypted by the app.</td></tr>
+            </tbody>
+        </table>
+    </div>
+    <h3>Application-level encryption (Data Protection)</h3>
+    <p>Used for short-lived values, not stored data: the sign-in cookie, antiforgery tokens, session cookie, Identity email/reset tokens, encrypted IDs in URLs (<a href="/docs/system/accounts#ids">purpose list</a>) and email callback tokens (<a href="/docs/system/security#tokens">details</a>).</p>
+</section>
+
+<section class="fcd-section" id="subject">
+    <h2>Handling data requests</h2>
+    <ul>
+        <li><strong>Access</strong>: a signed-in user can download a PDF from Manage account → Personal data. It contains Identity's personal-data fields (ID, username, email, phone, confirmation and 2FA flags), external login keys and the <em>authenticator key</em>. It doesn't include the church listing or events, so add those by hand if asked.</li>
+        <li><strong>Deletion</strong>: the user can delete their account there; a SuperAdmin can delete it from Users. Afterwards, also delete their events (Admin → Events lists each event's church), their <code>ChurchSuiteCredentials</code> row, their blobs, and any invitation row.</li>
+        <li><strong>Correction</strong>: church admins edit their own listing; admins can edit any church.</li>
+        <li>Logs that mention the person age out only as described under retention.</li>
+    </ul>
+</section>
+
+<section class="fcd-section" id="backup">
+    <h2>Backups</h2>
+    <p>The application doesn't make backups. Make sure the database host takes regular backups, enable soft delete (and ideally versioning) on the storage account so the key ring and images can be restored, and keep Key Vault soft delete and purge protection on. Losing the <code>data-key</code> key makes the key ring unreadable (everyone is signed out and outstanding links break, but no stored data is lost).</p>
+</section>

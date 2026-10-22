@@ -1,0 +1,231 @@
+@page "/docs/visitors"
+@model ForestChurches.Pages.Docs.DocsPublicModel
+@{
+    ViewData["Title"] = "Visitor guide";
+    ViewData["DocsPage"] = "visitors";
+    ViewData["DocsEyebrow"] = "Guide · Visitors";
+    ViewData["DocsAudience"] = "anyone using the site, no account needed";
+    ViewData["DocsLead"] = "Forest Churches helps you find a church in the Forest of Dean and the Wye Valley: service times, upcoming events, facilities, directions and a way to get in touch.";
+}
+
+<nav class="fcd-toc" aria-label="On this page">
+    <strong>On this page</strong>
+    <ol>
+        <li><a href="#around">Finding your way around</a></li>
+        <li><a href="#search">Searching for a church</a></li>
+        <li><a href="#results">Reading the results</a></li>
+        <li><a href="#church">A church's page</a></li>
+        <li><a href="#contact-church">Contacting a church</a></li>
+        <li><a href="#save">Saving a church's details</a></li>
+        <li><a href="#events">Finding events</a></li>
+        <li><a href="#bulletin">The weekly bulletin</a></li>
+        <li><a href="#language">Changing the language</a></li>
+        <li><a href="#dark">Light and dark mode</a></li>
+        <li><a href="#phone">Using a phone</a></li>
+        <li><a href="#contact-us">Contacting Forest Churches</a></li>
+        <li><a href="#privacy">Your privacy</a></li>
+        <li><a href="#help">Troubleshooting</a></li>
+    </ol>
+</nav>
+
+<section class="fcd-section" id="around">
+    <h2>Finding your way around</h2>
+    <p>You don't need an account to use anything in this guide. Every page has the same header:</p>
+    <ul>
+        <li><span class="ui">Forest Churches</span> (top left) takes you back to the home page.</li>
+        <li><span class="ui">Find a church</span> opens the search.</li>
+        <li><span class="ui">Bulletin</span> shows the current weekly pew sheet or announcement.</li>
+        <li><span class="ui">About Us</span> and <span class="ui">Contact Us</span> tell you about the site and how to reach the team.</li>
+        <li>The <span class="ui">moon / sun</span> button switches between light and dark mode.</li>
+        <li>The <span class="ui">language</span> button (for example <span class="ui">English</span>) changes the language of the site.</li>
+        <li><span class="ui">Church login</span> is for church administrators only. Visitors never need it.</li>
+    </ul>
+    <p>When a new bulletin is published, a strip under the header says <span class="ui">New bulletin:</span> with its title and a <span class="ui">Read it</span> link. The footer on every page links to <span class="ui">Privacy</span>, the <span class="ui">FAQ</span> and <span class="ui">Contact</span>.</p>
+    <figure class="fcd-shot">
+        <img src="~/img/docs/visitor-home.png" alt="The Forest Churches home page with the search box over a photo of the Wye Valley, a What's on section and How it works steps" loading="lazy" />
+        <figcaption>The home page: the church search, "What's on across the Forest" (the next four upcoming events), and "How it works".</figcaption>
+    </figure>
+</section>
+
+<section class="fcd-section" id="search">
+    <h2>Searching for a church</h2>
+    <ol>
+        <li>On the home page (or <span class="ui">Find a church</span>), type a postcode or town into <span class="ui">Postcode or town</span>.</li>
+        <li>Choose how far you're happy to travel from <span class="ui">Within</span>: 2, 5, 10, 20 or 50 miles. The default is 5 miles.</li>
+        <li>Select <span class="ui">Search</span>.</li>
+    </ol>
+    <p>The results list every <strong>open</strong> church within that distance, nearest first. Distances are measured in a straight line from the place you searched, not by road.</p>
+
+    <h3>Using your location instead</h3>
+    <p>Select <span class="ui">Use My Location</span>. Your browser asks whether to share your location. If you allow it, the site looks up your address and fills in the search box for you (the button shows <span class="ui">Finding you…</span> while it works). Then select <span class="ui">Search</span>. If you decline, just type your postcode.</p>
+    <div class="fcd-note"><p>Your location is only used to fill in the search box. It's sent to Google's address lookup to turn it into an address, and isn't saved by Forest Churches.</p></div>
+
+    <h3>Filters</h3>
+    <p>Select <span class="ui">More filters</span> to narrow the search:</p>
+    <ul>
+        <li><span class="ui">Must have</span>: tick the facilities you need. Only churches that have <strong>every</strong> ticked facility are shown. The choices are wheelchair access, parking, hearing aid support, refreshments, children's ministry, restrooms, Wi-Fi, kitchen, community hall, worship hall and outdoor space.</li>
+        <li><span class="ui">Denomination</span>: show one denomination, or leave it on <span class="ui">Any Denomination</span>.</li>
+    </ul>
+    <p>All filters start unticked, so by default you see every church near you. Facilities are entered by each church, so a church that hasn't filled them in may be hidden by a filter.</p>
+    <figure class="fcd-shot">
+        <img src="~/img/docs/visitor-home-more-filters.png" alt="The search box with More filters opened, showing facility chips and a denomination list" loading="lazy" />
+        <figcaption>"More filters" opened: tick the facilities you need and choose a denomination.</figcaption>
+    </figure>
+</section>
+
+<section class="fcd-section" id="results">
+    <h2>Reading the results</h2>
+    <p>The heading tells you how many churches were found, for example <em>3 churches within 10 miles</em>. Each result shows:</p>
+    <ul>
+        <li>the church's logo, name, denomination, address and distance in miles</li>
+        <li>its <span class="ui">Next service</span>, taken from the church's list of service times</li>
+        <li>small labels for its main facilities</li>
+        <li><span class="ui">View church</span>: opens the church's full page</li>
+        <li><span class="ui">Directions</span>: opens a route in a new tab</li>
+        <li><span class="ui">Download details</span> and <span class="ui">Email me the details</span>: see <a href="#save">Saving a church's details</a></li>
+    </ul>
+    <p>On larger screens a map beside the list shows where each church is. If nothing is found you'll see <em>No churches found. Try a larger distance, or turn off some filters.</em></p>
+    <figure class="fcd-shot">
+        <img src="~/img/docs/visitor-results.png" alt="Search results listing three churches with distances, next service, facility labels and buttons, with a map beside them" loading="lazy" />
+        <figcaption>Search results. The map (right) shows the churches; it's blank here only because the screenshot was taken offline.</figcaption>
+    </figure>
+</section>
+
+<section class="fcd-section" id="church">
+    <h2>A church's page</h2>
+    <p>Open a church from the search results, from an event, or from a link someone has sent you. The page shows:</p>
+    <ul>
+        <li><strong>The header</strong>: the church's name, address, denomination, typical Sunday attendance and whether it's open.</li>
+        <li><strong>Next service</strong>, with buttons for <span class="ui">Directions</span>, <span class="ui">Send Message</span>, <span class="ui">Website</span> and <span class="ui">ChurchSuite</span> (if the church has them).</li>
+        <li><span class="ui">About us</span>: the church's own description.</li>
+        <li><span class="ui">Sunday Services</span>: each regular service in 24-hour time, earliest first.</li>
+        <li><span class="ui">Upcoming events</span>: select <span class="ui">Read more</span> to see an event's full description.</li>
+        <li><span class="ui">What to expect</span>: the church's facilities.</li>
+        <li><span class="ui">Find us</span>: the address and a map.</li>
+        <li><span class="ui">Send Message</span> and <span class="ui">Save these details</span> boxes.</li>
+    </ul>
+    <figure class="fcd-shot">
+        <img src="~/img/docs/visitor-church.png" alt="A church page for Woodside Chapel with key facts, services, events, facilities and a message form" loading="lazy" />
+        <figcaption>A church page.</figcaption>
+    </figure>
+    <div class="fcd-note fcd-note--warn"><p>If you see <strong>Church not found</strong>, the link you followed is out of date. Links to church pages are encrypted and can stop working after a while, so search for the church instead.</p></div>
+</section>
+
+<section class="fcd-section" id="contact-church">
+    <h2>Contacting a church</h2>
+    <ol>
+        <li>On the church's page, find the <span class="ui">Send Message</span> box (or select the <span class="ui">Send Message</span> button near the top).</li>
+        <li>Enter <span class="ui">Your name</span>, <span class="ui">Your email</span>, a <span class="ui">Subject</span> and <span class="ui">Your Message</span>.</li>
+        <li>Select <span class="ui">Send Message</span>.</li>
+    </ol>
+    <p>Your message is emailed to the address the church signed up with, under the subject "Forest Churches Contact Form". It includes your name, the email address you entered and your message, so the church can reply to you directly. Emails are sent in batches every few minutes, so it may take a little while to arrive.</p>
+</section>
+
+<section class="fcd-section" id="save">
+    <h2>Saving a church's details</h2>
+    <p>The <span class="ui">Save these details</span> box on a church page, and the buttons on each search result, let you keep the church's information:</p>
+    <ul>
+        <li><span class="ui">Download details</span> saves a small text file with the church's status, name, description, denomination, congregation size, website, address, phone, main facilities and service times.</li>
+        <li><span class="ui">Email me the details</span> sends the same details to your inbox. Enter your email address and select the button. The email includes a link back to the church's message form, which works for 24 hours.</li>
+    </ul>
+    <p>If the email hasn't arrived after about 10 minutes, check your spam or junk folder.</p>
+</section>
+
+<section class="fcd-section" id="events">
+    <h2>Finding events</h2>
+    <p>The home page shows the next few events under <span class="ui">What's on across the Forest</span>. To search, select <span class="ui">Find events</span> (or scroll to <span class="ui">Events near me</span> on the search page):</p>
+    <ol>
+        <li>Enter your <span class="ui">Postcode</span>, or select <span class="ui">Use My Location</span>.</li>
+        <li>Optionally choose a <span class="ui">Church</span> (or leave <span class="ui">Any Church</span>), a <span class="ui">Start Date</span> and an <span class="ui">End Date</span>.</li>
+        <li>Select <span class="ui">Find events</span>.</li>
+    </ol>
+    <p>Events within 5 miles of the postcode are listed nearest first, with the date, times, church and location. Select <span class="ui">Read more</span> for the full description. Only events from churches that are currently open are shown.</p>
+    <figure class="fcd-shot">
+        <img src="~/img/docs/visitor-events.png" alt="Events near me search form and a list of three events with dates" loading="lazy" />
+        <figcaption>Events near me.</figcaption>
+    </figure>
+    <h3>Why an event might disappear</h3>
+    <p>Churches add and remove their own events. One-off events are meant to be removed after they've finished. If an event you expected has gone, contact the church directly.</p>
+</section>
+
+<section class="fcd-section" id="bulletin">
+    <h2>The weekly bulletin</h2>
+    <p>Select <span class="ui">Bulletin</span> in the header to read the current pew sheet or announcement. A weekly bulletin has tabs:</p>
+    <ul>
+        <li><span class="ui">Notices</span>: this week's notices and a pastoral note</li>
+        <li><span class="ui">Readings</span>: the first reading and the Gospel</li>
+        <li><span class="ui">Hymns</span>: the hymns for the service</li>
+        <li><span class="ui">Collect</span>: the collect (prayer) for the week</li>
+    </ul>
+    <p>Select <span class="ui">Print</span> to print it, or <span class="ui">Download PDF</span> for the printable version (when one has been uploaded). If nothing has been published you'll see <em>No bulletin published yet</em>.</p>
+    <figure class="fcd-shot">
+        <img src="~/img/docs/visitor-bulletin.png" alt="The Weekly Pew Sheet page with Notices, Readings, Hymns and Collect tabs" loading="lazy" />
+        <figcaption>The bulletin page.</figcaption>
+    </figure>
+</section>
+
+<section class="fcd-section" id="language">
+    <h2>Changing the language</h2>
+    <p>Open the language menu in the header and choose English, Čeština, Deutsch, Français, فارسی (Farsi), ไทย (Thai) or Українська (Ukrainian). The site remembers your choice for a month on that device. Farsi pages are shown right to left.</p>
+    <p>Churches write their own descriptions and event details, so those stay in the language the church used.</p>
+    <figure class="fcd-shot fcd-shot--half">
+        <img src="~/img/docs/visitor-language.png" alt="The language menu open in the header" loading="lazy" />
+        <figcaption>The language menu.</figcaption>
+    </figure>
+</section>
+
+<section class="fcd-section" id="dark">
+    <h2>Light and dark mode</h2>
+    <p>Until you choose, the site follows your device's light or dark setting. Select the moon / sun button in the header to switch; your choice is remembered on that device.</p>
+    <figure class="fcd-shot">
+        <img src="~/img/docs/visitor-dark.png" alt="A church page shown in dark mode" loading="lazy" />
+        <figcaption>A church page in dark mode.</figcaption>
+    </figure>
+</section>
+
+<section class="fcd-section" id="phone">
+    <h2>Using a phone</h2>
+    <p>On a phone the header links are tucked behind the <span class="ui">Menu</span> button. Everything else works the same way; the map moves below the list of results.</p>
+    <div class="fcd-shots">
+        <figure class="fcd-shot fcd-shot--phone"><img src="~/img/docs/visitor-mobile.png" alt="The home page on a phone" loading="lazy" /><figcaption>The home page on a phone.</figcaption></figure>
+        <figure class="fcd-shot fcd-shot--phone"><img src="~/img/docs/visitor-mobile-menu.png" alt="The phone menu open showing Find a church, Bulletin, About Us, Contact Us, theme, language and Church login" loading="lazy" /><figcaption>The menu opened.</figcaption></figure>
+    </div>
+</section>
+
+<section class="fcd-section" id="contact-us">
+    <h2>Contacting Forest Churches</h2>
+    <p>To ask about the site, suggest a church, or report something wrong, select <span class="ui">Contact Us</span>, fill in your name, email, subject and message, and select <span class="ui">Send Message</span>. To contact one particular church, use the form on that church's page instead.</p>
+    <figure class="fcd-shot">
+        <img src="~/img/docs/visitor-contact.png" alt="The Contact Us page with a message form" loading="lazy" />
+        <figcaption>Contact Us.</figcaption>
+    </figure>
+    <p>The <span class="ui">FAQ</span> (in the footer) answers common questions, such as how churches join and where data is stored.</p>
+</section>
+
+<section class="fcd-section" id="privacy">
+    <h2>Your privacy</h2>
+    <ul>
+        <li>Searching doesn't need an account and your search isn't saved to your name.</li>
+        <li>Contact details you type into a message form are only used to send that message, or the details you asked for.</li>
+        <li>The site sets a few cookies so it works: your language, your light/dark choice, a security cookie that protects forms, and a session cookie.</li>
+        <li>Maps come from OpenStreetMap and address look-ups from Google, so those services see the request.</li>
+    </ul>
+    <p>The <span class="ui">Privacy</span> page has the full policy.</p>
+</section>
+
+<section class="fcd-section" id="help">
+    <h2>Troubleshooting</h2>
+    <div class="fcd-table-wrap">
+        <table class="fcd-table">
+            <thead><tr><th>Problem</th><th>What to try</th></tr></thead>
+            <tbody>
+                <tr><td>No churches found</td><td>Choose a larger distance, untick filters, or check the postcode's spelling.</td></tr>
+                <tr><td>"Use My Location" does nothing</td><td>Your browser is blocking location. Allow it in the browser settings, or type your postcode.</td></tr>
+                <tr><td>The map is empty</td><td>The list still works. Check your connection and refresh the page.</td></tr>
+                <tr><td>A link in an email doesn't work</td><td>Most links in our emails last 24 hours. Ask for the information again.</td></tr>
+                <tr><td>An email hasn't arrived</td><td>Wait 10 minutes (emails go out in batches about every 5 minutes), then check spam. If it still hasn't come, use Contact Us.</td></tr>
+                <tr><td>"Church not found"</td><td>The link is out of date. Search for the church instead.</td></tr>
+            </tbody>
+        </table>
+    </div>
+</section>

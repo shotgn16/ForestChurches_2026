@@ -1,0 +1,113 @@
+@page "/docs/system/logging"
+@model ForestChurches.Pages.Docs.DocsSystemModel
+@{
+    ViewData["Title"] = "Logging & monitoring";
+    ViewData["DocsPage"] = "system-logging";
+    ViewData["DocsEyebrow"] = "System reference · SuperAdmin";
+    ViewData["DocsAudience"] = "SuperAdmin / system administrators";
+    ViewData["DocsLead"] = "Where each app writes its logs, how to find a specific event, the health checks you can watch, and what to do when something breaks at start-up.";
+}
+
+<nav class="fcd-toc" aria-label="On this page">
+    <strong>On this page</strong>
+    <ol>
+        <li><a href="#sinks">Where logs go</a></li>
+        <li><a href="#loki">Searching in Grafana Loki</a></li>
+        <li><a href="#viewer">Site admin → Logs</a></li>
+        <li><a href="#elmah">Elmah error log</a></li>
+        <li><a href="#health">Health checks</a></li>
+        <li><a href="#startup">Start-up failures and support zips</a></li>
+        <li><a href="#privacy">What's in the logs</a></li>
+    </ol>
+</nav>
+
+<section class="fcd-section" id="sinks">
+    <h2>Where logs go</h2>
+    <div class="fcd-table-wrap">
+        <table class="fcd-table">
+            <thead><tr><th>App</th><th>Destination</th><th>Details</th></tr></thead>
+            <tbody>
+                <tr><td rowspan="4">Website</td><td>Grafana Cloud Loki</td><td><code>https://logs-prod-035.grafana.net</code>, user <code>1773779</code>, token <code>lokikey</code>. Label <code>ForestChurches="web_app"</code>; <code>RequestPath</code> as a label; trace IDs as structured metadata. Batches every 2 s, queue up to 100,000 events.</td></tr>
+                <tr><td>MariaDB table <code>applicationlogs</code></td><td>Same database as the site. Feeds Site admin → Logs and the live view.</td></tr>
+                <tr><td>Elmah</td><td>Unhandled exceptions as XML files in <code>logs/</code>, viewable at <code>/elmah</code> (SuperAdmin).</td></tr>
+                <tr><td>Container console</td><td>Azure Container Apps log stream / Log Analytics, if enabled on the environment.</td></tr>
+                <tr><td rowspan="3">Email app</td><td>Seq</td><td>Server <code>seq-link</code>, API key <code>seq-email-key</code>, Debug level and up.</td></tr>
+                <tr><td>Daily file</td><td><code>logs/EmailManagement-yyyyMMdd.log</code> on the Plesk host.</td></tr>
+                <tr><td>Windows Event Log</td><td>Source <em>EmailManagement</em>.</td></tr>
+            </tbody>
+        </table>
+    </div>
+    <p>Level: Information and above, with Microsoft and System namespaces at Warning (<code>Serilog:MinimumLevel</code>). Each website request also gets one summary line from Serilog request logging (method, path, status, time).</p>
+    <div class="fcd-note"><p>The website's <code>applicationlogs</code> table has no clean-up and grows forever. Delete old rows periodically, for example <code>DELETE FROM applicationlogs WHERE Timestamp &lt; NOW() - INTERVAL 90 DAY;</code>, in batches during quiet hours.</p></div>
+</section>
+
+<section class="fcd-section" id="loki">
+    <h2>Searching in Grafana Loki</h2>
+    <p>In Grafana → Explore, choose the Loki data source and start from <code>{ForestChurches="web_app"}</code>. Useful filters:</p>
+    <div class="fcd-table-wrap">
+        <table class="fcd-table">
+            <thead><tr><th>To find</th><th>Query</th></tr></thead>
+            <tbody>
+                <tr><td>Errors</td><td><code>{ForestChurches="web_app"} |~ "(?i)error|exception"</code></td></tr>
+                <tr><td>One email's full story</td><td><code>{ForestChurches="web_app"} |= "&lt;EmailId&gt;"</code> (copy the ID from Site admin → Email delivery)</td></tr>
+                <tr><td>Emails the email app didn't receive</td><td><code>{ForestChurches="web_app"} |= "NOT RECEIVED"</code></td></tr>
+                <tr><td>A page</td><td><code>{ForestChurches="web_app", RequestPath="/NearMe"}</code></td></tr>
+                <tr><td>Start-up problems</td><td><code>|= "DataProtection"</code>, <code>|= "Seeding"</code>, <code>|= "migrat"</code></td></tr>
+                <tr><td>ChurchSuite</td><td><code>|= "ChurchSuite"</code> or <code>|= "[OAuthCallback]"</code></td></tr>
+            </tbody>
+        </table>
+    </div>
+    <p>For the email side, search the same EmailId in Seq: the website passes its ID to the email app, which logs it on receipt, send and failure.</p>
+</section>
+
+<section class="fcd-section" id="viewer">
+    <h2>Site admin → Logs</h2>
+    <ul>
+        <li>Lists rows from <code>applicationlogs</code> (it also tries <code>system_logs</code> and similar names if that table is missing), newest first, with paging.</li>
+        <li>New entries arrive live through SignalR (<code>/logsHub</code>), pushed by <code>LogWatcherService</code> every 2 seconds.</li>
+        <li>Search and download build queries on <code>Level</code>, <code>Url</code> and <code>Action</code> columns. The Serilog MariaDB sink names its columns differently (<code>LogLevel</code>, <code>MessageTemplate</code>, no Url/Action), so search and download can fail with a database error. Browsing works; use Loki for searching.</li>
+    </ul>
+</section>
+
+<section class="fcd-section" id="elmah">
+    <h2>Elmah error log</h2>
+    <p><code>/elmah</code> lists unhandled exceptions with full stack traces, request details and server variables. Access requires being signed in with the SuperAdmin role. The XML files live in the container's <code>logs/</code> folder, so they're lost when a new revision is deployed.</p>
+</section>
+
+<section class="fcd-section" id="health">
+    <h2>Health checks</h2>
+    <div class="fcd-table-wrap">
+        <table class="fcd-table">
+            <thead><tr><th>Check</th><th>Healthy</th><th>Use</th></tr></thead>
+            <tbody>
+                <tr><td>Website <code>GET /health</code></td><td>200 <code>{"status":"ok","database":"ok"}</code>; 503 <code>degraded</code> if the database is unreachable</td><td>Container Apps health probe; an external uptime monitor</td></tr>
+                <tr><td>Email app <code>GET /Email/health</code> (JWT)</td><td>200 with <code>lastSendRunUtc</code> under ~5 minutes ago</td><td>Shown on Site admin → Email delivery</td></tr>
+                <tr><td>Hangfire <code>/hangfire</code> → Servers</td><td>One server per website replica</td><td>Background processing alive</td></tr>
+                <tr><td>Site admin dashboard</td><td>Figures load (<code>/api/SystemStats</code>: CPU and memory use, database and log-table size, number of invitations)</td><td>Quick look</td></tr>
+            </tbody>
+        </table>
+    </div>
+    <p>No alerting is built in. Set up a Grafana alert on error rate and an uptime check on <code>/health</code>.</p>
+</section>
+
+<section class="fcd-section" id="startup">
+    <h2>Start-up failures and support zips</h2>
+    <p>Both apps wrap start-up in a try/catch. If start-up throws (for example Key Vault unreachable, a missing secret, database down), they:</p>
+    <ol>
+        <li>write the exception to <code>logs/Error-yyyyMMdd.log</code>;</li>
+        <li>zip the <code>logs/</code> folder into <code>support/SupportData-yyyyMMd.zip</code> in the working directory;</li>
+        <li>exit (the email app with exit code 1).</li>
+    </ol>
+    <p>Because logging to Loki may not be configured yet at that point, the container console is the first place to look: in Azure Portal → Container App → <em>Log stream</em> or <em>Revisions → System logs</em>. The most common causes:</p>
+    <ul>
+        <li><code>KEY_VAULT_URL</code> or <code>AZURE_*</code> missing or the client secret expired (error mentions <code>EnvironmentCredential</code>).</li>
+        <li>A secret listed on <a href="/docs/system/configuration#secrets">Configuration</a> doesn't exist (<code>SecretNotFound</code>).</li>
+        <li>The database refuses the connection (firewall, password).</li>
+    </ul>
+    <div class="fcd-note fcd-note--warn"><p>Support zips contain logs that can include personal data. Don't commit them (the repository currently contains some) and delete them once they've been looked at.</p></div>
+</section>
+
+<section class="fcd-section" id="privacy">
+    <h2>What's in the logs</h2>
+    <p>Logs can include email addresses (recipients, sign-ins, invitations), user IDs, request paths and query strings, and error details. The ChurchSuite external-login page logs the whole whitelist at Information level. Treat Loki, Seq, <code>applicationlogs</code> and support zips as personal data, restrict who can see them, and avoid logging message bodies or tokens.</p>
+</section>

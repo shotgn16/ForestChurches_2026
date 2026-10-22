@@ -1,0 +1,215 @@
+@page "/docs/system/security"
+@model ForestChurches.Pages.Docs.DocsSystemModel
+@{
+    ViewData["Title"] = "Security architecture";
+    ViewData["DocsPage"] = "system-security";
+    ViewData["DocsEyebrow"] = "System reference · SuperAdmin";
+    ViewData["DocsAudience"] = "SuperAdmin / system administrators";
+    ViewData["DocsLead"] = "Where secrets live, how keys protect data, what each security control does and where the gaps are. Read this with Configuration and Data & encryption.";
+}
+
+<nav class="fcd-toc" aria-label="On this page">
+    <strong>On this page</strong>
+    <ol>
+        <li><a href="#model">Security model at a glance</a></li>
+        <li><a href="#keyvault">Azure Key Vault</a></li>
+        <li><a href="#dataprotection">ASP.NET Data Protection keys</a></li>
+        <li><a href="#tokens">Callback tokens in emails</a></li>
+        <li><a href="#jwt">Website ↔ email app authentication (JWT)</a></li>
+        <li><a href="#cookies">Cookies and sessions</a></li>
+        <li><a href="#http">HTTP protections</a></li>
+        <li><a href="#endpoints">Endpoint access list</a></li>
+        <li><a href="#gaps">Security gaps to fix</a></li>
+    </ol>
+</nav>
+
+<section class="fcd-section" id="model">
+    <h2>Security model at a glance</h2>
+    <figure class="fcd-diagram">
+        <svg viewBox="0 0 960 330" role="img" aria-labelledby="sec-t">
+            <title id="sec-t">Trust boundaries and where secrets flow</title>
+            <defs><marker id="ah3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" class="arrow" /></marker></defs>
+            <rect x="10" y="120" width="170" height="90" rx="12" class="box" />
+            <text x="95" y="155" text-anchor="middle" class="t">Browser</text>
+            <text x="95" y="177" text-anchor="middle" class="s">auth cookie, CSRF cookie</text>
+            <rect x="290" y="100" width="220" height="130" rx="12" class="box--dark" />
+            <text x="400" y="135" text-anchor="middle" class="t t--on-dark">Website</text>
+            <text x="400" y="158" text-anchor="middle" class="s s--on-dark">Identity + permissions</text>
+            <text x="400" y="178" text-anchor="middle" class="s s--on-dark">Data Protection (IDs, tokens)</text>
+            <text x="400" y="198" text-anchor="middle" class="s s--on-dark">Azure Container Apps</text>
+            <rect x="290" y="10" width="220" height="60" rx="12" class="box--bark" />
+            <text x="400" y="38" text-anchor="middle" class="t">Azure Key Vault</text>
+            <text x="400" y="56" text-anchor="middle" class="s">secrets + data-key</text>
+            <rect x="620" y="10" width="160" height="60" rx="12" class="box" />
+            <text x="700" y="38" text-anchor="middle" class="t">Blob Storage</text>
+            <text x="700" y="56" text-anchor="middle" class="s">images, key ring</text>
+            <rect x="620" y="100" width="160" height="60" rx="12" class="box" />
+            <text x="700" y="128" text-anchor="middle" class="t">MySQL / MariaDB</text>
+            <text x="700" y="146" text-anchor="middle" class="s">app data, logs, Hangfire</text>
+            <rect x="620" y="190" width="160" height="70" rx="12" class="box--moss" />
+            <text x="700" y="220" text-anchor="middle" class="t">Email app</text>
+            <text x="700" y="240" text-anchor="middle" class="s">JWT-protected API</text>
+            <rect x="820" y="190" width="130" height="70" rx="12" class="box" />
+            <text x="885" y="220" text-anchor="middle" class="t">IONOS SMTP</text>
+            <text x="885" y="240" text-anchor="middle" class="s">STARTTLS :587</text>
+            <line x1="180" y1="165" x2="286" y2="165" class="line" marker-end="url(#ah3)" />
+            <text x="233" y="155" text-anchor="middle" class="lbl">HTTPS</text>
+            <line x1="400" y1="100" x2="400" y2="74" class="line" marker-end="url(#ah3)" />
+            <line x1="510" y1="130" x2="616" y2="130" class="line" marker-end="url(#ah3)" />
+            <line x1="510" y1="110" x2="616" y2="50" class="line" marker-end="url(#ah3)" />
+            <line x1="510" y1="210" x2="616" y2="222" class="line" marker-end="url(#ah3)" />
+            <text x="563" y="250" text-anchor="middle" class="lbl">Bearer JWT</text>
+            <line x1="780" y1="225" x2="816" y2="225" class="line" marker-end="url(#ah3)" />
+            <text x="400" y="290" text-anchor="middle" class="lbl">Both apps sign in to Key Vault with a service principal (AZURE_TENANT_ID / CLIENT_ID / CLIENT_SECRET).</text>
+            <text x="400" y="310" text-anchor="middle" class="lbl">Whoever holds that client secret can read every secret in the vault.</text>
+        </svg>
+        <figcaption>Each arrow is a connection the website or email app opens. Secrets are read from Key Vault at start-up and on demand.</figcaption>
+    </figure>
+    <ul>
+        <li><strong>Authentication</strong>: ASP.NET Core Identity (cookie). Optional TOTP two-factor. See <a href="/docs/system/accounts">Accounts, roles &amp; whitelisting</a>.</li>
+        <li><strong>Authorisation</strong>: permission policies checked against the database on every request, plus a few role-name checks.</li>
+        <li><strong>Secrets</strong>: Azure Key Vault. Nothing secret should be in <code>appsettings.json</code>.</li>
+        <li><strong>Encryption in transit</strong>: HTTPS everywhere (HSTS), TLS to Azure services, STARTTLS to SMTP, TLS to MySQL if the connection string asks for it.</li>
+        <li><strong>Encryption at rest</strong>: provided by the platforms (Azure Storage and Key Vault encrypt by default; the database depends on the host). The app itself encrypts only <em>URL/form IDs and email tokens</em>; it does not encrypt database columns. See <a href="/docs/system/data#encryption">Data &amp; encryption</a>.</li>
+    </ul>
+</section>
+
+<section class="fcd-section" id="keyvault">
+    <h2>Azure Key Vault</h2>
+    <ul>
+        <li>Both apps read <code>KEY_VAULT_URL</code> and authenticate with <code>EnvironmentCredential</code>, which uses <code>AZURE_TENANT_ID</code>, <code>AZURE_CLIENT_ID</code> and <code>AZURE_CLIENT_SECRET</code> environment variables (a service principal / app registration).</li>
+        <li>The website both registers Key Vault as a <em>configuration provider</em> (so every secret is also visible through <code>IConfiguration</code>) and keeps a <code>SecretClient</code> for direct reads. Many secrets are re-read on demand (for example the SMTP credentials on every email send and <code>Email-Target</code> on every contact message), so a rotated secret takes effect without a restart in those places.</li>
+        <li><code>KEY_VAULT_URL</code> is required even in Development. Without it the website stops at start-up.</li>
+        <li>The service principal needs <strong>Get</strong> (and optionally List) on secrets, and <strong>Wrap Key / Unwrap Key / Get</strong> on the key named by <code>data-key</code>.</li>
+    </ul>
+    <p>The complete list of secret names and what each one is for is in <a href="/docs/system/configuration#secrets">Configuration → Key Vault secrets</a>.</p>
+    <div class="fcd-note fcd-note--warn"><p>Least privilege: the website and the email app share one vault and, in practice, one principal. Consider a separate principal per app, each limited to the secrets it needs, and rotating <code>AZURE_CLIENT_SECRET</code> on a schedule.</p></div>
+</section>
+
+<section class="fcd-section" id="dataprotection">
+    <h2>ASP.NET Data Protection keys</h2>
+    <p>Data Protection is the framework that encrypts and signs the authentication cookie, antiforgery tokens, the session cookie, Identity's email and reset tokens, the encrypted IDs in URLs, and the email callback tokens. Its configuration:</p>
+    <div class="fcd-table-wrap">
+        <table class="fcd-table">
+            <thead><tr><th>Setting</th><th>Production</th><th>Development</th></tr></thead>
+            <tbody>
+                <tr><td>Key ring location</td><td>Azure Blob Storage: secrets <code>blob-connection-string</code>, <code>blob-container-name</code>, <code>blob-file-name</code> (one XML blob)</td><td><code>DataProtectionKeys/</code> folder in the working directory</td></tr>
+                <tr><td>Key encryption at rest</td><td>Each key is wrapped with the Key Vault key whose identifier is in secret <code>data-key</code></td><td>None (plain XML on disk)</td></tr>
+                <tr><td>Key lifetime</td><td colspan="2">7 days. A new key becomes active automatically; old keys stay in the ring to decrypt older data.</td></tr>
+                <tr><td>Application name</td><td colspan="2"><code>ForestChurches-App</code> (isolates this app's keys; keep it the same across deployments)</td></tr>
+                <tr><td>Algorithms</td><td colspan="2">Framework defaults: AES-256-CBC for encryption with HMACSHA256 for authenticity</td></tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="fcd-note fcd-note--danger">
+        <span class="fcd-note__title">If the key ring is lost or changed</span>
+        <p>Everyone is signed out, all outstanding invitation/confirmation/reset links stop working, and old encrypted church/event links show "not found". No stored data is lost, because database data isn't encrypted with these keys. If the Key Vault protector can't be configured, the site logs a warning and continues with unwrapped keys in Blob Storage, so check the start-up log for <em>"DataProtection: Configured Azure Key Vault protector."</em></p>
+    </div>
+    <div class="fcd-note fcd-note--warn"><p>The repository contains a <code>DataProtectionKeys/</code> folder with development key files. Those keys must never be used in production. If the repository is public, treat them as exposed.</p></div>
+</section>
+
+<section class="fcd-section" id="tokens">
+    <h2>Callback tokens in emails</h2>
+    <p>Most links in emails don't point straight at a page. <code>MailSender.GenerateUniqueToken</code> builds a <code>CallbackToken</code> object (random UID, email, expiry, redirect URL), serialises it to JSON, encrypts it with the Data Protection purpose <code>"User  Registration"</code> and base64url-encodes it. The email links to <code>/ValidateToken?token=…</code>, which decrypts it, checks the expiry and redirects to the stored URL. Because the redirect target is inside the encrypted token, it can't be tampered with.</p>
+    <div class="fcd-table-wrap">
+        <table class="fcd-table">
+            <thead><tr><th>Email</th><th>Token valid for</th><th>Then lands on</th></tr></thead>
+            <tbody>
+                <tr><td>You're Invited</td><td>24 h</td><td>Registration page for that email</td></tr>
+                <tr><td>Reset Password</td><td>2 h (the Identity reset code inside is also 2 h)</td><td>Reset password page</td></tr>
+                <tr><td>Event Created / Event Deleted / Do you still need this?</td><td>24 h</td><td>My Events</td></tr>
+                <tr><td>Your Requested Information</td><td>24 h</td><td>The church's contact form</td></tr>
+                <tr><td>Confirm your account / Confirm New Email</td><td>Link goes directly to the confirm page; the Identity token inside lasts 2 h</td><td>Confirm email page</td></tr>
+            </tbody>
+        </table>
+    </div>
+    <p>Tokens aren't stored or marked used, so a token can be opened any number of times until it expires. What it protects (registration, reset) has its own single-use checks.</p>
+    <p>There's also an older <code>/callback/{token}</code> controller with the same logic; nothing links to it.</p>
+</section>
+
+<section class="fcd-section" id="jwt">
+    <h2>Website ↔ email app authentication (JWT)</h2>
+    <ul>
+        <li>For each email, the website's <code>JwtTokenGenerator</code> creates an HMAC-SHA256 JWT valid for 10 minutes, signed with Key Vault secret <code>jwt-token-securityKey</code>, issuer <code>jwt-token-issuer</code>, audience <code>jwt-token-audience</code>.</li>
+        <li>The email app validates issuer <code>ForestChurches</code>, audience <code>F0rest_Ch3rches</code>, lifetime and signature. The signing key it checks against is <strong>hardcoded in the email app's <code>Program.cs</code></strong>, not read from Key Vault. Sending only works while the Key Vault value and the hardcoded value are identical, and the key is visible to anyone who can read that repository.</li>
+        <li>The email app calls its own <code>POST /Email/send</code> endpoint with a JWT it signs itself using the Key Vault value.</li>
+        <li>The website also registers a JWT bearer scheme with the same settings, but no website endpoint uses it.</li>
+    </ul>
+    <div class="fcd-note fcd-note--warn"><p>To fix: make the email app read the signing key, issuer and audience from Key Vault, then rotate <code>jwt-token-securityKey</code> (the current value is in Git history).</p></div>
+</section>
+
+<section class="fcd-section" id="cookies">
+    <h2>Cookies and sessions</h2>
+    <div class="fcd-table-wrap">
+        <table class="fcd-table">
+            <thead><tr><th>Cookie</th><th>Purpose</th><th>Settings</th></tr></thead>
+            <tbody>
+                <tr><td><code>.AspNetCore.Identity.Application</code></td><td>Sign-in</td><td>HttpOnly, Secure, SameSite=None, 14 days if "keep me signed in", no sliding renewal</td></tr>
+                <tr><td><code>Identity.External</code> / <code>Identity.TwoFactorUserId</code></td><td>External sign-in and 2FA steps</td><td>Secure, SameSite=None, short-lived</td></tr>
+                <tr><td><code>X-CSRF-TOKEN-COOKIE</code></td><td>Antiforgery</td><td>HttpOnly; header name <code>X-CSRF-TOKEN-HEADER</code></td></tr>
+                <tr><td><code>.AspNetCore.Session</code></td><td>Server session (ChurchSuite PKCE state, TempData)</td><td>Secure, SameSite=Lax, 30-minute idle timeout; in-memory session store, so sessions are lost on restart and aren't shared between replicas</td></tr>
+                <tr><td><code>.AspNetCore.Culture</code></td><td>Chosen language</td><td>1 month, readable by script, SameSite=Lax</td></tr>
+                <tr><td><code>fc-theme</code></td><td>Light/dark choice</td><td>Set by script</td></tr>
+            </tbody>
+        </table>
+    </div>
+    <p>The site uses essential cookies only; there are no analytics or advertising cookies.</p>
+</section>
+
+<section class="fcd-section" id="http">
+    <h2>HTTP protections</h2>
+    <ul>
+        <li><strong>HTTPS and HSTS</strong>: <code>UseHttpsRedirection</code>; HSTS max-age 1 year with includeSubDomains and preload (sent by custom middleware on every response and by <code>UseHsts</code> outside Development). <code>Server</code> and <code>X-Powered-By</code> headers are removed.</li>
+        <li><strong>CSRF</strong>: Razor Pages validate antiforgery tokens on form posts. A custom middleware also validates every POST/PUT/DELETE except <code>/Identity/Account/Login</code>, <code>Register</code>, <code>Logout</code>, <code>ExternalLogin</code>, <code>/dist</code> and <code>/api</code>. (Those Identity pages still get Razor Pages' own validation.)</li>
+        <li><strong>File-extension blocker</strong>: requests whose path contains a dot and whose extension isn't an allowed static type (css, js, images, fonts) get 403. It runs after <code>UseStaticFiles</code>, so it only affects requests that didn't match a file in <code>wwwroot</code>; files in <code>wwwroot</code> (including uploaded bulletin PDFs) are served regardless.</li>
+        <li><strong>CORS</strong>: a policy for <code>https://forestchurches.co.uk</code> is defined but not applied (<code>UseCors</code> isn't called), so cross-origin browser requests get no CORS headers.</li>
+        <li><strong>Content Security Policy</strong>: <code>CSPNonceMiddleware</code> exists but isn't registered, so <strong>no CSP header is sent</strong>.</li>
+        <li><strong>Rate limiting</strong>: none. Sign-in, the contact form and search aren't throttled, and lockout is off.</li>
+        <li><strong>Uploads</strong>: images go to Blob Storage under generated names; bulletin PDFs go to <code>wwwroot/uploads/bulletins</code>. Admin-only.</li>
+    </ul>
+</section>
+
+<section class="fcd-section" id="endpoints">
+    <h2>Endpoint access list</h2>
+    <div class="fcd-table-wrap">
+        <table class="fcd-table">
+            <thead><tr><th>Path</th><th>Who can use it</th><th>Notes</th></tr></thead>
+            <tbody>
+                <tr><td><code>/</code>, <code>/NearMe</code>, <code>/Church</code>, <code>/Contact</code>, <code>/faq</code>, <code>/Privacy</code>, <code>/Bulletin</code></td><td>Anyone</td><td>Public site</td></tr>
+                <tr><td><code>/Events</code> and church-admin pages</td><td>Signed in, <code>UserEvents.*</code></td><td></td></tr>
+                <tr><td><code>/Identity/Account/Manage/*</code></td><td>Signed in</td><td>Profile, password, 2FA, data</td></tr>
+                <tr><td><code>/Admin/*</code></td><td><code>Admin.Read</code> and per-page permissions</td><td>See <a href="/docs/site-admins#access">access matrix</a></td></tr>
+                <tr><td><code>/docs</code>, <code>/docs/visitors</code>, <code>/docs/church-admins</code></td><td>Anyone</td><td>This documentation</td></tr>
+                <tr><td><code>/docs/site-admins</code></td><td><code>Admin.Read</code></td><td></td></tr>
+                <tr><td><code>/docs/system/*</code></td><td>SuperAdmin role</td><td>This reference</td></tr>
+                <tr><td><code>/hangfire</code></td><td>HTTP Basic auth (<code>sys-admin-username</code>/<code>-password</code>)</td><td>Background jobs dashboard</td></tr>
+                <tr><td><code>/elmah</code></td><td>SuperAdmin role</td><td>Error log viewer</td></tr>
+                <tr><td><code>/health</code></td><td>Anyone</td><td>Returns <code>ok</code>/<code>degraded</code> and database status only</td></tr>
+                <tr><td><code>/api/Bulletin</code></td><td>Anyone (GET)</td><td>Current bulletin as JSON</td></tr>
+                <tr><td><code>/api/SystemStats</code></td><td><code>Admin.Read</code></td><td>Dashboard figures</td></tr>
+                <tr><td><code>/logsHub</code></td><td><strong>Anyone</strong></td><td>SignalR hub broadcasting live log entries. See gaps.</td></tr>
+                <tr><td><code>/churchsuite/login-pkce</code>, <code>/churchsuite/authorize</code>, <code>/churchsuite/check-auth</code>, <code>/ChurchSuite/Authorize</code>, <code>/ChurchSuite/Callback</code>, <code>/signin-churchsuite</code>, <code>/oauth-debug</code></td><td><strong>Anyone</strong></td><td>ChurchSuite OAuth. See gaps.</td></tr>
+                <tr><td>Email app <code>/Email</code>, <code>/Email/send</code>, <code>/Email/health</code>, <code>/Email/{id}/status</code></td><td>Valid JWT</td><td></td></tr>
+                <tr><td>Email app <code>/swagger</code></td><td>Anyone</td><td>Enabled in production by <code>EnableSwaggerInProduction=true</code></td></tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+
+<section class="fcd-section" id="gaps">
+    <h2>Security gaps to fix</h2>
+    <p>Ordered by severity. Each one is also on the <a href="/docs/system/operations#issues">known-issues list</a> with what to change.</p>
+    <ol>
+        <li><strong>ChurchSuite sign-in can be pointed at any account.</strong> <code>/churchsuite/authorize?user_id=…</code> accepts a user ID without checking who is signed in and stores it in the session. When the OAuth callback (<code>/signin-churchsuite</code>) completes and nobody is signed in, it signs the browser in <em>as that user ID</em>. Anyone who learns a user's ID and has any ChurchSuite login could sign in as that user, including a SuperAdmin. The same pattern exists in <code>/ChurchSuite/Authorize</code> and <code>Callback</code>. Until fixed, consider disabling these routes.</li>
+        <li><strong>Live logs are broadcast without sign-in.</strong> <code>/logsHub</code> has no <code>[Authorize]</code>, and <code>LogWatcherService</code> pushes every new log row (which can include email addresses and request details) to all connected clients.</li>
+        <li><strong>Secrets in the repository</strong>: an <code>AZURE_CLIENT_SECRET</code> in <code>Properties/launchSettings.json</code>, a Google API key in <code>appsettings.Development.json</code>, a GitHub Actions secret <em>name</em> in <code>deploy.yml</code> that looks like a client secret value, the email app's hardcoded JWT key, plus <code>DataProtectionKeys/</code> and support zips. Rotate all of these and remove them from history.</li>
+        <li><strong>Plain-text third-party credentials in the database</strong>: ChurchSuite access and refresh tokens (<code>ChurchSuiteCredentials</code>) and per-church <code>ChurchSuiteApiKey</code> (<code>ChurchInformation</code>). Encrypt with Data Protection or move to Key Vault.</li>
+        <li><strong>The Google API key is handed to any visitor</strong> by <code>/Church?handler=GoogleMapsApiKey</code>. Restrict the key by HTTP referrer and API in Google Cloud, or use a separate browser key.</li>
+        <li><strong>No account lockout and no rate limiting</strong> on sign-in, so passwords can be guessed without limit (the 12-character policy helps).</li>
+        <li><strong>No Content Security Policy</strong> (middleware not registered). The contact-form message is inserted into the email HTML without encoding.</li>
+        <li><strong>Registration needs only a whitelisted address</strong>, not the token. See <a href="/docs/system/accounts#whitelist">Accounts</a>.</li>
+        <li><strong>Email app</strong>: Swagger UI is public; SMTP uses STARTTLS <em>when available</em>, so it would fall back to plain text if the server didn't offer TLS; the <code>Template</code> field is a file path chosen by the caller (only a valid-JWT caller, so low risk).</li>
+        <li><strong>Open redirect potential</strong>: <code>redirect_uri</code> on the ChurchSuite routes is used for redirects without checking it's a local URL.</li>
+        <li><code>/oauth-debug</code> returns the caller's own claims. It reveals nothing about other users but should be removed from production.</li>
+    </ol>
+</section>

@@ -1,0 +1,135 @@
+@page "/docs/system/jobs"
+@model ForestChurches.Pages.Docs.DocsSystemModel
+@{
+    ViewData["Title"] = "Hangfire & background services";
+    ViewData["DocsPage"] = "system-jobs";
+    ViewData["DocsEyebrow"] = "System reference · SuperAdmin";
+    ViewData["DocsAudience"] = "SuperAdmin / system administrators";
+    ViewData["DocsLead"] = "Everything that runs without someone clicking a button: Hangfire, the event clean-up jobs, the live log watcher, the image migration and the email app's send loop.";
+}
+
+<nav class="fcd-toc" aria-label="On this page">
+    <strong>On this page</strong>
+    <ol>
+        <li><a href="#summary">What runs in the background</a></li>
+        <li><a href="#hangfire">How Hangfire is set up</a></li>
+        <li><a href="#dashboard">Using the Hangfire dashboard</a></li>
+        <li><a href="#cleanup">Event clean-up jobs</a></li>
+        <li><a href="#logwatcher">Live log watcher</a></li>
+        <li><a href="#migration">Image migration</a></li>
+        <li><a href="#emailloop">Email app send loop</a></li>
+    </ol>
+</nav>
+
+<section class="fcd-section" id="summary">
+    <h2>What runs in the background</h2>
+    <div class="fcd-table-wrap">
+        <table class="fcd-table">
+            <thead><tr><th>Process</th><th>App</th><th>Runs</th><th>State</th></tr></thead>
+            <tbody>
+                <tr><td>Hangfire server</td><td>Website</td><td>Always; up to 20 workers</td><td><span class="fc-badge fc-badge--ok">Running</span> with no jobs registered by this version</td></tr>
+                <tr><td>Event clean-up (Hangfire recurring jobs)</td><td>Website</td><td>Was hourly</td><td><span class="fc-badge fc-badge--danger">Not working</span></td></tr>
+                <tr><td><code>LogWatcherService</code></td><td>Website</td><td>Every 2 seconds</td><td><span class="fc-badge fc-badge--ok">Running</span></td></tr>
+                <tr><td><code>ImageMigrationHostedService</code></td><td>Website</td><td>Once at start-up, if enabled</td><td><span class="fc-badge fc-badge--moss">Off by default</span></td></tr>
+                <tr><td>Database migrations and seeding</td><td>Website</td><td>Once at start-up</td><td><span class="fc-badge fc-badge--ok">Running</span></td></tr>
+                <tr><td><code>EmailSenderHostedService</code></td><td>Email app</td><td>Every 5 minutes</td><td><span class="fc-badge fc-badge--warn">Running, duplicated</span></td></tr>
+            </tbody>
+        </table>
+    </div>
+    <p>The project also references Quartz (and <code>AutoEvents</code> implements a Quartz <code>IJob</code>), but no Quartz scheduler is configured, so it does nothing.</p>
+</section>
+
+<section class="fcd-section" id="hangfire">
+    <h2>How Hangfire is set up</h2>
+    <p>Hangfire runs background jobs inside the website process and stores them in the database, so jobs survive restarts and can be watched in a dashboard.</p>
+    <ul>
+        <li><strong>Storage</strong>: <code>Hangfire.MySql</code> on the same database as the site (connection string <code>db-connection-live</code>), tables prefixed <code>Hangfire</code>, created automatically (<code>PrepareSchemaIfNecessary</code>).</li>
+        <li><strong>Options</strong>: queue polled every 15 s; expired jobs removed hourly; counters aggregated every 5 minutes; 5-minute transaction timeout; dashboard lists up to 25,000 jobs; data compatibility level 1.7.0 with simple assembly-name type serialisation.</li>
+        <li><strong>Server</strong>: one Hangfire server per website instance with <code>min(CPU cores × 5, 20)</code> workers. If the Container App scales to several replicas, each one runs a server and they share the queue; recurring jobs still run once per schedule.</li>
+        <li><strong>Dashboard</strong>: <code>/hangfire</code>, titled "Forest Church Task Scheduler", protected by HTTP Basic authentication with the <code>sys-admin-username</code> and <code>sys-admin-password</code> secrets (read once at start-up). It's not tied to site sign-in or roles. A <code>HangfireAuthorizationFilter</code> class exists in the code but isn't used.</li>
+    </ul>
+    <div class="fcd-note"><p>Recurring jobs are stored in the database. Removing the code that registers a job doesn't remove the job: it keeps its schedule in Hangfire's tables until someone deletes it in the dashboard. Each run then calls the method by name, and it fails if that method no longer exists.</p></div>
+</section>
+
+<section class="fcd-section" id="dashboard">
+    <h2>Using the Hangfire dashboard</h2>
+    <ol>
+        <li>Go to <code>https://forestchurches.co.uk/hangfire</code>. The browser asks for a username and password: use the system administrator credentials from Key Vault.</li>
+        <li><strong>Recurring Jobs</strong> lists scheduled jobs, their cron expression and next run. You can <em>Trigger now</em> or <em>Delete</em>.</li>
+        <li><strong>Jobs</strong> shows Enqueued, Scheduled, Processing, Succeeded, Failed and Deleted jobs. Open a failed job to see its exception and <em>Requeue</em> it.</li>
+        <li><strong>Servers</strong> shows each running website instance and its worker count; a missing server means the site isn't running.</li>
+    </ol>
+</section>
+
+<section class="fcd-section" id="cleanup">
+    <h2>Event clean-up jobs</h2>
+    <p>Until commit <code>c4d15b9</code> ("Updates", 11 October), <code>Program.cs</code> registered four recurring jobs at start-up:</p>
+    <div class="fcd-table-wrap">
+        <table class="fcd-table">
+            <thead><tr><th>Job ID</th><th>Method</th><th>Schedule</th><th>Intended effect</th></tr></thead>
+            <tbody>
+                <tr><td><code>GetEvents</code></td><td><code>EventInterface.GetEvents</code></td><td>Every 59 minutes</td><td>Loads one-off events (<code>Repeats = "None"</code>)</td></tr>
+                <tr><td><code>GetRepeatedEvents</code></td><td><code>EventInterface.GetRepeatedEvents</code></td><td>Every 59 minutes</td><td>Loads repeating events</td></tr>
+                <tr><td><code>SortAndDeleteEvents</code></td><td><code>EventInterface.SortAndDeleteEvents</code></td><td>Hourly</td><td>Deletes finished one-off events and emails <em>Event Deleted</em></td></tr>
+                <tr><td><code>SortAndDeleteRepeatedEvents</code></td><td><code>EventInterface.CheckRepeatedEvents</code></td><td>Hourly</td><td>Emails <em>Do you still need this?</em> for repeating events</td></tr>
+            </tbody>
+        </table>
+    </div>
+    <p>The redesign branch no longer registers them. Even if the old schedules are still in the Hangfire database, the jobs don't work, because of bugs in <code>Components/EventManagement/EventContoller.cs</code>:</p>
+    <ul>
+        <li><code>EventsToDelete</code> is never initialised, so <code>SortAndDeleteEvents</code> throws as soon as any event qualifies. The exception is caught and the method returns normally, so Hangfire shows the job as <em>Succeeded</em> although nothing was deleted.</li>
+        <li>The condition <code>DateTime.Now.AddHours(24) &gt;= eventEnd</code> selects events ending <em>within the next 24 hours</em> as well as past ones, so it would delete events that haven't happened yet.</li>
+        <li>All deleted events are reported to the owner of the first event in the list.</li>
+        <li><code>CheckRepeatedEvents</code> emails about every repeating event whose stored date is within 90 days, every hour, so owners would get the same reminder repeatedly.</li>
+        <li><code>EventContoller</code> is registered as transient, so <code>GetEvents</code> as a separate job has no effect on the other jobs' data; each instance loads one-off events in its constructor anyway.</li>
+    </ul>
+    <h3>Restoring clean-up</h3>
+    <p>Fix the method first. A corrected deletion, as a sketch:</p>
+<pre><code>public async Task&lt;object&gt; SortAndDeleteEvents()
+{
+    var cutoff = DateTime.Now.AddHours(-24);               // finished more than a day ago
+    var expired = _context.Events
+        .Where(e =&gt; e.Repeats == "None")
+        .AsEnumerable()
+        .Where(e =&gt; e.Date.ToDateTime(e.EndTime) &lt; cutoff)
+        .ToList();
+
+    foreach (var ev in expired)
+    {
+        _context.Events.Remove(ev);
+        _mailSender.SendEmailEventDeleted(ev.User, ev.User, "/Events", ev);
+    }
+    await _context.SaveChangesAsync();
+    return new OkObjectResult(expired.Count);
+}</code></pre>
+    <p>Then register it again after <code>app.Build()</code> in <code>Program.cs</code>:</p>
+<pre><code>using (var scope = app.Services.CreateScope())
+{
+    var jobs = scope.ServiceProvider.GetRequiredService&lt;IRecurringJobManager&gt;();
+    jobs.AddOrUpdate&lt;EventInterface&gt;("SortAndDeleteEvents", e =&gt; e.SortAndDeleteEvents(), Cron.Hourly);
+    jobs.RemoveIfExists("GetEvents");
+    jobs.RemoveIfExists("GetRepeatedEvents");
+}</code></pre>
+    <p>Using <code>AddOrUpdate&lt;T&gt;</code> lets Hangfire create a fresh service for each run instead of serialising a captured instance. Re-enable the repeating-event reminder only after limiting it (for example, once a month per event). After deploying, confirm the job in <em>Recurring Jobs</em> and delete any old IDs you no longer want.</p>
+</section>
+
+<section class="fcd-section" id="logwatcher">
+    <h2>Live log watcher</h2>
+    <ul>
+        <li><code>LogWatcherService</code> polls the <code>applicationlogs</code> table every 2 seconds for rows newer than the last ID it saw (100 at a time), using a direct MySQL connection.</li>
+        <li>Each new row is sent to every client connected to the SignalR hub <code>/logsHub</code> (event <code>NewLog</code>) and to the in-process <code>SseManager</code>.</li>
+        <li>Site admin → Logs (<code>wwwroot/js/admin-logs.js</code>) connects to <code>/logsHub</code> so new entries appear live.</li>
+        <li>The hub has no authorisation, so anyone who connects receives the stream. Add <code>[Authorize(Policy = "Admin.Read")]</code> to <code>Hubs/LogsHub.cs</code>.</li>
+        <li>Cost: one small query every 2 seconds per website instance, even when nobody is watching.</li>
+    </ul>
+</section>
+
+<section class="fcd-section" id="migration">
+    <h2>Image migration</h2>
+    <p>Older versions stored images as bytes in the database (<code>ImageArray</code>). When <code>ImageMigration:Enabled</code> is <code>true</code>, <code>ImageMigrationHostedService</code> runs once at start-up: for each event and account that has <code>ImageArray</code> but no <code>ImageBlobName</code>, it uploads the bytes to Blob Storage, saves the blob name and clears the bytes. It logs the totals ("Image migration completed: events=… users=…"). Turn it on for one deployment, check the log, then turn it off again.</p>
+</section>
+
+<section class="fcd-section" id="emailloop">
+    <h2>Email app send loop</h2>
+    <p>The email app has no Hangfire. <code>EmailSenderHostedService</code> calls the app's own <code>POST /Email/send</code> every 5 minutes. A second service, <code>EmailScheduler</code>, starts an extra copy of that endless loop every 5 minutes, so the number of loops grows until restart. Details and the fix are in <a href="/docs/system/email#queue">EmailManagement → Queue, send runs and retries</a>.</p>
+</section>

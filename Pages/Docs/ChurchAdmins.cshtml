@@ -1,0 +1,287 @@
+@page "/docs/church-admins"
+@model ForestChurches.Pages.Docs.DocsPublicModel
+@{
+    ViewData["Title"] = "Church administrator guide";
+    ViewData["DocsPage"] = "church-admins";
+    ViewData["DocsEyebrow"] = "Guide · Church administrators";
+    ViewData["DocsAudience"] = "people who look after a church's page (the AuthorizedChurch role)";
+    ViewData["DocsLead"] = "Everything visitors see about your church comes from what you enter in Church admin. This guide takes you from your invitation to keeping your page, services and events up to date.";
+}
+
+<nav class="fcd-toc" aria-label="On this page">
+    <strong>On this page</strong>
+    <ol>
+        <li><a href="#joining">Joining Forest Churches</a></li>
+        <li><a href="#signin">Signing in</a></li>
+        <li><a href="#password-reset">Forgotten your password</a></li>
+        <li><a href="#around">Finding your way around</a></li>
+        <li><a href="#mychurch">My Church: your public details</a></li>
+        <li><a href="#facilities">Facilities</a></li>
+        <li><a href="#services">Service times</a></li>
+        <li><a href="#logo">Logo or photo</a></li>
+        <li><a href="#closing">Closing or reopening your church</a></li>
+        <li><a href="#events">Events</a></li>
+        <li><a href="#churchsuite">Connecting ChurchSuite</a></li>
+        <li><a href="#profile">Profile and password</a></li>
+        <li><a href="#2fa">Two-factor authentication</a></li>
+        <li><a href="#mydata">My Data and deleting your account</a></li>
+        <li><a href="#emails">Emails you'll receive</a></li>
+        <li><a href="#help">Troubleshooting</a></li>
+    </ol>
+</nav>
+
+<section class="fcd-section" id="joining">
+    <h2>Joining Forest Churches</h2>
+    <p>Forest Churches is invitation only, so that only genuine church contacts can create a listing.</p>
+    <ol>
+        <li><strong>Ask for an invitation.</strong> Use <span class="ui">Contact Us</span>, or the <span class="ui">ask for an invite</span> link on the Church login page. A website administrator adds your email address to the invitation list, and you'll receive an email titled <em>You're Invited</em>.</li>
+        <li><strong>Open the link in the invitation within 24 hours.</strong> It opens <span class="ui">Create account</span> with your email address already filled in. If it has expired, ask for a new one (administrators can resend it).</li>
+        <li><strong>Create your account.</strong> Use the <strong>same email address</strong> the invitation went to, choose a password (see below) and, if you like, add a <span class="ui">Logo or photo</span>. Select <span class="ui">Create account</span>.</li>
+        <li><strong>Confirm your email.</strong> We send a <em>Confirm your account</em> email straight away. Select its link <strong>within 2 hours</strong>. Confirming your email automatically turns on your church account, and you can sign in.</li>
+    </ol>
+    <figure class="fcd-shot">
+        <img src="~/img/docs/account-register.png" alt="The Create account page with email, password, confirm password and logo fields" loading="lazy" />
+        <figcaption>Create account. The email address must match your invitation.</figcaption>
+    </figure>
+    <div class="fcd-note fcd-note--warn">
+        <span class="fcd-note__title">Fill in your details straight away</span>
+        <p>Your church page is created the moment you register, as <em>Default Church</em> with the address <em>TBA</em>, every facility switched on, and the status <em>Open</em>. That means it can appear on the site before you've edited it. Go to <a href="#mychurch">My Church</a> as soon as you sign in.</p>
+    </div>
+    <h3>Password rules</h3>
+    <p>At least 12 characters, with an upper-case letter, a lower-case letter, a number and a symbol. A short phrase such as <code>Bluebells-in-May-2026</code> is easy to remember and hard to guess.</p>
+    <p>If the confirmation link has expired, select <span class="ui">Resend Confirmation Email</span> on the Church login page.</p>
+</section>
+
+<section class="fcd-section" id="signin">
+    <h2>Signing in</h2>
+    <ol>
+        <li>Select <span class="ui">Church login</span> in the header.</li>
+        <li>Enter your <span class="ui">Email</span> and <span class="ui">Password</span>. <span class="ui">Show</span> reveals what you've typed.</li>
+        <li>Tick <span class="ui">Keep me signed in</span> only on your own device.</li>
+        <li>Select <span class="ui">Sign in</span>. If you've turned on two-factor authentication, enter the 6-digit code from your app next.</li>
+    </ol>
+    <figure class="fcd-shot">
+        <img src="~/img/docs/account-login.png" alt="The Church login page" loading="lazy" />
+        <figcaption>Church login.</figcaption>
+    </figure>
+</section>
+
+<section class="fcd-section" id="password-reset">
+    <h2>Forgotten your password</h2>
+    <ol>
+        <li>On Church login, select <span class="ui">Forgot Password</span>.</li>
+        <li>Enter the email you sign in with and select <span class="ui">Send reset link</span>.</li>
+        <li>Open the <em>Reset Password</em> email and follow the link within 2 hours to choose a new password.</li>
+    </ol>
+    <p>For privacy the page always says a link has been sent, even if the address isn't registered or hasn't been confirmed.</p>
+    <figure class="fcd-shot fcd-shot--half">
+        <img src="~/img/docs/account-forgot.png" alt="The Reset your password page" loading="lazy" />
+        <figcaption>Reset your password.</figcaption>
+    </figure>
+</section>
+
+<section class="fcd-section" id="around">
+    <h2>Finding your way around Church admin</h2>
+    <p>After signing in, select <span class="ui">My church</span> in the header (or <span class="ui">My Events</span>). Church admin has a dark bar at the top (with <span class="ui">View public page ↗</span>, <span class="ui">Back to site</span>, the light/dark switch, your email and <span class="ui">Logout</span>) and a menu on the left. On phones the menu becomes a scrolling strip.</p>
+    <div class="fcd-table-wrap">
+        <table class="fcd-table">
+            <thead><tr><th>Menu item</th><th>What it's for</th></tr></thead>
+            <tbody>
+                <tr><td><span class="ui">My Church</span></td><td>Your public details, facilities, service times, logo and open/closed status.</td></tr>
+                <tr><td><span class="ui">My Events</span></td><td>Adding, editing and deleting your events; syncing from ChurchSuite.</td></tr>
+                <tr><td><span class="ui">ChurchSuite</span></td><td>Connecting your ChurchSuite account.</td></tr>
+                <tr><td><span class="ui">Bulletins</span></td><td>Only works for website administrators. Church accounts see "Access denied"; ask an administrator to publish a bulletin for you.</td></tr>
+                <tr><td><span class="ui">Profile</span>, <span class="ui">Change Password</span>, <span class="ui">Two-Factor Authentication</span>, <span class="ui">My Data</span></td><td>Your own login, separate from your church's public page.</td></tr>
+            </tbody>
+        </table>
+    </div>
+    <p>The top of the menu shows your church's name, logo and whether it's <em>Open · listed</em> or closed. Always select <span class="ui">Logout</span> when you've finished on a shared computer.</p>
+</section>
+
+<section class="fcd-section" id="mychurch">
+    <h2>My Church: your public details</h2>
+    <p>The <span class="ui">Details</span> card controls what visitors see on your page and in search:</p>
+    <div class="fcd-table-wrap">
+        <table class="fcd-table">
+            <thead><tr><th>Field</th><th>Notes</th></tr></thead>
+            <tbody>
+                <tr><td><span class="ui">Church name</span></td><td>Up to 30 characters. Your events are linked to your church by name, so if you rename the church, check <span class="ui">My Events</span> afterwards.</td></tr>
+                <tr><td><span class="ui">About your church</span></td><td>Shown at the top of your page. Up to 1,000 characters: who you are, what a typical Sunday is like, who is welcome.</td></tr>
+                <tr><td><span class="ui">Denomination</span></td><td>Used by the search's denomination filter, so spell it the same way as other churches (for example <em>Methodist</em>).</td></tr>
+                <tr><td><span class="ui">Typical Sunday attendance</span></td><td>Free text, for example <em>20–50</em>.</td></tr>
+                <tr><td><span class="ui">Address</span></td><td>Used for the map and to work out distances in search, so include the full postcode. <span class="ui">Use my current location</span> fills it in if you're at the church.</td></tr>
+                <tr><td><span class="ui">Phone Number</span>, <span class="ui">Website</span>, <span class="ui">ChurchSuite address</span></td><td>Web addresses should start with <code>https://</code>.</td></tr>
+            </tbody>
+        </table>
+    </div>
+    <p>Select <span class="ui">Update Information</span> to save, or <span class="ui">Discard changes</span> to undo. A message at the top confirms the save. Select <span class="ui">View public page ↗</span> to check the result.</p>
+    <figure class="fcd-shot">
+        <img src="~/img/docs/church-mychurch.png" alt="The My Church page with Details, Facilities, Service Times and Logo sections" loading="lazy" />
+        <figcaption>My Church.</figcaption>
+    </figure>
+    <div class="fcd-note"><p>If your church doesn't appear in searches, check the address first: a church whose address can't be found on the map is left out of distance searches.</p></div>
+</section>
+
+<section class="fcd-section" id="facilities">
+    <h2>Facilities</h2>
+    <p>In <span class="ui">Facilities</span>, switch on everything your church offers: wheelchair access, parking, hearing aid support, refreshments, children's ministry, restrooms, Wi-Fi, kitchen, community hall, worship hall and outdoor space. Then select <span class="ui">Update Information</span>.</p>
+    <p>Visitors can filter by facilities, and a filter only shows churches that have every ticked facility, so only switch on what you really have. Remember that new accounts start with every facility switched on.</p>
+</section>
+
+<section class="fcd-section" id="services">
+    <h2>Service times</h2>
+    <p>Under <span class="ui">Your Church Service Times</span>:</p>
+    <ol>
+        <li>Enter the <span class="ui">Time</span>, for example <code>10:30</code>.</li>
+        <li>Enter the <span class="ui">Service name</span>, for example <em>Morning Communion Service</em>.</li>
+        <li>Select <span class="ui">Add Service</span>.</li>
+    </ol>
+    <p>To delete one, select <span class="ui">Remove</span> and confirm. Services are listed in time-of-day order on your page, and visitors see the earliest one as your <em>Next service</em>. The same time and name can't be added twice.</p>
+</section>
+
+<section class="fcd-section" id="logo">
+    <h2>Logo or photo</h2>
+    <ol>
+        <li>Under <span class="ui">Logo or photo</span>, select <span class="ui">Choose an image</span> and pick a PNG or JPEG. A square image works best.</li>
+        <li>Select <span class="ui">Upload Logo</span>.</li>
+    </ol>
+    <p>Your logo appears on your church page, in search results and in the Church admin menu.</p>
+</section>
+
+<section class="fcd-section" id="closing">
+    <h2>Closing or reopening your church</h2>
+    <p>At the bottom of My Church, the <span class="ui">Danger zone</span> has <span class="ui">Mark church as closed…</span>. Use it only if the church is closed long-term or no longer holds regular services. After you confirm:</p>
+    <ul>
+        <li>your church disappears from search, the home page and the events search, and your page shows it as closed</li>
+        <li>your details and events are kept</li>
+        <li>a notice explains that you're hidden, with a <span class="ui">Reopen church</span> button to list it again</li>
+    </ul>
+</section>
+
+<section class="fcd-section" id="events">
+    <h2>Events</h2>
+    <p><span class="ui">My Events</span> lists your <span class="ui">Upcoming events</span> by date. Each shows its date, times, address and a label: <span class="fc-badge fc-badge--cs">ChurchSuite</span> if it came from ChurchSuite, or <span class="fc-badge fc-badge--moss">Added here</span> if you added it on this site.</p>
+    <figure class="fcd-shot">
+        <img src="~/img/docs/church-events.png" alt="My Events listing two upcoming events with Edit and Delete buttons" loading="lazy" />
+        <figcaption>My Events.</figcaption>
+    </figure>
+
+    <h3>Adding an event</h3>
+    <ol>
+        <li>Select <span class="ui">Add New Event</span>.</li>
+        <li>Fill in <span class="ui">Event name</span>, <span class="ui">Date</span>, <span class="ui">Starts</span> and <span class="ui">Ends</span>.</li>
+        <li>Choose how often it <span class="ui">Repeats</span>: never (one-off), daily, weekly, every 2 weeks, every 3 weeks, monthly or every 2 months.</li>
+        <li>Enter the <span class="ui">Location</span> (the event's address, used to find it in "Events near me"), a <span class="ui">Description</span>, and optionally a <span class="ui">Link for more information</span> and an <span class="ui">Image</span> (PNG or JPEG).</li>
+        <li>Select <span class="ui">Create event</span>. You'll receive an <em>Event Created</em> email.</li>
+    </ol>
+    <figure class="fcd-shot">
+        <img src="~/img/docs/church-event-add.png" alt="The Add an event form" loading="lazy" />
+        <figcaption>Add an event.</figcaption>
+    </figure>
+    <div class="fcd-note"><p>"Repeats" is a label shown to visitors. The site doesn't create the later dates for you: an event appears once, on the date you enter. For a weekly group, give the next date and update it, or add separate events.</p></div>
+
+    <h3>Editing or deleting an event</h3>
+    <p>Select <span class="ui">Edit</span>, change what you need and select <span class="ui">Save changes</span>. If you don't choose a new image, the current one is kept. Select <span class="ui">Delete</span> and confirm to remove an event; you'll receive an <em>Event Deleted</em> email. Deleting can't be undone.</p>
+
+    <h3>How long events stay listed</h3>
+    <p>Past events currently stay listed until they're deleted, so please delete each one-off event once it has happened. Select <span class="ui">Delete</span> next to it in My Events. The site is designed to remove finished events automatically, but that clean-up isn't working in this version.</p>
+</section>
+
+<section class="fcd-section" id="churchsuite">
+    <h2>Connecting ChurchSuite</h2>
+    <p>If your church uses ChurchSuite, you can connect it so your ChurchSuite events and church details can be pulled into Forest Churches.</p>
+    <h3>Setting up the connection</h3>
+    <ol>
+        <li>In the ChurchSuite developer console, create a new OAuth app as a <strong>public (PKCE) client</strong>. Set its redirect address to <code>https://forestchurches.co.uk/ChurchSuite/Callback</code> exactly.</li>
+        <li>In Church admin, open <span class="ui">ChurchSuite</span> and paste the app's <strong>Client ID</strong> into <span class="ui">ChurchSuite Client ID</span>.</li>
+        <li>Select <span class="ui">Save &amp; Authorize with ChurchSuite</span> and approve access when ChurchSuite asks.</li>
+    </ol>
+    <p>When you approve, Forest Churches copies your church's name, description, phone, address, website and ChurchSuite link from your ChurchSuite account into My Church, then takes you back to the home page. Check <span class="ui">My Church</span> afterwards.</p>
+    <figure class="fcd-shot">
+        <img src="~/img/docs/church-churchsuite.png" alt="The ChurchSuite page with connection status, three set-up steps and the Client ID box" loading="lazy" />
+        <figcaption>The ChurchSuite page before connecting.</figcaption>
+    </figure>
+    <h3>Syncing events</h3>
+    <p>Syncing happens when you ask for it. In <span class="ui">My Events</span>, select <span class="ui">Sync from ChurchSuite</span>. Events that start in the <strong>next 7 days</strong> are imported or updated (with their images). Run it each week, or after you change events in ChurchSuite.</p>
+    <p>On My Church, <span class="ui">Sync from ChurchSuite → Sync now</span> refreshes your church details from ChurchSuite. Edit ChurchSuite-imported events in ChurchSuite itself; local changes can be overwritten at the next sync.</p>
+    <h3>Removing the connection</h3>
+    <p>If you've linked ChurchSuite as a way of signing in, <span class="ui">Remove</span> under <span class="ui">Registered Logins</span> unlinks it. That doesn't delete the access Forest Churches holds for syncing; to stop syncing completely, revoke the app in ChurchSuite's developer console and ask a website administrator to remove the stored connection. Events already imported stay until you delete them.</p>
+</section>
+
+<section class="fcd-section" id="profile">
+    <h2>Profile and password</h2>
+    <p><span class="ui">Profile</span> shows the email you sign in with and an optional <span class="ui">Phone Number</span>; select <span class="ui">Save Changes</span> after editing. You can't change your sign-in email yourself; contact the administrators if it needs to change.</p>
+    <p><span class="ui">Change Password</span>: enter your current password, then the new one twice, and select <span class="ui">Update password</span>.</p>
+    <div class="fcd-shots">
+        <figure class="fcd-shot"><img src="~/img/docs/church-profile.png" alt="The Profile page" loading="lazy" /><figcaption>Profile.</figcaption></figure>
+        <figure class="fcd-shot"><img src="~/img/docs/church-password.png" alt="The Change Password page" loading="lazy" /><figcaption>Change Password.</figcaption></figure>
+    </div>
+</section>
+
+<section class="fcd-section" id="2fa">
+    <h2>Two-factor authentication</h2>
+    <p>Two-factor authentication (2FA) asks for a code from your phone each time you sign in, so nobody can use your account with just your password. We strongly recommend it, because the site doesn't lock an account after repeated wrong passwords.</p>
+    <ol>
+        <li>Open <span class="ui">Two-Factor Authentication</span> and select <span class="ui">Add authenticator app</span>.</li>
+        <li>Install an authenticator app such as Microsoft Authenticator or Google Authenticator.</li>
+        <li>Scan the QR code. If you can't, type in the key shown under it (spaces don't matter).</li>
+        <li>Enter the 6-digit code and select <span class="ui">Verify and turn on</span>.</li>
+        <li><strong>Save the recovery codes</strong> somewhere safe. Each one lets you sign in once without your phone.</li>
+    </ol>
+    <p>The same page lets you <span class="ui">Reset recovery codes</span>, <span class="ui">Reset authenticator app</span> (moving to a new phone), <span class="ui">Forget this browser</span>, or <span class="ui">Disable 2FA</span>. If you've lost your phone, use a recovery code at sign-in.</p>
+    <figure class="fcd-shot">
+        <img src="~/img/docs/church-2fa.png" alt="The Two-factor authentication page showing the authenticator app is off" loading="lazy" />
+        <figcaption>Two-factor authentication.</figcaption>
+    </figure>
+</section>
+
+<section class="fcd-section" id="mydata">
+    <h2>My Data and deleting your account</h2>
+    <ul>
+        <li><span class="ui">Download</span> (under <span class="ui">Download your data</span>) gives you a PDF of the personal data held on your login.</li>
+        <li><span class="ui">Delete your account…</span> asks for your password and then permanently deletes your login and your church listing. This can't be undone.</li>
+    </ul>
+    <div class="fcd-note fcd-note--warn"><p>Events are stored separately from your account, so deleting your account doesn't remove them. Delete your events first, or ask an administrator to. If you only want to hide your church for a while, use <a href="#closing">Mark church as closed</a> instead.</p></div>
+    <figure class="fcd-shot">
+        <img src="~/img/docs/church-mydata.png" alt="The My Data page with Download and Delete your account" loading="lazy" />
+        <figcaption>My Data.</figcaption>
+    </figure>
+</section>
+
+<section class="fcd-section" id="emails">
+    <h2>Emails you'll receive</h2>
+    <p>All emails come from <strong>info@@forestchurches.co.uk</strong>. Add it to your contacts so they don't go to spam. They're sent in batches about every 5 minutes, so allow up to 10 minutes.</p>
+    <div class="fcd-table-wrap">
+        <table class="fcd-table">
+            <thead><tr><th>Subject</th><th>When</th><th>Link lasts</th></tr></thead>
+            <tbody>
+                <tr><td>You're Invited</td><td>An administrator invites you</td><td>24 hours</td></tr>
+                <tr><td>Confirm your account</td><td>You register</td><td>2 hours</td></tr>
+                <tr><td>Reset Password</td><td>You use Forgot Password</td><td>2 hours</td></tr>
+                <tr><td>Event Created / Event Deleted</td><td>You add or delete an event</td><td>24 hours</td></tr>
+                <tr><td>Do you still need this?</td><td>A repeating event needs checking (only when the clean-up job runs, which it currently doesn't)</td><td>24 hours</td></tr>
+                <tr><td>Forest Churches Contact Form</td><td>A visitor messages your church</td><td>—</td></tr>
+                <tr><td>Forest Church Administration Team</td><td>The website administrators email you</td><td>—</td></tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+
+<section class="fcd-section" id="help">
+    <h2>Troubleshooting</h2>
+    <div class="fcd-table-wrap">
+        <table class="fcd-table">
+            <thead><tr><th>Problem</th><th>What to do</th></tr></thead>
+            <tbody>
+                <tr><td>"This invitation isn't valid or has expired"</td><td>The 24 hours have passed, or you've already registered. Ask an administrator to resend it.</td></tr>
+                <tr><td>"Unknown email address" when registering</td><td>Use exactly the address the invitation was sent to.</td></tr>
+                <tr><td>Sign-in not allowed because the email isn't confirmed</td><td>Use <span class="ui">Resend Confirmation Email</span> and follow the new link within 2 hours.</td></tr>
+                <tr><td>"Access denied"</td><td>You've opened a page for website administrators (for example Bulletins). Contact us if you need something there.</td></tr>
+                <tr><td>My church doesn't appear in search</td><td>Check it isn't marked closed and that the address and postcode are correct.</td></tr>
+                <tr><td>ChurchSuite authorisation failed</td><td>Check the Client ID, that the app is a public (PKCE) client, and that its redirect address is exactly <code>https://forestchurches.co.uk/ChurchSuite/Callback</code>.</td></tr>
+                <tr><td>Sync found no events</td><td>Only events starting in the next 7 days are imported.</td></tr>
+            </tbody>
+        </table>
+    </div>
+    <p>Still stuck? Use <span class="ui">Contact Us</span> and tell us your church's name and what you were trying to do.</p>
+</section>
