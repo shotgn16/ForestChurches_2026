@@ -27,7 +27,8 @@
         <li><code>AddDefaultIdentity</code> with <code>RequireConfirmedAccount = true</code>: an account can't sign in until its email is confirmed. The default UI's conventions require sign-in for every <code>Account/Manage</code> page.</li>
         <li>Passwords: at least 12 characters with a digit, a lower-case letter, an upper-case letter and a symbol. Hashing is Identity's default (PBKDF2 with a per-user salt, Identity v3 format).</li>
         <li>Token lifetime: <code>DataProtectionTokenProviderOptions.TokenLifespan = 2 hours</code>. This covers email-confirmation, password-reset and change-email tokens.</li>
-        <li><strong>Lockout is not applied</strong>: sign-in calls use <code>lockoutOnFailure: false</code>, so repeated wrong passwords never lock an account.</li>
+        <li><strong>Lockout</strong>: 5 failed attempts in a row (password or 2FA code) lock the account for 15 minutes (<code>PolicyConfiguration</code>; sign-in uses <code>PasswordSignInAsync(..., lockoutOnFailure: true)</code>). The counter resets on a successful sign-in. A SuperAdmin can clear a lock by resetting <code>LockoutEnd</code> in <code>AspNetUsers</code>, or the user can reset their password.</li>
+        <li><strong>Two-factor</strong>: sign-in goes through <code>PasswordSignInAsync</code>, so users with 2FA turned on are always sent to the code step.</li>
         <li>Authentication cookie: Identity defaults (14-day lifetime) with <code>SlidingExpiration = false</code>, <code>Secure</code> always and <code>SameSite=None</code>. "Keep me signed in" makes it persistent; otherwise it's a session cookie.</li>
         <li>Two-factor authentication: Identity's TOTP authenticator with recovery codes, optional per user.</li>
     </ul>

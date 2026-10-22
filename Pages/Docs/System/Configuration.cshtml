@@ -66,9 +66,9 @@
                 <tr><td><code>storage-account-name</code></td><td>Website</td><td>Start-up</td><td>Storage account name, for signing image SAS URLs.</td></tr>
                 <tr><td><code>storage-account-key</code></td><td>Website</td><td>Start-up</td><td>Storage account key, for signing SAS URLs. Rotating it invalidates outstanding SAS links.</td></tr>
                 <tr><td><code>storage-container-name</code></td><td>Website</td><td>Start-up</td><td>Container for church, profile and event images.</td></tr>
-                <tr><td><code>jwt-token-securityKey</code></td><td>Both</td><td>Website: start-up and per email. Email app: per send run.</td><td>HMAC key for website → email app JWTs. Must equal the key hardcoded in the email app (see <a href="/docs/system/security#jwt">Security</a>).</td></tr>
-                <tr><td><code>jwt-token-issuer</code></td><td>Website</td><td>Per email</td><td>JWT issuer. Must be <code>ForestChurches</code> to match the email app.</td></tr>
-                <tr><td><code>jwt-token-audience</code></td><td>Website</td><td>Per email</td><td>JWT audience. Must be <code>F0rest_Ch3rches</code> to match the email app.</td></tr>
+                <tr><td><code>jwt-token-securityKey</code></td><td>Both</td><td>Website: start-up and per email. Email app: per send run.</td><td>HMAC key for website → email app JWTs. Both apps read it from here (see <a href="/docs/system/security#jwt">Security</a>). Restart both after changing it.</td></tr>
+                <tr><td><code>jwt-token-issuer</code></td><td>Both</td><td>Per email</td><td>JWT issuer. Must be <code>ForestChurches</code> to match the email app.</td></tr>
+                <tr><td><code>jwt-token-audience</code></td><td>Both</td><td>Per email</td><td>JWT audience. Must be <code>F0rest_Ch3rches</code> to match the email app.</td></tr>
                 <tr><td><code>app-email-url</code></td><td>Both</td><td>Website: on use. Email app: start-up</td><td>Email app base URL. The website uses it only if <code>EmailApi:BaseUrl</code> is empty; the email app uses it to call its own <code>/Email/send</code>.</td></tr>
                 <tr><td><code>Email-Target</code></td><td>Website</td><td>On use</td><td>Mailbox that receives the public Contact us form.</td></tr>
                 <tr><td><code>google-api-key</code></td><td>Website</td><td>On use</td><td>Google Geocoding and Places API key. Also handed to browsers by the Church page.</td></tr>
@@ -95,7 +95,8 @@
                 <tr><td><code>Serilog:MinimumLevel</code></td><td>Both</td><td>Website: Information (Microsoft/System: Warning)</td><td>Log level.</td></tr>
                 <tr><td><code>BlobStorage:ConnectionString</code>, <code>BlobStorage:Container</code></td><td>Website</td><td>Not set</td><td>An older registration; the Key Vault-based registration in <code>Program.cs</code> replaces it, so these have no effect.</td></tr>
                 <tr><td><code>ChurchSuite:OAuth:*</code></td><td>Website</td><td>Not set</td><td>Fallbacks for the <code>CHURCHSUITE_OAUTH_*</code> variables.</td></tr>
-                <tr><td><code>Keyvault:*</code>, <code>Keys:Google</code></td><td>Website</td><td>In Development file</td><td>Not read by code. Remove them; the Google key there should be rotated.</td></tr>
+                <tr><td><code>Keyvault:Url</code></td><td>Website</td><td>In Development file</td><td>Used by EF design-time tools (<code>dotnet ef</code>) when <code>KEY_VAULT_URL</code> isn't set.</td></tr>
+                <tr><td>User secrets</td><td>Website</td><td>On each developer's machine</td><td>Development only: <code>ConnectionStrings:Development</code>, and optionally <code>KEY_VAULT_URL</code>, <code>AZURE_TENANT_ID</code>, <code>AZURE_CLIENT_ID</code>, <code>AZURE_CLIENT_SECRET</code>. Set with <code>dotnet user-secrets set "ConnectionStrings:Development" "…"</code>. Never put these in appsettings or launchSettings.</td></tr>
                 <tr><td><code>EnableSwaggerInProduction</code></td><td>Email app</td><td><code>true</code></td><td>Serves Swagger UI publicly. Set to <code>false</code>.</td></tr>
                 <tr><td><code>EmailService:BaseUrl</code></td><td>Email app</td><td><code>https://api.forestchurches.co.uk</code></td><td>Not read by code.</td></tr>
             </tbody>
