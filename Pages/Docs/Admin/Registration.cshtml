@@ -1,0 +1,135 @@
+@page
+@using ForestChurches.Pages.Docs
+@using Microsoft.AspNetCore.Authorization
+@attribute [Authorize(Policy = "Admin.Read")]
+@{
+    ViewData["Title"] = "Whitelisting, sign-up and sign-in – Website administrator guide";
+}
+
+<header>
+    <p class="fc-eyebrow">Website administrator guide · Technical reference</p>
+    <h1>Whitelisting, sign-up and sign-in</h1>
+    <p class="docs-lead">How the invitation whitelist works, what happens at each step of registration, how email links are protected, and how sign-in, two-factor and sessions work.</p>
+    <div class="docs-meta"><span>Code: <code>Pages/Admin/Invite</code>, <code>Components/UserRegistration</code>, <code>Areas/Identity/Pages/Account</code>, <code>Components/Security</code></span></div>
+</header>
+
+<h2>Why there's a whitelist</h2>
+<p>Anyone who registers gets a church listing that's immediately public and can receive messages from visitors. To stop spam and impersonation, registration is closed to everyone except email addresses an administrator has added to the <code>WhitelistedUsers</code> table (shown in Site admin as <strong>Invitations</strong>).</p>
+
+<h2>The registration journey</h2>
+<figure class="docs-diagram">
+    <svg viewBox="0 0 960 430" role="img" aria-labelledby="reg-t reg-d">
+        <title id="reg-t">Church registration sequence</title>
+        <desc id="reg-d">An admin invites an email address, which adds a whitelist row and sends an invitation email through the email app. The church opens the link, which is validated and redirects to the register page. Registration checks the whitelist, creates the account and church listing, marks the invitation completed and sends a confirmation email. Confirming the email adds the AuthorizedChurch role.</desc>
+        <defs>
+            <marker id="reg-ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="dg-arrowhead" /></marker>
+        </defs>
+        <!-- lifelines -->
+        <rect class="dg-box" x="20" y="14" width="150" height="40" rx="8" /><text class="dg-title" x="95" y="39" text-anchor="middle">Site admin</text>
+        <rect class="dg-box dg-box--main" x="250" y="14" width="190" height="40" rx="8" /><text class="dg-title dg-title--on-main" x="345" y="39" text-anchor="middle">ForestChurches</text>
+        <rect class="dg-box dg-box--store" x="510" y="14" width="150" height="40" rx="8" /><text class="dg-title" x="585" y="39" text-anchor="middle">Database</text>
+        <rect class="dg-box" x="700" y="14" width="110" height="40" rx="8" /><text class="dg-title" x="755" y="39" text-anchor="middle">Email app</text>
+        <rect class="dg-box dg-box--ext" x="840" y="14" width="104" height="40" rx="8" /><text class="dg-title" x="892" y="39" text-anchor="middle">Church</text>
+        <path class="dg-line dg-line--dash" d="M95,54 V420 M345,54 V420 M585,54 V420 M755,54 V420 M892,54 V420" />
+
+        <path class="dg-line" d="M95,80 H343" marker-end="url(#reg-ah)" /><text class="dg-label" x="104" y="74">1 Send invitation (email)</text>
+        <path class="dg-line" d="M345,104 H583" marker-end="url(#reg-ah)" /><text class="dg-label" x="354" y="98">2 add row: Pending, expires +24 h</text>
+        <path class="dg-line" d="M345,128 H753" marker-end="url(#reg-ah)" /><text class="dg-label" x="354" y="122">3 POST "You're Invited" with ValidateToken link (1 day)</text>
+        <path class="dg-line" d="M755,152 H890" marker-end="url(#reg-ah)" /><text class="dg-label" x="764" y="146">4 email (≤ 5 min)</text>
+        <path class="dg-line" d="M892,184 H347" marker-end="url(#reg-ah)" /><text class="dg-label" x="420" y="178">5 /ValidateToken?token=… → redirect to /Identity/Account/register?email=…</text>
+        <path class="dg-line" d="M892,214 H347" marker-end="url(#reg-ah)" /><text class="dg-label" x="420" y="208">6 Create account (email, password, logo)</text>
+        <path class="dg-line" d="M345,238 H583" marker-end="url(#reg-ah)" /><text class="dg-label" x="354" y="232">7 check: listed, Pending, not expired</text>
+        <path class="dg-line" d="M345,262 H583" marker-end="url(#reg-ah)" /><text class="dg-label" x="354" y="256">8 create user + "Default Church" (Open)</text>
+        <path class="dg-line" d="M345,286 H583" marker-end="url(#reg-ah)" /><text class="dg-label" x="354" y="280">9 mark invitation Completed</text>
+        <path class="dg-line" d="M345,310 H753" marker-end="url(#reg-ah)" /><text class="dg-label" x="354" y="304">10 POST "Confirm your account" (link valid 2 h)</text>
+        <path class="dg-line" d="M892,346 H347" marker-end="url(#reg-ah)" /><text class="dg-label" x="420" y="340">11 /Identity/Account/ConfirmEmail?userId=…&amp;code=…</text>
+        <path class="dg-line" d="M345,372 H583" marker-end="url(#reg-ah)" /><text class="dg-label" x="354" y="366">12 EmailConfirmed = true; add role AuthorizedChurch</text>
+        <path class="dg-line" d="M892,404 H347" marker-end="url(#reg-ah)" /><text class="dg-label" x="420" y="398">13 sign in → Church admin</text>
+    </svg>
+    <figcaption>From invitation to first sign-in. Every email goes through the email app, so each can take up to 5 minutes.</figcaption>
+</figure>
+
+<h3>Step by step</h3>
+<ol class="docs-steps">
+    <li><strong>Invite.</strong> <code>Invite.OnPostAddWhitelistedUser</code> adds a <code>WhitelistedUsers</code> row (<code>Status = "Pending"</code>, <code>ExpiryDate = now + 24 h</code>). <code>RegistrationGenerate.GenerateUrl</code> builds <code>/Identity/Account/register?email=…</code> and also resets the expiry of every row for that email to now + 24 h.</li>
+    <li><strong>Invitation email.</strong> <code>MailSender.SendEmailInviteUser</code> wraps the register URL in a <em>callback token</em> valid for 1 day (see below) and hands the <code>registration_invite</code> template to the email app.</li>
+    <li><strong>Opening the link.</strong> <code>/ValidateToken?token=…</code> decrypts the token; if it's valid and not expired it redirects to the register page, otherwise it shows an "expired or invalid" page.</li>
+    <li><strong>Registering.</strong> <code>Register.OnPostAsync</code> accepts the form only if:
+        <ul>
+            <li>the email is in the whitelist (<strong>exact, case-sensitive match</strong>, because the check compares against an in-memory list of whitelisted emails), and</li>
+            <li><code>ValidateEmail</code> finds the first whitelist row for that email with <code>Status = "Pending"</code> and an expiry in the future, and</li>
+            <li>the password passes the password rules.</li>
+        </ul>
+        Otherwise it shows "Email is already registered or the registration has expired".
+    </li>
+    <li><strong>Account and listing.</strong> It creates the <code>ChurchAccount</code> (unconfirmed, no roles), a <code>ChurchInformation</code> row with placeholders (<em>Default Church</em>, address <em>TBA</em>, every facility on, <strong>Status = Open</strong>) and stores the uploaded logo (or the default <code>IMGUR-1.png</code>) in blob storage. The whitelist row becomes <code>Completed</code> with the registration date.</li>
+    <li><strong>Confirmation.</strong> An Identity email-confirmation token is generated (valid <strong>2 hours</strong>, <code>DataProtectionTokenProviderOptions.TokenLifespan</code>); the user ID and code are protected with the <code>fc.data.url.email</code> protector and sent in <em>Confirm your account</em>.</li>
+    <li><strong>Confirming.</strong> <code>ConfirmEmail</code> confirms the account and adds the <code>AuthorizedChurch</code> role. Sign-in requires a confirmed account (<code>RequireConfirmedAccount = true</code>).</li>
+</ol>
+
+<div class="docs-callout docs-callout--warn">
+    <span class="docs-callout__title">Things to know</span>
+    <ul>
+        <li>New listings are <strong>Open</strong> (public) as soon as the account is created, even before email confirmation, with placeholder details.</li>
+        <li>Sending the same invitation twice creates duplicate rows. Only the first row for an email is checked and completed.</li>
+        <li>Removing an invitation doesn't affect an account that already exists.</li>
+        <li><strong>Resend link</strong> extends the expiry but doesn't reset a <code>Completed</code> row back to <code>Pending</code>.</li>
+    </ul>
+</div>
+
+<h2>Other ways an account can be created</h2>
+<div class="docs-table-wrap">
+    <table class="docs-table">
+        <thead><tr><th>Route</th><th>Whitelist checked?</th><th>Result</th></tr></thead>
+        <tbody>
+            <tr><td>Site admin → Users → Create a user</td><td>No (admin action)</td><td>Confirmed account with the chosen roles; church listing created; <em>Thanks for Registering</em> email.</td></tr>
+            <tr><td>Start-up seeder</td><td>No</td><td>The first SuperAdmin from <code>sys-admin-username</code> / <code>sys-admin-password</code>, with a <em>Default Church</em> listing.</td></tr>
+            <tr><td>"Sign in with ChurchSuite" (only when the site-wide <code>ChurchSuite:OAuth:ClientId</code> is configured)</td><td>Yes, but only that the email is in the list (status and expiry aren't checked)</td><td>Account linked to the ChurchSuite login; listing created as Open.</td></tr>
+        </tbody>
+    </table>
+</div>
+
+<h2>Links in emails: callback tokens</h2>
+<p>Most links in emails don't point straight at a page. They point to <code>/ValidateToken?token=…</code>, where the token is a small JSON object <code>{ email, ExpirationTime, RedirectUrl }</code> encrypted and signed with ASP.NET Core Data Protection (purpose string <code>"User  Registration"</code>, two spaces). The page decrypts it, checks the expiry, and redirects to <code>RedirectUrl</code>.</p>
+<div class="docs-table-wrap">
+    <table class="docs-table">
+        <thead><tr><th>Email</th><th>Token lifetime</th><th>Redirects to</th></tr></thead>
+        <tbody>
+            <tr><td>Invitation</td><td>1 day</td><td>The register page for that email.</td></tr>
+            <tr><td>Event created / deleted / "Do you still need this?"</td><td>1 day</td><td>The church's events page.</td></tr>
+            <tr><td>Church details sent to a visitor</td><td>1 day</td><td><code>/Contact?cid=…</code> for that church.</td></tr>
+            <tr><td>Password reset</td><td>2 hours (and the Identity reset code itself expires after 2 hours)</td><td>The reset password page.</td></tr>
+        </tbody>
+    </table>
+</div>
+<p>Because the tokens are protected by the site's Data Protection keys, they stop working if the key ring is lost or replaced. The ring is shared through blob storage, so all instances and restarts can read each other's tokens.</p>
+
+<h2>Protected IDs in pages and forms</h2>
+<p>Internal IDs (user IDs, church IDs, event IDs, role names, emails in admin forms) are never put in pages or URLs as plain text. The <code>Encoder</code> class protects them with named Data Protection protectors, so a value from one page can't be replayed on another:</p>
+<p><code>fc.data.contact</code>, <code>fc.data.user.events</code>, <code>fc.data.admin.events</code>, <code>fc.data.url.email</code>, <code>fc.data.url.change</code>, <code>fc.data.manage.church</code>, <code>fc.data.manage.email</code>, <code>fc.data.mail.confirm</code>, <code>fc.data.login.external</code>, <code>fc.data.admin.church</code>, <code>fc.data.admin.contact</code>, <code>fc.data.admin.invite</code>, <code>fc.data.admin.role</code>, <code>fc.data.admin.users</code>, <code>fc.data.church.information</code>, <code>fc.data.google</code>.</p>
+<p>An "invalid or expired link" message in Site admin usually means a page was left open across a key rotation (keys last 7 days) or a deploy that lost the keys; reopen the page from the menu.</p>
+
+<h2>Sign-in</h2>
+<ol class="docs-steps">
+    <li>The login form looks the user up <strong>by email</strong>, then checks the password with <code>CheckPasswordSignInAsync</code> (falling back to <code>PasswordSignInAsync</code> by username).</li>
+    <li>If the email isn't confirmed: "Sign-in is not allowed for this account because the email address has not been confirmed."</li>
+    <li>If two-factor is on, the user is sent to <code>LoginWith2fa</code> (6-digit TOTP code) or <code>LoginWithRecoveryCode</code>. <em>Remember this device</em> sets a two-factor remember cookie.</li>
+    <li>On success an Identity cookie is issued.</li>
+</ol>
+<div class="docs-table-wrap">
+    <table class="docs-table">
+        <thead><tr><th>Setting</th><th>Value</th></tr></thead>
+        <tbody>
+            <tr><td>Password rules</td><td>At least 12 characters; upper case, lower case, digit and symbol required.</td></tr>
+            <tr><td>Account lockout</td><td><strong>Off</strong> (<code>lockoutOnFailure: false</code>): unlimited password attempts.</td></tr>
+            <tr><td>Auth cookie</td><td><code>Secure</code>, <code>HttpOnly</code>, <code>SameSite=None</code>; default 14-day lifetime with <em>Keep me signed in</em>, session cookie without; sliding expiration off.</td></tr>
+            <tr><td>Role/permission changes</td><td>Permission checks read the user's roles from the database on every request, so they apply immediately. Checks by role name (SuperAdmin-only actions, which menus are shown) use the roles in the cookie, refreshed at the next sign-in or security-stamp revalidation (every 30 minutes by default).</td></tr>
+            <tr><td>Email confirmation and password reset tokens</td><td>2 hours.</td></tr>
+            <tr><td>Session (server-side state, used by ChurchSuite PKCE)</td><td>30-minute idle timeout, held in memory on the instance.</td></tr>
+            <tr><td>Antiforgery</td><td>Cookie <code>X-CSRF-TOKEN-COOKIE</code>, header <code>X-CSRF-TOKEN-HEADER</code>; checked on every POST/PUT/DELETE except login, register, logout, external login and <code>/api</code>.</td></tr>
+        </tbody>
+    </table>
+</div>
+
+<h2>How permissions are checked</h2>
+<p>Each permission is registered as an authorisation policy of the same name (<code>PolicyConfiguration.AddPolicies</code>). A page marked <code>[Authorize(Policy = "UserManagement.Read")]</code> is handled by <code>PermissionAuthorizationHandler</code>, which loads the signed-in user's current roles from the database and checks the <code>RolePermissions</code> table for that permission. Both changing a role's permissions and changing a user's roles therefore take effect on the next request. A few checks use the role <em>name</em> from the sign-in cookie instead (<code>[Authorize(Roles = "SuperAdmin")]</code> on Emails, <code>IsInRole("SuperAdmin")</code> for editing and deleting users, ELMAH, and whether the Admin menu link and admin guide are shown); those follow the cookie.</p>

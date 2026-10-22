@@ -1,0 +1,78 @@
+@* Layout for the help guides under /docs. Sits inside the main site layout, so the header, footer,
+   language menu and light/dark theme are the same as everywhere else. *@
+@using ForestChurches.Pages.Docs
+@{
+    Layout = "/Pages/Shared/_Layout.cshtml";
+
+    var currentPage = ViewContext.RouteData.Values["page"]?.ToString() ?? string.Empty;
+    var guide = DocsNav.ForPage(currentPage);
+    var isSiteAdmin = User?.Identity?.IsAuthenticated == true &&
+        (User.IsInRole(ForestChurches.Components.Roles.Roles.Admin.ToString()) || User.IsInRole(ForestChurches.Components.Roles.Roles.SuperAdmin.ToString()));
+    var showToc = !string.Equals(ViewData["DocsNoToc"] as string, "true", StringComparison.Ordinal);
+
+    DocPage? prev = null, next = null;
+    if (guide != null)
+    {
+        var index = guide.Pages.ToList().FindIndex(p => string.Equals(p.Page, currentPage, StringComparison.OrdinalIgnoreCase));
+        if (index > 0) prev = guide.Pages[index - 1];
+        if (index >= 0 && index < guide.Pages.Count - 1) next = guide.Pages[index + 1];
+    }
+
+    string? Current(string page) => string.Equals(page, currentPage, StringComparison.OrdinalIgnoreCase) ? "page" : null;
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/docs.css" asp-append-version="true" />
+}
+
+<div class="fc-container docs @(showToc ? "" : "docs--no-toc")">
+    <nav class="docs-side" aria-label="Help guides">
+        <ul class="fc-sidenav">
+            <li><a asp-page="/Docs/Index" aria-current="@Current("/Docs/Index")">All guides</a></li>
+        </ul>
+        @foreach (var g in DocsNav.All)
+        {
+            if (g.AdminOnly && !isSiteAdmin && g != guide)
+            {
+                continue;
+            }
+            <p class="docs-side__guide">@g.Title</p>
+            <ul class="fc-sidenav">
+                @foreach (var p in g.Pages)
+                {
+                    <li><a asp-page="@p.Page" aria-current="@Current(p.Page)">@p.Title</a></li>
+                }
+            </ul>
+        }
+    </nav>
+
+    <article class="docs-article">
+        @RenderBody()
+
+        @if (prev != null || next != null)
+        {
+            <nav class="docs-pager" aria-label="Previous and next pages">
+                @if (prev != null)
+                {
+                    <a asp-page="@prev.Page"><span>← Previous</span><strong>@prev.Title</strong></a>
+                }
+                @if (next != null)
+                {
+                    <a class="docs-pager__next" asp-page="@next.Page"><span>Next →</span><strong>@next.Title</strong></a>
+                }
+            </nav>
+        }
+    </article>
+
+    @if (showToc)
+    {
+        <aside class="docs-toc" aria-label="On this page" data-docs-toc>
+            <p class="docs-toc__title">On this page</p>
+        </aside>
+    }
+</div>
+
+@section Scripts {
+    <script src="~/js/docs.js" asp-append-version="true"></script>
+    @RenderSection("Scripts", required: false)
+}

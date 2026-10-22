@@ -1,0 +1,95 @@
+@page
+@using ForestChurches.Pages.Docs
+@using Microsoft.AspNetCore.Authorization
+@attribute [Authorize(Policy = "Admin.Read")]
+@{
+    ViewData["Title"] = "Site administration – Website administrator guide";
+}
+
+<header>
+    <p class="fc-eyebrow">Website administrator guide</p>
+    <h1>Site administration</h1>
+    <p class="docs-lead">What site administrators do, who can do what, and a tour of the Site admin area. The later pages explain how the whole system works underneath.</p>
+    <div class="docs-meta"><span>Where: Site admin (menu → Admin, or /Admin)</span><span>Requires: Admin.Read</span><span>Covers: ForestChurches <code>redesign/forest-floor</code>, EmailManagement <code>feature/delivery-status</code></span></div>
+</header>
+
+<div class="docs-callout docs-callout--danger">
+    <span class="docs-callout__title">This guide is restricted</span>
+    <p>These pages describe how the site is secured, where data and keys are kept, and its known weaknesses. They're only shown to accounts with the <strong>Admin.Read</strong> permission. Don't copy them anywhere public. No secret <em>values</em> appear anywhere in this guide; only the names of secrets and where they are stored.</p>
+</div>
+
+<h2>Who this guide is for</h2>
+<p>Forest Churches has two kinds of site administrator:</p>
+<div class="docs-cards">
+    <div class="docs-card"><h4>Administrator (role <code>Admin</code>)</h4><p>Can open Site admin and see the dashboard, churches, invitations, bulletins, email delivery, logs and changelog. Can't change users, roles or events unless given extra permissions.</p></div>
+    <div class="docs-card"><h4>Developer (role <code>SuperAdmin</code>)</h4><p>Has every permission: users, roles, events, emails to users, as well as everything an Administrator can do. Also the person who looks after hosting, Azure and the email app.</p></div>
+</div>
+<p>The first part of this guide (<a asp-page="/Docs/Admin/People">Users, roles and invitations</a> to <a asp-page="/Docs/Admin/Monitoring">Monitoring and logs</a>) is about using Site admin. The rest is the technical reference: <a asp-page="/Docs/Admin/Architecture">architecture</a>, <a asp-page="/Docs/Admin/Registration">whitelisting and sign-in</a>, <a asp-page="/Docs/Admin/BackgroundJobs">Hangfire</a>, <a asp-page="/Docs/Admin/Email">the EmailManagement app</a>, <a asp-page="/Docs/Admin/ChurchSuite">ChurchSuite</a>, <a asp-page="/Docs/Admin/Security">security, keys and data</a>, <a asp-page="/Docs/Admin/Operations">configuration and deployment</a> and <a asp-page="/Docs/Admin/KnownIssues">known issues</a>.</p>
+
+<h2>Roles at a glance</h2>
+<p>Every account has zero or more roles; each role is a set of permissions. Pages check permissions, not role names (with two exceptions, noted below). The three built-in roles are created automatically when the site starts:</p>
+<div class="docs-table-wrap">
+    <table class="docs-table">
+        <thead><tr><th>Role</th><th>Shown in Site admin as</th><th>Permissions</th><th>Who has it</th></tr></thead>
+        <tbody>
+            <tr><td><code>SuperAdmin</code></td><td>Developer</td><td>All permissions</td><td>The site owner/developer. The first one is created from Key Vault on start-up.</td></tr>
+            <tr><td><code>Admin</code></td><td>Administrator</td><td><code>Admin.Read</code></td><td>Team members who help run the site.</td></tr>
+            <tr><td><code>AuthorizedChurch</code></td><td>Approved church</td><td><code>UserEvents.View</code>, <code>UserEvents.Edit</code>, <code>UserEvents.Add</code></td><td>Every church account, given automatically when the church confirms its email.</td></tr>
+            <tr><td><em>(no role)</em></td><td>Waiting for approval</td><td>None</td><td>Accounts that haven't confirmed their email yet.</td></tr>
+        </tbody>
+    </table>
+</div>
+<p>See <a asp-page="/Docs/Admin/People" asp-fragment="roles-and-permissions">Roles and permissions</a> for the full permission list and which page needs which.</p>
+
+<h2>A tour of Site admin</h2>
+<p>Sign in with an admin account and select <strong>Admin</strong> in the main menu (or go to <code>/Admin</code>). The admin pages are headed <strong>Site admin</strong>. The side menu has:</p>
+<div class="docs-table-wrap">
+    <table class="docs-table">
+        <thead><tr><th>Menu</th><th>What it's for</th><th>Permission needed</th><th>Guide</th></tr></thead>
+        <tbody>
+            <tr><td>Dashboard</td><td>Counts, system health and recent activity.</td><td>Admin.Read</td><td><a asp-page="/Docs/Admin/Monitoring" asp-fragment="the-dashboard">Dashboard</a></td></tr>
+            <tr><td>Users</td><td>Every account: edit, create, download, delete.</td><td>UserManagement.Read (+ SuperAdmin to edit or delete)</td><td><a asp-page="/Docs/Admin/People" asp-fragment="users">Users</a></td></tr>
+            <tr><td>Roles</td><td>Create roles and choose their permissions.</td><td>RoleManagement.Read / .Write</td><td><a asp-page="/Docs/Admin/People" asp-fragment="roles-and-permissions">Roles</a></td></tr>
+            <tr><td>Invitations</td><td>The whitelist: invite churches to register.</td><td>Admin.Read</td><td><a asp-page="/Docs/Admin/People" asp-fragment="inviting-a-church">Invitations</a></td></tr>
+            <tr><td>Churches</td><td>Every church listing: edit, download, reset.</td><td>Admin.Read</td><td><a asp-page="/Docs/Admin/Content" asp-fragment="churches">Churches</a></td></tr>
+            <tr><td>Events</td><td>Every event from every church.</td><td>EventManagement.Read / .Write / .Edit</td><td><a asp-page="/Docs/Admin/Content" asp-fragment="events">Events</a></td></tr>
+            <tr><td>Bulletins</td><td>The weekly bulletin and site banner.</td><td>Admin.Read</td><td><a asp-page="/Docs/Admin/Content" asp-fragment="bulletins">Bulletins</a></td></tr>
+            <tr><td>Emails</td><td>Email one user or every user.</td><td>SuperAdmin role</td><td><a asp-page="/Docs/Admin/Content" asp-fragment="emailing-users">Emails</a></td></tr>
+            <tr><td>Email delivery</td><td>Whether each email reached the email app and went out.</td><td>Admin.Read</td><td><a asp-page="/Docs/Admin/Monitoring" asp-fragment="email-delivery">Email delivery</a></td></tr>
+            <tr><td>Logs</td><td>Search and download the application log.</td><td>Admin.Read</td><td><a asp-page="/Docs/Admin/Monitoring" asp-fragment="logs">Logs</a></td></tr>
+            <tr><td>Changelog</td><td>Release notes.</td><td>Admin.Read</td><td>–</td></tr>
+            <tr><td>Help</td><td>This guide.</td><td>Admin.Read</td><td>–</td></tr>
+        </tbody>
+    </table>
+</div>
+<partial name="_Fig" model='new DocFig("admin-dashboard", "The Site admin dashboard with counts, system health, recent churches and upcoming events", "Site admin → Dashboard.")' />
+<p>The top bar also has <strong>Church admin</strong> (your own account pages; every admin account also has its own church listing, see below) and <strong>Back to site</strong>.</p>
+
+<h2>Outside Site admin</h2>
+<p>Some tools aren't in the Site admin menu:</p>
+<div class="docs-table-wrap">
+    <table class="docs-table">
+        <thead><tr><th>Tool</th><th>Address</th><th>Who can open it</th></tr></thead>
+        <tbody>
+            <tr><td>Hangfire dashboard</td><td><code>/hangfire</code></td><td>Anyone with the Hangfire username and password (HTTP Basic sign-in, the <code>sys-admin-username</code> / <code>sys-admin-password</code> secrets). See <a asp-page="/Docs/Admin/BackgroundJobs">Hangfire</a>.</td></tr>
+            <tr><td>ELMAH error log</td><td><code>/elmah</code></td><td>SuperAdmin.</td></tr>
+            <tr><td>Health check</td><td><code>/health</code></td><td>Public; returns <code>ok</code> or <code>degraded</code> depending on whether the database can be reached.</td></tr>
+            <tr><td>Grafana (Loki logs)</td><td>Grafana Cloud</td><td>Whoever has the Grafana Cloud account.</td></tr>
+            <tr><td>Azure portal</td><td>portal.azure.com</td><td>Key Vault <code>projectgreenblock</code>, storage account <code>greenblockstorageaccount</code>, the Container App <code>forestchurches</code>.</td></tr>
+            <tr><td>Email app</td><td><code>https://api.forestchurches.co.uk</code></td><td>Hosted separately on Plesk. Its Swagger page is at <code>/swagger</code>.</td></tr>
+        </tbody>
+    </table>
+</div>
+
+<h2>Your admin account has a church too</h2>
+<p>Every account, including admin accounts, gets a church listing when it's created. The first SuperAdmin's listing is called <em>Default Church</em>. Admin listings can appear in public search if they're <strong>Open</strong>, so either fill them in properly or set them to <strong>Closed</strong> from <strong>Church admin → My Church</strong>.</p>
+
+<h2>Everyday tasks</h2>
+<div class="docs-cards">
+    <div class="docs-card"><h4>A church wants to join</h4><p><a asp-page="/Docs/Admin/People" asp-fragment="inviting-a-church">Invite them</a> from Invitations.</p></div>
+    <div class="docs-card"><h4>A church can't sign in</h4><p>Check their account on Users and the <a asp-page="/Docs/Admin/People" asp-fragment="helping-someone-who-cant-sign-in">sign-in checklist</a>.</p></div>
+    <div class="docs-card"><h4>"I didn't get the email"</h4><p>Look it up on <a asp-page="/Docs/Admin/Monitoring" asp-fragment="email-delivery">Email delivery</a>.</p></div>
+    <div class="docs-card"><h4>Publish this week's bulletin</h4><p><a asp-page="/Docs/Admin/Content" asp-fragment="bulletins">Bulletins</a> → New bulletin → Make live.</p></div>
+    <div class="docs-card"><h4>Something's broken</h4><p>Start with <a asp-page="/Docs/Admin/Monitoring" asp-fragment="logs">Logs</a>, then the <a asp-page="/Docs/Admin/Operations" asp-fragment="runbooks">runbooks</a>.</p></div>
+    <div class="docs-card"><h4>Rotate a secret</h4><p>See <a asp-page="/Docs/Admin/Security" asp-fragment="rotating-secrets">Rotating secrets</a>.</p></div>
+</div>

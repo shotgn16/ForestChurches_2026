@@ -1050,6 +1050,9 @@
   <data name="FC_FAQ" xml:space="preserve">
     <value>Часті запитання</value>
   </data>
+  <data name="FC_NAV_HELP" xml:space="preserve">
+    <value>Довідка</value>
+  </data>
   <data name="FC_CHURCH_ADMIN" xml:space="preserve">
     <value>Керування церквою</value>
   </data>

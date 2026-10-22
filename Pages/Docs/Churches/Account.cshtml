@@ -1,0 +1,125 @@
+@page
+@using ForestChurches.Pages.Docs
+@{
+    ViewData["Title"] = "Your account and data – Church administrator guide";
+}
+
+<header>
+    <p class="fc-eyebrow">Church administrator guide</p>
+    <h1>Your account and data</h1>
+    <p class="docs-lead">Your sign-in details, password, two-factor authentication, downloading or deleting your data, and the emails Forest Churches sends you.</p>
+    <div class="docs-meta"><span>Where: Church admin → Profile, Change Password, Two-Factor Authentication, My Data</span></div>
+</header>
+
+<h2>Your account and your church are separate</h2>
+<p>Your <strong>account</strong> is the login you use to manage your church: an email address, password and optional phone number. Your <strong>church</strong> is the public listing visitors see. You change the church's details on <strong>My Church</strong> (see <a asp-page="/Docs/Churches/Profile">Your church's page</a>) and your own login details on the pages described here.</p>
+<p>The email address you sign in with is also where messages from visitors and website emails are sent, so use one that is checked regularly.</p>
+
+<h2>Profile</h2>
+<p><strong>Profile</strong> shows your sign-in email and an optional <strong>Phone</strong> number for the Forest Churches team to contact you. Change the phone number and select <strong>Save Changes</strong>.</p>
+<partial name="_Fig" model='new DocFig("church-account-profile", "The Profile page showing the sign-in email and an optional phone number", "Profile: your own login details.", true)' />
+
+<h3>Changing your sign-in email</h3>
+<p>The Profile page says "To change your email, please contact us." Use <a asp-page="/Contact">Contact Us</a> and tell us the old and new addresses. When the change is made, a <em>Confirm New Email</em> message is sent to the new address; select the link in it to finish the change.</p>
+<div class="docs-callout docs-callout--note">
+    <span class="docs-callout__title">ChurchSuite can change it too</span>
+    <p>If you use <strong>Sync now</strong> on My Church with ChurchSuite connected, your sign-in email is replaced with your ChurchSuite account's email. See <a asp-page="/Docs/Churches/Profile" asp-fragment="updating-your-details-from-churchsuite">Updating your details from ChurchSuite</a>.</p>
+</div>
+
+<h2>Changing your password</h2>
+<ol class="docs-steps">
+    <li>Select <strong>Change Password</strong>.</li>
+    <li>Enter your <strong>Current password</strong>.</li>
+    <li>Enter a <strong>New password</strong> and type it again in <strong>Confirm new password</strong>. It must follow the <a asp-page="/Docs/Churches/Index" asp-fragment="password-rules">password rules</a>: 12 or more characters with upper- and lower-case letters, a number and a symbol.</li>
+    <li>Select <strong>Update password</strong>. You stay signed in.</li>
+</ol>
+<partial name="_Fig" model='new DocFig("church-change-password", "The Change Password page", "Change Password.", true)' />
+<p>If you've forgotten your current password, sign out and use <strong>Forgot Password</strong> on the Church login page instead.</p>
+
+<h2>Two-factor authentication</h2>
+<p>Two-factor authentication (2FA) adds a second step when you sign in: after your password you type a 6-digit code from an authenticator app on your phone. Even if someone learns your password, they can't sign in without your phone. We strongly recommend turning it on; the page shows <em>Off — we recommend turning it on</em> until you do.</p>
+<partial name="_Fig" model='new DocFig("church-2fa", "The Two-Factor Authentication page with the option to add an authenticator app", "Two-Factor Authentication.", true)' />
+
+<h3>Turning it on</h3>
+<ol class="docs-steps">
+    <li>Install an authenticator app on your phone, for example Microsoft Authenticator or Google Authenticator.</li>
+    <li>Select <strong>Two-Factor Authentication</strong>, then <strong>Add authenticator app</strong>.</li>
+    <li>In the app, add a new account and scan the QR code shown, or type in the key shown under it.</li>
+    <li>Type the 6-digit code from the app into the box labelled <strong>Enter the 6-digit code the app shows</strong> and select <strong>Verify and turn on</strong>.</li>
+    <li>You're shown ten <strong>recovery codes</strong>. Write them down or save them somewhere safe and separate from your phone (for example a password manager or a locked drawer at church).</li>
+</ol>
+
+<h3>Recovery codes</h3>
+<p>If you lose your phone, use one recovery code instead of an authenticator code when you sign in (select <strong>Use a recovery code</strong> on the code page). Each code works once. The 2FA page shows how many you have left and warns you when you're running low; select <strong>Reset recovery codes</strong> to get a new set (the old ones stop working).</p>
+
+<h3>Other options</h3>
+<ul>
+    <li><strong>Set up authenticator app</strong> / <strong>Reset authenticator app</strong>: move 2FA to a new phone. Resetting makes the old app's codes stop working immediately.</li>
+    <li><strong>Forget this browser</strong>: if you ticked <strong>Remember this device</strong> when entering a code, this makes this browser ask for a code again next time.</li>
+    <li><strong>Disable 2FA</strong>: turns two-factor off. Your authenticator key isn't changed, so re-enabling later works with the same app entry unless you reset it.</li>
+</ul>
+<div class="docs-callout docs-callout--warn">
+    <span class="docs-callout__title">Lost your phone and your recovery codes?</span>
+    <p>Contact the Forest Churches team. A site administrator can confirm who you are and help you get back in.</p>
+</div>
+
+<h2>Your data</h2>
+<p><strong>My Data</strong> lets you download what's held about your account, or delete your account.</p>
+<partial name="_Fig" model='new DocFig("church-personal-data", "The My Data page with Download and Delete account options", "My Data.", true)' />
+
+<h3>Downloading your data</h3>
+<p>Select <strong>Download</strong>. You'll get a PDF called <code>PersonalData.pdf</code> listing the personal details held on your login: your account ID, sign-in email and username, whether your email is confirmed, phone number, whether two-factor authentication is on, and your authenticator key.</p>
+<div class="docs-callout docs-callout--warn">
+    <span class="docs-callout__title">Keep the download private</span>
+    <p>The PDF includes your <strong>authenticator key</strong>, the secret your authenticator app uses to make codes. Anyone with it, plus your password, could sign in as you. Store the file securely and delete it when you no longer need it. If it may have been seen by someone else, use <strong>Reset authenticator app</strong>.</p>
+</div>
+<p>Your church's public details aren't in the PDF; you can see them on <strong>My Church</strong> and your public page. For a fuller copy of what's held (for example event history or logs), <a asp-page="/Contact">contact us</a>.</p>
+
+<h3>Deleting your account</h3>
+<ol class="docs-steps">
+    <li>On <strong>My Data</strong>, select <strong>Delete account…</strong>.</li>
+    <li>Read the warning: <em>This can't be undone.</em></li>
+    <li>Enter your password and select <strong>Delete permanently</strong>.</li>
+</ol>
+<p>This deletes your login, your church listing and its service times, and signs you out. Your church disappears from the website straight away.</p>
+<div class="docs-callout docs-callout--note">
+    <span class="docs-callout__title">What isn't removed automatically</span>
+    <p>Events you added, any stored ChurchSuite connection and your original invitation record are kept in the database after the account is deleted, and log entries remain until they age out. Delete your events on <strong>My Events</strong> first, and ask us to remove anything else.</p>
+</div>
+<p>If you only want to stop being listed for a while, use <strong>Mark church as closed…</strong> on My Church instead.</p>
+
+<h2 id="bulletins">Bulletins</h2>
+<p>The <strong>Bulletins</strong> item in the Church admin menu leads to the bulletin editor, which is used by the Forest Churches team. Church accounts see an access-denied page there. To have something included in the weekly bulletin, send it to the team using <a asp-page="/Contact">Contact Us</a>. Visitors read the published bulletin under <strong>Bulletin</strong> on the main menu.</p>
+
+<h2>Emails you'll receive</h2>
+<p>Emails come from <strong>Forest Churches &lt;info@forestchurches.co.uk&gt;</strong>. They're sent through a separate email service, so they can take a few minutes to arrive.</p>
+<div class="docs-table-wrap">
+    <table class="docs-table">
+        <thead><tr><th>Subject</th><th>When</th><th>Link valid for</th></tr></thead>
+        <tbody>
+            <tr><td>You're Invited</td><td>The team invites your church to join.</td><td>24 hours</td></tr>
+            <tr><td>Confirm your account</td><td>You create your account, or ask to resend the confirmation.</td><td>2 hours</td></tr>
+            <tr><td>Thanks for Registering</td><td>A site administrator creates an account for you directly.</td><td>–</td></tr>
+            <tr><td>Reset Password</td><td>You use Forgot Password.</td><td>2 hours</td></tr>
+            <tr><td>Confirm New Email</td><td>Your sign-in email is being changed (sent to the new address).</td><td>2 hours</td></tr>
+            <tr><td>Event Created</td><td>You add an event.</td><td>–</td></tr>
+            <tr><td>Event Deleted</td><td>You delete an event.</td><td>–</td></tr>
+            <tr><td>Forest Churches Contact Form</td><td>A visitor sends your church a message from your church page. Reply directly to the visitor's email address shown in the message.</td><td>–</td></tr>
+        </tbody>
+    </table>
+</div>
+<p>If an email doesn't arrive, check your junk or spam folder and add <code>info@forestchurches.co.uk</code> to your contacts.</p>
+
+<h2>Troubleshooting</h2>
+<dl>
+    <dt><strong>"Invalid login attempt."</strong></dt>
+    <dd>The email or password is wrong. Check Caps Lock, select <strong>Show</strong> to see what you typed, or use <strong>Forgot Password</strong>.</dd>
+    <dt><strong>I can't sign in and haven't confirmed my email</strong></dt>
+    <dd>Use <strong>Resend Confirmation Email</strong> on the Church login page, then select the link within 2 hours.</dd>
+    <dt><strong>My authenticator codes are rejected</strong></dt>
+    <dd>Check your phone's clock is set automatically; codes depend on the correct time. Otherwise use a recovery code.</dd>
+    <dt><strong>"Access denied"</strong></dt>
+    <dd>You've opened a page for site administrators (for example Bulletins). Use the Church admin menu to get back.</dd>
+    <dt><strong>I'm signed out unexpectedly</strong></dt>
+    <dd>For security, a sign-in lasts a fixed time (up to 14 days with <strong>Keep me signed in</strong>, or until you close the browser without it) and isn't extended by activity. Sign in again.</dd>
+</dl>

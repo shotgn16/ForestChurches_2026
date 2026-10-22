@@ -43,6 +43,8 @@
             {
                 <li><a href="@href" class="@(IsIn(section) ? "active" : "")" aria-current="@Current(section)">@Localizer[key]</a></li>
             }
+            <li class="fc-sidenav__sep" role="presentation"></li>
+            <li><a asp-area="" asp-page="/Docs/Admin/Index">@Localizer["FC_NAV_HELP"]</a></li>
         </ul>
     </nav>
 

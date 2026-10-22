@@ -1,0 +1,108 @@
+@page
+@using ForestChurches.Pages.Docs
+@using Microsoft.AspNetCore.Authorization
+@attribute [Authorize(Policy = "Admin.Read")]
+@{
+    ViewData["Title"] = "ChurchSuite integration – Website administrator guide";
+}
+
+<header>
+    <p class="fc-eyebrow">Website administrator guide · Technical reference</p>
+    <h1>ChurchSuite integration</h1>
+    <p class="docs-lead">How churches connect their ChurchSuite accounts, the OAuth/PKCE flow, what's stored, what gets synced, and how to support churches with it.</p>
+    <div class="docs-meta"><span>Code: <code>Controllers/ChurchsuiteController.cs</code>, <code>Controllers/OAuthCallbackController.cs</code>, <code>Pages/ChurchSuite/Callback</code>, <code>Components/Http/ChurchSuite*</code></span></div>
+</header>
+
+<h2>Two ways ChurchSuite is used</h2>
+<div class="docs-table-wrap">
+    <table class="docs-table">
+        <thead><tr><th></th><th>Per-church connection (main)</th><th>"Sign in with ChurchSuite" (optional)</th></tr></thead>
+        <tbody>
+            <tr><td>Purpose</td><td>Import a church's profile and calendar.</td><td>Sign in to Forest Churches with a ChurchSuite login.</td></tr>
+            <tr><td>OAuth client</td><td>Each church's <strong>own</strong> ChurchSuite OAuth app (public client, PKCE). Its Client ID is saved on the user (<code>AspNetUsers.ClientId</code>).</td><td>One site-wide client from <code>ChurchSuite:OAuth:ClientId</code> / <code>ClientSecret</code> / <code>CallbackUrl</code> (or env vars <code>CHURCHSUITE_OAUTH_CLIENT_ID</code>, <code>CHURCHSUITE_OAUTH_CLIENT_SECRET</code>, <code>CHURCHSUITE_OAUTH_CALLBACK_URL</code>).</td></tr>
+            <tr><td>Enabled</td><td>Always.</td><td>Only if a site-wide Client ID is configured; then a "Sign in with ChurchSuite" button appears on the login page.</td></tr>
+            <tr><td>Callback</td><td><code>https://&lt;host&gt;/ChurchSuite/Callback</code></td><td><code>/signin-churchsuite</code></td></tr>
+        </tbody>
+    </table>
+</div>
+<p>The rest of this page is about the per-church connection.</p>
+
+<h2>The connection flow</h2>
+<ol class="docs-steps">
+    <li><strong>Client ID saved.</strong> In Church admin → ChurchSuite the church pastes the Client ID of its own ChurchSuite OAuth app and selects <strong>Save &amp; Authorize with ChurchSuite</strong>. The ID is saved on their account and the browser goes to <code>/churchsuite/authorize?user_id=&lt;their user ID&gt;</code>.</li>
+    <li><strong>PKCE started.</strong> The controller makes sure a <code>ChurchSuiteCredentials</code> row exists for that user, creates a random <em>code verifier</em> and its SHA-256 <em>code challenge</em> (S256), stores the verifier in the session (<code>pkce:{state}:verifier</code>, with the user ID and return address) and in <code>ChurchSuiteCredentials.TempCodeVerifier</code>, and redirects to <code>https://login.churchsuite.com/oauth2/authorize</code> with the church's Client ID, scopes <code>full_access offline_access</code>, the state and the challenge.</li>
+    <li><strong>The church approves</strong> in ChurchSuite.</li>
+    <li><strong>Callback.</strong> ChurchSuite redirects to <code>/ChurchSuite/Callback?code=…&amp;state=…</code>. The page finds the user (from a <code>user_id</code> query parameter, the session, or the stored verifier), finds the code verifier, and exchanges the code for tokens at ChurchSuite's token endpoint with <code>redirect_uri = https://&lt;host&gt;/ChurchSuite/Callback</code>.</li>
+    <li><strong>Tokens stored.</strong> The access token, refresh token, expiry, subdomain and Client ID are saved to <code>ChurchSuiteCredentials</code>.</li>
+    <li><strong>Profile synced.</strong> The church's ChurchSuite account profile is read and copied over the listing: <strong>Name, Description, Phone, Address</strong> (billing address), <strong>Website</strong>, the ChurchSuite subdomain and ChurchSuite login link. A success or error message is shown back in Church admin.</li>
+</ol>
+<p>If an access token has expired when it's next needed, the refresh token is used to get a new one (<code>grant_type=refresh_token</code>). If that fails, the church is sent through the flow again.</p>
+
+<h2>What gets synced, and when</h2>
+<div class="docs-table-wrap">
+    <table class="docs-table">
+        <thead><tr><th>Trigger</th><th>What changes</th></tr></thead>
+        <tbody>
+            <tr><td>Completing the connection (callback)</td><td>Church name, description, phone, address, website, ChurchSuite subdomain and link.</td></tr>
+            <tr><td>Church admin → My Church → <strong>Sync now</strong></td><td>Church name, website, <strong>and the account's sign-in email</strong> (<code>Email</code> and <code>NormalizedEmail</code>).</td></tr>
+            <tr><td>Church admin → My Events → <strong>Sync from ChurchSuite</strong></td><td>Calendar events starting in the next <strong>7 days</strong> from <code>api.churchsuite.com</code> (paged). Each is upserted: matched by ID (the ChurchSuite event ID), then by name + date + church. Images are downloaded and uploaded to blob storage. Events deleted in ChurchSuite aren't removed.</td></tr>
+        </tbody>
+    </table>
+</div>
+<p>There's no scheduled sync. Text on the church Events page saying events "sync automatically" is inaccurate.</p>
+<div class="docs-callout docs-callout--warn">
+    <span class="docs-callout__title">Sync now and events</span>
+    <p>Events belong to an account by its email address (<code>Events.User</code>) and to a church by its name (<code>Events.Church</code>). If <strong>Sync now</strong> changes the account's email or the church's name, existing events stop showing on that church's My Events page and on its public page. They still exist in Site admin → Events; fix them in the database or recreate them.</p>
+</div>
+
+<h2>What's stored</h2>
+<div class="docs-table-wrap">
+    <table class="docs-table">
+        <thead><tr><th>Where</th><th>Field</th><th>Protection</th></tr></thead>
+        <tbody>
+            <tr><td><code>AspNetUsers</code></td><td><code>ClientId</code> (the church's OAuth app ID; not a secret)</td><td>Plain text.</td></tr>
+            <tr><td><code>ChurchSuiteCredentials</code></td><td><code>AccessToken</code>, <code>RefreshToken</code>, <code>ExpiresAt</code>, <code>Subdomain</code>, <code>AccountId</code>, <code>ClientId</code>, <code>TempCodeVerifier</code>, timestamps, <code>IsActive</code></td><td><strong>Plain text.</strong> The refresh token grants long-lived <code>full_access</code> to the church's ChurchSuite account.</td></tr>
+            <tr><td>Session (memory)</td><td>PKCE verifier, state, user ID, return URL</td><td>Server memory, 30-minute idle timeout.</td></tr>
+            <tr><td><code>ChurchInformation</code></td><td>Legacy <code>ChurchSuiteApiKey</code> column (from an older API-key integration)</td><td>Plain text.</td></tr>
+        </tbody>
+    </table>
+</div>
+<p>Disconnecting: there's no button. To disconnect a church, delete its row from <code>ChurchSuiteCredentials</code> and clear <code>AspNetUsers.ClientId</code>, and ask the church to remove the OAuth app in ChurchSuite.</p>
+
+<h2>Supporting a church</h2>
+<div class="docs-table-wrap">
+    <table class="docs-table">
+        <thead><tr><th>Problem</th><th>Cause</th><th>Fix</th></tr></thead>
+        <tbody>
+            <tr><td>"Token exchange failed … redirect URI"</td><td>The redirect URI in the church's ChurchSuite app doesn't exactly match <code>https://forestchurches.co.uk/ChurchSuite/Callback</code>, or the app isn't public/PKCE.</td><td>Ask the church to correct the app in ChurchSuite.</td></tr>
+            <tr><td>"missing PKCE verifier" / "missing user_id"</td><td>Session lost: took longer than 30 minutes, different browser, or the app restarted or scaled to another instance between steps (sessions are in memory per instance).</td><td>Start again in one go. If it happens often, run a single replica or move session to a distributed cache.</td></tr>
+            <tr><td>Sync says not connected / credentials expired</td><td>No row, no refresh token, or refresh failed.</td><td>Ask the church to select <strong>Save &amp; Authorize</strong> again.</td></tr>
+            <tr><td>Church name or details changed unexpectedly</td><td>Connecting or <strong>Sync now</strong> overwrote them from ChurchSuite.</td><td>Fix on Churches → Edit; ask the church to correct ChurchSuite.</td></tr>
+            <tr><td>Church can't sign in after syncing</td><td><strong>Sync now</strong> changed their sign-in email to the ChurchSuite account email.</td><td>Tell them the new address, or change it back on Users → Edit.</td></tr>
+        </tbody>
+    </table>
+</div>
+
+<h2>Endpoints</h2>
+<div class="docs-table-wrap">
+    <table class="docs-table">
+        <thead><tr><th>Endpoint</th><th>Auth</th><th>Purpose</th></tr></thead>
+        <tbody>
+            <tr><td><code>GET /churchsuite/authorize?user_id=…&amp;redirect_uri=…</code></td><td>None</td><td>Start the per-church PKCE flow.</td></tr>
+            <tr><td><code>GET /churchsuite/login-pkce</code></td><td>None</td><td>Start a PKCE flow with the site-wide client.</td></tr>
+            <tr><td><code>GET /churchsuite/check-auth?user_id=…</code></td><td>None</td><td>Whether a user has ChurchSuite tokens.</td></tr>
+            <tr><td><code>GET /ChurchSuite/Callback</code></td><td>None</td><td>Per-church OAuth callback (Razor page).</td></tr>
+            <tr><td><code>GET /signin-churchsuite</code></td><td>None</td><td>Site-wide OAuth callback; signs in a linked user or continues to external-login registration.</td></tr>
+            <tr><td><code>GET /oauth-debug</code></td><td>None</td><td>Debug info (the caller's own claims if signed in).</td></tr>
+        </tbody>
+    </table>
+</div>
+<div class="docs-callout docs-callout--danger">
+    <span class="docs-callout__title">Security review needed</span>
+    <ul>
+        <li>The authorize, check-auth and callback endpoints accept a <code>user_id</code> from the query string and don't require the caller to be signed in as that user. Someone who knows a user's ID could start or complete a flow against that account, which would store their tokens on it and overwrite the church's details from their ChurchSuite account.</li>
+        <li>The <code>redirect_uri</code> parameter is used for the final redirect without checking it's on this site (an open redirect).</li>
+        <li>Tokens are stored unencrypted.</li>
+    </ul>
+    <p>Recommended: require sign-in and use the signed-in user's ID, accept only local return URLs (<code>Url.IsLocalUrl</code>), encrypt tokens with Data Protection, and remove or protect <code>/oauth-debug</code> and <code>check-auth</code>. See <a asp-page="/Docs/Admin/KnownIssues">Known issues</a>.</p>
+</div>

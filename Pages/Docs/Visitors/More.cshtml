@@ -1,0 +1,84 @@
+@page
+@using ForestChurches.Pages.Docs
+@{
+    ViewData["Title"] = "Bulletin, settings and help – Help";
+}
+
+<header>
+    <p class="fc-eyebrow">Visitor guide</p>
+    <h1>Bulletin, settings and help</h1>
+    <p class="docs-lead">Reading the weekly bulletin, changing the language or colour scheme, contacting us, and what happens to your information.</p>
+    <div class="docs-meta"><span>For: anyone using the website</span><span>No account needed</span></div>
+</header>
+
+<h2>The weekly bulletin</h2>
+<p>Select <strong>Bulletin</strong> in the menu (or <strong>Read it</strong> on the green banner under the menu) to see the current bulletin. It's usually the weekly pew sheet for the benefice, but it can also be a one-off announcement or message.</p>
+<p>A weekly bulletin can include:</p>
+<ul>
+    <li><strong>This week's notices</strong>: news and dates for the week, plus a short pastoral note;</li>
+    <li><strong>Readings</strong>: the first reading and the Gospel;</li>
+    <li><strong>Hymns</strong>: the hymns for the service;</li>
+    <li><strong>The Collect</strong>: the prayer for the week.</li>
+</ul>
+<p>Use the buttons at the top (<strong>Notices</strong>, <strong>Readings</strong>, <strong>Hymns</strong>, <strong>Collect</strong>) to jump to a section, and <strong>Print</strong> to print it. If the church office has attached a PDF version, there's a link to download it.</p>
+
+<partial name="_Fig" model='new DocFig("public-bulletin", "The weekly bulletin page with notices, readings, hymns and the collect", "The bulletin page. Use Print for a paper copy.", true)' />
+
+<h2>Changing the language</h2>
+<p>Select the globe button in the menu (it shows the current language, for example <strong>English</strong>) and pick a language. The site is available in:</p>
+<p>English · Čeština (Czech) · فارسی (Persian) · ไทย (Thai) · Українська (Ukrainian) · Français (French) · Deutsch (German)</p>
+<p>The menus, buttons and standard text change language. Things that churches type in themselves, such as descriptions and event details, stay in the language the church wrote them in. Your choice is remembered on that device for a month.</p>
+
+<partial name="_Fig" model='new DocFig("public-language-menu", "The language menu open, listing seven languages", "The language menu.", true)' />
+
+<h2>Light and dark mode</h2>
+<p>Select the sun or moon button in the menu to switch between light and dark mode. Until you choose, the site follows your device's own setting. Your choice is remembered on that device.</p>
+
+<partial name="_Fig" model='new DocFig("public-home-dark", "The home page in dark mode", "Dark mode.", true)' />
+
+<h2>Contacting Forest Churches</h2>
+<p>To contact the people who run the website (rather than a particular church):</p>
+<ol class="docs-steps">
+    <li>Select <strong>Contact Us</strong> in the menu.</li>
+    <li>Fill in <strong>Your name</strong>, <strong>Your email</strong>, <strong>Subject</strong> and <strong>Your Message</strong>.</li>
+    <li>Select <strong>Send Message</strong>.</li>
+</ol>
+<p>You can also email <a href="mailto:info@forestchurches.co.uk">info@forestchurches.co.uk</a>. To contact a particular church, use the <strong>Send Message</strong> box on that church's page instead (see <a asp-page="/Docs/Visitors/Index" asp-fragment="contacting-a-church">Contacting a church</a>).</p>
+
+<partial name="_Fig" model='new DocFig("public-contact", "The Contact Us page with a message form", "Contact Us.", true)' />
+
+<h3>Listing your own church</h3>
+<p>Churches join by invitation. Use <strong>Contact Us</strong> to ask; the team will send an invitation link to the church's email address. The <a asp-page="/Docs/Churches/Index">church administrator guide</a> explains the rest.</p>
+
+<h2>Frequently asked questions</h2>
+<p>The <a asp-page="/faq">FAQ page</a> (link at the bottom of every page) answers common questions about using the site and listing a church.</p>
+
+<h2>Your information and privacy</h2>
+<p>You can use the public site without giving any personal information. You only share details when you choose to:</p>
+<div class="docs-table-wrap">
+    <table class="docs-table">
+        <thead><tr><th>When you…</th><th>What's used</th><th>What happens to it</th></tr></thead>
+        <tbody>
+            <tr><td>Search by postcode or town</td><td>The text you type</td><td>Sent to Google's mapping service to work out where it is, so distances can be measured. It isn't saved to your name.</td></tr>
+            <tr><td>Select Use My Location</td><td>Your device's location (only if you allow it)</td><td>Turned into an approximate address using Google's mapping service and placed in the search box.</td></tr>
+            <tr><td>Send a message</td><td>Your name, email address and message</td><td>Emailed to the church (or to Forest Churches). The website keeps a technical record that an email was sent, including the recipient and subject, in its logs.</td></tr>
+            <tr><td>Ask for a church's details by email</td><td>Your email address</td><td>Used to send that one email.</td></tr>
+            <tr><td>Choose a language or dark mode</td><td>Your choice</td><td>Stored in a small cookie on your device.</td></tr>
+        </tbody>
+    </table>
+</div>
+<p>Maps on church pages and search results load map images from OpenStreetMap. The full policy is on the <a asp-page="/Privacy">Privacy</a> page. For anything about your data, use <strong>Contact Us</strong>.</p>
+
+<h2>Troubleshooting</h2>
+<dl>
+    <dt><strong>"Unable to interpret the provided address/postcode."</strong></dt>
+    <dd>The mapping service couldn't find that place. Check the spelling, or try just the postcode or the town name.</dd>
+    <dt><strong>No churches found</strong></dt>
+    <dd>Try a bigger distance in <strong>Within</strong>, or untick some filters. Only churches that offer every ticked facility appear.</dd>
+    <dt><strong>Use My Location doesn't do anything</strong></dt>
+    <dd>Your browser may have blocked location access for this site. Allow it in the browser's site settings, or type a postcode instead.</dd>
+    <dt><strong>A link in an email from us doesn't work</strong></dt>
+    <dd>Most links in our emails are only valid for a limited time (usually 24 hours) for security. Ask for a new email.</dd>
+    <dt><strong>The map doesn't appear</strong></dt>
+    <dd>Map images come from OpenStreetMap. Some content blockers stop them loading; the rest of the page still works and the <strong>Directions</strong> button opens Google Maps.</dd>
+</dl>

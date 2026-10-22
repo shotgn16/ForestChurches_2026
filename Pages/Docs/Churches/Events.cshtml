@@ -1,0 +1,88 @@
+@page
+@using ForestChurches.Pages.Docs
+@{
+    ViewData["Title"] = "Events – Church administrator guide";
+}
+
+<header>
+    <p class="fc-eyebrow">Church administrator guide</p>
+    <h1>Events</h1>
+    <p class="docs-lead">Adding, changing and removing your church's events, how repeating events work, and bringing events in from ChurchSuite.</p>
+    <div class="docs-meta"><span>Where: Church admin → My Events</span></div>
+</header>
+
+<h2>Where your events appear</h2>
+<p>Your events are shown:</p>
+<ul>
+    <li>on your church's page under <strong>Upcoming events</strong>;</li>
+    <li>in <strong>Events near me</strong> searches;</li>
+    <li>on the home page under <strong>What's on across the Forest</strong> (the next four events from all churches).</li>
+</ul>
+<p>They only appear while your church is <strong>Open</strong>.</p>
+
+<h2>Viewing your events</h2>
+<p>Select <strong>My Events</strong>. Each event shows its date, times, location and where it came from (<em>Added here</em>, or from ChurchSuite), with <strong>Edit</strong> and <strong>Delete</strong> buttons.</p>
+
+<partial name="_Fig" model='new DocFig("church-my-events", "The Events page in Church admin listing two upcoming events with edit and delete buttons", "My Events.", true)' />
+
+<h2>Adding an event</h2>
+<ol class="docs-steps">
+    <li>On <strong>My Events</strong>, select <strong>+ Add New Event</strong>.</li>
+    <li>Fill in:
+        <ul>
+            <li><strong>Event name</strong>;</li>
+            <li><strong>Date</strong>, <strong>Starts</strong> and <strong>Ends</strong> (24-hour times);</li>
+            <li><strong>Repeats</strong>: <em>Doesn't repeat</em>, Daily, Weekly, Every 2 weeks, Every 3 weeks, Monthly or Every 2 months (see below);</li>
+            <li><strong>Location</strong>: the full address, including the postcode. Event searches measure distance from this address, so make sure Google Maps can find it;</li>
+            <li><strong>Description</strong>: what the event is and who it's for;</li>
+            <li><strong>Link for more information</strong> (optional): a booking page or web page about the event;</li>
+            <li><strong>Image</strong> (optional): a PNG or JPEG picture.</li>
+        </ul>
+    </li>
+    <li>Select <strong>Create event</strong>.</li>
+</ol>
+<p>You'll get an <em>Event Created</em> email confirming the details.</p>
+
+<partial name="_Fig" model='new DocFig("church-add-event", "The Add an event form", "Add an event.", true)' />
+
+<h3>How "Repeats" works</h3>
+<p><strong>Repeats</strong> tells visitors that the event happens regularly; it's shown next to the time (for example <em>· Weekly</em>). The event itself keeps the single date you entered: the website doesn't create future dates for you. For a regular event, either keep the date set to the next occurrence, or put the pattern in the description (for example "Every Wednesday in term time").</p>
+
+<h2>Editing an event</h2>
+<ol class="docs-steps">
+    <li>On <strong>My Events</strong>, select <strong>Edit</strong> next to the event.</li>
+    <li>Change any of the details.</li>
+    <li>Choose a new image only if you want to replace the current one; if you leave the image empty, the current picture is kept.</li>
+    <li>Select <strong>Save changes</strong>.</li>
+</ol>
+
+<partial name="_Fig" model='new DocFig("church-edit-event", "The Edit event form", "Edit event.", true)' />
+
+<h2>Deleting an event</h2>
+<p>On <strong>My Events</strong>, select <strong>Delete</strong> next to the event and confirm. It's removed straight away and you'll get an <em>Event Deleted</em> email. This can't be undone.</p>
+
+<h2>Removing finished events</h2>
+<p>Please delete one-off events once they've happened, and update or remove repeating events that have stopped. Event searches can still show finished events until they're removed.</p>
+<div class="docs-callout docs-callout--note">
+    <span class="docs-callout__title">Automatic clean-up</span>
+    <p>The page says one-off events are removed about 24 hours after they finish. That clean-up is a scheduled task that the Forest Churches team runs; don't rely on it to tidy up for you. If an event you didn't delete has disappeared, it was probably removed by the clean-up; add it again if it's still happening.</p>
+</div>
+
+<h2>Bringing in events from ChurchSuite</h2>
+<p>If your church uses ChurchSuite, you can copy your ChurchSuite calendar events into Forest Churches instead of typing them twice.</p>
+<ol class="docs-steps">
+    <li>Connect ChurchSuite first (see <a asp-page="/Docs/Churches/ChurchSuite">Connecting ChurchSuite</a>).</li>
+    <li>On <strong>My Events</strong>, select <strong>Sync from ChurchSuite</strong>.</li>
+</ol>
+<p>What the sync does:</p>
+<ul>
+    <li>It brings in events that start in the <strong>next 7 days</strong>.</li>
+    <li>Events already brought in are updated (matched by their ChurchSuite event), so you can sync as often as you like without making duplicates.</li>
+    <li>Event pictures from ChurchSuite are copied across too.</li>
+    <li>It only adds and updates: events you deleted in ChurchSuite aren't removed here, so delete them on <strong>My Events</strong> as well.</li>
+</ul>
+<div class="docs-callout docs-callout--warn">
+    <span class="docs-callout__title">Syncing is manual</span>
+    <p>The Events page says events from ChurchSuite "sync automatically", but at the moment they're only brought in when you select <strong>Sync from ChurchSuite</strong>. Sync once a week to keep your listing current.</p>
+</div>
+<p>If your ChurchSuite connection has expired, selecting <strong>Sync from ChurchSuite</strong> takes you to ChurchSuite to approve access again.</p>

@@ -1,0 +1,138 @@
+@page
+@using ForestChurches.Pages.Docs
+@using Microsoft.AspNetCore.Authorization
+@attribute [Authorize(Policy = "Admin.Read")]
+@{
+    ViewData["Title"] = "Hangfire and background services – Website administrator guide";
+}
+
+<header>
+    <p class="fc-eyebrow">Website administrator guide · Technical reference</p>
+    <h1>Hangfire and background services</h1>
+    <p class="docs-lead">What Hangfire is, how it's set up here, how to use its dashboard, what it currently runs (and used to run), and the other work that happens in the background.</p>
+    <div class="docs-meta"><span>Dashboard: <code>/hangfire</code></span><span>Code: <code>Program.cs</code>, <code>Components/EventManagement</code>, <code>Components/Logging</code></span></div>
+</header>
+
+<h2>What Hangfire is</h2>
+<p><a href="https://www.hangfire.io" target="_blank" rel="noopener">Hangfire</a> is a library for running work outside the web request that triggered it: "fire-and-forget" jobs, delayed jobs, and <strong>recurring jobs</strong> on a schedule (cron). Its key idea is that jobs are stored in a database, not in memory, so they survive restarts and can be retried.</p>
+<p>It has three parts:</p>
+<ul>
+    <li><strong>Client</strong>: code that creates a job (for example <code>RecurringJob.AddOrUpdate(...)</code>). The job is saved as the name of a .NET method plus its arguments, serialised as JSON.</li>
+    <li><strong>Storage</strong>: database tables that hold jobs, their state, recurring schedules, locks and statistics.</li>
+    <li><strong>Server</strong>: a set of worker threads inside the web app that poll storage, pick up due jobs, run the method, and record whether it succeeded. Failed jobs are retried automatically (10 times by default, with increasing delays).</li>
+</ul>
+
+<figure class="docs-diagram">
+    <svg viewBox="0 0 900 260" role="img" aria-labelledby="hf-t hf-d">
+        <title id="hf-t">How Hangfire works in Forest Churches</title>
+        <desc id="hf-d">Code in the web app creates jobs in the Hangfire tables in the MySQL database. The Hangfire server workers in the same web app poll the tables every 15 seconds and run due jobs. The dashboard at /hangfire reads the same tables.</desc>
+        <defs>
+            <marker id="hf-ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="dg-arrowhead" /></marker>
+        </defs>
+        <rect class="dg-zone" x="12" y="12" width="420" height="236" rx="12" />
+        <text class="dg-zone-label" x="28" y="242">FORESTCHURCHES WEB APP (one container)</text>
+        <rect class="dg-box dg-box--main" x="32" y="50" width="180" height="80" rx="10" />
+        <text class="dg-title dg-title--on-main" x="122" y="82" text-anchor="middle">Client</text>
+        <text class="dg-text dg-text--on-main" x="122" y="102" text-anchor="middle">creates / schedules jobs</text>
+        <rect class="dg-box dg-box--main" x="232" y="50" width="180" height="80" rx="10" />
+        <text class="dg-title dg-title--on-main" x="322" y="82" text-anchor="middle">Server</text>
+        <text class="dg-text dg-text--on-main" x="322" y="102" text-anchor="middle">workers: min(CPU×5, 20)</text>
+        <rect class="dg-box" x="132" y="160" width="180" height="70" rx="10" />
+        <text class="dg-title" x="222" y="190" text-anchor="middle">Dashboard</text>
+        <text class="dg-text" x="222" y="210" text-anchor="middle">/hangfire (Basic auth)</text>
+        <rect class="dg-box dg-box--store" x="560" y="70" width="300" height="130" rx="10" />
+        <text class="dg-title" x="710" y="100" text-anchor="middle">MySQL: Hangfire* tables</text>
+        <text class="dg-text" x="710" y="122" text-anchor="middle">Job, State, JobParameter, JobQueue,</text>
+        <text class="dg-text" x="710" y="140" text-anchor="middle">Set (recurring jobs), Hash, List,</text>
+        <text class="dg-text" x="710" y="158" text-anchor="middle">Counter, AggregatedCounter,</text>
+        <text class="dg-text" x="710" y="176" text-anchor="middle">Server, DistributedLock</text>
+        <path class="dg-line" d="M150,50 C190,10 560,10 620,68" marker-end="url(#hf-ah)" />
+        <text class="dg-label" x="420" y="26">write job</text>
+        <path class="dg-line" d="M412,110 L558,124" marker-end="url(#hf-ah)" />
+        <text class="dg-label" x="440" y="108">poll every 15 s</text>
+        <path class="dg-line dg-line--dash" d="M312,196 C440,210 520,190 558,172" marker-end="url(#hf-ah)" />
+        <text class="dg-label" x="420" y="222">read</text>
+    </svg>
+    <figcaption>Hangfire runs inside the web app and keeps everything in the main database.</figcaption>
+</figure>
+
+<h2>How it's configured here</h2>
+<div class="docs-table-wrap">
+    <table class="docs-table">
+        <thead><tr><th>Setting</th><th>Value</th><th>Meaning</th></tr></thead>
+        <tbody>
+            <tr><td>Storage</td><td><code>Hangfire.MySqlStorage</code>, same connection string as the app</td><td>Jobs live in the main database in tables prefixed <code>Hangfire</code>. Tables are created automatically (<code>PrepareSchemaIfNecessary</code>).</td></tr>
+            <tr><td><code>QueuePollInterval</code></td><td>15 seconds</td><td>How often idle workers check for new jobs.</td></tr>
+            <tr><td><code>JobExpirationCheckInterval</code></td><td>1 hour</td><td>How often finished jobs past their expiry are deleted (succeeded jobs expire after 24 hours by default).</td></tr>
+            <tr><td><code>CountersAggregateInterval</code></td><td>5 minutes</td><td>How often the statistics shown on the dashboard are rolled up.</td></tr>
+            <tr><td><code>TransactionTimeout</code></td><td>5 minutes</td><td>Database transaction limit for storage operations.</td></tr>
+            <tr><td><code>DashboardJobListLimit</code></td><td>25,000</td><td>Most jobs the dashboard will list.</td></tr>
+            <tr><td>Worker count</td><td><code>min(processors × 5, 20)</code></td><td>How many jobs can run at once.</td></tr>
+            <tr><td>Compatibility</td><td>Version 170, simple assembly names, recommended serializer settings</td><td>Standard Hangfire 1.8 settings.</td></tr>
+            <tr><td>Dashboard</td><td><code>/hangfire</code>, title "Forest Church Task Scheduler"</td><td>Protected with HTTP Basic authentication using the Key Vault secrets <code>sys-admin-username</code> and <code>sys-admin-password</code>.</td></tr>
+        </tbody>
+    </table>
+</div>
+<div class="docs-callout docs-callout--note">
+    <span class="docs-callout__title">Unused filter</span>
+    <p><code>Components/Hangfire/HangFireAuthorizationFilter</code> allows everyone. It isn't used (the Basic-auth filter is), and should be deleted so nobody wires it up by mistake.</p>
+</div>
+
+<h2>Using the dashboard</h2>
+<ol class="docs-steps">
+    <li>Go to <code>https://forestchurches.co.uk/hangfire</code>. Your browser asks for a username and password: use the Hangfire credentials (the same values as the <code>sys-admin-username</code> / <code>sys-admin-password</code> secrets).</li>
+    <li><strong>Jobs</strong>: jobs by state (Enqueued, Scheduled, Processing, Succeeded, Failed, Deleted, Awaiting). Open a failed job to see the exception and select <strong>Requeue</strong> to try again.</li>
+    <li><strong>Recurring Jobs</strong>: every scheduled job, its cron expression, next and last run. You can <strong>Trigger now</strong> or <strong>Delete</strong> from here.</li>
+    <li><strong>Retries</strong>: failed jobs waiting for an automatic retry.</li>
+    <li><strong>Servers</strong>: each running web app instance's Hangfire server, its workers and last heartbeat. A server that stopped without shutting down cleanly disappears after a timeout.</li>
+</ol>
+
+<h2>What Hangfire runs today</h2>
+<p>On this version of the site, <strong>no code creates Hangfire jobs</strong>. The server and dashboard are running and ready, but there are no fire-and-forget calls and no recurring jobs are registered at start-up.</p>
+
+<h3>The event clean-up jobs</h3>
+<p>Earlier versions registered four recurring jobs at start-up. They were removed from <code>Program.cs</code> on 11 October 2026 (commit <code>c4d15b9</code>):</p>
+<div class="docs-table-wrap">
+    <table class="docs-table">
+        <thead><tr><th>Recurring job ID</th><th>Schedule</th><th>Method</th><th>Intended to</th></tr></thead>
+        <tbody>
+            <tr><td><code>GetEvents</code></td><td>every 59 min</td><td><code>EventInterface.GetEvents()</code></td><td>Load one-off events into memory.</td></tr>
+            <tr><td><code>GetRepeatedEvents</code></td><td>every 59 min</td><td><code>EventInterface.GetRepeatedEvents()</code></td><td>Load repeating events into memory.</td></tr>
+            <tr><td><code>SortAndDeleteEvents</code></td><td>hourly</td><td><code>EventInterface.SortAndDeleteEvents()</code></td><td>Delete one-off events within 24 hours of finishing and email the church <em>Event Deleted</em>.</td></tr>
+            <tr><td><code>SortAndDeleteRepeatedEvents</code></td><td>hourly</td><td><code>EventInterface.CheckRepeatedEvents()</code></td><td>Email <em>Do you still need this?</em> about repeating events.</td></tr>
+        </tbody>
+    </table>
+</div>
+<p>They never worked as intended: each Hangfire job gets a fresh instance of <code>EventContoller</code>, so the lists loaded by <code>GetEvents</code> aren't there when <code>SortAndDeleteEvents</code> runs; the "to delete" list was never created; the 24-hour test would also catch events in the 24 hours <em>before</em> they end; and the emails need an HTTP request that background jobs don't have. The errors were caught and logged, so the jobs showed as succeeded.</p>
+<div class="docs-callout docs-callout--warn">
+    <span class="docs-callout__title">Check for leftover recurring jobs</span>
+    <p>Hangfire stores recurring jobs in the database, so removing the code doesn't remove them. If the database was used by an earlier version, these four jobs are probably still listed under <strong>/hangfire → Recurring Jobs</strong> and still run every hour (the methods still exist). They do nothing useful and add errors to the log. <strong>Delete all four</strong> from the dashboard.</p>
+</div>
+<p>Until the clean-up is rebuilt, finished events have to be deleted by hand (Site admin → Events, or each church). The FAQ and the church Events page still mention automatic clean-up; see <a asp-page="/Docs/Admin/KnownIssues">Known issues</a>.</p>
+
+<h3>Adding a job properly</h3>
+<p>If you rebuild the clean-up (or add any job), follow these rules:</p>
+<ul>
+    <li>Make each job a single self-contained method: load, decide and act in one call. Don't rely on state from another job.</li>
+    <li>Register recurring jobs once at start-up with a fixed ID, for example <code>RecurringJob.AddOrUpdate&lt;IEventCleanup&gt;("event-cleanup", x =&gt; x.RunAsync(), Cron.Hourly());</code>, and use <code>RecurringJob.RemoveIfExists("GetEvents")</code> etc. to clean up the old ones.</li>
+    <li>Don't use <code>HttpContext</code> in jobs. Build email links from configuration (for example <code>EmailApi</code> / a site base URL).</li>
+    <li>Make jobs safe to run twice (Hangfire retries failed jobs and may run a job again after a crash).</li>
+    <li>Use <code>[AutomaticRetry(Attempts = 0)]</code> on jobs that send emails, if a retry would send duplicates.</li>
+</ul>
+
+<h2>Other background work</h2>
+<p>Several things run in the background without Hangfire:</p>
+<div class="docs-table-wrap">
+    <table class="docs-table">
+        <thead><tr><th>Service</th><th>App</th><th>What it does</th><th>When</th></tr></thead>
+        <tbody>
+            <tr><td><code>LogWatcherService</code></td><td>ForestChurches</td><td>Reads new rows from <code>applicationlogs</code> and pushes them to open Logs pages through SignalR (<code>/logsHub</code>, message <code>NewLog</code>).</td><td>Every 2 seconds, all the time.</td></tr>
+            <tr><td><code>ImageMigrationHostedService</code></td><td>ForestChurches</td><td>One-off migration of images stored in the database into blob storage.</td><td>At start-up, only if <code>ImageMigration:Enabled</code> is <code>true</code> (off by default).</td></tr>
+            <tr><td>Email hand-over (<code>MailRepository.StartEmailAsync</code>)</td><td>ForestChurches</td><td>Posts each email to the email app on a background task so the page doesn't wait. 3 attempts with 30, 40 and 50-second timeouts. Results go to the in-memory delivery tracker and the logs.</td><td>Whenever an email is sent.</td></tr>
+            <tr><td>Dashboard figures</td><td>ForestChurches (browser)</td><td>The dashboard page calls <code>/api/SystemStats</code>.</td><td>Every 10 seconds while the dashboard is open.</td></tr>
+            <tr><td><code>EmailSenderHostedService</code></td><td>EmailManagement</td><td>Calls the app's own <code>POST /Email/send</code> with a self-signed JWT to send everything in the queue.</td><td>At start-up, then every 5 minutes.</td></tr>
+            <tr><td><code>EmailScheduler</code></td><td>EmailManagement</td><td>A timer that also triggers the send loop.</td><td>Every 5 minutes (see <a asp-page="/Docs/Admin/Email" asp-fragment="when-emails-are-sent">the note on duplicate loops</a>).</td></tr>
+        </tbody>
+    </table>
+</div>
+<p>None of these keep state across restarts except what they write to the database: the email delivery tracker, the email app's queue and its status store are all in memory.</p>
