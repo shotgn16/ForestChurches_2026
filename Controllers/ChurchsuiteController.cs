@@ -1,3 +1,5 @@
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
@@ -38,7 +40,7 @@ namespace ForestChurches.Controllers
                 _logger.LogInformation("[ChurchsuiteController] Initiating PKCE login flow");
                 var authUrl = await _authService.GeneratePKCEAuthorizationUrlAsync(
                     HttpContext,
-                    redirectUri: redirect_uri);
+                    redirectUri: SafeRedirect(redirect_uri));
 
                 return Redirect(authUrl);
             }
@@ -54,14 +56,26 @@ namespace ForestChurches.Controllers
         /// Requires user_id parameter and user must have ClientId configured.
         /// </summary>
         [HttpGet("authorize")]
-        public async Task<IActionResult> Authorize([FromQuery] string user_id, [FromQuery] string? redirect_uri)
+        [Authorize]
+        public async Task<IActionResult> Authorize([FromQuery] string? user_id, [FromQuery] string? redirect_uri)
         {
+            // Security: the connection is always made for the signed-in user. A user_id in the
+            // query string is accepted only for backwards compatibility and must match them.
+            var signedInUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (string.IsNullOrWhiteSpace(signedInUserId))
+            {
+                return Challenge();
+            }
+            if (!string.IsNullOrWhiteSpace(user_id) && !string.Equals(user_id, signedInUserId, StringComparison.Ordinal))
+            {
+                _logger.LogWarning("[ChurchsuiteController] Rejected authorize request: user_id does not match the signed-in user");
+                return Forbid();
+            }
+            user_id = signedInUserId;
+            redirect_uri = SafeRedirect(redirect_uri);
+
             try
             {
-                if (string.IsNullOrWhiteSpace(user_id))
-                {
-                    return BadRequest(new { error = "user_id is required" });
-                }
 
                 // Ensure a ChurchSuiteCredential row exists for this user so the callback can look it up reliably.
                 try
@@ -156,14 +170,22 @@ namespace ForestChurches.Controllers
         /// Used by UI to determine if authorization is needed.
         /// </summary>
         [HttpGet("check-auth")]
-        public async Task<IActionResult> CheckAuthorization([FromQuery] string user_id)
+        [Authorize]
+        public async Task<IActionResult> CheckAuthorization([FromQuery] string? user_id)
         {
+            var signedInUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (string.IsNullOrWhiteSpace(signedInUserId))
+            {
+                return Challenge();
+            }
+            if (!string.IsNullOrWhiteSpace(user_id) && !string.Equals(user_id, signedInUserId, StringComparison.Ordinal))
+            {
+                return Forbid();
+            }
+            user_id = signedInUserId;
+
             try
             {
-                if (string.IsNullOrWhiteSpace(user_id))
-                {
-                    return BadRequest(new { error = "user_id is required" });
-                }
 
                 var tokenService = HttpContext.RequestServices.GetRequiredService<IChurchSuiteTokenService>();
                 var hasAuth = await tokenService.UserHasAuthorizationAsync(user_id);
@@ -182,5 +204,9 @@ namespace ForestChurches.Controllers
                 return StatusCode(500, new { error = "Failed to check authorization", message = ex.Message });
             }
         }
+
+        /// <summary>Only allow redirects back into this site, never to another domain.</summary>
+        private string SafeRedirect(string? redirectUri) =>
+            !string.IsNullOrWhiteSpace(redirectUri) && Url.IsLocalUrl(redirectUri) ? redirectUri : "/";
     }
 }

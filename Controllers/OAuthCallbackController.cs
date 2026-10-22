@@ -71,6 +71,7 @@ namespace ForestChurches.Controllers
                 var codeVerifier = _authService.GetPKCEVerifierFromSession(HttpContext, state);
                 var optionalUserId = HttpContext.Session.GetString($"pkce:{state}:user_id");
                 var incomingRedirect = HttpContext.Session.GetString($"pkce:{state}:redirect_uri") ?? "/";
+                if (!Url.IsLocalUrl(incomingRedirect)) incomingRedirect = "/"; // never redirect off-site
 
                 if (string.IsNullOrWhiteSpace(codeVerifier))
                 {
@@ -90,11 +91,15 @@ namespace ForestChurches.Controllers
                 // Clear PKCE data from session
                 _authService.ClearPKCEDataFromSession(HttpContext, state);
 
-                // Try to get authenticated user or use provided user_id
+                // Security: only ever use the user who is actually signed in. A user ID stored when the
+                // connection was started must belong to that same user; it is never used to sign anyone in.
                 var authenticatedUser = await _userManager.GetUserAsync(HttpContext.User);
-                if (authenticatedUser == null && !string.IsNullOrWhiteSpace(optionalUserId))
+                if (!string.IsNullOrWhiteSpace(optionalUserId) &&
+                    (authenticatedUser == null || !string.Equals(authenticatedUser.Id, optionalUserId, StringComparison.Ordinal)))
                 {
-                    authenticatedUser = await _userManager.FindByIdAsync(optionalUserId);
+                    _logger.LogWarning("[OAuthCallback] Rejected ChurchSuite callback: the connection was started for a different user or nobody is signed in");
+                    return RedirectToPage("/Account/Login",
+                        new { area = "Identity", error = "Please sign in to connect ChurchSuite to your account." });
                 }
 
                 // If we have an authenticated user, store credentials and proceed
@@ -113,7 +118,7 @@ namespace ForestChurches.Controllers
                             clientId: authenticatedUser.ClientId);
 
                         // Refresh sign-in
-                        await _signInManager.SignInAsync(authenticatedUser, isPersistent: true);
+                        await _signInManager.RefreshSignInAsync(authenticatedUser);
                         return Redirect(incomingRedirect);
                     }
                     catch (Exception ex)
@@ -302,6 +307,12 @@ namespace ForestChurches.Controllers
         [HttpGet("oauth-debug")]
         public IActionResult OAuthDebug()
         {
+            // Diagnostics only: not available outside Development.
+            if (!string.Equals(Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT"), "Development", StringComparison.OrdinalIgnoreCase))
+            {
+                return NotFound();
+            }
+
             if (!User.Identity.IsAuthenticated)
             {
                 return Ok(new

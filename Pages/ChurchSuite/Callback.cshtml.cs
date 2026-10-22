@@ -13,6 +13,7 @@ using Microsoft.Extensions.Logging;
 
 namespace ForestChurches.Pages.ChurchSuite
 {
+    [Microsoft.AspNetCore.Authorization.Authorize]
     public class CallbackModel : PageModel
     {
         private readonly ForestChurchesContext _context;
@@ -34,65 +35,52 @@ public CallbackModel(ForestChurchesContext context, UserManager<ChurchAccount> u
 
         public async Task<IActionResult> OnGetAsync(string code, string state, string user_id, string redirect_uri)
         {
-            // Basic validation
-            if (string.IsNullOrWhiteSpace(code))
+            // Security: tokens are only ever stored against the signed-in user. A user_id in the
+            // query string or the session must match them, otherwise the request is refused.
+            var signedInUserId = _userManager.GetUserId(User);
+            if (string.IsNullOrWhiteSpace(signedInUserId))
             {
-                TempData["ChurchSuiteAuthError"] = "Authorization failed: missing code.";
-                return Redirect(string.IsNullOrWhiteSpace(redirect_uri) ? "/" : redirect_uri);
+                return Challenge();
             }
 
-            // If user_id wasn't supplied as a query parameter try to recover it from session via the PKCE state
-            if (string.IsNullOrWhiteSpace(user_id) && !string.IsNullOrWhiteSpace(state))
+            string? sessionUserId = null;
+            if (!string.IsNullOrWhiteSpace(state))
             {
                 try
                 {
-                    var sessionUserKey = $"pkce:{state}:user_id";
-                    var sessionRedirectKey = $"pkce:{state}:redirect_uri";
-
-                    var sessUser = HttpContext.Session.GetString(sessionUserKey);
-                    var sessRedirect = HttpContext.Session.GetString(sessionRedirectKey);
-
-                    if (!string.IsNullOrWhiteSpace(sessUser))
+                    sessionUserId = HttpContext.Session.GetString($"pkce:{state}:user_id");
+                    var sessRedirect = HttpContext.Session.GetString($"pkce:{state}:redirect_uri");
+                    if (string.IsNullOrWhiteSpace(redirect_uri) && !string.IsNullOrWhiteSpace(sessRedirect))
                     {
-                        user_id = sessUser;
-                        _ = sessionRedirectKey; // no-op to keep keys visible for debugging
-                        if (string.IsNullOrWhiteSpace(redirect_uri) && !string.IsNullOrWhiteSpace(sessRedirect))
-                        {
-                            redirect_uri = sessRedirect;
-                        }
-
-                        // Diagnostic log
-                        _ = _ = 0; // no-op
+                        redirect_uri = sessRedirect;
                     }
                 }
                 catch (Exception ex)
                 {
-                    _ = ex; // swallow - we'll handle missing user_id below
+                    _logger.LogWarning(ex, "[Callback] Could not read PKCE session data for state {State}", state);
                 }
             }
 
-            if (string.IsNullOrWhiteSpace(user_id))
+            // Only redirect back into this site
+            if (string.IsNullOrWhiteSpace(redirect_uri) || !Url.IsLocalUrl(redirect_uri))
             {
-                // As a last resort attempt to find a credential by TempCodeVerifier stored in session
-                if (!string.IsNullOrWhiteSpace(state))
-                {
-                    var verifierKey = $"pkce:{state}:verifier";
-                    var sessionVerifier = HttpContext.Session.GetString(verifierKey);
-                    if (!string.IsNullOrWhiteSpace(sessionVerifier))
-                    {
-                        var credByVerifier = await _context.ChurchSuiteCredentials.FirstOrDefaultAsync(c => c.TempCodeVerifier == sessionVerifier);
-                        if (credByVerifier != null)
-                        {
-                            user_id = credByVerifier.UserId;
-                        }
-                    }
-                }
+                redirect_uri = "/";
             }
 
-            if (string.IsNullOrWhiteSpace(user_id))
+            if ((!string.IsNullOrWhiteSpace(user_id) && !string.Equals(user_id, signedInUserId, StringComparison.Ordinal)) ||
+                (!string.IsNullOrWhiteSpace(sessionUserId) && !string.Equals(sessionUserId, signedInUserId, StringComparison.Ordinal)))
             {
-                TempData["ChurchSuiteAuthError"] = "Authorization failed: missing user_id.";
-                return Redirect(string.IsNullOrWhiteSpace(redirect_uri) ? "/" : redirect_uri);
+                _logger.LogWarning("[Callback] Rejected ChurchSuite callback: requested user does not match the signed-in user {UserId}", signedInUserId);
+                TempData["ChurchSuiteAuthError"] = "Authorization failed: this ChurchSuite connection was started by a different account.";
+                return Redirect(redirect_uri);
+            }
+            user_id = signedInUserId;
+
+            // Basic validation
+            if (string.IsNullOrWhiteSpace(code))
+            {
+                TempData["ChurchSuiteAuthError"] = "Authorization failed: missing code.";
+                return Redirect(redirect_uri);
             }
 
             // Find credential for this user

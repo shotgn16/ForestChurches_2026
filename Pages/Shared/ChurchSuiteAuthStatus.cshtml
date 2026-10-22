@@ -48,7 +48,7 @@
     }
 </div>
 
-<script>
+<script nonce="@Context.Items["CSP-Script-Nonce"]">
 document.querySelectorAll('.churchsuite-authorize-btn, .churchsuite-reauthorize-btn').forEach(btn => {
     btn.addEventListener('click', function(e) {
         e.preventDefault();

@@ -15,7 +15,9 @@ namespace ForestChurches.Components.Configuration
                         .EnableStringComparisonTranslations()
                         // Increase command timeout (seconds) for long-running SQL operations
                         .CommandTimeout(360))   
-                .EnableDetailedErrors().EnableSensitiveDataLogging());
+                .EnableDetailedErrors()
+                // Parameter values (tokens, password hashes) only appear in EF logs on a developer's machine.
+                .EnableSensitiveDataLogging(string.Equals(Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT"), "Development", StringComparison.OrdinalIgnoreCase)));
 
             services.AddDefaultIdentity<ChurchAccount>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddRoles<ChurchRoles>()

@@ -154,27 +154,7 @@ namespace ForestChurches.Pages
             return RedirectToPage("/Church", null, new { id }, "save");
         }
 
-        public IActionResult OnGetGoogleMapsApiKey()
-        {
-            try
-            {
-                var apiKey = _configuration.Client.GetSecret("google-api-key").Value.Value;
-
-                if (string.IsNullOrEmpty(apiKey))
-                {
-                    _logger.LogError("Google Maps API key is missing or invalid.");
-                    return BadRequest(new { error = "API key not found." });
-                }
-
-                return new JsonResult(new { key = apiKey });
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error retrieving Google Maps API key.");
-                return StatusCode(500, new { error = "Internal server error" });
-            }
-        }
-
+        // The Google API key is only used server-side. (A handler that returned it to any browser was removed.)
         private async Task<Models.ChurchInformation?> FindChurchAsync(string? protectedId)
         {
             if (string.IsNullOrEmpty(protectedId))

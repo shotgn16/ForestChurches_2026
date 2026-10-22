@@ -48,7 +48,7 @@ namespace ForestChurches.Areas.Identity.Data
             // 1. Get the Key Vault URL
             var keyVaultURL = environment == "Production"
                 ? Environment.GetEnvironmentVariable("KEY_VAULT_URL")
-                : _configuration["Keyvault:Url"];
+                : Environment.GetEnvironmentVariable("KEY_VAULT_URL") ?? _configuration["Keyvault:Url"];
 
             if (string.IsNullOrEmpty(keyVaultURL))
                 throw new InvalidOperationException("Key Vault URL cannot be null.");
@@ -80,8 +80,10 @@ namespace ForestChurches.Areas.Identity.Data
 
             if (environment == "Development") {
                 configBuilder.AddJsonFile($"appsettings.{environment}.json", optional: true, reloadOnChange: true);
+                configBuilder.AddUserSecrets<AddApplicationDbContext>(optional: true); // dev connection string lives here
             }
 
+            configBuilder.AddEnvironmentVariables();
             _configuration = configBuilder.Build();
         }
     }
