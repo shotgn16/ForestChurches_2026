@@ -25,12 +25,12 @@ jobs:
           dotnet-version: '8.0.x'
 
       - name: Build
-        run: dotnet build ForestChurches.csproj -c Release -warnaserror- -clp:"ErrorsOnly;Summary"
+        run: bash .github/ci/run.sh "Build" dotnet build ForestChurches.csproj -c Release -clp:"ErrorsOnly;Summary"
 
       - name: Unit tests
         run: |
           if [ -d Tests ]; then
-            dotnet test Tests/ForestChurches.Tests.csproj -c Release --logger "console;verbosity=normal"
+            bash .github/ci/run.sh "Unit tests" dotnet test Tests/ForestChurches.Tests.csproj -c Release --logger "console;verbosity=normal"
           else
             echo "No test project"
           fi
@@ -72,15 +72,15 @@ jobs:
         run: dotnet tool install --global dotnet-ef --version 8.0.26
 
       - name: Build
-        run: dotnet build ForestChurches.csproj -c Release -warnaserror- -clp:"ErrorsOnly;Summary"
+        run: bash .github/ci/run.sh "Build" dotnet build ForestChurches.csproj -c Release -clp:"ErrorsOnly;Summary"
 
       - name: Model matches migrations
-        run: dotnet ef migrations has-pending-model-changes --project ForestChurches.csproj --configuration Release --no-build
+        run: bash .github/ci/run.sh "Model check" dotnet ef migrations has-pending-model-changes --project ForestChurches.csproj --configuration Release --no-build
 
       - name: Apply migrations
         run: |
           if [ -f .github/ci/migration-data-test.sh ]; then
-            bash .github/ci/migration-data-test.sh
+            bash .github/ci/run.sh "Migration data test" bash .github/ci/migration-data-test.sh
           else
-            dotnet ef database update --project ForestChurches.csproj --configuration Release --no-build
+            bash .github/ci/run.sh "Apply migrations" dotnet ef database update --project ForestChurches.csproj --configuration Release --no-build
           fi
