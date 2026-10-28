@@ -1,19 +1,37 @@
 @page
 @model ForestChurches.Areas.Identity.Pages.Account.Manage.ChurchProfileModel
 @using ForestChurches.Components.Ui
+@using ForestChurches.Components.Services
+@using ForestChurches.Models
 @inject ForestChurches.Components.Security.Encoder Encoder;
 @inject ForestChurches.Components.Storage.IBlobUrlService BlobUrlService;
 @{
     ViewData["ActivePage"] = ManageNavPages.ChurchProfile;
     ViewData["Title"] = Localizer["NAV_LABEL_CHURCH_PROFILE"];
     var defaultSrc = BlobUrlService.GetReadSasUrl("IMGUR-1.png", TimeSpan.FromDays(7));
-    var imgSrc = string.IsNullOrEmpty(Model?.CurrentUser?.ImageBlobName)
+    // The church's own picture, falling back to the account picture (single-church accounts).
+    var logoBlob = !string.IsNullOrEmpty(Model?.CurrentChurch?.ImageBlobName) ? Model.CurrentChurch.ImageBlobName : Model?.CurrentUser?.ImageBlobName;
+    var imgSrc = string.IsNullOrEmpty(logoBlob)
         ? defaultSrc
-        : BlobUrlService.GetReadSasUrl(Model.CurrentUser.ImageBlobName, TimeSpan.FromDays(7));
+        : BlobUrlService.GetReadSasUrl(logoBlob, TimeSpan.FromDays(7));
     var isOpen = string.Equals(Model?.CurrentChurch?.Status, "Open", StringComparison.OrdinalIgnoreCase);
-    var services = (Model?.ServiceTimes ?? new List<ForestChurches.Models.ServiceTimes>())
-        .OrderBy(s => FcText.ServiceTimeSortKey(s.Time))
+    var ukNow = ServiceSchedule.UkNow();
+    var services = (Model?.ServiceTimes ?? new List<ServiceTimes>())
+        .OrderBy(s => ServiceSchedule.Upcoming(s, ukNow, 1).Select(o => (DateTime?)o.SortKey).FirstOrDefault() ?? DateTime.MaxValue)
+        .ThenBy(s => FcText.ServiceTimeSortKey(s.Time))
         .ToList();
+    var churchKey = Model?.CurrentChurchKey ?? string.Empty;
+    var churchName = FcText.PlainText(Model?.CurrentChurch?.Name);
+    var otherChurches = (Model?.ManagedChurchList ?? new List<ChurchInformation>()).Where(c => c.ID != Model?.CurrentChurch?.ID).ToList();
+    var form = Model?.ServiceForm ?? new ServiceForm();
+    var editorOpen = form.IsEdit || (Model?.ServiceErrors?.Count ?? 0) > 0;
+    string Where(ServiceTimes s) => !s.UseCustomLocation
+        ? Localizer["FC_SVC_AT_THIS_CHURCH"].Value
+        : s.LocationChurch != null ? FcText.PlainText(s.LocationChurch.Name) : FcText.PlainText(s.LocationAddress);
+    // Days listed Sunday first, as most church notices do.
+    var days = Enumerable.Range(0, 7).ToList();
+    var weekChoices = new (int Value, string Key)[] { (1, "FC_SVC_ORD_1"), (2, "FC_SVC_ORD_2"), (3, "FC_SVC_ORD_3"), (4, "FC_SVC_ORD_4"), (5, "FC_SVC_ORD_5"), (-1, "FC_SVC_ORD_LAST") };
+    var dateRows = form.Dates.Count > 0 ? form.Dates : new List<ServiceDateForm> { new() };
     var isError = Model?.StatusMessage?.StartsWith("Error", StringComparison.OrdinalIgnoreCase) == true;
 
     var facilities = new (string Field, string LabelKey)[]
@@ -51,6 +69,10 @@
     <div>
         <h1>@Localizer["NAV_LABEL_CHURCH_PROFILE"]</h1>
         <p>@Localizer["FC_MY_CHURCH_LEAD"]</p>
+        @if ((Model?.ManagedChurchList?.Count ?? 0) > 1)
+        {
+            <p class="fc-small">@Localizer["FC_CHURCH_EDITING", churchName]</p>
+        }
     </div>
 </div>
 
@@ -59,7 +81,7 @@
     <div class="fc-alert @(isError ? "fc-alert--danger" : "fc-alert--ok")" role="status">@Model.StatusMessage</div>
 }
 
-<form method="post" asp-page-handler="UpdateChurchProfile" class="fc-stack fc-stack--lg fc-form">
+<form method="post" asp-page-handler="UpdateChurchProfile" asp-route-church="@churchKey" class="fc-stack fc-stack--lg fc-form">
     <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
 
     <section class="fc-card" aria-labelledby="det-h">
@@ -124,7 +146,7 @@
     </section>
 
     <div class="fc-btn-row" style="justify-content: flex-end">
-        <a class="fc-btn fc-btn--quiet" asp-page="./ChurchProfile">@Localizer["FC_DISCARD_CHANGES"]</a>
+        <a class="fc-btn fc-btn--quiet" asp-page="./ChurchProfile" asp-route-church="@churchKey">@Localizer["FC_DISCARD_CHANGES"]</a>
         <button type="submit" class="fc-btn fc-btn--primary">@Localizer["TAG_UPDATE_INFORMATION"]</button>
     </div>
 </form>
@@ -138,25 +160,49 @@
     else
     {
         <div class="fc-table-wrap" style="margin-bottom: 18px">
-            <table class="fc-table">
+            <table class="fc-table fc-svc-table">
                 <thead>
                     <tr>
-                        <th scope="col">@Localizer["TIME_LABEL"]</th>
-                        <th scope="col">@Localizer["NOTE_LABEL"]</th>
-                        <th scope="col"><span class="fc-sr-only">@Localizer["DELETE_ENTRY_LABEL"]</span></th>
+                        <th scope="col">@Localizer["FC_SVC_SCHEDULE"]</th>
+                        <th scope="col">@Localizer["FC_SVC_WHERE"]</th>
+                        <th scope="col">@Localizer["FC_SVC_UPCOMING"]</th>
+                        <th scope="col"><span class="fc-sr-only">@Localizer["FC_SVC_ACTIONS"]</span></th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach (var service in services)
                     {
+                        var upcoming = ServiceSchedule.Upcoming(service, ukNow, 3);
+                        var serviceKey = Model!.ProtectService(service.Id);
                         <tr>
-                            <td style="font-family: var(--fc-serif); font-size: 20px; font-weight: 600; width: 110px">@FcText.ServiceTime(service.Time)</td>
-                            <td style="font-size: 16px; font-weight: 600">@FcText.PlainText(service.Note)</td>
-                            <td style="text-align: right">
-                                <form method="post" asp-page-handler="RemoveService" data-fc-confirm="@Localizer["FC_CONFIRM_REMOVE_SERVICE"]">
-                                    <input type="hidden" name="id" value="@Encoder.Protect(service.Id, "fc.data.manage.church")" />
-                                    <button type="submit" class="fc-btn fc-btn--danger-outline fc-btn--sm">@Localizer["STATUS_REMOVE"]<span class="fc-sr-only"> @FcText.ServiceTime(service.Time)</span></button>
-                                </form>
+                            <td>
+                                <strong class="fc-svc-table__name">@FcText.PlainText(service.Note)</strong>
+                                <span class="fc-svc-table__rule">@ServiceScheduleText.Describe(service, Localizer)</span>
+                            </td>
+                            <td>@Where(service)</td>
+                            <td>
+                                @if (upcoming.Count == 0)
+                                {
+                                    <span class="fc-muted">@Localizer["FC_SVC_NO_UPCOMING"]</span>
+                                }
+                                else
+                                {
+                                    <ul class="fc-svc-dates">
+                                        @foreach (var o in upcoming)
+                                        {
+                                            <li>@ServiceScheduleText.ShortDate(o.Date)@(o.Time is { } t ? ", " + t.ToString("HH:mm") : "")</li>
+                                        }
+                                    </ul>
+                                }
+                            </td>
+                            <td>
+                                <div class="fc-btn-row" style="justify-content: flex-end; flex-wrap: nowrap">
+                                    <a class="fc-btn fc-btn--outline fc-btn--sm" asp-page="./ChurchProfile" asp-route-church="@churchKey" asp-route-edit="@serviceKey" asp-fragment="service-editor">@Localizer["FC_SVC_EDIT_BUTTON"]<span class="fc-sr-only"> @FcText.PlainText(service.Note)</span></a>
+                                    <form method="post" asp-page-handler="RemoveService" asp-route-church="@churchKey" data-fc-confirm="@Localizer["FC_CONFIRM_REMOVE_SERVICE"]">
+                                        <input type="hidden" name="id" value="@serviceKey" />
+                                        <button type="submit" class="fc-btn fc-btn--danger-outline fc-btn--sm">@Localizer["STATUS_REMOVE"]<span class="fc-sr-only"> @FcText.PlainText(service.Note)</span></button>
+                                    </form>
+                                </div>
                             </td>
                         </tr>
                     }
@@ -165,22 +211,179 @@
         </div>
     }
 
-    <form method="post" asp-page-handler="AddServiceTime" class="fc-service-edit">
-        <div class="fc-field">
-            <label class="fc-label" for="serviceTime">@Localizer["TIME_LABEL"]</label>
-            <input class="fc-input" asp-for="ChurchService.Time" id="serviceTime" type="time" required />
-        </div>
-        <div class="fc-field">
-            <label class="fc-label" for="serviceNote">@Localizer["FC_SERVICE_NAME"]</label>
-            <input class="fc-input" asp-for="ChurchService.Note" id="serviceNote" placeholder="@Localizer["TAG_SERVICE_NOTE_PLACEHOLDER"]" required />
-        </div>
-        <button type="submit" class="fc-btn fc-btn--dashed">+ @Localizer["STATUS_ADD_SERVICE"]</button>
-    </form>
+    <details id="service-editor" class="fc-svc-editor" open="@editorOpen">
+        <summary class="fc-btn fc-btn--dashed">@(form.IsEdit ? Localizer["FC_SVC_EDIT"] : "+ " + Localizer["STATUS_ADD_SERVICE"].Value)</summary>
+
+        <form method="post" asp-page-handler="SaveService" asp-route-church="@churchKey" class="fc-stack fc-form fc-svc-form" data-fc-when-scope>
+            <input type="hidden" name="ServiceForm.Id" value="@form.Id" />
+
+            @if ((Model?.ServiceErrors?.Count ?? 0) > 0)
+            {
+                <div class="fc-alert fc-alert--danger" role="alert">
+                    <strong>@Localizer["FC_SVC_FIX"]</strong>
+                    <ul>
+                        @foreach (var e in Model!.ServiceErrors)
+                        {
+                            <li>@e</li>
+                        }
+                    </ul>
+                </div>
+            }
+
+            <div class="fc-grid fc-grid--3">
+                <div class="fc-field">
+                    <label class="fc-label" for="svcName">@Localizer["FC_SERVICE_NAME"]</label>
+                    <input class="fc-input" id="svcName" name="ServiceForm.Name" value="@form.Name" maxlength="200" placeholder="@Localizer["TAG_SERVICE_NOTE_PLACEHOLDER"]" required />
+                </div>
+                <div class="fc-field">
+                    <label class="fc-label" for="svcTime">@Localizer["FC_SVC_START_TIME"]</label>
+                    <input class="fc-input" id="svcTime" name="ServiceForm.Time" value="@form.Time" type="time" required />
+                </div>
+                <div class="fc-field">
+                    <label class="fc-label" for="svcEnd">@Localizer["FC_SVC_END_TIME"] <span class="fc-opt">— @Localizer["FC_SVC_OPTIONAL"]</span></label>
+                    <input class="fc-input" id="svcEnd" name="ServiceForm.EndTime" value="@form.EndTime" type="time" />
+                </div>
+            </div>
+
+            <fieldset class="fc-field">
+                <legend class="fc-label">@Localizer["FC_SVC_HOW_OFTEN"]</legend>
+                <div class="fc-chips">
+                    @foreach (var (value, key) in new[] { (ServiceRepeat.Weekly, "FC_SVC_REPEAT_WEEKLY"), (ServiceRepeat.MonthlyByWeekday, "FC_SVC_REPEAT_MONTHLY_WEEKDAY"), (ServiceRepeat.MonthlyByDate, "FC_SVC_REPEAT_MONTHLY_DATE"), (ServiceRepeat.Dates, "FC_SVC_REPEAT_DATES") })
+                    {
+                        <label class="fc-chip"><input type="radio" name="ServiceForm.RepeatType" value="@value" checked="@(form.RepeatType == value)" /><span>@Localizer[key]</span></label>
+                    }
+                </div>
+            </fieldset>
+
+            <fieldset class="fc-field" data-fc-when="ServiceForm.RepeatType=Weekly,MonthlyByWeekday">
+                <legend class="fc-label">@Localizer["FC_SVC_DAY"]</legend>
+                <div class="fc-chips">
+                    @foreach (var d in days)
+                    {
+                        <label class="fc-chip"><input type="radio" name="ServiceForm.DayOfWeek" value="@d" checked="@(form.DayOfWeek == d)" /><span>@ServiceScheduleText.DayName(d)</span></label>
+                    }
+                </div>
+            </fieldset>
+
+            <div class="fc-field" data-fc-when="ServiceForm.RepeatType=Weekly">
+                <label class="fc-label" for="svcWeekly">@Localizer["FC_SVC_REPEATS"]</label>
+                <select class="fc-select" id="svcWeekly" name="ServiceForm.WeeklyInterval">
+                    @for (var n = 1; n <= 8; n++)
+                    {
+                        var label = n == 1 ? Localizer["FC_SVC_EVERY_WEEK"].Value : n == 2 ? Localizer["FC_SVC_EVERY_OTHER_WEEK"].Value : Localizer["FC_SVC_EVERY_N_WEEKS_OPT", n].Value;
+                        <option value="@n" selected="@(form.WeeklyInterval == n)">@label</option>
+                    }
+                </select>
+            </div>
+
+            <fieldset class="fc-field" data-fc-when="ServiceForm.RepeatType=MonthlyByWeekday">
+                <legend class="fc-label">@Localizer["FC_SVC_WHICH_WEEKS"]</legend>
+                <div class="fc-chips">
+                    @foreach (var (value, key) in weekChoices)
+                    {
+                        <label class="fc-chip"><input type="checkbox" name="ServiceForm.WeeksOfMonth" value="@value" checked="@form.WeeksOfMonth.Contains(value)" /><span>@Localizer[key]</span></label>
+                    }
+                </div>
+            </fieldset>
+
+            <div class="fc-field" data-fc-when="ServiceForm.RepeatType=MonthlyByDate">
+                <label class="fc-label" for="svcDom">@Localizer["FC_SVC_DAY_OF_MONTH"]</label>
+                <select class="fc-select" id="svcDom" name="ServiceForm.DayOfMonth" aria-describedby="svcDomHint">
+                    @for (var d = 1; d <= 31; d++)
+                    {
+                        <option value="@d" selected="@(form.DayOfMonth == d)">@ServiceScheduleText.DayOfMonthText(d, Localizer, System.Globalization.CultureInfo.CurrentUICulture)</option>
+                    }
+                </select>
+                <span class="fc-hint" id="svcDomHint">@Localizer["FC_SVC_DAY_OF_MONTH_HINT"]</span>
+            </div>
+
+            <div class="fc-field" data-fc-when="ServiceForm.RepeatType=MonthlyByWeekday,MonthlyByDate">
+                <label class="fc-label" for="svcMonthly">@Localizer["FC_SVC_REPEATS"]</label>
+                <select class="fc-select" id="svcMonthly" name="ServiceForm.MonthlyInterval">
+                    @for (var n = 1; n <= 12; n++)
+                    {
+                        var label = n == 1 ? Localizer["FC_SVC_EVERY_MONTH"].Value : n == 2 ? Localizer["FC_SVC_EVERY_OTHER_MONTH"].Value : Localizer["FC_SVC_EVERY_N_MONTHS_OPT", n].Value;
+                        <option value="@n" selected="@(form.MonthlyInterval == n)">@label</option>
+                    }
+                </select>
+            </div>
+
+            <div class="fc-grid" data-fc-when="ServiceForm.RepeatType=Weekly,MonthlyByWeekday,MonthlyByDate">
+                <div class="fc-field">
+                    <label class="fc-label" for="svcStart">@Localizer["FC_SVC_START_DATE"] <span class="fc-opt">— @Localizer["FC_SVC_OPTIONAL_UNLESS"]</span></label>
+                    <input class="fc-input" id="svcStart" name="ServiceForm.StartDate" type="date" value="@form.StartDate?.ToString("yyyy-MM-dd")" aria-describedby="svcStartHint" />
+                    <span class="fc-hint" id="svcStartHint">@Localizer["FC_SVC_START_DATE_HINT"]</span>
+                </div>
+                <div class="fc-field">
+                    <label class="fc-label" for="svcEndDate">@Localizer["FC_SVC_END_DATE"] <span class="fc-opt">— @Localizer["FC_SVC_OPTIONAL"]</span></label>
+                    <input class="fc-input" id="svcEndDate" name="ServiceForm.EndDate" type="date" value="@form.EndDate?.ToString("yyyy-MM-dd")" />
+                </div>
+            </div>
+
+            <fieldset class="fc-field" data-fc-when="ServiceForm.RepeatType=Dates">
+                <legend class="fc-label">@Localizer["FC_SVC_DATES_LABEL"]</legend>
+                <span class="fc-hint">@Localizer["FC_SVC_DATE_TIME_HINT"]</span>
+                <div class="fc-stack fc-svc-daterows" data-fc-repeat-list>
+                    @for (var i = 0; i < dateRows.Count; i++)
+                    {
+                        <div class="fc-row fc-svc-daterow" data-fc-repeat-row>
+                            <label class="fc-field"><span class="fc-label">@Localizer["FC_SVC_DATE"]</span><input class="fc-input" type="date" name="ServiceForm.Dates[@i].Date" value="@dateRows[i].Date?.ToString("yyyy-MM-dd")" /></label>
+                            <label class="fc-field"><span class="fc-label">@Localizer["TIME_LABEL"]</span><input class="fc-input" type="time" name="ServiceForm.Dates[@i].Time" value="@dateRows[i].Time" /></label>
+                            <button type="button" class="fc-btn fc-btn--quiet fc-btn--sm" data-fc-repeat-remove>@Localizer["FC_SVC_REMOVE_DATE"]</button>
+                        </div>
+                    }
+                </div>
+                <button type="button" class="fc-btn fc-btn--outline fc-btn--sm" style="align-self: flex-start" data-fc-repeat-add>+ @Localizer["FC_SVC_ADD_DATE"]</button>
+            </fieldset>
+
+            <fieldset class="fc-field fc-svc-location">
+                <legend class="fc-label">@Localizer["FC_SVC_LOCATION"]</legend>
+                <label class="fc-switch">
+                    <span>@Localizer["FC_SVC_LOCATION_TOGGLE"]</span>
+                    <input type="checkbox" role="switch" name="ServiceForm.UseCustomLocation" value="true" checked="@form.UseCustomLocation" />
+                </label>
+                <span class="fc-hint" data-fc-when="ServiceForm.UseCustomLocation=">@Localizer["FC_SVC_LOCATION_OFF_HINT", churchName]</span>
+                <div class="fc-stack" data-fc-when="ServiceForm.UseCustomLocation=true">
+                    @if (otherChurches.Count > 0)
+                    {
+                        <div class="fc-chips">
+                            <label class="fc-chip"><input type="radio" name="ServiceForm.LocationKind" value="church" checked="@(form.LocationKind != "address")" /><span>@Localizer["FC_SVC_AT_OUR_CHURCH"]</span></label>
+                            <label class="fc-chip"><input type="radio" name="ServiceForm.LocationKind" value="address" checked="@(form.LocationKind == "address")" /><span>@Localizer["FC_SVC_AT_ADDRESS"]</span></label>
+                        </div>
+                        <div class="fc-field" data-fc-when="ServiceForm.LocationKind=church">
+                            <label class="fc-label" for="svcLocChurch">@Localizer["FC_SVC_WHICH_CHURCH"]</label>
+                            <select class="fc-select" id="svcLocChurch" name="ServiceForm.LocationChurchId">
+                                @foreach (var c in otherChurches)
+                                {
+                                    var key = Model!.ProtectChurch(c.ID);
+                                    var selected = form.LocationChurchId != null && Model.ProtectChurch(c.ID) == form.LocationChurchId;
+                                    <option value="@key" selected="@selected">@FcText.PlainText(c.Name)</option>
+                                }
+                            </select>
+                        </div>
+                    }
+                    else
+                    {
+                        <input type="hidden" name="ServiceForm.LocationKind" value="address" />
+                    }
+                    <div class="fc-field" data-fc-when="@(otherChurches.Count > 0 ? "ServiceForm.LocationKind=address" : "ServiceForm.UseCustomLocation=true")">
+                        <label class="fc-label" for="svcLocAddr">@Localizer["FC_SVC_ADDRESS"]</label>
+                        <input class="fc-input" id="svcLocAddr" name="ServiceForm.LocationAddress" value="@form.LocationAddress" maxlength="300" autocomplete="street-address" />
+                    </div>
+                </div>
+            </fieldset>
+
+            <div class="fc-btn-row" style="justify-content: flex-end">
+                <a class="fc-btn fc-btn--quiet" asp-page="./ChurchProfile" asp-route-church="@churchKey" asp-fragment="services">@Localizer["FC_SVC_CANCEL"]</a>
+                <button type="submit" class="fc-btn fc-btn--primary">@Localizer["FC_SVC_SAVE"]</button>
+            </div>
+        </form>
+    </details>
 </section>
 
 <section class="fc-card" aria-labelledby="logo-h">
     <h2 id="logo-h" class="fc-card__title">@Localizer["FC_LOGO_TITLE"]</h2>
-    <form method="post" enctype="multipart/form-data" asp-page-handler="UpdateUserLogo" class="fc-upload">
+    <form method="post" enctype="multipart/form-data" asp-page-handler="UpdateUserLogo" asp-route-church="@churchKey" class="fc-upload">
         <img class="fc-upload__preview" src="@imgSrc" alt="@Localizer["FC_CURRENT_LOGO"]" />
         <div class="fc-field" style="flex: 1 1 260px">
             <label class="fc-label" for="upload-btn">@Localizer["TAG_SELECT_IMAGE"]</label>
@@ -200,7 +403,7 @@
         </div>
     </div>
     <div class="fc-btn-row">
-        <form method="post" asp-page-handler="SyncChurchSuiteOAuth">
+        <form method="post" asp-page-handler="SyncChurchSuiteOAuth" asp-route-church="@churchKey">
             <button type="submit" class="fc-btn fc-btn--primary">@Localizer["FC_SYNC_NOW"]</button>
         </form>
         <a class="fc-btn fc-btn--quiet" asp-page="./ExternalLogins">@Localizer["FC_MANAGE_CONNECTION"]</a>
@@ -212,8 +415,7 @@
     @if (isOpen)
     {
         <p style="max-width: 760px">@Localizer["TAG_CLOSED_INFO"]</p>
-        <form method="get" data-fc-confirm="@Localizer["FC_CONFIRM_CLOSE", FcText.PlainText(Model?.CurrentChurch?.Name)]">
-            <input type="hidden" name="handler" value="MarkChurchStatus" />
+        <form method="post" asp-page-handler="MarkChurchStatus" asp-route-church="@churchKey" data-fc-confirm="@Localizer["FC_CONFIRM_CLOSE", churchName]">
             <input type="hidden" name="status" value="Closed" />
             <button type="submit" class="fc-btn fc-btn--danger-outline">@Localizer["FC_MARK_CLOSED"]</button>
         </form>
@@ -221,8 +423,7 @@
     else
     {
         <p style="max-width: 760px">@Localizer["FC_CLOSED_NOW"]</p>
-        <form method="get">
-            <input type="hidden" name="handler" value="MarkChurchStatus" />
+        <form method="post" asp-page-handler="MarkChurchStatus" asp-route-church="@churchKey">
             <input type="hidden" name="status" value="Open" />
             <button type="submit" class="fc-btn fc-btn--primary">@Localizer["FC_MARK_OPEN"]</button>
         </form>

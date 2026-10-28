@@ -2634,4 +2634,364 @@
   <data name="FC_ADM_EMAIL_MEMORY_NOTE" xml:space="preserve">
     <value>Seznam uchovává posledních 500 e-mailů a po restartu webu se vymaže. Každý krok se také zapisuje do protokolů s ID e-mailu, takže starší záznamy najdete v Protokolech.</value>
   </data>
+  <data name="FC_SVC_WEEKLY" xml:space="preserve">
+    <value>{0}, každý týden</value>
+  </data>
+  <data name="FC_SVC_FORTNIGHTLY" xml:space="preserve">
+    <value>{0}, každý druhý týden</value>
+  </data>
+  <data name="FC_SVC_EVERY_N_WEEKS" xml:space="preserve">
+    <value>{0}, každý {1}. týden</value>
+  </data>
+  <data name="FC_SVC_MONTHLY_WEEKDAY" xml:space="preserve">
+    <value>{1} {0} v měsíci</value>
+  </data>
+  <data name="FC_SVC_MONTHLY_WEEKDAY_ALT" xml:space="preserve">
+    <value>{1} {0} každý druhý měsíc</value>
+  </data>
+  <data name="FC_SVC_MONTHLY_WEEKDAY_N" xml:space="preserve">
+    <value>{1} {0} každý {2}. měsíc</value>
+  </data>
+  <data name="FC_SVC_MONTHLY_DATE" xml:space="preserve">
+    <value>{0} den každého měsíce</value>
+  </data>
+  <data name="FC_SVC_MONTHLY_DATE_ALT" xml:space="preserve">
+    <value>{0} den každého druhého měsíce</value>
+  </data>
+  <data name="FC_SVC_MONTHLY_DATE_N" xml:space="preserve">
+    <value>{0} den každého {1}. měsíce</value>
+  </data>
+  <data name="FC_SVC_DATES" xml:space="preserve">
+    <value>Ve vybrané dny</value>
+  </data>
+  <data name="FC_SVC_DAY_NUMBER" xml:space="preserve">
+    <value>{0}.</value>
+  </data>
+  <data name="FC_SVC_PATTERN_AT_TIME" xml:space="preserve">
+    <value>{0}, {1}</value>
+  </data>
+  <data name="FC_SVC_FROM" xml:space="preserve">
+    <value>od {0}</value>
+  </data>
+  <data name="FC_SVC_UNTIL" xml:space="preserve">
+    <value>do {0}</value>
+  </data>
+  <data name="FC_SVC_AND" xml:space="preserve">
+    <value>a</value>
+  </data>
+  <data name="FC_SVC_ORD_1" xml:space="preserve">
+    <value>1.</value>
+  </data>
+  <data name="FC_SVC_ORD_2" xml:space="preserve">
+    <value>2.</value>
+  </data>
+  <data name="FC_SVC_ORD_3" xml:space="preserve">
+    <value>3.</value>
+  </data>
+  <data name="FC_SVC_ORD_4" xml:space="preserve">
+    <value>4.</value>
+  </data>
+  <data name="FC_SVC_ORD_5" xml:space="preserve">
+    <value>5.</value>
+  </data>
+  <data name="FC_SVC_ORD_LAST" xml:space="preserve">
+    <value>poslední</value>
+  </data>
+  <data name="FC_SERVICES_HEADING" xml:space="preserve">
+    <value>Bohoslužby</value>
+  </data>
+  <data name="FC_SVC_HELD_AT" xml:space="preserve">
+    <value>Koná se: {0}</value>
+  </data>
+  <data name="FC_SVC_HELD_AT_PREFIX" xml:space="preserve">
+    <value>Koná se:</value>
+  </data>
+  <data name="FC_SVC_NEXT_ON" xml:space="preserve">
+    <value>Příště: {0}</value>
+  </data>
+  <data name="FC_SVC_MORE_DATES" xml:space="preserve">
+    <value>Další termíny</value>
+  </data>
+  <data name="FC_SVC_NO_UPCOMING" xml:space="preserve">
+    <value>Žádné nadcházející termíny</value>
+  </data>
+  <data name="FC_BENEFICE" xml:space="preserve">
+    <value>Farní obvod</value>
+  </data>
+  <data name="FC_BENEFICE_PART_OF" xml:space="preserve">
+    <value>Součást: {0}</value>
+  </data>
+  <data name="FC_BENEFICE_SISTERS" xml:space="preserve">
+    <value>Další kostely farního obvodu</value>
+  </data>
+  <data name="FC_BENEFICE_WEBSITE" xml:space="preserve">
+    <value>Web farního obvodu</value>
+  </data>
+  <data name="FC_CHURCH_SWITCH_LABEL" xml:space="preserve">
+    <value>Upravujete</value>
+  </data>
+  <data name="FC_CHURCH_SWITCH_BUTTON" xml:space="preserve">
+    <value>Přepnout</value>
+  </data>
+  <data name="FC_CHURCH_EDITING" xml:space="preserve">
+    <value>Upravujete {0}. Kostel přepnete volbou „Upravujete“.</value>
+  </data>
+  <data name="FC_STATUS_CLOSED_SHORT" xml:space="preserve">
+    <value>zavřeno</value>
+  </data>
+  <data name="FC_EVENT_WHICH_CHURCH" xml:space="preserve">
+    <value>Pro který kostel je tato akce?</value>
+  </data>
+  <data name="FC_SVC_SCHEDULE" xml:space="preserve">
+    <value>Bohoslužba a kdy</value>
+  </data>
+  <data name="FC_SVC_WHERE" xml:space="preserve">
+    <value>Kde</value>
+  </data>
+  <data name="FC_SVC_UPCOMING" xml:space="preserve">
+    <value>Nejbližší termíny</value>
+  </data>
+  <data name="FC_SVC_ACTIONS" xml:space="preserve">
+    <value>Akce</value>
+  </data>
+  <data name="FC_SVC_AT_THIS_CHURCH" xml:space="preserve">
+    <value>V tomto kostele</value>
+  </data>
+  <data name="FC_SVC_EDIT_BUTTON" xml:space="preserve">
+    <value>Upravit</value>
+  </data>
+  <data name="FC_SVC_EDIT" xml:space="preserve">
+    <value>Upravit bohoslužbu</value>
+  </data>
+  <data name="FC_SVC_FIX" xml:space="preserve">
+    <value>Zkontrolujte prosím:</value>
+  </data>
+  <data name="FC_SVC_START_TIME" xml:space="preserve">
+    <value>Začátek</value>
+  </data>
+  <data name="FC_SVC_END_TIME" xml:space="preserve">
+    <value>Konec</value>
+  </data>
+  <data name="FC_SVC_OPTIONAL" xml:space="preserve">
+    <value>nepovinné</value>
+  </data>
+  <data name="FC_SVC_OPTIONAL_UNLESS" xml:space="preserve">
+    <value>nutné u opakování ob týden/měsíc a řidčeji</value>
+  </data>
+  <data name="FC_SVC_HOW_OFTEN" xml:space="preserve">
+    <value>Jak často?</value>
+  </data>
+  <data name="FC_SVC_REPEAT_WEEKLY" xml:space="preserve">
+    <value>Každý týden nebo po několika týdnech</value>
+  </data>
+  <data name="FC_SVC_REPEAT_MONTHLY_WEEKDAY" xml:space="preserve">
+    <value>Měsíčně podle dne (např. 1. neděle)</value>
+  </data>
+  <data name="FC_SVC_REPEAT_MONTHLY_DATE" xml:space="preserve">
+    <value>Měsíčně podle data (např. 15.)</value>
+  </data>
+  <data name="FC_SVC_REPEAT_DATES" xml:space="preserve">
+    <value>Konkrétní data</value>
+  </data>
+  <data name="FC_SVC_DAY" xml:space="preserve">
+    <value>Den</value>
+  </data>
+  <data name="FC_SVC_REPEATS" xml:space="preserve">
+    <value>Opakování</value>
+  </data>
+  <data name="FC_SVC_EVERY_WEEK" xml:space="preserve">
+    <value>Každý týden</value>
+  </data>
+  <data name="FC_SVC_EVERY_OTHER_WEEK" xml:space="preserve">
+    <value>Každý druhý týden</value>
+  </data>
+  <data name="FC_SVC_EVERY_N_WEEKS_OPT" xml:space="preserve">
+    <value>Každý {0}. týden</value>
+  </data>
+  <data name="FC_SVC_EVERY_MONTH" xml:space="preserve">
+    <value>Každý měsíc</value>
+  </data>
+  <data name="FC_SVC_EVERY_OTHER_MONTH" xml:space="preserve">
+    <value>Každý druhý měsíc</value>
+  </data>
+  <data name="FC_SVC_EVERY_N_MONTHS_OPT" xml:space="preserve">
+    <value>Každý {0}. měsíc</value>
+  </data>
+  <data name="FC_SVC_WHICH_WEEKS" xml:space="preserve">
+    <value>Které týdny v měsíci?</value>
+  </data>
+  <data name="FC_SVC_DAY_OF_MONTH" xml:space="preserve">
+    <value>Den v měsíci</value>
+  </data>
+  <data name="FC_SVC_DAY_OF_MONTH_HINT" xml:space="preserve">
+    <value>V kratších měsících se bohoslužba nastavená na 29.–31. koná poslední den měsíce.</value>
+  </data>
+  <data name="FC_SVC_START_DATE" xml:space="preserve">
+    <value>První termín</value>
+  </data>
+  <data name="FC_SVC_START_DATE_HINT" xml:space="preserve">
+    <value>První den konání. U bohoslužeb ob týden nebo po několika měsících určuje, na které týdny či měsíce připadá.</value>
+  </data>
+  <data name="FC_SVC_END_DATE" xml:space="preserve">
+    <value>Poslední termín</value>
+  </data>
+  <data name="FC_SVC_DATES_LABEL" xml:space="preserve">
+    <value>Data</value>
+  </data>
+  <data name="FC_SVC_DATE" xml:space="preserve">
+    <value>Datum</value>
+  </data>
+  <data name="FC_SVC_DATE_TIME_HINT" xml:space="preserve">
+    <value>Pokud čas u data nevyplníte, použije se začátek bohoslužby.</value>
+  </data>
+  <data name="FC_SVC_ADD_DATE" xml:space="preserve">
+    <value>Přidat další datum</value>
+  </data>
+  <data name="FC_SVC_REMOVE_DATE" xml:space="preserve">
+    <value>Odebrat</value>
+  </data>
+  <data name="FC_SVC_LOCATION" xml:space="preserve">
+    <value>Místo</value>
+  </data>
+  <data name="FC_SVC_LOCATION_TOGGLE" xml:space="preserve">
+    <value>Koná se jinde</value>
+  </data>
+  <data name="FC_SVC_LOCATION_OFF_HINT" xml:space="preserve">
+    <value>Vypnuto: bohoslužba se koná v kostele {0}.</value>
+  </data>
+  <data name="FC_SVC_AT_OUR_CHURCH" xml:space="preserve">
+    <value>V jiném z našich kostelů</value>
+  </data>
+  <data name="FC_SVC_AT_ADDRESS" xml:space="preserve">
+    <value>Na jiné adrese</value>
+  </data>
+  <data name="FC_SVC_WHICH_CHURCH" xml:space="preserve">
+    <value>Kostel</value>
+  </data>
+  <data name="FC_SVC_ADDRESS" xml:space="preserve">
+    <value>Adresa</value>
+  </data>
+  <data name="FC_SVC_SAVE" xml:space="preserve">
+    <value>Uložit bohoslužbu</value>
+  </data>
+  <data name="FC_SVC_CANCEL" xml:space="preserve">
+    <value>Zrušit</value>
+  </data>
+  <data name="FC_SVC_ERR_NAME" xml:space="preserve">
+    <value>Zadejte název bohoslužby.</value>
+  </data>
+  <data name="FC_SVC_ERR_NAME_LONG" xml:space="preserve">
+    <value>Název bohoslužby může mít nejvýše 200 znaků.</value>
+  </data>
+  <data name="FC_SVC_ERR_TIME" xml:space="preserve">
+    <value>Zadejte platný čas začátku.</value>
+  </data>
+  <data name="FC_SVC_ERR_END_TIME" xml:space="preserve">
+    <value>Konec musí být po začátku.</value>
+  </data>
+  <data name="FC_SVC_ERR_REPEAT" xml:space="preserve">
+    <value>Zvolte, jak často se bohoslužba koná.</value>
+  </data>
+  <data name="FC_SVC_ERR_INTERVAL" xml:space="preserve">
+    <value>Zvolte rozestup v týdnech nebo měsících.</value>
+  </data>
+  <data name="FC_SVC_ERR_START_NEEDED" xml:space="preserve">
+    <value>Zvolte první termín, abychom věděli, na které týdny či měsíce bohoslužba připadá.</value>
+  </data>
+  <data name="FC_SVC_ERR_WEEKS" xml:space="preserve">
+    <value>Zvolte alespoň jeden týden v měsíci.</value>
+  </data>
+  <data name="FC_SVC_ERR_DAY_OF_MONTH" xml:space="preserve">
+    <value>Zvolte den v měsíci.</value>
+  </data>
+  <data name="FC_SVC_ERR_DATES" xml:space="preserve">
+    <value>Přidejte alespoň jedno datum.</value>
+  </data>
+  <data name="FC_SVC_ERR_END_DATE" xml:space="preserve">
+    <value>Poslední termín nemůže být před prvním.</value>
+  </data>
+  <data name="FC_SVC_ERR_LOCATION" xml:space="preserve">
+    <value>Zvolte jiný kostel nebo zadejte adresu, případně vypněte „Koná se jinde“.</value>
+  </data>
+  <data name="FC_SVC_ERR_LOCATION_CHURCH" xml:space="preserve">
+    <value>Zvolte jeden ze svých dalších kostelů.</value>
+  </data>
+  <data name="FC_SVC_ERR_NOT_FOUND" xml:space="preserve">
+    <value>Bohoslužbu se nepodařilo najít.</value>
+  </data>
+  <data name="FC_ADM_BENEFICES" xml:space="preserve">
+    <value>Farní obvody</value>
+  </data>
+  <data name="FC_ADM_BENEFICES_LEAD" xml:space="preserve">
+    <value>Seskupte kostely spravované společně. Každý kostel má vlastní stránku a obvod je propojí. Kostely přiřadíte v Kostely → Upravit.</value>
+  </data>
+  <data name="FC_ADM_NO_BENEFICES" xml:space="preserve">
+    <value>Zatím žádné farní obvody.</value>
+  </data>
+  <data name="FC_ADM_NEW_BENEFICE" xml:space="preserve">
+    <value>Nový farní obvod</value>
+  </data>
+  <data name="FC_ADM_BENEFICE_NAME" xml:space="preserve">
+    <value>Název farního obvodu</value>
+  </data>
+  <data name="FC_ADM_BENEFICE_NAME_PLACEHOLDER" xml:space="preserve">
+    <value>např. Lesní farní obvod</value>
+  </data>
+  <data name="FC_ADM_CONFIRM_DELETE_BENEFICE" xml:space="preserve">
+    <value>Smazat farní obvod {0}? Kostely zůstanou, jen už nebudou seskupené.</value>
+  </data>
+  <data name="FC_ADM_DELETE" xml:space="preserve">
+    <value>Smazat</value>
+  </data>
+  <data name="FC_ADM_SAVE" xml:space="preserve">
+    <value>Uložit</value>
+  </data>
+  <data name="FC_ADM_ADD_CHURCH" xml:space="preserve">
+    <value>Přidat kostel</value>
+  </data>
+  <data name="FC_ADM_ADD_CHURCH_LEAD" xml:space="preserve">
+    <value>Přidejte kostel k existujícímu účtu, například k účtu farního obvodu, který spravuje více kostelů.</value>
+  </data>
+  <data name="FC_ADM_ADD_CHURCH_CLOSED_NOTE" xml:space="preserve">
+    <value>Nové kostely jsou zavřené (skryté), dokud se nevyplní údaje a neotevřou se.</value>
+  </data>
+  <data name="FC_ADM_ADD_ANOTHER_CHURCH" xml:space="preserve">
+    <value>Přidat k účtu další kostel</value>
+  </data>
+  <data name="FC_ADM_MANAGED_BY" xml:space="preserve">
+    <value>Spravuje</value>
+  </data>
+  <data name="FC_ADM_MANAGED_BY_HINT" xml:space="preserve">
+    <value>Účet správce, který bude kostel upravovat.</value>
+  </data>
+  <data name="FC_ADM_NO_BENEFICE" xml:space="preserve">
+    <value>Bez farního obvodu</value>
+  </data>
+  <data name="FC_ADM_MANAGE_BENEFICES" xml:space="preserve">
+    <value>Spravovat farní obvody</value>
+  </data>
+  <data name="FC_ADM_BENEFICE_MGMT" xml:space="preserve">
+    <value>Farní obvod a správa</value>
+  </data>
+  <data name="FC_ADM_BENEFICE_MGMT_LEAD" xml:space="preserve">
+    <value>Zařaďte kostel do farního obvodu nebo ho předejte jinému účtu, např. když dostane vlastního správce. V obvodu zůstane.</value>
+  </data>
+  <data name="FC_ADM_MOVE_HINT" xml:space="preserve">
+    <value>Výběrem jiného účtu se kostel, jeho bohoslužby a akce přesunou na tento účet.</value>
+  </data>
+  <data name="FC_ADM_ALSO_MANAGES" xml:space="preserve">
+    <value>{0} spravuje také: {1}</value>
+  </data>
+  <data name="FC_ADM_SAVE_MGMT" xml:space="preserve">
+    <value>Uložit obvod a správu</value>
+  </data>
+  <data name="FC_ADM_REMOVE_CHURCH" xml:space="preserve">
+    <value>Odebrat tento kostel</value>
+  </data>
+  <data name="FC_ADM_REMOVE_CHURCH_LEAD" xml:space="preserve">
+    <value>Smaže kostel a jeho bohoslužby z účtu. Účet a ostatní kostely zůstanou. Akce se nesmažou.</value>
+  </data>
+  <data name="FC_ADM_CONFIRM_REMOVE_CHURCH" xml:space="preserve">
+    <value>Odebrat {0} a jeho bohoslužby? Nelze vrátit.</value>
+  </data>
 </root>

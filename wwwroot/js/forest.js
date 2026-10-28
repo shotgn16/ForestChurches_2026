@@ -54,6 +54,78 @@
             });
         });
 
+        // Show/hide parts of a form by the value of radios, checkboxes or selects in the same form:
+        // <div data-fc-when="Field.Name=value1,value2"> is shown when the field's current value is one of the
+        // listed values ("Field.Name=" means "empty", e.g. an unticked checkbox). Hidden fields still post;
+        // the server ignores the ones that don't apply. Without JavaScript everything stays visible.
+        document.querySelectorAll('[data-fc-when-scope]').forEach(function (scope) {
+            function valueOf(name) {
+                var inputs = scope.querySelectorAll('[name="' + name + '"]');
+                for (var i = 0; i < inputs.length; i++) {
+                    var el = inputs[i];
+                    if (el.type === 'radio' || el.type === 'checkbox') {
+                        if (el.checked) { return el.value; }
+                    } else if (el.type !== 'hidden' || inputs.length === 1) {
+                        return el.value;
+                    }
+                }
+                return '';
+            }
+            function apply() {
+                scope.querySelectorAll('[data-fc-when]').forEach(function (el) {
+                    var rule = el.getAttribute('data-fc-when');
+                    var at = rule.indexOf('=');
+                    var name = rule.slice(0, at);
+                    var allowed = rule.slice(at + 1).split(',');
+                    el.hidden = allowed.indexOf(valueOf(name)) < 0;
+                });
+            }
+            scope.addEventListener('change', apply);
+            apply();
+        });
+
+        // Repeating rows (e.g. service dates): [data-fc-repeat-list] holds [data-fc-repeat-row]s;
+        // [data-fc-repeat-add] adds an empty copy of the last row; [data-fc-repeat-remove] removes a row
+        // (or empties it when it's the only one). Names like Prefix[3].Field are renumbered 0, 1, 2…
+        // so the server always receives a complete list.
+        document.querySelectorAll('[data-fc-repeat-list]').forEach(function (list) {
+            var container = list.parentElement;
+            function renumber() {
+                list.querySelectorAll('[data-fc-repeat-row]').forEach(function (row, index) {
+                    row.querySelectorAll('[name]').forEach(function (input) {
+                        input.name = input.name.replace(/\[\d+\]/, '[' + index + ']');
+                    });
+                });
+            }
+            container.addEventListener('click', function (e) {
+                var add = e.target.closest('[data-fc-repeat-add]');
+                var remove = e.target.closest('[data-fc-repeat-remove]');
+                if (add) {
+                    var rows = list.querySelectorAll('[data-fc-repeat-row]');
+                    var copy = rows[rows.length - 1].cloneNode(true);
+                    copy.querySelectorAll('input').forEach(function (input) { input.value = ''; });
+                    list.appendChild(copy);
+                    renumber();
+                    var first = copy.querySelector('input');
+                    if (first) { first.focus(); }
+                } else if (remove) {
+                    var row = remove.closest('[data-fc-repeat-row]');
+                    if (list.querySelectorAll('[data-fc-repeat-row]').length > 1) {
+                        row.remove();
+                        renumber();
+                    } else {
+                        row.querySelectorAll('input').forEach(function (input) { input.value = ''; });
+                    }
+                }
+            });
+        });
+
+        // A select that submits its form when changed (e.g. the church switcher):
+        // <select data-fc-autosubmit>. The form also has a normal submit button for keyboard and no-JS users.
+        document.querySelectorAll('select[data-fc-autosubmit]').forEach(function (sel) {
+            sel.addEventListener('change', function () { if (sel.form) { sel.form.submit(); } });
+        });
+
         // Show/hide parts of a form by a select's value:
         // <select data-fc-type-switch> plus <div data-fc-show-for="Bulletin,Other">. Hidden fields still post.
         document.querySelectorAll('select[data-fc-type-switch]').forEach(function (sel) {

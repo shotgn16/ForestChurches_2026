@@ -35,7 +35,7 @@ namespace ForestChurches.Pages.Admin.Church
 
         public IActionResult OnGet()
         {
-            Churches = _context.ChurchInformation.ToList();
+            Churches = _context.ChurchInformation.Include(c => c.Benefice).ToList();
 
             ChurchUsers = _context.Users.ToList();
 

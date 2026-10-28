@@ -62,7 +62,7 @@ public class UsersController : Controller, UserInterface
             Email = _configuration.Client.GetSecret("sys-admin-username").Value.Value,
             UserName = _configuration.Client.GetSecret("sys-admin-username").Value.Value,
             EmailConfirmed = true,
-            ChurchInformation = ChurchInformation2,
+            Churches = new List<ChurchInformation> { ChurchInformation2 },
             CreatedDate = DateTime.UtcNow.ToString(),
             // store blob name only; image bytes are kept in blob storage
             ImageBlobName = blobName,

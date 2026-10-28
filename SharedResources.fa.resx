@@ -2634,4 +2634,364 @@
   <data name="FC_ADM_EMAIL_MEMORY_NOTE" xml:space="preserve">
     <value>این فهرست ۵۰۰ ایمیل آخر را نگه می‌دارد و با راه‌اندازی دوبارهٔ سایت پاک می‌شود. هر مرحله با شناسهٔ ایمیل در گزارش‌ها هم ثبت می‌شود؛ برای موارد قدیمی‌تر به «گزارش‌ها» بروید.</value>
   </data>
+  <data name="FC_SVC_WEEKLY" xml:space="preserve">
+    <value>هر {0}</value>
+  </data>
+  <data name="FC_SVC_FORTNIGHTLY" xml:space="preserve">
+    <value>{0}، هر دو هفته یک‌بار</value>
+  </data>
+  <data name="FC_SVC_EVERY_N_WEEKS" xml:space="preserve">
+    <value>{0}، هر {1} هفته یک‌بار</value>
+  </data>
+  <data name="FC_SVC_MONTHLY_WEEKDAY" xml:space="preserve">
+    <value>{0} {1} هر ماه</value>
+  </data>
+  <data name="FC_SVC_MONTHLY_WEEKDAY_ALT" xml:space="preserve">
+    <value>{0} {1}، هر دو ماه یک‌بار</value>
+  </data>
+  <data name="FC_SVC_MONTHLY_WEEKDAY_N" xml:space="preserve">
+    <value>{0} {1}، هر {2} ماه یک‌بار</value>
+  </data>
+  <data name="FC_SVC_MONTHLY_DATE" xml:space="preserve">
+    <value>روز {0} هر ماه</value>
+  </data>
+  <data name="FC_SVC_MONTHLY_DATE_ALT" xml:space="preserve">
+    <value>روز {0}، هر دو ماه یک‌بار</value>
+  </data>
+  <data name="FC_SVC_MONTHLY_DATE_N" xml:space="preserve">
+    <value>روز {0}، هر {1} ماه یک‌بار</value>
+  </data>
+  <data name="FC_SVC_DATES" xml:space="preserve">
+    <value>در تاریخ‌های مشخص</value>
+  </data>
+  <data name="FC_SVC_DAY_NUMBER" xml:space="preserve">
+    <value>{0}</value>
+  </data>
+  <data name="FC_SVC_PATTERN_AT_TIME" xml:space="preserve">
+    <value>{0}، ساعت {1}</value>
+  </data>
+  <data name="FC_SVC_FROM" xml:space="preserve">
+    <value>از {0}</value>
+  </data>
+  <data name="FC_SVC_UNTIL" xml:space="preserve">
+    <value>تا {0}</value>
+  </data>
+  <data name="FC_SVC_AND" xml:space="preserve">
+    <value>و</value>
+  </data>
+  <data name="FC_SVC_ORD_1" xml:space="preserve">
+    <value>اول</value>
+  </data>
+  <data name="FC_SVC_ORD_2" xml:space="preserve">
+    <value>دوم</value>
+  </data>
+  <data name="FC_SVC_ORD_3" xml:space="preserve">
+    <value>سوم</value>
+  </data>
+  <data name="FC_SVC_ORD_4" xml:space="preserve">
+    <value>چهارم</value>
+  </data>
+  <data name="FC_SVC_ORD_5" xml:space="preserve">
+    <value>پنجم</value>
+  </data>
+  <data name="FC_SVC_ORD_LAST" xml:space="preserve">
+    <value>آخر</value>
+  </data>
+  <data name="FC_SERVICES_HEADING" xml:space="preserve">
+    <value>مراسم</value>
+  </data>
+  <data name="FC_SVC_HELD_AT" xml:space="preserve">
+    <value>محل برگزاری: {0}</value>
+  </data>
+  <data name="FC_SVC_HELD_AT_PREFIX" xml:space="preserve">
+    <value>محل برگزاری:</value>
+  </data>
+  <data name="FC_SVC_NEXT_ON" xml:space="preserve">
+    <value>بعدی: {0}</value>
+  </data>
+  <data name="FC_SVC_MORE_DATES" xml:space="preserve">
+    <value>تاریخ‌های بیشتر</value>
+  </data>
+  <data name="FC_SVC_NO_UPCOMING" xml:space="preserve">
+    <value>تاریخ آینده‌ای نیست</value>
+  </data>
+  <data name="FC_BENEFICE" xml:space="preserve">
+    <value>حوزهٔ کلیسایی</value>
+  </data>
+  <data name="FC_BENEFICE_PART_OF" xml:space="preserve">
+    <value>بخشی از {0}</value>
+  </data>
+  <data name="FC_BENEFICE_SISTERS" xml:space="preserve">
+    <value>کلیساهای دیگر این حوزه</value>
+  </data>
+  <data name="FC_BENEFICE_WEBSITE" xml:space="preserve">
+    <value>وب‌سایت حوزه</value>
+  </data>
+  <data name="FC_CHURCH_SWITCH_LABEL" xml:space="preserve">
+    <value>در حال ویرایش</value>
+  </data>
+  <data name="FC_CHURCH_SWITCH_BUTTON" xml:space="preserve">
+    <value>تغییر</value>
+  </data>
+  <data name="FC_CHURCH_EDITING" xml:space="preserve">
+    <value>در حال ویرایش {0} هستید. برای تغییر کلیسا از «در حال ویرایش» استفاده کنید.</value>
+  </data>
+  <data name="FC_STATUS_CLOSED_SHORT" xml:space="preserve">
+    <value>بسته</value>
+  </data>
+  <data name="FC_EVENT_WHICH_CHURCH" xml:space="preserve">
+    <value>این رویداد برای کدام کلیساست؟</value>
+  </data>
+  <data name="FC_SVC_SCHEDULE" xml:space="preserve">
+    <value>مراسم و زمان</value>
+  </data>
+  <data name="FC_SVC_WHERE" xml:space="preserve">
+    <value>کجا</value>
+  </data>
+  <data name="FC_SVC_UPCOMING" xml:space="preserve">
+    <value>تاریخ‌های بعدی</value>
+  </data>
+  <data name="FC_SVC_ACTIONS" xml:space="preserve">
+    <value>اقدامات</value>
+  </data>
+  <data name="FC_SVC_AT_THIS_CHURCH" xml:space="preserve">
+    <value>در همین کلیسا</value>
+  </data>
+  <data name="FC_SVC_EDIT_BUTTON" xml:space="preserve">
+    <value>ویرایش</value>
+  </data>
+  <data name="FC_SVC_EDIT" xml:space="preserve">
+    <value>ویرایش مراسم</value>
+  </data>
+  <data name="FC_SVC_FIX" xml:space="preserve">
+    <value>لطفاً موارد زیر را بررسی کنید:</value>
+  </data>
+  <data name="FC_SVC_START_TIME" xml:space="preserve">
+    <value>ساعت شروع</value>
+  </data>
+  <data name="FC_SVC_END_TIME" xml:space="preserve">
+    <value>ساعت پایان</value>
+  </data>
+  <data name="FC_SVC_OPTIONAL" xml:space="preserve">
+    <value>اختیاری</value>
+  </data>
+  <data name="FC_SVC_OPTIONAL_UNLESS" xml:space="preserve">
+    <value>برای الگوهای یک‌درمیان یا با فاصلهٔ بیشتر لازم است</value>
+  </data>
+  <data name="FC_SVC_HOW_OFTEN" xml:space="preserve">
+    <value>هر چند وقت یک‌بار؟</value>
+  </data>
+  <data name="FC_SVC_REPEAT_WEEKLY" xml:space="preserve">
+    <value>هفتگی یا هر چند هفته</value>
+  </data>
+  <data name="FC_SVC_REPEAT_MONTHLY_WEEKDAY" xml:space="preserve">
+    <value>ماهانه بر اساس روز هفته (مثلاً یکشنبهٔ اول)</value>
+  </data>
+  <data name="FC_SVC_REPEAT_MONTHLY_DATE" xml:space="preserve">
+    <value>ماهانه بر اساس تاریخ (مثلاً روز ۱۵)</value>
+  </data>
+  <data name="FC_SVC_REPEAT_DATES" xml:space="preserve">
+    <value>تاریخ‌های مشخص</value>
+  </data>
+  <data name="FC_SVC_DAY" xml:space="preserve">
+    <value>روز</value>
+  </data>
+  <data name="FC_SVC_REPEATS" xml:space="preserve">
+    <value>تکرار</value>
+  </data>
+  <data name="FC_SVC_EVERY_WEEK" xml:space="preserve">
+    <value>هر هفته</value>
+  </data>
+  <data name="FC_SVC_EVERY_OTHER_WEEK" xml:space="preserve">
+    <value>یک هفته در میان</value>
+  </data>
+  <data name="FC_SVC_EVERY_N_WEEKS_OPT" xml:space="preserve">
+    <value>هر {0} هفته</value>
+  </data>
+  <data name="FC_SVC_EVERY_MONTH" xml:space="preserve">
+    <value>هر ماه</value>
+  </data>
+  <data name="FC_SVC_EVERY_OTHER_MONTH" xml:space="preserve">
+    <value>یک ماه در میان</value>
+  </data>
+  <data name="FC_SVC_EVERY_N_MONTHS_OPT" xml:space="preserve">
+    <value>هر {0} ماه</value>
+  </data>
+  <data name="FC_SVC_WHICH_WEEKS" xml:space="preserve">
+    <value>کدام هفته‌های ماه؟</value>
+  </data>
+  <data name="FC_SVC_DAY_OF_MONTH" xml:space="preserve">
+    <value>روز ماه</value>
+  </data>
+  <data name="FC_SVC_DAY_OF_MONTH_HINT" xml:space="preserve">
+    <value>در ماه‌های کوتاه‌تر، مراسمی که برای روز ۲۹ تا ۳۱ تنظیم شده، در آخرین روز ماه برگزار می‌شود.</value>
+  </data>
+  <data name="FC_SVC_START_DATE" xml:space="preserve">
+    <value>اولین تاریخ</value>
+  </data>
+  <data name="FC_SVC_START_DATE_HINT" xml:space="preserve">
+    <value>اولین تاریخ برگزاری. برای مراسم یک هفته در میان یا هر چند ماه، مشخص می‌کند در کدام هفته‌ها یا ماه‌ها برگزار شود.</value>
+  </data>
+  <data name="FC_SVC_END_DATE" xml:space="preserve">
+    <value>آخرین تاریخ</value>
+  </data>
+  <data name="FC_SVC_DATES_LABEL" xml:space="preserve">
+    <value>تاریخ‌ها</value>
+  </data>
+  <data name="FC_SVC_DATE" xml:space="preserve">
+    <value>تاریخ</value>
+  </data>
+  <data name="FC_SVC_DATE_TIME_HINT" xml:space="preserve">
+    <value>اگر ساعت تاریخی را خالی بگذارید، ساعت شروع مراسم استفاده می‌شود.</value>
+  </data>
+  <data name="FC_SVC_ADD_DATE" xml:space="preserve">
+    <value>افزودن تاریخ دیگر</value>
+  </data>
+  <data name="FC_SVC_REMOVE_DATE" xml:space="preserve">
+    <value>حذف</value>
+  </data>
+  <data name="FC_SVC_LOCATION" xml:space="preserve">
+    <value>مکان</value>
+  </data>
+  <data name="FC_SVC_LOCATION_TOGGLE" xml:space="preserve">
+    <value>در جای دیگری برگزار می‌شود</value>
+  </data>
+  <data name="FC_SVC_LOCATION_OFF_HINT" xml:space="preserve">
+    <value>خاموش: مراسم در {0} برگزار می‌شود.</value>
+  </data>
+  <data name="FC_SVC_AT_OUR_CHURCH" xml:space="preserve">
+    <value>در یکی دیگر از کلیساهای ما</value>
+  </data>
+  <data name="FC_SVC_AT_ADDRESS" xml:space="preserve">
+    <value>در نشانی دیگر</value>
+  </data>
+  <data name="FC_SVC_WHICH_CHURCH" xml:space="preserve">
+    <value>کلیسا</value>
+  </data>
+  <data name="FC_SVC_ADDRESS" xml:space="preserve">
+    <value>نشانی</value>
+  </data>
+  <data name="FC_SVC_SAVE" xml:space="preserve">
+    <value>ذخیرهٔ مراسم</value>
+  </data>
+  <data name="FC_SVC_CANCEL" xml:space="preserve">
+    <value>انصراف</value>
+  </data>
+  <data name="FC_SVC_ERR_NAME" xml:space="preserve">
+    <value>نام مراسم را وارد کنید.</value>
+  </data>
+  <data name="FC_SVC_ERR_NAME_LONG" xml:space="preserve">
+    <value>نام مراسم نمی‌تواند بیش از ۲۰۰ نویسه باشد.</value>
+  </data>
+  <data name="FC_SVC_ERR_TIME" xml:space="preserve">
+    <value>ساعت شروع معتبری وارد کنید.</value>
+  </data>
+  <data name="FC_SVC_ERR_END_TIME" xml:space="preserve">
+    <value>ساعت پایان باید بعد از ساعت شروع باشد.</value>
+  </data>
+  <data name="FC_SVC_ERR_REPEAT" xml:space="preserve">
+    <value>مشخص کنید مراسم هر چند وقت یک‌بار برگزار می‌شود.</value>
+  </data>
+  <data name="FC_SVC_ERR_INTERVAL" xml:space="preserve">
+    <value>فاصلهٔ هفته‌ها یا ماه‌ها را انتخاب کنید.</value>
+  </data>
+  <data name="FC_SVC_ERR_START_NEEDED" xml:space="preserve">
+    <value>اولین تاریخ را انتخاب کنید تا معلوم شود مراسم در کدام هفته‌ها یا ماه‌هاست.</value>
+  </data>
+  <data name="FC_SVC_ERR_WEEKS" xml:space="preserve">
+    <value>دست‌کم یک هفته از ماه را انتخاب کنید.</value>
+  </data>
+  <data name="FC_SVC_ERR_DAY_OF_MONTH" xml:space="preserve">
+    <value>یک روز از ماه را انتخاب کنید.</value>
+  </data>
+  <data name="FC_SVC_ERR_DATES" xml:space="preserve">
+    <value>دست‌کم یک تاریخ اضافه کنید.</value>
+  </data>
+  <data name="FC_SVC_ERR_END_DATE" xml:space="preserve">
+    <value>آخرین تاریخ نمی‌تواند قبل از اولین تاریخ باشد.</value>
+  </data>
+  <data name="FC_SVC_ERR_LOCATION" xml:space="preserve">
+    <value>کلیسای دیگری انتخاب کنید یا نشانی وارد کنید، یا «در جای دیگری برگزار می‌شود» را خاموش کنید.</value>
+  </data>
+  <data name="FC_SVC_ERR_LOCATION_CHURCH" xml:space="preserve">
+    <value>یکی از کلیساهای دیگرتان را انتخاب کنید.</value>
+  </data>
+  <data name="FC_SVC_ERR_NOT_FOUND" xml:space="preserve">
+    <value>این مراسم پیدا نشد.</value>
+  </data>
+  <data name="FC_ADM_BENEFICES" xml:space="preserve">
+    <value>حوزه‌های کلیسایی</value>
+  </data>
+  <data name="FC_ADM_BENEFICES_LEAD" xml:space="preserve">
+    <value>کلیساهایی را که با هم اداره می‌شوند گروه‌بندی کنید. هر کلیسا صفحهٔ خودش را دارد و حوزه آن‌ها را به هم پیوند می‌دهد. از کلیساها ← ویرایش اضافه کنید.</value>
+  </data>
+  <data name="FC_ADM_NO_BENEFICES" xml:space="preserve">
+    <value>هنوز حوزه‌ای وجود ندارد.</value>
+  </data>
+  <data name="FC_ADM_NEW_BENEFICE" xml:space="preserve">
+    <value>حوزهٔ جدید</value>
+  </data>
+  <data name="FC_ADM_BENEFICE_NAME" xml:space="preserve">
+    <value>نام حوزه</value>
+  </data>
+  <data name="FC_ADM_BENEFICE_NAME_PLACEHOLDER" xml:space="preserve">
+    <value>مثلاً حوزهٔ جنگل</value>
+  </data>
+  <data name="FC_ADM_CONFIRM_DELETE_BENEFICE" xml:space="preserve">
+    <value>حوزهٔ {0} حذف شود؟ کلیساها باقی می‌مانند و فقط دیگر گروه‌بندی نیستند.</value>
+  </data>
+  <data name="FC_ADM_DELETE" xml:space="preserve">
+    <value>حذف</value>
+  </data>
+  <data name="FC_ADM_SAVE" xml:space="preserve">
+    <value>ذخیره</value>
+  </data>
+  <data name="FC_ADM_ADD_CHURCH" xml:space="preserve">
+    <value>افزودن کلیسا</value>
+  </data>
+  <data name="FC_ADM_ADD_CHURCH_LEAD" xml:space="preserve">
+    <value>کلیسایی را به یک حساب موجود اضافه کنید؛ مثلاً حساب حوزه‌ای که چند کلیسا را اداره می‌کند.</value>
+  </data>
+  <data name="FC_ADM_ADD_CHURCH_CLOSED_NOTE" xml:space="preserve">
+    <value>کلیساهای جدید تا تکمیل اطلاعات و باز شدن، بسته (پنهان) هستند.</value>
+  </data>
+  <data name="FC_ADM_ADD_ANOTHER_CHURCH" xml:space="preserve">
+    <value>افزودن کلیسای دیگر به این حساب</value>
+  </data>
+  <data name="FC_ADM_MANAGED_BY" xml:space="preserve">
+    <value>مدیریت توسط</value>
+  </data>
+  <data name="FC_ADM_MANAGED_BY_HINT" xml:space="preserve">
+    <value>حسابی که این کلیسا را ویرایش خواهد کرد.</value>
+  </data>
+  <data name="FC_ADM_NO_BENEFICE" xml:space="preserve">
+    <value>بدون حوزه</value>
+  </data>
+  <data name="FC_ADM_MANAGE_BENEFICES" xml:space="preserve">
+    <value>مدیریت حوزه‌ها</value>
+  </data>
+  <data name="FC_ADM_BENEFICE_MGMT" xml:space="preserve">
+    <value>حوزه و مدیریت</value>
+  </data>
+  <data name="FC_ADM_BENEFICE_MGMT_LEAD" xml:space="preserve">
+    <value>این کلیسا را در یک حوزه قرار دهید یا به حساب دیگری بسپارید؛ مثلاً وقتی مدیر جداگانه پیدا می‌کند. در هر صورت در حوزه می‌ماند.</value>
+  </data>
+  <data name="FC_ADM_MOVE_HINT" xml:space="preserve">
+    <value>انتخاب حساب دیگر، کلیسا و مراسم و رویدادهایش را به آن حساب منتقل می‌کند.</value>
+  </data>
+  <data name="FC_ADM_ALSO_MANAGES" xml:space="preserve">
+    <value>{0} این کلیساها را هم اداره می‌کند: {1}</value>
+  </data>
+  <data name="FC_ADM_SAVE_MGMT" xml:space="preserve">
+    <value>ذخیرهٔ حوزه و مدیریت</value>
+  </data>
+  <data name="FC_ADM_REMOVE_CHURCH" xml:space="preserve">
+    <value>حذف این کلیسا</value>
+  </data>
+  <data name="FC_ADM_REMOVE_CHURCH_LEAD" xml:space="preserve">
+    <value>این کلیسا و مراسمش را از حساب حذف می‌کند. حساب و کلیساهای دیگر باقی می‌مانند. رویدادها حذف نمی‌شوند.</value>
+  </data>
+  <data name="FC_ADM_CONFIRM_REMOVE_CHURCH" xml:space="preserve">
+    <value>{0} و مراسمش حذف شود؟ این کار برگشت‌ناپذیر است.</value>
+  </data>
 </root>

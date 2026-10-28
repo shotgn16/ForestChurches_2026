@@ -8,8 +8,11 @@ namespace ForestChurches.Components.Users;
 // Add profile data for application users by adding properties to the  class
 public class ChurchAccount : IdentityUser<string>
 {
-    [PersonalData]
-    public ChurchInformation ChurchInformation { get; set; }
+    /// <summary>
+    /// The churches this account manages. Usually one; a benefice account can manage several.
+    /// Churches are added, moved and removed by site administrators.
+    /// </summary>
+    public ICollection<ChurchInformation> Churches { get; set; } = new List<ChurchInformation>();
 
     [PersonalData]
     public string CreatedDate { get; set; }

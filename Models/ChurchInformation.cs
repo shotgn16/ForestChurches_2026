@@ -17,6 +17,20 @@ namespace ForestChurches.Models
         [Required]
         public ChurchAccount ChurchAccount { get; set; }
 
+        /// <summary>The benefice this church belongs to, if any. Independent of the managing account.</summary>
+        [ValidateNever]
+        public string? BeneficeId { get; set; }
+
+        [ValidateNever]
+        public Benefice? Benefice { get; set; }
+
+        /// <summary>
+        /// This church's own picture in Blob Storage. When empty, the managing account's picture is used
+        /// (which is how single-church accounts have always worked).
+        /// </summary>
+        [ValidateNever]
+        public string? ImageBlobName { get; set; }
+
         [Required]
         public ICollection<ServiceTimes> ServiceTimes { get; set; } = new List<ServiceTimes>();
 

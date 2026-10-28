@@ -15,6 +15,9 @@
 
     <ItemGroup>
         <Compile Remove=".github\NewFolder\**" />
+        <Compile Remove="Tests\**" />
+        <Content Remove="Tests\**" />
+        <None Remove="Tests\**" />
         <Compile Remove="Components\Automation\**" />
         <Compile Remove="Content\**" />
         <Compile Remove="Data\**" />

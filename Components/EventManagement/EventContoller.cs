@@ -139,12 +139,18 @@ namespace ForestChurches.Components.AutoEvents
         {
             try
             {
-                var currentChurch = _context.ChurchInformation.Where(a => a.ChurchAccountId == User.Id).FirstOrDefault();
+                // Keep the event's church when it's one of this account's churches (accounts can manage
+                // several); otherwise fall back to the account's first church.
+                var accountChurches = _context.ChurchInformation.Where(a => a.ChurchAccountId == User.Id).OrderBy(a => a.Name).Select(a => a.Name).ToList();
+                var existingChurch = _context.Events.Where(e => e.ID == input.ID).Select(e => e.Church).FirstOrDefault();
+                var churchName = existingChurch != null && accountChurches.Contains(existingChurch)
+                    ? existingChurch
+                    : accountChurches.FirstOrDefault() ?? existingChurch ?? string.Empty;
 
                 _context.Events.Where(a => a.ID == input.ID).ExecuteUpdate(setters => setters
                     .SetProperty(p => p.Name, input.Name)
                     .SetProperty(p => p.User, User.Email)
-                    .SetProperty(p => p.Church, currentChurch.Name)
+                    .SetProperty(p => p.Church, churchName)
                     .SetProperty(p => p.Repeats, input.Repeats)
                     .SetProperty(p => p.Address, input.Address)
                     .SetProperty(p => p.StartTime, input.StartTime)

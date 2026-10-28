@@ -33,12 +33,15 @@
     var events = Model._events ?? new List<ForestChurches.Models.EventsModel>();
     var distanceLabel = (Model.MaxDistanceMiles ?? 5.0).ToString("0.#");
 
+    // The church's next service from its schedules, e.g. "Sun 1 Nov, 10:30 · Holy Communion".
+    var ukNow = ForestChurches.Components.Services.ServiceSchedule.UkNow();
     string NextService(ForestChurches.Models.ChurchInformation c)
     {
-        var first = c.ServiceTimes?
-            .OrderBy(s => FcText.ServiceTimeSortKey(s.Time))
-            .FirstOrDefault();
-        return first == null ? string.Empty : $"{FcText.ServiceTime(first.Time)} · {FcText.PlainText(first.Note)}";
+        var next = ForestChurches.Components.Services.ServiceSchedule.NextAcross(c.ServiceTimes ?? new List<ForestChurches.Models.ServiceTimes>(), ukNow);
+        if (next == null) return string.Empty;
+        var (service, o) = next.Value;
+        var when = ForestChurches.Components.Services.ServiceScheduleText.ShortDate(o.Date) + (o.Time is { } t ? ", " + t.ToString("HH:mm") : "");
+        return $"{when} · {FcText.PlainText(service.Note)}";
     }
 }
 
@@ -94,6 +97,10 @@
                                     <span class="fc-result__dist">@miles.ToString("0.0") @Localizer["FC_MILES_SHORT"]</span>
                                 </div>
                                 <p class="fc-small fc-muted">@FcText.PlainText(church.Denomination) · @FcText.PlainText(church.Address)</p>
+                                @if (church.Benefice != null)
+                                {
+                                    <p class="fc-small">@Localizer["FC_BENEFICE_PART_OF", FcText.PlainText(church.Benefice.Name)]</p>
+                                }
                                 @if (!string.IsNullOrEmpty(next))
                                 {
                                     <p><strong>@Localizer["FC_NEXT_SERVICE"]:</strong> @next</p>

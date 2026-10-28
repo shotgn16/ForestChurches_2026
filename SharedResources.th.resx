@@ -2634,4 +2634,364 @@
   <data name="FC_ADM_EMAIL_MEMORY_NOTE" xml:space="preserve">
     <value>รายการนี้เก็บอีเมลล่าสุด 500 ฉบับ และเริ่มใหม่เมื่อเว็บไซต์รีสตาร์ต ทุกขั้นตอนถูกบันทึกพร้อมรหัสอีเมลด้วย ดูย้อนหลังได้ที่หน้าบันทึก</value>
   </data>
+  <data name="FC_SVC_WEEKLY" xml:space="preserve">
+    <value>ทุกวัน{0}</value>
+  </data>
+  <data name="FC_SVC_FORTNIGHTLY" xml:space="preserve">
+    <value>วัน{0} ทุก 2 สัปดาห์</value>
+  </data>
+  <data name="FC_SVC_EVERY_N_WEEKS" xml:space="preserve">
+    <value>วัน{0} ทุก {1} สัปดาห์</value>
+  </data>
+  <data name="FC_SVC_MONTHLY_WEEKDAY" xml:space="preserve">
+    <value>วัน{0} {1} ของเดือน</value>
+  </data>
+  <data name="FC_SVC_MONTHLY_WEEKDAY_ALT" xml:space="preserve">
+    <value>วัน{0} {1} ของเดือน เว้นเดือน</value>
+  </data>
+  <data name="FC_SVC_MONTHLY_WEEKDAY_N" xml:space="preserve">
+    <value>วัน{0} {1} ของเดือน ทุก {2} เดือน</value>
+  </data>
+  <data name="FC_SVC_MONTHLY_DATE" xml:space="preserve">
+    <value>วันที่ {0} ของทุกเดือน</value>
+  </data>
+  <data name="FC_SVC_MONTHLY_DATE_ALT" xml:space="preserve">
+    <value>วันที่ {0} เว้นเดือน</value>
+  </data>
+  <data name="FC_SVC_MONTHLY_DATE_N" xml:space="preserve">
+    <value>วันที่ {0} ทุก {1} เดือน</value>
+  </data>
+  <data name="FC_SVC_DATES" xml:space="preserve">
+    <value>ตามวันที่กำหนด</value>
+  </data>
+  <data name="FC_SVC_DAY_NUMBER" xml:space="preserve">
+    <value>{0}</value>
+  </data>
+  <data name="FC_SVC_PATTERN_AT_TIME" xml:space="preserve">
+    <value>{0} เวลา {1}</value>
+  </data>
+  <data name="FC_SVC_FROM" xml:space="preserve">
+    <value>ตั้งแต่ {0}</value>
+  </data>
+  <data name="FC_SVC_UNTIL" xml:space="preserve">
+    <value>ถึง {0}</value>
+  </data>
+  <data name="FC_SVC_AND" xml:space="preserve">
+    <value>และ</value>
+  </data>
+  <data name="FC_SVC_ORD_1" xml:space="preserve">
+    <value>ที่ 1</value>
+  </data>
+  <data name="FC_SVC_ORD_2" xml:space="preserve">
+    <value>ที่ 2</value>
+  </data>
+  <data name="FC_SVC_ORD_3" xml:space="preserve">
+    <value>ที่ 3</value>
+  </data>
+  <data name="FC_SVC_ORD_4" xml:space="preserve">
+    <value>ที่ 4</value>
+  </data>
+  <data name="FC_SVC_ORD_5" xml:space="preserve">
+    <value>ที่ 5</value>
+  </data>
+  <data name="FC_SVC_ORD_LAST" xml:space="preserve">
+    <value>สุดท้าย</value>
+  </data>
+  <data name="FC_SERVICES_HEADING" xml:space="preserve">
+    <value>พิธีนมัสการ</value>
+  </data>
+  <data name="FC_SVC_HELD_AT" xml:space="preserve">
+    <value>จัดที่ {0}</value>
+  </data>
+  <data name="FC_SVC_HELD_AT_PREFIX" xml:space="preserve">
+    <value>จัดที่</value>
+  </data>
+  <data name="FC_SVC_NEXT_ON" xml:space="preserve">
+    <value>ครั้งถัดไป: {0}</value>
+  </data>
+  <data name="FC_SVC_MORE_DATES" xml:space="preserve">
+    <value>วันอื่น ๆ</value>
+  </data>
+  <data name="FC_SVC_NO_UPCOMING" xml:space="preserve">
+    <value>ไม่มีวันที่กำลังจะมาถึง</value>
+  </data>
+  <data name="FC_BENEFICE" xml:space="preserve">
+    <value>เขตปกครองโบสถ์</value>
+  </data>
+  <data name="FC_BENEFICE_PART_OF" xml:space="preserve">
+    <value>เป็นส่วนหนึ่งของ {0}</value>
+  </data>
+  <data name="FC_BENEFICE_SISTERS" xml:space="preserve">
+    <value>โบสถ์อื่นในเขตเดียวกัน</value>
+  </data>
+  <data name="FC_BENEFICE_WEBSITE" xml:space="preserve">
+    <value>เว็บไซต์ของเขต</value>
+  </data>
+  <data name="FC_CHURCH_SWITCH_LABEL" xml:space="preserve">
+    <value>กำลังแก้ไข</value>
+  </data>
+  <data name="FC_CHURCH_SWITCH_BUTTON" xml:space="preserve">
+    <value>สลับ</value>
+  </data>
+  <data name="FC_CHURCH_EDITING" xml:space="preserve">
+    <value>คุณกำลังแก้ไข {0} ใช้ “กำลังแก้ไข” เพื่อสลับโบสถ์</value>
+  </data>
+  <data name="FC_STATUS_CLOSED_SHORT" xml:space="preserve">
+    <value>ปิด</value>
+  </data>
+  <data name="FC_EVENT_WHICH_CHURCH" xml:space="preserve">
+    <value>กิจกรรมนี้สำหรับโบสถ์ใด</value>
+  </data>
+  <data name="FC_SVC_SCHEDULE" xml:space="preserve">
+    <value>พิธีและเวลา</value>
+  </data>
+  <data name="FC_SVC_WHERE" xml:space="preserve">
+    <value>ที่ไหน</value>
+  </data>
+  <data name="FC_SVC_UPCOMING" xml:space="preserve">
+    <value>วันถัดไป</value>
+  </data>
+  <data name="FC_SVC_ACTIONS" xml:space="preserve">
+    <value>การดำเนินการ</value>
+  </data>
+  <data name="FC_SVC_AT_THIS_CHURCH" xml:space="preserve">
+    <value>ที่โบสถ์นี้</value>
+  </data>
+  <data name="FC_SVC_EDIT_BUTTON" xml:space="preserve">
+    <value>แก้ไข</value>
+  </data>
+  <data name="FC_SVC_EDIT" xml:space="preserve">
+    <value>แก้ไขพิธี</value>
+  </data>
+  <data name="FC_SVC_FIX" xml:space="preserve">
+    <value>โปรดตรวจสอบสิ่งต่อไปนี้:</value>
+  </data>
+  <data name="FC_SVC_START_TIME" xml:space="preserve">
+    <value>เริ่มเวลา</value>
+  </data>
+  <data name="FC_SVC_END_TIME" xml:space="preserve">
+    <value>สิ้นสุดเวลา</value>
+  </data>
+  <data name="FC_SVC_OPTIONAL" xml:space="preserve">
+    <value>ไม่บังคับ</value>
+  </data>
+  <data name="FC_SVC_OPTIONAL_UNLESS" xml:space="preserve">
+    <value>จำเป็นสำหรับรูปแบบเว้นสัปดาห์/เดือนขึ้นไป</value>
+  </data>
+  <data name="FC_SVC_HOW_OFTEN" xml:space="preserve">
+    <value>บ่อยแค่ไหน</value>
+  </data>
+  <data name="FC_SVC_REPEAT_WEEKLY" xml:space="preserve">
+    <value>ทุกสัปดาห์หรือทุกไม่กี่สัปดาห์</value>
+  </data>
+  <data name="FC_SVC_REPEAT_MONTHLY_WEEKDAY" xml:space="preserve">
+    <value>รายเดือนตามวัน (เช่น อาทิตย์ที่ 1)</value>
+  </data>
+  <data name="FC_SVC_REPEAT_MONTHLY_DATE" xml:space="preserve">
+    <value>รายเดือนตามวันที่ (เช่น วันที่ 15)</value>
+  </data>
+  <data name="FC_SVC_REPEAT_DATES" xml:space="preserve">
+    <value>วันที่เจาะจง</value>
+  </data>
+  <data name="FC_SVC_DAY" xml:space="preserve">
+    <value>วัน</value>
+  </data>
+  <data name="FC_SVC_REPEATS" xml:space="preserve">
+    <value>ทำซ้ำ</value>
+  </data>
+  <data name="FC_SVC_EVERY_WEEK" xml:space="preserve">
+    <value>ทุกสัปดาห์</value>
+  </data>
+  <data name="FC_SVC_EVERY_OTHER_WEEK" xml:space="preserve">
+    <value>เว้นสัปดาห์ (ทุก 2 สัปดาห์)</value>
+  </data>
+  <data name="FC_SVC_EVERY_N_WEEKS_OPT" xml:space="preserve">
+    <value>ทุก {0} สัปดาห์</value>
+  </data>
+  <data name="FC_SVC_EVERY_MONTH" xml:space="preserve">
+    <value>ทุกเดือน</value>
+  </data>
+  <data name="FC_SVC_EVERY_OTHER_MONTH" xml:space="preserve">
+    <value>เว้นเดือน</value>
+  </data>
+  <data name="FC_SVC_EVERY_N_MONTHS_OPT" xml:space="preserve">
+    <value>ทุก {0} เดือน</value>
+  </data>
+  <data name="FC_SVC_WHICH_WEEKS" xml:space="preserve">
+    <value>สัปดาห์ใดของเดือน</value>
+  </data>
+  <data name="FC_SVC_DAY_OF_MONTH" xml:space="preserve">
+    <value>วันที่ของเดือน</value>
+  </data>
+  <data name="FC_SVC_DAY_OF_MONTH_HINT" xml:space="preserve">
+    <value>ในเดือนที่สั้นกว่า พิธีที่ตั้งไว้วันที่ 29–31 จะจัดในวันสุดท้ายของเดือน</value>
+  </data>
+  <data name="FC_SVC_START_DATE" xml:space="preserve">
+    <value>วันแรก</value>
+  </data>
+  <data name="FC_SVC_START_DATE_HINT" xml:space="preserve">
+    <value>วันแรกที่จัดพิธี สำหรับพิธีที่เว้นสัปดาห์หรือทุกไม่กี่เดือน วันนี้จะกำหนดว่าตรงกับสัปดาห์หรือเดือนใด</value>
+  </data>
+  <data name="FC_SVC_END_DATE" xml:space="preserve">
+    <value>วันสุดท้าย</value>
+  </data>
+  <data name="FC_SVC_DATES_LABEL" xml:space="preserve">
+    <value>วันที่</value>
+  </data>
+  <data name="FC_SVC_DATE" xml:space="preserve">
+    <value>วันที่</value>
+  </data>
+  <data name="FC_SVC_DATE_TIME_HINT" xml:space="preserve">
+    <value>หากเว้นเวลาว่างไว้ จะใช้เวลาเริ่มของพิธี</value>
+  </data>
+  <data name="FC_SVC_ADD_DATE" xml:space="preserve">
+    <value>เพิ่มวันที่</value>
+  </data>
+  <data name="FC_SVC_REMOVE_DATE" xml:space="preserve">
+    <value>ลบ</value>
+  </data>
+  <data name="FC_SVC_LOCATION" xml:space="preserve">
+    <value>สถานที่</value>
+  </data>
+  <data name="FC_SVC_LOCATION_TOGGLE" xml:space="preserve">
+    <value>จัดที่อื่น</value>
+  </data>
+  <data name="FC_SVC_LOCATION_OFF_HINT" xml:space="preserve">
+    <value>ปิด: พิธีจัดที่ {0}</value>
+  </data>
+  <data name="FC_SVC_AT_OUR_CHURCH" xml:space="preserve">
+    <value>ที่โบสถ์อื่นของเรา</value>
+  </data>
+  <data name="FC_SVC_AT_ADDRESS" xml:space="preserve">
+    <value>ที่อยู่อื่น</value>
+  </data>
+  <data name="FC_SVC_WHICH_CHURCH" xml:space="preserve">
+    <value>โบสถ์</value>
+  </data>
+  <data name="FC_SVC_ADDRESS" xml:space="preserve">
+    <value>ที่อยู่</value>
+  </data>
+  <data name="FC_SVC_SAVE" xml:space="preserve">
+    <value>บันทึกพิธี</value>
+  </data>
+  <data name="FC_SVC_CANCEL" xml:space="preserve">
+    <value>ยกเลิก</value>
+  </data>
+  <data name="FC_SVC_ERR_NAME" xml:space="preserve">
+    <value>กรอกชื่อพิธี</value>
+  </data>
+  <data name="FC_SVC_ERR_NAME_LONG" xml:space="preserve">
+    <value>ชื่อพิธียาวได้ไม่เกิน 200 ตัวอักษร</value>
+  </data>
+  <data name="FC_SVC_ERR_TIME" xml:space="preserve">
+    <value>กรอกเวลาเริ่มที่ถูกต้อง</value>
+  </data>
+  <data name="FC_SVC_ERR_END_TIME" xml:space="preserve">
+    <value>เวลาสิ้นสุดต้องอยู่หลังเวลาเริ่ม</value>
+  </data>
+  <data name="FC_SVC_ERR_REPEAT" xml:space="preserve">
+    <value>เลือกความถี่ของพิธี</value>
+  </data>
+  <data name="FC_SVC_ERR_INTERVAL" xml:space="preserve">
+    <value>เลือกระยะห่างเป็นสัปดาห์หรือเดือน</value>
+  </data>
+  <data name="FC_SVC_ERR_START_NEEDED" xml:space="preserve">
+    <value>เลือกวันแรก เพื่อให้รู้ว่าพิธีตรงกับสัปดาห์หรือเดือนใด</value>
+  </data>
+  <data name="FC_SVC_ERR_WEEKS" xml:space="preserve">
+    <value>เลือกอย่างน้อยหนึ่งสัปดาห์ของเดือน</value>
+  </data>
+  <data name="FC_SVC_ERR_DAY_OF_MONTH" xml:space="preserve">
+    <value>เลือกวันที่ของเดือน</value>
+  </data>
+  <data name="FC_SVC_ERR_DATES" xml:space="preserve">
+    <value>เพิ่มวันที่อย่างน้อยหนึ่งวัน</value>
+  </data>
+  <data name="FC_SVC_ERR_END_DATE" xml:space="preserve">
+    <value>วันสุดท้ายต้องไม่อยู่ก่อนวันแรก</value>
+  </data>
+  <data name="FC_SVC_ERR_LOCATION" xml:space="preserve">
+    <value>เลือกโบสถ์อื่นหรือกรอกที่อยู่ หรือปิด “จัดที่อื่น”</value>
+  </data>
+  <data name="FC_SVC_ERR_LOCATION_CHURCH" xml:space="preserve">
+    <value>เลือกโบสถ์อื่นของคุณ</value>
+  </data>
+  <data name="FC_SVC_ERR_NOT_FOUND" xml:space="preserve">
+    <value>ไม่พบพิธีนี้</value>
+  </data>
+  <data name="FC_ADM_BENEFICES" xml:space="preserve">
+    <value>เขตปกครองโบสถ์</value>
+  </data>
+  <data name="FC_ADM_BENEFICES_LEAD" xml:space="preserve">
+    <value>จัดกลุ่มโบสถ์ที่ดูแลร่วมกัน แต่ละโบสถ์ยังมีหน้าของตัวเอง โดยเขตจะเชื่อมโยงเข้าด้วยกัน เพิ่มโบสถ์ได้ที่ โบสถ์ → แก้ไข</value>
+  </data>
+  <data name="FC_ADM_NO_BENEFICES" xml:space="preserve">
+    <value>ยังไม่มีเขต</value>
+  </data>
+  <data name="FC_ADM_NEW_BENEFICE" xml:space="preserve">
+    <value>เขตใหม่</value>
+  </data>
+  <data name="FC_ADM_BENEFICE_NAME" xml:space="preserve">
+    <value>ชื่อเขต</value>
+  </data>
+  <data name="FC_ADM_BENEFICE_NAME_PLACEHOLDER" xml:space="preserve">
+    <value>เช่น เขตป่าไม้</value>
+  </data>
+  <data name="FC_ADM_CONFIRM_DELETE_BENEFICE" xml:space="preserve">
+    <value>ลบเขต {0} หรือไม่ โบสถ์ยังคงอยู่ เพียงแต่ไม่ได้จัดกลุ่มแล้ว</value>
+  </data>
+  <data name="FC_ADM_DELETE" xml:space="preserve">
+    <value>ลบ</value>
+  </data>
+  <data name="FC_ADM_SAVE" xml:space="preserve">
+    <value>บันทึก</value>
+  </data>
+  <data name="FC_ADM_ADD_CHURCH" xml:space="preserve">
+    <value>เพิ่มโบสถ์</value>
+  </data>
+  <data name="FC_ADM_ADD_CHURCH_LEAD" xml:space="preserve">
+    <value>เพิ่มโบสถ์ให้บัญชีที่มีอยู่ เช่น บัญชีของเขตที่ดูแลหลายโบสถ์</value>
+  </data>
+  <data name="FC_ADM_ADD_CHURCH_CLOSED_NOTE" xml:space="preserve">
+    <value>โบสถ์ใหม่จะปิด (ซ่อนจากสาธารณะ) จนกว่าจะกรอกข้อมูลและเปิด</value>
+  </data>
+  <data name="FC_ADM_ADD_ANOTHER_CHURCH" xml:space="preserve">
+    <value>เพิ่มโบสถ์อื่นให้บัญชีนี้</value>
+  </data>
+  <data name="FC_ADM_MANAGED_BY" xml:space="preserve">
+    <value>ดูแลโดย</value>
+  </data>
+  <data name="FC_ADM_MANAGED_BY_HINT" xml:space="preserve">
+    <value>บัญชีผู้ดูแลที่จะแก้ไขโบสถ์นี้</value>
+  </data>
+  <data name="FC_ADM_NO_BENEFICE" xml:space="preserve">
+    <value>ไม่อยู่ในเขต</value>
+  </data>
+  <data name="FC_ADM_MANAGE_BENEFICES" xml:space="preserve">
+    <value>จัดการเขต</value>
+  </data>
+  <data name="FC_ADM_BENEFICE_MGMT" xml:space="preserve">
+    <value>เขตและการดูแล</value>
+  </data>
+  <data name="FC_ADM_BENEFICE_MGMT_LEAD" xml:space="preserve">
+    <value>ใส่โบสถ์นี้ในเขต หรือโอนให้บัญชีอื่น เช่น เมื่อโบสถ์มีผู้ดูแลของตนเอง โบสถ์ยังคงอยู่ในเขตเดิม</value>
+  </data>
+  <data name="FC_ADM_MOVE_HINT" xml:space="preserve">
+    <value>การเลือกบัญชีอื่นจะย้ายโบสถ์ พิธี และกิจกรรมไปยังบัญชีนั้น</value>
+  </data>
+  <data name="FC_ADM_ALSO_MANAGES" xml:space="preserve">
+    <value>{0} ยังดูแล: {1}</value>
+  </data>
+  <data name="FC_ADM_SAVE_MGMT" xml:space="preserve">
+    <value>บันทึกเขตและการดูแล</value>
+  </data>
+  <data name="FC_ADM_REMOVE_CHURCH" xml:space="preserve">
+    <value>นำโบสถ์นี้ออก</value>
+  </data>
+  <data name="FC_ADM_REMOVE_CHURCH_LEAD" xml:space="preserve">
+    <value>ลบโบสถ์นี้และพิธีออกจากบัญชี บัญชีและโบสถ์อื่นยังคงอยู่ กิจกรรมจะไม่ถูกลบ</value>
+  </data>
+  <data name="FC_ADM_CONFIRM_REMOVE_CHURCH" xml:space="preserve">
+    <value>นำ {0} และพิธีออกหรือไม่ ไม่สามารถย้อนกลับได้</value>
+  </data>
 </root>

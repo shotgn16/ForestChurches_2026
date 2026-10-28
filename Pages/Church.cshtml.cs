@@ -27,6 +27,7 @@ namespace ForestChurches.Pages
         private readonly GoogleInterface _api;
         private readonly FileInterface _fileInterface;
         private readonly iMailSender _mailSender;
+        private readonly Microsoft.Extensions.Localization.IStringLocalizer<ForestChurches.SharedResources> _localizer;
 
         public ChurchModel(
             ForestChurchesContext context,
@@ -36,8 +37,10 @@ namespace ForestChurches.Pages
             ForestChurches.Components.Configuration.Configuration configuration,
             ILogger<ChurchModel> logger,
             FileInterface fileInterface,
-            iMailSender mailSender)
+            iMailSender mailSender,
+            Microsoft.Extensions.Localization.IStringLocalizer<ForestChurches.SharedResources> localizer)
         {
+            _localizer = localizer;
             _api = api;
             _context = context;
             _userManager = userManager;
@@ -51,6 +54,12 @@ namespace ForestChurches.Pages
         public Models.ChurchInformation ChurchInformation { get; set; }
         public List<EventsModel> ChurchEvents { get; set; } = new();
         public ChurchAccount AssociatedUser { get; set; }
+
+        /// <summary>Other open churches in the same benefice (for "Churches in the … benefice").</summary>
+        public List<Models.ChurchInformation> BeneficeSiblings { get; set; } = new();
+
+        /// <summary>Public link to another church's page.</summary>
+        public string ChurchLink(string churchId) => _Encoder.Protect(churchId, ChurchProtector);
 
         /// <summary>The protected church id from the URL, reused by the page's forms.</summary>
         public string ProtectedId { get; set; } = string.Empty;
@@ -138,9 +147,19 @@ namespace ForestChurches.Pages
 
             try
             {
+                // e.g. "Holy Communion – 1st and 3rd Sunday of the month, 10:30 (at St Mary's) – next: Sunday 1 November, 10:30"
+                var ukNow = ForestChurches.Components.Services.ServiceSchedule.UkNow();
                 var services = string.Join("<br/>", (church.ServiceTimes ?? new List<ServiceTimes>())
                     .OrderBy(s => FcText.ServiceTimeSortKey(s.Time))
-                    .Select(s => System.Net.WebUtility.HtmlEncode($"{FcText.ServiceTime(s.Time)} – {FcText.PlainText(s.Note)}")));
+                    .Select(s =>
+                    {
+                        var text = $"{FcText.PlainText(s.Note)} – {ForestChurches.Components.Services.ServiceScheduleText.Describe(s, _localizer)}";
+                        var where = !s.UseCustomLocation ? null : s.LocationChurch?.Name ?? s.LocationAddress;
+                        if (!string.IsNullOrWhiteSpace(where)) text += " – " + _localizer["FC_SVC_HELD_AT", FcText.PlainText(where)].Value;
+                        var next = ForestChurches.Components.Services.ServiceSchedule.Upcoming(s, ukNow, 1);
+                        if (next.Count > 0) text += " – " + _localizer["FC_SVC_NEXT_ON", ForestChurches.Components.Services.ServiceScheduleText.Occurrence(next[0])].Value;
+                        return System.Net.WebUtility.HtmlEncode(text);
+                    }));
 
                 _mailSender.SendEmailChurchInformation(email.Trim(), church, string.IsNullOrEmpty(services) ? "Not available" : services);
                 StatusMessage = $"Sent: we've emailed the details to {email.Trim()}.";
@@ -172,9 +191,21 @@ namespace ForestChurches.Pages
                 return null;
             }
 
-            return await _context.ChurchInformation
-                .Include(s => s.ServiceTimes)
+            var church = await _context.ChurchInformation
+                .Include(c => c.ServiceTimes).ThenInclude(st => st.Dates)
+                .Include(c => c.ServiceTimes).ThenInclude(st => st.LocationChurch)
+                .Include(c => c.Benefice)
+                .AsSplitQuery()
                 .FirstOrDefaultAsync(c => c.ID == churchId);
+
+            if (church?.BeneficeId != null)
+            {
+                BeneficeSiblings = await _context.ChurchInformation
+                    .Where(c => c.BeneficeId == church.BeneficeId && c.ID != church.ID && c.Status == "Open")
+                    .OrderBy(c => c.Name)
+                    .ToListAsync();
+            }
+            return church;
         }
     }
 }

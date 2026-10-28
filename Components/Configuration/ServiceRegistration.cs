@@ -105,6 +105,9 @@ namespace ForestChurches.Components.Configuration
             // Google api service registration
             Services.AddScoped<GoogleInterface, GoogleController>();
 
+            // Which church a (possibly multi-church) account is working on
+            Services.AddScoped<ForestChurches.Components.Users.IManagedChurches, ForestChurches.Components.Users.ManagedChurches>();
+
             // Bulletin service
             Services.AddScoped<ForestChurches.Components.Bulletins.IBulletinService, ForestChurches.Components.Bulletins.BulletinService>();
 

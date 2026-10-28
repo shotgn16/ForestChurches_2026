@@ -39,7 +39,147 @@ namespace ForestChurches.Pages.Admin.Church
         [TempData]
         public string StatusMessage { get; set; }
 
-        public IActionResult OnGet(string id)
+        // ---- Benefice & management -----------------------------------------------------------
+
+        /// <summary>Encrypted ID of the church on screen (for the benefice/management forms).</summary>
+        public string ChurchKey { get; private set; } = string.Empty;
+        public List<Benefice> Benefices { get; private set; } = new();
+        public List<ChurchAccount> Accounts { get; private set; } = new();
+        public ChurchAccount? Owner { get; private set; }
+        /// <summary>Other churches managed by the same account.</summary>
+        public List<ChurchInformation> AccountChurches { get; private set; } = new();
+
+        private async Task LoadManagementAsync()
+        {
+            if (Church == null) return;
+            ChurchKey = _Encoder.Protect(Church.ID, "fc.data.admin.church");
+            Benefices = await _context.Benefices.OrderBy(b => b.Name).ToListAsync();
+            Accounts = await _context.Users.OrderBy(u => u.Email).ToListAsync();
+            Owner = Accounts.FirstOrDefault(a => a.Id == Church.ChurchAccountId);
+            AccountChurches = await _context.ChurchInformation
+                .Where(c => c.ChurchAccountId == Church.ChurchAccountId && c.ID != Church.ID)
+                .OrderBy(c => c.Name).ToListAsync();
+        }
+
+        private async Task<ChurchInformation?> FindByKeyAsync(string? key)
+        {
+            if (string.IsNullOrWhiteSpace(key)) return null;
+            try
+            {
+                var id = _Encoder.Unprotect<string>(key, "fc.data.admin.church");
+                return await _context.ChurchInformation.FirstOrDefaultAsync(c => c.ID == id);
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        /// <summary>Sets the church's benefice and/or moves it to another account.</summary>
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> OnPostManageAsync(string id, string? beneficeId, string? accountId)
+        {
+            var church = await FindByKeyAsync(id);
+            if (church == null)
+            {
+                StatusMessage = "Error: that church no longer exists.";
+                return RedirectToPage("./Index");
+            }
+
+            var messages = new List<string>();
+
+            // Benefice ("" = none)
+            var newBenefice = string.IsNullOrEmpty(beneficeId) ? null
+                : await _context.Benefices.Where(b => b.Id == beneficeId).Select(b => b.Id).FirstOrDefaultAsync();
+            if (!string.IsNullOrEmpty(beneficeId) && newBenefice == null)
+            {
+                StatusMessage = "Error: that benefice no longer exists.";
+                return RedirectToPage(new { id });
+            }
+            if (church.BeneficeId != newBenefice)
+            {
+                church.BeneficeId = newBenefice;
+                messages.Add(newBenefice == null ? "removed from its benefice" : "benefice updated");
+            }
+
+            // Managing account
+            if (!string.IsNullOrEmpty(accountId) && accountId != church.ChurchAccountId)
+            {
+                var newOwner = await _context.Users.FirstOrDefaultAsync(u => u.Id == accountId);
+                var oldOwner = await _context.Users.FirstOrDefaultAsync(u => u.Id == church.ChurchAccountId);
+                if (newOwner == null)
+                {
+                    StatusMessage = "Error: that account no longer exists.";
+                    return RedirectToPage(new { id });
+                }
+
+                // "Held at" links only make sense between churches on the same account.
+                var crossLinks = await _context.ServiceTimes
+                    .Where(st => (st.ChurchInformationId == church.ID && st.LocationChurchId != null) || st.LocationChurchId == church.ID)
+                    .ToListAsync();
+                foreach (var st in crossLinks)
+                {
+                    st.LocationChurchId = null;
+                    if (string.IsNullOrWhiteSpace(st.LocationAddress)) st.UseCustomLocation = false;
+                }
+
+                // The church's events (owned by the old account) go with it.
+                if (oldOwner != null)
+                {
+                    var owners = new[] { oldOwner.UserName, oldOwner.Email }.Where(o => !string.IsNullOrEmpty(o)).Distinct().ToList();
+                    var events = await _context.Events.Where(e => e.Church == church.Name && owners.Contains(e.User)).ToListAsync();
+                    foreach (var e in events) e.User = newOwner.UserName ?? newOwner.Email ?? e.User;
+                    if (events.Count > 0) messages.Add($"{events.Count} event(s) moved with it");
+                }
+
+                church.ChurchAccountId = newOwner.Id;
+                messages.Add($"now managed by {newOwner.Email}");
+                _logger.LogInformation("Site admin {Admin} moved church {ChurchId} from account {From} to {To}",
+                    User.Identity?.Name, church.ID, oldOwner?.Id, newOwner.Id);
+            }
+
+            await _context.SaveChangesAsync();
+            StatusMessage = messages.Count == 0 ? "No changes." : $"Saved: {church.Name} {string.Join("; ", messages)}.";
+            return RedirectToPage(new { id });
+        }
+
+        /// <summary>Deletes a church from an account that manages other churches (SuperAdmin only).</summary>
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> OnPostRemoveChurchAsync(string id)
+        {
+            if (!User.IsInRole("SuperAdmin"))
+            {
+                StatusMessage = "Error: only a SuperAdmin can remove a church.";
+                return RedirectToPage(new { id });
+            }
+            var church = await FindByKeyAsync(id);
+            if (church == null)
+            {
+                StatusMessage = "Error: that church no longer exists.";
+                return RedirectToPage("./Index");
+            }
+            var siblings = await _context.ChurchInformation.CountAsync(c => c.ChurchAccountId == church.ChurchAccountId && c.ID != church.ID);
+            if (siblings == 0)
+            {
+                StatusMessage = "Error: this is the account's only church. Close it instead, or delete the account from Users.";
+                return RedirectToPage(new { id });
+            }
+
+            // Services elsewhere that were held here fall back to their own church.
+            var heldHere = await _context.ServiceTimes.Where(st => st.LocationChurchId == church.ID).ToListAsync();
+            foreach (var st in heldHere)
+            {
+                st.LocationChurchId = null;
+                if (string.IsNullOrWhiteSpace(st.LocationAddress)) st.UseCustomLocation = false;
+            }
+            _context.ChurchInformation.Remove(church); // its services and their dates go with it
+            await _context.SaveChangesAsync();
+            _logger.LogWarning("SuperAdmin {Admin} removed church {ChurchId} ({Name})", User.Identity?.Name, church.ID, church.Name);
+            StatusMessage = $"Removed {church.Name}. Its events weren't deleted; remove them from Events if they're no longer needed.";
+            return RedirectToPage("./Index");
+        }
+
+        public async Task<IActionResult> OnGetAsync(string id)
         {
             try
             {
@@ -75,6 +215,7 @@ namespace ForestChurches.Pages.Admin.Church
                     OutdoorSpaces = Church.OutdoorSpaces,
                     WorshipHall = Church.WorshipHall
                 };
+                await LoadManagementAsync();
             }
             catch (Exception ex)
             {
@@ -171,6 +312,10 @@ namespace ForestChurches.Pages.Admin.Church
                     );
 
                 await _context.SaveChangesAsync();
+
+                // Events refer to their church by name; keep them attached after a rename.
+                var owner = await _context.Users.FirstOrDefaultAsync(u => u.Id == church.ChurchAccountId);
+                await ManagedChurches.RenameEventsAsync(_context, owner, church.Name, SaveChangesModel.Name);
 
                 StatusMessage = $"Saved: {SaveChangesModel.Name} was updated.";
             }

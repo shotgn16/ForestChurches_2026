@@ -709,5 +709,36 @@ body.fc-body.fc-body--admin { background: var(--fc-ground-2); }
     .fc-table .fc-actions { justify-content: flex-start; padding-top: 8px; }
     .fc-stat__value { font-size: 28px; }
 }
+/* ---- Service schedules (church page, My Church) ---- */
+.fc-service--schedule { align-items: flex-start; }
+.fc-service--schedule .fc-service__time { flex-basis: 120px; font-size: 20px; line-height: 1.3; padding-top: 2px; }
+.fc-service__body { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+.fc-service__rule { font-size: 16px; }
+.fc-service__where { display: inline-flex; align-items: center; gap: 6px; font-size: 15px; color: var(--fc-muted); }
+.fc-service__where .fc-icon { width: 16px; height: 16px; }
+.fc-service__next { font-size: 15px; font-weight: 600; }
+.fc-service__more summary { cursor: pointer; font-size: 15px; color: var(--fc-muted); }
+.fc-service__more ul { margin: 6px 0 0; padding-left: 18px; font-size: 15px; }
+@media (max-width: 560px) {
+    .fc-service--schedule { flex-direction: column; gap: 4px; }
+    .fc-service--schedule .fc-service__time { flex-basis: auto; }
+}
+.fc-svc-table__name { display: block; font-size: 17px; }
+.fc-svc-table__rule { display: block; font-size: 15px; color: var(--fc-muted); }
+.fc-svc-dates { margin: 0; padding: 0; list-style: none; font-size: 15px; }
+.fc-svc-dates li { white-space: nowrap; }
+.fc-svc-editor > summary { list-style: none; display: inline-flex; }
+.fc-svc-editor > summary::-webkit-details-marker { display: none; }
+.fc-svc-editor[open] > summary { margin-bottom: 18px; }
+.fc-svc-form fieldset { border: 0; margin: 0; padding: 0; min-width: 0; }
+.fc-svc-form legend { padding: 0; margin-bottom: 8px; }
+.fc-svc-daterow { gap: 12px; align-items: flex-end; flex-wrap: wrap; }
+.fc-svc-daterow > .fc-field { flex: 0 1 200px; }
+.fc-svc-location .fc-switch { max-width: 420px; }
+/* ---- Benefices ---- */
+.fc-benefice-list { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 6px; font-size: 16px; font-weight: 600; }
+.fc-church-switch { display: flex; flex-direction: column; gap: 6px; margin: -6px 0 18px; }
+.fc-church-switch .fc-select { min-width: 0; flex: 1 1 auto; }
+.fc-body [data-fc-when][hidden] { display: none !important; }
 /* Elements toggled with the hidden attribute must stay hidden even when a class sets display. */
 .fc-body [data-fc-show-for][hidden], .fc-body .fc-hint[hidden] { display: none !important; }

@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication;
+using ForestChurches.Components.Services;
 
 namespace ForestChurches.Areas.Identity.Pages.Account.Manage
 {
@@ -24,6 +25,10 @@ namespace ForestChurches.Areas.Identity.Pages.Account.Manage
         private readonly ForestChurches.Components.Security.Encoder _Encoder;
         private readonly ImageInterface _imageInterface;
         private readonly IChurchSuiteService _churchSuiteService;
+        private readonly IManagedChurches _churches;
+        private readonly Microsoft.Extensions.Localization.IStringLocalizer<ForestChurches.SharedResources> _localizer;
+
+        private const string ServicePurpose = "fc.data.manage.church";
 
         public ChurchProfileModel(
             ForestChurches.Components.Security.Encoder Encoder,
@@ -32,8 +37,12 @@ namespace ForestChurches.Areas.Identity.Pages.Account.Manage
             ForestChurchesContext context,
             GoogleInterface googleAPI,
             ImageInterface imageInterface,
-            IChurchSuiteService churchSuiteService)
+            IChurchSuiteService churchSuiteService,
+            IManagedChurches churches,
+            Microsoft.Extensions.Localization.IStringLocalizer<ForestChurches.SharedResources> localizer)
         {
+            _churches = churches ?? throw new ArgumentNullException(nameof(churches));
+            _localizer = localizer ?? throw new ArgumentNullException(nameof(localizer));
             _Encoder = Encoder ?? throw new ArgumentNullException(nameof(Encoder));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
@@ -53,31 +62,88 @@ namespace ForestChurches.Areas.Identity.Pages.Account.Manage
         [BindProperty]
         public IFormFile UnprocessedImage { get; set; }
 
+        /// <summary>The add/edit service form.</summary>
         [BindProperty]
-        public ServiceTimes ChurchService { get; set; }
+        public ServiceForm ServiceForm { get; set; } = new();
+
+        /// <summary>Problems with the posted service form, shown above it.</summary>
+        public List<string> ServiceErrors { get; set; } = new();
+
+        /// <summary>All churches this account manages (for the switcher and "held at another church").</summary>
+        public List<ChurchInformation> ManagedChurchList { get; set; } = new();
+
         public string StatusMessage { get; set; }
 
-        public async Task<IActionResult> OnGetAsync()
+        /// <summary>Encrypted ID of the church being edited, added to every form so posts act on it.</summary>
+        public string CurrentChurchKey => CurrentChurch == null ? string.Empty : _churches.Protect(CurrentChurch.ID);
+
+        public string ProtectChurch(string id) => _churches.Protect(id);
+
+        public string ProtectService(string id) => _Encoder.Protect(id, ServicePurpose);
+
+        /// <summary>Loads the user, the church being worked on, the account's churches and that church's services.</summary>
+        private async Task<bool> LoadAsync()
+        {
+            CurrentUser = await _userManager.GetUserAsync(User);
+            if (CurrentUser == null) return false;
+            CurrentChurch = await _churches.CurrentAsync(HttpContext, CurrentUser.Id);
+            ManagedChurchList = await _churches.ListAsync(CurrentUser.Id);
+            if (CurrentChurch == null) return false;
+            ServiceTimes = await _context.ServiceTimes
+                .Include(st => st.Dates)
+                .Include(st => st.LocationChurch)
+                .Where(st => st.ChurchInformationId == CurrentChurch.ID)
+                .ToListAsync();
+            return true;
+        }
+
+        /// <summary>Clears validation for everything except the given form prefixes (each handler posts one form).</summary>
+        private void KeepValidationFor(params string[] prefixes)
+        {
+            foreach (var key in ModelState.Keys.ToList())
+            {
+                if (!prefixes.Any(p => key.StartsWith(p, StringComparison.Ordinal))) ModelState.Remove(key);
+            }
+        }
+
+        private RedirectToPageResult BackToChurch(string? fragment = null) =>
+            RedirectToPage(null, null, new { church = CurrentChurchKey }, fragment);
+
+        /// <summary>A service by encrypted ID, only if it belongs to a church this account manages.</summary>
+        private async Task<ServiceTimes?> FindOwnedServiceAsync(string? protectedId)
+        {
+            if (string.IsNullOrWhiteSpace(protectedId) || CurrentUser == null) return null;
+            string id;
+            try { id = _Encoder.Unprotect<string>(protectedId, ServicePurpose); }
+            catch { return null; }
+            return await _context.ServiceTimes
+                .Include(st => st.Dates)
+                .Include(st => st.ChurchInformation)
+                .FirstOrDefaultAsync(st => st.Id == id && st.ChurchInformation.ChurchAccountId == CurrentUser.Id);
+        }
+
+        public async Task<IActionResult> OnGetAsync(string? edit = null)
         {
             try
             {
-                CurrentUser = await _userManager.Users
-                    .Include(u => u.ChurchInformation)
-                    .FirstOrDefaultAsync(u => u.Id == _userManager.GetUserId(User));
-                
-                if (CurrentUser == null)
+                StatusMessage ??= TempData["StatusMessage"] as string;
+                if (!await LoadAsync())
                 {
-                    throw new ArgumentNullException(nameof(CurrentUser), "CurrentUser is null");
-                }
-
-                CurrentChurch = await _context.ChurchInformation.FirstOrDefaultAsync(c => c.ChurchAccountId == CurrentUser.Id);
-                if (CurrentChurch == null)
-                {
-                    throw new ArgumentNullException(nameof(CurrentChurch), "CurrentChurch is null");
+                    StatusMessage = "Error: No church is linked to your account yet. Please contact the Forest Churches team.";
+                    return Page();
                 }
 
                 PopulateSaveChangesModel();
-                ServiceTimes = await _context.ServiceTimes.Where(c => c.ChurchInformationId == CurrentChurch.ID).ToListAsync();
+
+                // ?edit=… opens a service in the editor (only one of this account's services).
+                if (!string.IsNullOrEmpty(edit))
+                {
+                    var service = await FindOwnedServiceAsync(edit);
+                    if (service != null && service.ChurchInformationId == CurrentChurch.ID)
+                    {
+                        ServiceForm = ServiceForm.From(service, ProtectChurch, ProtectService);
+                    }
+                }
             }
             catch (Exception ex)
             {
@@ -93,21 +159,12 @@ namespace ForestChurches.Areas.Identity.Pages.Account.Manage
         {
             try
             {
-                // Get current user first to load church data
-                var user = await _userManager.GetUserAsync(User);
-                if (user == null)
-                {
-                    StatusMessage = "Error: Unable to find the current user.";
-                    return Page();
-                }
-
-                CurrentChurch = await _context.ChurchInformation
-                    .FirstOrDefaultAsync(c => c.ChurchAccountId == user.Id);
-                if (CurrentChurch == null)
+                if (!await LoadAsync())
                 {
                     StatusMessage = "Error: Church information is missing.";
                     return Page();
                 }
+                KeepValidationFor("SaveChangesModel");
 
                 // Ensure SaveChangesModel.Parking reflects the actual posted value — model binding can fail with duplicate inputs.
                 bool parsedParking = SaveChangesModel?.Parking ?? false;
@@ -182,9 +239,6 @@ namespace ForestChurches.Areas.Identity.Pages.Account.Manage
                 }
 
                 // Remove model state entries that shouldn't be validated on this POST
-                ModelState.Remove(nameof(UnprocessedImage));
-                ModelState.Remove(nameof(ChurchService.Note));
-                ModelState.Remove(nameof(ChurchService.Time));
                 // Uri binding sometimes fails for SaveChangesModel.Churchsuite/Website when users provide unexpected values; don't block Parking updates for that.
                 ModelState.Remove("SaveChangesModel.Churchsuite");
                 ModelState.Remove("SaveChangesModel.Website");
@@ -207,8 +261,10 @@ namespace ForestChurches.Areas.Identity.Pages.Account.Manage
                     return Page();
                 }
 
+                var oldName = CurrentChurch.Name;
                 UpdateChurchInformation();
                 await _context.SaveChangesAsync();
+                await ManagedChurches.RenameEventsAsync(_context, CurrentUser, oldName, CurrentChurch.Name);
 
                 StatusMessage = $"The Church: ({CurrentChurch.Name}) was successfully updated!";
             }
@@ -226,120 +282,130 @@ namespace ForestChurches.Areas.Identity.Pages.Account.Manage
         {
             try
             {
-                // Remove validation for UnprocessedImage
-                ModelState.Remove(nameof(UnprocessedImage));
-
-                var service = await _context.ServiceTimes.SingleOrDefaultAsync(a => a.Id == _Encoder.Unprotect<string>(id, "fc.data.manage.church"));
+                if (!await LoadAsync()) return BackToChurch();
+                var service = await FindOwnedServiceAsync(id);
                 if (service == null)
                 {
-                    StatusMessage = "Error: Service not found.";
-                    return Page();
+                    TempData["StatusMessage"] = "Error: Service not found.";
+                    return BackToChurch("services");
                 }
 
                 _context.ServiceTimes.Remove(service);
                 await _context.SaveChangesAsync();
-                StatusMessage = "Service successfully deleted!";
+                TempData["StatusMessage"] = $"Service '{service.Note}' removed.";
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "An error occurred while removing the service.");
-                StatusMessage = "An error occurred while removing the service. Please try again later.";
+                TempData["StatusMessage"] = "Error: The service couldn't be removed. Please try again later.";
             }
 
-            return RedirectToPage();
+            return BackToChurch("services");
         }
 
+        /// <summary>Adds a new service or saves changes to an existing one.</summary>
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> OnPostAddServiceTimeAsync()
+        public async Task<IActionResult> OnPostSaveServiceAsync()
         {
             try
             {
-                // Remove validation for UnprocessedImage
-                ModelState.Remove(nameof(SaveChangesModel.Name));
-                ModelState.Remove(nameof(SaveChangesModel.Description));
-                ModelState.Remove(nameof(SaveChangesModel.Congregation));
-                ModelState.Remove(nameof(SaveChangesModel.Denomination));
-                ModelState.Remove(nameof(UnprocessedImage));
-
-                CurrentUser = await _userManager.GetUserAsync(User);
-                CurrentChurch = await _context.ChurchInformation
-                    .FirstOrDefaultAsync(c => c.ChurchAccountId == CurrentUser.Id);
-
-                if (!ModelState.IsValid)
+                KeepValidationFor("ServiceForm");
+                if (!await LoadAsync())
                 {
-                    LogModelErrors();
-                    StatusMessage = "Error: Invalid data model...";
-                    return RedirectToPage();
+                    StatusMessage = "Error: Church information is missing.";
+                    return Page();
                 }
+                PopulateSaveChangesModel();
 
-                var existingServices = await _context.ServiceTimes
-                    .Where(c => c.ChurchInformationId == CurrentChurch.ID)
-                    .ToListAsync();
-
-                if (DoesDataExist(existingServices, ChurchService))
+                ServiceTimes service;
+                if (ServiceForm.IsEdit)
                 {
-                    StatusMessage = "Warning: Unable to add service. Your service already exists.";
+                    var existing = await FindOwnedServiceAsync(ServiceForm.Id);
+                    if (existing == null || existing.ChurchInformationId != CurrentChurch.ID)
+                    {
+                        ServiceErrors.Add(_localizer["FC_SVC_ERR_NOT_FOUND"]);
+                        return Page();
+                    }
+                    service = existing;
                 }
                 else
                 {
-                    var newService = new ServiceTimes
-                    {
-                        ChurchInformationId = CurrentChurch.ID,
-                        Note = ChurchService.Note,
-                        Time = ChurchService.Time,
-                        Id = Guid.NewGuid().ToString()
-                    };
-                    _context.ServiceTimes.Add(newService);
-                    await _context.SaveChangesAsync();
-                    StatusMessage = $"Service: '{ChurchService.Note} ({ChurchService.Time})' successfully added!";
+                    service = new ServiceTimes { ChurchInformationId = CurrentChurch.ID };
                 }
+
+                // "Held at another church" must be one of this account's other churches.
+                string? locationChurchId = null;
+                if (ServiceForm.UseCustomLocation && ServiceForm.LocationKind == "church")
+                {
+                    var held = await _churches.FindOwnedProtectedAsync(CurrentUser.Id, ServiceForm.LocationChurchId);
+                    if (held == null || held.ID == CurrentChurch.ID)
+                    {
+                        ServiceErrors.Add(_localizer["FC_SVC_ERR_LOCATION_CHURCH"]);
+                    }
+                    else
+                    {
+                        locationChurchId = held.ID;
+                    }
+                }
+
+                ServiceForm.ApplyTo(service, locationChurchId);
+                ServiceErrors.AddRange(ServiceSchedule.Validate(service).Select(key => _localizer[key].Value));
+                if (ServiceErrors.Count > 0)
+                {
+                    // Don't keep half-applied changes on a tracked entity.
+                    if (ServiceForm.IsEdit) await _context.Entry(service).ReloadAsync();
+                    return Page();
+                }
+
+                // Editing: the service's dates were loaded with it, so replacing them in ApplyTo
+                // deletes the old rows on save.
+                if (!ServiceForm.IsEdit)
+                {
+                    _context.ServiceTimes.Add(service);
+                }
+                await _context.SaveChangesAsync();
+
+                TempData["StatusMessage"] = ServiceForm.IsEdit
+                    ? $"Service '{service.Note}' updated."
+                    : $"Service '{service.Note}' added.";
+                return BackToChurch("services");
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "An error occurred while adding the service time.");
-                StatusMessage = "An error occurred while adding the service time. Please try again later.";
+                _logger.LogError(ex, "An error occurred while saving the service.");
+                ServiceErrors.Add("The service couldn't be saved. Please try again later.");
+                return Page();
             }
-
-            return RedirectToPage();
         }
 
-        private bool DoesDataExist(List<ServiceTimes> existingData, ServiceTimes newData)
-        {
-            return existingData.Any(data => data.Time == newData.Time && data.Note == newData.Note);
-        }
 
 
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> OnGetMarkChurchStatusAsync(string status)
+        public async Task<IActionResult> OnPostMarkChurchStatusAsync(string status)
         {
             try
             {
-                // Remove validation for UnprocessedImage
-                ModelState.Remove(nameof(UnprocessedImage));
+                status = string.Equals(status, "Open", StringComparison.OrdinalIgnoreCase) ? "Open" : "Closed";
 
-                CurrentUser = await _userManager.GetUserAsync(User);
-                CurrentChurch = await _context.ChurchInformation
-                    .FirstOrDefaultAsync(c => c.ChurchAccountId == CurrentUser.Id);
-
-                if (CurrentChurch != null)
+                if (await LoadAsync())
                 {
                     CurrentChurch.Status = status;
                     _context.Update(CurrentChurch);
                     await _context.SaveChangesAsync();
-                    StatusMessage = $"The Church ({CurrentChurch.Name}) was successfully set to status ({status}).";
+                    TempData["StatusMessage"] = $"The Church ({CurrentChurch.Name}) was successfully set to status ({status}).";
                 }
                 else
                 {
-                    StatusMessage = "Error: Unable to find the current church.";
+                    TempData["StatusMessage"] = "Error: Unable to find the current church.";
                 }
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "An error occurred while changing the church status.");
-                StatusMessage = "An error occurred while changing the church status. Please try again later.";
+                TempData["StatusMessage"] = "Error: The church status couldn't be changed. Please try again later.";
             }
 
-            return RedirectToPage();
+            return BackToChurch();
         }
 
         [ValidateAntiForgeryToken]
@@ -347,48 +413,41 @@ namespace ForestChurches.Areas.Identity.Pages.Account.Manage
         {
             try
             {
-                // Remove validation for unused entities
-                ModelState.Remove(nameof(SaveChangesModel.Name));
-                ModelState.Remove(nameof(SaveChangesModel.Description));
-                ModelState.Remove(nameof(SaveChangesModel.Denomination));
-                ModelState.Remove(nameof(SaveChangesModel.Congregation));
-                ModelState.Remove(nameof(ChurchService.Note));
-                ModelState.Remove(nameof(ChurchService.Time));
-
-                if (!ModelState.IsValid)
+                if (!await LoadAsync())
                 {
-                    LogModelErrors();
-                    StatusMessage = "Error: Invalid data model...";
-                    return RedirectToPage();
+                    TempData["StatusMessage"] = "Error: Church information is missing.";
+                    return BackToChurch();
                 }
-
-                CurrentUser = await _userManager.GetUserAsync(User);
 
                 if (UnprocessedImage != null)
                 {
-                    // Upload to blob storage
+                    // Upload to blob storage and attach it to the church being edited.
                     var blobService = HttpContext.RequestServices.GetRequiredService<ForestChurches.Components.Storage.IBlobStorageService>();
                     var blobName = await blobService.UploadAsync(UnprocessedImage, null);
+                    CurrentChurch.ImageBlobName = blobName;
 
-                    // Keep legacy ImageArray for compatibility but prefer blob reference
-                    CurrentUser.ImageArray = await _imageInterface.ConvertToByteArray(UnprocessedImage);
-                    CurrentUser.ImageBlobName = blobName;
-                    _context.Update(CurrentUser);
+                    // Single-church accounts: also keep the account picture in step, as before.
+                    if (ManagedChurchList.Count <= 1)
+                    {
+                        CurrentUser.ImageArray = await _imageInterface.ConvertToByteArray(UnprocessedImage);
+                        CurrentUser.ImageBlobName = blobName;
+                        _context.Update(CurrentUser);
+                    }
                     await _context.SaveChangesAsync();
-                    StatusMessage = "Logo successfully updated!";
+                    TempData["StatusMessage"] = "Logo successfully updated!";
                 }
                 else
                 {
-                    StatusMessage = "Error: No image file selected.";
+                    TempData["StatusMessage"] = "Error: No image file selected.";
                 }
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "An error occurred while updating the logo.");
-                StatusMessage = "An error occurred while updating the logo. Please try again later.";
+                TempData["StatusMessage"] = "Error: The logo couldn't be updated. Please try again later.";
             }
 
-            return RedirectToPage();
+            return BackToChurch();
         }
 
         [ValidateAntiForgeryToken]
@@ -559,7 +618,7 @@ namespace ForestChurches.Areas.Identity.Pages.Account.Manage
                 {
                     _logger.LogInformation("[ChurchProfile-Sync] No stored credentials found. Starting PKCE authorize flow for user {UserId}", user.Id);
                     StatusMessage = "Redirecting to ChurchSuite to authorize access...";
-                    var redirectUri = "/Identity/Account/Manage/ChurchProfile?handler=SyncChurchSuiteOAuth";
+                    var redirectUri = "/Identity/Account/Manage/ChurchProfile";
                     var url = $"/churchsuite/authorize?user_id={Uri.EscapeDataString(user.Id)}&redirect_uri={Uri.EscapeDataString(redirectUri)}";
                     return Redirect(url);
                 }
@@ -579,7 +638,7 @@ namespace ForestChurches.Areas.Identity.Pages.Account.Manage
                     {
                         _logger.LogWarning("[ChurchProfile-Sync] Token refresh failed for user {UserId}. Starting PKCE re-authorize.", user.Id);
                         StatusMessage = "Your authorization with ChurchSuite has expired. Please authorize again.";
-                        var redirectUri = "/Identity/Account/Manage/ChurchProfile?handler=SyncChurchSuiteOAuth";
+                        var redirectUri = "/Identity/Account/Manage/ChurchProfile";
                         var url = $"/churchsuite/authorize?user_id={Uri.EscapeDataString(user.Id)}&redirect_uri={Uri.EscapeDataString(redirectUri)}";
                         return Redirect(url);
                     }
@@ -601,9 +660,7 @@ namespace ForestChurches.Areas.Identity.Pages.Account.Manage
                     user.Id, profile.Account.Name);
 
                 // Step 4: Update church information from ChurchSuite profile
-                CurrentChurch = await _context.ChurchInformation
-                    .FirstOrDefaultAsync(c => c.ChurchAccountId == user.Id)
-                    .ConfigureAwait(true);
+                CurrentChurch = await _churches.CurrentAsync(HttpContext, user.Id).ConfigureAwait(true);
 
                 if (CurrentChurch == null)
                 {
@@ -637,10 +694,10 @@ namespace ForestChurches.Areas.Identity.Pages.Account.Manage
 
                 await _context.SaveChangesAsync().ConfigureAwait(true);
 
-                StatusMessage = $"✓ Successfully synced from ChurchSuite! Updated: {CurrentChurch.Name}";
+                TempData["StatusMessage"] = $"✓ Successfully synced from ChurchSuite! Updated: {CurrentChurch.Name}";
                 _logger.LogInformation("[ChurchProfile-Sync] Successfully synced ChurchSuite profile for user {UserId}.", user.Id);
 
-                return RedirectToPage();
+                return BackToChurch();
             }
             catch (HttpRequestException ex)
             {
