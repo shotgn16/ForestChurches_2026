@@ -11,6 +11,12 @@ namespace ForestChurches.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            // MySQL/MariaDB won't drop an index a foreign key relies on, so the church -> account key is
+            // dropped while the index changes from unique (one church per account) to non-unique, then re-added.
+            migrationBuilder.DropForeignKey(
+                name: "FK_ChurchInformation_AspNetUsers_ChurchAccountId",
+                table: "ChurchInformation");
+
             migrationBuilder.DropIndex(
                 name: "IX_ChurchInformation_ChurchAccountId",
                 table: "ChurchInformation");
@@ -167,6 +173,14 @@ namespace ForestChurches.Migrations
                 table: "ChurchInformation",
                 column: "ChurchAccountId");
 
+            migrationBuilder.AddForeignKey(
+                name: "FK_ChurchInformation_AspNetUsers_ChurchAccountId",
+                table: "ChurchInformation",
+                column: "ChurchAccountId",
+                principalTable: "AspNetUsers",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Cascade);
+
             migrationBuilder.CreateIndex(
                 name: "IX_Benefices_Name",
                 table: "Benefices",
@@ -217,6 +231,12 @@ namespace ForestChurches.Migrations
 
             migrationBuilder.DropIndex(
                 name: "IX_ChurchInformation_BeneficeId",
+                table: "ChurchInformation");
+
+            // MySQL/MariaDB won't drop an index a foreign key relies on, so the church -> account key is
+            // dropped while the index changes back to unique, then re-added.
+            migrationBuilder.DropForeignKey(
+                name: "FK_ChurchInformation_AspNetUsers_ChurchAccountId",
                 table: "ChurchInformation");
 
             migrationBuilder.DropIndex(
@@ -275,11 +295,21 @@ namespace ForestChurches.Migrations
                 name: "ImageBlobName",
                 table: "ChurchInformation");
 
+            // Note: rolling back fails if any account manages more than one church (the unique index can't be
+            // created). Move or remove the extra churches first.
             migrationBuilder.CreateIndex(
                 name: "IX_ChurchInformation_ChurchAccountId",
                 table: "ChurchInformation",
                 column: "ChurchAccountId",
                 unique: true);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_ChurchInformation_AspNetUsers_ChurchAccountId",
+                table: "ChurchInformation",
+                column: "ChurchAccountId",
+                principalTable: "AspNetUsers",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Cascade);
         }
     }
 }

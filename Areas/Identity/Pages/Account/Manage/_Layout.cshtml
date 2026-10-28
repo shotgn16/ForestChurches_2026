@@ -64,15 +64,13 @@
             {
                 <form method="get" class="fc-church-switch" action="@Context.Request.Path">
                     <label class="fc-label" for="fc-church-switch">@Localizer["FC_CHURCH_SWITCH_LABEL"]</label>
-                    <div class="fc-row" style="gap: 8px; flex-wrap: nowrap">
-                        <select class="fc-select" id="fc-church-switch" name="church" data-fc-autosubmit>
-                            @foreach (var c in allChurches)
-                            {
-                                <option value="@ManagedChurches.Protect(c.ID)" selected="@(c.ID == church.ID)">@ForestChurches.Components.Ui.FcText.PlainText(c.Name)@(string.Equals(c.Status, "Open", StringComparison.OrdinalIgnoreCase) ? "" : " (" + Localizer["FC_STATUS_CLOSED_SHORT"].Value + ")")</option>
-                            }
-                        </select>
-                        <button type="submit" class="fc-btn fc-btn--outline fc-btn--sm">@Localizer["FC_CHURCH_SWITCH_BUTTON"]</button>
-                    </div>
+                    <select class="fc-select" id="fc-church-switch" name="church" data-fc-autosubmit>
+                        @foreach (var c in allChurches)
+                        {
+                            <option value="@ManagedChurches.Protect(c.ID)" selected="@(c.ID == church.ID)">@ForestChurches.Components.Ui.FcText.PlainText(c.Name)@(string.Equals(c.Status, "Open", StringComparison.OrdinalIgnoreCase) ? "" : " (" + Localizer["FC_STATUS_CLOSED_SHORT"].Value + ")")</option>
+                        }
+                    </select>
+                    <button type="submit" class="fc-btn fc-btn--outline fc-btn--sm" style="align-self: flex-start">@Localizer["FC_CHURCH_SWITCH_BUTTON"]</button>
                 </form>
             }
         }

@@ -159,8 +159,13 @@
                         @foreach (var (s, upcoming) in services)
                         {
                             var heldAt = HeldAt(s);
+                            // Specific-date services can have a different time on each date; only show one
+                            // time here when every upcoming date shares it.
+                            var timeText = s.RepeatType != ForestChurches.Models.ServiceRepeat.Dates
+                                ? ServiceScheduleText.TimeText(s)
+                                : upcoming.Select(o => o.Time).Distinct().Count() == 1 && upcoming[0].Time is { } only ? only.ToString("HH:mm") : string.Empty;
                             <div class="fc-service fc-service--schedule">
-                                <span class="fc-service__time">@ServiceScheduleText.TimeText(s)</span>
+                                <span class="fc-service__time">@timeText</span>
                                 <div class="fc-service__body">
                                     <span class="fc-service__name">@FcText.PlainText(s.Note)</span>
                                     <span class="fc-service__rule">@ServiceScheduleText.Describe(s, Localizer)</span>
