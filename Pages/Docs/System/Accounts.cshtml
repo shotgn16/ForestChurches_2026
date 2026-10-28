@@ -160,7 +160,7 @@
 <section class="fcd-section" id="deletion">
     <h2>Deleting accounts</h2>
     <ul>
-        <li>Deleting a user (by the user in My Data, or by a SuperAdmin) cascades to its <code>ChurchInformation</code> and that church's <code>ServiceTimes</code>, its roles, logins, claims and tokens.</li>
+        <li>Deleting a user (by the user in My Data, or by a SuperAdmin) cascades to all of its <code>ChurchInformation</code> rows (an account can manage several churches) and their <code>ServiceTimes</code> and <code>ServiceDates</code>, its roles, logins, claims and tokens.</li>
         <li><code>Events</code> aren't linked by foreign key (they store the owner's email and church name as text), so they remain and must be deleted separately.</li>
         <li><code>ChurchSuiteCredentials</code> rows store the user ID as text with no foreign key, so they also remain.</li>
         <li>The user's uploaded images remain in Blob Storage.</li>

@@ -19,6 +19,7 @@
         <li><a href="#users">Users</a></li>
         <li><a href="#roles">Roles and permissions</a></li>
         <li><a href="#churches">Churches</a></li>
+        <li><a href="#benefices">Benefices and accounts with several churches</a></li>
         <li><a href="#events">Events</a></li>
         <li><a href="#bulletins">Bulletins</a></li>
         <li><a href="#emails">Sending emails</a></li>
@@ -160,7 +161,8 @@
     <p><span class="ui">Churches</span> shows every listing with its status, denomination, congregation, owning account, address, phone, website, ChurchSuite link, facilities and (expandable) description. Statuses: <span class="fc-badge fc-badge--ok">Listed</span> (open, in search), <span class="fc-badge fc-badge--warn">Hidden</span> (closed by the church), <span class="fc-badge fc-badge--danger">Not set up</span> (reset).</p>
     <ul>
         <li><span class="ui">View public page ↗</span>: opens the church page.</li>
-        <li><span class="ui">Edit</span>: change any detail or facility, then <span class="ui">Save changes</span>. Service times and the logo are managed by the church in My Church.</li>
+        <li><span class="ui">Edit</span>: change any detail or facility, then <span class="ui">Save changes</span>. Services and the logo are managed by the church in My Church. Renaming a church also renames it on its events, so they stay attached. The edit page also has <span class="ui">Benefice &amp; management</span> (see <a href="#benefices">Benefices</a>).</li>
+        <li><span class="ui">+ Add a church</span> (top of the page): adds a church to an existing account. See <a href="#benefices">Benefices</a>.</li>
         <li><span class="ui">Download</span>: the church's details and service times as JSON.</li>
         <li><span class="ui">Reset listing</span>: after you confirm, replaces the details with defaults and sets the status to <em>Not set up</em>, which hides it from search. The account isn't deleted.</li>
     </ul>
@@ -168,6 +170,43 @@
         <img src="~/img/docs/admin-churches.png" alt="The Churches page listing church cards with status badges and actions" loading="lazy" />
         <figcaption>Churches.</figcaption>
     </figure>
+</section>
+
+<section class="fcd-section" id="benefices">
+    <h2>Benefices and accounts with several churches</h2>
+    <p>A <strong>benefice</strong> groups churches that are served together. Each church keeps its own page, details, services and events; the benefice adds “Part of …” to the page, a card listing its sister churches (open ones only), and the benefice's description and website if you add them. Separately, one <strong>account</strong> can manage several churches, so a benefice's administrator signs in once and switches between churches. The two are independent: a church can move to its own administrator's account and stay in the benefice.</p>
+    <p>Only site administrators add churches to accounts, move them and set benefices; church administrators can't.</p>
+
+    <h3>Setting up a benefice</h3>
+    <ol class="fc-steps">
+        <li><span class="fc-steps__title">Create the benefice</span><span><span class="ui">Benefices</span> → <span class="ui">New benefice</span>: name, and optionally a website and a description.</span></li>
+        <li><span class="fc-steps__title">Make sure one account exists</span><span>Invite the benefice administrator as usual (<a href="#onboarding">bringing a church on board</a>). Registering creates their first church.</span></li>
+        <li><span class="fc-steps__title">Add the other churches</span><span><span class="ui">Churches</span> → <span class="ui">+ Add a church</span>, or <span class="ui">+ Add a church</span> next to the benefice. Choose the account in <span class="ui">Managed by</span>, the name, the benefice and the address. New churches start <em>Closed</em> (hidden) until the administrator fills them in and opens them.</span></li>
+        <li><span class="fc-steps__title">Put existing churches in the benefice</span><span><span class="ui">Churches</span> → <span class="ui">Edit</span> → <span class="ui">Benefice &amp; management</span> → choose the <span class="ui">Benefice</span> → <span class="ui">Save benefice &amp; management</span>.</span></li>
+    </ol>
+    <figure class="fcd-shot">
+        <img src="~/img/docs/admin-benefices.png" alt="The Benefices page listing The Forest Edge Benefice with three churches and its managing account, and a New benefice form" loading="lazy" />
+        <figcaption>Benefices.</figcaption>
+    </figure>
+    <figure class="fcd-shot">
+        <img src="~/img/docs/admin-church-create.png" alt="The Add a church page with Managed by, church name, benefice and address" loading="lazy" />
+        <figcaption>Adding a church to an existing account.</figcaption>
+    </figure>
+
+    <h3>Handing a church to its own administrator</h3>
+    <ol>
+        <li>Invite the new administrator and let them register. Their registration creates a placeholder church; a SuperAdmin can remove that afterwards (see below).</li>
+        <li>Open the church that's moving: <span class="ui">Churches</span> → <span class="ui">Edit</span> → <span class="ui">Benefice &amp; management</span>.</li>
+        <li>Choose the new account in <span class="ui">Managed by</span> and select <span class="ui">Save benefice &amp; management</span>.</li>
+    </ol>
+    <p>The church moves with its services and its events. It stays in its benefice. Services that were “held at” a church on the old account fall back to being held at their own church, because that link only works between churches on the same account; the old administrator can set an address instead.</p>
+    <figure class="fcd-shot">
+        <img src="~/img/docs/admin-church-manage.png" alt="The Benefice and management card: Benefice drop-down, Managed by drop-down, a note listing the account's other churches, and buttons to add another church or save" loading="lazy" />
+        <figcaption>Benefice &amp; management on a church's edit page.</figcaption>
+    </figure>
+
+    <h3>Removing a church from an account</h3>
+    <p>A SuperAdmin sees <span class="ui">Remove this church</span> on a church's edit page when the account manages at least one other church. It deletes the church and its services (not its events). An account's only church can't be removed this way: close it, or delete the account under <span class="ui">Users</span>. Deleting a benefice leaves its churches in place.</p>
 </section>
 
 <section class="fcd-section" id="events">
