@@ -28,6 +28,8 @@ namespace ForestChurches.Pages.Events
         [TempData]
         public string StatusMessage { get; set; }
 
+        private readonly ForestChurches.Components.Users.IManagedChurches _churches;
+
         public IndexModel(
             UserManager<ChurchAccount> userManager, 
             ForestChurchesContext context, 
@@ -36,8 +38,10 @@ namespace ForestChurches.Pages.Events
             iMailSender mailSender,
             ForestChurches.Components.Security.Encoder Encoder,
             IChurchSuiteService churchSuiteService,
-            IChurchSuiteEventSyncService eventSyncService)
+            IChurchSuiteEventSyncService eventSyncService,
+            ForestChurches.Components.Users.IManagedChurches churches)
         {
+            _churches = churches;
             _mailRepository = mailRepository;
             _userManager = userManager;
             _mailSender = mailSender;
@@ -84,7 +88,9 @@ namespace ForestChurches.Pages.Events
                 _logger.LogInformation("[EventSync-UI] Syncing events for user {UserId}", CurrentUser.Id);
 
                 // Call the sync service
-                var result = await _eventSyncService.SyncEventsAsync(CurrentUser.Id);
+                // Events are imported for the church the user is working on (accounts can manage several).
+                var targetChurch = await _churches.CurrentAsync(HttpContext, CurrentUser.Id);
+                var result = await _eventSyncService.SyncEventsAsync(CurrentUser.Id, targetChurch?.ID);
 
                 if (result.Success)
                 {
@@ -148,7 +154,7 @@ namespace ForestChurches.Pages.Events
                 int skippedCount = 0;
 
                 // Get the church name for the current user
-                var churchInfo = _context.ChurchInformation.FirstOrDefault(c => c.ChurchAccountId == CurrentUser.Id);
+                var churchInfo = await _churches.CurrentAsync(HttpContext, CurrentUser.Id);
                 var churchName = churchInfo?.Name ?? CurrentUser.Email; // Fallback to email if church not found
 
                 foreach (var churchSuiteEvent in churchSuiteEvents)

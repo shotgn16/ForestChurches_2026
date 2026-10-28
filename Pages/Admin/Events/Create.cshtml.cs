@@ -56,13 +56,19 @@ namespace ForestChurches.Pages.Admin.Events
             _context = context;
             _Encoder = Encoder;
 
+            // One option per church, "Church (account)", so accounts that manage several churches
+            // (benefices) are unambiguous. The value is "username|churchId".
             var users = _userManager.Users.ToList();
-            UserList = users.Select(user => new SelectListItem
-            {
-                Text = user.UserName,
-                Value = user.UserName
-            })
-            .ToList();
+            var churches = _context.ChurchInformation.OrderBy(c => c.Name).ToList();
+            UserList = users
+                .SelectMany(user => churches.Where(c => c.ChurchAccountId == user.Id).DefaultIfEmpty()
+                    .Select(c => new SelectListItem
+                    {
+                        Text = c == null ? user.UserName : $"{c.Name} ({user.UserName})",
+                        Value = c == null ? user.UserName : $"{user.UserName}|{c.ID}"
+                    }))
+                .OrderBy(i => i.Text)
+                .ToList();
 
             Input = new EventsModel();
         }
@@ -93,7 +99,10 @@ namespace ForestChurches.Pages.Admin.Events
                 {
                     _logger.LogInformation("ModelState is valid.");
 
-                    var decodedUsername = _Encoder.Unprotect<string>(SelectedUsername, "fc.data.admin.events");
+                    var decodedOwner = _Encoder.Unprotect<string>(SelectedUsername, "fc.data.admin.events");
+                    var ownerParts = decodedOwner.Split('|', 2);
+                    var decodedUsername = ownerParts[0];
+                    var chosenChurchId = ownerParts.Length > 1 ? ownerParts[1] : null;
                     _logger.LogInformation($"Decoded username: {decodedUsername}");
 
                     var user = await _userManager.FindByEmailAsync(decodedUsername);
@@ -104,7 +113,8 @@ namespace ForestChurches.Pages.Admin.Events
                         return Page();
                     }
 
-                    var church = _context.ChurchInformation.FirstOrDefault(i => i.ChurchAccountId == user.Id);
+                    var church = (chosenChurchId == null ? null : _context.ChurchInformation.FirstOrDefault(i => i.ID == chosenChurchId && i.ChurchAccountId == user.Id))
+                                 ?? _context.ChurchInformation.Where(i => i.ChurchAccountId == user.Id).OrderBy(i => i.Name).FirstOrDefault();
                     if (church == null)
                     {
                         _logger.LogWarning($"Church information for user {user.UserName} not found.");

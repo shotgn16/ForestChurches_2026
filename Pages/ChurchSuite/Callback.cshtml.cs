@@ -23,8 +23,11 @@ namespace ForestChurches.Pages.ChurchSuite
         private readonly ILogger<CallbackModel> _logger;
         private readonly IChurchSuiteService _churchSuiteService;
 
-public CallbackModel(ForestChurchesContext context, UserManager<ChurchAccount> userManager, IHttpClientFactory httpClientFactory, IChurchSuiteTokenService tokenService, IChurchSuiteService churchSuiteService, ILogger<CallbackModel> logger)
-{
+        private readonly ForestChurches.Components.Users.IManagedChurches _churches;
+
+        public CallbackModel(ForestChurchesContext context, UserManager<ChurchAccount> userManager, IHttpClientFactory httpClientFactory, IChurchSuiteTokenService tokenService, IChurchSuiteService churchSuiteService, ILogger<CallbackModel> logger, ForestChurches.Components.Users.IManagedChurches churches)
+        {
+            _churches = churches;
             _context = context;
             _userManager = userManager;
             _httpClientFactory = httpClientFactory;
@@ -236,7 +239,8 @@ public CallbackModel(ForestChurchesContext context, UserManager<ChurchAccount> u
                     if (profile?.Account != null)
                     {
                         var acct = profile.Account;
-                        var church = await _context.ChurchInformation.FirstOrDefaultAsync(c => c.ChurchAccountId == user_id).ConfigureAwait(true);
+                        // The church the user is working on (accounts can manage several churches).
+                        var church = await _churches.CurrentAsync(HttpContext, user_id).ConfigureAwait(true);
                         if (church != null)
                         {
                             if (!string.IsNullOrWhiteSpace(acct.Name)) church.Name = acct.Name;
