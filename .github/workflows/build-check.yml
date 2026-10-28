@@ -9,6 +9,11 @@ on:
   push:
     branches: [ "feature/**", "fix/**" ]
   workflow_dispatch:
+    inputs:
+      migration_name:
+        description: "If set, generate an EF Core migration with this name and return the files as annotations (gzip+base64)"
+        required: false
+        default: ""
 
 permissions:
   contents: read
@@ -69,7 +74,7 @@ jobs:
           dotnet-version: '8.0.x'
 
       - name: Install dotnet-ef
-        run: dotnet tool install --global dotnet-ef --version 8.0.26
+        run: dotnet tool restore   # uses the repo's .config/dotnet-tools.json
 
       - name: Build
         run: bash .github/ci/run.sh "Build" dotnet build ForestChurches.csproj -c Release -clp:"ErrorsOnly;Summary"
@@ -84,3 +89,37 @@ jobs:
           else
             bash .github/ci/run.sh "Apply migrations" dotnet ef database update --project ForestChurches.csproj --configuration Release --no-build
           fi
+
+  generate-migration:
+    name: Generate migration
+    if: github.event_name == 'workflow_dispatch' && github.event.inputs.migration_name != ''
+    runs-on: ubuntu-latest
+    services:
+      db:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: ci-root-password
+          MYSQL_DATABASE: forestchurches
+        ports: [ "3306:3306" ]
+        options: >-
+          --health-cmd="mysqladmin ping -h 127.0.0.1 -uroot -pci-root-password"
+          --health-interval=5s --health-timeout=5s --health-retries=30
+    env:
+      ASPNETCORE_ENVIRONMENT: Development
+      KEY_VAULT_URL: https://ci-placeholder.vault.azure.net/
+      ConnectionStrings__Development: "server=127.0.0.1;port=3306;user=root;password=ci-root-password;database=forestchurches;AllowUserVariables=True;"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+      - name: Install dotnet-ef
+        run: dotnet tool restore   # uses the repo's .config/dotnet-tools.json
+      - name: Generate
+        run: bash .github/ci/run.sh "Generate migration" dotnet ef migrations add "${{ github.event.inputs.migration_name }}" --project ForestChurches.csproj
+      - name: Return generated files
+        run: |
+          git add -A Migrations
+          for f in $(git diff --cached --name-only -- Migrations); do
+            echo "::notice title=migration-file:${f}::$(gzip -9c "$f" | base64 -w0)"
+          done
