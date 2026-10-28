@@ -1,0 +1,86 @@
+name: Build check
+
+# Compiles the site, runs the unit tests, applies every EF Core migration to an empty
+# MySQL and MariaDB database, and fails if the code's data model has changes that
+# no migration covers. Runs on pull requests and on feature/fix branches. It never deploys.
+
+on:
+  pull_request:
+  push:
+    branches: [ "feature/**", "fix/**" ]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Build and test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Build
+        run: dotnet build ForestChurches.csproj -c Release -warnaserror- -clp:"ErrorsOnly;Summary"
+
+      - name: Unit tests
+        run: |
+          if [ -d Tests ]; then
+            dotnet test Tests/ForestChurches.Tests.csproj -c Release --logger "console;verbosity=normal"
+          else
+            echo "No test project"
+          fi
+
+  database:
+    name: Migrations on ${{ matrix.db.name }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        db:
+          - { name: "MySQL 8.0",     image: "mysql:8.0" }
+          - { name: "MariaDB 10.11", image: "mariadb:10.11" }
+    services:
+      db:
+        image: ${{ matrix.db.image }}
+        env:
+          MYSQL_ROOT_PASSWORD: ci-root-password
+          MARIADB_ROOT_PASSWORD: ci-root-password
+          MYSQL_DATABASE: forestchurches
+          MARIADB_DATABASE: forestchurches
+        ports: [ "3306:3306" ]
+        options: >-
+          --health-cmd="mysqladmin ping -h 127.0.0.1 -uroot -pci-root-password || mariadb-admin ping -h 127.0.0.1 -uroot -pci-root-password"
+          --health-interval=5s --health-timeout=5s --health-retries=30
+    env:
+      ASPNETCORE_ENVIRONMENT: Development
+      # The design-time DbContext factory only needs a Key Vault URL to exist; it isn't contacted in Development.
+      KEY_VAULT_URL: https://ci-placeholder.vault.azure.net/
+      ConnectionStrings__Development: "server=127.0.0.1;port=3306;user=root;password=ci-root-password;database=forestchurches;AllowUserVariables=True;"
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Install dotnet-ef
+        run: dotnet tool install --global dotnet-ef --version 8.0.26
+
+      - name: Build
+        run: dotnet build ForestChurches.csproj -c Release -warnaserror- -clp:"ErrorsOnly;Summary"
+
+      - name: Model matches migrations
+        run: dotnet ef migrations has-pending-model-changes --project ForestChurches.csproj --configuration Release --no-build
+
+      - name: Apply migrations
+        run: |
+          if [ -f .github/ci/migration-data-test.sh ]; then
+            bash .github/ci/migration-data-test.sh
+          else
+            dotnet ef database update --project ForestChurches.csproj --configuration Release --no-build
+          fi
