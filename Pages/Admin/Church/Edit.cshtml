@@ -100,6 +100,58 @@
             <button type="submit" class="fc-btn fc-btn--primary">@Localizer["FC_SAVE_CHANGES"]</button>
         </div>
     </form>
+    <section class="fc-card fc-stack" aria-labelledby="mgmt-h" style="margin-top: 22px">
+        <div>
+            <h2 id="mgmt-h" class="fc-card__title" style="margin-bottom: 4px !important">@Localizer["FC_ADM_BENEFICE_MGMT"]</h2>
+            <p class="fc-small fc-muted">@Localizer["FC_ADM_BENEFICE_MGMT_LEAD"]</p>
+        </div>
+        <form method="post" asp-page-handler="Manage" class="fc-stack fc-form">
+            <input type="hidden" name="id" value="@Model.ChurchKey" />
+            <div class="fc-grid">
+                <div class="fc-field">
+                    <label class="fc-label" for="mgBen">@Localizer["FC_BENEFICE"]</label>
+                    <select class="fc-select" id="mgBen" name="beneficeId">
+                        <option value="">@Localizer["FC_ADM_NO_BENEFICE"]</option>
+                        @foreach (var b in Model.Benefices)
+                        {
+                            <option value="@b.Id" selected="@(b.Id == Model.Church?.BeneficeId)">@FcText.PlainText(b.Name)</option>
+                        }
+                    </select>
+                    <a asp-page="/Admin/Benefices/Index" class="fc-small">@Localizer["FC_ADM_MANAGE_BENEFICES"]</a>
+                </div>
+                <div class="fc-field">
+                    <label class="fc-label" for="mgAcc">@Localizer["FC_ADM_MANAGED_BY"]</label>
+                    <select class="fc-select" id="mgAcc" name="accountId" aria-describedby="mgAccHint">
+                        @foreach (var a in Model.Accounts)
+                        {
+                            <option value="@a.Id" selected="@(a.Id == Model.Church?.ChurchAccountId)">@a.Email</option>
+                        }
+                    </select>
+                    <span class="fc-hint" id="mgAccHint">@Localizer["FC_ADM_MOVE_HINT"]</span>
+                </div>
+            </div>
+            @if (Model.AccountChurches.Count > 0)
+            {
+                <p class="fc-small">@Localizer["FC_ADM_ALSO_MANAGES", Model.Owner?.Email ?? "", string.Join(", ", Model.AccountChurches.Select(c => FcText.PlainText(c.Name)))]</p>
+            }
+            <div class="fc-btn-row" style="justify-content: flex-end">
+                <a class="fc-btn fc-btn--quiet" asp-page="./Create" asp-route-account="@Model.Church?.ChurchAccountId" asp-route-benefice="@Model.Church?.BeneficeId">+ @Localizer["FC_ADM_ADD_ANOTHER_CHURCH"]</a>
+                <button type="submit" class="fc-btn fc-btn--primary">@Localizer["FC_ADM_SAVE_MGMT"]</button>
+            </div>
+        </form>
+    </section>
+
+    @if (User.IsInRole("SuperAdmin") && Model.AccountChurches.Count > 0)
+    {
+        <section class="fc-card fc-card--danger fc-stack" aria-labelledby="rm-h" style="gap: 10px; margin-top: 22px">
+            <h2 id="rm-h" class="fc-h3" style="color: var(--fc-danger)">@Localizer["FC_ADM_REMOVE_CHURCH"]</h2>
+            <p style="max-width: 760px">@Localizer["FC_ADM_REMOVE_CHURCH_LEAD"]</p>
+            <form method="post" asp-page-handler="RemoveChurch" data-fc-confirm="@Localizer["FC_ADM_CONFIRM_REMOVE_CHURCH", FcText.PlainText(m.Name)]">
+                <input type="hidden" name="id" value="@Model.ChurchKey" />
+                <button type="submit" class="fc-btn fc-btn--danger-outline">@Localizer["FC_ADM_REMOVE_CHURCH"]</button>
+            </form>
+        </section>
+    }
 }
 else
 {

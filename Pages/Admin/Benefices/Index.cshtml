@@ -1,0 +1,103 @@
+@page
+@model ForestChurches.Pages.Admin.Benefices.IndexModel
+@using ForestChurches.Components.Ui
+@{
+    Layout = "_Admin";
+    ViewData["Title"] = Localizer["FC_ADM_BENEFICES"];
+}
+
+<div class="fc-page-head">
+    <div>
+        <h1>@Localizer["FC_ADM_BENEFICES"]</h1>
+        <p>@Localizer["FC_ADM_BENEFICES_LEAD"]</p>
+    </div>
+</div>
+
+<partial name="_StatusMessage" model="Model.StatusMessage" />
+
+<section class="fc-card fc-card--flush" aria-labelledby="ben-h">
+    <div class="fc-card__head">
+        <h2 id="ben-h" class="fc-h3">@Localizer["FC_ADM_BENEFICES"]</h2>
+        <span class="fc-small fc-muted">@Model.Benefices.Count</span>
+    </div>
+    @if (Model.Benefices.Count == 0)
+    {
+        <p class="fc-muted" style="padding: 0 22px 22px">@Localizer["FC_ADM_NO_BENEFICES"]</p>
+    }
+    <ul class="fc-admin-list">
+        @foreach (var b in Model.Benefices)
+        {
+            var name = FcText.PlainText(b.Name);
+            var churches = b.Churches.OrderBy(c => c.Name).ToList();
+            var accounts = churches.Select(c => Model.AccountEmails.TryGetValue(c.ChurchAccountId, out var e) ? e : "?").Distinct().ToList();
+            <li>
+                <div class="fc-admin-list__main">
+                    <strong style="font-size: 18px">@name</strong>
+                    <span class="fc-small fc-muted">@Localizer["FC_ADM_N_CHURCHES", churches.Count] · @Localizer["FC_ADM_MANAGED_BY"]: @(accounts.Count == 0 ? "—" : string.Join(", ", accounts))</span>
+                    @if (churches.Count > 0)
+                    {
+                        <span class="fc-tags">
+                            @foreach (var c in churches)
+                            {
+                                <a class="fc-tag" asp-page="/Admin/Church/Edit" asp-route-id="@Model.ChurchEditKey(c.ID)">@FcText.PlainText(c.Name)@(c.Status == "Open" ? "" : " (" + Localizer["FC_STATUS_CLOSED_SHORT"].Value + ")")</a>
+                            }
+                        </span>
+                    }
+                    <details>
+                        <summary>@Localizer["FC_EDIT"]<span class="fc-sr-only"> @name</span></summary>
+                        <form method="post" asp-page-handler="Update" class="fc-stack fc-form" style="margin-top: 12px">
+                            <input type="hidden" name="id" value="@b.Id" />
+                            <div class="fc-grid">
+                                <div class="fc-field">
+                                    <label class="fc-label" for="n-@b.Id">@Localizer["FC_ADM_BENEFICE_NAME"]</label>
+                                    <input class="fc-input" id="n-@b.Id" name="name" value="@b.Name" maxlength="120" required />
+                                </div>
+                                <div class="fc-field">
+                                    <label class="fc-label" for="w-@b.Id">@Localizer["TAG_WEBSITE"] <span class="fc-opt">— @Localizer["FC_SVC_OPTIONAL"]</span></label>
+                                    <input class="fc-input" id="w-@b.Id" name="website" value="@b.Website" type="url" />
+                                </div>
+                                <div class="fc-field fc-span-all">
+                                    <label class="fc-label" for="d-@b.Id">@Localizer["FC_DESCRIPTION"] <span class="fc-opt">— @Localizer["FC_SVC_OPTIONAL"]</span></label>
+                                    <textarea class="fc-textarea" id="d-@b.Id" name="description" rows="3" maxlength="1000">@b.Description</textarea>
+                                </div>
+                            </div>
+                            <div class="fc-btn-row" style="justify-content: flex-end">
+                                <button type="submit" class="fc-btn fc-btn--primary fc-btn--sm">@Localizer["FC_ADM_SAVE"]</button>
+                            </div>
+                        </form>
+                    </details>
+                </div>
+                <div class="fc-btn-row">
+                    <a asp-page="/Admin/Church/Create" asp-route-benefice="@b.Id" class="fc-btn fc-btn--quiet fc-btn--sm">+ @Localizer["FC_ADM_ADD_CHURCH"]<span class="fc-sr-only"> (@name)</span></a>
+                    <form method="post" asp-page-handler="Delete" data-fc-confirm="@Localizer["FC_ADM_CONFIRM_DELETE_BENEFICE", name]">
+                        <input type="hidden" name="id" value="@b.Id" />
+                        <button class="fc-btn fc-btn--danger-outline fc-btn--sm" type="submit">@Localizer["FC_ADM_DELETE"]<span class="fc-sr-only"> @name</span></button>
+                    </form>
+                </div>
+            </li>
+        }
+    </ul>
+</section>
+
+<section class="fc-card fc-stack" aria-labelledby="new-h" style="margin-top: 22px">
+    <h2 id="new-h" class="fc-card__title">@Localizer["FC_ADM_NEW_BENEFICE"]</h2>
+    <form method="post" asp-page-handler="Create" class="fc-stack fc-form">
+        <div class="fc-grid">
+            <div class="fc-field">
+                <label class="fc-label" for="newName">@Localizer["FC_ADM_BENEFICE_NAME"]</label>
+                <input class="fc-input" id="newName" name="name" maxlength="120" required placeholder="@Localizer["FC_ADM_BENEFICE_NAME_PLACEHOLDER"]" />
+            </div>
+            <div class="fc-field">
+                <label class="fc-label" for="newWeb">@Localizer["TAG_WEBSITE"] <span class="fc-opt">— @Localizer["FC_SVC_OPTIONAL"]</span></label>
+                <input class="fc-input" id="newWeb" name="website" type="url" />
+            </div>
+            <div class="fc-field fc-span-all">
+                <label class="fc-label" for="newDesc">@Localizer["FC_DESCRIPTION"] <span class="fc-opt">— @Localizer["FC_SVC_OPTIONAL"]</span></label>
+                <textarea class="fc-textarea" id="newDesc" name="description" rows="3" maxlength="1000"></textarea>
+            </div>
+        </div>
+        <div class="fc-btn-row" style="justify-content: flex-end">
+            <button type="submit" class="fc-btn fc-btn--primary">+ @Localizer["FC_ADM_NEW_BENEFICE"]</button>
+        </div>
+    </form>
+</section>

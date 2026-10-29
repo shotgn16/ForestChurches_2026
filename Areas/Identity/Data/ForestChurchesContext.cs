@@ -48,6 +48,10 @@ public class ForestChurchesContext : IdentityDbContext<ChurchAccount, ChurchRole
     public DbSet<WhitelistedUsers> WhitelistedUsers { get; set; }
     public DbSet<ChurchInformation> ChurchInformation { get; set; }
 
+    public DbSet<Benefice> Benefices { get; set; }
+
+    public DbSet<ServiceDate> ServiceDates { get; set; }
+
     // ChurchSuite OAuth credentials
     public DbSet<ChurchSuiteCredential> ChurchSuiteCredentials { get; set; }
 
@@ -147,21 +151,56 @@ public class ForestChurchesContext : IdentityDbContext<ChurchAccount, ChurchRole
             .WithMany(p => p.RolePermissions)
             .HasForeignKey(rp => rp.PermissionId);
 
-        // Assigning Church Information table to users table 
+        // An account manages one or more churches (a benefice can have several).
         builder.Entity<ChurchAccount>()
-            .HasOne(ca => ca.ChurchInformation)
+            .HasMany(ca => ca.Churches)
             .WithOne(ci => ci.ChurchAccount)
-            .HasForeignKey<ChurchInformation>(ci => ci.ChurchAccountId);
+            .HasForeignKey(ci => ci.ChurchAccountId)
+            .OnDelete(DeleteBehavior.Cascade);
 
         builder.Entity<ChurchInformation>()
-            .HasIndex(ci => ci.ChurchAccountId)
-            .IsUnique();
+            .HasIndex(ci => ci.ChurchAccountId);
 
-        // Assigning 'ServiceTimes' to 'ChurchInformation'
+        // A church can belong to a benefice. Deleting a benefice leaves its churches in place.
+        builder.Entity<Benefice>()
+            .HasMany(b => b.Churches)
+            .WithOne(ci => ci.Benefice)
+            .HasForeignKey(ci => ci.BeneficeId)
+            .OnDelete(DeleteBehavior.SetNull);
+
+        builder.Entity<Benefice>()
+            .HasIndex(b => b.Name);
+
+        // Services belong to a church...
         builder.Entity<ChurchInformation>()
             .HasMany(ci => ci.ServiceTimes)
             .WithOne(st => st.ChurchInformation)
-            .HasForeignKey(st => st.ChurchInformationId);
+            .HasForeignKey(st => st.ChurchInformationId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        // ...and can be held at another church on the same account. If that church is deleted, the
+        // service simply falls back to its own church.
+        builder.Entity<ServiceTimes>()
+            .HasOne(st => st.LocationChurch)
+            .WithMany()
+            .HasForeignKey(st => st.LocationChurchId)
+            .OnDelete(DeleteBehavior.SetNull);
+
+        // Defaults for existing rows: every Sunday, weekly, at the church itself.
+        builder.Entity<ServiceTimes>().Property(st => st.RepeatType).HasDefaultValue(ServiceRepeat.Weekly);
+        builder.Entity<ServiceTimes>().Property(st => st.Interval).HasDefaultValue(1);
+        builder.Entity<ServiceTimes>().Property(st => st.DayOfWeek).HasDefaultValue(0);
+        builder.Entity<ServiceTimes>().Property(st => st.UseCustomLocation).HasDefaultValue(false);
+
+        // Specific dates for "custom dates" services.
+        builder.Entity<ServiceDate>()
+            .HasOne(d => d.Service)
+            .WithMany(st => st.Dates)
+            .HasForeignKey(d => d.ServiceTimesId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        builder.Entity<ServiceDate>()
+            .HasIndex(d => new { d.ServiceTimesId, d.Date });
     }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

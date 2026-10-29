@@ -732,12 +732,10 @@ internal partial class Program
                 var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
                 try
                 {
+                    // Migrates, first repairing a migration left half-applied, and keeps new text columns on the
+                    // existing tables' collation (mixed collations break joins, e.g. MySQL 8 data on MariaDB 11).
                     var db = scope.ServiceProvider.GetRequiredService<ForestChurchesContext>();
-                    var pendingMigrations = db.Database.GetPendingMigrations();
-                    if (pendingMigrations.Any())
-                    {
-                        db.Database.Migrate();
-                    }
+                    ForestChurches.Components.DatabaseMaintenance.DatabaseStartup.Run(db, logger);
                 }
                 catch (Exception ex)
                 {

@@ -4,6 +4,7 @@
 @inject ForestChurches.Data.ForestChurchesContext DbContext
 @inject ForestChurches.Components.Storage.IBlobUrlService BlobUrlService
 @inject ForestChurches.Components.Security.Encoder Encoder
+@inject ForestChurches.Components.Users.IManagedChurches ManagedChurches
 @{
     if (ViewData.TryGetValue("ParentLayout", out var parentLayout) && parentLayout != null)
     {
@@ -16,15 +17,20 @@
     ViewData["FcShell"] = "admin";
 
     // Church summary for the sidebar header. Never let it break the page.
+    // An account can manage several churches (a benefice); the switcher picks which one the pages act on.
     ForestChurches.Models.ChurchInformation? church = null;
+    var allChurches = new List<ForestChurches.Models.ChurchInformation>();
     string? logoBlob = null;
     try
     {
         var userId = UserManager.GetUserId(User);
         if (!string.IsNullOrEmpty(userId))
         {
-            church = await DbContext.ChurchInformation.AsNoTracking().FirstOrDefaultAsync(c => c.ChurchAccountId == userId);
-            logoBlob = (await UserManager.FindByIdAsync(userId))?.ImageBlobName;
+            church = await ManagedChurches.CurrentAsync(Context, userId);
+            allChurches = await ManagedChurches.ListAsync(userId);
+            logoBlob = !string.IsNullOrEmpty(church?.ImageBlobName)
+                ? church!.ImageBlobName
+                : (await UserManager.FindByIdAsync(userId))?.ImageBlobName;
         }
     }
     catch
@@ -54,6 +60,19 @@
                     <span class="fc-admin__status @(isOpen ? "" : "fc-admin__status--closed")">● @(isOpen ? Localizer["FC_STATUS_OPEN_LISTED"] : Localizer["FC_STATUS_CLOSED_HIDDEN"])</span>
                 </div>
             </div>
+            @if (allChurches.Count > 1)
+            {
+                <form method="get" class="fc-church-switch" action="@Context.Request.Path">
+                    <label class="fc-label" for="fc-church-switch">@Localizer["FC_CHURCH_SWITCH_LABEL"]</label>
+                    <select class="fc-select" id="fc-church-switch" name="church" data-fc-autosubmit>
+                        @foreach (var c in allChurches)
+                        {
+                            <option value="@ManagedChurches.Protect(c.ID)" selected="@(c.ID == church.ID)">@ForestChurches.Components.Ui.FcText.PlainText(c.Name)@(string.Equals(c.Status, "Open", StringComparison.OrdinalIgnoreCase) ? "" : " (" + Localizer["FC_STATUS_CLOSED_SHORT"].Value + ")")</option>
+                        }
+                    </select>
+                    <button type="submit" class="fc-btn fc-btn--outline fc-btn--sm" style="align-self: flex-start">@Localizer["FC_CHURCH_SWITCH_BUTTON"]</button>
+                </form>
+            }
         }
         <partial name="/Areas/Identity/Pages/Account/Manage/_ManageNav.cshtml" />
     </nav>

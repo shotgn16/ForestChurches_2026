@@ -129,6 +129,34 @@ namespace ForestChurches.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
+            modelBuilder.Entity("ForestChurches.Models.Benefice", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<DateTime>("CreatedUtc")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(1000)
+                        .HasColumnType("varchar(1000)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(120)
+                        .HasColumnType("varchar(120)");
+
+                    b.Property<string>("Website")
+                        .HasMaxLength(300)
+                        .HasColumnType("varchar(300)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Name");
+
+                    b.ToTable("Benefices");
+                });
+
             modelBuilder.Entity("ForestChurches.Models.Bulletin", b =>
                 {
                     b.Property<int>("Id")
@@ -214,6 +242,9 @@ namespace ForestChurches.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
+                    b.Property<string>("BeneficeId")
+                        .HasColumnType("varchar(255)");
+
                     b.Property<bool>("Childcare")
                         .HasColumnType("tinyint(1)");
 
@@ -246,6 +277,9 @@ namespace ForestChurches.Migrations
 
                     b.Property<bool>("HearingAidSupport")
                         .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("ImageBlobName")
+                        .HasColumnType("longtext");
 
                     b.Property<bool>("Kitchen")
                         .HasColumnType("tinyint(1)");
@@ -293,8 +327,9 @@ namespace ForestChurches.Migrations
 
                     b.HasKey("ID");
 
-                    b.HasIndex("ChurchAccountId")
-                        .IsUnique();
+                    b.HasIndex("BeneficeId");
+
+                    b.HasIndex("ChurchAccountId");
 
                     b.ToTable("ChurchInformation");
                 });
@@ -491,6 +526,29 @@ namespace ForestChurches.Migrations
                     b.ToTable("RolePermissions");
                 });
 
+            modelBuilder.Entity("ForestChurches.Models.ServiceDate", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<DateOnly>("Date")
+                        .HasColumnType("date");
+
+                    b.Property<string>("ServiceTimesId")
+                        .IsRequired()
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<string>("Time")
+                        .HasMaxLength(5)
+                        .HasColumnType("varchar(5)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ServiceTimesId", "Date");
+
+                    b.ToTable("ServiceDates");
+                });
+
             modelBuilder.Entity("ForestChurches.Models.ServiceTimes", b =>
                 {
                     b.Property<string>("Id")
@@ -501,17 +559,65 @@ namespace ForestChurches.Migrations
                         .IsRequired()
                         .HasColumnType("varchar(255)");
 
+                    b.Property<int?>("DayOfMonth")
+                        .HasColumnType("int");
+
+                    b.Property<int>("DayOfWeek")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValue(0);
+
+                    b.Property<DateOnly?>("EndDate")
+                        .HasColumnType("date");
+
+                    b.Property<string>("EndTime")
+                        .HasMaxLength(5)
+                        .HasColumnType("varchar(5)");
+
+                    b.Property<int>("Interval")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValue(1);
+
+                    b.Property<string>("LocationAddress")
+                        .HasMaxLength(300)
+                        .HasColumnType("varchar(300)");
+
+                    b.Property<string>("LocationChurchId")
+                        .HasColumnType("varchar(255)");
+
                     b.Property<string>("Note")
                         .IsRequired()
                         .HasColumnType("longtext");
+
+                    b.Property<string>("RepeatType")
+                        .IsRequired()
+                        .ValueGeneratedOnAdd()
+                        .HasMaxLength(20)
+                        .HasColumnType("varchar(20)")
+                        .HasDefaultValue("Weekly");
+
+                    b.Property<DateOnly?>("StartDate")
+                        .HasColumnType("date");
 
                     b.Property<string>("Time")
                         .IsRequired()
                         .HasColumnType("longtext");
 
+                    b.Property<bool>("UseCustomLocation")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("tinyint(1)")
+                        .HasDefaultValue(false);
+
+                    b.Property<string>("WeeksOfMonth")
+                        .HasMaxLength(20)
+                        .HasColumnType("varchar(20)");
+
                     b.HasKey("Id");
 
                     b.HasIndex("ChurchInformationId");
+
+                    b.HasIndex("LocationChurchId");
 
                     b.ToTable("ServiceTimes");
                 });
@@ -649,11 +755,18 @@ namespace ForestChurches.Migrations
 
             modelBuilder.Entity("ForestChurches.Models.ChurchInformation", b =>
                 {
+                    b.HasOne("ForestChurches.Models.Benefice", "Benefice")
+                        .WithMany("Churches")
+                        .HasForeignKey("BeneficeId")
+                        .OnDelete(DeleteBehavior.SetNull);
+
                     b.HasOne("ForestChurches.Components.Users.ChurchAccount", "ChurchAccount")
-                        .WithOne("ChurchInformation")
-                        .HasForeignKey("ForestChurches.Models.ChurchInformation", "ChurchAccountId")
+                        .WithMany("Churches")
+                        .HasForeignKey("ChurchAccountId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Benefice");
 
                     b.Navigation("ChurchAccount");
                 });
@@ -677,6 +790,17 @@ namespace ForestChurches.Migrations
                     b.Navigation("Role");
                 });
 
+            modelBuilder.Entity("ForestChurches.Models.ServiceDate", b =>
+                {
+                    b.HasOne("ForestChurches.Models.ServiceTimes", "Service")
+                        .WithMany("Dates")
+                        .HasForeignKey("ServiceTimesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Service");
+                });
+
             modelBuilder.Entity("ForestChurches.Models.ServiceTimes", b =>
                 {
                     b.HasOne("ForestChurches.Models.ChurchInformation", "ChurchInformation")
@@ -685,7 +809,14 @@ namespace ForestChurches.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("ForestChurches.Models.ChurchInformation", "LocationChurch")
+                        .WithMany()
+                        .HasForeignKey("LocationChurchId")
+                        .OnDelete(DeleteBehavior.SetNull);
+
                     b.Navigation("ChurchInformation");
+
+                    b.Navigation("LocationChurch");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -746,8 +877,12 @@ namespace ForestChurches.Migrations
 
             modelBuilder.Entity("ForestChurches.Components.Users.ChurchAccount", b =>
                 {
-                    b.Navigation("ChurchInformation")
-                        .IsRequired();
+                    b.Navigation("Churches");
+                });
+
+            modelBuilder.Entity("ForestChurches.Models.Benefice", b =>
+                {
+                    b.Navigation("Churches");
                 });
 
             modelBuilder.Entity("ForestChurches.Models.ChurchInformation", b =>
@@ -758,6 +893,11 @@ namespace ForestChurches.Migrations
             modelBuilder.Entity("ForestChurches.Models.Permission", b =>
                 {
                     b.Navigation("RolePermissions");
+                });
+
+            modelBuilder.Entity("ForestChurches.Models.ServiceTimes", b =>
+                {
+                    b.Navigation("Dates");
                 });
 #pragma warning restore 612, 618
         }

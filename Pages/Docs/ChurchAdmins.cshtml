@@ -15,9 +15,10 @@
         <li><a href="#signin">Signing in</a></li>
         <li><a href="#password-reset">Forgotten your password</a></li>
         <li><a href="#around">Finding your way around</a></li>
+        <li><a href="#several">Looking after more than one church (benefices)</a></li>
         <li><a href="#mychurch">My Church: your public details</a></li>
         <li><a href="#facilities">Facilities</a></li>
-        <li><a href="#services">Service times</a></li>
+        <li><a href="#services">Services and when they take place</a></li>
         <li><a href="#logo">Logo or photo</a></li>
         <li><a href="#closing">Closing or reopening your church</a></li>
         <li><a href="#events">Events</a></li>
@@ -98,6 +99,20 @@
     <p>The top of the menu shows your church's name, logo and whether it's <em>Open · listed</em> or closed. Always select <span class="ui">Logout</span> when you've finished on a shared computer.</p>
 </section>
 
+<section class="fcd-section" id="several">
+    <h2>Looking after more than one church (benefices)</h2>
+    <p>One account can look after several churches, for example all the churches in a benefice. Each church still has its own page, details, services and events, and visitors see which benefice it belongs to with links to its sister churches.</p>
+    <ul>
+        <li>Churches are added to your account, and put into a benefice, by the Forest Churches team. Ask them through <a href="/Contact">Contact us</a>; you can't add or remove churches yourself.</li>
+        <li>When your account has more than one church, <span class="ui">Working on</span> appears under your church's name in the left-hand menu. Choose a church and the page switches to it; My Church, adding events and ChurchSuite sync then act on that church until you switch again.</li>
+        <li>If a church in your benefice gets its own administrator later, the team can move it to that person's account. It stays in the benefice and keeps its page, services and events.</li>
+    </ul>
+    <figure class="fcd-shot fcd-shot--half">
+        <img src="~/img/docs/church-switcher.png" alt="The left-hand menu showing the church name, its status and a Working on drop-down with a Switch button" loading="lazy" />
+        <figcaption>Switching between the churches on your account.</figcaption>
+    </figure>
+</section>
+
 <section class="fcd-section" id="mychurch">
     <h2>My Church: your public details</h2>
     <p>The <span class="ui">Details</span> card controls what visitors see on your page and in search:</p>
@@ -129,14 +144,48 @@
 </section>
 
 <section class="fcd-section" id="services">
-    <h2>Service times</h2>
-    <p>Under <span class="ui">Your Church Service Times</span>:</p>
+    <h2>Services and when they take place</h2>
+    <p><span class="ui">Your Church Service Times</span> lists each regular service with when it happens in words (for example <em>1st and 3rd Sunday of the month, 18:00</em>), where it's held, and its next three dates, so you can check the pattern is right.</p>
+    <figure class="fcd-shot">
+        <img src="~/img/docs/church-services.png" alt="A table of services: Morning Communion every Sunday, Evening Praise 1st and 3rd Sunday, Midweek Prayer every other Wednesday, Benefice Service last Sunday held at Holy Trinity, and Christmas Services on selected dates, each with its next three dates and Edit and Remove buttons" loading="lazy" />
+        <figcaption>Each service shows its pattern, where it's held and its next dates.</figcaption>
+    </figure>
+
+    <h3>Adding or changing a service</h3>
     <ol>
-        <li>Enter the <span class="ui">Time</span>, for example <code>10:30</code>.</li>
-        <li>Enter the <span class="ui">Service name</span>, for example <em>Morning Communion Service</em>.</li>
-        <li>Select <span class="ui">Add Service</span>.</li>
+        <li>Select <span class="ui">+ Add Service</span>, or <span class="ui">Edit</span> next to an existing one.</li>
+        <li>Enter the <span class="ui">Service name</span> (e.g. <em>Holy Communion</em>), when it <span class="ui">Starts at</span> and, if you like, when it <span class="ui">Ends at</span>.</li>
+        <li>Under <span class="ui">How often?</span> choose one of these:
+            <div class="fcd-table-wrap">
+                <table class="fcd-table">
+                    <thead><tr><th>Choose</th><th>Then set</th><th>Examples</th></tr></thead>
+                    <tbody>
+                        <tr><td><span class="ui">Weekly or every few weeks</span></td><td>The <span class="ui">Day</span>, and <span class="ui">Repeats</span>: every week, every other week, or every 3–8 weeks</td><td>Every Sunday · every other Wednesday (fortnightly) · every 4 weeks on Friday</td></tr>
+                        <tr><td><span class="ui">Monthly, by weekday</span></td><td>The <span class="ui">Day</span>, <span class="ui">Which weeks of the month?</span> (1st–5th and/or last; tick as many as you need), and <span class="ui">Repeats</span>: every month, every other month, or every 3–12 months</td><td>1st and 3rd Sunday · last Sunday · 2nd Sunday every other month</td></tr>
+                        <tr><td><span class="ui">Monthly, by date</span></td><td>The <span class="ui">Date in the month</span> and <span class="ui">Repeats</span></td><td>The 15th of every month · the 1st of every other month</td></tr>
+                        <tr><td><span class="ui">Specific dates</span></td><td>Each date, with its own time if it differs from <span class="ui">Starts at</span>. Use <span class="ui">+ Add another date</span> for more rows.</td><td>Christmas and Easter services · a one-off service</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </li>
+        <li>For patterns that aren't every week or every month (every other week, every 2 months…), set the <span class="ui">First date</span> the service takes place. That's how the site knows <em>which</em> weeks or months it falls in. You can also set a <span class="ui">Last date</span> for a series that ends.</li>
+        <li>Select <span class="ui">Save service</span>. If something's missing the form says what, and nothing is saved until it's fixed.</li>
     </ol>
-    <p>To delete one, select <span class="ui">Remove</span> and confirm. Services are listed in time-of-day order on your page, and visitors see the earliest one as your <em>Next service</em>. The same time and name can't be added twice.</p>
+    <figure class="fcd-shot">
+        <img src="~/img/docs/church-service-editor.png" alt="The service editor for Benefice Service: Monthly by weekday, Sunday, last week of the month, every month, with Held somewhere else switched on and Holy Trinity, Drybrook chosen" loading="lazy" />
+        <figcaption>A service on the last Sunday of each month, held at another church on the account.</figcaption>
+    </figure>
+    <figure class="fcd-shot">
+        <img src="~/img/docs/church-service-dates.png" alt="The service editor with Specific dates chosen and three date rows, each with its own time" loading="lazy" />
+        <figcaption>Specific dates, each with its own time.</figcaption>
+    </figure>
+
+    <h3>Where a service is held</h3>
+    <p>Leave <span class="ui">Held somewhere else</span> off for services at the church itself. Switch it on for a service held elsewhere, then choose <span class="ui">At another of our churches</span> (one of the other churches on your account) or <span class="ui">At another address</span> (a village hall, a school…) and type the address. Visitors see “Held at …” under the service, linked to the other church's page.</p>
+
+    <h3>What visitors see</h3>
+    <p>Your page lists services in the order they next take place, each with its pattern, where it's held, its next date and a <span class="ui">More dates</span> list. <em>Next service</em> at the top of the page, and in search results, is the soonest upcoming service across all of them. Times and dates are UK time. Services you set up before these options existed are treated as every Sunday at their time, exactly as before; edit them to change that.</p>
+    <p>To delete a service, select <span class="ui">Remove</span> and confirm.</p>
 </section>
 
 <section class="fcd-section" id="logo">
@@ -169,6 +218,7 @@
     <h3>Adding an event</h3>
     <ol>
         <li>Select <span class="ui">Add New Event</span>.</li>
+        <li>If your account looks after more than one church, choose <span class="ui">Which church is this event for?</span> (it starts on the church you're working on).</li>
         <li>Fill in <span class="ui">Event name</span>, <span class="ui">Date</span>, <span class="ui">Starts</span> and <span class="ui">Ends</span>.</li>
         <li>Choose how often it <span class="ui">Repeats</span>: never (one-off), daily, weekly, every 2 weeks, every 3 weeks, monthly or every 2 months.</li>
         <li>Enter the <span class="ui">Location</span> (the event's address, used to find it in "Events near me"), a <span class="ui">Description</span>, and optionally a <span class="ui">Link for more information</span> and an <span class="ui">Image</span> (PNG or JPEG).</li>

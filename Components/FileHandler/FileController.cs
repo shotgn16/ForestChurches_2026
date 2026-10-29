@@ -1,4 +1,5 @@
-﻿using ForestChurches.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using ForestChurches.Data;
 using ForestChurches.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -11,8 +12,11 @@ namespace ForestChurches.Components.FileManager
         private ForestChurchesContext _context;
         private readonly ILogger<FileController> _logger;
         private const string SafeDirectory = "SafeFiles";
-        public FileController(ILogger<FileController> logger, ForestChurchesContext context)
+        private readonly Microsoft.Extensions.Localization.IStringLocalizer<ForestChurches.SharedResources> _localizer;
+        public FileController(ILogger<FileController> logger, ForestChurchesContext context,
+            Microsoft.Extensions.Localization.IStringLocalizer<ForestChurches.SharedResources> localizer)
         {
+            _localizer = localizer;
             _context = context;
             _logger = logger;
             Directory.CreateDirectory(SafeDirectory);
@@ -102,7 +106,11 @@ namespace ForestChurches.Components.FileManager
         private async Task<string> returnOpeningHours(ChurchInformation church)
         {
             StringBuilder output = new StringBuilder();
-            var serviceTimes = _context.ServiceTimes.Where(a => a.ChurchInformationId == church.ID).ToList();
+            var serviceTimes = _context.ServiceTimes
+                .Include(st => st.Dates)
+                .Include(st => st.LocationChurch)
+                .Where(a => a.ChurchInformationId == church.ID).ToList();
+            var ukNow = ForestChurches.Components.Services.ServiceSchedule.UkNow();
             try
             {
                 if (church.ServiceTimes != null)
@@ -111,7 +119,13 @@ namespace ForestChurches.Components.FileManager
 
                     foreach (var item in serviceTimes)
                     {
-                        output.AppendLine($"{item.Note}: {item.Time}");
+                        // e.g. "Holy Communion: Every other Sunday, 10:30 (held at St Mary's). Next: Sunday 1 November, 10:30"
+                        var line = $"{item.Note}: {ForestChurches.Components.Services.ServiceScheduleText.Describe(item, _localizer)}";
+                        var where = !item.UseCustomLocation ? null : item.LocationChurch?.Name ?? item.LocationAddress;
+                        if (!string.IsNullOrWhiteSpace(where)) line += $" ({_localizer["FC_SVC_HELD_AT", where].Value})";
+                        var next = ForestChurches.Components.Services.ServiceSchedule.Upcoming(item, ukNow, 1);
+                        if (next.Count > 0) line += ". " + _localizer["FC_SVC_NEXT_ON", ForestChurches.Components.Services.ServiceScheduleText.Occurrence(next[0])].Value;
+                        output.AppendLine(line);
                     }
                 }
                 else

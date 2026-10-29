@@ -91,6 +91,51 @@ namespace ForestChurches.Components.Logging
             }
         }
 
+        private static readonly string[] LogTableNames = { "applicationlogs", "system_logs", "systemlogs", "system-logs", "system.logs" };
+
+        // Columns worth searching, in the spellings the different log sinks use. Properties holds the request ID.
+        private static readonly string[] LogSearchColumns = { "Message", "RenderedMessage", "Exception", "Level", "Url", "Action", "Properties", "Template", "MessageTemplate" };
+
+        /// <summary>
+        /// Picks the first log table that exists and returns which of the searchable columns it actually has
+        /// (the tables written by the different sinks don't all have Url/Action, and searching a missing column fails).
+        /// </summary>
+        private static async Task<(string table, List<string> searchColumns)> ResolveLogTableAsync(MySqlConnection connection)
+        {
+            var found = new Dictionary<string, List<string>>(StringComparer.OrdinalIgnoreCase);
+            using (var cmd = new MySqlCommand(
+                "SELECT TABLE_NAME, COLUMN_NAME FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME IN (" +
+                string.Join(",", LogTableNames.Select((_, i) => "@t" + i)) + ")", connection))
+            {
+                for (var i = 0; i < LogTableNames.Length; i++) cmd.Parameters.AddWithValue("@t" + i, LogTableNames[i]);
+                using var reader = await cmd.ExecuteReaderAsync();
+                while (await reader.ReadAsync())
+                {
+                    var table = reader.GetString(0);
+                    if (!found.TryGetValue(table, out var cols)) found[table] = cols = new List<string>();
+                    cols.Add(reader.GetString(1));
+                }
+            }
+
+            foreach (var name in LogTableNames)
+            {
+                var key = found.Keys.FirstOrDefault(k => string.Equals(k, name, StringComparison.OrdinalIgnoreCase));
+                if (key == null) continue;
+                var columns = found[key];
+                var search = LogSearchColumns
+                    .Select(c => columns.FirstOrDefault(x => string.Equals(x, c, StringComparison.OrdinalIgnoreCase)))
+                    .Where(c => c != null)
+                    .Distinct(StringComparer.OrdinalIgnoreCase)
+                    .ToList();
+                return (key, search);
+            }
+
+            return (LogTableNames[0], new List<string> { "Message" });
+        }
+
+        private static string SearchClause(List<string> columns) =>
+            "(" + string.Join(" OR ", columns.Select(c => $"`{c.Replace("`", "``")}` LIKE @Search")) + ")";
+
         public async Task<PaginatedList<Models.LogEntry>> LogsOnCall(int pageNumber, int pageSize, string searchQuery = null)
         {
             var logs = new List<Models.LogEntry>();
@@ -103,30 +148,13 @@ namespace ForestChurches.Components.Logging
                 using (var connection = new MySqlConnection(_connectionString))
                 {
                     await connection.OpenAsync();
+                    // Find the log table and the text columns it really has, so the search only names columns that exist.
+                    var (baseTable, searchColumns) = await ResolveLogTableAsync(connection);
 
-                    // Build query with optional search. Try both applicationlogs and system_logs if necessary
-                    string[] possibleTables = new[] { "applicationlogs", "system_logs", "systemlogs", "system-logs", "system.logs" };
-                    string baseTable = possibleTables.First();
-
-                    // Choose the first table that exists
-                    foreach (var t in possibleTables)
-                    {
-                        try
-                        {
-                            using (var check = new MySqlCommand($"SELECT 1 FROM {t} LIMIT 1", connection))
-                            {
-                                await check.ExecuteScalarAsync();
-                                baseTable = t;
-                                break;
-                            }
-                        }
-                        catch { }
-                    }
-
-                    var query = $"SELECT SQL_CALC_FOUND_ROWS * FROM {baseTable}";
+                    var query = $"SELECT SQL_CALC_FOUND_ROWS * FROM `{baseTable}`";
                     if (!string.IsNullOrWhiteSpace(searchQuery))
                     {
-                        query += " WHERE Message LIKE @Search OR Exception LIKE @Search OR `Level` LIKE @Search OR Url LIKE @Search OR Action LIKE @Search";
+                        query += " WHERE " + SearchClause(searchColumns);
                     }
 
                     // Newest first
@@ -224,30 +252,14 @@ namespace ForestChurches.Components.Logging
                 using (var connection = new MySqlConnection(_connectionString))
                 {
                     await connection.OpenAsync();
+                    // Find the log table and the text columns it really has, so the search only names columns that exist.
+                    var (baseTable, searchColumns) = await ResolveLogTableAsync(connection);
 
-                    // Detect the correct table name
-                    string[] possibleTables = new[] { "applicationlogs", "system_logs", "systemlogs", "system-logs", "system.logs" };
-                    string baseTable = possibleTables.First();
-
-                    foreach (var t in possibleTables)
-                    {
-                        try
-                        {
-                            using (var check = new MySqlCommand($"SELECT 1 FROM {t} LIMIT 1", connection))
-                            {
-                                await check.ExecuteScalarAsync();
-                                baseTable = t;
-                                break;
-                            }
-                        }
-                        catch { }
-                    }
-
-                    var query = $"SELECT * FROM {baseTable} WHERE Timestamp >= @FromDate AND Timestamp <= @ToDate";
+                    var query = $"SELECT * FROM `{baseTable}` WHERE Timestamp >= @FromDate AND Timestamp <= @ToDate";
 
                     if (!string.IsNullOrWhiteSpace(searchQuery))
                     {
-                        query += " AND (Message LIKE @Search OR Exception LIKE @Search OR `Level` LIKE @Search OR Url LIKE @Search OR Action LIKE @Search)";
+                        query += " AND " + SearchClause(searchColumns);
                     }
 
                     // Newest first

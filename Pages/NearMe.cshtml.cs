@@ -195,7 +195,7 @@ namespace ForestChurches.Pages
                     FilterParking, FilterRestrooms, FilterWheelchairAccess, FilterWifi, FilterRefreshments, FilterWorshipHall, FilterChildcare, FilterMeetingHall, FilterKitchen, FilterOutdoorSpaces, FilterHearingAidSupport);
 
                 // Build base query and apply facility / denomination filters in SQL
-                var query = _context.ChurchInformation.Include(c => c.ServiceTimes).Where(c => c.Status == "Open");
+                var query = _context.ChurchInformation.Include(c => c.ServiceTimes).ThenInclude(st => st.Dates).Include(c => c.Benefice).AsSplitQuery().Where(c => c.Status == "Open");
 
                 if (FilterParking) query = query.Where(c => c.Parking);
                 if (FilterRestrooms) query = query.Where(c => c.Restrooms);

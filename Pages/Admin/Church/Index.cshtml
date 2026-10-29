@@ -27,7 +27,10 @@
         <h1>@Localizer["FC_ADM_CHURCHES"]</h1>
         <p>@Localizer["FC_ADM_CHURCHES_LEAD"]</p>
     </div>
-    <a asp-page="/Admin/Invite" class="fc-btn fc-btn--primary">+ @Localizer["FC_ADM_INVITE_CHURCH"]</a>
+    <div class="fc-btn-row">
+        <a asp-page="./Create" class="fc-btn fc-btn--outline">+ @Localizer["FC_ADM_ADD_CHURCH"]</a>
+        <a asp-page="/Admin/Invite" class="fc-btn fc-btn--primary">+ @Localizer["FC_ADM_INVITE_CHURCH"]</a>
+    </div>
 </div>
 
 <partial name="_StatusMessage" model="Model.StatusMessage" />
@@ -69,6 +72,10 @@
                         @FcText.PlainText(church.Denomination) · @Localizer["FC_ADM_CONGREGATION_N", FcText.PlainText(church.Congregation)]
                         @if (owner != null) { <text> · </text><span class="fc-break">@owner</span> }
                     </span>
+                    @if (church.Benefice != null)
+                    {
+                        <span class="fc-small"><span class="fc-badge fc-badge--moss">@Localizer["FC_BENEFICE"]</span> @FcText.PlainText(church.Benefice.Name)</span>
+                    }
                     <span class="fc-small">@FcText.PlainText(church.Address)@(string.IsNullOrWhiteSpace(church.Phone) ? "" : " · " + church.Phone)</span>
                     <span class="fc-small fc-row" style="gap: 4px 14px">
                         @if (church.Website != null) { <a href="@church.Website" rel="noopener" target="_blank" class="fc-break">@church.Website.Host</a> }

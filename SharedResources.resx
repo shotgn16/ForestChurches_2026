@@ -2634,4 +2634,364 @@
   <data name="FC_ADM_EMAIL_MEMORY_NOTE" xml:space="preserve">
     <value>This list keeps the newest 500 emails and resets when the site restarts. Every step is also written to the logs with the email's ID, so use Logs to look further back.</value>
   </data>
+  <data name="FC_SVC_WEEKLY" xml:space="preserve">
+    <value>Every {0}</value>
+  </data>
+  <data name="FC_SVC_FORTNIGHTLY" xml:space="preserve">
+    <value>Every other {0}</value>
+  </data>
+  <data name="FC_SVC_EVERY_N_WEEKS" xml:space="preserve">
+    <value>Every {1} weeks on {0}</value>
+  </data>
+  <data name="FC_SVC_MONTHLY_WEEKDAY" xml:space="preserve">
+    <value>{1} {0} of the month</value>
+  </data>
+  <data name="FC_SVC_MONTHLY_WEEKDAY_ALT" xml:space="preserve">
+    <value>{1} {0} of every other month</value>
+  </data>
+  <data name="FC_SVC_MONTHLY_WEEKDAY_N" xml:space="preserve">
+    <value>{1} {0} every {2} months</value>
+  </data>
+  <data name="FC_SVC_MONTHLY_DATE" xml:space="preserve">
+    <value>The {0} of every month</value>
+  </data>
+  <data name="FC_SVC_MONTHLY_DATE_ALT" xml:space="preserve">
+    <value>The {0} of every other month</value>
+  </data>
+  <data name="FC_SVC_MONTHLY_DATE_N" xml:space="preserve">
+    <value>The {0} of every {1} months</value>
+  </data>
+  <data name="FC_SVC_DATES" xml:space="preserve">
+    <value>On selected dates</value>
+  </data>
+  <data name="FC_SVC_DAY_NUMBER" xml:space="preserve">
+    <value>{0}</value>
+  </data>
+  <data name="FC_SVC_PATTERN_AT_TIME" xml:space="preserve">
+    <value>{0}, {1}</value>
+  </data>
+  <data name="FC_SVC_FROM" xml:space="preserve">
+    <value>from {0}</value>
+  </data>
+  <data name="FC_SVC_UNTIL" xml:space="preserve">
+    <value>until {0}</value>
+  </data>
+  <data name="FC_SVC_AND" xml:space="preserve">
+    <value>and</value>
+  </data>
+  <data name="FC_SVC_ORD_1" xml:space="preserve">
+    <value>1st</value>
+  </data>
+  <data name="FC_SVC_ORD_2" xml:space="preserve">
+    <value>2nd</value>
+  </data>
+  <data name="FC_SVC_ORD_3" xml:space="preserve">
+    <value>3rd</value>
+  </data>
+  <data name="FC_SVC_ORD_4" xml:space="preserve">
+    <value>4th</value>
+  </data>
+  <data name="FC_SVC_ORD_5" xml:space="preserve">
+    <value>5th</value>
+  </data>
+  <data name="FC_SVC_ORD_LAST" xml:space="preserve">
+    <value>last</value>
+  </data>
+  <data name="FC_SERVICES_HEADING" xml:space="preserve">
+    <value>Services</value>
+  </data>
+  <data name="FC_SVC_HELD_AT" xml:space="preserve">
+    <value>Held at {0}</value>
+  </data>
+  <data name="FC_SVC_HELD_AT_PREFIX" xml:space="preserve">
+    <value>Held at</value>
+  </data>
+  <data name="FC_SVC_NEXT_ON" xml:space="preserve">
+    <value>Next: {0}</value>
+  </data>
+  <data name="FC_SVC_MORE_DATES" xml:space="preserve">
+    <value>More dates</value>
+  </data>
+  <data name="FC_SVC_NO_UPCOMING" xml:space="preserve">
+    <value>No upcoming dates</value>
+  </data>
+  <data name="FC_BENEFICE" xml:space="preserve">
+    <value>Benefice</value>
+  </data>
+  <data name="FC_BENEFICE_PART_OF" xml:space="preserve">
+    <value>Part of {0}</value>
+  </data>
+  <data name="FC_BENEFICE_SISTERS" xml:space="preserve">
+    <value>Other churches in the benefice</value>
+  </data>
+  <data name="FC_BENEFICE_WEBSITE" xml:space="preserve">
+    <value>Benefice website</value>
+  </data>
+  <data name="FC_CHURCH_SWITCH_LABEL" xml:space="preserve">
+    <value>Working on</value>
+  </data>
+  <data name="FC_CHURCH_SWITCH_BUTTON" xml:space="preserve">
+    <value>Switch</value>
+  </data>
+  <data name="FC_CHURCH_EDITING" xml:space="preserve">
+    <value>You're editing {0}. Use “Working on” to switch church.</value>
+  </data>
+  <data name="FC_STATUS_CLOSED_SHORT" xml:space="preserve">
+    <value>closed</value>
+  </data>
+  <data name="FC_EVENT_WHICH_CHURCH" xml:space="preserve">
+    <value>Which church is this event for?</value>
+  </data>
+  <data name="FC_SVC_SCHEDULE" xml:space="preserve">
+    <value>Service and when</value>
+  </data>
+  <data name="FC_SVC_WHERE" xml:space="preserve">
+    <value>Where</value>
+  </data>
+  <data name="FC_SVC_UPCOMING" xml:space="preserve">
+    <value>Next dates</value>
+  </data>
+  <data name="FC_SVC_ACTIONS" xml:space="preserve">
+    <value>Actions</value>
+  </data>
+  <data name="FC_SVC_AT_THIS_CHURCH" xml:space="preserve">
+    <value>At this church</value>
+  </data>
+  <data name="FC_SVC_EDIT_BUTTON" xml:space="preserve">
+    <value>Edit</value>
+  </data>
+  <data name="FC_SVC_EDIT" xml:space="preserve">
+    <value>Edit service</value>
+  </data>
+  <data name="FC_SVC_FIX" xml:space="preserve">
+    <value>Please check the following:</value>
+  </data>
+  <data name="FC_SVC_START_TIME" xml:space="preserve">
+    <value>Starts at</value>
+  </data>
+  <data name="FC_SVC_END_TIME" xml:space="preserve">
+    <value>Ends at</value>
+  </data>
+  <data name="FC_SVC_OPTIONAL" xml:space="preserve">
+    <value>optional</value>
+  </data>
+  <data name="FC_SVC_OPTIONAL_UNLESS" xml:space="preserve">
+    <value>needed for every-other or every-few patterns</value>
+  </data>
+  <data name="FC_SVC_HOW_OFTEN" xml:space="preserve">
+    <value>How often?</value>
+  </data>
+  <data name="FC_SVC_REPEAT_WEEKLY" xml:space="preserve">
+    <value>Weekly or every few weeks</value>
+  </data>
+  <data name="FC_SVC_REPEAT_MONTHLY_WEEKDAY" xml:space="preserve">
+    <value>Monthly, by weekday (e.g. 1st Sunday)</value>
+  </data>
+  <data name="FC_SVC_REPEAT_MONTHLY_DATE" xml:space="preserve">
+    <value>Monthly, by date (e.g. the 15th)</value>
+  </data>
+  <data name="FC_SVC_REPEAT_DATES" xml:space="preserve">
+    <value>Specific dates</value>
+  </data>
+  <data name="FC_SVC_DAY" xml:space="preserve">
+    <value>Day</value>
+  </data>
+  <data name="FC_SVC_REPEATS" xml:space="preserve">
+    <value>Repeats</value>
+  </data>
+  <data name="FC_SVC_EVERY_WEEK" xml:space="preserve">
+    <value>Every week</value>
+  </data>
+  <data name="FC_SVC_EVERY_OTHER_WEEK" xml:space="preserve">
+    <value>Every other week (fortnightly)</value>
+  </data>
+  <data name="FC_SVC_EVERY_N_WEEKS_OPT" xml:space="preserve">
+    <value>Every {0} weeks</value>
+  </data>
+  <data name="FC_SVC_EVERY_MONTH" xml:space="preserve">
+    <value>Every month</value>
+  </data>
+  <data name="FC_SVC_EVERY_OTHER_MONTH" xml:space="preserve">
+    <value>Every other month</value>
+  </data>
+  <data name="FC_SVC_EVERY_N_MONTHS_OPT" xml:space="preserve">
+    <value>Every {0} months</value>
+  </data>
+  <data name="FC_SVC_WHICH_WEEKS" xml:space="preserve">
+    <value>Which weeks of the month?</value>
+  </data>
+  <data name="FC_SVC_DAY_OF_MONTH" xml:space="preserve">
+    <value>Date in the month</value>
+  </data>
+  <data name="FC_SVC_DAY_OF_MONTH_HINT" xml:space="preserve">
+    <value>In shorter months, a service set for the 29th–31st takes place on the last day of the month.</value>
+  </data>
+  <data name="FC_SVC_START_DATE" xml:space="preserve">
+    <value>First date</value>
+  </data>
+  <data name="FC_SVC_START_DATE_HINT" xml:space="preserve">
+    <value>The first date the service takes place. For every-other-week or every-few-months services this fixes which weeks or months it falls in.</value>
+  </data>
+  <data name="FC_SVC_END_DATE" xml:space="preserve">
+    <value>Last date</value>
+  </data>
+  <data name="FC_SVC_DATES_LABEL" xml:space="preserve">
+    <value>Dates</value>
+  </data>
+  <data name="FC_SVC_DATE" xml:space="preserve">
+    <value>Date</value>
+  </data>
+  <data name="FC_SVC_DATE_TIME_HINT" xml:space="preserve">
+    <value>Leave a date's time empty to use the service's start time.</value>
+  </data>
+  <data name="FC_SVC_ADD_DATE" xml:space="preserve">
+    <value>Add another date</value>
+  </data>
+  <data name="FC_SVC_REMOVE_DATE" xml:space="preserve">
+    <value>Remove</value>
+  </data>
+  <data name="FC_SVC_LOCATION" xml:space="preserve">
+    <value>Location</value>
+  </data>
+  <data name="FC_SVC_LOCATION_TOGGLE" xml:space="preserve">
+    <value>Held somewhere else</value>
+  </data>
+  <data name="FC_SVC_LOCATION_OFF_HINT" xml:space="preserve">
+    <value>Off: the service is held at {0}.</value>
+  </data>
+  <data name="FC_SVC_AT_OUR_CHURCH" xml:space="preserve">
+    <value>At another of our churches</value>
+  </data>
+  <data name="FC_SVC_AT_ADDRESS" xml:space="preserve">
+    <value>At another address</value>
+  </data>
+  <data name="FC_SVC_WHICH_CHURCH" xml:space="preserve">
+    <value>Church</value>
+  </data>
+  <data name="FC_SVC_ADDRESS" xml:space="preserve">
+    <value>Address</value>
+  </data>
+  <data name="FC_SVC_SAVE" xml:space="preserve">
+    <value>Save service</value>
+  </data>
+  <data name="FC_SVC_CANCEL" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="FC_SVC_ERR_NAME" xml:space="preserve">
+    <value>Enter the service's name.</value>
+  </data>
+  <data name="FC_SVC_ERR_NAME_LONG" xml:space="preserve">
+    <value>The service's name can't be longer than 200 characters.</value>
+  </data>
+  <data name="FC_SVC_ERR_TIME" xml:space="preserve">
+    <value>Enter a valid start time.</value>
+  </data>
+  <data name="FC_SVC_ERR_END_TIME" xml:space="preserve">
+    <value>The end time must be after the start time.</value>
+  </data>
+  <data name="FC_SVC_ERR_REPEAT" xml:space="preserve">
+    <value>Choose how often the service takes place.</value>
+  </data>
+  <data name="FC_SVC_ERR_INTERVAL" xml:space="preserve">
+    <value>Choose how many weeks or months apart the services are.</value>
+  </data>
+  <data name="FC_SVC_ERR_START_NEEDED" xml:space="preserve">
+    <value>Choose the first date, so we know which weeks or months the service falls in.</value>
+  </data>
+  <data name="FC_SVC_ERR_WEEKS" xml:space="preserve">
+    <value>Choose at least one week of the month.</value>
+  </data>
+  <data name="FC_SVC_ERR_DAY_OF_MONTH" xml:space="preserve">
+    <value>Choose a date in the month.</value>
+  </data>
+  <data name="FC_SVC_ERR_DATES" xml:space="preserve">
+    <value>Add at least one date.</value>
+  </data>
+  <data name="FC_SVC_ERR_END_DATE" xml:space="preserve">
+    <value>The last date can't be before the first date.</value>
+  </data>
+  <data name="FC_SVC_ERR_LOCATION" xml:space="preserve">
+    <value>Choose another church or enter an address, or turn off “Held somewhere else”.</value>
+  </data>
+  <data name="FC_SVC_ERR_LOCATION_CHURCH" xml:space="preserve">
+    <value>Choose one of your other churches.</value>
+  </data>
+  <data name="FC_SVC_ERR_NOT_FOUND" xml:space="preserve">
+    <value>That service couldn't be found.</value>
+  </data>
+  <data name="FC_ADM_BENEFICES" xml:space="preserve">
+    <value>Benefices</value>
+  </data>
+  <data name="FC_ADM_BENEFICES_LEAD" xml:space="preserve">
+    <value>Group churches that are served together. Each church keeps its own page; the benefice links them. Put churches into a benefice from Churches → Edit.</value>
+  </data>
+  <data name="FC_ADM_NO_BENEFICES" xml:space="preserve">
+    <value>No benefices yet.</value>
+  </data>
+  <data name="FC_ADM_NEW_BENEFICE" xml:space="preserve">
+    <value>New benefice</value>
+  </data>
+  <data name="FC_ADM_BENEFICE_NAME" xml:space="preserve">
+    <value>Benefice name</value>
+  </data>
+  <data name="FC_ADM_BENEFICE_NAME_PLACEHOLDER" xml:space="preserve">
+    <value>e.g. The Forest Benefice</value>
+  </data>
+  <data name="FC_ADM_CONFIRM_DELETE_BENEFICE" xml:space="preserve">
+    <value>Delete the {0} benefice? Its churches stay, they're just no longer grouped.</value>
+  </data>
+  <data name="FC_ADM_DELETE" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="FC_ADM_SAVE" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="FC_ADM_ADD_CHURCH" xml:space="preserve">
+    <value>Add a church</value>
+  </data>
+  <data name="FC_ADM_ADD_CHURCH_LEAD" xml:space="preserve">
+    <value>Add a church to an existing account, for example a benefice account that manages several churches.</value>
+  </data>
+  <data name="FC_ADM_ADD_CHURCH_CLOSED_NOTE" xml:space="preserve">
+    <value>New churches start Closed (hidden from the public) until their details are filled in and they're opened.</value>
+  </data>
+  <data name="FC_ADM_ADD_ANOTHER_CHURCH" xml:space="preserve">
+    <value>Add another church to this account</value>
+  </data>
+  <data name="FC_ADM_MANAGED_BY" xml:space="preserve">
+    <value>Managed by</value>
+  </data>
+  <data name="FC_ADM_MANAGED_BY_HINT" xml:space="preserve">
+    <value>The church administrator account that will edit this church.</value>
+  </data>
+  <data name="FC_ADM_NO_BENEFICE" xml:space="preserve">
+    <value>Not in a benefice</value>
+  </data>
+  <data name="FC_ADM_MANAGE_BENEFICES" xml:space="preserve">
+    <value>Manage benefices</value>
+  </data>
+  <data name="FC_ADM_BENEFICE_MGMT" xml:space="preserve">
+    <value>Benefice &amp; management</value>
+  </data>
+  <data name="FC_ADM_BENEFICE_MGMT_LEAD" xml:space="preserve">
+    <value>Put this church in a benefice, or hand it to another account, for example when the church gets its own administrator. It stays in its benefice either way.</value>
+  </data>
+  <data name="FC_ADM_MOVE_HINT" xml:space="preserve">
+    <value>Choosing a different account moves the church, its services and its events to that account.</value>
+  </data>
+  <data name="FC_ADM_ALSO_MANAGES" xml:space="preserve">
+    <value>{0} also manages: {1}</value>
+  </data>
+  <data name="FC_ADM_SAVE_MGMT" xml:space="preserve">
+    <value>Save benefice &amp; management</value>
+  </data>
+  <data name="FC_ADM_REMOVE_CHURCH" xml:space="preserve">
+    <value>Remove this church</value>
+  </data>
+  <data name="FC_ADM_REMOVE_CHURCH_LEAD" xml:space="preserve">
+    <value>Deletes this church and its services from the account. The account and its other churches stay. Events aren't deleted.</value>
+  </data>
+  <data name="FC_ADM_CONFIRM_REMOVE_CHURCH" xml:space="preserve">
+    <value>Remove {0} and its services? This can't be undone.</value>
+  </data>
 </root>

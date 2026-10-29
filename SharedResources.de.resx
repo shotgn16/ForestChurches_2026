@@ -2634,4 +2634,364 @@
   <data name="FC_ADM_EMAIL_MEMORY_NOTE" xml:space="preserve">
     <value>Die Liste enthält die neuesten 500 E-Mails und wird beim Neustart der Website geleert. Jeder Schritt wird zusätzlich mit der E-Mail-ID protokolliert – ältere Einträge finden Sie unter „Protokolle“.</value>
   </data>
+  <data name="FC_SVC_WEEKLY" xml:space="preserve">
+    <value>Jeden {0}</value>
+  </data>
+  <data name="FC_SVC_FORTNIGHTLY" xml:space="preserve">
+    <value>Jeden zweiten {0}</value>
+  </data>
+  <data name="FC_SVC_EVERY_N_WEEKS" xml:space="preserve">
+    <value>Jeden {1}. {0}</value>
+  </data>
+  <data name="FC_SVC_MONTHLY_WEEKDAY" xml:space="preserve">
+    <value>Jeden {1} {0} im Monat</value>
+  </data>
+  <data name="FC_SVC_MONTHLY_WEEKDAY_ALT" xml:space="preserve">
+    <value>Jeden {1} {0} jedes zweiten Monats</value>
+  </data>
+  <data name="FC_SVC_MONTHLY_WEEKDAY_N" xml:space="preserve">
+    <value>Jeden {1} {0} jedes {2}. Monats</value>
+  </data>
+  <data name="FC_SVC_MONTHLY_DATE" xml:space="preserve">
+    <value>Am {0} jedes Monats</value>
+  </data>
+  <data name="FC_SVC_MONTHLY_DATE_ALT" xml:space="preserve">
+    <value>Am {0} jedes zweiten Monats</value>
+  </data>
+  <data name="FC_SVC_MONTHLY_DATE_N" xml:space="preserve">
+    <value>Am {0} jedes {1}. Monats</value>
+  </data>
+  <data name="FC_SVC_DATES" xml:space="preserve">
+    <value>An ausgewählten Terminen</value>
+  </data>
+  <data name="FC_SVC_DAY_NUMBER" xml:space="preserve">
+    <value>{0}.</value>
+  </data>
+  <data name="FC_SVC_PATTERN_AT_TIME" xml:space="preserve">
+    <value>{0}, {1}</value>
+  </data>
+  <data name="FC_SVC_FROM" xml:space="preserve">
+    <value>ab {0}</value>
+  </data>
+  <data name="FC_SVC_UNTIL" xml:space="preserve">
+    <value>bis {0}</value>
+  </data>
+  <data name="FC_SVC_AND" xml:space="preserve">
+    <value>und</value>
+  </data>
+  <data name="FC_SVC_ORD_1" xml:space="preserve">
+    <value>1.</value>
+  </data>
+  <data name="FC_SVC_ORD_2" xml:space="preserve">
+    <value>2.</value>
+  </data>
+  <data name="FC_SVC_ORD_3" xml:space="preserve">
+    <value>3.</value>
+  </data>
+  <data name="FC_SVC_ORD_4" xml:space="preserve">
+    <value>4.</value>
+  </data>
+  <data name="FC_SVC_ORD_5" xml:space="preserve">
+    <value>5.</value>
+  </data>
+  <data name="FC_SVC_ORD_LAST" xml:space="preserve">
+    <value>letzten</value>
+  </data>
+  <data name="FC_SERVICES_HEADING" xml:space="preserve">
+    <value>Gottesdienste</value>
+  </data>
+  <data name="FC_SVC_HELD_AT" xml:space="preserve">
+    <value>Findet statt in: {0}</value>
+  </data>
+  <data name="FC_SVC_HELD_AT_PREFIX" xml:space="preserve">
+    <value>Findet statt in:</value>
+  </data>
+  <data name="FC_SVC_NEXT_ON" xml:space="preserve">
+    <value>Nächster Termin: {0}</value>
+  </data>
+  <data name="FC_SVC_MORE_DATES" xml:space="preserve">
+    <value>Weitere Termine</value>
+  </data>
+  <data name="FC_SVC_NO_UPCOMING" xml:space="preserve">
+    <value>Keine anstehenden Termine</value>
+  </data>
+  <data name="FC_BENEFICE" xml:space="preserve">
+    <value>Pfarrverband</value>
+  </data>
+  <data name="FC_BENEFICE_PART_OF" xml:space="preserve">
+    <value>Teil von: {0}</value>
+  </data>
+  <data name="FC_BENEFICE_SISTERS" xml:space="preserve">
+    <value>Weitere Kirchen im Pfarrverband</value>
+  </data>
+  <data name="FC_BENEFICE_WEBSITE" xml:space="preserve">
+    <value>Website des Pfarrverbands</value>
+  </data>
+  <data name="FC_CHURCH_SWITCH_LABEL" xml:space="preserve">
+    <value>Sie bearbeiten</value>
+  </data>
+  <data name="FC_CHURCH_SWITCH_BUTTON" xml:space="preserve">
+    <value>Wechseln</value>
+  </data>
+  <data name="FC_CHURCH_EDITING" xml:space="preserve">
+    <value>Sie bearbeiten {0}. Mit „Sie bearbeiten“ wechseln Sie die Kirche.</value>
+  </data>
+  <data name="FC_STATUS_CLOSED_SHORT" xml:space="preserve">
+    <value>geschlossen</value>
+  </data>
+  <data name="FC_EVENT_WHICH_CHURCH" xml:space="preserve">
+    <value>Für welche Kirche ist diese Veranstaltung?</value>
+  </data>
+  <data name="FC_SVC_SCHEDULE" xml:space="preserve">
+    <value>Gottesdienst und Zeit</value>
+  </data>
+  <data name="FC_SVC_WHERE" xml:space="preserve">
+    <value>Wo</value>
+  </data>
+  <data name="FC_SVC_UPCOMING" xml:space="preserve">
+    <value>Nächste Termine</value>
+  </data>
+  <data name="FC_SVC_ACTIONS" xml:space="preserve">
+    <value>Aktionen</value>
+  </data>
+  <data name="FC_SVC_AT_THIS_CHURCH" xml:space="preserve">
+    <value>In dieser Kirche</value>
+  </data>
+  <data name="FC_SVC_EDIT_BUTTON" xml:space="preserve">
+    <value>Bearbeiten</value>
+  </data>
+  <data name="FC_SVC_EDIT" xml:space="preserve">
+    <value>Gottesdienst bearbeiten</value>
+  </data>
+  <data name="FC_SVC_FIX" xml:space="preserve">
+    <value>Bitte prüfen Sie Folgendes:</value>
+  </data>
+  <data name="FC_SVC_START_TIME" xml:space="preserve">
+    <value>Beginn</value>
+  </data>
+  <data name="FC_SVC_END_TIME" xml:space="preserve">
+    <value>Ende</value>
+  </data>
+  <data name="FC_SVC_OPTIONAL" xml:space="preserve">
+    <value>optional</value>
+  </data>
+  <data name="FC_SVC_OPTIONAL_UNLESS" xml:space="preserve">
+    <value>nötig bei 14-täglichen oder selteneren Rhythmen</value>
+  </data>
+  <data name="FC_SVC_HOW_OFTEN" xml:space="preserve">
+    <value>Wie oft?</value>
+  </data>
+  <data name="FC_SVC_REPEAT_WEEKLY" xml:space="preserve">
+    <value>Wöchentlich oder alle paar Wochen</value>
+  </data>
+  <data name="FC_SVC_REPEAT_MONTHLY_WEEKDAY" xml:space="preserve">
+    <value>Monatlich nach Wochentag (z. B. 1. Sonntag)</value>
+  </data>
+  <data name="FC_SVC_REPEAT_MONTHLY_DATE" xml:space="preserve">
+    <value>Monatlich nach Datum (z. B. am 15.)</value>
+  </data>
+  <data name="FC_SVC_REPEAT_DATES" xml:space="preserve">
+    <value>Bestimmte Termine</value>
+  </data>
+  <data name="FC_SVC_DAY" xml:space="preserve">
+    <value>Tag</value>
+  </data>
+  <data name="FC_SVC_REPEATS" xml:space="preserve">
+    <value>Wiederholung</value>
+  </data>
+  <data name="FC_SVC_EVERY_WEEK" xml:space="preserve">
+    <value>Jede Woche</value>
+  </data>
+  <data name="FC_SVC_EVERY_OTHER_WEEK" xml:space="preserve">
+    <value>Alle zwei Wochen</value>
+  </data>
+  <data name="FC_SVC_EVERY_N_WEEKS_OPT" xml:space="preserve">
+    <value>Alle {0} Wochen</value>
+  </data>
+  <data name="FC_SVC_EVERY_MONTH" xml:space="preserve">
+    <value>Jeden Monat</value>
+  </data>
+  <data name="FC_SVC_EVERY_OTHER_MONTH" xml:space="preserve">
+    <value>Alle zwei Monate</value>
+  </data>
+  <data name="FC_SVC_EVERY_N_MONTHS_OPT" xml:space="preserve">
+    <value>Alle {0} Monate</value>
+  </data>
+  <data name="FC_SVC_WHICH_WEEKS" xml:space="preserve">
+    <value>Welche Wochen im Monat?</value>
+  </data>
+  <data name="FC_SVC_DAY_OF_MONTH" xml:space="preserve">
+    <value>Tag im Monat</value>
+  </data>
+  <data name="FC_SVC_DAY_OF_MONTH_HINT" xml:space="preserve">
+    <value>In kürzeren Monaten findet ein Gottesdienst am 29.–31. am letzten Tag des Monats statt.</value>
+  </data>
+  <data name="FC_SVC_START_DATE" xml:space="preserve">
+    <value>Erster Termin</value>
+  </data>
+  <data name="FC_SVC_START_DATE_HINT" xml:space="preserve">
+    <value>Der erste Termin. Bei 14-täglichen oder selteneren Gottesdiensten legt er fest, in welche Wochen oder Monate sie fallen.</value>
+  </data>
+  <data name="FC_SVC_END_DATE" xml:space="preserve">
+    <value>Letzter Termin</value>
+  </data>
+  <data name="FC_SVC_DATES_LABEL" xml:space="preserve">
+    <value>Termine</value>
+  </data>
+  <data name="FC_SVC_DATE" xml:space="preserve">
+    <value>Datum</value>
+  </data>
+  <data name="FC_SVC_DATE_TIME_HINT" xml:space="preserve">
+    <value>Ohne Uhrzeit gilt die Beginnzeit des Gottesdienstes.</value>
+  </data>
+  <data name="FC_SVC_ADD_DATE" xml:space="preserve">
+    <value>Weiteren Termin hinzufügen</value>
+  </data>
+  <data name="FC_SVC_REMOVE_DATE" xml:space="preserve">
+    <value>Entfernen</value>
+  </data>
+  <data name="FC_SVC_LOCATION" xml:space="preserve">
+    <value>Ort</value>
+  </data>
+  <data name="FC_SVC_LOCATION_TOGGLE" xml:space="preserve">
+    <value>Findet woanders statt</value>
+  </data>
+  <data name="FC_SVC_LOCATION_OFF_HINT" xml:space="preserve">
+    <value>Aus: Der Gottesdienst findet in {0} statt.</value>
+  </data>
+  <data name="FC_SVC_AT_OUR_CHURCH" xml:space="preserve">
+    <value>In einer unserer anderen Kirchen</value>
+  </data>
+  <data name="FC_SVC_AT_ADDRESS" xml:space="preserve">
+    <value>An einer anderen Adresse</value>
+  </data>
+  <data name="FC_SVC_WHICH_CHURCH" xml:space="preserve">
+    <value>Kirche</value>
+  </data>
+  <data name="FC_SVC_ADDRESS" xml:space="preserve">
+    <value>Adresse</value>
+  </data>
+  <data name="FC_SVC_SAVE" xml:space="preserve">
+    <value>Gottesdienst speichern</value>
+  </data>
+  <data name="FC_SVC_CANCEL" xml:space="preserve">
+    <value>Abbrechen</value>
+  </data>
+  <data name="FC_SVC_ERR_NAME" xml:space="preserve">
+    <value>Geben Sie den Namen des Gottesdienstes ein.</value>
+  </data>
+  <data name="FC_SVC_ERR_NAME_LONG" xml:space="preserve">
+    <value>Der Name darf höchstens 200 Zeichen lang sein.</value>
+  </data>
+  <data name="FC_SVC_ERR_TIME" xml:space="preserve">
+    <value>Geben Sie eine gültige Beginnzeit ein.</value>
+  </data>
+  <data name="FC_SVC_ERR_END_TIME" xml:space="preserve">
+    <value>Das Ende muss nach dem Beginn liegen.</value>
+  </data>
+  <data name="FC_SVC_ERR_REPEAT" xml:space="preserve">
+    <value>Wählen Sie, wie oft der Gottesdienst stattfindet.</value>
+  </data>
+  <data name="FC_SVC_ERR_INTERVAL" xml:space="preserve">
+    <value>Wählen Sie den Abstand in Wochen oder Monaten.</value>
+  </data>
+  <data name="FC_SVC_ERR_START_NEEDED" xml:space="preserve">
+    <value>Wählen Sie den ersten Termin, damit klar ist, in welche Wochen oder Monate der Gottesdienst fällt.</value>
+  </data>
+  <data name="FC_SVC_ERR_WEEKS" xml:space="preserve">
+    <value>Wählen Sie mindestens eine Woche im Monat.</value>
+  </data>
+  <data name="FC_SVC_ERR_DAY_OF_MONTH" xml:space="preserve">
+    <value>Wählen Sie einen Tag im Monat.</value>
+  </data>
+  <data name="FC_SVC_ERR_DATES" xml:space="preserve">
+    <value>Fügen Sie mindestens einen Termin hinzu.</value>
+  </data>
+  <data name="FC_SVC_ERR_END_DATE" xml:space="preserve">
+    <value>Der letzte Termin darf nicht vor dem ersten liegen.</value>
+  </data>
+  <data name="FC_SVC_ERR_LOCATION" xml:space="preserve">
+    <value>Wählen Sie eine andere Kirche oder eine Adresse, oder schalten Sie „Findet woanders statt“ aus.</value>
+  </data>
+  <data name="FC_SVC_ERR_LOCATION_CHURCH" xml:space="preserve">
+    <value>Wählen Sie eine Ihrer anderen Kirchen.</value>
+  </data>
+  <data name="FC_SVC_ERR_NOT_FOUND" xml:space="preserve">
+    <value>Dieser Gottesdienst wurde nicht gefunden.</value>
+  </data>
+  <data name="FC_ADM_BENEFICES" xml:space="preserve">
+    <value>Pfarrverbände</value>
+  </data>
+  <data name="FC_ADM_BENEFICES_LEAD" xml:space="preserve">
+    <value>Fassen Sie gemeinsam betreute Kirchen zusammen. Jede Kirche behält ihre Seite; der Pfarrverband verbindet sie. Zuordnen unter Kirchen → Bearbeiten.</value>
+  </data>
+  <data name="FC_ADM_NO_BENEFICES" xml:space="preserve">
+    <value>Noch keine Pfarrverbände.</value>
+  </data>
+  <data name="FC_ADM_NEW_BENEFICE" xml:space="preserve">
+    <value>Neuer Pfarrverband</value>
+  </data>
+  <data name="FC_ADM_BENEFICE_NAME" xml:space="preserve">
+    <value>Name des Pfarrverbands</value>
+  </data>
+  <data name="FC_ADM_BENEFICE_NAME_PLACEHOLDER" xml:space="preserve">
+    <value>z. B. Pfarrverband am Wald</value>
+  </data>
+  <data name="FC_ADM_CONFIRM_DELETE_BENEFICE" xml:space="preserve">
+    <value>Pfarrverband {0} löschen? Die Kirchen bleiben, sie sind nur nicht mehr gruppiert.</value>
+  </data>
+  <data name="FC_ADM_DELETE" xml:space="preserve">
+    <value>Löschen</value>
+  </data>
+  <data name="FC_ADM_SAVE" xml:space="preserve">
+    <value>Speichern</value>
+  </data>
+  <data name="FC_ADM_ADD_CHURCH" xml:space="preserve">
+    <value>Kirche hinzufügen</value>
+  </data>
+  <data name="FC_ADM_ADD_CHURCH_LEAD" xml:space="preserve">
+    <value>Fügen Sie einem bestehenden Konto eine Kirche hinzu, z. B. einem Pfarrverbandskonto mit mehreren Kirchen.</value>
+  </data>
+  <data name="FC_ADM_ADD_CHURCH_CLOSED_NOTE" xml:space="preserve">
+    <value>Neue Kirchen sind zunächst geschlossen (nicht öffentlich), bis die Angaben ausgefüllt und sie geöffnet sind.</value>
+  </data>
+  <data name="FC_ADM_ADD_ANOTHER_CHURCH" xml:space="preserve">
+    <value>Diesem Konto weitere Kirche hinzufügen</value>
+  </data>
+  <data name="FC_ADM_MANAGED_BY" xml:space="preserve">
+    <value>Verwaltet von</value>
+  </data>
+  <data name="FC_ADM_MANAGED_BY_HINT" xml:space="preserve">
+    <value>Das Konto, das diese Kirche bearbeiten wird.</value>
+  </data>
+  <data name="FC_ADM_NO_BENEFICE" xml:space="preserve">
+    <value>Kein Pfarrverband</value>
+  </data>
+  <data name="FC_ADM_MANAGE_BENEFICES" xml:space="preserve">
+    <value>Pfarrverbände verwalten</value>
+  </data>
+  <data name="FC_ADM_BENEFICE_MGMT" xml:space="preserve">
+    <value>Pfarrverband &amp; Verwaltung</value>
+  </data>
+  <data name="FC_ADM_BENEFICE_MGMT_LEAD" xml:space="preserve">
+    <value>Ordnen Sie die Kirche einem Pfarrverband zu oder übergeben Sie sie einem anderen Konto, etwa wenn sie eine eigene Verwaltung erhält. Sie bleibt im Pfarrverband.</value>
+  </data>
+  <data name="FC_ADM_MOVE_HINT" xml:space="preserve">
+    <value>Ein anderes Konto übernimmt Kirche, Gottesdienste und Veranstaltungen.</value>
+  </data>
+  <data name="FC_ADM_ALSO_MANAGES" xml:space="preserve">
+    <value>{0} verwaltet auch: {1}</value>
+  </data>
+  <data name="FC_ADM_SAVE_MGMT" xml:space="preserve">
+    <value>Pfarrverband &amp; Verwaltung speichern</value>
+  </data>
+  <data name="FC_ADM_REMOVE_CHURCH" xml:space="preserve">
+    <value>Diese Kirche entfernen</value>
+  </data>
+  <data name="FC_ADM_REMOVE_CHURCH_LEAD" xml:space="preserve">
+    <value>Löscht diese Kirche und ihre Gottesdienste. Konto und andere Kirchen bleiben. Veranstaltungen werden nicht gelöscht.</value>
+  </data>
+  <data name="FC_ADM_CONFIRM_REMOVE_CHURCH" xml:space="preserve">
+    <value>{0} und seine Gottesdienste entfernen? Das kann nicht rückgängig gemacht werden.</value>
+  </data>
 </root>

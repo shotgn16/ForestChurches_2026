@@ -2634,4 +2634,364 @@
   <data name="FC_ADM_EMAIL_MEMORY_NOTE" xml:space="preserve">
     <value>Cette liste conserve les 500 derniers e-mails et repart à zéro au redémarrage du site. Chaque étape est aussi enregistrée dans les journaux avec l'identifiant de l'e-mail : consultez les Journaux pour remonter plus loin.</value>
   </data>
+  <data name="FC_SVC_WEEKLY" xml:space="preserve">
+    <value>Chaque {0}</value>
+  </data>
+  <data name="FC_SVC_FORTNIGHTLY" xml:space="preserve">
+    <value>Un {0} sur deux</value>
+  </data>
+  <data name="FC_SVC_EVERY_N_WEEKS" xml:space="preserve">
+    <value>Un {0} toutes les {1} semaines</value>
+  </data>
+  <data name="FC_SVC_MONTHLY_WEEKDAY" xml:space="preserve">
+    <value>Le {1} {0} du mois</value>
+  </data>
+  <data name="FC_SVC_MONTHLY_WEEKDAY_ALT" xml:space="preserve">
+    <value>Le {1} {0} du mois, un mois sur deux</value>
+  </data>
+  <data name="FC_SVC_MONTHLY_WEEKDAY_N" xml:space="preserve">
+    <value>Le {1} {0} du mois, tous les {2} mois</value>
+  </data>
+  <data name="FC_SVC_MONTHLY_DATE" xml:space="preserve">
+    <value>Le {0} de chaque mois</value>
+  </data>
+  <data name="FC_SVC_MONTHLY_DATE_ALT" xml:space="preserve">
+    <value>Le {0}, un mois sur deux</value>
+  </data>
+  <data name="FC_SVC_MONTHLY_DATE_N" xml:space="preserve">
+    <value>Le {0}, tous les {1} mois</value>
+  </data>
+  <data name="FC_SVC_DATES" xml:space="preserve">
+    <value>À des dates précises</value>
+  </data>
+  <data name="FC_SVC_DAY_NUMBER" xml:space="preserve">
+    <value>{0}</value>
+  </data>
+  <data name="FC_SVC_PATTERN_AT_TIME" xml:space="preserve">
+    <value>{0}, {1}</value>
+  </data>
+  <data name="FC_SVC_FROM" xml:space="preserve">
+    <value>à partir du {0}</value>
+  </data>
+  <data name="FC_SVC_UNTIL" xml:space="preserve">
+    <value>jusqu’au {0}</value>
+  </data>
+  <data name="FC_SVC_AND" xml:space="preserve">
+    <value>et</value>
+  </data>
+  <data name="FC_SVC_ORD_1" xml:space="preserve">
+    <value>1er</value>
+  </data>
+  <data name="FC_SVC_ORD_2" xml:space="preserve">
+    <value>2e</value>
+  </data>
+  <data name="FC_SVC_ORD_3" xml:space="preserve">
+    <value>3e</value>
+  </data>
+  <data name="FC_SVC_ORD_4" xml:space="preserve">
+    <value>4e</value>
+  </data>
+  <data name="FC_SVC_ORD_5" xml:space="preserve">
+    <value>5e</value>
+  </data>
+  <data name="FC_SVC_ORD_LAST" xml:space="preserve">
+    <value>dernier</value>
+  </data>
+  <data name="FC_SERVICES_HEADING" xml:space="preserve">
+    <value>Offices</value>
+  </data>
+  <data name="FC_SVC_HELD_AT" xml:space="preserve">
+    <value>Lieu : {0}</value>
+  </data>
+  <data name="FC_SVC_HELD_AT_PREFIX" xml:space="preserve">
+    <value>Lieu :</value>
+  </data>
+  <data name="FC_SVC_NEXT_ON" xml:space="preserve">
+    <value>Prochain : {0}</value>
+  </data>
+  <data name="FC_SVC_MORE_DATES" xml:space="preserve">
+    <value>Autres dates</value>
+  </data>
+  <data name="FC_SVC_NO_UPCOMING" xml:space="preserve">
+    <value>Aucune date à venir</value>
+  </data>
+  <data name="FC_BENEFICE" xml:space="preserve">
+    <value>Paroisse</value>
+  </data>
+  <data name="FC_BENEFICE_PART_OF" xml:space="preserve">
+    <value>Fait partie de : {0}</value>
+  </data>
+  <data name="FC_BENEFICE_SISTERS" xml:space="preserve">
+    <value>Autres églises de la paroisse</value>
+  </data>
+  <data name="FC_BENEFICE_WEBSITE" xml:space="preserve">
+    <value>Site de la paroisse</value>
+  </data>
+  <data name="FC_CHURCH_SWITCH_LABEL" xml:space="preserve">
+    <value>Église en cours</value>
+  </data>
+  <data name="FC_CHURCH_SWITCH_BUTTON" xml:space="preserve">
+    <value>Changer</value>
+  </data>
+  <data name="FC_CHURCH_EDITING" xml:space="preserve">
+    <value>Vous modifiez {0}. Utilisez « Église en cours » pour changer.</value>
+  </data>
+  <data name="FC_STATUS_CLOSED_SHORT" xml:space="preserve">
+    <value>fermée</value>
+  </data>
+  <data name="FC_EVENT_WHICH_CHURCH" xml:space="preserve">
+    <value>Pour quelle église est cet événement ?</value>
+  </data>
+  <data name="FC_SVC_SCHEDULE" xml:space="preserve">
+    <value>Office et horaire</value>
+  </data>
+  <data name="FC_SVC_WHERE" xml:space="preserve">
+    <value>Où</value>
+  </data>
+  <data name="FC_SVC_UPCOMING" xml:space="preserve">
+    <value>Prochaines dates</value>
+  </data>
+  <data name="FC_SVC_ACTIONS" xml:space="preserve">
+    <value>Actions</value>
+  </data>
+  <data name="FC_SVC_AT_THIS_CHURCH" xml:space="preserve">
+    <value>Dans cette église</value>
+  </data>
+  <data name="FC_SVC_EDIT_BUTTON" xml:space="preserve">
+    <value>Modifier</value>
+  </data>
+  <data name="FC_SVC_EDIT" xml:space="preserve">
+    <value>Modifier l’office</value>
+  </data>
+  <data name="FC_SVC_FIX" xml:space="preserve">
+    <value>Veuillez vérifier les points suivants :</value>
+  </data>
+  <data name="FC_SVC_START_TIME" xml:space="preserve">
+    <value>Début</value>
+  </data>
+  <data name="FC_SVC_END_TIME" xml:space="preserve">
+    <value>Fin</value>
+  </data>
+  <data name="FC_SVC_OPTIONAL" xml:space="preserve">
+    <value>facultatif</value>
+  </data>
+  <data name="FC_SVC_OPTIONAL_UNLESS" xml:space="preserve">
+    <value>obligatoire pour un rythme d’une fois sur deux ou moins</value>
+  </data>
+  <data name="FC_SVC_HOW_OFTEN" xml:space="preserve">
+    <value>À quelle fréquence ?</value>
+  </data>
+  <data name="FC_SVC_REPEAT_WEEKLY" xml:space="preserve">
+    <value>Chaque semaine ou toutes les quelques semaines</value>
+  </data>
+  <data name="FC_SVC_REPEAT_MONTHLY_WEEKDAY" xml:space="preserve">
+    <value>Mensuel, par jour (ex. 1er dimanche)</value>
+  </data>
+  <data name="FC_SVC_REPEAT_MONTHLY_DATE" xml:space="preserve">
+    <value>Mensuel, par date (ex. le 15)</value>
+  </data>
+  <data name="FC_SVC_REPEAT_DATES" xml:space="preserve">
+    <value>Dates précises</value>
+  </data>
+  <data name="FC_SVC_DAY" xml:space="preserve">
+    <value>Jour</value>
+  </data>
+  <data name="FC_SVC_REPEATS" xml:space="preserve">
+    <value>Fréquence</value>
+  </data>
+  <data name="FC_SVC_EVERY_WEEK" xml:space="preserve">
+    <value>Chaque semaine</value>
+  </data>
+  <data name="FC_SVC_EVERY_OTHER_WEEK" xml:space="preserve">
+    <value>Une semaine sur deux</value>
+  </data>
+  <data name="FC_SVC_EVERY_N_WEEKS_OPT" xml:space="preserve">
+    <value>Toutes les {0} semaines</value>
+  </data>
+  <data name="FC_SVC_EVERY_MONTH" xml:space="preserve">
+    <value>Chaque mois</value>
+  </data>
+  <data name="FC_SVC_EVERY_OTHER_MONTH" xml:space="preserve">
+    <value>Un mois sur deux</value>
+  </data>
+  <data name="FC_SVC_EVERY_N_MONTHS_OPT" xml:space="preserve">
+    <value>Tous les {0} mois</value>
+  </data>
+  <data name="FC_SVC_WHICH_WEEKS" xml:space="preserve">
+    <value>Quelles semaines du mois ?</value>
+  </data>
+  <data name="FC_SVC_DAY_OF_MONTH" xml:space="preserve">
+    <value>Date dans le mois</value>
+  </data>
+  <data name="FC_SVC_DAY_OF_MONTH_HINT" xml:space="preserve">
+    <value>Les mois plus courts, un office prévu du 29 au 31 a lieu le dernier jour du mois.</value>
+  </data>
+  <data name="FC_SVC_START_DATE" xml:space="preserve">
+    <value>Première date</value>
+  </data>
+  <data name="FC_SVC_START_DATE_HINT" xml:space="preserve">
+    <value>La première date de l’office. Pour un rythme d’une semaine sur deux ou de quelques mois, elle fixe les semaines ou mois concernés.</value>
+  </data>
+  <data name="FC_SVC_END_DATE" xml:space="preserve">
+    <value>Dernière date</value>
+  </data>
+  <data name="FC_SVC_DATES_LABEL" xml:space="preserve">
+    <value>Dates</value>
+  </data>
+  <data name="FC_SVC_DATE" xml:space="preserve">
+    <value>Date</value>
+  </data>
+  <data name="FC_SVC_DATE_TIME_HINT" xml:space="preserve">
+    <value>Sans heure, l’heure de début de l’office est utilisée.</value>
+  </data>
+  <data name="FC_SVC_ADD_DATE" xml:space="preserve">
+    <value>Ajouter une date</value>
+  </data>
+  <data name="FC_SVC_REMOVE_DATE" xml:space="preserve">
+    <value>Retirer</value>
+  </data>
+  <data name="FC_SVC_LOCATION" xml:space="preserve">
+    <value>Lieu</value>
+  </data>
+  <data name="FC_SVC_LOCATION_TOGGLE" xml:space="preserve">
+    <value>A lieu ailleurs</value>
+  </data>
+  <data name="FC_SVC_LOCATION_OFF_HINT" xml:space="preserve">
+    <value>Désactivé : l’office a lieu à {0}.</value>
+  </data>
+  <data name="FC_SVC_AT_OUR_CHURCH" xml:space="preserve">
+    <value>Dans une autre de nos églises</value>
+  </data>
+  <data name="FC_SVC_AT_ADDRESS" xml:space="preserve">
+    <value>À une autre adresse</value>
+  </data>
+  <data name="FC_SVC_WHICH_CHURCH" xml:space="preserve">
+    <value>Église</value>
+  </data>
+  <data name="FC_SVC_ADDRESS" xml:space="preserve">
+    <value>Adresse</value>
+  </data>
+  <data name="FC_SVC_SAVE" xml:space="preserve">
+    <value>Enregistrer l’office</value>
+  </data>
+  <data name="FC_SVC_CANCEL" xml:space="preserve">
+    <value>Annuler</value>
+  </data>
+  <data name="FC_SVC_ERR_NAME" xml:space="preserve">
+    <value>Saisissez le nom de l’office.</value>
+  </data>
+  <data name="FC_SVC_ERR_NAME_LONG" xml:space="preserve">
+    <value>Le nom ne peut pas dépasser 200 caractères.</value>
+  </data>
+  <data name="FC_SVC_ERR_TIME" xml:space="preserve">
+    <value>Saisissez une heure de début valide.</value>
+  </data>
+  <data name="FC_SVC_ERR_END_TIME" xml:space="preserve">
+    <value>L’heure de fin doit suivre l’heure de début.</value>
+  </data>
+  <data name="FC_SVC_ERR_REPEAT" xml:space="preserve">
+    <value>Choisissez la fréquence de l’office.</value>
+  </data>
+  <data name="FC_SVC_ERR_INTERVAL" xml:space="preserve">
+    <value>Choisissez l’intervalle en semaines ou en mois.</value>
+  </data>
+  <data name="FC_SVC_ERR_START_NEEDED" xml:space="preserve">
+    <value>Choisissez la première date pour savoir quelles semaines ou quels mois sont concernés.</value>
+  </data>
+  <data name="FC_SVC_ERR_WEEKS" xml:space="preserve">
+    <value>Choisissez au moins une semaine du mois.</value>
+  </data>
+  <data name="FC_SVC_ERR_DAY_OF_MONTH" xml:space="preserve">
+    <value>Choisissez une date dans le mois.</value>
+  </data>
+  <data name="FC_SVC_ERR_DATES" xml:space="preserve">
+    <value>Ajoutez au moins une date.</value>
+  </data>
+  <data name="FC_SVC_ERR_END_DATE" xml:space="preserve">
+    <value>La dernière date ne peut pas précéder la première.</value>
+  </data>
+  <data name="FC_SVC_ERR_LOCATION" xml:space="preserve">
+    <value>Choisissez une autre église ou une adresse, ou désactivez « A lieu ailleurs ».</value>
+  </data>
+  <data name="FC_SVC_ERR_LOCATION_CHURCH" xml:space="preserve">
+    <value>Choisissez une de vos autres églises.</value>
+  </data>
+  <data name="FC_SVC_ERR_NOT_FOUND" xml:space="preserve">
+    <value>Cet office est introuvable.</value>
+  </data>
+  <data name="FC_ADM_BENEFICES" xml:space="preserve">
+    <value>Paroisses</value>
+  </data>
+  <data name="FC_ADM_BENEFICES_LEAD" xml:space="preserve">
+    <value>Regroupez les églises desservies ensemble. Chaque église garde sa page ; la paroisse les relie. Rattachez-les via Églises → Modifier.</value>
+  </data>
+  <data name="FC_ADM_NO_BENEFICES" xml:space="preserve">
+    <value>Aucune paroisse pour l’instant.</value>
+  </data>
+  <data name="FC_ADM_NEW_BENEFICE" xml:space="preserve">
+    <value>Nouvelle paroisse</value>
+  </data>
+  <data name="FC_ADM_BENEFICE_NAME" xml:space="preserve">
+    <value>Nom de la paroisse</value>
+  </data>
+  <data name="FC_ADM_BENEFICE_NAME_PLACEHOLDER" xml:space="preserve">
+    <value>ex. Paroisse de la Forêt</value>
+  </data>
+  <data name="FC_ADM_CONFIRM_DELETE_BENEFICE" xml:space="preserve">
+    <value>Supprimer la paroisse {0} ? Ses églises restent, simplement non regroupées.</value>
+  </data>
+  <data name="FC_ADM_DELETE" xml:space="preserve">
+    <value>Supprimer</value>
+  </data>
+  <data name="FC_ADM_SAVE" xml:space="preserve">
+    <value>Enregistrer</value>
+  </data>
+  <data name="FC_ADM_ADD_CHURCH" xml:space="preserve">
+    <value>Ajouter une église</value>
+  </data>
+  <data name="FC_ADM_ADD_CHURCH_LEAD" xml:space="preserve">
+    <value>Ajoutez une église à un compte existant, par exemple celui d’une paroisse qui gère plusieurs églises.</value>
+  </data>
+  <data name="FC_ADM_ADD_CHURCH_CLOSED_NOTE" xml:space="preserve">
+    <value>Les nouvelles églises sont fermées (masquées) jusqu’à ce qu’elles soient complétées et ouvertes.</value>
+  </data>
+  <data name="FC_ADM_ADD_ANOTHER_CHURCH" xml:space="preserve">
+    <value>Ajouter une autre église à ce compte</value>
+  </data>
+  <data name="FC_ADM_MANAGED_BY" xml:space="preserve">
+    <value>Géré par</value>
+  </data>
+  <data name="FC_ADM_MANAGED_BY_HINT" xml:space="preserve">
+    <value>Le compte administrateur qui modifiera cette église.</value>
+  </data>
+  <data name="FC_ADM_NO_BENEFICE" xml:space="preserve">
+    <value>Aucune paroisse</value>
+  </data>
+  <data name="FC_ADM_MANAGE_BENEFICES" xml:space="preserve">
+    <value>Gérer les paroisses</value>
+  </data>
+  <data name="FC_ADM_BENEFICE_MGMT" xml:space="preserve">
+    <value>Paroisse et gestion</value>
+  </data>
+  <data name="FC_ADM_BENEFICE_MGMT_LEAD" xml:space="preserve">
+    <value>Rattachez l’église à une paroisse ou confiez-la à un autre compte, par exemple quand elle a son propre administrateur. Elle reste dans sa paroisse.</value>
+  </data>
+  <data name="FC_ADM_MOVE_HINT" xml:space="preserve">
+    <value>Choisir un autre compte y déplace l’église, ses offices et ses événements.</value>
+  </data>
+  <data name="FC_ADM_ALSO_MANAGES" xml:space="preserve">
+    <value>{0} gère aussi : {1}</value>
+  </data>
+  <data name="FC_ADM_SAVE_MGMT" xml:space="preserve">
+    <value>Enregistrer paroisse et gestion</value>
+  </data>
+  <data name="FC_ADM_REMOVE_CHURCH" xml:space="preserve">
+    <value>Retirer cette église</value>
+  </data>
+  <data name="FC_ADM_REMOVE_CHURCH_LEAD" xml:space="preserve">
+    <value>Supprime cette église et ses offices du compte. Le compte et ses autres églises restent. Les événements ne sont pas supprimés.</value>
+  </data>
+  <data name="FC_ADM_CONFIRM_REMOVE_CHURCH" xml:space="preserve">
+    <value>Retirer {0} et ses offices ? Action irréversible.</value>
+  </data>
 </root>

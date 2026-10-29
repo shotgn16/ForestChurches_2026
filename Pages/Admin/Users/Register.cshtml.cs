@@ -146,7 +146,6 @@ namespace ForestChurches.Pages.Admin.Users
                 UserName = Input.Email,
                 Email = Input.Email,
                 CreatedDate = DateTime.UtcNow.ToString(),
-                ChurchInformation = null
             };
 
             user.PasswordHash = new PasswordHasher<ChurchAccount>().HashPassword(user, Input.Password);
@@ -173,8 +172,7 @@ namespace ForestChurches.Pages.Admin.Users
 
         private async Task SaveChurchInformationAsync(ChurchAccount user)
         {
-            var churchInformation = new ChurchInformation();
-            user.ChurchInformation = churchInformation;
+            var churchInformation = new ChurchInformation { ChurchAccountId = user.Id };
 
             _context.ChurchInformation.Add(churchInformation);
             await _context.SaveChangesAsync();

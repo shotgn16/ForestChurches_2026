@@ -1,0 +1,62 @@
+@page
+@model ForestChurches.Pages.Admin.Church.CreateModel
+@using ForestChurches.Components.Ui
+@{
+    Layout = "_Admin";
+    ViewData["Title"] = Localizer["FC_ADM_ADD_CHURCH"];
+}
+
+<div class="fc-page-head">
+    <div>
+        <a asp-page="./Index" class="fc-small" style="font-weight: 700">← @Localizer["FC_ADM_CHURCHES"]</a>
+        <h1 style="margin-top: 6px">@Localizer["FC_ADM_ADD_CHURCH"]</h1>
+        <p>@Localizer["FC_ADM_ADD_CHURCH_LEAD"]</p>
+    </div>
+</div>
+
+<partial name="_StatusMessage" model="Model.StatusMessage" />
+
+<form method="post" class="fc-card fc-stack fc-form" style="max-width: 760px">
+    <div asp-validation-summary="All" class="text-danger" role="alert"></div>
+
+    <div class="fc-field">
+        <label class="fc-label" for="acc">@Localizer["FC_ADM_MANAGED_BY"]</label>
+        <select class="fc-select" id="acc" name="Input.AccountId" required aria-describedby="accHint">
+            <option value="">@Localizer["FC_ADM_CHOOSE_ACCOUNT"]</option>
+            @foreach (var a in Model.Accounts)
+            {
+                var count = Model.ChurchCounts.TryGetValue(a.Id, out var n) ? n : 0;
+                <option value="@a.Id" selected="@(a.Id == Model.Input.AccountId)">@a.Email (@Localizer["FC_ADM_N_CHURCHES", count])</option>
+            }
+        </select>
+        <span class="fc-hint" id="accHint">@Localizer["FC_ADM_MANAGED_BY_HINT"]</span>
+    </div>
+
+    <div class="fc-grid">
+        <div class="fc-field">
+            <label class="fc-label" for="nm">@Localizer["FC_CHURCH_NAME"]</label>
+            <input class="fc-input" id="nm" name="Input.Name" value="@Model.Input.Name" maxlength="30" required />
+        </div>
+        <div class="fc-field">
+            <label class="fc-label" for="ben">@Localizer["FC_BENEFICE"]</label>
+            <select class="fc-select" id="ben" name="Input.BeneficeId">
+                <option value="">@Localizer["FC_ADM_NO_BENEFICE"]</option>
+                @foreach (var b in Model.Benefices)
+                {
+                    <option value="@b.Id" selected="@(b.Id == Model.Input.BeneficeId)">@FcText.PlainText(b.Name)</option>
+                }
+            </select>
+        </div>
+        <div class="fc-field fc-span-all">
+            <label class="fc-label" for="addr">@Localizer["TAG_ADDRESS"]</label>
+            <input class="fc-input" id="addr" name="Input.Address" value="@Model.Input.Address" autocomplete="street-address" required />
+        </div>
+    </div>
+
+    <p class="fc-small fc-muted">@Localizer["FC_ADM_ADD_CHURCH_CLOSED_NOTE"]</p>
+
+    <div class="fc-btn-row" style="justify-content: flex-end">
+        <a class="fc-btn fc-btn--quiet" asp-page="./Index">@Localizer["FC_SVC_CANCEL"]</a>
+        <button type="submit" class="fc-btn fc-btn--primary">@Localizer["FC_ADM_ADD_CHURCH"]</button>
+    </div>
+</form>

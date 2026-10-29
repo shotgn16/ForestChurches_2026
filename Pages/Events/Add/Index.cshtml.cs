@@ -30,12 +30,25 @@ namespace ForestChurches.Pages.Events.Add
         internal ChurchAccount CurrentUser;
         internal ChurchInformation CurrentChurch;
 
+        /// <summary>The account's churches; when there's more than one the form asks which church the event is for.</summary>
+        public List<ChurchInformation> ManagedChurchList { get; set; } = new();
+
+        /// <summary>Encrypted ID of the church the event is for.</summary>
+        [BindProperty]
+        public string? ChurchKey { get; set; }
+
+        public string ProtectChurch(string id) => _churches.Protect(id);
+
+        private readonly ForestChurches.Components.Users.IManagedChurches _churches;
+
         [TempData]
         public string StatusMessage { get; set; }
 
         public IndexModel(ILogger<IndexModel> logger, IHttpWrapper httpWrapper, ForestChurchesContext context,
-            ImageInterface iImage, iMailSender mailSender, UserManager<ChurchAccount> userManager, ForestChurches.Components.Storage.IBlobUrlService blobUrlService, ForestChurches.Components.Storage.IBlobStorageService blobStorageService)
+            ImageInterface iImage, iMailSender mailSender, UserManager<ChurchAccount> userManager, ForestChurches.Components.Storage.IBlobUrlService blobUrlService, ForestChurches.Components.Storage.IBlobStorageService blobStorageService,
+            ForestChurches.Components.Users.IManagedChurches churches)
         {
+            _churches = churches;
             _logger = logger;
             _context = context;
             _iImage = iImage;
@@ -62,7 +75,10 @@ namespace ForestChurches.Pages.Events.Add
             {
                 CurrentUser = await _userManager.FindByNameAsync(user.Name);
             }
-            CurrentChurch = _context.ChurchInformation.FirstOrDefault(a => a.ChurchAccountId == CurrentUser.Id);
+            if (CurrentUser == null) return;
+            ManagedChurchList = await _churches.ListAsync(CurrentUser.Id);
+            CurrentChurch = await _churches.CurrentAsync(HttpContext, CurrentUser.Id);
+            ChurchKey ??= CurrentChurch == null ? null : _churches.Protect(CurrentChurch.ID);
         }
 
         [ValidateAntiForgeryToken]
@@ -72,7 +88,16 @@ namespace ForestChurches.Pages.Events.Add
             byte[] processedImage = new byte[1];
 
             CurrentUser = await _userManager.GetUserAsync(User);
-            CurrentChurch = _context.ChurchInformation.Where(a => a.ChurchAccountId == CurrentUser.Id).FirstOrDefault();
+            ManagedChurchList = await _churches.ListAsync(CurrentUser.Id);
+            // The church chosen on the form (only one this account manages), else the current one.
+            CurrentChurch = await _churches.FindOwnedProtectedAsync(CurrentUser.Id, ChurchKey)
+                            ?? await _churches.CurrentAsync(HttpContext, CurrentUser.Id);
+            if (CurrentChurch == null)
+            {
+                StatusMessage = "Error: No church is linked to your account.";
+                return RedirectToPage("/Events/Index");
+            }
+            ModelState.Remove(nameof(ChurchKey));
 
             try
             {

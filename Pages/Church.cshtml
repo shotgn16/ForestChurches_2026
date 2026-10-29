@@ -2,6 +2,7 @@
 @model ForestChurches.Pages.ChurchModel
 @using System.Globalization
 @using ForestChurches.Components.Ui
+@using ForestChurches.Components.Services
 @inject ForestChurches.Components.Security.Encoder Encoder;
 @inject ForestChurches.Components.Storage.IBlobUrlService BlobUrlService;
 @{
@@ -10,14 +11,25 @@
     ViewData["Title"] = church != null ? FcText.PlainText(church.Name) : Localizer["FC_CHURCH_NOT_FOUND"].Value;
 
     var defaultSrc = BlobUrlService.GetReadSasUrl("IMGUR-1.png", TimeSpan.FromDays(7));
-    var logoSrc = !string.IsNullOrEmpty(Model.AssociatedUser?.ImageBlobName)
-        ? BlobUrlService.GetReadSasUrl(Model.AssociatedUser!.ImageBlobName!, TimeSpan.FromHours(1))
+    // The church's own picture, else its managing account's (how single-church accounts have always worked).
+    var logoBlob = !string.IsNullOrEmpty(church?.ImageBlobName) ? church!.ImageBlobName : Model.AssociatedUser?.ImageBlobName;
+    var logoSrc = !string.IsNullOrEmpty(logoBlob)
+        ? BlobUrlService.GetReadSasUrl(logoBlob!, TimeSpan.FromHours(1))
         : defaultSrc;
 
-    var services = church?.ServiceTimes?
-        .OrderBy(s => FcText.ServiceTimeSortKey(s.Time))
-        .ToList() ?? new List<ForestChurches.Models.ServiceTimes>();
-    var nextService = services.FirstOrDefault();
+    // Services in the order they next take place; ones with no upcoming dates go last.
+    var ukNow = ServiceSchedule.UkNow();
+    var services = (church?.ServiceTimes ?? new List<ForestChurches.Models.ServiceTimes>())
+        .Select(s => (Service: s, Upcoming: ServiceSchedule.Upcoming(s, ukNow, 6)))
+        .OrderBy(x => x.Upcoming.Count > 0 ? x.Upcoming[0].SortKey : DateTime.MaxValue)
+        .ThenBy(x => FcText.ServiceTimeSortKey(x.Service.Time))
+        .ToList();
+    var next = services.FirstOrDefault(x => x.Upcoming.Count > 0);
+
+    // Where a service is held: its own church (nothing to say), another church on the account, or an address.
+    string? HeldAt(ForestChurches.Models.ServiceTimes s) => !s.UseCustomLocation ? null
+        : s.LocationChurch != null ? FcText.PlainText(s.LocationChurch.Name)
+        : string.IsNullOrWhiteSpace(s.LocationAddress) ? null : FcText.PlainText(s.LocationAddress);
 
     var today = DateOnly.FromDateTime(DateTime.Today);
     var events = (Model.ChurchEvents ?? new List<ForestChurches.Models.EventsModel>())
@@ -69,6 +81,10 @@
             <a class="fc-hero__back" asp-page="/Index" data-fc-back>@Localizer["FC_BACK"]</a>
             <h1 id="church-name">@FcText.PlainText(church.Name)</h1>
             <p style="color: #F1EEE4; font-size: 18px">@FcText.PlainText(church.Address)</p>
+            @if (church.Benefice != null)
+            {
+                <p style="color: #F1EEE4; font-size: 16px">@Localizer["FC_BENEFICE_PART_OF", FcText.PlainText(church.Benefice.Name)]</p>
+            }
             <div class="fc-row" style="gap: 8px">
                 <span class="fc-badge fc-badge--glass">@FcText.PlainText(church.Denomination)</span>
                 <span class="fc-badge fc-badge--glass">@Localizer["FC_CONGREGATION", FcText.PlainText(church.Congregation)]</span>
@@ -94,9 +110,10 @@
     <section class="fc-keyfacts" aria-label="@Localizer["FC_KEY_FACTS"]">
         <div class="fc-keyfacts__main">
             <span class="fc-keyfacts__label">@Localizer["FC_NEXT_SERVICE"]</span>
-            @if (nextService != null)
+            @if (next.Service != null)
             {
-                <span class="fc-keyfacts__value">@Localizer["FC_SUNDAY"] @FcText.ServiceTime(nextService.Time) · @FcText.PlainText(nextService.Note)</span>
+                var nextWhere = HeldAt(next.Service);
+                <span class="fc-keyfacts__value">@ServiceScheduleText.Occurrence(next.Upcoming[0]) · @FcText.PlainText(next.Service.Note)@(nextWhere == null ? "" : " · " + Localizer["FC_SVC_HELD_AT", nextWhere].Value)</span>
             }
             else
             {
@@ -131,7 +148,7 @@
             }
 
             <section class="fc-card" aria-labelledby="svc-h">
-                <h2 id="svc-h" class="fc-card__title" style="font-size: 26px !important">@Localizer["CHURCH_SUNDAY_SERVICES_HEADING"]</h2>
+                <h2 id="svc-h" class="fc-card__title" style="font-size: 26px !important">@Localizer["FC_SERVICES_HEADING"]</h2>
                 @if (services.Count == 0)
                 {
                     <p class="fc-muted">@Localizer["FC_NO_SERVICE_TIMES"]</p>
@@ -139,11 +156,54 @@
                 else
                 {
                     <div>
-                        @foreach (var s in services)
+                        @foreach (var (s, upcoming) in services)
                         {
-                            <div class="fc-service">
-                                <span class="fc-service__time">@FcText.ServiceTime(s.Time)</span>
-                                <span class="fc-service__name">@FcText.PlainText(s.Note)</span>
+                            var heldAt = HeldAt(s);
+                            // Specific-date services can have a different time on each date; only show one
+                            // time here when every upcoming date shares it.
+                            var timeText = s.RepeatType != ForestChurches.Models.ServiceRepeat.Dates
+                                ? ServiceScheduleText.TimeText(s)
+                                : upcoming.Select(o => o.Time).Distinct().Count() == 1 && upcoming[0].Time is { } only ? only.ToString("HH:mm") : string.Empty;
+                            <div class="fc-service fc-service--schedule">
+                                <span class="fc-service__time">@timeText</span>
+                                <div class="fc-service__body">
+                                    <span class="fc-service__name">@FcText.PlainText(s.Note)</span>
+                                    <span class="fc-service__rule">@ServiceScheduleText.Describe(s, Localizer)</span>
+                                    @if (heldAt != null)
+                                    {
+                                        <span class="fc-service__where">
+                                            <svg class="fc-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7-6.5-7-12a7 7 0 0 1 14 0c0 5.5-7 12-7 12z"></path><circle cx="12" cy="9" r="2.5"></circle></svg>
+                                            @if (s.LocationChurch != null && s.LocationChurch.Status == "Open")
+                                            {
+                                                <text>@Localizer["FC_SVC_HELD_AT_PREFIX"] <a asp-page="/Church" asp-route-id="@Model.ChurchLink(s.LocationChurch.ID)">@heldAt</a></text>
+                                            }
+                                            else
+                                            {
+                                                <text>@Localizer["FC_SVC_HELD_AT", heldAt]</text>
+                                            }
+                                        </span>
+                                    }
+                                    @if (upcoming.Count == 0)
+                                    {
+                                        <span class="fc-service__next fc-muted">@Localizer["FC_SVC_NO_UPCOMING"]</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="fc-service__next">@Localizer["FC_SVC_NEXT_ON", ServiceScheduleText.Occurrence(upcoming[0])]</span>
+                                        @if (upcoming.Count > 1)
+                                        {
+                                            <details class="fc-service__more">
+                                                <summary>@Localizer["FC_SVC_MORE_DATES"]</summary>
+                                                <ul>
+                                                    @foreach (var o in upcoming.Skip(1))
+                                                    {
+                                                        <li>@ServiceScheduleText.Occurrence(o)</li>
+                                                    }
+                                                </ul>
+                                            </details>
+                                        }
+                                    }
+                                </div>
                             </div>
                         }
                     </div>
@@ -186,6 +246,30 @@
         </div>
 
         <aside class="fc-columns__side">
+            @if (church.Benefice != null)
+            {
+                <section class="fc-card" aria-labelledby="ben-h" style="padding: 24px">
+                    <h2 id="ben-h" class="fc-card__title">@FcText.PlainText(church.Benefice.Name)</h2>
+                    @if (!string.IsNullOrWhiteSpace(church.Benefice.Description))
+                    {
+                        <p class="fc-small" style="white-space: pre-line; margin-bottom: 12px">@FcText.PlainText(church.Benefice.Description)</p>
+                    }
+                    @if (Model.BeneficeSiblings.Count > 0)
+                    {
+                        <p class="fc-small fc-muted" style="margin-bottom: 6px">@Localizer["FC_BENEFICE_SISTERS"]</p>
+                        <ul class="fc-benefice-list">
+                            @foreach (var sister in Model.BeneficeSiblings)
+                            {
+                                <li><a asp-page="/Church" asp-route-id="@Model.ChurchLink(sister.ID)">@FcText.PlainText(sister.Name)</a></li>
+                            }
+                        </ul>
+                    }
+                    @if (!string.IsNullOrWhiteSpace(church.Benefice.Website) && Uri.TryCreate(church.Benefice.Website, UriKind.Absolute, out var beneficeSite))
+                    {
+                        <a class="fc-btn fc-btn--outline fc-btn--sm" style="margin-top: 12px" href="@beneficeSite" target="_blank" rel="noopener">@Localizer["FC_BENEFICE_WEBSITE"]<span class="fc-sr-only"> (@Localizer["FC_OPENS_NEW_TAB"])</span></a>
+                    }
+                </section>
+            }
             @if (facilities.Count > 0)
             {
                 <section class="fc-card" aria-labelledby="fac-h" style="padding: 24px">

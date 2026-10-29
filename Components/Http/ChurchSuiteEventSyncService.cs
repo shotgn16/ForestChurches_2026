@@ -27,7 +27,8 @@ namespace ForestChurches.Components.Http
         /// </summary>
         /// <param name="userId">The ID of the authenticated user.</param>
         /// <returns>Result containing status, imported count, and error messages if any.</returns>
-        Task<SyncEventResult> SyncEventsAsync(string userId);
+        /// <param name="churchId">The church (managed by that user) the events are for; the account's first church when omitted.</param>
+        Task<SyncEventResult> SyncEventsAsync(string userId, string? churchId = null);
     }
 
     public class SyncEventResult
@@ -71,7 +72,7 @@ namespace ForestChurches.Components.Http
         /// Syncs events from ChurchSuite for the given user ID.
         /// Uses centralized token service for automatic token refresh.
         /// </summary>
-        public async Task<SyncEventResult> SyncEventsAsync(string userId)
+        public async Task<SyncEventResult> SyncEventsAsync(string userId, string? churchId = null)
         {
             try
             {
@@ -165,8 +166,13 @@ namespace ForestChurches.Components.Http
                 }
 
                 // Step 5: Get user's church information
-                var church = await _context.ChurchInformation
-                    .FirstOrDefaultAsync(c => c.ChurchAccountId == userId);
+                // The chosen church (only if this user manages it), else the account's first church.
+                var church = (string.IsNullOrEmpty(churchId) ? null : await _context.ChurchInformation
+                                 .FirstOrDefaultAsync(c => c.ID == churchId && c.ChurchAccountId == userId))
+                             ?? await _context.ChurchInformation
+                                 .Where(c => c.ChurchAccountId == userId)
+                                 .OrderBy(c => c.Name)
+                                 .FirstOrDefaultAsync();
 
                 if (church == null)
                 {

@@ -26,6 +26,23 @@
     <form id="eventForm" enctype="multipart/form-data" method="post" class="fc-stack fc-stack--lg">
         <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
         <div class="fc-grid">
+            @if (Model.ManagedChurchList.Count > 1)
+            {
+                <div class="fc-field fc-span-all">
+                    <label class="fc-label" for="eventChurch">@Localizer["FC_EVENT_WHICH_CHURCH"]</label>
+                    <select class="fc-select" id="eventChurch" name="ChurchKey">
+                        @foreach (var c in Model.ManagedChurchList)
+                        {
+                            var key = Model.ProtectChurch(c.ID);
+                            <option value="@key" selected="@(c.ID == Model.CurrentChurch?.ID)">@FcText.PlainText(c.Name)</option>
+                        }
+                    </select>
+                </div>
+            }
+            else
+            {
+                <input type="hidden" name="ChurchKey" value="@Model.ChurchKey" />
+            }
             <div class="fc-field fc-span-all">
                 <label class="fc-label" asp-for="Input.Name">@Localizer["FC_EVENT_NAME"]</label>
                 <input class="fc-input" type="text" asp-for="Input.Name" value="@FcText.PlainText(Model.Input?.Name)" aria-required="true" />
