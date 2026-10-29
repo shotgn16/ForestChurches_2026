@@ -13,11 +13,11 @@ q() { "${ROOT[@]}" forestchurches -e "$1"; }
 echo "== Server: $("${ROOT[@]}" -e 'SELECT VERSION(), @@collation_server;')"
 "${ROOT[@]}" -e "DROP DATABASE IF EXISTS forestchurches; CREATE DATABASE forestchurches;"
 
-echo "== Old schema, converted to $OLD as if it came from MySQL 8"
+echo "== Old schema created while utf8mb4 defaulted to $OLD (as on the MySQL 8 server the data came from)"
+"${ROOT[@]}" -e "SET GLOBAL character_set_collations = 'utf8mb4=$OLD';"
 $EF database update "$BEFORE"
-for t in $(q "SELECT TABLE_NAME FROM information_schema.TABLES WHERE TABLE_SCHEMA=DATABASE() AND TABLE_TYPE='BASE TABLE';"); do
-  q "SET FOREIGN_KEY_CHECKS=0; ALTER TABLE \`$t\` CONVERT TO CHARACTER SET utf8mb4 COLLATE $OLD; SET FOREIGN_KEY_CHECKS=1;"
-done
+"${ROOT[@]}" -e "SET GLOBAL character_set_collations = DEFAULT;"
+echo "   server default for utf8mb4 is back to: $("${ROOT[@]}" -e "SELECT @@character_set_collations;")"
 
 q "INSERT INTO AspNetUsers (Id, UserName, NormalizedUserName, Email, NormalizedEmail, EmailConfirmed, PasswordHash, SecurityStamp, ConcurrencyStamp, PhoneNumberConfirmed, TwoFactorEnabled, LockoutEnabled, AccessFailedCount, CreatedDate, ImageArray, Role)
    VALUES ('u1', 'office@test.example', 'OFFICE@TEST.EXAMPLE', 'office@test.example', 'OFFICE@TEST.EXAMPLE', 1, 'x', 'x', 'x', 0, 0, 1, 0, '2026-01-01', x'00', 'AuthorizedChurch');"
