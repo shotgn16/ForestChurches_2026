@@ -732,28 +732,14 @@ internal partial class Program
                 var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
                 try
                 {
+                    // Migrates, first repairing a migration left half-applied, and keeps new text columns on the
+                    // existing tables' collation (mixed collations break joins, e.g. MySQL 8 data on MariaDB 11).
                     var db = scope.ServiceProvider.GetRequiredService<ForestChurchesContext>();
-                    var pendingMigrations = db.Database.GetPendingMigrations();
-                    if (pendingMigrations.Any())
-                    {
-                        db.Database.Migrate();
-                    }
+                    ForestChurches.Components.DatabaseMaintenance.DatabaseStartup.Run(db, logger);
                 }
                 catch (Exception ex)
                 {
                     logger.LogError(ex, "An error occurred while migrating the database.");
-                }
-
-                try
-                {
-                    // New tables/columns get the server's default collation, which can differ from the existing
-                    // tables' (e.g. data created on MySQL 8, now on MariaDB 11). Mixed collations break joins.
-                    var db = scope.ServiceProvider.GetRequiredService<ForestChurchesContext>();
-                    ForestChurches.Components.DatabaseMaintenance.CollationAligner.Align(db, logger);
-                }
-                catch (Exception ex)
-                {
-                    logger.LogError(ex, "An error occurred while aligning database text collations.");
                 }
             }
 
