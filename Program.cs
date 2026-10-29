@@ -743,6 +743,18 @@ internal partial class Program
                 {
                     logger.LogError(ex, "An error occurred while migrating the database.");
                 }
+
+                try
+                {
+                    // New tables/columns get the server's default collation, which can differ from the existing
+                    // tables' (e.g. data created on MySQL 8, now on MariaDB 11). Mixed collations break joins.
+                    var db = scope.ServiceProvider.GetRequiredService<ForestChurchesContext>();
+                    ForestChurches.Components.DatabaseMaintenance.CollationAligner.Align(db, logger);
+                }
+                catch (Exception ex)
+                {
+                    logger.LogError(ex, "An error occurred while aligning database text collations.");
+                }
             }
 
             using (var scope = app.Services.CreateScope())
