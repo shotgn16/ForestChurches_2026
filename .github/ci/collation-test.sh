@@ -35,10 +35,10 @@ q "SELECT TABLE_NAME, COLUMN_NAME, COLLATION_NAME FROM information_schema.COLUMN
 
 JOIN="SELECT COUNT(*) FROM ServiceTimes s LEFT JOIN ChurchInformation c ON s.LocationChurchId = c.ID;"
 if q "$JOIN" >/dev/null 2>"$RUNNER_TEMP/join.err"; then
-  echo "note: join worked before the fix (this server's default collation matches $OLD)"
+  echo "::notice title=collation::join worked before the fix (server default matches $OLD)"
 else
   grep -q "Illegal mix of collations" "$RUNNER_TEMP/join.err" || { cat "$RUNNER_TEMP/join.err"; exit 1; }
-  echo "ok: reproduced the site's error before the fix: $(cat "$RUNNER_TEMP/join.err")"
+  echo "::notice title=collation::reproduced before fix: $(tr -d '\n' < "$RUNNER_TEMP/join.err")"
 fi
 
 echo "== Running the start-up collation fix"
@@ -49,4 +49,4 @@ left="$(q "SELECT COUNT(*) FROM information_schema.COLUMNS WHERE TABLE_SCHEMA=DA
 [ "$left" = "0" ] || { echo "FAILED: $left columns still on another collation"; exit 1; }
 [ "$(q "$JOIN")" = "1" ] || { echo "FAILED: join after fix"; exit 1; }
 [ "$(q "SELECT Note FROM ServiceTimes WHERE ServiceID='s1';")" = "Holy Communion" ] || { echo "FAILED: data changed"; exit 1; }
-echo "All collation checks passed."
+echo "::notice title=collation::all collation checks passed"
